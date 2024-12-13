@@ -6,7 +6,7 @@ use App\Http\Controllers\PacientesController;
 use App\Http\Controllers\AdminitraccionController;
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\HistoriasController;
-
+use App\Http\Controllers\HistoriaNeuroPsicologicaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -79,6 +79,9 @@ Route::get('/hitoriaPsicologica/categorias', [HistoriasController::class, 'obten
 Route::post('/HistoriasClinicas/listaHistoriasPsicologica', [HistoriasController::class, 'listaHistoriasPsicologica'])->name('HistoriasClinicas.listaHistoriasPsicologica');
 Route::post('/historia/buscaHistoriaPsicologica', [HistoriasController::class, 'buscaHistoriaPsicologica'])->name('historia.buscaHistoriaPsicologica');
 
+
+/// HISTORIAS CLINICAS NEURO
+Route::get('/HistoriasClinicas/GestionarHistoriaNeuroPsicologia', [HistoriaNeuroPsicologicaController::class, 'historiaNeuroPsicologia'])->name('gestionar.historiaNeuroPsicologia');
 
 /// GESTIONAR USUARIOS
 Route::get('/Administracion/Usuarios', [AdminitraccionController::class,'Usuarios']);

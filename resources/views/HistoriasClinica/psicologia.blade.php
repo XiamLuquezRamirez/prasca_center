@@ -51,10 +51,7 @@
                         </div>
                         <div id="hisoriasListado">
 
-
                         </div>
-
-
                         <div id="pagination-links" class="text-center ml-1 mt-2">
 
                         </div>
@@ -405,8 +402,8 @@
                                                                 <label for="toxicos" class="form-label">Tóxicos:</label>
                                                                 <div class="input-group flex-nowrap">
                                                                     <div class="tags-default">
-                                                                        <input type="text" id="toxico"
-                                                                            name="toxico" value=""
+                                                                        <input type="text" id="toxicos"
+                                                                            name="toxicos" value=""
                                                                             data-role="tagsinput"
                                                                             placeholder="Agregar antedecentes">
                                                                     </div>
@@ -464,8 +461,8 @@
                                                         <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label for="patologia"
-                                                                    class="form-label">patología:</label>
-                                                                <textarea class="form-control" id="patologia" name="patologia" rows="3"
+                                                                    class="form-label">Patología:</label>
+                                                                <textarea class="form-control" id="patologias" name="patologias" rows="3"
                                                                     placeholder="Describa la patología..."></textarea>
                                                             </div>
                                                         </div>
@@ -1111,6 +1108,19 @@
                                                                 </select>
                                                             </div>
                                                         </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                            <label for="impresion_diagnostica"
+                                                                class="form-label">Establecido por primera vez.</label>
+                                                            <select class="form-control"
+                                                                id="establecidoPrimeraVez"
+                                                                name="establecidoPrimeraVez" aria-invalid="false">
+                                                                <option value="">Seleccione...</option>
+                                                                <option value="Si">Si</option>
+                                                                <option value="No">No</option>
+                                                            </select>
+                                                        </div>
+                                                        </div>
                                                     </div>
 
                                                 </div>
@@ -1118,12 +1128,25 @@
                                                 <!-- Plan de intervención -->
                                                 <div class="tab-pane" id="plan">
                                                     <div class="tab-pane" id="diagnostico-plan">
-
-
                                                         <!-- 2. Plan de Intervención -->
                                                         <h5 class="text-uppercase mt-4"><i class="fa fa-tasks me-1"></i>
                                                             Plan
                                                             de Intervención</h5>
+
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label for="plan_intervencion" class="form-label">Plan
+                                                                        de intervención:</label>
+                                                                    <select class="form-control select2"
+                                                                        id="plan_intervencion" name="plan_intervencion"
+                                                                        data-placeholder="Seleccione el plan de intervención"
+                                                                        style="width: 100%;">
+
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
                                                         <!-- Objetivo General -->
                                                         <div class="row">
@@ -1602,7 +1625,7 @@
                     conciencia_enfermedad: 'FUNCIONES COGNITIVAS: Conciencia de enfermedad',
                     sufrimiento_psicologico: 'FUNCIONES COGNITIVAS: Sufrimiento psicológico',
                     motivacion_tratamiento: 'FUNCIONES COGNITIVAS: Motivación al tratamiento',
-                    conciencia_enfermedad: 'PLAN DE INTERVENCIÓN',
+                    plan_intervencion: 'PLAN DE INTERVENCIÓN',
                 };
 
                 fetch(url)
@@ -1640,6 +1663,10 @@
             });
 
             modal.show();
+
+            let formHistoria = document.getElementById("formHistoria")
+            formHistoria.reset()
+
             cargarPacientes(1);
 
         }
@@ -1885,10 +1912,121 @@
 
                     mapearInfPaciente(data.paciente)
                     mapearHisoria(data.historia)
+                    mapearAntedentesPersonales(data.antecedentesPersonales)
+                    mapearAntedentesFamiliares(data.antecedentesFamiliares)
+                    mapearAreaDesempeno(data.areaAjuste)
+                    mapearInterconsulta(data.interconuslta)
+                    mapearAparienciaPersonal(data.aparienciaPersonal)
+                    mapearFuncionesCognitivas(data.funcionesCognitiva)
+                    mapearFuncionesSomaticas(data.funcionesSomaticas)
 
 
                 })
                 .catch(error => console.error('Error:', error));
+        }
+
+        function mapearFuncionesSomaticas(somaticas){
+            document.getElementById("ciclos_sueno").vlaue = somaticas.ciclos_del_sueno
+            document.getElementById("apetito").vlaue = somaticas.apetito
+            document.getElementById("autocuidado").vlaue = somaticas.actividades_autocuidado
+        }
+
+        function mapearFuncionesCognitivas(cognitivas) {
+
+            cognitivas.forEach(item => {
+                const element = document.getElementById(item.caracteristica);
+                if (element) {
+                    if (element.tagName === "INPUT") {
+                        element.value = item.detalle; // Asignar el valor al input o textarea
+                    } else if (element.tagName === "SELECT") {
+                        element.value = item.detalle.toLowerCase(); // Asignar el valor a un select
+                        $('#'+item.caracteristica).trigger('change');
+                    } else {
+                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`);
+                    }
+                } else {
+                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`);
+                }
+            })
+        }
+        function mapearAparienciaPersonal(apariencia) {
+
+            apariencia.forEach(item => {
+                const element = document.getElementById(item.caracteristica);
+                if (element) {
+                    if (element.tagName === "INPUT") {
+                        element.value = item.detalle; // Asignar el valor al input o textarea
+                    } else if (element.tagName === "SELECT") {
+                        element.value = item.detalle.toLowerCase(); // Asignar el valor a un select
+                        $('#'+item.caracteristica).trigger('change');
+                    } else {
+                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`);
+                    }
+                } else {
+                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`);
+                }
+            })
+        }
+        function mapearInterconsulta(interconuslta) {
+
+            interconuslta.forEach(item => {
+
+                const element = document.getElementById(item.area);
+                if (element) {
+                    element.value = item.detalle;
+                } else {
+                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`);
+                }
+            })
+        }
+
+        function mapearAreaDesempeno(antecedentesAreaAjuste) {
+
+            antecedentesAreaAjuste.forEach(item => {
+
+                const element = document.getElementById(item.area);
+                if (element) {
+                    element.value = item.detalle;
+                } else {
+                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`);
+                }
+            })
+        }
+
+        function mapearAntedentesPersonales(antecedentesPersonales) {
+            antecedentesPersonales.forEach(item => {
+                const element = document.getElementById(item.tipo); // Buscar el elemento por su ID
+
+                if (element) {
+                    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                        element.value = item.detalle; // Asignar el valor al input o textarea
+                    } else if (element.tagName === "SELECT") {
+                        element.value = item.detalle.toLowerCase(); // Asignar el valor a un select
+                    } else {
+                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`);
+                    }
+                } else {
+                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`);
+                }
+            })
+        }
+
+        function mapearAntedentesFamiliares(antecedentesFamiliares) {
+
+            antecedentesFamiliares.forEach(item => {
+                const element = document.getElementById(item.tipo); // Buscar el elemento por su ID
+                if (element) {
+                    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                        element.value = item.detalle; // Asignar el valor al input o textarea
+                    } else if (element.tagName === "SELECT") {
+                        element.value = item.detalle.toLowerCase(); // Asignar el valor a un select
+                    } else {
+                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`);
+                    }
+                } else {
+                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`);
+                }
+            })
         }
 
         function mapearHisoria(historia) {
@@ -1904,22 +2042,23 @@
 
             CKEDITOR.instances['remision'].setData(historia.remision);
             cargarSelConsulta(historia.codigo_consulta);
-           
-            document.getElementById('motivoConsulta').value =historia.motivo_consulta
+
+            document.getElementById('motivoConsulta').value = historia.motivo_consulta
             $('#motivoConsulta').trigger('change');
-            
+            document.getElementById('establecidoPrimeraVez').value = historia.diagnostico_primera_vez
+            $('#establecidoPrimeraVez').trigger('change');
+
             document.getElementById("otroMotivo").value = historia.otro_motivo_consulta
             cargarDxPrincipa(historia.dx_principal);
-          
+
 
             CKEDITOR.instances['enfermedadActual'].setData(historia.enfermedad_actual)
             CKEDITOR.instances['objetivo_general'].setData(historia.objetivo_general)
             CKEDITOR.instances['objetivos_especificos'].setData(historia.objetivos_especificos)
             CKEDITOR.instances['sugerencia_interconsultas'].setData(historia.sugerencias_interconsultas)
             CKEDITOR.instances['observaciones_recomendaciones'].setData(historia.observaciones_recomendaciones)
-            document.getElementById("tipoPsicologia").value = historias.tipologia	
-        
-        
+            document.getElementById("tipoPsicologia").value = historia.tipologia
+
         }
 
         function cargarSelConsulta(codigo_consulta) {
@@ -1951,6 +2090,7 @@
                     });
             }
         }
+
         function cargarDxPrincipa(codigo_dx) {
             let rtotal = $("#RutaTotal").data("ruta");
 

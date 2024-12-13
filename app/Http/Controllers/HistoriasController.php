@@ -28,9 +28,24 @@ class HistoriasController extends Controller
 
         $pacientes = Pacientes::busquedaPaciente($historia->id_paciente);
 
+        $antecedentesPersonales = HistoriaPsicologica::busquedaAntecedentes($historia->id);
+        $antecedentesFamiliares = HistoriaPsicologica::busquedaAntFamiliares($historia->id);
+        $areaAjuste = HistoriaPsicologica::busquedaAreaAjuste($historia->id);
+        $interconuslta = HistoriaPsicologica::busquedaInterconsulta($historia->id);
+        $aparienciaPersonal = HistoriaPsicologica::busquedaAparienciaPersonal($historia->id);
+         $funcionesCognitiva = HistoriaPsicologica::busquedaFuncionesCognitivas($historia->id);
+         $funcionesSomaticas = HistoriaPsicologica::busquedaFuncionesSomaticas($historia->id);
+
         return response()->json([
             'historia' => $historia,
-            'paciente' => $pacientes
+            'paciente' => $pacientes,
+            'antecedentesPersonales' => $antecedentesPersonales,
+            'antecedentesFamiliares' => $antecedentesFamiliares,
+            'areaAjuste' => $areaAjuste,
+            'interconuslta' => $interconuslta,
+            'aparienciaPersonal' => $aparienciaPersonal,
+            'funcionesCognitiva' => $funcionesCognitiva,
+            'funcionesSomaticas' => $funcionesSomaticas,
         ]);
     }
 
@@ -90,7 +105,6 @@ class HistoriasController extends Controller
 
     public function buscaCIE(Request $request)
     {
-    
         $id = $request->get('id');
         $query = $request->get('q');
         $page = $request->get('page', 1);
@@ -110,7 +124,6 @@ class HistoriasController extends Controller
             return response()->json(null, 404); // Registro no encontrado
         }
 
-      
         $resultados = DB::connection('mysql')
             ->table('referencia_cie10')
             ->where('nombre', 'like', '%' . $query . '%')
@@ -195,8 +208,6 @@ class HistoriasController extends Controller
                         ->orWhere('pacientes.segundo_apellido', 'LIKE', '%' . $search . '%');
                 });
             }
-
-
 
             $ListHistoria = $historias->paginate($perPage, ['*'], 'page', $page);
 

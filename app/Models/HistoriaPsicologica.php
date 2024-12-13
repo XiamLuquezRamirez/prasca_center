@@ -43,6 +43,8 @@ class HistoriaPsicologica extends Model
                         'enfermedad_actual' => $request['enfermedadActual'] ?? null,
                         'dx_principal' => $request['codDiagnostico'] ?? null,
                         'codigo_diagnostico' => $request['codImpresionDiagnostico'] ?? null,
+                        'diagnostico_primera_vez' => $request['establecidoPrimeraVez'] ?? null,
+                        'plan_intervencion' => $request['plan_intervencion'] ?? null,
                         'objetivo_general' => $request['objetivo_general'] ?? null,
                         'objetivos_especificos' => $request['objetivos_especificos'] ?? null,
                         'sugerencias_interconsultas' => $request['sugerencia_interconsultas'] ?? null,
@@ -56,9 +58,9 @@ class HistoriaPsicologica extends Model
                     // Insertar antecedentes médicos
                     $antecedentesMedicos = array_filter([
                         ['id_historia' => $idHistoria, 'tipo' => 'quirurgicos', 'detalle' => $request['quirurgicos']],
-                        ['id_historia' => $idHistoria, 'tipo' => 'toxicos', 'detalle' => $request['toxico']],
+                        ['id_historia' => $idHistoria, 'tipo' => 'toxicos', 'detalle' => $request['toxicos']],
                         ['id_historia' => $idHistoria, 'tipo' => 'traumaticos', 'detalle' => $request['traumaticos']],
-                        ['id_historia' => $idHistoria, 'tipo' => 'medicacion_actual', 'detalle' => $request['medicacion']],
+                        ['id_historia' => $idHistoria, 'tipo' => 'medicacion', 'detalle' => $request['medicacion']],
                         ['id_historia' => $idHistoria, 'tipo' => 'paraclinicos', 'detalle' => $request['paraclinicos']],
                         ['id_historia' => $idHistoria, 'tipo' => 'hospitalizaciones', 'detalle' => $request['hospitalizaciones']],
                         ['id_historia' => $idHistoria, 'tipo' => 'patologia', 'detalle' => $request['patologia']]
@@ -94,12 +96,10 @@ class HistoriaPsicologica extends Model
                     });
                     DB::table('historia_ajuste_desempeno')->insert($ajusteDesempeno);
 
-     
-
                     // Insertar interconsultas
                     $interconsultas = array_filter([
-                        ['id_historia' => $idHistoria, 'tipo' => 'psiquiatria', 'detalle' => $request['intervencion_psiquiatria']],
-                        ['id_historia' => $idHistoria, 'tipo' => 'neurologia', 'detalle' => $request['intervencion_neurologia']],
+                        ['id_historia' => $idHistoria, 'tipo' => 'intervencion_psiquiatria', 'detalle' => $request['intervencion_psiquiatria']],
+                        ['id_historia' => $idHistoria, 'tipo' => 'intervencion_neurologia', 'detalle' => $request['intervencion_neurologia']],
                         ['id_historia' => $idHistoria, 'tipo' => 'intervencion_neuropsicologia', 'detalle' => $request['intervencion_neuropsicologia']],
                     ], function ($item) {
                         return !empty($item['detalle']);
@@ -108,60 +108,66 @@ class HistoriaPsicologica extends Model
 
                     // Insertar apariencia personal
                     $aparienciaPersonal = array_filter([
-                        'id_historia' => $idHistoria,
-                        'edad' => $request['edad'] ?? null,
-                        'otro_edad' => $request['edad_otro'] ?? null,
-                        'desarrollo_pondoestatural' => $request['desarrollo'] ?? null,
-                        'otro_desarrollo_pondoestatural' => $request['desarrollo_otro'] ?? null,
-                        'aseo_y_arreglo' => $request['aseo'] ?? null,
-                        'otro_aseo_y_arreglo' => $request['aseo_otro'] ?? null,
-                        'salud_somatica' => $request['salud'] ?? null,
-                        'otro_salud_somatica' => $request['salud_otro'] ?? null,
-                        'facies' => $request['facies'] ?? null,
-                        'otro_facies' => $request['facies_otro'] ?? null,
-                        'biotipo' => $request['biotipo'] ?? null,
-                        'otro_biotipo' => $request['biotipo_otro'] ?? null,
-                        'actitud' => $request['actitud'] ?? null,
-                        'otro_actitud' => $request['actitud_otro'] ?? null,
-                    ]);
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'edad', 'detalle' => $request['edad'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'edad_otro', 'detalle' => $request['edad_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'desarrollo', 'detalle' => $request['desarrollo'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'desarrollo_otro', 'detalle' => $request['desarrollo_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'aseo', 'detalle' => $request['aseo'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'aseo_otro', 'detalle' => $request['aseo_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'salud', 'detalle' => $request['salud'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'salud_otro', 'detalle' => $request['salud_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'facies', 'detalle' => $request['facies'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'facies_otro', 'detalle' => $request['facies_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'biotipo', 'detalle' => $request['biotipo'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'biotipo_otro', 'detalle' => $request['biotipo_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'actitud', 'detalle' => $request['actitud'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'actitud_otro', 'detalle' => $request['actitud_otro'] ?? null],
+                    ], function ($item) {
+                        return !empty($item['detalle']);
+                    });
+                    
+                    // Inserta los datos filtrados
                     DB::table('apariencia_personal')->insert($aparienciaPersonal);
 
-                    // Insertar funciones somáticas
+                    // Insertar funciones cognitivas
                     $funcionesSomaticas = array_filter([
-                        'id_historia' => $idHistoria,
-                        'consciencia' => $request['consciencia'] ?? null,
-                        'otro_consciencia' => $request['consciencia_otro'] ?? null,
-                        'orientacion' => $request['orientacion'] ?? null,
-                        'otro_orientacion' => $request['orientacion_otro'] ?? null,
-                        'memoria' => $request['memoria'] ?? null,
-                        'otro_memoria' => $request['memoria_otro'] ?? null,
-                        'atencion' => $request['atencion'] ?? null,
-                        'otro_atencion' => $request['atencion_otro'] ?? null,
-                        'concentracion' => $request['concentracion'] ?? null,
-                        'otro_concentracion' => $request['concentracion_otro'] ?? null,
-                        'lenguaje' => $request['lenguaje'] ?? null,
-                        'otro_lenguaje' => $request['lenguaje_otro'] ?? null,
-                        'pensamiento' => $request['pensamiento'] ?? null,
-                        'otro_pensamiento' => $request['pensamiento_otro'] ?? null,
-                        'afecto' => $request['afecto'] ?? null,
-                        'otro_afecto' => $request['afecto_otro'] ?? null,
-                        'sensopercepcion' => $request['sensopercepcion'] ?? null,
-                        'otro_sensopercepcion' => $request['sensopercepcion_otro'] ?? null,
-                        'psicomotricidad' => $request['psicomotricidad'] ?? null,
-                        'otro_psicomotricidad' => $request['psicomotricidad_otro'] ?? null,
-                        'juicio' => $request['juicio'] ?? null,
-                        'otro_juicio' => $request['juicio_otro'] ?? null,
-                        'inteligencia' => $request['inteligencia'] ?? null,
-                        'otro_inteligencia' => $request['inteligencia_otro'] ?? null,
-                        'conciencia_de_enfermedad' => $request['conciencia_enfermedad'] ?? null,
-                        'otro_conciencia_de_enfermedad' => $request['conciencia_enfermedad_otro'] ?? null,
-                        'sufrimiento_psicologico' => $request['sufrimiento_psicologico'] ?? null,
-                        'otro_sufrimiento_psicologico' => $request['sufrimiento_psicologico_otro'] ?? null,
-                        'motivacion_al_tratamiento' => $request['motivacion_tratamiento'] ?? null,
-                        'otro_motivacion_al_tratamiento' => $request['motivacion_tratamiento_otro'] ?? null
-                    ]);
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'consciencia', 'detalle' => $request['consciencia'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'consciencia_otro', 'detalle' => $request['consciencia_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'orientacion', 'detalle' => $request['orientacion'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'orientacion_otro', 'detalle' => $request['orientacion_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'memoria', 'detalle' => $request['memoria'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'memoria_otro', 'detalle' => $request['memoria_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'atencion', 'detalle' => $request['atencion'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'atencion_otro', 'detalle' => $request['atencion_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'concentracion', 'detalle' => $request['concentracion'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'concentracion_otro', 'detalle' => $request['concentracion_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'lenguaje', 'detalle' => $request['lenguaje'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'lenguaje_otro', 'detalle' => $request['lenguaje_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'pensamiento', 'detalle' => $request['pensamiento'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'pensamiento_otro', 'detalle' => $request['pensamiento_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'afecto', 'detalle' => $request['afecto'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'afecto_otro', 'detalle' => $request['afecto_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'sensopercepcion', 'detalle' => $request['sensopercepcion'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'sensopercepcion_otro', 'detalle' => $request['sensopercepcion_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'psicomotricidad', 'detalle' => $request['psicomotricidad'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'psicomotricidad_otro', 'detalle' => $request['psicomotricidad_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'juicio', 'detalle' => $request['juicio'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'juicio_otro', 'detalle' => $request['juicio_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'inteligencia', 'detalle' => $request['inteligencia'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'inteligencia_otro', 'detalle' => $request['inteligencia_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'conciencia_enfermedad', 'detalle' => $request['conciencia_enfermedad'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'conciencia_enfermedad_otro', 'detalle' => $request['conciencia_enfermedad_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'sufrimiento_psicologico', 'detalle' => $request['sufrimiento_psicologico'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'sufrimiento_psicologico_otro', 'detalle' => $request['sufrimiento_psicologico_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'motivacion_al_tratamiento', 'detalle' => $request['motivacion_tratamiento'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'motivacion_tratamiento_otro', 'detalle' => $request['motivacion_tratamiento_otro'] ?? null]
+                    ], function ($item) {
+                        return !empty($item['detalle']);
+                    });
+                    
+                    // Inserta los datos filtrados
                     DB::table('funciones_cognitivas')->insert($funcionesSomaticas);
-
+                    
 
                       // Insertar Funciones Somáticas
                     $examenMental = array_filter([
@@ -204,4 +210,43 @@ class HistoriaPsicologica extends Model
         ->where("id", $idHisto)
         ->first();
     }
+
+    public static function busquedaAntecedentes($idHisto){
+        return DB::connection('mysql')->table('antecedentes_medicos')
+        ->where("id_historia", $idHisto)
+        ->get();
+    }
+
+    public static function busquedaAntFamiliares($idHisto){
+        return DB::connection('mysql')->table('antecedentes_familiares')
+        ->where("id_historia", $idHisto)
+        ->get();
+    }
+
+    public static function busquedaAreaAjuste($idHisto){
+        return DB::connection('mysql')->table('historia_ajuste_desempeno')
+        ->where("id_historia", $idHisto)
+        ->get();
+    }
+    public static function busquedaInterconsulta($idHisto){
+        return DB::connection('mysql')->table('interconsultas')
+        ->where("id_historia", $idHisto)
+        ->get();
+    }
+    public static function busquedaAparienciaPersonal($idHisto){
+        return DB::connection('mysql')->table('apariencia_personal')
+        ->where("id_historia", $idHisto)
+        ->get();
+    }
+    public static function busquedaFuncionesCognitivas($idHisto){
+        return DB::connection('mysql')->table('funciones_cognitivas')
+        ->where("id_historia", $idHisto)
+        ->get();
+    }
+    public static function busquedaFuncionesSomaticas($idHisto){
+        return DB::connection('mysql')->table('funciones_cognitivas')
+        ->where("id_historia", $idHisto)
+        ->first();
+    }
+
 }

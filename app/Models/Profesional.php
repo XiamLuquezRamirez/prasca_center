@@ -94,6 +94,16 @@ class Profesional extends Model
 
         return $profesional;
     }
+    public static function busquedaProfesionalHitoria($usu)
+    {
+        $profesional =  DB::connection('mysql')->table('profesionales')
+            ->join("users", "users.id", "profesionales.usuario")
+            ->where("profesionales.usuario", $usu)
+            ->select("profesionales.*", "users.login_usuario", "users.estado_usuario", "users.id as idUsuario")
+            ->first();
+
+        return $profesional;
+    }
     public static function busquedaProfesionalUsu($usu)
     {
         $profesional = DB::connection('mysql')->table('profesionales')

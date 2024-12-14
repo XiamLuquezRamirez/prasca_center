@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\HistoriaPsicologica;
 use App\Models\CategoriaHCP;
 use App\Models\Pacientes;
-
+use App\Models\Profesional;
 
 class HistoriasController extends Controller
 {
@@ -33,9 +33,9 @@ class HistoriasController extends Controller
         $areaAjuste = HistoriaPsicologica::busquedaAreaAjuste($historia->id);
         $interconuslta = HistoriaPsicologica::busquedaInterconsulta($historia->id);
         $aparienciaPersonal = HistoriaPsicologica::busquedaAparienciaPersonal($historia->id);
-         $funcionesCognitiva = HistoriaPsicologica::busquedaFuncionesCognitivas($historia->id);
-         $funcionesSomaticas = HistoriaPsicologica::busquedaFuncionesSomaticas($historia->id);
-
+        $funcionesCognitiva = HistoriaPsicologica::busquedaFuncionesCognitivas($historia->id);
+        $funcionesSomaticas = HistoriaPsicologica::busquedaFuncionesSomaticas($historia->id);
+        
         return response()->json([
             'historia' => $historia,
             'paciente' => $pacientes,
@@ -45,8 +45,15 @@ class HistoriasController extends Controller
             'interconuslta' => $interconuslta,
             'aparienciaPersonal' => $aparienciaPersonal,
             'funcionesCognitiva' => $funcionesCognitiva,
-            'funcionesSomaticas' => $funcionesSomaticas,
+            'funcionesSomaticas' => $funcionesSomaticas          
         ]);
+    }
+
+    public function buscaProfesionalHistoria(Request $request){
+        $idProf = $request->input('idProf');
+        $profesional = Profesional::busquedaProfesionalHitoria($idProf);
+       
+        return response()->json($profesional);
     }
 
     public function buscaCUPS(Request $request)
@@ -94,7 +101,6 @@ class HistoriasController extends Controller
             'total_count' => $total
         ]);
     }
-
 
     public function obtenerOpcionesHCP()
     {
@@ -162,16 +168,20 @@ class HistoriasController extends Controller
 
         // Verificar el resultado y preparar la respuesta
         if ($respuesta) {
-            $estado = true;
+            $estado = 'success';
+            $message = 'La operación fue realizada exitosamente.';
+            $title = '¡Buen trabajo!';
         } else {
-            $estado = false;
+            $message = 'No se pudo realizada la operación.';
+            $estado = 'warning';
+            $title = '¡Opps salio algo mal!';
         }
-
         // Retornar la respuesta en formato JSON
         return response()->json([
             'success' => $estado,
             'id' => $respuesta,
-            'message' => 'Datos guardados'
+            'message' =>  $message,
+            'title' =>  $title
         ]);
     }
 
@@ -190,6 +200,7 @@ class HistoriasController extends Controller
                 ->table('historia_clinica')
                 ->leftJoin('pacientes', 'historia_clinica.id_paciente', '=', 'pacientes.id')
                 ->where('estado_registro', 'ACTIVO')
+                ->orderBy('historia_clinica.fecha_historia', 'desc')
                 ->select(
                     "historia_clinica.id",
                     DB::raw("CONCAT(tipo_identificacion, ' ', identificacion) as identificacion_completa"),
@@ -217,7 +228,7 @@ class HistoriasController extends Controller
             foreach ($ListHistoria as $i => $item) {
                 if (!is_null($item)) {
 
-                    if ($item->estado_hitoria == "Abierta") {
+                    if ($item->estado_hitoria == "abierta") {
                         $estado = "<i class='fa fa-unlock'></i> Abierta";
                         $class = "text-success";
                         $disabled = "";

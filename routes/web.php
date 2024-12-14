@@ -85,6 +85,7 @@ Route::post('/historia/buscaProfesionalHistoria', [HistoriasController::class, '
 Route::get('/HistoriasClinicas/GestionarHistoriaNeuroPsicologia', [HistoriaNeuroPsicologicaController::class, 'historiaNeuroPsicologia'])->name('gestionar.historiaNeuroPsicologia');
 Route::post('/historia/guardarHistoriaNeuroPsicologica', [HistoriaNeuroPsicologicaController::class, 'guardarHistoriaNeuroPsicologica'])->name('form.guardarHistoriaNeuroPsicologica');
 Route::post('/HistoriasClinicas/listaHistoriasNeuroPsicologica', [HistoriaNeuroPsicologicaController::class, 'listaHistoriasNeuroPsicologica'])->name('HistoriasClinicas.listaHistoriasNeuroPsicologica');
+Route::post('/pacientes/buscaPacienteHistoriaNeuro', [PacientesController::class, 'buscaPacienteHistoriaNeuro'])->name('pacientes.buscaPacienteHistoriaNeuro');
 
 /// GESTIONAR USUARIOS
 Route::get('/Administracion/Usuarios', [AdminitraccionController::class,'Usuarios']);

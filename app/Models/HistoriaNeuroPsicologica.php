@@ -207,9 +207,16 @@ class HistoriaNeuroPsicologica extends Model
         
     }
 
-    public static function busquedaHistoria($idHisto){
+    public static function busquedaHistoriaNeuro($idHisto){
         return DB::connection('mysql')->table('historia_clinica')
         ->where("id", $idHisto)
         ->first();
+    }
+
+    public static function busquedaHistoriaNeuroPaciente($idPac)
+    {
+        return DB::connection('mysql')->table('historia_clinica_neuro')
+        ->where("id_paciente", $idPac)
+        ->exists();
     }
 }

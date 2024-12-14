@@ -1586,13 +1586,11 @@
             const modalInstance = bootstrap.Modal.getInstance(modal);
             modalInstance.hide();
 
-            document.getElementById('listado').style.display = 'none';
-            document.getElementById('historia').style.display = 'block';
             mostrarInformacionHistoria(idPaciente)
         }
 
         function mostrarInformacionHistoria(idPaciente) {
-            let url = "{{ route('pacientes.buscaPacienteHistoria') }}";
+            let url = "{{ route('pacientes.buscaPacienteHistoriaNeuro') }}";
 
             fetch(url, {
                     method: 'POST',
@@ -1607,8 +1605,32 @@
                 .then(response => response.json())
                 .then(data => {
                     //DATOS DEL PACIENTE
-                    mapearInfPaciente(data.paciente)
 
+                    if (data.historia) {
+                        swal({
+                            title: "Este paciente ya tiene una historia clínica registrada.",
+                            text: "Desea abrir la historia",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Si, abrirla!",
+                            cancelButtonText: "Cancelar",
+                            confirmButtonClass: "btn btn-warning",
+                            cancelButtonClass: "btn btn-danger ml-1",
+                            buttonsStyling: false
+                        }, function(isConfirm) {
+                            if (isConfirm) {
+                                mapearInfPaciente(data.paciente)
+                                document.getElementById('listado').style.display = 'none'
+                                document.getElementById('historia').style.display = 'block'
+                            }
+                        });
+                    } else {
+                        mapearInfPaciente(data.paciente)
+                        document.getElementById('listado').style.display = 'none'
+                        document.getElementById('historia').style.display = 'block'
+                    }
                 })
                 .catch(error => console.error('Error:', error));
         }

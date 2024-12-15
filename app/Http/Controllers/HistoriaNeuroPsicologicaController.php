@@ -159,4 +159,31 @@ class HistoriaNeuroPsicologicaController extends Controller
             return redirect("/")->with("error", "Su Sesión ha Terminado");
         }
     }
+
+    public function buscaHistoriaNeuroPsicologica(Request $request)
+    {
+        $idHist = $request->input('idHist');
+        
+        $historia = HistoriaNeuroPsicologica::busquedaHistoriaNeuro($idHist);
+        $pacientes = Pacientes::busquedaPaciente($historia->id_paciente);
+        $antecedentesPersonales = HistoriaNeuroPsicologica::busquedaAntecedentes($historia->id);
+        $antecedentesFamiliares = HistoriaNeuroPsicologica::busquedaAntFamiliares($historia->id);
+        $areaAjuste = HistoriaNeuroPsicologica::busquedaAreaAjuste($historia->id);
+        $interconuslta = HistoriaNeuroPsicologica::busquedaInterconsulta($historia->id);
+        $aparienciaPersonal = HistoriaNeuroPsicologica::busquedaAparienciaPersonal($historia->id);
+        $funcionesCognitiva = HistoriaNeuroPsicologica::busquedaFuncionesCognitivas($historia->id);
+        $funcionesSomaticas = HistoriaNeuroPsicologica::busquedaFuncionesSomaticas($historia->id);
+        
+        return response()->json([
+            'historia' => $historia,
+            'paciente' => $pacientes,
+            'antecedentesPersonales' => $antecedentesPersonales,
+            'antecedentesFamiliares' => $antecedentesFamiliares,
+            'areaAjuste' => $areaAjuste,
+            'interconuslta' => $interconuslta,
+            'aparienciaPersonal' => $aparienciaPersonal,
+            'funcionesCognitiva' => $funcionesCognitiva,
+            'funcionesSomaticas' => $funcionesSomaticas          
+        ]);
+    }
 }

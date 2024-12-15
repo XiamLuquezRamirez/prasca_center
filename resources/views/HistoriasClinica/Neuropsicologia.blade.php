@@ -3,6 +3,7 @@
 @section('Contenido')
     <input type="hidden" id="Ruta" data-ruta="{{ asset('/app-assets/') }}" />
     <input type="hidden" id="RutaTotal" data-ruta="{{ asset('/') }}" />
+    <input type="hidden" id="idUsuario" value="{{ Auth::user()->id }}" />
     <input type="hidden" id="page" />
     <input type="hidden" id="pagePac" />
 
@@ -376,7 +377,7 @@
                                                                 <label for="toxicos" class="form-label">Tóxicos:</label>
                                                                 <div class="input-group flex-nowrap">
                                                                     <div class="tags-default">
-                                                                        <input type="text" id="toxico"
+                                                                        <input type="text" id="toxicos"
                                                                             name="toxico" value=""
                                                                             data-role="tagsinput"
                                                                             placeholder="Agregar antedecentes">
@@ -1034,9 +1035,9 @@
                                                     <div class="row">
                                                         <div class="col-md-4">
                                                             <div class="form-group">
-                                                                <label for="ciclos_sueno" class="form-label">Ciclos del
+                                                                <label for="ciclos_del_sueno" class="form-label">Ciclos del
                                                                     Sueño:</label>
-                                                                <textarea class="form-control" id="ciclos_sueno" name="ciclos_sueno" rows="3"></textarea>
+                                                                <textarea class="form-control" id="ciclos_del_sueno" name="ciclos_sueno" rows="3"></textarea>
                                                             </div>
                                                         </div>
 
@@ -1171,14 +1172,14 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div class="card-body">
-                                                <h5> {{ Session::get('nombreProfesional') }}</h5>
-                                                <img width="200"
-                                                    src="{{ asset('app-assets/images/firmasProfesionales/' . Session::get('firmaProfesional')) }}"
+                                            <div class="card-body ">
+                                                <input type="hidden" id="idProfesional" name="idProfesional" />
+                                                <h5 id="nombreProfesional"></h5>
+                                                <img id="firmaProfesional" width="200" src=""
                                                     alt="">
-                                                <p><strong>Tarjeta Profesional:</strong>
-                                                    {{ Session::get('registroProfesional') }} </p>
+
+                                                <p id="registroProfesional"><strong>Tarjeta Profesional:</strong>
+                                                </p>
                                             </div>
                                             <div class="box-footer text-end">
                                                 <button onclick="cancelarHistoria()" type="button"
@@ -1495,7 +1496,7 @@
                     psicomotricidad: 'FUNCIONES COGNITIVAS: Psicomotricidad',
                     juicio: 'FUNCIONES COGNITIVAS: Juicio',
                     inteligencia: 'FUNCIONES COGNITIVAS: Inteligencia',
-                    conciencia_enfermedad: 'FUNCIONES COGNITIVAS: Conciencia de enfermedad neuro',
+                    conciencia_enfermedad: 'FUNCIONES COGNITIVAS: Conciencia de enfermedad',
                     sufrimiento_psicologico: 'FUNCIONES COGNITIVAS: Sufrimiento psicológico',
                     motivacion_tratamiento: 'FUNCIONES COGNITIVAS: Motivación al tratamiento',
                     plan_intervencion: 'PLAN DE INTERVENCIÓN',
@@ -1535,8 +1536,11 @@
                 keyboard: false
             });
 
-            modal.show();
-            cargarPacientes(1);
+            modal.show()
+            let formHistoria = document.getElementById("formHistoria")
+            formHistoria.reset()
+            cargarPacientes(1)
+            mapearDatosProfesional(document.getElementById("idUsuario").value)
         }
 
         function cargarPacientes(page, searchTerm = '') {
@@ -1784,6 +1788,318 @@
                 loadNow(0);
             })
             .catch(error => console.error('Error:', error));
+        }
+
+
+        function editarHistoria(element) {
+            document.getElementById('listado').style.display = 'none'
+            document.getElementById('historia').style.display = 'block'
+
+            let idHist = element.getAttribute("data-id")
+            let tipoHis = element.getAttribute("data-tipo")
+
+            let url = "{{ route('historia.buscaHistoriaNeuroPsicologica') }}";
+
+            let params = new URLSearchParams({
+                idHist: idHist
+            });
+
+            url += '?' + params.toString();
+
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                mapearInfPaciente(data.paciente)
+                mapearHisoria(data.historia)
+                mapearAntedentesPersonales(data.antecedentesPersonales)
+                mapearAntedentesFamiliares(data.antecedentesFamiliares)
+                mapearAreaDesempeno(data.areaAjuste)
+                mapearInterconsulta(data.interconuslta)
+                mapearAparienciaPersonal(data.aparienciaPersonal)
+                mapearFuncionesCognitivas(data.funcionesCognitiva)
+                mapearFuncionesSomaticas(data.funcionesSomaticas)
+
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function mapearHisoria(historia) {
+            document.getElementById("accHistoria").value = "editar"
+            document.getElementById("idHistoria").value = historia.id
+            document.getElementById("idPaciente").value = historia.id_paciente
+
+
+            CKEDITOR.instances['remision'].setData(historia.remision)
+            cargarSelConsulta(historia.codigo_consulta)
+
+            const valoresConsulta = historia.motivo_consulta.split(',')
+
+            const motivoConsulta = document.getElementById('motivoConsulta')
+
+            // Restablecer las selecciones actuales (solo en este select)
+            Array.from(motivoConsulta.options).forEach(option => {
+                option.selected = false
+            })
+
+            // Marcar las opciones como seleccionadas (solo las especificadas)
+            valoresConsulta.forEach(value => {
+                const option = motivoConsulta.querySelector(`option[value="${value}"]`)
+                if (option) {
+                    option.selected = true
+                }
+            })
+
+            // Actualizar Select2 para reflejar los cambios
+            if ($(motivoConsulta).hasClass('select2')) {
+                $(motivoConsulta).val(valoresConsulta).trigger('change') // Cambiar el valor y disparar el evento 'change'
+            }
+
+            cargarDxPrincipa(historia.dx_principal)
+
+            document.getElementById('establecidoPrimeraVez').value = historia.diagnostico_primera_vez
+            $('#establecidoPrimeraVez').trigger('change')
+
+            document.getElementById("otroMotivo").value = historia.otro_motivo_consulta
+            cargarImpresion(historia.codigo_diagnostico)
+
+            CKEDITOR.instances['enfermedadActual'].setData(historia.enfermedad_actual)
+            CKEDITOR.instances['objetivo_general'].setData(historia.objetivo_general)
+            CKEDITOR.instances['objetivos_especificos'].setData(historia.objetivos_especificos)
+            CKEDITOR.instances['sugerencia_interconsultas'].setData(historia.sugerencias_interconsultas)
+            CKEDITOR.instances['observaciones_recomendaciones'].setData(historia.observaciones_recomendaciones)
+            document.getElementById("tipoPsicologia").value = historia.tipologia
+
+            mapearDatosProfesional(historia.id_profesional)
+        }
+
+        function mapearAntedentesPersonales(antecedentesPersonales) {
+            antecedentesPersonales.forEach(item => {
+                const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
+
+                if (element) {
+                    if(item.tipo=="medicacion"){
+                        CKEDITOR.instances['medicacion'].setData(item.detalle)
+                    }else{
+                        if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                            element.value = item.detalle // Asignar el valor al input o textarea
+                        } else if (element.tagName === "SELECT") {
+                            element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                        } else {
+                            console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                        }
+                    }
+                    
+                } else {
+                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+                }
+            })
+        }
+
+        function mapearAntedentesFamiliares(antecedentesFamiliares) {
+            antecedentesFamiliares.forEach(item => {
+                const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
+                if (element) {
+                    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                        element.value = item.detalle // Asignar el valor al input o textarea
+                    } else if (element.tagName === "SELECT") {
+                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                    } else {
+                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                    }
+                } else {
+                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+                }
+            })
+        }
+
+        function mapearAreaDesempeno(antecedentesAreaAjuste) {
+            antecedentesAreaAjuste.forEach(item => {
+                const element = document.getElementById(item.area)
+                if (element) {
+                    element.value = item.detalle
+                } else {
+                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+                }
+            })
+        }
+
+        function mapearInterconsulta(interconuslta) {
+            interconuslta.forEach(item => {
+
+                const element = document.getElementById(item.tipo)
+                if (element) {
+                    element.value = item.detalle
+                } else {
+                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+                }
+            })
+        }
+
+        function mapearAparienciaPersonal(apariencia) {
+            apariencia.forEach(item => {
+                const element = document.getElementById(item.caracteristica)
+                if (element) {
+                    if (element.tagName === "INPUT") {
+                        element.value = item.detalle // Asignar el valor al input o textarea
+                    } else if (element.tagName === "SELECT") {
+                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                        $('#' + item.caracteristica).trigger('change')
+                    } else {
+                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                    }
+                } else {
+                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+                }
+            })
+        }
+
+        function mapearFuncionesCognitivas(cognitivas) {
+            cognitivas.forEach(item => {
+                const element = document.getElementById(item.caracteristica)
+                if (element) {
+                    if (element.tagName === "INPUT") {
+                        element.value = item.detalle // Asignar el valor al input o textarea
+                    } else if (element.tagName === "SELECT") {
+                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                        $('#' + item.caracteristica).trigger('change')
+                    } else {
+                        console.warn(`El elemento con ID "${item.caracteristica}" no es compatible.`)
+                    }
+                } else {
+                    console.error(`No se encontró un elemento con el ID "${item.caracteristica}".`)
+                }
+            })
+        }
+
+        function mapearFuncionesSomaticas(somaticas) {
+            if (somaticas) {
+                document.getElementById("ciclos_del_sueno").value = somaticas.ciclos_del_sueno
+                document.getElementById("apetito").value = somaticas.apetito
+                document.getElementById("autocuidado").value = somaticas.actividades_autocuidado
+            }
+        }
+
+        function cargarSelConsulta(codigo_consulta) {
+            let rtotal = $("#RutaTotal").data("ruta")
+
+            if (codigo_consulta) {
+                // Hacer una petición para buscar el texto correspondiente al ID
+                fetch(`${rtotal}historia/buscaCUPS?id=${codigo_consulta}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Error al obtener el valor para codConsulta')
+                        }
+                        return response.json()
+                    })
+                    .then(data => {
+                        if (data && data.id && data.text) {
+                            // Agregar opción al select si no está ya presente
+                            const newOption = new Option(data.text, data.id, true, true)
+                            $('#codConsulta').append(newOption).trigger('change')
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error al cargar codConsulta:', error)
+                    })
+            }
+        }
+
+        function cargarDxPrincipa(codigo_dx) {
+            let rtotal = $("#RutaTotal").data("ruta")
+
+            if (codigo_dx) {
+                // Hacer una petición para buscar el texto correspondiente al ID
+                fetch(`${rtotal}historia/buscaCIE?id=${codigo_dx}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Error al obtener el valor para codConsulta')
+                        }
+                        return response.json()
+                    })
+                    .then(data => {
+                        if (data && data.id && data.text) {
+                            // Agregar opción al select si no está ya presente
+                            const newOption = new Option(data.text, data.id, true, true)
+                            $('#codDiagnostico').append(newOption).trigger('change')
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error al cargar codDiagnostico:', error)
+                    })
+            }
+        }
+
+        function cargarImpresion(codigo_dx) {
+            let rtotal = $("#RutaTotal").data("ruta")
+
+            if (codigo_dx) {
+                // Hacer una petición para buscar el texto correspondiente al ID
+                fetch(`${rtotal}historia/buscaCIE?id=${codigo_dx}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Error al obtener el valor para codConsulta')
+                        }
+                        return response.json()
+                    })
+                    .then(data => {
+                        if (data && data.id && data.text) {
+                            // Agregar opción al select si no está ya presente
+                            const newOption = new Option(data.text, data.id, true, true)
+                            $('#codImpresionDiagnostico').append(newOption).trigger('change')
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error al cargar codImpresionDiagnostico:', error)
+                    });
+            }
+        }
+
+        function mapearDatosProfesional(idProf) {
+            let url = "{{ route('historia.buscaProfesionalHistoria') }}"
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    idProf: idProf
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("idProfesional").value = data.id
+                document.getElementById("nombreProfesional").innerHTML = data.nombre
+                document.getElementById("registroProfesional").innerHTML =
+                    `<strong>Tarjeta Profesional:</strong> ${data.registro}`
+
+                let firmaProfesional = document.getElementById('firmaProfesional')
+                let url = $('#Ruta').data("ruta")
+                firmaProfesional.src = url + "/images/firmasProfesionales/" + data.firma
+
+            })
+            .catch(error => console.error('Error:', error))
         }
     </script>
 

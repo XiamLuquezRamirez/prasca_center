@@ -43,6 +43,7 @@ class HistoriaNeuroPsicologica extends Model
                         'enfermedad_actual' => $request['enfermedadActual'] ?? null,
                         'dx_principal' => $request['codDiagnostico'] ?? null,
                         'codigo_diagnostico' => $request['codImpresionDiagnostico'] ?? null,
+                        'diagnostico_primera_vez' => $request['establecidoPrimeraVez'] ?? null,
                         'objetivo_general' => $request['objetivo_general'] ?? null,
                         'objetivos_especificos' => $request['objetivos_especificos'] ?? null,
                         'sugerencias_interconsultas' => $request['sugerencia_interconsultas'] ?? null,
@@ -59,7 +60,7 @@ class HistoriaNeuroPsicologica extends Model
                         ['id_historia' => $idHistoria, 'tipo' => 'quirurgicos', 'detalle' => $request['quirurgicos']],
                         ['id_historia' => $idHistoria, 'tipo' => 'toxicos', 'detalle' => $request['toxico']],
                         ['id_historia' => $idHistoria, 'tipo' => 'traumaticos', 'detalle' => $request['traumaticos']],
-                        ['id_historia' => $idHistoria, 'tipo' => 'medicacion_actual', 'detalle' => $request['medicacion']],
+                        ['id_historia' => $idHistoria, 'tipo' => 'medicacion', 'detalle' => $request['medicacion']],
                         ['id_historia' => $idHistoria, 'tipo' => 'paraclinicos', 'detalle' => $request['paraclinicos']],
                         ['id_historia' => $idHistoria, 'tipo' => 'hospitalizaciones', 'detalle' => $request['hospitalizaciones']],
                         ['id_historia' => $idHistoria, 'tipo' => 'patologia', 'detalle' => $request['patologia']]
@@ -100,8 +101,8 @@ class HistoriaNeuroPsicologica extends Model
 
                     // Insertar interconsultas
                     $interconsultas = array_filter([
-                        ['id_historia' => $idHistoria, 'tipo' => 'psiquiatria', 'detalle' => $request['intervencion_psiquiatria']],
-                        ['id_historia' => $idHistoria, 'tipo' => 'neurologia', 'detalle' => $request['intervencion_neurologia']],
+                        ['id_historia' => $idHistoria, 'tipo' => 'intervencion_psiquiatria', 'detalle' => $request['intervencion_psiquiatria']],
+                        ['id_historia' => $idHistoria, 'tipo' => 'intervencion_neurologia', 'detalle' => $request['intervencion_neurologia']],
                         ['id_historia' => $idHistoria, 'tipo' => 'intervencion_neuropsicologia', 'detalle' => $request['intervencion_neuropsicologia']],
                     ], function ($item) {
                         return !empty($item['detalle']);
@@ -161,7 +162,7 @@ class HistoriaNeuroPsicologica extends Model
                         ['id_historia' => $idHistoria, 'caracteristica' => 'conciencia_enfermedad_otro', 'detalle' => $request['conciencia_enfermedad_otro'] ?? null],
                         ['id_historia' => $idHistoria, 'caracteristica' => 'sufrimiento_psicologico', 'detalle' => $request['sufrimiento_psicologico'] ?? null],
                         ['id_historia' => $idHistoria, 'caracteristica' => 'sufrimiento_psicologico_otro', 'detalle' => $request['sufrimiento_psicologico_otro'] ?? null],
-                        ['id_historia' => $idHistoria, 'caracteristica' => 'motivacion_al_tratamiento', 'detalle' => $request['motivacion_tratamiento'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'motivacion_tratamiento', 'detalle' => $request['motivacion_tratamiento'] ?? null],
                         ['id_historia' => $idHistoria, 'caracteristica' => 'motivacion_tratamiento_otro', 'detalle' => $request['motivacion_tratamiento_otro'] ?? null]
                     ], function ($item) {
                         return !empty($item['detalle']);
@@ -188,14 +189,7 @@ class HistoriaNeuroPsicologica extends Model
                     throw $e;
                 }
             } else {
-                // Lógica de actualización
-                $respuesta = DB::connection('mysql')->table('especialidades')
-                    ->where('id', $request['idRegistro'])  // Identificar el registro a actualizar
-                    ->update([
-                        'nombre' => $request['nombre'],
-                        'observacion' => $request['observaciones'] ?? '',
-                    ]);
-                $respuesta = $request['idRegistro'];
+               
             }
         } catch (Exception $e) {
             // Manejo del error
@@ -208,7 +202,7 @@ class HistoriaNeuroPsicologica extends Model
     }
 
     public static function busquedaHistoriaNeuro($idHisto){
-        return DB::connection('mysql')->table('historia_clinica')
+        return DB::connection('mysql')->table('historia_clinica_neuro')
         ->where("id", $idHisto)
         ->first();
     }
@@ -218,5 +212,57 @@ class HistoriaNeuroPsicologica extends Model
         return DB::connection('mysql')->table('historia_clinica_neuro')
         ->where("id_paciente", $idPac)
         ->exists();
+    }
+
+    public static function busquedaHistoriaPaciente($idPac)
+    {
+        return DB::connection('mysql')->table('historia_clinica_neuro')
+            ->where("id_paciente", $idPac)
+            ->exists();
+    }
+
+    public static function busquedaAntecedentes($idHisto)
+    {
+        return DB::connection('mysql')->table('antecedentes_medicos_neuro')
+            ->where("id_historia", $idHisto)
+            ->get();
+    }
+
+    public static function busquedaAntFamiliares($idHisto)
+    {
+        return DB::connection('mysql')->table('antecedentes_familiares_neuro')
+            ->where("id_historia", $idHisto)
+            ->get();
+    }
+
+    public static function busquedaAreaAjuste($idHisto)
+    {
+        return DB::connection('mysql')->table('historia_ajuste_desempeno_neuro')
+            ->where("id_historia", $idHisto)
+            ->get();
+    }
+    public static function busquedaInterconsulta($idHisto)
+    {
+        return DB::connection('mysql')->table('interconsultas_neuro')
+            ->where("id_historia", $idHisto)
+            ->get();
+    }
+    public static function busquedaAparienciaPersonal($idHisto)
+    {
+        return DB::connection('mysql')->table('apariencia_personal_neuro')
+            ->where("id_historia", $idHisto)
+            ->get();
+    }
+    public static function busquedaFuncionesCognitivas($idHisto)
+    {
+        return DB::connection('mysql')->table('funciones_cognitivas_neuro')
+            ->where("id_historia", $idHisto)
+            ->get();
+    }
+    public static function busquedaFuncionesSomaticas($idHisto)
+    {
+        return DB::connection('mysql')->table('funciones_somaticas_neuro')
+            ->where("id_historia", $idHisto)
+            ->first();
     }
 }

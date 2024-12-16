@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\HistoriaPsicologica;
+use App\Models\HistoriaNeuroPsicologica;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -122,6 +123,18 @@ class PacientesController extends Controller
         $idPaciente = $request->input('idPaciente');
         $paciente = Pacientes::busquedaPaciente($idPaciente);
         $historia = HistoriaPsicologica::busquedaHistoriaPaciente($idPaciente);
+        
+        return response()->json([
+            'paciente' => $paciente,
+            'historia' => $historia
+        ]);
+    }
+
+    public function buscaPacienteHistoriaNeuro(Request $request)
+    {
+        $idPaciente = $request->input('idPaciente');
+        $paciente = Pacientes::busquedaPaciente($idPaciente);
+        $historia = HistoriaNeuroPsicologica::busquedaHistoriaNeuroPaciente($idPaciente);
         
         return response()->json([
             'paciente' => $paciente,

@@ -141,8 +141,9 @@
 
                                         <div class="text-start mt-3">
                                             <div class="activ_box_button " style="width: 100%;">
-                                                <button class="btn btn-success" onclick="abrirConsultas(1)" style="width: 100%;"><i
-                                                        class="fa fa-edit"></i> Iniciar consulta</button>
+                                                <button class="btn btn-success" onclick="abrirConsultas(1)"
+                                                    style="width: 100%;"><i class="fa fa-edit"></i> Iniciar
+                                                    consulta</button>
                                             </div>
                                             <div class="mt-4">
                                                 <div class="pb-20">
@@ -525,6 +526,32 @@
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
+                                                                    <label for="enbarazo_controlado" class="form-label">El
+                                                                        embarazo fue controlado por atención médica:</label>
+                                                                    <select class="form-control" id="enbarazo_controlado"
+                                                                        name="enbarazo_controlado">
+                                                                        <option value="">Seleccione una opción...
+                                                                        </option>
+                                                                        <option value="Si">Si</option>
+                                                                        <option value="No">No</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="planificacion" class="form-label">Uso de
+                                                                        planificación en el momento del embarazo:</label>
+                                                                    <select class="form-control" id="planificacion"
+                                                                        name="planificacion">
+                                                                        <option value="">Seleccione una opción...
+                                                                        </option>
+                                                                        <option value="Si">Si</option>
+                                                                        <option value="No">No</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
                                                                     <label for="estado_madre" class="form-label">Estado de
                                                                         la
                                                                         madre durante el embarazo:</label>
@@ -571,6 +598,37 @@
                                                                         maniobras de reanimación:</label>
                                                                     <select class="form-control" id="reanimacion"
                                                                         name="reanimacion">
+                                                                        <option value="">Seleccione una opción...
+                                                                        </option>
+                                                                        <option value="si">Sí</option>
+                                                                        <option value="no">No</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="peso_nacer" class="form-label">Peso al
+                                                                        nacer: :</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="peso_nacer" name="peso_nacer"
+                                                                        placeholder="Ejemplo: 1KG">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="talla_nacer" class="form-label">Talla al
+                                                                        nacer: :</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="talla_nacer" name="talla_nacer"
+                                                                        placeholder="Ejemplo: 50 cm">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="llanto_nacer" class="form-label">Llanto al
+                                                                        nacer: :</label>
+                                                                    <select class="form-control" id="llanto_nacer"
+                                                                        name="llanto_nacer">
                                                                         <option value="">Seleccione una opción...
                                                                         </option>
                                                                         <option value="si">Sí</option>
@@ -1558,10 +1616,11 @@
                                                     <span class="fa fa-search"></span>
                                                 </div>
                                                 <button type="button" onclick="nuevoRegistro(1);"
-                                                    class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i> Nueva
+                                                    class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i>
+                                                    Nueva
                                                     consulta</button>
                                             </div>
-            
+
                                         </div>
                                     </div>
                                     <table class="table table-striped">
@@ -1575,12 +1634,12 @@
                                             </tr>
                                         </thead>
                                         <tbody id="trRegistrosConsultas">
-            
-            
+
+
                                         </tbody>
                                     </table>
                                     <div id="pagination-links-consulta" class="text-center ml-1 mt-2">
-            
+
                                     </div>
                                 </div>
                             </div>
@@ -1604,7 +1663,7 @@
 
             //Initialize Select2 Elements
             $('.select2').select2()
-        
+
 
 
             $('#codConsulta').select2({
@@ -1978,7 +2037,7 @@
             modal.show()
             let formHistoria = document.getElementById("formHistoria")
             formHistoria.reset()
-            
+
             cargarPacientes(1)
             mapearDatosProfesional(document.getElementById("idUsuario").value)
             document.getElementById("btn-imprimirHistoria").style.display = ""
@@ -2180,14 +2239,14 @@
             return fechaFormateada
         }
 
-        function abrirConsultas(op){
+        function abrirConsultas(op) {
             var modal = new bootstrap.Modal(document.getElementById("modalConsulta"), {
                 backdrop: 'static',
                 keyboard: false
             })
 
             modal.show()
-            if(op == 1){
+            if (op == 1) {
                 document.getElementById("listadoConsultas").style.display = "initial"
                 document.getElementById("fomrConsultas").style.display = "none"
             }
@@ -2433,35 +2492,35 @@
 
         function mapearAntedentesPersonales(antecedentesPersonales) {
             setTimeout(() => {
-            antecedentesPersonales.forEach(item => {
-                const element = document.getElementById(item.tipo) 
-                if (element) {
-                    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-                        element.value = item.detalle 
-                        console.log(element.value)
-                    
-                    } else if (element.tagName === "SELECT") {
-                        element.value = item.detalle.toLowerCase() 
-                      console.log(item.detalle.toLowerCase())
+                antecedentesPersonales.forEach(item => {
+                    const element = document.getElementById(item.tipo)
+                    if (element) {
+                        if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                            element.value = item.detalle
+                            console.log(element.value)
+
+                        } else if (element.tagName === "SELECT") {
+                            element.value = item.detalle.toLowerCase()
+                            console.log(item.detalle.toLowerCase())
+                        } else {
+                            console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                        }
                     } else {
-                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                        console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
                     }
-                } else {
-                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
-                }
-            })
-        }, 1000)
+                })
+            }, 1000)
         }
 
         function mapearAntedentesFamiliares(antecedentesFamiliares) {
 
             antecedentesFamiliares.forEach(item => {
-                const element = document.getElementById(item.tipo) 
+                const element = document.getElementById(item.tipo)
                 if (element) {
                     if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-                        element.value = item.detalle 
+                        element.value = item.detalle
                     } else if (element.tagName === "SELECT") {
-                        element.value = item.detalle.toLowerCase() 
+                        element.value = item.detalle.toLowerCase()
                     } else {
                         console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
                     }

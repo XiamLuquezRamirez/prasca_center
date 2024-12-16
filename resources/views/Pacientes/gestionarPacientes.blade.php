@@ -360,8 +360,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="parentesco" class="form-label">Parentesco :</label>
-                                    <select class="form-control" id="parentesco" name="parentesco"
-                                        aria-invalid="false">
+                                    <select class="form-control" id="parentesco" name="parentesco" aria-invalid="false">
                                         <option value="">Selecciona una
                                             opción</option>
                                         <option value="padre">Padre</option>
@@ -432,6 +431,7 @@
 
             $.validator.addMethod("dateFormat", function(value, element) {
                 // Verificar si la fecha está en el formato dd/mm/yyyy
+               
                 var dateParts = value.split("/");
                 if (dateParts.length === 3) {
                     var day = parseInt(dateParts[0], 10);
@@ -446,6 +446,21 @@
                 return false;
             }, "Por favor, ingresa una fecha válida en formato dd/mm/yyyy.");
 
+            $.validator.addMethod("maxDate", function(value, element) {
+                var dateParts = value.split("/");
+                if (dateParts.length === 3) {
+                    var day = parseInt(dateParts[0], 10);
+                    var month = parseInt(dateParts[1], 10);
+                    var year = parseInt(dateParts[2], 10);
+
+                    // Convertir a formato Date
+                    var inputDate = new Date(year, month - 1, day);
+                    var today = new Date(); // Fecha actual
+
+                    return inputDate <= today; // Validar que no sea mayor
+                }
+                return false;
+            }, "La fecha no puede ser mayor a hoy.");
 
             $("#formPaciente").validate({
                 rules: {
@@ -509,7 +524,7 @@
                     fechaNacimiento: {
                         required: true,
                         dateFormat: true,
-                        max: new Date().toISOString().split("T")[0]
+                        maxDate: true
                     },
                 },
                 messages: {
@@ -555,7 +570,7 @@
                     fechaNacimiento: {
                         required: "Por favor, ingresa tu fecha de nacimiento.",
                         dateFormat: "Por favor, ingresa una fecha válida en formato dd/mm/yyyy.",
-                        max: "La fecha de nacimiento no puede ser mayor que hoy."
+                        maxDate: "La fecha de nacimiento no puede ser mayor que hoy."
                     },
                 },
                 submitHandler: function(form) {

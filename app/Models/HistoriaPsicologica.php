@@ -185,8 +185,10 @@ class HistoriaPsicologica extends Model
                         $antecedentesFamiliares = array_filter([
                             ['id_historia' => $idHistoria, 'tipo' => 'edad_madre', 'detalle' => $request['edad_madre']],
                             ['id_historia' => $idHistoria, 'tipo' => 'enfermedades_madre', 'detalle' => $request['enfermedades_madre']],
-                            ['id_historia' => $idHistoria, 'tipo' => 'demencia', 'detalle' => $request['numero_embarazo']],
-                            ['id_historia' => $idHistoria, 'tipo' => 'alcoholismo', 'detalle' => $request['estado_madre']]
+                            ['id_historia' => $idHistoria, 'tipo' => 'numero_embarazo', 'detalle' => $request['numero_embarazo']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'enbarazo_controlado', 'detalle' => $request['enbarazo_controlado']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'planificacion', 'detalle' => $request['planificacion']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'estado_madre', 'detalle' => $request['estado_madre']]
                         ], function ($item) {
                             return !empty($item['detalle']);
                         });
@@ -196,7 +198,10 @@ class HistoriaPsicologica extends Model
                         $antecedentesFamiliares = array_filter([
                             ['id_historia' => $idHistoria, 'tipo' => 'tipo_nacimiento', 'detalle' => $request['tipo_nacimiento']],
                             ['id_historia' => $idHistoria, 'tipo' => 'causa_cesarea', 'detalle' => $request['causa_cesarea']],
-                            ['id_historia' => $idHistoria, 'tipo' => 'reanimacion', 'detalle' => $request['reanimacion']]
+                            ['id_historia' => $idHistoria, 'tipo' => 'reanimacion', 'detalle' => $request['reanimacion']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'peso_nacer', 'detalle' => $request['peso_nacer']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'talla_nacer', 'detalle' => $request['talla_nacer']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'llanto_nacer', 'detalle' => $request['llanto_nacer']],
                         ], function ($item) {
                             return !empty($item['detalle']);
                         });

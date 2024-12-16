@@ -36,6 +36,11 @@ class HistoriasController extends Controller
         $funcionesCognitiva = HistoriaPsicologica::busquedaFuncionesCognitivas($historia->id);
         $funcionesSomaticas = HistoriaPsicologica::busquedaFuncionesSomaticas($historia->id);
         
+        $antecedentesPrenatales = HistoriaPsicologica::busquedaAntPrenatales($historia->id);
+        $antecedentesNatales = HistoriaPsicologica::busquedaAntNatales($historia->id);
+        $antecedentesPosnatales = HistoriaPsicologica::busquedaAntPosnatales($historia->id);
+        $desarrolloPsicomotor = HistoriaPsicologica::desarrolloPsicomotor($historia->id);
+        
         return response()->json([
             'historia' => $historia,
             'paciente' => $pacientes,
@@ -45,7 +50,11 @@ class HistoriasController extends Controller
             'interconuslta' => $interconuslta,
             'aparienciaPersonal' => $aparienciaPersonal,
             'funcionesCognitiva' => $funcionesCognitiva,
-            'funcionesSomaticas' => $funcionesSomaticas          
+            'funcionesSomaticas' => $funcionesSomaticas,       
+            'antecedentesPrenatales' => $antecedentesPrenatales,       
+            'antecedentesNatales' => $antecedentesNatales,       
+            'antecedentesPosnatales' => $antecedentesPosnatales,       
+            'desarrolloPsicomotor' => $desarrolloPsicomotor
         ]);
     }
 

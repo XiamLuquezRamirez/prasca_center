@@ -141,7 +141,7 @@
 
                                         <div class="text-start mt-3">
                                             <div class="activ_box_button " style="width: 100%;">
-                                                <button class="btn btn-success" style="width: 100%;"><i
+                                                <button class="btn btn-success" onclick="abrirConsultas(1)" style="width: 100%;"><i
                                                         class="fa fa-edit"></i> Iniciar consulta</button>
                                             </div>
                                             <div class="mt-4">
@@ -533,970 +533,952 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        
-                                                            <!-- Natales -->
-                                                            <div class="box-header pb-1">
-                                                                <h5 class="text-uppercase">
-                                                                    <i class="fa fa-heart me-1"></i> Natales
-                                                                </h5>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for="tipo_nacimiento"
-                                                                            class="form-label">Tipo de
-                                                                            nacimiento:</label>
-                                                                        <select class="form-control" id="tipo_nacimiento"
-                                                                            name="tipo_nacimiento">
-                                                                            <option value="">Seleccione una opción...
-                                                                            </option>
-                                                                            <option value="cesarea">Cesárea</option>
-                                                                            <option value="natural">Natural</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for="causa_cesarea"
-                                                                            class="form-label">Causa de la
-                                                                            cesárea:</label>
-                                                                        <input type="text" class="form-control"
-                                                                            id="causa_cesarea" name="causa_cesarea"
-                                                                            placeholder="Ejemplo: No dilataba">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for="reanimacion" class="form-label">Uso de
-                                                                            maniobras de reanimación:</label>
-                                                                        <select class="form-control" id="reanimacion"
-                                                                            name="reanimacion">
-                                                                            <option value="">Seleccione una opción...
-                                                                            </option>
-                                                                            <option value="si">Sí</option>
-                                                                            <option value="no">No</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
 
-                                                            <!-- Posnatales -->
-                                                            <div class="box-header pb-1">
-                                                                <h5 class="text-uppercase">
-                                                                    <i class="fa fa-heart-o me-1"></i> Posnatales
-                                                                </h5>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group">
-                                                                        <label for="hospitalizaciones"
-                                                                            class="form-label">Hospitalizaciones recién
-                                                                            nacido:</label>
-                                                                        <textarea class="form-control" id="hospitalizaciones" name="hospitalizaciones" rows="3"
-                                                                            placeholder="Describa las causas de hospitalización"></textarea>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group">
-                                                                        <label for="desarrollo_psicomotor"
-                                                                            class="form-label">Desarrollo
-                                                                            psicomotor:</label>
-                                                                        <textarea class="form-control" id="desarrollo_psicomotor" name="desarrollo_psicomotor" rows="5"
-                                                                            placeholder="Ejemplo: Control cefálico 2M, Marcha 10M"></textarea>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <!-- Desarrollo Psicomotor -->
-                                                            <div class="box-header pb-1">
-                                                                <h5 class="text-uppercase">
-                                                                    <i class="mdi mdi-baby me-1"></i> Desarrollo Psicomotor
-                                                                </h5>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for="control_cefalico"
-                                                                            class="form-label">Control
-                                                                            cefálico:</label>
-                                                                        <input type="text" class="form-control"
-                                                                            id="control_cefalico" name="control_cefalico"
-                                                                            placeholder="Ejemplo: 2M">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for="rolado"
-                                                                            class="form-label">Rolado:</label>
-                                                                        <input type="text" class="form-control"
-                                                                            id="rolado" name="rolado"
-                                                                            placeholder="Ejemplo: 3M">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for="sedente_solo"
-                                                                            class="form-label">Sedente
-                                                                            solo:</label>
-                                                                        <input type="text" class="form-control"
-                                                                            id="sedente_solo" name="sedente_solo"
-                                                                            placeholder="Ejemplo: 6M">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for="gateo"
-                                                                            class="form-label">Gateo:</label>
-                                                                        <input type="text" class="form-control"
-                                                                            id="gateo" name="gateo"
-                                                                            placeholder="Ejemplo: 6M">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for="bipedo"
-                                                                            class="form-label">Bípedo
-                                                                            sin ayuda:</label>
-                                                                        <input type="text" class="form-control"
-                                                                            id="bipedo" name="bipedo"
-                                                                            placeholder="Ejemplo: 9M">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for="marcha"
-                                                                            class="form-label">Marcha:</label>
-                                                                        <input type="text" class="form-control"
-                                                                            id="marcha" name="marcha"
-                                                                            placeholder="Ejemplo: 10M">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for="lenguaje_verbal"
-                                                                            class="form-label">Lenguaje
-                                                                            verbal:</label>
-                                                                        <input type="text" class="form-control"
-                                                                            id="lenguaje_verbal" name="lenguaje_verbal"
-                                                                            placeholder="Ejemplo: 1 año">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for="lenguaje_verbal_fluido"
-                                                                            class="form-label">Lenguaje verbal
-                                                                            fluido:</label>
-                                                                        <input type="text" class="form-control"
-                                                                            id="lenguaje_verbal_fluido"
-                                                                            name="lenguaje_verbal_fluido"
-                                                                            placeholder="Ejemplo: 6 años">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        <!-- Natales -->
                                                         <div class="box-header pb-1">
-                                                            <h5 class="text-uppercase"><i class="fa fa-users me-1"></i>
-                                                                Médicos Familiares</h5>
+                                                            <h5 class="text-uppercase">
+                                                                <i class="fa fa-heart me-1"></i> Natales
+                                                            </h5>
                                                         </div>
                                                         <div class="row">
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="depresion"
-                                                                        class="form-label">Depresión:</label>
-                                                                    <select class="form-control" id="depresion"
-                                                                        name="depresion">
-                                                                        <option value="">Selecciona una opción
+                                                                    <label for="tipo_nacimiento" class="form-label">Tipo
+                                                                        de
+                                                                        nacimiento:</label>
+                                                                    <select class="form-control" id="tipo_nacimiento"
+                                                                        name="tipo_nacimiento">
+                                                                        <option value="">Seleccione una opción...
                                                                         </option>
-                                                                        <option value="no_refiere">No refiere</option>
-                                                                        <option value="padre">Padre</option>
-                                                                        <option value="madre">Madre</option>
-                                                                        <option value="hijo">Hijo/a</option>
-                                                                        <option value="hermano">Hermano/a</option>
-                                                                        <option value="abuelo">Abuelo/a</option>
-                                                                        <option value="tio">Tío/a</option>
-                                                                        <option value="primo">Primo/a</option>
-                                                                        <option value="sobrino">Sobrino/a</option>
-                                                                        <option value="nieto">Nieto/a</option>
-                                                                        <option value="otro">Otro</option>
+                                                                        <option value="cesarea">Cesárea</option>
+                                                                        <option value="natural">Natural</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
-
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="ansiedad"
-                                                                        class="form-label">Ansiedad:</label>
-                                                                    <select class="form-control" id="ansiedad"
-                                                                        name="ansiedad">
-                                                                        <option value="">Selecciona una opción
+                                                                    <label for="causa_cesarea" class="form-label">Causa de
+                                                                        la
+                                                                        cesárea:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="causa_cesarea" name="causa_cesarea"
+                                                                        placeholder="Ejemplo: No dilataba">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="reanimacion" class="form-label">Uso de
+                                                                        maniobras de reanimación:</label>
+                                                                    <select class="form-control" id="reanimacion"
+                                                                        name="reanimacion">
+                                                                        <option value="">Seleccione una opción...
                                                                         </option>
-                                                                        <option value="no_refiere">No refiere</option>
-                                                                        <option value="padre">Padre</option>
-                                                                        <option value="madre">Madre</option>
-                                                                        <option value="hijo">Hijo/a</option>
-                                                                        <option value="hermano">Hermano/a</option>
-                                                                        <option value="abuelo">Abuelo/a</option>
-                                                                        <option value="tio">Tío/a</option>
-                                                                        <option value="primo">Primo/a</option>
-                                                                        <option value="sobrino">Sobrino/a</option>
-                                                                        <option value="nieto">Nieto/a</option>
-                                                                        <option value="otro">Otro</option>
+                                                                        <option value="si">Sí</option>
+                                                                        <option value="no">No</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
+                                                        </div>
 
-                                                            <div class="col-md-3">
+                                                        <!-- Posnatales -->
+                                                        <div class="box-header pb-1">
+                                                            <h5 class="text-uppercase">
+                                                                <i class="fa fa-heart-o me-1"></i> Posnatales
+                                                            </h5>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
                                                                 <div class="form-group">
-                                                                    <label for="demencia"
-                                                                        class="form-label">Demencia:</label>
-                                                                    <select class="form-control" id="demencia"
-                                                                        name="demencia">
-                                                                        <option value="">Selecciona una opción
-                                                                        </option>
-                                                                        <option value="no_refiere">No refiere</option>
-                                                                        <option value="padre">Padre</option>
-                                                                        <option value="madre">Madre</option>
-                                                                        <option value="hijo">Hijo/a</option>
-                                                                        <option value="hermano">Hermano/a</option>
-                                                                        <option value="abuelo">Abuelo/a</option>
-                                                                        <option value="tio">Tío/a</option>
-                                                                        <option value="primo">Primo/a</option>
-                                                                        <option value="sobrino">Sobrino/a</option>
-                                                                        <option value="nieto">Nieto/a</option>
-                                                                        <option value="otro">Otro</option>
-                                                                    </select>
+                                                                    <label for="hospitalizaciones"
+                                                                        class="form-label">Hospitalizaciones recién
+                                                                        nacido:</label>
+                                                                    <textarea class="form-control" id="hospitalizaciones" name="hospitalizaciones" rows="3"
+                                                                        placeholder="Describa las causas de hospitalización"></textarea>
                                                                 </div>
                                                             </div>
-
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-12">
                                                                 <div class="form-group">
-                                                                    <label for="alcoholismo"
-                                                                        class="form-label">Alcoholismo:</label>
-                                                                    <select class="form-control" id="alcoholismo"
-                                                                        name="alcoholismo">
-                                                                        <option value="">Selecciona una opción
-                                                                        </option>
-                                                                        <option value="no_refiere">No refiere</option>
-                                                                        <option value="padre">Padre</option>
-                                                                        <option value="madre">Madre</option>
-                                                                        <option value="hijo">Hijo/a</option>
-                                                                        <option value="hermano">Hermano/a</option>
-                                                                        <option value="abuelo">Abuelo/a</option>
-                                                                        <option value="tio">Tío/a</option>
-                                                                        <option value="primo">Primo/a</option>
-                                                                        <option value="sobrino">Sobrino/a</option>
-                                                                        <option value="nieto">Nieto/a</option>
-                                                                        <option value="otro">Otro</option>
-                                                                    </select>
+                                                                    <label for="desarrollo_psicomotor"
+                                                                        class="form-label">Desarrollo
+                                                                        psicomotor:</label>
+                                                                    <textarea class="form-control" id="desarrollo_psicomotor" name="desarrollo_psicomotor" rows="5"
+                                                                        placeholder="Ejemplo: Control cefálico 2M, Marcha 10M"></textarea>
                                                                 </div>
                                                             </div>
+                                                        </div>
 
-                                                            <div class="col-md-3">
+                                                        <!-- Desarrollo Psicomotor -->
+                                                        <div class="box-header pb-1">
+                                                            <h5 class="text-uppercase">
+                                                                <i class="mdi mdi-baby me-1"></i> Desarrollo Psicomotor
+                                                            </h5>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="drogadiccion"
-                                                                        class="form-label">Drogadicción:</label>
-                                                                    <select class="form-control" id="drogadiccion"
-                                                                        name="drogadiccion">
-                                                                        <option value="">Selecciona una opción
-                                                                        </option>
-                                                                        <option value="no_refiere">No refiere</option>
-                                                                        <option value="padre">Padre</option>
-                                                                        <option value="madre">Madre</option>
-                                                                        <option value="hijo">Hijo/a</option>
-                                                                        <option value="hermano">Hermano/a</option>
-                                                                        <option value="abuelo">Abuelo/a</option>
-                                                                        <option value="tio">Tío/a</option>
-                                                                        <option value="primo">Primo/a</option>
-                                                                        <option value="sobrino">Sobrino/a</option>
-                                                                        <option value="nieto">Nieto/a</option>
-                                                                        <option value="otro">Otro</option>
-                                                                    </select>
+                                                                    <label for="control_cefalico"
+                                                                        class="form-label">Control
+                                                                        cefálico:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="control_cefalico" name="control_cefalico"
+                                                                        placeholder="Ejemplo: 2M">
                                                                 </div>
                                                             </div>
-
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="discapacidad_intelectual"
-                                                                        class="form-label">Discapacidad
-                                                                        Intelectual:</label>
-                                                                    <select class="form-control"
-                                                                        id="discapacidad_intelectual"
-                                                                        name="discapacidad_intelectual">
-                                                                        <option value="">Selecciona una opción
-                                                                        </option>
-                                                                        <option value="no_refiere">No refiere</option>
-                                                                        <option value="padre">Padre</option>
-                                                                        <option value="madre">Madre</option>
-                                                                        <option value="hijo">Hijo/a</option>
-                                                                        <option value="hermano">Hermano/a</option>
-                                                                        <option value="abuelo">Abuelo/a</option>
-                                                                        <option value="tio">Tío/a</option>
-                                                                        <option value="primo">Primo/a</option>
-                                                                        <option value="sobrino">Sobrino/a</option>
-                                                                        <option value="nieto">Nieto/a</option>
-                                                                        <option value="otro">Otro</option>
-                                                                    </select>
+                                                                    <label for="rolado"
+                                                                        class="form-label">Rolado:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="rolado" name="rolado"
+                                                                        placeholder="Ejemplo: 3M">
                                                                 </div>
                                                             </div>
-
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="patologicos"
-                                                                        class="form-label">Patológicos:</label>
-                                                                    <select class="form-control" id="patologicos"
-                                                                        name="patologicos">
-                                                                        <option value="">Selecciona una opción
-                                                                        </option>
-                                                                        <option value="no_refiere">No refiere</option>
-                                                                        <option value="padre">Padre</option>
-                                                                        <option value="madre">Madre</option>
-                                                                        <option value="hijo">Hijo/a</option>
-                                                                        <option value="hermano">Hermano/a</option>
-                                                                        <option value="abuelo">Abuelo/a</option>
-                                                                        <option value="tio">Tío/a</option>
-                                                                        <option value="primo">Primo/a</option>
-                                                                        <option value="sobrino">Sobrino/a</option>
-                                                                        <option value="nieto">Nieto/a</option>
-                                                                        <option value="otro">Otro</option>
-                                                                    </select>
+                                                                    <label for="sedente_solo" class="form-label">Sedente
+                                                                        solo:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="sedente_solo" name="sedente_solo"
+                                                                        placeholder="Ejemplo: 6M">
                                                                 </div>
                                                             </div>
-
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="otros"
-                                                                        class="form-label">Otros:</label>
-                                                                    <select class="form-control" id="otros"
-                                                                        name="otros">
-                                                                        <option value="">Selecciona una opción
-                                                                        </option>
-                                                                        <option value="no_refiere">No refiere</option>
-                                                                        <option value="padre">Padre</option>
-                                                                        <option value="madre">Madre</option>
-                                                                        <option value="hijo">Hijo/a</option>
-                                                                        <option value="hermano">Hermano/a</option>
-                                                                        <option value="abuelo">Abuelo/a</option>
-                                                                        <option value="tio">Tío/a</option>
-                                                                        <option value="primo">Primo/a</option>
-                                                                        <option value="sobrino">Sobrino/a</option>
-                                                                        <option value="nieto">Nieto/a</option>
-                                                                        <option value="otro">Otro</option>
-                                                                    </select>
+                                                                    <label for="gateo"
+                                                                        class="form-label">Gateo:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="gateo" name="gateo"
+                                                                        placeholder="Ejemplo: 6M">
                                                                 </div>
                                                             </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="bipedo" class="form-label">Bípedo
+                                                                        sin ayuda:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="bipedo" name="bipedo"
+                                                                        placeholder="Ejemplo: 9M">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="marcha"
+                                                                        class="form-label">Marcha:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="marcha" name="marcha"
+                                                                        placeholder="Ejemplo: 10M">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="lenguaje_verbal"
+                                                                        class="form-label">Lenguaje
+                                                                        verbal:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="lenguaje_verbal" name="lenguaje_verbal"
+                                                                        placeholder="Ejemplo: 1 año">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="lenguaje_verbal_fluido"
+                                                                        class="form-label">Lenguaje verbal
+                                                                        fluido:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="lenguaje_verbal_fluido"
+                                                                        name="lenguaje_verbal_fluido"
+                                                                        placeholder="Ejemplo: 6 años">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="box-header pb-1">
+                                                        <h5 class="text-uppercase"><i class="fa fa-users me-1"></i>
+                                                            Médicos Familiares</h5>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="depresion"
+                                                                    class="form-label">Depresión:</label>
+                                                                <select class="form-control" id="depresion"
+                                                                    name="depresion">
+                                                                    <option value="">Selecciona una opción
+                                                                    </option>
+                                                                    <option value="no_refiere">No refiere</option>
+                                                                    <option value="padre">Padre</option>
+                                                                    <option value="madre">Madre</option>
+                                                                    <option value="hijo">Hijo/a</option>
+                                                                    <option value="hermano">Hermano/a</option>
+                                                                    <option value="abuelo">Abuelo/a</option>
+                                                                    <option value="tio">Tío/a</option>
+                                                                    <option value="primo">Primo/a</option>
+                                                                    <option value="sobrino">Sobrino/a</option>
+                                                                    <option value="nieto">Nieto/a</option>
+                                                                    <option value="otro">Otro</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
 
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="ansiedad" class="form-label">Ansiedad:</label>
+                                                                <select class="form-control" id="ansiedad"
+                                                                    name="ansiedad">
+                                                                    <option value="">Selecciona una opción
+                                                                    </option>
+                                                                    <option value="no_refiere">No refiere</option>
+                                                                    <option value="padre">Padre</option>
+                                                                    <option value="madre">Madre</option>
+                                                                    <option value="hijo">Hijo/a</option>
+                                                                    <option value="hermano">Hermano/a</option>
+                                                                    <option value="abuelo">Abuelo/a</option>
+                                                                    <option value="tio">Tío/a</option>
+                                                                    <option value="primo">Primo/a</option>
+                                                                    <option value="sobrino">Sobrino/a</option>
+                                                                    <option value="nieto">Nieto/a</option>
+                                                                    <option value="otro">Otro</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="demencia" class="form-label">Demencia:</label>
+                                                                <select class="form-control" id="demencia"
+                                                                    name="demencia">
+                                                                    <option value="">Selecciona una opción
+                                                                    </option>
+                                                                    <option value="no_refiere">No refiere</option>
+                                                                    <option value="padre">Padre</option>
+                                                                    <option value="madre">Madre</option>
+                                                                    <option value="hijo">Hijo/a</option>
+                                                                    <option value="hermano">Hermano/a</option>
+                                                                    <option value="abuelo">Abuelo/a</option>
+                                                                    <option value="tio">Tío/a</option>
+                                                                    <option value="primo">Primo/a</option>
+                                                                    <option value="sobrino">Sobrino/a</option>
+                                                                    <option value="nieto">Nieto/a</option>
+                                                                    <option value="otro">Otro</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="alcoholismo"
+                                                                    class="form-label">Alcoholismo:</label>
+                                                                <select class="form-control" id="alcoholismo"
+                                                                    name="alcoholismo">
+                                                                    <option value="">Selecciona una opción
+                                                                    </option>
+                                                                    <option value="no_refiere">No refiere</option>
+                                                                    <option value="padre">Padre</option>
+                                                                    <option value="madre">Madre</option>
+                                                                    <option value="hijo">Hijo/a</option>
+                                                                    <option value="hermano">Hermano/a</option>
+                                                                    <option value="abuelo">Abuelo/a</option>
+                                                                    <option value="tio">Tío/a</option>
+                                                                    <option value="primo">Primo/a</option>
+                                                                    <option value="sobrino">Sobrino/a</option>
+                                                                    <option value="nieto">Nieto/a</option>
+                                                                    <option value="otro">Otro</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="drogadiccion"
+                                                                    class="form-label">Drogadicción:</label>
+                                                                <select class="form-control" id="drogadiccion"
+                                                                    name="drogadiccion">
+                                                                    <option value="">Selecciona una opción
+                                                                    </option>
+                                                                    <option value="no_refiere">No refiere</option>
+                                                                    <option value="padre">Padre</option>
+                                                                    <option value="madre">Madre</option>
+                                                                    <option value="hijo">Hijo/a</option>
+                                                                    <option value="hermano">Hermano/a</option>
+                                                                    <option value="abuelo">Abuelo/a</option>
+                                                                    <option value="tio">Tío/a</option>
+                                                                    <option value="primo">Primo/a</option>
+                                                                    <option value="sobrino">Sobrino/a</option>
+                                                                    <option value="nieto">Nieto/a</option>
+                                                                    <option value="otro">Otro</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="discapacidad_intelectual"
+                                                                    class="form-label">Discapacidad
+                                                                    Intelectual:</label>
+                                                                <select class="form-control" id="discapacidad_intelectual"
+                                                                    name="discapacidad_intelectual">
+                                                                    <option value="">Selecciona una opción
+                                                                    </option>
+                                                                    <option value="no_refiere">No refiere</option>
+                                                                    <option value="padre">Padre</option>
+                                                                    <option value="madre">Madre</option>
+                                                                    <option value="hijo">Hijo/a</option>
+                                                                    <option value="hermano">Hermano/a</option>
+                                                                    <option value="abuelo">Abuelo/a</option>
+                                                                    <option value="tio">Tío/a</option>
+                                                                    <option value="primo">Primo/a</option>
+                                                                    <option value="sobrino">Sobrino/a</option>
+                                                                    <option value="nieto">Nieto/a</option>
+                                                                    <option value="otro">Otro</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="patologicos"
+                                                                    class="form-label">Patológicos:</label>
+                                                                <select class="form-control" id="patologicos"
+                                                                    name="patologicos">
+                                                                    <option value="">Selecciona una opción
+                                                                    </option>
+                                                                    <option value="no_refiere">No refiere</option>
+                                                                    <option value="padre">Padre</option>
+                                                                    <option value="madre">Madre</option>
+                                                                    <option value="hijo">Hijo/a</option>
+                                                                    <option value="hermano">Hermano/a</option>
+                                                                    <option value="abuelo">Abuelo/a</option>
+                                                                    <option value="tio">Tío/a</option>
+                                                                    <option value="primo">Primo/a</option>
+                                                                    <option value="sobrino">Sobrino/a</option>
+                                                                    <option value="nieto">Nieto/a</option>
+                                                                    <option value="otro">Otro</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="otros" class="form-label">Otros:</label>
+                                                                <select class="form-control" id="otros"
+                                                                    name="otros">
+                                                                    <option value="">Selecciona una opción
+                                                                    </option>
+                                                                    <option value="no_refiere">No refiere</option>
+                                                                    <option value="padre">Padre</option>
+                                                                    <option value="madre">Madre</option>
+                                                                    <option value="hijo">Hijo/a</option>
+                                                                    <option value="hermano">Hermano/a</option>
+                                                                    <option value="abuelo">Abuelo/a</option>
+                                                                    <option value="tio">Tío/a</option>
+                                                                    <option value="primo">Primo/a</option>
+                                                                    <option value="sobrino">Sobrino/a</option>
+                                                                    <option value="nieto">Nieto/a</option>
+                                                                    <option value="otro">Otro</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <!-- Áreas de Ajuste -->
+                                                <div class="tab-pane" id="ajustes">
+                                                    <div class="box-header pb-1">
+                                                        <h5 class="text-uppercase"><i class="fa fa-book me-1"></i>
+                                                            Áreas de
+                                                            Ajuste
+                                                            y/o Desempeño</h5>
+                                                    </div>
+                                                    <div class="row">
+                                                        <!-- Historia Educativa -->
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="historia_educativa"
+                                                                    class="form-label">Historia
+                                                                    Educativa:</label>
+                                                                <textarea class="form-control" id="historia_educativa" name="historia_educativa" rows="3"
+                                                                    placeholder="Describa la historia educativa..."></textarea>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Historia Laboral -->
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="historia_laboral" class="form-label">
+                                                                    Historia
+                                                                    Laboral:</label>
+                                                                <textarea class="form-control" id="historia_laboral" name="historia_laboral" rows="3"
+                                                                    placeholder="Describa la historia laboral..."></textarea>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Historia Familiar -->
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="historia_familiar" class="form-label">
+                                                                    Historia
+                                                                    Familiar:</label>
+                                                                <textarea class="form-control" id="historia_familiar" name="historia_familiar" rows="3"
+                                                                    placeholder="Describa la historia familiar..."></textarea>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Historia Social -->
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="historia_social" class="form-label">
+                                                                    Historia
+                                                                    Social:</label>
+                                                                <textarea class="form-control" id="historia_social" name="historia_social" rows="3"
+                                                                    placeholder="Describa la historia social..."></textarea>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Historia Socio-Afectiva -->
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="historia_socio_afectiva" class="form-label">
+                                                                    Historia
+                                                                    Socio-Afectiva:</label>
+                                                                <textarea class="form-control" id="historia_socio_afectiva" name="historia_socio_afectiva" rows="3"
+                                                                    placeholder="Describa la historia socio afectiva..."></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="box-header pb-1">
+                                                        <h5 class="text-uppercase mt-4"><i
+                                                                class="fa fa-stethoscope me-1"></i>
+                                                            Interconsultas e Intervenciones</h5>
+                                                    </div>
+                                                    <div class="row">
+                                                        <!-- Intervención por Psiquiatría (Medicación) -->
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="intervencion_psiquiatria" class="form-label">
+                                                                    Intervención por
+                                                                    Psiquiatría :</label>
+                                                                <textarea class="form-control" id="intervencion_psiquiatria" name="intervencion_psiquiatria" rows="3"
+                                                                    placeholder="Describa la intervención por Psiquiatría..."></textarea>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Intervención por Neurología (Medicación) -->
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="intervencion_neurologia" class="form-label">
+                                                                    Intervención por Neurología:</label>
+                                                                <textarea class="form-control" id="intervencion_neurologia" name="intervencion_neurologia" rows="3"
+                                                                    placeholder="Describa la intervención por Neurología..."></textarea>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Intervención por Neuropsicología -->
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="intervencion_neuropsicologia"
+                                                                    class="form-label">
+                                                                    Intervención por Neuropsicología:</label>
+                                                                <textarea class="form-control" id="intervencion_neuropsicologia" name="intervencion_neuropsicologia" rows="3"
+                                                                    placeholder="Describa la intervención por
+                                                                Neuropsicología..."></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Examen Mental -->
+                                                <div class="tab-pane" id="examen">
+                                                    <div class="box-header pb-1">
+                                                        <h5 class="text-uppercase mt-4"><i class="fa fa-user-md me-1"></i>
+                                                            Examen
+                                                            Mental</h5>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <h5 class="text-uppercase mt-4"><i
+                                                                        class="fa fa-user me-1"></i> Apariencia
+                                                                    personal
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <label for="edad" class="form-label">Edad:</label>
+                                                            <select class="form-select" id="edad" name="edad"
+                                                                onchange="toggleOtro(this)">
+                                                                <option value="">Seleccione...</option>
+
+                                                            </select>
+                                                            <input type="text" class="form-control mt-2 d-none"
+                                                                id="edad_otro" name="edad_otro"
+                                                                placeholder="Especifique otro">
+                                                        </div>
+
+                                                        <!-- Desarrollo pondoestatural -->
+                                                        <div class="col-md-6">
+                                                            <label for="desarrollo" class="form-label">Desarrollo
+                                                                pondoestatural:</label>
+                                                            <select class="form-select" id="desarrollo" id="desarrollo"
+                                                                onchange="toggleOtro(this)">
+                                                                <option value="">Seleccione...</option>
+                                                            </select>
+                                                            <input type="text" class="form-control mt-2 d-none"
+                                                                id="desarrollo_otro" name="desarrollo_otro"
+                                                                placeholder="Especifique otro">
+                                                        </div>
+
+                                                        <!-- Aseo y arreglo -->
+                                                        <div class="col-md-6">
+                                                            <label for="aseo" class="form-label">Aseo y
+                                                                arreglo:</label>
+                                                            <select class="form-select" id="aseo" name="aseo"
+                                                                onchange="toggleOtro(this)">
+                                                                <option value="">Seleccione...</option>
+                                                            </select>
+                                                            <input type="text" class="form-control mt-2 d-none"
+                                                                id="aseo_otro" name="aseo_otro"
+                                                                placeholder="Especifique otro">
+                                                        </div>
+
+                                                        <!-- Salud somática -->
+                                                        <div class="col-md-6">
+                                                            <label for="salud" class="form-label">Salud
+                                                                somática:</label>
+                                                            <select class="form-select" id="salud" name="salud"
+                                                                onchange="toggleOtro(this)">
+                                                                <option value="">Seleccione...</option>
+                                                            </select>
+                                                            <input type="text" class="form-control mt-2 d-none"
+                                                                id="salud_otro" name="salud_otro"
+                                                                placeholder="Especifique otro">
+                                                        </div>
+
+                                                        <!-- Facies -->
+                                                        <div class="col-md-6">
+                                                            <label for="facies" class="form-label">Facies:</label>
+                                                            <select class="form-select" id="facies" name="facies"
+                                                                onchange="toggleOtro(this)">
+                                                                <option value="">Seleccione...</option>
+                                                            </select>
+                                                            <input type="text" class="form-control mt-2 d-none"
+                                                                id="facies_otro" name="facies_otro"
+                                                                placeholder="Especifique otro">
+                                                        </div>
+
+                                                        <!-- Biotipo -->
+                                                        <div class="col-md-6">
+                                                            <label for="biotipo" class="form-label">Biotipo:</label>
+                                                            <select class="form-select" id="biotipo" name="biotipo"
+                                                                onchange="toggleOtro(this)">
+                                                                <option value="">Seleccione...</option>
+                                                            </select>
+                                                            <input type="text" class="form-control mt-2 d-none"
+                                                                id="biotipo_otro" name="biotipo_otro"
+                                                                placeholder="Especifique otro">
+                                                        </div>
+
+                                                        <!-- Actitud -->
+                                                        <div class="col-md-6">
+                                                            <label for="actitud" class="form-label">Actitud:</label>
+                                                            <select class="form-select" id="actitud" name="actitud"
+                                                                onchange="toggleOtro(this)">
+                                                                <option value="">Seleccione...</option>
+                                                            </select>
+                                                            <input type="text" class="form-control mt-2 d-none"
+                                                                id="actitud_otro" name="actitud_otro"
+                                                                placeholder="Especifique otro">
+                                                        </div>
+                                                    </div>
+                                                    <div class="box-header pb-1">
+                                                        <h5 class="text-uppercase mt-4"><i class="fa fa-cogs me-1"></i>
+                                                            Funciones
+                                                            Cognitivas</h5>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <label for="consciencia"
+                                                                class="form-label">Consciencia:</label>
+                                                            <select class="form-select" id="consciencia"
+                                                                name="consciencia" onchange="toggleOtro(this)">
+                                                                <option value="">Seleccione...</option>
+                                                            </select>
+                                                            <input type="text" class="form-control mt-2 d-none"
+                                                                id="consciencia_otro" name="consciencia_otro"
+                                                                placeholder="Especifique otro">
+                                                        </div>
+
+                                                        <!-- Orientación -->
+                                                        <div class="col-md-6">
+                                                            <label for="orientacion"
+                                                                class="form-label">Orientación:</label>
+                                                            <select class="form-select" id="orientacion"
+                                                                name="orientacion" onchange="toggleOtro(this)">
+                                                                <option value="">Seleccione...</option>
+                                                            </select>
+                                                            <input type="text" class="form-control mt-2 d-none"
+                                                                id="orientacion_otro" name="orientacion_otro"
+                                                                placeholder="Especifique otro">
+                                                        </div>
+
+                                                        <!-- Memoria -->
+                                                        <div class="col-md-6">
+                                                            <label for="memoria" class="form-label">Memoria:</label>
+                                                            <select class="form-select" id="memoria" name="memoria"
+                                                                onchange="toggleOtro(this)">
+                                                                <option value="">Seleccione...</option>
+                                                            </select>
+                                                            <input type="text" class="form-control mt-2 d-none"
+                                                                id="memoria_otro" name="memoria_otro"
+                                                                placeholder="Especifique otro">
+                                                        </div>
+
+                                                        <!-- Atención -->
+                                                        <div class="col-md-6">
+                                                            <label for="atencion" class="form-label">Atención:</label>
+                                                            <select class="form-select" id="atencion" name="atencion"
+                                                                onchange="toggleOtro(this)">
+                                                                <option value="">Seleccione...</option>
+                                                            </select>
+                                                            <input type="text" class="form-control mt-2 d-none"
+                                                                id="atencion_otro" name="atencion_otro"
+                                                                placeholder="Especifique otro">
+                                                        </div>
+
+                                                        <!-- Concentración -->
+                                                        <div class="col-md-6">
+                                                            <label for="concentracion"
+                                                                class="form-label">Concentración:</label>
+                                                            <select class="form-select" id="concentracion"
+                                                                name="concentracion" onchange="toggleOtro(this)">
+                                                                <option value="">Seleccione...</option>
+                                                            </select>
+                                                            <input type="text" class="form-control mt-2 d-none"
+                                                                id="concentracion_otro" name="concentracion_otro"
+                                                                placeholder="Especifique otro">
+                                                        </div>
+
+                                                        <!-- Lenguaje -->
+                                                        <div class="col-md-6">
+                                                            <label for="lenguaje" class="form-label">Lenguaje:</label>
+                                                            <select class="form-select" id="lenguaje" name="lenguaje"
+                                                                onchange="toggleOtro(this)">
+                                                                <option value="">Seleccione...</option>
+                                                            </select>
+                                                            <input type="text" class="form-control mt-2 d-none"
+                                                                id="lenguaje_otro" name="lenguaje_otro"
+                                                                placeholder="Especifique otro">
+                                                        </div>
+
+                                                        <!-- Pensamiento -->
+                                                        <div class="col-md-6">
+                                                            <label for="pensamiento"
+                                                                class="form-label">Pensamiento:</label>
+                                                            <select class="form-select" id="pensamiento"
+                                                                name="pensamiento" onchange="toggleOtro(this)">
+                                                                <option value="">Seleccione...</option>
+                                                            </select>
+                                                            <input type="text" class="form-control mt-2 d-none"
+                                                                id="pensamiento_otro" name="pensamiento_otro"
+                                                                placeholder="Especifique otro">
+                                                        </div>
+
+                                                        <!-- Afecto -->
+                                                        <div class="col-md-6">
+                                                            <label for="afecto" class="form-label">Afecto:</label>
+                                                            <select class="form-select" id="afecto" name="afecto"
+                                                                onchange="toggleOtro(this)">
+                                                                <option value="">Seleccione...</option>
+                                                            </select>
+                                                            <input type="text" class="form-control mt-2 d-none"
+                                                                id="afecto_otro" name="afecto_otro"
+                                                                placeholder="Especifique otro">
+                                                        </div>
+
+                                                        <!-- Sensopercepción -->
+                                                        <div class="col-md-6">
+                                                            <label for="sensopercepcion"
+                                                                class="form-label">Sensopercepción:</label>
+                                                            <select class="form-select" id="sensopercepcion"
+                                                                name="sensopercepcion" onchange="toggleOtro(this)">
+                                                                <option value="">Seleccione...</option>
+                                                            </select>
+                                                            <input type="text" class="form-control mt-2 d-none"
+                                                                id="sensopercepcion_otro" name="sensopercepcion_otro"
+                                                                placeholder="Especifique otro">
+                                                        </div>
+
+                                                        <!-- Psicomotricidad -->
+                                                        <div class="col-md-6">
+                                                            <label for="psicomotricidad"
+                                                                class="form-label">Psicomotricidad:</label>
+                                                            <select class="form-select" id="psicomotricidad"
+                                                                name="psicomotricidad" onchange="toggleOtro(this)">
+                                                                <option value="">Seleccione...</option>
+                                                            </select>
+                                                            <input type="text" class="form-control mt-2 d-none"
+                                                                id="psicomotricidad_otro" name="psicomotricidad_otro"
+                                                                placeholder="Especifique otro">
+                                                        </div>
+
+                                                        <!-- Juicio -->
+                                                        <div class="col-md-6">
+                                                            <label for="juicio" class="form-label">Juicio:</label>
+                                                            <select class="form-select" id="juicio" name="juicio"
+                                                                onchange="toggleOtro(this)">
+                                                                <option value="">Seleccione...</option>
+                                                            </select>
+                                                            <input type="text" class="form-control mt-2 d-none"
+                                                                id="juicio_otro" name="juicio_otro"
+                                                                placeholder="Especifique otro">
+                                                        </div>
+
+                                                        <!-- Inteligencia -->
+                                                        <div class="col-md-6">
+                                                            <label for="inteligencia"
+                                                                class="form-label">Inteligencia:</label>
+                                                            <select class="form-select" id="inteligencia"
+                                                                name="inteligencia" onchange="toggleOtro(this)">
+                                                                <option value="">Seleccione...</option>
+                                                            </select>
+                                                            <input type="text" class="form-control mt-2 d-none"
+                                                                id="inteligencia_otro" name="inteligencia_otro"
+                                                                placeholder="Especifique otro">
+                                                        </div>
+
+                                                        <!-- Conciencia de enfermedad -->
+                                                        <div class="col-md-6">
+                                                            <label for="conciencia_enfermedad"
+                                                                class="form-label">Conciencia
+                                                                de enfermedad:</label>
+                                                            <select class="form-select" id="conciencia_enfermedad"
+                                                                name="conciencia_enfermedad"
+                                                                onchange="toggleOtro(this)">
+                                                                <option value="">Seleccione...</option>
+                                                            </select>
+                                                            <input type="text" class="form-control mt-2 d-none"
+                                                                id="conciencia_enfermedad_otro"
+                                                                name="conciencia_enfermedad_otro"
+                                                                placeholder="Especifique otro">
+                                                        </div>
+
+                                                        <!-- Sufrimiento psicológico -->
+                                                        <div class="col-md-6">
+                                                            <label for="sufrimiento_psicologico"
+                                                                class="form-label">Sufrimiento psicológico:</label>
+                                                            <select class="form-select" id="sufrimiento_psicologico"
+                                                                name="sufrimiento_psicologico"
+                                                                onchange="toggleOtro(this)">
+                                                                <option value="">Seleccione...</option>
+                                                            </select>
+                                                            <input type="text" class="form-control mt-2 d-none"
+                                                                id="sufrimiento_psicologico_otro"
+                                                                name="sufrimiento_psicologico_otro"
+                                                                placeholder="Especifique otro">
+                                                        </div>
+
+                                                        <!-- Motivación al tratamiento -->
+                                                        <div class="col-md-6">
+                                                            <label for="motivacion_tratamiento"
+                                                                class="form-label">Motivación al tratamiento:</label>
+                                                            <select class="form-select" id="motivacion_tratamiento"
+                                                                name="motivacion_tratamiento"
+                                                                onchange="toggleOtro(this)">
+                                                                <option value="">Seleccione...</option>
+                                                            </select>
+                                                            <input type="text" class="form-control mt-2 d-none"
+                                                                id="motivacion_tratamiento_otro"
+                                                                name="motivacion_tratamiento_otro"
+                                                                placeholder="Especifique otro">
+                                                        </div>
+                                                    </div>
+                                                    <div class="box-header pb-1">
+                                                        <h5 class="text-uppercase mt-4"><i
+                                                                class="fa fa-heartbeat me-1"></i>
+                                                            Funciones Somáticas</h5>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="ciclos_sueno" class="form-label">Ciclos
+                                                                    del
+                                                                    Sueño:</label>
+                                                                <textarea class="form-control" id="ciclos_sueno" name="ciclos_sueno" rows="3"></textarea>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Apetito -->
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="apetito"
+                                                                    class="form-label">Apetito:</label>
+                                                                <textarea class="form-control" id="apetito" name="apetito" rows="3"></textarea>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Actividades de Autocuidado -->
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="autocuidado" class="form-label">Actividades
+                                                                    de
+                                                                    Autocuidado:</label>
+                                                                <textarea class="form-control" id="autocuidado" name="autocuidado" rows="3"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Impresion Diagnostica -->
+                                                <div class="tab-pane" id="impresion">
+                                                    <!-- 1. Impresión Diagnóstica -->
+                                                    <div class="box-header pb-1">
+                                                        <h5 class="text-uppercase"><i
+                                                                class="fa fa-stethoscope me-1"></i>
+                                                            Impresión Diagnóstica</h5>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="impresion_diagnostica"
+                                                                    class="form-label">Impresión Diagnóstica (CIE 10 –
+                                                                    DSM-V):</label>
+                                                                <select class="form-control select2"
+                                                                    id="codImpresionDiagnostico"
+                                                                    name="codImpresionDiagnostico" aria-invalid="false">
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="impresion_diagnostica"
+                                                                    class="form-label">Establecido por primera
+                                                                    vez.</label>
+                                                                <select class="form-control" id="establecidoPrimeraVez"
+                                                                    name="establecidoPrimeraVez" aria-invalid="false">
+                                                                    <option value="">Seleccione...</option>
+                                                                    <option value="Si">Si</option>
+                                                                    <option value="No">No</option>
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                     </div>
 
-                                                    <!-- Áreas de Ajuste -->
-                                                    <div class="tab-pane" id="ajustes">
-                                                        <div class="box-header pb-1">
-                                                            <h5 class="text-uppercase"><i class="fa fa-book me-1"></i>
-                                                                Áreas de
-                                                                Ajuste
-                                                                y/o Desempeño</h5>
-                                                        </div>
-                                                        <div class="row">
-                                                            <!-- Historia Educativa -->
-                                                            <div class="col-md-12">
-                                                                <div class="form-group">
-                                                                    <label for="historia_educativa"
-                                                                        class="form-label">Historia
-                                                                        Educativa:</label>
-                                                                    <textarea class="form-control" id="historia_educativa" name="historia_educativa" rows="3"
-                                                                        placeholder="Describa la historia educativa..."></textarea>
-                                                                </div>
-                                                            </div>
+                                                </div>
 
-                                                            <!-- Historia Laboral -->
-                                                            <div class="col-md-12">
-                                                                <div class="form-group">
-                                                                    <label for="historia_laboral" class="form-label">
-                                                                        Historia
-                                                                        Laboral:</label>
-                                                                    <textarea class="form-control" id="historia_laboral" name="historia_laboral" rows="3"
-                                                                        placeholder="Describa la historia laboral..."></textarea>
-                                                                </div>
-                                                            </div>
-
-                                                            <!-- Historia Familiar -->
-                                                            <div class="col-md-12">
-                                                                <div class="form-group">
-                                                                    <label for="historia_familiar" class="form-label">
-                                                                        Historia
-                                                                        Familiar:</label>
-                                                                    <textarea class="form-control" id="historia_familiar" name="historia_familiar" rows="3"
-                                                                        placeholder="Describa la historia familiar..."></textarea>
-                                                                </div>
-                                                            </div>
-
-                                                            <!-- Historia Social -->
-                                                            <div class="col-md-12">
-                                                                <div class="form-group">
-                                                                    <label for="historia_social" class="form-label">
-                                                                        Historia
-                                                                        Social:</label>
-                                                                    <textarea class="form-control" id="historia_social" name="historia_social" rows="3"
-                                                                        placeholder="Describa la historia social..."></textarea>
-                                                                </div>
-                                                            </div>
-
-                                                            <!-- Historia Socio-Afectiva -->
-                                                            <div class="col-md-12">
-                                                                <div class="form-group">
-                                                                    <label for="historia_socio_afectiva"
-                                                                        class="form-label">
-                                                                        Historia
-                                                                        Socio-Afectiva:</label>
-                                                                    <textarea class="form-control" id="historia_socio_afectiva" name="historia_socio_afectiva" rows="3"
-                                                                        placeholder="Describa la historia socio afectiva..."></textarea>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                <!-- Plan de intervención -->
+                                                <div class="tab-pane" id="plan">
+                                                    <div class="tab-pane" id="diagnostico-plan">
+                                                        <!-- 2. Plan de Intervención -->
                                                         <div class="box-header pb-1">
                                                             <h5 class="text-uppercase mt-4"><i
-                                                                    class="fa fa-stethoscope me-1"></i>
-                                                                Interconsultas e Intervenciones</h5>
+                                                                    class="fa fa-tasks me-1"></i>
+                                                                Plan
+                                                                de Intervención</h5>
                                                         </div>
+
                                                         <div class="row">
-                                                            <!-- Intervención por Psiquiatría (Medicación) -->
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <div class="form-group">
-                                                                    <label for="intervencion_psiquiatria"
-                                                                        class="form-label">
-                                                                        Intervención por
-                                                                        Psiquiatría :</label>
-                                                                    <textarea class="form-control" id="intervencion_psiquiatria" name="intervencion_psiquiatria" rows="3"
-                                                                        placeholder="Describa la intervención por Psiquiatría..."></textarea>
-                                                                </div>
-                                                            </div>
+                                                                    <label for="plan_intervencion"
+                                                                        class="form-label">Plan
+                                                                        de intervención:</label>
+                                                                    <select class="form-control select2"
+                                                                        id="plan_intervencion" name="plan_intervencion"
+                                                                        data-placeholder="Seleccione el plan de intervención"
+                                                                        style="width: 100%;">
 
-                                                            <!-- Intervención por Neurología (Medicación) -->
-                                                            <div class="col-md-4">
-                                                                <div class="form-group">
-                                                                    <label for="intervencion_neurologia"
-                                                                        class="form-label">
-                                                                        Intervención por Neurología:</label>
-                                                                    <textarea class="form-control" id="intervencion_neurologia" name="intervencion_neurologia" rows="3"
-                                                                        placeholder="Describa la intervención por Neurología..."></textarea>
-                                                                </div>
-                                                            </div>
-
-                                                            <!-- Intervención por Neuropsicología -->
-                                                            <div class="col-md-4">
-                                                                <div class="form-group">
-                                                                    <label for="intervencion_neuropsicologia"
-                                                                        class="form-label">
-                                                                        Intervención por Neuropsicología:</label>
-                                                                    <textarea class="form-control" id="intervencion_neuropsicologia" name="intervencion_neuropsicologia" rows="3"
-                                                                        placeholder="Describa la intervención por
-                                                                Neuropsicología..."></textarea>
+                                                                    </select>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
 
-                                                    <!-- Examen Mental -->
-                                                    <div class="tab-pane" id="examen">
+                                                        <!-- Objetivo General -->
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label for="objetivo_general"
+                                                                        class="form-label">Objetivo
+                                                                        General:</label>
+                                                                    <textarea class="form-control" id="objetivo_general" name="objetivo_general" rows="3"
+                                                                        placeholder="Ingrese el objetivo general..."></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Objetivos Específicos -->
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label for="objetivos_especificos"
+                                                                        class="form-label">Objetivos
+                                                                        Específicos:</label>
+                                                                    <textarea class="form-control" id="objetivos_especificos" name="objetivos_especificos" rows="3"
+                                                                        placeholder="Ingrese los objetivos específicos..."></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- 3. Sugerencia para Interconsultas -->
                                                         <div class="box-header pb-1">
                                                             <h5 class="text-uppercase mt-4"><i
                                                                     class="fa fa-user-md me-1"></i>
-                                                                Examen
-                                                                Mental</h5>
+                                                                Sugerencia para Interconsultas</h5>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <div class="form-group">
-                                                                    <h5 class="text-uppercase mt-4"><i
-                                                                            class="fa fa-user me-1"></i> Apariencia
-                                                                        personal
-                                                                    </h5>
+                                                                    <label for="sugerencia_interconsultas"
+                                                                        class="form-label">Sugerencia para
+                                                                        Interconsultas:</label>
+                                                                    <textarea class="form-control" id="sugerencia_interconsultas" name="sugerencia_interconsultas" rows="3"
+                                                                        placeholder="Ingrese las sugerencias para interconsultas..."></textarea>
                                                                 </div>
                                                             </div>
-
-                                                            <div class="col-md-6">
-                                                                <label for="edad" class="form-label">Edad:</label>
-                                                                <select class="form-select" id="edad" name="edad"
-                                                                    onchange="toggleOtro(this)">
-                                                                    <option value="">Seleccione...</option>
-
-                                                                </select>
-                                                                <input type="text" class="form-control mt-2 d-none"
-                                                                    id="edad_otro" name="edad_otro"
-                                                                    placeholder="Especifique otro">
-                                                            </div>
-
-                                                            <!-- Desarrollo pondoestatural -->
-                                                            <div class="col-md-6">
-                                                                <label for="desarrollo" class="form-label">Desarrollo
-                                                                    pondoestatural:</label>
-                                                                <select class="form-select" id="desarrollo"
-                                                                    id="desarrollo" onchange="toggleOtro(this)">
-                                                                    <option value="">Seleccione...</option>
-                                                                </select>
-                                                                <input type="text" class="form-control mt-2 d-none"
-                                                                    id="desarrollo_otro" name="desarrollo_otro"
-                                                                    placeholder="Especifique otro">
-                                                            </div>
-
-                                                            <!-- Aseo y arreglo -->
-                                                            <div class="col-md-6">
-                                                                <label for="aseo" class="form-label">Aseo y
-                                                                    arreglo:</label>
-                                                                <select class="form-select" id="aseo" name="aseo"
-                                                                    onchange="toggleOtro(this)">
-                                                                    <option value="">Seleccione...</option>
-                                                                </select>
-                                                                <input type="text" class="form-control mt-2 d-none"
-                                                                    id="aseo_otro" name="aseo_otro"
-                                                                    placeholder="Especifique otro">
-                                                            </div>
-
-                                                            <!-- Salud somática -->
-                                                            <div class="col-md-6">
-                                                                <label for="salud" class="form-label">Salud
-                                                                    somática:</label>
-                                                                <select class="form-select" id="salud" name="salud"
-                                                                    onchange="toggleOtro(this)">
-                                                                    <option value="">Seleccione...</option>
-                                                                </select>
-                                                                <input type="text" class="form-control mt-2 d-none"
-                                                                    id="salud_otro" name="salud_otro"
-                                                                    placeholder="Especifique otro">
-                                                            </div>
-
-                                                            <!-- Facies -->
-                                                            <div class="col-md-6">
-                                                                <label for="facies" class="form-label">Facies:</label>
-                                                                <select class="form-select" id="facies" name="facies"
-                                                                    onchange="toggleOtro(this)">
-                                                                    <option value="">Seleccione...</option>
-                                                                </select>
-                                                                <input type="text" class="form-control mt-2 d-none"
-                                                                    id="facies_otro" name="facies_otro"
-                                                                    placeholder="Especifique otro">
-                                                            </div>
-
-                                                            <!-- Biotipo -->
-                                                            <div class="col-md-6">
-                                                                <label for="biotipo" class="form-label">Biotipo:</label>
-                                                                <select class="form-select" id="biotipo" name="biotipo"
-                                                                    onchange="toggleOtro(this)">
-                                                                    <option value="">Seleccione...</option>
-                                                                </select>
-                                                                <input type="text" class="form-control mt-2 d-none"
-                                                                    id="biotipo_otro" name="biotipo_otro"
-                                                                    placeholder="Especifique otro">
-                                                            </div>
-
-                                                            <!-- Actitud -->
-                                                            <div class="col-md-6">
-                                                                <label for="actitud" class="form-label">Actitud:</label>
-                                                                <select class="form-select" id="actitud" name="actitud"
-                                                                    onchange="toggleOtro(this)">
-                                                                    <option value="">Seleccione...</option>
-                                                                </select>
-                                                                <input type="text" class="form-control mt-2 d-none"
-                                                                    id="actitud_otro" name="actitud_otro"
-                                                                    placeholder="Especifique otro">
-                                                            </div>
                                                         </div>
+
+                                                        <!-- 4. Observaciones y Recomendaciones -->
                                                         <div class="box-header pb-1">
                                                             <h5 class="text-uppercase mt-4"><i
-                                                                    class="fa fa-cogs me-1"></i>
-                                                                Funciones
-                                                                Cognitivas</h5>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <label for="consciencia"
-                                                                    class="form-label">Consciencia:</label>
-                                                                <select class="form-select" id="consciencia"
-                                                                    name="consciencia" onchange="toggleOtro(this)">
-                                                                    <option value="">Seleccione...</option>
-                                                                </select>
-                                                                <input type="text" class="form-control mt-2 d-none"
-                                                                    id="consciencia_otro" name="consciencia_otro"
-                                                                    placeholder="Especifique otro">
-                                                            </div>
-
-                                                            <!-- Orientación -->
-                                                            <div class="col-md-6">
-                                                                <label for="orientacion"
-                                                                    class="form-label">Orientación:</label>
-                                                                <select class="form-select" id="orientacion"
-                                                                    name="orientacion" onchange="toggleOtro(this)">
-                                                                    <option value="">Seleccione...</option>
-                                                                </select>
-                                                                <input type="text" class="form-control mt-2 d-none"
-                                                                    id="orientacion_otro" name="orientacion_otro"
-                                                                    placeholder="Especifique otro">
-                                                            </div>
-
-                                                            <!-- Memoria -->
-                                                            <div class="col-md-6">
-                                                                <label for="memoria" class="form-label">Memoria:</label>
-                                                                <select class="form-select" id="memoria" name="memoria"
-                                                                    onchange="toggleOtro(this)">
-                                                                    <option value="">Seleccione...</option>
-                                                                </select>
-                                                                <input type="text" class="form-control mt-2 d-none"
-                                                                    id="memoria_otro" name="memoria_otro"
-                                                                    placeholder="Especifique otro">
-                                                            </div>
-
-                                                            <!-- Atención -->
-                                                            <div class="col-md-6">
-                                                                <label for="atencion" class="form-label">Atención:</label>
-                                                                <select class="form-select" id="atencion"
-                                                                    name="atencion" onchange="toggleOtro(this)">
-                                                                    <option value="">Seleccione...</option>
-                                                                </select>
-                                                                <input type="text" class="form-control mt-2 d-none"
-                                                                    id="atencion_otro" name="atencion_otro"
-                                                                    placeholder="Especifique otro">
-                                                            </div>
-
-                                                            <!-- Concentración -->
-                                                            <div class="col-md-6">
-                                                                <label for="concentracion"
-                                                                    class="form-label">Concentración:</label>
-                                                                <select class="form-select" id="concentracion"
-                                                                    name="concentracion" onchange="toggleOtro(this)">
-                                                                    <option value="">Seleccione...</option>
-                                                                </select>
-                                                                <input type="text" class="form-control mt-2 d-none"
-                                                                    id="concentracion_otro" name="concentracion_otro"
-                                                                    placeholder="Especifique otro">
-                                                            </div>
-
-                                                            <!-- Lenguaje -->
-                                                            <div class="col-md-6">
-                                                                <label for="lenguaje" class="form-label">Lenguaje:</label>
-                                                                <select class="form-select" id="lenguaje"
-                                                                    name="lenguaje" onchange="toggleOtro(this)">
-                                                                    <option value="">Seleccione...</option>
-                                                                </select>
-                                                                <input type="text" class="form-control mt-2 d-none"
-                                                                    id="lenguaje_otro" name="lenguaje_otro"
-                                                                    placeholder="Especifique otro">
-                                                            </div>
-
-                                                            <!-- Pensamiento -->
-                                                            <div class="col-md-6">
-                                                                <label for="pensamiento"
-                                                                    class="form-label">Pensamiento:</label>
-                                                                <select class="form-select" id="pensamiento"
-                                                                    name="pensamiento" onchange="toggleOtro(this)">
-                                                                    <option value="">Seleccione...</option>
-                                                                </select>
-                                                                <input type="text" class="form-control mt-2 d-none"
-                                                                    id="pensamiento_otro" name="pensamiento_otro"
-                                                                    placeholder="Especifique otro">
-                                                            </div>
-
-                                                            <!-- Afecto -->
-                                                            <div class="col-md-6">
-                                                                <label for="afecto" class="form-label">Afecto:</label>
-                                                                <select class="form-select" id="afecto"
-                                                                    name="afecto" onchange="toggleOtro(this)">
-                                                                    <option value="">Seleccione...</option>
-                                                                </select>
-                                                                <input type="text" class="form-control mt-2 d-none"
-                                                                    id="afecto_otro" name="afecto_otro"
-                                                                    placeholder="Especifique otro">
-                                                            </div>
-
-                                                            <!-- Sensopercepción -->
-                                                            <div class="col-md-6">
-                                                                <label for="sensopercepcion"
-                                                                    class="form-label">Sensopercepción:</label>
-                                                                <select class="form-select" id="sensopercepcion"
-                                                                    name="sensopercepcion" onchange="toggleOtro(this)">
-                                                                    <option value="">Seleccione...</option>
-                                                                </select>
-                                                                <input type="text" class="form-control mt-2 d-none"
-                                                                    id="sensopercepcion_otro"
-                                                                    name="sensopercepcion_otro"
-                                                                    placeholder="Especifique otro">
-                                                            </div>
-
-                                                            <!-- Psicomotricidad -->
-                                                            <div class="col-md-6">
-                                                                <label for="psicomotricidad"
-                                                                    class="form-label">Psicomotricidad:</label>
-                                                                <select class="form-select" id="psicomotricidad"
-                                                                    name="psicomotricidad" onchange="toggleOtro(this)">
-                                                                    <option value="">Seleccione...</option>
-                                                                </select>
-                                                                <input type="text" class="form-control mt-2 d-none"
-                                                                    id="psicomotricidad_otro"
-                                                                    name="psicomotricidad_otro"
-                                                                    placeholder="Especifique otro">
-                                                            </div>
-
-                                                            <!-- Juicio -->
-                                                            <div class="col-md-6">
-                                                                <label for="juicio" class="form-label">Juicio:</label>
-                                                                <select class="form-select" id="juicio"
-                                                                    name="juicio" onchange="toggleOtro(this)">
-                                                                    <option value="">Seleccione...</option>
-                                                                </select>
-                                                                <input type="text" class="form-control mt-2 d-none"
-                                                                    id="juicio_otro" name="juicio_otro"
-                                                                    placeholder="Especifique otro">
-                                                            </div>
-
-                                                            <!-- Inteligencia -->
-                                                            <div class="col-md-6">
-                                                                <label for="inteligencia"
-                                                                    class="form-label">Inteligencia:</label>
-                                                                <select class="form-select" id="inteligencia"
-                                                                    name="inteligencia" onchange="toggleOtro(this)">
-                                                                    <option value="">Seleccione...</option>
-                                                                </select>
-                                                                <input type="text" class="form-control mt-2 d-none"
-                                                                    id="inteligencia_otro" name="inteligencia_otro"
-                                                                    placeholder="Especifique otro">
-                                                            </div>
-
-                                                            <!-- Conciencia de enfermedad -->
-                                                            <div class="col-md-6">
-                                                                <label for="conciencia_enfermedad"
-                                                                    class="form-label">Conciencia
-                                                                    de enfermedad:</label>
-                                                                <select class="form-select" id="conciencia_enfermedad"
-                                                                    name="conciencia_enfermedad"
-                                                                    onchange="toggleOtro(this)">
-                                                                    <option value="">Seleccione...</option>
-                                                                </select>
-                                                                <input type="text" class="form-control mt-2 d-none"
-                                                                    id="conciencia_enfermedad_otro"
-                                                                    name="conciencia_enfermedad_otro"
-                                                                    placeholder="Especifique otro">
-                                                            </div>
-
-                                                            <!-- Sufrimiento psicológico -->
-                                                            <div class="col-md-6">
-                                                                <label for="sufrimiento_psicologico"
-                                                                    class="form-label">Sufrimiento psicológico:</label>
-                                                                <select class="form-select" id="sufrimiento_psicologico"
-                                                                    name="sufrimiento_psicologico"
-                                                                    onchange="toggleOtro(this)">
-                                                                    <option value="">Seleccione...</option>
-                                                                </select>
-                                                                <input type="text" class="form-control mt-2 d-none"
-                                                                    id="sufrimiento_psicologico_otro"
-                                                                    name="sufrimiento_psicologico_otro"
-                                                                    placeholder="Especifique otro">
-                                                            </div>
-
-                                                            <!-- Motivación al tratamiento -->
-                                                            <div class="col-md-6">
-                                                                <label for="motivacion_tratamiento"
-                                                                    class="form-label">Motivación al tratamiento:</label>
-                                                                <select class="form-select" id="motivacion_tratamiento"
-                                                                    name="motivacion_tratamiento"
-                                                                    onchange="toggleOtro(this)">
-                                                                    <option value="">Seleccione...</option>
-                                                                </select>
-                                                                <input type="text" class="form-control mt-2 d-none"
-                                                                    id="motivacion_tratamiento_otro"
-                                                                    name="motivacion_tratamiento_otro"
-                                                                    placeholder="Especifique otro">
-                                                            </div>
-                                                        </div>
-                                                        <div class="box-header pb-1">
-                                                            <h5 class="text-uppercase mt-4"><i
-                                                                    class="fa fa-heartbeat me-1"></i>
-                                                                Funciones Somáticas</h5>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-4">
-                                                                <div class="form-group">
-                                                                    <label for="ciclos_sueno" class="form-label">Ciclos
-                                                                        del
-                                                                        Sueño:</label>
-                                                                    <textarea class="form-control" id="ciclos_sueno" name="ciclos_sueno" rows="3"></textarea>
-                                                                </div>
-                                                            </div>
-
-                                                            <!-- Apetito -->
-                                                            <div class="col-md-4">
-                                                                <div class="form-group">
-                                                                    <label for="apetito"
-                                                                        class="form-label">Apetito:</label>
-                                                                    <textarea class="form-control" id="apetito" name="apetito" rows="3"></textarea>
-                                                                </div>
-                                                            </div>
-
-                                                            <!-- Actividades de Autocuidado -->
-                                                            <div class="col-md-4">
-                                                                <div class="form-group">
-                                                                    <label for="autocuidado"
-                                                                        class="form-label">Actividades
-                                                                        de
-                                                                        Autocuidado:</label>
-                                                                    <textarea class="form-control" id="autocuidado" name="autocuidado" rows="3"></textarea>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Impresion Diagnostica -->
-                                                    <div class="tab-pane" id="impresion">
-                                                        <!-- 1. Impresión Diagnóstica -->
-                                                        <div class="box-header pb-1">
-                                                            <h5 class="text-uppercase"><i
-                                                                    class="fa fa-stethoscope me-1"></i>
-                                                                Impresión Diagnóstica</h5>
+                                                                    class="fa fa-comments me-1"></i>
+                                                                Observaciones y Recomendaciones</h5>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <div class="form-group">
-                                                                    <label for="impresion_diagnostica"
-                                                                        class="form-label">Impresión Diagnóstica (CIE 10 –
-                                                                        DSM-V):</label>
-                                                                    <select class="form-control select2"
-                                                                        id="codImpresionDiagnostico"
-                                                                        name="codImpresionDiagnostico"
-                                                                        aria-invalid="false">
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <div class="form-group">
-                                                                    <label for="impresion_diagnostica"
-                                                                        class="form-label">Establecido por primera
-                                                                        vez.</label>
-                                                                    <select class="form-control"
-                                                                        id="establecidoPrimeraVez"
-                                                                        name="establecidoPrimeraVez"
-                                                                        aria-invalid="false">
-                                                                        <option value="">Seleccione...</option>
-                                                                        <option value="Si">Si</option>
-                                                                        <option value="No">No</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-
-                                                    <!-- Plan de intervención -->
-                                                    <div class="tab-pane" id="plan">
-                                                        <div class="tab-pane" id="diagnostico-plan">
-                                                            <!-- 2. Plan de Intervención -->
-                                                            <div class="box-header pb-1">
-                                                                <h5 class="text-uppercase mt-4"><i
-                                                                        class="fa fa-tasks me-1"></i>
-                                                                    Plan
-                                                                    de Intervención</h5>
-                                                            </div>
-
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group">
-                                                                        <label for="plan_intervencion"
-                                                                            class="form-label">Plan
-                                                                            de intervención:</label>
-                                                                        <select class="form-control select2"
-                                                                            id="plan_intervencion"
-                                                                            name="plan_intervencion"
-                                                                            data-placeholder="Seleccione el plan de intervención"
-                                                                            style="width: 100%;">
-
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <!-- Objetivo General -->
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group">
-                                                                        <label for="objetivo_general"
-                                                                            class="form-label">Objetivo
-                                                                            General:</label>
-                                                                        <textarea class="form-control" id="objetivo_general" name="objetivo_general" rows="3"
-                                                                            placeholder="Ingrese el objetivo general..."></textarea>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <!-- Objetivos Específicos -->
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group">
-                                                                        <label for="objetivos_especificos"
-                                                                            class="form-label">Objetivos
-                                                                            Específicos:</label>
-                                                                        <textarea class="form-control" id="objetivos_especificos" name="objetivos_especificos" rows="3"
-                                                                            placeholder="Ingrese los objetivos específicos..."></textarea>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <!-- 3. Sugerencia para Interconsultas -->
-                                                            <div class="box-header pb-1">
-                                                                <h5 class="text-uppercase mt-4"><i
-                                                                        class="fa fa-user-md me-1"></i>
-                                                                    Sugerencia para Interconsultas</h5>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group">
-                                                                        <label for="sugerencia_interconsultas"
-                                                                            class="form-label">Sugerencia para
-                                                                            Interconsultas:</label>
-                                                                        <textarea class="form-control" id="sugerencia_interconsultas" name="sugerencia_interconsultas" rows="3"
-                                                                            placeholder="Ingrese las sugerencias para interconsultas..."></textarea>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <!-- 4. Observaciones y Recomendaciones -->
-                                                            <div class="box-header pb-1">
-                                                                <h5 class="text-uppercase mt-4"><i
-                                                                        class="fa fa-comments me-1"></i>
-                                                                    Observaciones y Recomendaciones</h5>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group">
-                                                                        <label for="observaciones_recomendaciones"
-                                                                            class="form-label">Observaciones y
-                                                                            Recomendaciones:</label>
-                                                                        <textarea class="form-control" id="observaciones_recomendaciones" name="observaciones_recomendaciones"
-                                                                            rows="3" placeholder="Ingrese observaciones y recomendaciones..."></textarea>
-                                                                    </div>
+                                                                    <label for="observaciones_recomendaciones"
+                                                                        class="form-label">Observaciones y
+                                                                        Recomendaciones:</label>
+                                                                    <textarea class="form-control" id="observaciones_recomendaciones" name="observaciones_recomendaciones"
+                                                                        rows="3" placeholder="Ingrese observaciones y recomendaciones..."></textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div> <!-- end tab-content -->
-                                                <hr />
-                                                <div class="card-body ">
-                                                    <input type="hidden" id="idProfesional" name="idProfesional" />
-                                                    <h5 id="nombreProfesional"></h5>
-                                                    <img id="firmaProfesional" width="200" src=""
-                                                        alt="">
+                                                </div>
+                                            </div> <!-- end tab-content -->
+                                            <hr />
+                                            <div class="card-body ">
+                                                <input type="hidden" id="idProfesional" name="idProfesional" />
+                                                <h5 id="nombreProfesional"></h5>
+                                                <img id="firmaProfesional" width="200" src=""
+                                                    alt="">
 
-                                                    <p id="registroProfesional"><strong>Tarjeta Profesional:</strong>
-                                                    </p>
-                                                </div>
-                                                <div class="box-footer text-end">
-                                                    <button onclick="cancelarHistoria()" type="button"
-                                                        class="btn btn-primary-light me-1">
-                                                        <i class="ti-share-alt "></i> Cancelar
-                                                    </button>
-                                                    <button onclick="guardarHistoria()" type="button"
-                                                        class="btn btn-primary">
-                                                        <i class="ti-save-alt"></i> Guardar
-                                                    </button>
-                                                </div>
+                                                <p id="registroProfesional"><strong>Tarjeta Profesional:</strong>
+                                                </p>
                                             </div>
-                                            <!-- end card body -->
-                                        </div> <!-- end card -->
+                                            <div class="box-footer text-end">
+                                                <button onclick="cancelarHistoria()" type="button"
+                                                    class="btn btn-primary-light me-1">
+                                                    <i class="ti-share-alt "></i> Cancelar
+                                                </button>
+                                                <button onclick="guardarHistoria()" type="button"
+                                                    class="btn btn-primary">
+                                                    <i class="ti-save-alt"></i> Guardar
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <!-- end card body -->
+                                    </div> <!-- end card -->
                                 </form>
                             </div> <!-- end col -->
 
@@ -1551,6 +1533,66 @@
             </div><!-- /.modal -->
         </div><!-- /.modal -->
     </div>
+    <!-- MODAL CONSULTA -->
+    <div class="modal fade" id="modalConsulta" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myLargeModalLabel">Listado de consultas</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div id="listadoConsultas" class="col-12 col-xl-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title">Listado de motivo de consulta</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="box-controls pull-right">
+                                        <div class="box-header-actions">
+                                            <div class="input-group input-group-merge">
+                                                <input type="text" id="busqueda" class="form-control">
+                                                <div class="input-group-text" data-password="false">
+                                                    <span class="fa fa-search"></span>
+                                                </div>
+                                                <button type="button" onclick="nuevoRegistro(1);"
+                                                    class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i> Nueva
+                                                    consulta</button>
+                                            </div>
+            
+                                        </div>
+                                    </div>
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:5%;">Fecha</th>
+                                                <th style="width:37%;">Consulta</th>
+                                                <th style="width:35%;">Diagnotico</th>
+                                                <th style="width:15%;">Profesional</th>
+                                                <th style="width:10%;">Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="trRegistrosConsultas">
+            
+            
+                                        </tbody>
+                                    </table>
+                                    <div id="pagination-links-consulta" class="text-center ml-1 mt-2">
+            
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="fomrConsultas">
+
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </div><!-- /.modal -->
+    </div>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             let menuP = document.getElementById("principalHistoriClinica")
@@ -1562,6 +1604,7 @@
 
             //Initialize Select2 Elements
             $('.select2').select2()
+        
 
 
             $('#codConsulta').select2({
@@ -1935,6 +1978,7 @@
             modal.show()
             let formHistoria = document.getElementById("formHistoria")
             formHistoria.reset()
+            
             cargarPacientes(1)
             mapearDatosProfesional(document.getElementById("idUsuario").value)
             document.getElementById("btn-imprimirHistoria").style.display = ""
@@ -2136,6 +2180,21 @@
             return fechaFormateada
         }
 
+        function abrirConsultas(op){
+            var modal = new bootstrap.Modal(document.getElementById("modalConsulta"), {
+                backdrop: 'static',
+                keyboard: false
+            })
+
+            modal.show()
+            if(op == 1){
+                document.getElementById("listadoConsultas").style.display = "initial"
+                document.getElementById("fomrConsultas").style.display = "none"
+            }
+
+
+        }
+
         function guardarHistoria() {
             if ($("#formHistoria").valid()) {
 
@@ -2204,8 +2263,8 @@
                 .then(data => {
 
                     mapearInfPaciente(data.paciente)
-                    mapearHisoria(data.historia)
                     mapearAntedentesPersonales(data.antecedentesPersonales)
+                    mapearHisoria(data.historia)
                     mapearAntedentesFamiliares(data.antecedentesFamiliares)
                     mapearAreaDesempeno(data.areaAjuste)
                     mapearInterconsulta(data.interconuslta)
@@ -2213,8 +2272,91 @@
                     mapearFuncionesCognitivas(data.funcionesCognitiva)
                     mapearFuncionesSomaticas(data.funcionesSomaticas)
 
+                    if (data.historia.tipologia == "Pediatría") {
+                        document.getElementById("infPediatria").style.display = "initial"
+                        mapearAntecedentesPrenatales(data.antecedentesPrenatales)
+                        mapearAntecedentesNatales(data.antecedentesNatales)
+                        mapearAntecedentesPosnatales(data.antecedentesPosnatales)
+                        mapearDesarrolloPsicomotor(data.desarrolloPsicomotor)
+                    } else {
+                        document.getElementById("infPediatria").style.display = "none"
+
+                    }
+
                 })
                 .catch(error => console.error('Error:', error))
+        }
+
+        function mapearDesarrolloPsicomotor(antecedentesPrenatales) {
+            antecedentesPrenatales.forEach(item => {
+                const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
+
+                if (element) {
+                    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                        element.value = item.detalle // Asignar el valor al input o textarea
+                    } else if (element.tagName === "SELECT") {
+                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                    } else {
+                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                    }
+                } else {
+                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+                }
+            })
+        }
+
+        function mapearAntecedentesPosnatales(antecedentesPrenatales) {
+            antecedentesPrenatales.forEach(item => {
+                const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
+
+                if (element) {
+                    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                        element.value = item.detalle // Asignar el valor al input o textarea
+                    } else if (element.tagName === "SELECT") {
+                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                    } else {
+                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                    }
+                } else {
+                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+                }
+            })
+        }
+
+        function mapearAntecedentesPrenatales(antecedentesPrenatales) {
+            antecedentesPrenatales.forEach(item => {
+                const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
+
+                if (element) {
+                    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                        element.value = item.detalle // Asignar el valor al input o textarea
+                    } else if (element.tagName === "SELECT") {
+                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                    } else {
+                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                    }
+                } else {
+                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+                }
+            })
+        }
+
+        function mapearAntecedentesNatales(antecedentesPrenatales) {
+            antecedentesPrenatales.forEach(item => {
+                const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
+
+                if (element) {
+                    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                        element.value = item.detalle // Asignar el valor al input o textarea
+                    } else if (element.tagName === "SELECT") {
+                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                    } else {
+                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                    }
+                } else {
+                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+                }
+            })
         }
 
         function mapearFuncionesSomaticas(somaticas) {
@@ -2290,14 +2432,17 @@
         }
 
         function mapearAntedentesPersonales(antecedentesPersonales) {
+            setTimeout(() => {
             antecedentesPersonales.forEach(item => {
-                const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
-
+                const element = document.getElementById(item.tipo) 
                 if (element) {
                     if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-                        element.value = item.detalle // Asignar el valor al input o textarea
+                        element.value = item.detalle 
+                        console.log(element.value)
+                    
                     } else if (element.tagName === "SELECT") {
-                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                        element.value = item.detalle.toLowerCase() 
+                      console.log(item.detalle.toLowerCase())
                     } else {
                         console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
                     }
@@ -2305,17 +2450,18 @@
                     console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
                 }
             })
+        }, 1000)
         }
 
         function mapearAntedentesFamiliares(antecedentesFamiliares) {
 
             antecedentesFamiliares.forEach(item => {
-                const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
+                const element = document.getElementById(item.tipo) 
                 if (element) {
                     if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-                        element.value = item.detalle // Asignar el valor al input o textarea
+                        element.value = item.detalle 
                     } else if (element.tagName === "SELECT") {
-                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                        element.value = item.detalle.toLowerCase() 
                     } else {
                         console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
                     }

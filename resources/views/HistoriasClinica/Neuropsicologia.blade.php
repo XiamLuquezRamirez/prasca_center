@@ -323,18 +323,18 @@
                                             </div>
                                             <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
                                                 <li class="nav-item">
-                                                    <a href="#antecedentes" data-bs-toggle="tab"
+                                                    <a href="#antecedentes" style="height: 100%; display: flex;justify-content: center;align-items: center;" data-bs-toggle="tab"
                                                         class="nav-link rounded-0 active">
                                                         <i class="fa fa-history"></i> Antecedentes
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a href="#ajustes" data-bs-toggle="tab" class="nav-link rounded-0">
+                                                    <a href="#ajustes" style="height: 100%; display: flex;justify-content: center;align-items: center;" data-bs-toggle="tab" class="nav-link rounded-0">
                                                         <i class="fa fa-cogs"></i> Áreas de Ajuste
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a href="#examen" data-bs-toggle="tab" class="nav-link rounded-0">
+                                                    <a href="#examen" style="height: 100%; display: flex;justify-content: center;align-items: center;" data-bs-toggle="tab" class="nav-link rounded-0">
                                                         <i class="fa fa-user-md"></i> Examen Mental
                                                     </a>
                                                 </li>
@@ -346,7 +346,7 @@
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a href="#plan" data-bs-toggle="tab" class="nav-link rounded-0">
+                                                    <a href="#plan"  data-bs-toggle="tab" class="nav-link rounded-0">
                                                         <i class="fa fa-clipboard"></i> Plan e Intervención
                                                     </a>
                                                 </li>
@@ -452,6 +452,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    
                                                     <h5 class="text-uppercase"><i class="fa fa-users me-1"></i>
                                                         Médicos Familiares</h5>
                                                     <div class="row">
@@ -1580,10 +1581,20 @@
 
         function seleccionarPaciente(element) {
             let idPaciente = element.getAttribute("data-id")
-            let edadPaciente = parseInt(element.getAttribute("data-edad"), 10);
-            let tipoPsicologia = edadPaciente < 18 ? "Pediatría" : "Adulto";
-            let tipoText = document.getElementById("tipoPsicologia");
-            tipoText.value = tipoPsicologia;
+
+            let edadPaciente = parseInt(element.getAttribute("data-edad"), 10)
+            let tipoPsicologia
+            if (edadPaciente < 18) {
+                tipoPsicologia = "Pediatría"
+                document.getElementById("infPediatria").style.display = "initial"
+            } else {
+                tipoPsicologia = "Adulto"
+                document.getElementById("infPediatria").style.display = "none"
+
+            }
+
+            let tipoText = document.getElementById("tipoPsicologia")
+            tipoText.value = tipoPsicologia
 
             document.getElementById('idPaciente').value = idPaciente;
             const modal = document.getElementById('modalHistoria');
@@ -1790,6 +1801,56 @@
             .catch(error => console.error('Error:', error));
         }
 
+        function verHistoria(idHist) {
+            document.getElementById('listado').style.display = 'none'
+            document.getElementById('historia').style.display = 'block'
+
+            let url = "{{ route('historia.buscaHistoriaNeuroPsicologica') }}";
+
+            let params = new URLSearchParams({
+                idHist: idHist
+            });
+
+            url += '?' + params.toString();
+
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                mapearInfPaciente(data.paciente)
+                mapearHisoria(data.historia)
+                mapearAntedentesPersonales(data.antecedentesPersonales)
+                mapearAntedentesFamiliares(data.antecedentesFamiliares)
+                mapearAreaDesempeno(data.areaAjuste)
+                mapearInterconsulta(data.interconuslta)
+                mapearAparienciaPersonal(data.aparienciaPersonal)
+                mapearFuncionesCognitivas(data.funcionesCognitiva)
+                mapearFuncionesSomaticas(data.funcionesSomaticas)
+                deshabilitarInputsBotones();
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function deshabilitarInputsBotones(){
+            var formulario = document.getElementById("formHistoria");
+            var elementos = formulario.querySelectorAll("input, select, button, textarea");
+            elementos.forEach(function(elemento) {
+                elemento.disabled = true;
+            });
+
+            document.getElementById("cke_remision").style.pointerEvents = 'none';
+            document.getElementById("cke_enfermedadActual").style.pointerEvents = 'none';
+            document.getElementById("cke_medicacion").style.pointerEvents = 'none';
+            document.getElementById("cke_objetivo_general").style.pointerEvents = 'none';
+            document.getElementById("cke_objetivos_especificos").style.pointerEvents = 'none';
+            document.getElementById("cke_sugerencia_interconsultas").style.pointerEvents = 'none';
+            document.getElementById("cke_observaciones_recomendaciones").style.pointerEvents = 'none';            
+        }
 
         function editarHistoria(element) {
             document.getElementById('listado').style.display = 'none'

@@ -180,6 +180,60 @@ class HistoriaNeuroPsicologica extends Model
                     ]);
                     DB::table('funciones_somaticas_neuro')->insert($examenMental);
                     
+
+                    /// En el caso de que sea pediatria
+                    if ($request['tipoPsicologia'] == "Pediatría") {
+                        // Insertar antecedentes prenatales
+                        $antecedentesFamiliares = array_filter([
+                            ['id_historia' => $idHistoria, 'tipo' => 'edad_madre', 'detalle' => $request['edad_madre']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'enfermedades_madre', 'detalle' => $request['enfermedades_madre']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'numero_embarazo', 'detalle' => $request['numero_embarazo']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'enbarazo_controlado', 'detalle' => $request['enbarazo_controlado']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'planificacion', 'detalle' => $request['planificacion']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'estado_madre', 'detalle' => $request['estado_madre']]
+                        ], function ($item) {
+                            return !empty($item['detalle']);
+                        });
+                        DB::table('antecedentes_prenatales_neuro')->insert($antecedentesFamiliares);
+
+                        // Insertar antecedentes natales
+                        $antecedentesFamiliares = array_filter([
+                            ['id_historia' => $idHistoria, 'tipo' => 'tipo_nacimiento', 'detalle' => $request['tipo_nacimiento']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'causa_cesarea', 'detalle' => $request['causa_cesarea']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'reanimacion', 'detalle' => $request['reanimacion']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'peso_nacer', 'detalle' => $request['peso_nacer']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'talla_nacer', 'detalle' => $request['talla_nacer']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'llanto_nacer', 'detalle' => $request['llanto_nacer']],
+                        ], function ($item) {
+                            return !empty($item['detalle']);
+                        });
+                        DB::table('antecedentes_natales_neuro')->insert($antecedentesFamiliares);
+                    
+                        // Insertar antecedentes posnatales
+                        $antecedentesFamiliares = array_filter([
+                            ['id_historia' => $idHistoria, 'tipo' => 'hospitalizaciones_postnatales', 'detalle' => $request['hospitalizaciones']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'desarrollo_psicomotor', 'detalle' => $request['desarrollo_psicomotor']]
+                        ], function ($item) {
+                            return !empty($item['detalle']);
+                        });
+                        DB::table('antecedentes_posnatales_neuro')->insert($antecedentesFamiliares);
+                    
+                        // Insertar desarrollo psicomotor
+                        $antecedentesFamiliares = array_filter([
+                            ['id_historia' => $idHistoria, 'tipo' => 'control_cefalico', 'detalle' => $request['control_cefalico']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'rolado', 'detalle' => $request['rolado']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'sedente_solo', 'detalle' => $request['sedente_solo']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'gateo', 'detalle' => $request['gateo']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'bipedo', 'detalle' => $request['bipedo']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'marcha', 'detalle' => $request['marcha']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'lenguaje_verbal', 'detalle' => $request['lenguaje_verbal']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'lenguaje_verbal_fluido', 'detalle' => $request['lenguaje_verbal_fluido']],
+                        ], function ($item) {
+                            return !empty($item['detalle']);
+                        });
+                        DB::table('desarrollo_psicomotor_neuro')->insert($antecedentesFamiliares);
+                                        
+                    }
                     // Confirmar transacción
                     DB::commit();
                     return  $idHistoria;
@@ -189,7 +243,223 @@ class HistoriaNeuroPsicologica extends Model
                     throw $e;
                 }
             } else {
-               
+                DB::beginTransaction();
+                try {
+                    $idHistoria = $request['idHistoria'];
+                    // Insertar en `historia_clinica`
+                    DB::table('historia_clinica_neuro')->where('id', $idHistoria)->update(array_filter([
+                        'id_paciente' => $request['idPaciente'] ?? null,
+                        'id_profesional' => Auth::user()->id,
+                        'remision' => $request['remision'] ?? null,
+                        'codigo_consulta' => $request['codConsulta'] ?? null,
+                        'motivo_consulta' => $request['motivoConsulta'] ?? null,
+                        'otro_motivo_consulta' => $request['otroMotivo'] ?? null,
+                        'enfermedad_actual' => $request['enfermedadActual'] ?? null,
+                        'dx_principal' => $request['codDiagnostico'] ?? null,
+                        'codigo_diagnostico' => $request['codImpresionDiagnostico'] ?? null,
+                        'diagnostico_primera_vez' => $request['establecidoPrimeraVez'] ?? null,
+                        'objetivo_general' => $request['objetivo_general'] ?? null,
+                        'objetivos_especificos' => $request['objetivos_especificos'] ?? null,
+                        'sugerencias_interconsultas' => $request['sugerencia_interconsultas'] ?? null,
+                        'observaciones_recomendaciones' => $request['observaciones_recomendaciones'] ?? null,
+                        'tipologia' => $request['tipoPsicologia'] ?? null,
+                        'plan_intervension' => $request['planIntervencion'] ?? null,
+                        'fecha_historia' => now(),
+                        'estado_hitoria' => 'abierta',
+                        'estado_registro' => 'ACTIVO',
+                    ]));
+
+                    // Insertar antecedentes médicos
+                    DB::table('antecedentes_medicos_neuro')->where('id_historia', $idHistoria)->delete();
+                    $antecedentesMedicos = array_filter([
+                        ['id_historia' => $idHistoria, 'tipo' => 'quirurgicos', 'detalle' => $request['quirurgicos']],
+                        ['id_historia' => $idHistoria, 'tipo' => 'toxicos', 'detalle' => $request['toxico']],
+                        ['id_historia' => $idHistoria, 'tipo' => 'traumaticos', 'detalle' => $request['traumaticos']],
+                        ['id_historia' => $idHistoria, 'tipo' => 'medicacion', 'detalle' => $request['medicacion']],
+                        ['id_historia' => $idHistoria, 'tipo' => 'paraclinicos', 'detalle' => $request['paraclinicos']],
+                        ['id_historia' => $idHistoria, 'tipo' => 'hospitalizaciones', 'detalle' => $request['hospitalizaciones']],
+                        ['id_historia' => $idHistoria, 'tipo' => 'patologia', 'detalle' => $request['patologia']]
+                    ], function ($item) {
+                        return !empty($item['detalle']);
+                    });
+                    DB::table('antecedentes_medicos_neuro')->insert($antecedentesMedicos);
+
+
+                    // Insertar antecedentes familiares
+                    DB::table('antecedentes_familiares_neuro')->where('id_historia', $idHistoria)->delete();
+                    $antecedentesFamiliares = array_filter([
+                        ['id_historia' => $idHistoria, 'tipo' => 'depresion', 'detalle' => $request['depresion']],
+                        ['id_historia' => $idHistoria, 'tipo' => 'ansiedad', 'detalle' => $request['ansiedad']],
+                        ['id_historia' => $idHistoria, 'tipo' => 'demencia', 'detalle' => $request['demencia']],
+                        ['id_historia' => $idHistoria, 'tipo' => 'alcoholismo', 'detalle' => $request['alcoholismo']],
+                        ['id_historia' => $idHistoria, 'tipo' => 'drogadiccion', 'detalle' => $request['drogadiccion']],
+                        ['id_historia' => $idHistoria, 'tipo' => 'discapacidad_intelectual', 'detalle' => $request['discapacidad_intelectual']],
+                        ['id_historia' => $idHistoria, 'tipo' => 'patologicos', 'detalle' => $request['patologicos']],
+                        ['id_historia' => $idHistoria, 'tipo' => 'otros', 'detalle' => $request['otros']],
+                    ], function ($item) {
+                        return !empty($item['detalle']);
+                    });
+                    DB::table('antecedentes_familiares_neuro')->insert($antecedentesFamiliares);
+
+
+                    // Insertar áreas de ajuste y/o desempeño
+                    DB::table('historia_ajuste_desempeno_neuro')->where('id_historia', $idHistoria)->delete();
+                    $ajusteDesempeno = array_filter([
+                        ['id_historia' => $idHistoria, 'area' => 'historia_educativa', 'detalle' => $request['historia_educativa']],
+                        ['id_historia' => $idHistoria, 'area' => 'historia_laboral', 'detalle' => $request['historia_laboral']],
+                        ['id_historia' => $idHistoria, 'area' => 'historia_familiar', 'detalle' => $request['historia_familiar']],
+                        ['id_historia' => $idHistoria, 'area' => 'historia_social', 'detalle' => $request['historia_social']],
+                        ['id_historia' => $idHistoria, 'area' => 'historia_socio_afectiva', 'detalle' => $request['historia_socio_afectiva']]
+                    ], function ($item) {
+                        return !empty($item['detalle']);
+                    });
+                    DB::table('historia_ajuste_desempeno_neuro')->insert($ajusteDesempeno);
+
+
+                    // Insertar interconsultas
+                    DB::table('interconsultas_neuro')->where('id_historia', $idHistoria)->delete();
+                    $interconsultas = array_filter([
+                        ['id_historia' => $idHistoria, 'tipo' => 'intervencion_psiquiatria', 'detalle' => $request['intervencion_psiquiatria']],
+                        ['id_historia' => $idHistoria, 'tipo' => 'intervencion_neurologia', 'detalle' => $request['intervencion_neurologia']],
+                        ['id_historia' => $idHistoria, 'tipo' => 'intervencion_neuropsicologia', 'detalle' => $request['intervencion_neuropsicologia']],
+                    ], function ($item) {
+                        return !empty($item['detalle']);
+                    });
+                    DB::table('interconsultas_neuro')->insert($interconsultas);
+
+                    // Insertar apariencia personal
+                    DB::table('apariencia_personal_neuro')->where('id_historia', $idHistoria)->delete();
+                    $aparienciaPersonal = array_filter([
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'edad', 'detalle' => $request['edad'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'edad_otro', 'detalle' => $request['edad_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'desarrollo', 'detalle' => $request['desarrollo'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'desarrollo_otro', 'detalle' => $request['desarrollo_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'aseo', 'detalle' => $request['aseo'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'aseo_otro', 'detalle' => $request['aseo_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'salud', 'detalle' => $request['salud'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'salud_otro', 'detalle' => $request['salud_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'facies', 'detalle' => $request['facies'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'facies_otro', 'detalle' => $request['facies_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'biotipo', 'detalle' => $request['biotipo'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'biotipo_otro', 'detalle' => $request['biotipo_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'actitud', 'detalle' => $request['actitud'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'actitud_otro', 'detalle' => $request['actitud_otro'] ?? null],
+                    ], function ($item) {
+                        return !empty($item['detalle']);
+                    });
+                    DB::table('apariencia_personal_neuro')->insert($aparienciaPersonal);
+
+                    // Insertar funciones cognitivas
+                    DB::table('funciones_cognitivas_neuro')->where('id_historia', $idHistoria)->delete();
+                    $funcionesSomaticas = array_filter([
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'consciencia', 'detalle' => $request['consciencia'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'consciencia_otro', 'detalle' => $request['consciencia_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'orientacion', 'detalle' => $request['orientacion'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'orientacion_otro', 'detalle' => $request['orientacion_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'memoria', 'detalle' => $request['memoria'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'memoria_otro', 'detalle' => $request['memoria_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'atencion', 'detalle' => $request['atencion'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'atencion_otro', 'detalle' => $request['atencion_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'concentracion', 'detalle' => $request['concentracion'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'concentracion_otro', 'detalle' => $request['concentracion_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'lenguaje', 'detalle' => $request['lenguaje'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'lenguaje_otro', 'detalle' => $request['lenguaje_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'pensamiento', 'detalle' => $request['pensamiento'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'pensamiento_otro', 'detalle' => $request['pensamiento_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'afecto', 'detalle' => $request['afecto'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'afecto_otro', 'detalle' => $request['afecto_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'sensopercepcion', 'detalle' => $request['sensopercepcion'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'sensopercepcion_otro', 'detalle' => $request['sensopercepcion_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'psicomotricidad', 'detalle' => $request['psicomotricidad'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'psicomotricidad_otro', 'detalle' => $request['psicomotricidad_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'juicio', 'detalle' => $request['juicio'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'juicio_otro', 'detalle' => $request['juicio_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'inteligencia', 'detalle' => $request['inteligencia'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'inteligencia_otro', 'detalle' => $request['inteligencia_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'conciencia_enfermedad', 'detalle' => $request['conciencia_enfermedad'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'conciencia_enfermedad_otro', 'detalle' => $request['conciencia_enfermedad_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'sufrimiento_psicologico', 'detalle' => $request['sufrimiento_psicologico'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'sufrimiento_psicologico_otro', 'detalle' => $request['sufrimiento_psicologico_otro'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'motivacion_tratamiento', 'detalle' => $request['motivacion_tratamiento'] ?? null],
+                        ['id_historia' => $idHistoria, 'caracteristica' => 'motivacion_tratamiento_otro', 'detalle' => $request['motivacion_tratamiento_otro'] ?? null]
+                    ], function ($item) {
+                        return !empty($item['detalle']);
+                    });
+                    DB::table('funciones_cognitivas_neuro')->insert($funcionesSomaticas);
+
+                    // Insertar Funciones Somáticas
+                    DB::table('funciones_somaticas_neuro')->where('id_historia', $idHistoria)->delete();
+                    $examenMental = array_filter([
+                        'id_historia' => $idHistoria,
+                        'ciclos_del_sueno' => $request['ciclos_sueno'],
+                        'apetito' => $request['apetito'],
+                        'actividades_autocuidado' => $request['autocuidado'],
+                    ]);
+                    DB::table('funciones_somaticas_neuro')->insert($examenMental);
+
+                    /// En el caso de que sea pediatria
+                    if ($request['tipoPsicologia'] == "Pediatría") {
+                        // Insertar antecedentes prenatales
+                        DB::table('antecedentes_prenatales_neuro')->where('id_historia', $idHistoria)->delete();
+                        $antecedentesFamiliares = array_filter([
+                            ['id_historia' => $idHistoria, 'tipo' => 'edad_madre', 'detalle' => $request['edad_madre']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'enfermedades_madre', 'detalle' => $request['enfermedades_madre']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'numero_embarazo', 'detalle' => $request['numero_embarazo']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'enbarazo_controlado', 'detalle' => $request['enbarazo_controlado']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'planificacion', 'detalle' => $request['planificacion']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'estado_madre', 'detalle' => $request['estado_madre']]
+                        ], function ($item) {
+                            return !empty($item['detalle']);
+                        });
+                        DB::table('antecedentes_prenatales_neuro')->insert($antecedentesFamiliares);
+
+                        // Insertar antecedentes natales
+                        DB::table('antecedentes_natales_neuro')->where('id_historia', $idHistoria)->delete();
+                        $antecedentesFamiliares = array_filter([
+                            ['id_historia' => $idHistoria, 'tipo' => 'tipo_nacimiento', 'detalle' => $request['tipo_nacimiento']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'causa_cesarea', 'detalle' => $request['causa_cesarea']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'reanimacion', 'detalle' => $request['reanimacion']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'peso_nacer', 'detalle' => $request['peso_nacer']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'talla_nacer', 'detalle' => $request['talla_nacer']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'llanto_nacer', 'detalle' => $request['llanto_nacer']],
+                        ], function ($item) {
+                            return !empty($item['detalle']);
+                        });
+                        DB::table('antecedentes_natales_neuro')->insert($antecedentesFamiliares);
+                    
+                        // Insertar antecedentes posnatales
+                        DB::table('antecedentes_posnatales_neuro')->where('id_historia', $idHistoria)->delete();
+                        $antecedentesFamiliares = array_filter([
+                            ['id_historia' => $idHistoria, 'tipo' => 'hospitalizaciones_postnatales', 'detalle' => $request['hospitalizaciones']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'desarrollo_psicomotor', 'detalle' => $request['desarrollo_psicomotor']]
+                        ], function ($item) {
+                            return !empty($item['detalle']);
+                        });
+                        DB::table('antecedentes_posnatales_neuro')->insert($antecedentesFamiliares);
+                    
+                        // Insertar desarrollo psicomotor
+                        DB::table('desarrollo_psicomotor_neuro')->where('id_historia', $idHistoria)->delete();
+                        $antecedentesFamiliares = array_filter([
+                            ['id_historia' => $idHistoria, 'tipo' => 'control_cefalico', 'detalle' => $request['control_cefalico']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'rolado', 'detalle' => $request['rolado']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'sedente_solo', 'detalle' => $request['sedente_solo']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'gateo', 'detalle' => $request['gateo']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'bipedo', 'detalle' => $request['bipedo']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'marcha', 'detalle' => $request['marcha']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'lenguaje_verbal', 'detalle' => $request['lenguaje_verbal']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'lenguaje_verbal_fluido', 'detalle' => $request['lenguaje_verbal_fluido']],
+                        ], function ($item) {
+                            return !empty($item['detalle']);
+                        });
+                        DB::table('desarrollo_psicomotor_neuro')->insert($antecedentesFamiliares);             
+                    }
+
+                    DB::commit();
+                    return  $idHistoria;
+                } catch (\Exception $e) {
+                    DB::rollBack();
+                    throw $e;
+                }
             }
         } catch (Exception $e) {
             // Manejo del error
@@ -241,28 +511,60 @@ class HistoriaNeuroPsicologica extends Model
             ->where("id_historia", $idHisto)
             ->get();
     }
+
     public static function busquedaInterconsulta($idHisto)
     {
         return DB::connection('mysql')->table('interconsultas_neuro')
             ->where("id_historia", $idHisto)
             ->get();
     }
+
     public static function busquedaAparienciaPersonal($idHisto)
     {
         return DB::connection('mysql')->table('apariencia_personal_neuro')
             ->where("id_historia", $idHisto)
             ->get();
     }
+
     public static function busquedaFuncionesCognitivas($idHisto)
     {
         return DB::connection('mysql')->table('funciones_cognitivas_neuro')
             ->where("id_historia", $idHisto)
             ->get();
     }
+
     public static function busquedaFuncionesSomaticas($idHisto)
     {
         return DB::connection('mysql')->table('funciones_somaticas_neuro')
             ->where("id_historia", $idHisto)
             ->first();
+    }
+
+    public static function busquedaAntPrenatales($idHisto)
+    {
+        return DB::connection('mysql')->table('antecedentes_prenatales_neuro')
+            ->where("id_historia", $idHisto)
+            ->get();
+    }
+
+    public static function busquedaAntNatales($idHisto)
+    {
+        return DB::connection('mysql')->table('antecedentes_natales_neuro')
+            ->where("id_historia", $idHisto)
+            ->get();
+    }
+
+    public static function busquedaAntPosnatales($idHisto)
+    {
+        return DB::connection('mysql')->table('antecedentes_posnatales_neuro')
+            ->where("id_historia", $idHisto)
+            ->get();
+    }
+
+    public static function desarrolloPsicomotor($idHisto)
+    {
+        return DB::connection('mysql')->table('desarrollo_psicomotor_neuro')
+            ->where("id_historia", $idHisto)
+            ->get();
     }
 }

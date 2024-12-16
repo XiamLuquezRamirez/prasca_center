@@ -158,9 +158,19 @@ class Pacientes extends Model
 
     
     public static function busquedaPaciente($idPac){
-        return DB::connection('mysql')->table('pacientes')
+        $paciente = DB::connection('mysql')->table('pacientes')
         ->where("id", $idPac)
         ->first();
+
+        $paciente->departamento_info = DB::connection('mysql')->table('departamentos')
+        ->where("codigo", $paciente->departamento)
+        ->first();
+
+        $paciente->municipio_info = DB::connection('mysql')->table('municipios')
+        ->where("codigo", $paciente->municipio)
+        ->first();
+
+        return $paciente;
     }
 
 }

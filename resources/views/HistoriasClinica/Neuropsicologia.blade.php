@@ -452,7 +452,274 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
+                                                    <div id="infPediatria" style="display: none;">
+                                                        <!-- Prenatales -->
+                                                        <div class="box-header pb-1" style="padding: 20px 1px 0px 0px;">
+                                                            <h5 class="text-uppercase">
+                                                                <i class="fa fa-heartbeat me-1"></i> Prenatales
+                                                            </h5>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="edad_madre" class="form-label">Edad de la
+                                                                        madre en el embarazo:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="edad_madre" name="edad_madre"
+                                                                        placeholder="Ingrese la edad">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="enfermedades_madre"
+                                                                        class="form-label">Enfermedades de la
+                                                                        madre:</label>
+                                                                    <select class="form-control" id="enfermedades_madre"
+                                                                        name="enfermedades_madre">
+                                                                        <option value="">Seleccione una opción...
+                                                                        </option>
+                                                                        <option value="no">No</option>
+                                                                        <option value="diabetes">Diabetes</option>
+                                                                        <option value="hipertension">Hipertensión</option>
+                                                                        <option value="otro">Otro</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="numero_embarazo" class="form-label">Único
+                                                                        embarazo:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="numero_embarazo" name="numero_embarazo"
+                                                                        placeholder="Ejemplo: 2do">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="enbarazo_controlado" class="form-label">El
+                                                                        embarazo fue controlado por atención médica:</label>
+                                                                    <select class="form-control" id="enbarazo_controlado"
+                                                                        name="enbarazo_controlado">
+                                                                        <option value="">Seleccione una opción...
+                                                                        </option>
+                                                                        <option value="si">Si</option>
+                                                                        <option value="no">No</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="planificacion" class="form-label">Uso de
+                                                                        planificación en el momento del embarazo:</label>
+                                                                    <select class="form-control" id="planificacion"
+                                                                        name="planificacion">
+                                                                        <option value="">Seleccione una opción...
+                                                                        </option>
+                                                                        <option value="si">Si</option>
+                                                                        <option value="no">No</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label for="estado_madre" class="form-label">Estado de
+                                                                        la
+                                                                        madre durante el embarazo:</label>
+                                                                    <textarea class="form-control" id="estado_madre" name="estado_madre" rows="3"
+                                                                        placeholder="Describa el estado"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Natales -->
+                                                        <div class="box-header pb-1" style="padding: 20px 1px 0px 0px;">
+                                                            <h5 class="text-uppercase">
+                                                                <i class="fa fa-heart me-1"></i> Natales
+                                                            </h5>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="tipo_nacimiento" class="form-label">Tipo
+                                                                        de
+                                                                        nacimiento:</label>
+                                                                    <select class="form-control" id="tipo_nacimiento"
+                                                                        name="tipo_nacimiento">
+                                                                        <option value="">Seleccione una opción...
+                                                                        </option>
+                                                                        <option value="cesarea">Cesárea</option>
+                                                                        <option value="natural">Natural</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="causa_cesarea" class="form-label">Causa de
+                                                                        la
+                                                                        cesárea:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="causa_cesarea" name="causa_cesarea"
+                                                                        placeholder="Ejemplo: No dilataba">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="reanimacion" class="form-label">Uso de
+                                                                        maniobras de reanimación:</label>
+                                                                    <select class="form-control" id="reanimacion"
+                                                                        name="reanimacion">
+                                                                        <option value="">Seleccione una opción...
+                                                                        </option>
+                                                                        <option value="si">Sí</option>
+                                                                        <option value="no">No</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="peso_nacer" class="form-label">Peso al
+                                                                        nacer: :</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="peso_nacer" name="peso_nacer"
+                                                                        placeholder="Ejemplo: 1KG">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="talla_nacer" class="form-label">Talla al
+                                                                        nacer: :</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="talla_nacer" name="talla_nacer"
+                                                                        placeholder="Ejemplo: 50 cm">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="llanto_nacer" class="form-label">Llanto al
+                                                                        nacer: :</label>
+                                                                    <select class="form-control" id="llanto_nacer"
+                                                                        name="llanto_nacer">
+                                                                        <option value="">Seleccione una opción...
+                                                                        </option>
+                                                                        <option value="si">Sí</option>
+                                                                        <option value="no">No</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Posnatales -->
+                                                        <div class="box-header pb-1" style="padding: 20px 1px 0px 0px;">
+                                                            <h5 class="text-uppercase">
+                                                                <i class="fa fa-heart-o me-1"></i> Posnatales
+                                                            </h5>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label for="hospitalizaciones_postnatales"
+                                                                        class="form-label">Hospitalizaciones recién
+                                                                        nacido:</label>
+                                                                    <textarea class="form-control" id="hospitalizaciones_postnatales" name="hospitalizaciones_postnatales" rows="3"
+                                                                        placeholder="Describa las causas de hospitalización"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label for="desarrollo_psicomotor"
+                                                                        class="form-label">Desarrollo
+                                                                        psicomotor:</label>
+                                                                    <textarea class="form-control" id="desarrollo_psicomotor" name="desarrollo_psicomotor" rows="5"
+                                                                        placeholder="Ejemplo: Control cefálico 2M, Marcha 10M"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Desarrollo Psicomotor -->
+                                                        <div class="box-header pb-1" style="padding: 20px 1px 0px 0px;">
+                                                            <h5 class="text-uppercase">
+                                                                <i class="mdi mdi-baby me-1"></i> Desarrollo Psicomotor
+                                                            </h5>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="control_cefalico"
+                                                                        class="form-label">Control
+                                                                        cefálico:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="control_cefalico" name="control_cefalico"
+                                                                        placeholder="Ejemplo: 2M">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="rolado"
+                                                                        class="form-label">Rolado:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="rolado" name="rolado"
+                                                                        placeholder="Ejemplo: 3M">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="sedente_solo" class="form-label">Sedente
+                                                                        solo:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="sedente_solo" name="sedente_solo"
+                                                                        placeholder="Ejemplo: 6M">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="gateo"
+                                                                        class="form-label">Gateo:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="gateo" name="gateo"
+                                                                        placeholder="Ejemplo: 6M">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="bipedo" class="form-label">Bípedo
+                                                                        sin ayuda:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="bipedo" name="bipedo"
+                                                                        placeholder="Ejemplo: 9M">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="marcha"
+                                                                        class="form-label">Marcha:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="marcha" name="marcha"
+                                                                        placeholder="Ejemplo: 10M">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="lenguaje_verbal"
+                                                                        class="form-label">Lenguaje
+                                                                        verbal:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="lenguaje_verbal" name="lenguaje_verbal"
+                                                                        placeholder="Ejemplo: 1 año">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="lenguaje_verbal_fluido"
+                                                                        class="form-label">Lenguaje verbal
+                                                                        fluido:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="lenguaje_verbal_fluido"
+                                                                        name="lenguaje_verbal_fluido"
+                                                                        placeholder="Ejemplo: 6 años">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <h5 class="text-uppercase"><i class="fa fa-users me-1"></i>
                                                         Médicos Familiares</h5>
                                                     <div class="row">
@@ -1422,9 +1689,6 @@
                     return markup; // Evita inyección de HTML
                 }
             });
-
-            cargarCategorias();
-            cargarHistorias(1)
             
             const ids = [
                 'enfermedadActual',
@@ -1470,6 +1734,53 @@
 
             loader = document.getElementById('loader');
             loadNow(1);
+
+            cargarCategorias();
+            cargarHistorias(1);
+
+            // Evento click para la paginación
+            document.addEventListener('click', function(event) {
+                if (event.target.matches('.pagination a')) {
+                    event.preventDefault()
+                    var href = event.target.getAttribute('href')
+                    var page = href.split('page=')[1]
+
+                    // Asegurarse de que 'page' sea un número antes de hacer la solicitud
+                    if (!isNaN(page)) {
+                        cargarHistorias(page)
+                    }
+                }
+            })
+            // Evento input para el campo de búsqueda
+            document.getElementById('busqueda').addEventListener('input', function() {
+                var searchTerm = this.value
+                cargarHistorias(1,
+                    searchTerm)
+            })
+
+            document.getElementById('busquedaPa').addEventListener('input', function() {
+                var searchTerm = this.value
+                cargarPacientes(1,
+                    searchTerm)
+            })
+
+            document.addEventListener('click', function(event) {
+                if (event.target.matches('.pagPac a')) {
+                    event.preventDefault()
+                    var href = event.target.getAttribute('href')
+                    var page = href.split('page=')[1]
+
+                    // Asegurarse de que 'page' sea un número antes de hacer la solicitud
+                    if (!isNaN(page)) {
+                        cargarPacientes(page)
+                    }
+                }
+            })
+
+            $('#inline-comments').editable({
+                showbuttons: 'bottom',
+                mode: 'inline'
+            })
         });
 
         function cargarCategorias() {
@@ -1755,7 +2066,7 @@
                         if (data.success = 'success') {
                             swal('Atención', data.message, data.success);
                             setTimeout(() => {
-                                location.reload();
+                                //location.reload();
                             }, 1500);
                         } else {
                             swal('Atención', data.message, data.success);
@@ -1831,6 +2142,17 @@
                 mapearAparienciaPersonal(data.aparienciaPersonal)
                 mapearFuncionesCognitivas(data.funcionesCognitiva)
                 mapearFuncionesSomaticas(data.funcionesSomaticas)
+
+                if (data.historia.tipologia == "Pediatría") {
+                    document.getElementById("infPediatria").style.display = "initial"
+                    mapearAntecedentesPrenatales(data.antecedentesPrenatales)
+                    mapearAntecedentesNatales(data.antecedentesNatales)
+                    mapearAntecedentesPosnatales(data.antecedentesPosnatales)
+                    mapearDesarrolloPsicomotor(data.desarrolloPsicomotor)
+                } else {
+                    document.getElementById("infPediatria").style.display = "none"
+                }
+                
                 deshabilitarInputsBotones();
             })
             .catch(error => console.error('Error:', error));
@@ -1885,6 +2207,16 @@
                 mapearAparienciaPersonal(data.aparienciaPersonal)
                 mapearFuncionesCognitivas(data.funcionesCognitiva)
                 mapearFuncionesSomaticas(data.funcionesSomaticas)
+
+                if (data.historia.tipologia == "Pediatría") {
+                    document.getElementById("infPediatria").style.display = "initial"
+                    mapearAntecedentesPrenatales(data.antecedentesPrenatales)
+                    mapearAntecedentesNatales(data.antecedentesNatales)
+                    mapearAntecedentesPosnatales(data.antecedentesPosnatales)
+                    mapearDesarrolloPsicomotor(data.desarrolloPsicomotor)
+                } else {
+                    document.getElementById("infPediatria").style.display = "none"
+                }
 
             })
             .catch(error => console.error('Error:', error));
@@ -2161,6 +2493,77 @@
 
             })
             .catch(error => console.error('Error:', error))
+        }
+
+        function mapearDesarrolloPsicomotor(antecedentesPrenatales) {
+            antecedentesPrenatales.forEach(item => {
+                const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
+
+                if (element) {
+                    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                        element.value = item.detalle // Asignar el valor al input o textarea
+                    } else if (element.tagName === "SELECT") {
+                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                    } else {
+                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                    }
+                } else {
+                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+                }
+            })
+        }
+
+        function mapearAntecedentesPosnatales(antecedentesPrenatales) {
+            antecedentesPrenatales.forEach(item => {
+                const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
+                if (element) {
+                    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                        element.value = item.detalle // Asignar el valor al input o textarea
+                    } else if (element.tagName === "SELECT") {
+                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                    } else {
+                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                    }
+                } else {
+                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+                }
+            })
+        }
+
+        function mapearAntecedentesPrenatales(antecedentesPrenatales) {
+            antecedentesPrenatales.forEach(item => {
+                const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
+
+                if (element) {
+                    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                        element.value = item.detalle // Asignar el valor al input o textarea
+                    } else if (element.tagName === "SELECT") {
+                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                    } else {
+                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                    }
+                } else {
+                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+                }
+            })
+        }
+
+        function mapearAntecedentesNatales(antecedentesPrenatales) {
+            antecedentesPrenatales.forEach(item => {
+                const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
+
+                if (element) {
+                    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                        element.value = item.detalle // Asignar el valor al input o textarea
+                    } else if (element.tagName === "SELECT") {
+                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                    } else {
+                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                    }
+                } else {
+                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+                }
+            })
         }
     </script>
 

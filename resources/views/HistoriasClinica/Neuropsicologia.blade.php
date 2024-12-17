@@ -403,15 +403,15 @@
                                                                     name="traumaticos">
                                                                     <option value="">Seleccione una
                                                                         opción...</option>
-                                                                    <option value="fracturas">Fracturas óseas</option>
-                                                                    <option value="traumatismo_craneoencefalico">
+                                                                    <option value="fracturas óseas">Fracturas óseas</option>
+                                                                    <option value="traumatismo craneoencefálico">
                                                                         Traumatismo
                                                                         craneoencefálico</option>
-                                                                    <option value="luxaciones_esguinces">Luxaciones y
+                                                                    <option value="luxaciones y esguinces">Luxaciones y
                                                                         esguinces
                                                                     </option>
                                                                     <option value="quemaduras">Quemaduras</option>
-                                                                    <option value="accidente_transito">Accidente de tráfico
+                                                                    <option value="accidente de transito">Accidente de transito
                                                                     </option>
                                                                     <option value="otro">Otro</option>
                                                                     <option value="ninguno">Ninguno</option>
@@ -578,7 +578,7 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="peso_nacer" class="form-label">Peso al
-                                                                        nacer: :</label>
+                                                                        nacer:</label>
                                                                     <input type="text" class="form-control"
                                                                         id="peso_nacer" name="peso_nacer"
                                                                         placeholder="Ejemplo: 1KG">
@@ -587,7 +587,7 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="talla_nacer" class="form-label">Talla al
-                                                                        nacer: :</label>
+                                                                        nacer:</label>
                                                                     <input type="text" class="form-control"
                                                                         id="talla_nacer" name="talla_nacer"
                                                                         placeholder="Ejemplo: 50 cm">
@@ -596,7 +596,7 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="llanto_nacer" class="form-label">Llanto al
-                                                                        nacer: :</label>
+                                                                        nacer:</label>
                                                                     <select class="form-control" id="llanto_nacer"
                                                                         name="llanto_nacer">
                                                                         <option value="">Seleccione una opción...
@@ -730,7 +730,7 @@
                                                                 <select class="form-control" id="depresion"
                                                                     name="depresion">
                                                                     <option value="">Selecciona una opción</option>
-                                                                    <option value="no_refiere">No refiere</option>
+                                                                    <option value="no refiere">No refiere</option>
                                                                     <option value="padre">Padre</option>
                                                                     <option value="madre">Madre</option>
                                                                     <option value="hijo">Hijo/a</option>
@@ -751,7 +751,7 @@
                                                                 <select class="form-control" id="ansiedad"
                                                                     name="ansiedad">
                                                                     <option value="">Selecciona una opción</option>
-                                                                    <option value="no_refiere">No refiere</option>
+                                                                    <option value="no refiere">No refiere</option>
                                                                     <option value="padre">Padre</option>
                                                                     <option value="madre">Madre</option>
                                                                     <option value="hijo">Hijo/a</option>
@@ -772,7 +772,7 @@
                                                                 <select class="form-control" id="demencia"
                                                                     name="demencia">
                                                                     <option value="">Selecciona una opción</option>
-                                                                    <option value="no_refiere">No refiere</option>
+                                                                    <option value="no refiere">No refiere</option>
                                                                     <option value="padre">Padre</option>
                                                                     <option value="madre">Madre</option>
                                                                     <option value="hijo">Hijo/a</option>
@@ -794,7 +794,7 @@
                                                                 <select class="form-control" id="alcoholismo"
                                                                     name="alcoholismo">
                                                                     <option value="">Selecciona una opción</option>
-                                                                    <option value="no_refiere">No refiere</option>
+                                                                    <option value="no refiere">No refiere</option>
                                                                     <option value="padre">Padre</option>
                                                                     <option value="madre">Madre</option>
                                                                     <option value="hijo">Hijo/a</option>
@@ -816,7 +816,7 @@
                                                                 <select class="form-control" id="drogadiccion"
                                                                     name="drogadiccion">
                                                                     <option value="">Selecciona una opción</option>
-                                                                    <option value="no_refiere">No refiere</option>
+                                                                    <option value="no refiere">No refiere</option>
                                                                     <option value="padre">Padre</option>
                                                                     <option value="madre">Madre</option>
                                                                     <option value="hijo">Hijo/a</option>
@@ -838,7 +838,7 @@
                                                                 <select class="form-control" id="discapacidad_intelectual"
                                                                     name="discapacidad_intelectual">
                                                                     <option value="">Selecciona una opción</option>
-                                                                    <option value="no_refiere">No refiere</option>
+                                                                    <option value="no refiere">No refiere</option>
                                                                     <option value="padre">Padre</option>
                                                                     <option value="madre">Madre</option>
                                                                     <option value="hijo">Hijo/a</option>
@@ -860,7 +860,7 @@
                                                                 <select class="form-control" id="patologicos"
                                                                     name="patologicos">
                                                                     <option value="">Selecciona una opción</option>
-                                                                    <option value="no_refiere">No refiere</option>
+                                                                    <option value="no refiere">No refiere</option>
                                                                     <option value="padre">Padre</option>
                                                                     <option value="madre">Madre</option>
                                                                     <option value="hijo">Hijo/a</option>
@@ -881,7 +881,7 @@
                                                                 <select class="form-control" id="otros"
                                                                     name="otros">
                                                                     <option value="">Selecciona una opción</option>
-                                                                    <option value="no_refiere">No refiere</option>
+                                                                    <option value="no refiere">No refiere</option>
                                                                     <option value="padre">Padre</option>
                                                                     <option value="madre">Madre</option>
                                                                     <option value="hijo">Hijo/a</option>

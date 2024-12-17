@@ -182,12 +182,30 @@
             <div class="seccion" style="background-color:rgb(238, 238, 238);">
                 <h3><strong>ANTECEDENTES</strong></h3>
                 <h4><strong>Médicos Personales</strong></h4>
-                @foreach($antecedentesPersonales as $item)
-                    <div class="seccion">
-                        <p><strong>{{$item->nombre}}</strong></p>
-                        <p>{!! $item->detalle !!}</p>
-                    </div>
-                @endforeach
+                <table style="border: none; width: 100%; table-layout: fixed;">
+                    <tr style="border: none; ">
+                        <td style="border: none; width: 50%; vertical-align: top;">
+                            @foreach($antecedentesPersonales as $index => $item)
+                                @if($index % 2 == 0)
+                                    <div class="seccion">
+                                        <p><strong>{{$item->nombre}}</strong></p>
+                                        <p>{!! $item->detalle !!}</p>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </td>
+                        <td style="border: none; width: 50%; vertical-align: top;">
+                            @foreach($antecedentesPersonales as $index => $item)
+                                @if($index % 2 != 0)
+                                    <div class="seccion">
+                                        <p><strong>{{$item->nombre}}</strong></p>
+                                        <p>{!! $item->detalle !!}</p>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

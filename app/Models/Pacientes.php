@@ -27,6 +27,11 @@ class Pacientes extends Model
             ->where('habilitado', 'SI')
             ->get();
     }
+    public static function listTipoUsuario()
+    {
+        return DB::connection('mysql')->table('tipo_usuario')
+            ->get();
+    }
 
     
     public static function BuscarPaciente($id)

@@ -34,6 +34,7 @@ Route::post('/pacientes/listaPacientes', [PacientesController::class, 'listaPaci
 Route::get('/pacientes/ocupaciones', [PacientesController::class, 'ocupaciones'])->name('pacientes.ocupaciones');
 Route::post('/pacientes/municipio', [PacientesController::class, 'municipios'])->name('pacientes.municipio');
 Route::get('/pacientes/departamentos', [PacientesController::class, 'departamentos'])->name('pacientes.departamentos');
+Route::get('/pacientes/tipoUSuario', [PacientesController::class, 'tipoUSuario'])->name('pacientes.tipoUSuario');
 Route::post('/verificar-identificacion', [PacientesController::class, 'verificarIdentPaciente']);
 Route::post('/pacientes/guardar', [PacientesController::class, 'guardarPaciente'])->name('form.guardarPaciente');
 Route::post('/pacientes/buscaPaciente', [PacientesController::class, 'busquedaPaciente'])->name('pacientes.buscaPaciente');
@@ -79,6 +80,11 @@ Route::get('/hitoriaPsicologica/categorias', [HistoriasController::class, 'obten
 Route::post('/HistoriasClinicas/listaHistoriasPsicologica', [HistoriasController::class, 'listaHistoriasPsicologica'])->name('HistoriasClinicas.listaHistoriasPsicologica');
 Route::post('/historia/buscaHistoriaPsicologica', [HistoriasController::class, 'buscaHistoriaPsicologica'])->name('historia.buscaHistoriaPsicologica');
 Route::post('/historia/buscaProfesionalHistoria', [HistoriasController::class, 'buscaProfesionalHistoria'])->name('historia.buscaProfesionalHistoria');
+
+/// GESTIONAR CONSULTAS
+Route::post('/historia/guardarConsultaPsicologica', [HistoriasController::class, 'guardarConsultaPsicologica'])->name('form.guardarConsultaPsicologica');
+Route::post('/historia/listaConsultasModal', [HistoriasController::class, 'listaConsultasModal'])->name('historia.listaConsultasModal');
+Route::post('/historia/buscaConsultaPsicologica', [HistoriasController::class, 'buscaConsultaPsicologica'])->name('historia.buscaConsultaPsicologica');
 
 
 /// HISTORIAS CLINICAS NEURO

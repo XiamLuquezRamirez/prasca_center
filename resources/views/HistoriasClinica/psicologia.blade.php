@@ -647,10 +647,10 @@
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <div class="form-group">
-                                                                    <label for="hospitalizaciones"
+                                                                    <label for="hospitalizaciones_nacido"
                                                                         class="form-label">Hospitalizaciones recién
                                                                         nacido:</label>
-                                                                    <textarea class="form-control" id="hospitalizaciones" name="hospitalizaciones" rows="3"
+                                                                    <textarea class="form-control" id="hospitalizaciones_nacido" name="hospitalizaciones_nacido" rows="3"
                                                                         placeholder="Describa las causas de hospitalización"></textarea>
                                                                 </div>
                                                             </div>
@@ -1597,7 +1597,7 @@
         <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myLargeModalLabel">Listado de consultas</h4>
+                    <h4 class="modal-title" id="titConsulta">Gestionar consultas</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                 </div>
                 <div class="modal-body">
@@ -1611,11 +1611,11 @@
                                     <div class="box-controls pull-right">
                                         <div class="box-header-actions">
                                             <div class="input-group input-group-merge">
-                                                <input type="text" id="busqueda" class="form-control">
+                                                <input type="text" id="busquedaConsultaa" class="form-control">
                                                 <div class="input-group-text" data-password="false">
                                                     <span class="fa fa-search"></span>
                                                 </div>
-                                                <button type="button" onclick="nuevoRegistro(1);"
+                                                <button type="button" onclick="nuevoRegistroConsulta();"
                                                     class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i>
                                                     Nueva
                                                     consulta</button>
@@ -1628,14 +1628,12 @@
                                             <tr>
                                                 <th style="width:5%;">Fecha</th>
                                                 <th style="width:37%;">Consulta</th>
-                                                <th style="width:35%;">Diagnotico</th>
+                                                <th style="width:35%;">Diagnóstico</th>
                                                 <th style="width:15%;">Profesional</th>
                                                 <th style="width:10%;">Acción</th>
                                             </tr>
                                         </thead>
                                         <tbody id="trRegistrosConsultas">
-
-
                                         </tbody>
                                     </table>
                                     <div id="pagination-links-consulta" class="text-center ml-1 mt-2">
@@ -1644,8 +1642,178 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="fomrConsultas">
+                        <div id="fomrConsultas" style="display: none;">
+                            <div class="card-body">
+                                <form id="formConsulta">
+                                    @csrf <!-- Directiva para el token CSRF de Laravel -->
+                                    <input type="hidden" id="accHistoriaConsulta" name="accHistoriaConsulta" />
+                                    <input type="hidden" id="idHistoriaConsulta" name="idHistoriaConsulta" />
+                                    <div class="tab-content">
+                                        <div class="tab-pane show active" id="justified-tabs-preview">
+                                            <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                                                <li class="nav-item">
+                                                    <a href="#datos_iniciales" data-bs-toggle="tab"
+                                                        aria-expanded="false" class="nav-link rounded-0 active">
+                                                        <span class="d-none d-md-block"><i
+                                                                class="fa fa-user-circle"></i> Datos Iniciales</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="#resumenEval" data-bs-toggle="tab" aria-expanded="true"
+                                                        class="nav-link rounded-0">
+                                                        <span class="d-none d-md-block"><i class="fa fa-check"></i>
+                                                            Resumen Evaluación</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="#interconsultas" data-bs-toggle="tab"
+                                                        aria-expanded="true" class="nav-link rounded-0">
+                                                        <span class="d-none d-md-block"><i
+                                                                class="fa fa-stethoscope"></i> Interconsultas</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="#observaciones" data-bs-toggle="tab"
+                                                        aria-expanded="false" class="nav-link rounded-0">
+                                                        <span class="d-none d-md-block"><i class="fa fa-list-ol"></i>
+                                                            Observaciones</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
 
+                                            <div class="tab-content px-20">
+                                                <!-- Datos Iniciales -->
+                                                <div class="tab-pane show active" id="datos_iniciales">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="codConsulta" class="form-label">Código de
+                                                                    consulta:</label>
+                                                                <select class="form-control select2"
+                                                                    id="codConsultaConsulta"
+                                                                    name="codConsultaConsulta"></select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="remision"
+                                                                    class="form-label">Remisión:</label>
+                                                                <textarea class="form-control" id="remisionConsuta" name="remisionConsuta" rows="3"
+                                                                    placeholder="Ingrese de dónde es remitido el paciente.."></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="impresion_diagnostica"
+                                                                    class="form-label">Impresión Diagnóstica (CIE 10 –
+                                                                    DSM-V):</label>
+                                                                <select class="form-control select2"
+                                                                    id="codImpresionDiagnosticoConsulta"
+                                                                    name="codImpresionDiagnosticoConsulta"></select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Resumen de evaluación -->
+                                                <div class="tab-pane show" id="resumenEval">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="resumen_evaluacion_inicial"
+                                                                class="form-label">Resumen de evaluación psicolólogica
+                                                                inicial
+                                                                inicial:</label>
+                                                            <textarea class="form-control" id="resumen_evaluacion_inicial" name="resumen_evaluacion_inicial" rows="3"
+                                                                placeholder="Resumen de evaluación psicológica inicial"></textarea>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="evolucion_tratamiento"
+                                                                class="form-label">Evolución del tratamiento psicolólogico
+                                                                actual
+                                                                actual:</label>
+                                                            <textarea class="form-control" id="evolucion_tratamiento" name="evolucion_tratamiento" rows="3"
+                                                                placeholder="Evolución del tratamiento psicolólogico actual"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="plann_continuidad" class="form-label">Plan de
+                                                                continuidad
+                                                                actual:</label>
+                                                            <textarea class="form-control" id="plan_continuidad" name="plan_continuidad" rows="3"
+                                                                placeholder="Resumen de plan de continuidad"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Interconsultas -->
+                                                <div class="tab-pane" id="interconsultas">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="intervencion_psiquiatria"
+                                                                    class="form-label">Intervención por
+                                                                    Psiquiatría:</label>
+                                                                <textarea class="form-control" id="intervencion_psiquiatria_consulta" name="intervencion_psiquiatria_consulta"
+                                                                    rows="3" placeholder="Describa la intervención por Psiquiatría..."></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="intervencion_neurologia"
+                                                                    class="form-label">Intervención por
+                                                                    Neurología:</label>
+                                                                <textarea class="form-control" id="intervencion_neurologia_consulta" name="intervencion_neurologia_consulta"
+                                                                    rows="3" placeholder="Describa la intervención por Neurología..."></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="intervencion_neuropsicologia"
+                                                                    class="form-label">Intervención por
+                                                                    Neuropsicología:</label>
+                                                                <textarea class="form-control" id="intervencion_neuropsicologia_consulta"
+                                                                    name="intervencion_neuropsicologia_consulta" rows="3"
+                                                                    placeholder="Describa la intervención por Neuropsicología..."></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group mt-3">
+                                                        <label for="sugerencia_interconsultas"
+                                                            class="form-label">Sugerencia para Interconsultas:</label>
+                                                        <textarea class="form-control" id="sugerencia_consulta" name="sugerencia_consulta" rows="3"
+                                                            placeholder="Ingrese las sugerencias para interconsultas..."></textarea>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Observaciones -->
+                                                <div class="tab-pane" id="observaciones">
+                                                    <div class="form-group">
+                                                        <label for="observaciones_recomendaciones"
+                                                            class="form-label">Observaciones y Recomendaciones:</label>
+                                                        <textarea class="form-control" id="observaciones_consulta" name="observaciones_consulta" rows="3"
+                                                            placeholder="Ingrese observaciones y recomendaciones..."></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="box-footer text-end mt-3">
+                                                <button onclick="cancelarConsulta()" type="button"
+                                                    class="btn btn-primary-light me-1">
+                                                    <i class="ti-share-alt"></i> Cancelar
+                                                </button>
+                                                <button onclick="guardarConsulta()" type="button"
+                                                    class="btn btn-primary">
+                                                    <i class="ti-save-alt"></i> Guardar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
@@ -1664,11 +1832,64 @@
             //Initialize Select2 Elements
             $('.select2').select2()
 
-
-
             $('#codConsulta').select2({
                 dropdownAutoWidth: true,
                 width: '100%',
+                placeholder: 'Buscar consulta por código o nombre...',
+                language: {
+                    inputTooShort: function() {
+                        return 'Por favor, ingresa al menos un carácter'
+                    },
+                    noResults: function() {
+                        return 'No se encontraron resultados.'
+                    },
+                    searching: function() {
+                        return 'Buscando...'
+                    }
+                },
+                minimumInputLength: 1, // Requiere al menos 1 carácter
+                ajax: {
+                    transport: function(params, success, failure) {
+                        const query = params.data.q || '' // Término de búsqueda
+                        const page = params.data.page || 1 // Número de página
+
+                        fetch(`${rtotal}historia/buscaCUPS?q=${query}&page=${page}`, {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                cache: 'no-cache'
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Error en la solicitud')
+                                }
+                                return response.json()
+                            })
+                            .then(data => {
+
+                                const results = {
+                                    results: data.data,
+                                    pagination: {
+                                        more: (page * 30) < data.total_count
+                                    }
+                                }
+                                success(results) // Envía los resultados a Select2
+                            })
+                            .catch(error => {
+                                console.error('Error al buscar:', error)
+                                failure(error) // Maneja errores en Select2
+                            })
+                    }
+                },
+                escapeMarkup: function(markup) {
+                    return markup // Evita inyección de HTML
+                }
+            })
+            $('#codConsultaConsulta').select2({
+                dropdownAutoWidth: true,
+                width: '100%',
+                dropdownParent: $('#modalConsulta'),
                 placeholder: 'Buscar consulta por código o nombre...',
                 language: {
                     inputTooShort: function() {
@@ -1828,6 +2049,60 @@
                     return markup // Evita inyección de HTML
                 }
             })
+            $('#codImpresionDiagnosticoConsulta').select2({
+                dropdownAutoWidth: true,
+                width: '100%',
+                dropdownParent: $('#modalConsulta'),
+                placeholder: 'Buscar diagnóstico  por código o nombre...',
+                language: {
+                    inputTooShort: function() {
+                        return 'Por favor, ingresa al menos un carácter'
+                    },
+                    noResults: function() {
+                        return 'No se encontraron resultados.'
+                    },
+                    searching: function() {
+                        return 'Buscando...'
+                    }
+                },
+                minimumInputLength: 1, // Requiere al menos 1 carácter
+                ajax: {
+                    transport: function(params, success, failure) {
+                        const query = params.data.q || '' // Término de búsqueda
+                        const page = params.data.page || 1 // Número de página
+
+                        fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                cache: 'no-cache'
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Error en la solicitud')
+                                }
+                                return response.json()
+                            })
+                            .then(data => {
+                                const results = {
+                                    results: data.data,
+                                    pagination: {
+                                        more: (page * 30) < data.total_count
+                                    }
+                                }
+                                success(results) // Envía los resultados a Select2
+                            })
+                            .catch(error => {
+                                console.error('Error al buscar:', error)
+                                failure(error) // Maneja errores en Select2
+                            })
+                    }
+                },
+                escapeMarkup: function(markup) {
+                    return markup // Evita inyección de HTML
+                }
+            })
 
             const ids = ['enfermedadActual',
                 'observaciones_recomendaciones',
@@ -1835,7 +2110,13 @@
                 'objetivos_especificos',
                 'objetivo_general',
                 'medicacion',
-                'remision'
+                'remision',
+                'remisionConsuta',
+                'resumen_evaluacion_inicial',
+                'evolucion_tratamiento',
+                'plan_continuidad',
+                'sugerencia_consulta',
+                'observaciones_consulta'
             ]
 
             $(function() {
@@ -1903,6 +2184,12 @@
                     searchTerm)
             })
 
+            document.getElementById('busquedaConsultaa').addEventListener('input', function() {
+                var searchTerm = this.value
+                cargarConsultas(1,
+                    searchTerm)
+            })
+
             document.addEventListener('click', function(event) {
                 if (event.target.matches('.pagPac a')) {
                     event.preventDefault()
@@ -1926,6 +2213,13 @@
         function cancelarHistoria() {
             document.getElementById('listado').style.display = 'block'
             document.getElementById('historia').style.display = 'none'
+        }
+
+        function cancelarConsulta() {
+            document.getElementById('listadoConsultas').style.display = 'block'
+            document.getElementById('fomrConsultas').style.display = 'none'
+            document.getElementById("titConsulta").innerHTML = "Gestionar consulta"
+
         }
 
         function cargarHistorias(page, searchTerm = '') {
@@ -2043,6 +2337,13 @@
             document.getElementById("btn-imprimirHistoria").style.display = ""
         }
 
+        function nuevoRegistroConsulta() {
+            document.getElementById("listadoConsultas").style.display = "none"
+            document.getElementById("fomrConsultas").style.display = "initial"
+            document.getElementById("titConsulta").innerHTML = "Agregar consulta"
+            document.getElementById("accHistoriaConsulta").value = "guardar"
+        }
+
         function cargarPacientes(page, searchTerm = '') {
             let url = "{{ route('pacientes.listaPacientesModal') }}" // Definir la URL
             // Eliminar los campos ocultos anteriores
@@ -2155,7 +2456,7 @@
                             if (isConfirm) {
 
                             }
-                        });
+                        })
                     } else {
                         mapearInfPaciente(data.paciente)
                         document.getElementById('listado').style.display = 'none'
@@ -2251,7 +2552,43 @@
                 document.getElementById("fomrConsultas").style.display = "none"
             }
 
+            cargarConsultas(1)
+        }
 
+        function cargarConsultas(page, searchTerm = '') {
+
+            let url = "{{ route('historia.listaConsultasModal') }}" // Definir la URL
+            // Eliminar los campos ocultos anteriores
+            var oldPageInput = document.getElementById('pageConsulta')
+            var oldSearchTermInput = document.getElementById('busquedaConsulta')
+            if (oldPageInput) oldPageInput.remove()
+            if (oldSearchTermInput) oldSearchTermInput.remove()
+
+            var data = {
+                page: page,
+                search: searchTerm,
+                idHist: document.getElementById("idHistoria").value
+            }
+
+            // Limpiar la tabla antes de cargar nuevos datos
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(responseData => {
+                    // Rellenar la tabla con las filas generadas
+                    document.getElementById('trRegistrosConsultas').innerHTML = responseData.consultas
+                    feather.replace()
+                    // Colocar los enlaces de paginación
+                    document.getElementById('pagination-links-consulta').innerHTML = responseData.links
+                    loadNow(0)
+                })
+                .catch(error => console.error('Error:', error))
         }
 
         function guardarHistoria() {
@@ -2295,9 +2632,50 @@
             }
         }
 
+        function guardarConsulta() {
+            if ($("#formConsulta").valid()) {
+
+                for (var instanceName in CKEDITOR.instances) {
+                    CKEDITOR.instances[instanceName].updateElement()
+                }
+
+                const formConsulta = document.getElementById('formConsulta')
+                const formData = new FormData(formConsulta)
+                formData.append('idHist', document.getElementById("idHistoria").value)
+
+                const url = "{{ route('form.guardarConsultaPsicologica') }}"
+
+                fetch(url, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        if (data.success = 'success') {
+
+                            swal(data.title, data.message, data.success)
+                            cargarHistorias(1)
+
+                        } else {
+                            swal(data.title, data.message, data.success)
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error al enviar los datos:", error)
+                    })
+
+            }
+        }
+
         function verHistoria(idHist) {
 
         }
+
+
 
         function editarHistoria(element) {
             document.getElementById('listado').style.display = 'none'
@@ -2341,6 +2719,45 @@
                         document.getElementById("infPediatria").style.display = "none"
 
                     }
+
+                })
+                .catch(error => console.error('Error:', error))
+        }
+
+        function editarConsulta(idConsulta) {
+            document.getElementById("listadoConsultas").style.display = "none"
+            document.getElementById("fomrConsultas").style.display = "initial"
+
+            document.getElementById("idHistoriaConsulta").value = idConsulta
+            document.getElementById("accHistoriaConsulta").value = "editar"
+
+            let url = "{{ route('historia.buscaConsultaPsicologica') }}"
+
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        idConsulta: idConsulta
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    cargarSelConsulta(data.consulta.codigo_consulta, 'codConsultaConsulta')
+                    cargarImpresion(historia.impresion_diagnostica, 'codImpresionDiagnosticoConsulta')
+                    CKEDITOR.instances['remisionConsuta'].setData(data.consulta.remision)
+                    CKEDITOR.instances['resumen_evaluacion_inicial'].setData(data.consulta.resumen_evaluacion)
+                    CKEDITOR.instances['evolucion_tratamiento'].setData(data.consulta.evolucion_tratamiento)
+                    CKEDITOR.instances['plan_continuidad'].setData(data.consulta.plan_continuidad)
+
+                    document.getElementById("intervencion_psiquiatria_consulta").value = data.consulta.intervencion_psiquiatria	
+                    document.getElementById("intervencion_neurologia_consulta").value = data.consulta.intervencion_neurologia	
+                    document.getElementById("intervencion_neuropsicologia_consulta").value = data.consulta.intervencion_neuropsicologia	
+
+                    CKEDITOR.instances['sugerencia_consulta'].setData(historia.sugerencias_interconsultas)
+                    CKEDITOR.instances['observaciones_consulta'].setData(historia.observaciones_recomendaciones)
 
                 })
                 .catch(error => console.error('Error:', error))
@@ -2542,7 +2959,8 @@
             }
 
             CKEDITOR.instances['remision'].setData(historia.remision)
-            cargarSelConsulta(historia.codigo_consulta)
+
+            cargarSelConsulta(historia.codigo_consulta, 'codConsulta')
 
             const valoresConsulta = historia.motivo_consulta.split(',')
 
@@ -2572,7 +2990,7 @@
             $('#establecidoPrimeraVez').trigger('change')
 
             document.getElementById("otroMotivo").value = historia.otro_motivo_consulta
-            cargarImpresion(historia.codigo_diagnostico)
+            cargarImpresion(historia.codigo_diagnostico, 'codDiagnostico')
 
             CKEDITOR.instances['enfermedadActual'].setData(historia.enfermedad_actual)
             CKEDITOR.instances['objetivo_general'].setData(historia.objetivo_general)
@@ -2612,7 +3030,7 @@
                 .catch(error => console.error('Error:', error))
         }
 
-        function cargarSelConsulta(codigo_consulta) {
+        function cargarSelConsulta(codigo_consulta, id) {
             let rtotal = $("#RutaTotal").data("ruta")
 
             if (codigo_consulta) {
@@ -2633,7 +3051,7 @@
                         if (data && data.id && data.text) {
                             // Agregar opción al select si no está ya presente
                             const newOption = new Option(data.text, data.id, true, true)
-                            $('#codConsulta').append(newOption).trigger('change')
+                            $('#' + id).append(newOption).trigger('change')
                         }
                     })
                     .catch(error => {
@@ -2672,7 +3090,7 @@
             }
         }
 
-        function cargarImpresion(codigo_dx) {
+        function cargarImpresion(codigo_dx, id) {
             let rtotal = $("#RutaTotal").data("ruta")
 
             if (codigo_dx) {
@@ -2693,12 +3111,12 @@
                         if (data && data.id && data.text) {
                             // Agregar opción al select si no está ya presente
                             const newOption = new Option(data.text, data.id, true, true)
-                            $('#codDiagnostico').append(newOption).trigger('change')
+                            $('#' + id).append(newOption).trigger('change')
                         }
                     })
                     .catch(error => {
                         console.error('Error al cargar codDiagnostico:', error)
-                    });
+                    })
             }
         }
     </script>

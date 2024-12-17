@@ -110,28 +110,7 @@
                                 <div class="form-group">
                                     <label for="tipoIdentificacion" class="form-label">Tipo de identificación :</label>
                                     <select class="form-control" id="tipoId" name="tipoId" aria-invalid="false">
-                                        <option value="">Selecciona una
-                                            opción</option>
-                                        <option value="AS">
-                                            Adulto sin Identificación </option>
-                                        <option value="CC">
-                                            Cédula Ciudadanía </option>
-                                        <option value="CD">
-                                            Carné Diplomático </option>
-                                        <option value="CE">
-                                            Cédula de Extranjería </option>
-                                        <option value="MS">
-                                            Menor sin Identificación </option>
-                                        <option value="NV">
-                                            Certificado de Nacido Vivo </option>
-                                        <option value="PE">
-                                            Permiso Especial del Permanencia </option>
-                                        <option value="PT">
-                                            Permiso por protección temporal </option>
-                                        <option value="RC">
-                                            Registro Civil </option>
-                                        <option value="TI">
-                                            Tarjeta de identidad </option>
+                                        
                                     </select>
                                 </div>
                             </div>
@@ -829,7 +808,10 @@
             document.getElementById("accPacientes").value = "guardar"
 
             cargarDepartamento();
+            cargarTipoUsuario();
         }
+
+      
 
         function eliminarPaciente(idPac) {
 
@@ -900,6 +882,37 @@
                             let option = document.createElement("option");
                             option.value = departamento.codigo;
                             option.text = departamento.nombre;
+                            select.appendChild(option);
+                        });
+                        resolve(); // Resuelve la promesa cuando los datos han sido cargados
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        reject(error); // Rechaza la promesa si ocurre un error
+                    });
+            });
+        }
+        function cargarTipoUsuario() {
+            return new Promise((resolve, reject) => {
+                let select = document.getElementById("tipoUsuario");
+                select.innerHTML=""
+                let url = "{{ route('pacientes.tipoUSuario') }}";
+
+                let defaultOption = document.createElement("option");
+                defaultOption.value = ""; // Valor en blanco
+                defaultOption.text = "Selecciona una opción"; // Texto que se mostrará
+                defaultOption.disabled = true; // Deshabilitar para que no pueda ser seleccionada
+                defaultOption.selected = true; // Que aparezca seleccionada por defecto
+                select.appendChild(defaultOption);
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        data.forEach(tipo => {
+                            let option = document.createElement("option");
+                            option.value = tipo.id;
+                            option.text = tipo.descripcion;
                             select.appendChild(option);
                         });
                         resolve(); // Resuelve la promesa cuando los datos han sido cargados

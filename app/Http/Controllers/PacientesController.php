@@ -86,11 +86,19 @@ class PacientesController extends Controller
         $municipios = Pacientes::listMunicipios($idMuni);
         return response()->json($municipios);
     }
+
     public function departamentos()
     {
 
         $departamentos = Pacientes::listDepartamentos();
         return response()->json($departamentos);
+    }
+
+    public function tipoUSuario()
+    {
+
+        $tipoUSuario = Pacientes::listTipoUsuario();
+        return response()->json($tipoUSuario);
     }
 
 
@@ -123,7 +131,7 @@ class PacientesController extends Controller
         $idPaciente = $request->input('idPaciente');
         $paciente = Pacientes::busquedaPaciente($idPaciente);
         $historia = HistoriaPsicologica::busquedaHistoriaPaciente($idPaciente);
-        
+
         return response()->json([
             'paciente' => $paciente,
             'historia' => $historia
@@ -135,7 +143,7 @@ class PacientesController extends Controller
         $idPaciente = $request->input('idPaciente');
         $paciente = Pacientes::busquedaPaciente($idPaciente);
         $historia = HistoriaNeuroPsicologica::busquedaHistoriaNeuroPaciente($idPaciente);
-        
+
         return response()->json([
             'paciente' => $paciente,
             'historia' => $historia
@@ -216,12 +224,14 @@ class PacientesController extends Controller
 
             $pacientes = DB::connection('mysql')
                 ->table('pacientes')
+                ->leftJoin("tipo_usuario", "tipo_usuario.id", "pacientes.tipo_usuario")
                 ->where('estado', 'ACTIVO')
                 ->select(
                     DB::raw("CONCAT(tipo_identificacion, ' ', identificacion) as identificacion_completa"),
                     DB::raw("CONCAT(primer_nombre,' ',segundo_nombre,' ',primer_apellido,' ', segundo_apellido) as nombre_completo"),
                     'telefono',
-                    'id',
+                    'pacientes.id',
+                    'tipo_usuario.descripcion AS regimen',
                     DB::raw("
                 CASE 
                     WHEN sexo = 'H' THEN 'Hombre'
@@ -230,21 +240,7 @@ class PacientesController extends Controller
                     ELSE 'Sin Especificar'
                 END as sexo
             "),
-                    DB::raw("
-                CASE 
-                    WHEN tipo_usuario = '01' THEN 'Contributivo cotizante'
-                    WHEN tipo_usuario = '02' THEN 'Contributivo beneficiario'
-                    WHEN tipo_usuario = '03' THEN 'Contributivo adicional'
-                    WHEN tipo_usuario = '04' THEN 'Subsidiado'
-                    WHEN tipo_usuario = '05' THEN 'No afiliado'
-                    WHEN tipo_usuario = '06' THEN 'Especial o Excepcion cotizante'
-                    WHEN tipo_usuario = '07' THEN 'Especial o Excepcion beneficiario'
-                    WHEN tipo_usuario = '08' THEN 'Personas privadas de la libertad a cargo del Fondo Nacional de Salud'
-                    WHEN tipo_usuario = '09' THEN 'Tomador / Amparado ARL'
-                    WHEN tipo_usuario = '10' THEN 'Tomador / Amparado SOAT'
-                    ELSE 'Sin Especificar'
-                END as regimen
-            "),
+
                     DB::raw("STR_TO_DATE(fecha_nacimiento, '%Y-%m-%d') as fecha_nacimiento_formateada"),
                     DB::raw("CONCAT(TIMESTAMPDIFF(YEAR, STR_TO_DATE(fecha_nacimiento, '%Y-%m-%d'), CURDATE()),' Años') as edad"),
                     DB::raw("
@@ -269,10 +265,10 @@ class PacientesController extends Controller
 
             $tdTable = '';
             $x = ($page - 1) * $perPage + 1;
-            
+
             foreach ($ListPacientes as $i => $item) {
                 if (!is_null($item)) {
-                    $clases = ( $item->estado == "IMCOMPLETO") ? "badge-danger" : "badge-success";
+                    $clases = ($item->estado == "IMCOMPLETO") ? "badge-danger" : "badge-success";
 
                     $tdTable .= '<tr>
                                     <td>' . $item->identificacion_completa . '</td>
@@ -281,7 +277,7 @@ class PacientesController extends Controller
                                     <td>' . $item->sexo . '</td>
                                     <td>' . $item->edad . '</td>
                                     <td>' . $item->telefono . '</td>
-                                    <td><span class="badge '.$clases.'">' . $item->estado . '</span></td>
+                                    <td><span class="badge ' . $clases . '">' . $item->estado . '</span></td>
                                     <td class="table-action min-w-100">
                                          <a onclick="verPaciente(' . $item->id . ');" style="cursor: pointer;" title="Ver paciente" class="text-fade hover-success"><i class="align-middle"
                                                 data-feather="search"></i></a>
@@ -374,13 +370,13 @@ class PacientesController extends Controller
 
             $tdTable = '';
             $x = ($page - 1) * $perPage + 1;
-            
+
             foreach ($ListPacientes as $i => $item) {
                 if (!is_null($item)) {
-                    $clases = ( $item->estado == "IMCOMPLETO") ? "badge-danger" : "badge-success";
+                    $clases = ($item->estado == "IMCOMPLETO") ? "badge-danger" : "badge-success";
 
-                    $tdTable .= '<tr data-edad="'.$item->edad.'" data-id="'.$item->id.'" onclick="seleccionarPaciente(this)" style="cursor: pointer;">
-                                    <td>' .$item->identificacion_completa .' - '. $item->nombre_completo . '</td>
+                    $tdTable .= '<tr data-edad="' . $item->edad . '" data-id="' . $item->id . '" onclick="seleccionarPaciente(this)" style="cursor: pointer;">
+                                    <td>' . $item->identificacion_completa . ' - ' . $item->nombre_completo . '</td>
                                     <td>' . $item->regimen . '</td>
                                     <td>' . $item->sexo . '</td>
                                     <td>' . $item->edad . ' Años</td>

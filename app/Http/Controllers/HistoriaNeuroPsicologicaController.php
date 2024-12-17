@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\HistoriaNeuroPsicologica;
 use App\Models\CategoriaHCP;
 use App\Models\Pacientes;
+use \PDF;
 
 
 class HistoriaNeuroPsicologicaController extends Controller
@@ -173,7 +174,11 @@ class HistoriaNeuroPsicologicaController extends Controller
         $aparienciaPersonal = HistoriaNeuroPsicologica::busquedaAparienciaPersonal($historia->id);
         $funcionesCognitiva = HistoriaNeuroPsicologica::busquedaFuncionesCognitivas($historia->id);
         $funcionesSomaticas = HistoriaNeuroPsicologica::busquedaFuncionesSomaticas($historia->id);
-        
+        $antecedentesPrenatales = HistoriaNeuroPsicologica::busquedaAntPrenatales($historia->id);
+        $antecedentesNatales = HistoriaNeuroPsicologica::busquedaAntNatales($historia->id);
+        $antecedentesPosnatales = HistoriaNeuroPsicologica::busquedaAntPosnatales($historia->id);
+        $desarrolloPsicomotor = HistoriaNeuroPsicologica::desarrolloPsicomotor($historia->id);
+       
         return response()->json([
             'historia' => $historia,
             'paciente' => $pacientes,
@@ -183,7 +188,55 @@ class HistoriaNeuroPsicologicaController extends Controller
             'interconuslta' => $interconuslta,
             'aparienciaPersonal' => $aparienciaPersonal,
             'funcionesCognitiva' => $funcionesCognitiva,
-            'funcionesSomaticas' => $funcionesSomaticas          
+            'funcionesSomaticas' => $funcionesSomaticas,
+            'antecedentesPrenatales' => $antecedentesPrenatales,       
+            'antecedentesNatales' => $antecedentesNatales,       
+            'antecedentesPosnatales' => $antecedentesPosnatales,       
+            'desarrolloPsicomotor' => $desarrolloPsicomotor          
         ]);
+    }
+
+    public function imprimirHistoria(Request $request)
+    {
+        $idHist = $request->input('idHist');
+        
+        $historia = HistoriaNeuroPsicologica::busquedaHistoriaNeuro($idHist);
+        $pacientes = Pacientes::busquedaPaciente($historia->id_paciente);
+        $antecedentesPersonales = HistoriaNeuroPsicologica::busquedaAntecedentes($historia->id);
+        $antecedentesFamiliares = HistoriaNeuroPsicologica::busquedaAntFamiliares($historia->id);
+        $areaAjuste = HistoriaNeuroPsicologica::busquedaAreaAjuste($historia->id);
+        $interconuslta = HistoriaNeuroPsicologica::busquedaInterconsulta($historia->id);
+        $aparienciaPersonal = HistoriaNeuroPsicologica::busquedaAparienciaPersonal($historia->id);
+        $funcionesCognitiva = HistoriaNeuroPsicologica::busquedaFuncionesCognitivas($historia->id);
+        $funcionesSomaticas = HistoriaNeuroPsicologica::busquedaFuncionesSomaticas($historia->id);
+        $antecedentesPrenatales = HistoriaNeuroPsicologica::busquedaAntPrenatales($historia->id);
+        $antecedentesNatales = HistoriaNeuroPsicologica::busquedaAntNatales($historia->id);
+        $antecedentesPosnatales = HistoriaNeuroPsicologica::busquedaAntPosnatales($historia->id);
+        $desarrolloPsicomotor = HistoriaNeuroPsicologica::desarrolloPsicomotor($historia->id);
+    
+        $data = [
+            'historia' => $historia,
+            'paciente' => $pacientes,
+            'antecedentesPersonales' => $antecedentesPersonales,
+            'antecedentesFamiliares' => $antecedentesFamiliares,
+            'areaAjuste' => $areaAjuste,
+            'interconuslta' => $interconuslta,
+            'aparienciaPersonal' => $aparienciaPersonal,
+            'funcionesCognitiva' => $funcionesCognitiva,
+            'funcionesSomaticas' => $funcionesSomaticas,
+            'antecedentesPrenatales' => $antecedentesPrenatales,       
+            'antecedentesNatales' => $antecedentesNatales,       
+            'antecedentesPosnatales' => $antecedentesPosnatales,       
+            'desarrolloPsicomotor' => $desarrolloPsicomotor 
+        ];
+        
+        $pdf = PDF::loadView('imprimir.imprimirHistoriaNeuro', $data)->setPaper('a4');
+
+        $fileName = 'Historia_neuro_'.$idHist. '.pdf';
+        $filePath = 'historias_neuro/' . $fileName;
+        $pdf->save(public_path($filePath));
+        $url = asset($filePath);
+
+        return response()->json(['url' => $url]);
     }
 }

@@ -206,31 +206,30 @@ class HistoriaPsicologica extends Model
                             return !empty($item['detalle']);
                         });
                         DB::table('antecedentes_natales')->insert($antecedentesFamiliares);
-                    
+
                         // Insertar antecedentes posnatales
                         $antecedentesFamiliares = array_filter([
-                            ['id_historia' => $idHistoria, 'tipo' => 'hospitalizaciones', 'detalle' => $request['hospitalizaciones']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'hospitalizaciones_nacido', 'detalle' => $request['hospitalizaciones_nacido']],
                             ['id_historia' => $idHistoria, 'tipo' => 'desarrollo_psicomotor', 'detalle' => $request['desarrollo_psicomotor']]
                         ], function ($item) {
                             return !empty($item['detalle']);
                         });
                         DB::table('antecedentes_posnatales')->insert($antecedentesFamiliares);
-                    
+
                         // Insertar desarrollo psicomotor
                         $antecedentesFamiliares = array_filter([
                             ['id_historia' => $idHistoria, 'tipo' => 'control_cefalico', 'detalle' => $request['control_cefalico']],
                             ['id_historia' => $idHistoria, 'tipo' => 'rolado', 'detalle' => $request['rolado']],
                             ['id_historia' => $idHistoria, 'tipo' => 'sedente_solo', 'detalle' => $request['sedente_solo']],
                             ['id_historia' => $idHistoria, 'tipo' => 'gateo', 'detalle' => $request['gateo']],
-                            ['id_historia' => $idHistoria, 'tipo' => 'gateo', 'bipedo' => $request['bipedo']],
-                            ['id_historia' => $idHistoria, 'tipo' => 'gateo', 'marcha' => $request['marcha']],
-                            ['id_historia' => $idHistoria, 'tipo' => 'gateo', 'lenguaje_verbal' => $request['lenguaje_verbal']],
-                            ['id_historia' => $idHistoria, 'tipo' => 'gateo', 'lenguaje_verbal_fluido' => $request['lenguaje_verbal_fluido']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'bipedo', 'detalle' => $request['bipedo']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'marcha', 'detalle' => $request['marcha']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'lenguaje_verbal', 'detalle' => $request['lenguaje_verbal']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'lenguaje_verbal_fluido', 'detalle' => $request['lenguaje_verbal_fluido']],
                         ], function ($item) {
                             return !empty($item['detalle']);
                         });
                         DB::table('desarrollo_psicomotor')->insert($antecedentesFamiliares);
-                                        
                     }
 
                     // Confirmar transacción
@@ -403,62 +402,137 @@ class HistoriaPsicologica extends Model
 
                     //si es pediatria 
 
-                 /// En el caso de que sea pediatria
-                 if ($request['tipoPsicologia'] == "Pediatría") {
-                    // Insertar antecedentes prenatales
-                    DB::table('antecedentes_prenatales')->where('id_historia', $idHistoria)->delete();
-                    $antecedentesFamiliares = array_filter([
-                        ['id_historia' => $idHistoria, 'tipo' => 'edad_madre', 'detalle' => $request['edad_madre']],
-                        ['id_historia' => $idHistoria, 'tipo' => 'enfermedades_madre', 'detalle' => $request['enfermedades_madre']],
-                        ['id_historia' => $idHistoria, 'tipo' => 'demencia', 'detalle' => $request['numero_embarazo']],
-                        ['id_historia' => $idHistoria, 'tipo' => 'alcoholismo', 'detalle' => $request['estado_madre']]
-                    ], function ($item) {
-                        return !empty($item['detalle']);
-                    });
-                    DB::table('antecedentes_prenatales')->insert($antecedentesFamiliares);
+                    /// En el caso de que sea pediatria
+                    if ($request['tipoPsicologia'] == "Pediatría") {
+                        // Insertar antecedentes prenatales
+                        DB::table('antecedentes_prenatales')->where('id_historia', $idHistoria)->delete();
+                        $antecedentesFamiliares = array_filter([
+                            ['id_historia' => $idHistoria, 'tipo' => 'edad_madre', 'detalle' => $request['edad_madre']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'enfermedades_madre', 'detalle' => $request['enfermedades_madre']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'demencia', 'detalle' => $request['numero_embarazo']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'alcoholismo', 'detalle' => $request['estado_madre']]
+                        ], function ($item) {
+                            return !empty($item['detalle']);
+                        });
+                        DB::table('antecedentes_prenatales')->insert($antecedentesFamiliares);
 
-                    // Insertar antecedentes natales
-                    DB::table('antecedentes_natales')->where('id_historia', $idHistoria)->delete();
-                    $antecedentesFamiliares = array_filter([
-                        ['id_historia' => $idHistoria, 'tipo' => 'tipo_nacimiento', 'detalle' => $request['tipo_nacimiento']],
-                        ['id_historia' => $idHistoria, 'tipo' => 'causa_cesarea', 'detalle' => $request['causa_cesarea']],
-                        ['id_historia' => $idHistoria, 'tipo' => 'reanimacion', 'detalle' => $request['reanimacion']]
-                    ], function ($item) {
-                        return !empty($item['detalle']);
-                    });
-                    DB::table('antecedentes_natales')->insert($antecedentesFamiliares);
-                
-                    // Insertar antecedentes posnatales
-                    DB::table('antecedentes_posnatales')->where('id_historia', $idHistoria)->delete();
-                    $antecedentesFamiliares = array_filter([
-                        ['id_historia' => $idHistoria, 'tipo' => 'hospitalizaciones', 'detalle' => $request['hospitalizaciones']],
-                        ['id_historia' => $idHistoria, 'tipo' => 'desarrollo_psicomotor', 'detalle' => $request['desarrollo_psicomotor']]
-                    ], function ($item) {
-                        return !empty($item['detalle']);
-                    });
-                    DB::table('antecedentes_posnatales')->insert($antecedentesFamiliares);
-                
-                    // Insertar desarrollo psicomotor
-                    DB::table('desarrollo_psicomotor')->where('id_historia', $idHistoria)->delete();
-                    $antecedentesFamiliares = array_filter([
-                        ['id_historia' => $idHistoria, 'tipo' => 'control_cefalico', 'detalle' => $request['control_cefalico']],
-                        ['id_historia' => $idHistoria, 'tipo' => 'rolado', 'detalle' => $request['rolado']],
-                        ['id_historia' => $idHistoria, 'tipo' => 'sedente_solo', 'detalle' => $request['sedente_solo']],
-                        ['id_historia' => $idHistoria, 'tipo' => 'gateo', 'detalle' => $request['gateo']],
-                        ['id_historia' => $idHistoria, 'tipo' => 'gateo', 'bipedo' => $request['bipedo']],
-                        ['id_historia' => $idHistoria, 'tipo' => 'gateo', 'marcha' => $request['marcha']],
-                        ['id_historia' => $idHistoria, 'tipo' => 'gateo', 'lenguaje_verbal' => $request['lenguaje_verbal']],
-                        ['id_historia' => $idHistoria, 'tipo' => 'gateo', 'lenguaje_verbal_fluido' => $request['lenguaje_verbal_fluido']],
-                    ], function ($item) {
-                        return !empty($item['detalle']);
-                    });
-                    DB::table('desarrollo_psicomotor')->insert($antecedentesFamiliares);
-                                    
-                }
+                        // Insertar antecedentes natales
+                        DB::table('antecedentes_natales')->where('id_historia', $idHistoria)->delete();
+                        $antecedentesFamiliares = array_filter([
+                            ['id_historia' => $idHistoria, 'tipo' => 'tipo_nacimiento', 'detalle' => $request['tipo_nacimiento']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'causa_cesarea', 'detalle' => $request['causa_cesarea']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'reanimacion', 'detalle' => $request['reanimacion']]
+                        ], function ($item) {
+                            return !empty($item['detalle']);
+                        });
+                        DB::table('antecedentes_natales')->insert($antecedentesFamiliares);
+
+                        // Insertar antecedentes posnatales
+                        DB::table('antecedentes_posnatales')->where('id_historia', $idHistoria)->delete();
+                        $antecedentesFamiliares = array_filter([
+                            ['id_historia' => $idHistoria, 'tipo' => 'hospitalizaciones', 'detalle' => $request['hospitalizaciones']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'desarrollo_psicomotor', 'detalle' => $request['desarrollo_psicomotor']]
+                        ], function ($item) {
+                            return !empty($item['detalle']);
+                        });
+                        DB::table('antecedentes_posnatales')->insert($antecedentesFamiliares);
+
+                        // Insertar desarrollo psicomotor
+                        DB::table('desarrollo_psicomotor')->where('id_historia', $idHistoria)->delete();
+                        $antecedentesFamiliares = array_filter([
+                            ['id_historia' => $idHistoria, 'tipo' => 'control_cefalico', 'detalle' => $request['control_cefalico']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'rolado', 'detalle' => $request['rolado']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'sedente_solo', 'detalle' => $request['sedente_solo']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'gateo', 'detalle' => $request['gateo']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'gateo', 'bipedo' => $request['bipedo']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'gateo', 'marcha' => $request['marcha']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'gateo', 'lenguaje_verbal' => $request['lenguaje_verbal']],
+                            ['id_historia' => $idHistoria, 'tipo' => 'gateo', 'lenguaje_verbal_fluido' => $request['lenguaje_verbal_fluido']],
+                        ], function ($item) {
+                            return !empty($item['detalle']);
+                        });
+                        DB::table('desarrollo_psicomotor')->insert($antecedentesFamiliares);
+                    }
 
                     // Confirmar transacción
                     DB::commit();
                     return  $idHistoria;
+                } catch (\Exception $e) {
+                    // Revertir transacción en caso de error
+                    DB::rollBack();
+                    throw $e;
+                }
+            }
+        } catch (Exception $e) {
+            // Manejo del error
+            return response()->json([
+                'success' => false,
+                'message' => 'Ocurrió un error al procesar el formulario: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public static function guardarConsulta($request)
+    {
+        try {
+            if ($request['accHistoriaConsulta'] == 'guardar') {
+
+                DB::beginTransaction();
+
+                try {
+                    // Insertar en `historia_clinica`
+                    $idConsulta = DB::table('consultas_psicologica')->insertGetId(array_filter([
+                        'id_historia' => $request['idHist'] ?? null,
+                        'id_profesional' => Auth::user()->id,
+                        'fecha_consulta' => now(),
+                        'codigo_consulta' => $request['codConsultaConsulta'] ?? null,
+                        'impresion_diagnostica' => $request['codImpresionDiagnosticoConsulta']  ?? null,
+                        'remision' => $request['remisionConsuta'] ?? null,
+                        'resumen_evaluacion' => $request['resumen_evaluacion_inicial'] ?? null,
+                        'evolucion_tratamiento' => $request['evolucion_tratamiento'] ?? null,
+                        'plan_continuidad' => $request['plan_continuidad'] ?? null,
+                        'intervencion_psiquiatria' => $request['intervencion_psiquiatria_consulta'] ?? null,
+                        'intervencion_neurologia' => $request['intervencion_neurologia_consulta'] ?? null,
+                        'intervencion_neuropsicologia' => $request['intervencion_neuropsicologia_consulta'] ?? null,
+                        'sugerencias_interconsultas' => $request['sugerencia_consulta'] ?? null,
+                        'observaciones_recomendaciones' => $request['observaciones_consulta'] ?? null
+                    ]));
+
+                    // Confirmar transacción
+                    DB::commit();
+                    return  $idConsulta;
+                } catch (\Exception $e) {
+                    // Revertir transacción en caso de error
+                    DB::rollBack();
+                    throw $e;
+                }
+            } else {
+                DB::beginTransaction();
+
+                try {
+                    // Insertar en `historia_clinica`
+
+                    $idConsulta = $request['idHist'];
+                    DB::table('consultas_psicologica')->where('id', $idConsulta)->update(array_filter([
+                        'id_historia' => $request['idHist'] ?? null,
+                        'id_profesional' => Auth::user()->id,
+                        'fecha_consulta' => now(),
+                        'codigo_consulta' => $request['codConsultaConsulta'] ?? null,
+                        'impresion_diagnostica' => $request['codImpresionDiagnosticoConsulta']  ?? null,
+                        'remision' => $request['remisionConsuta'] ?? null,
+                        'resumen_evaluacion' => $request['resumen_evaluacion_inicial'] ?? null,
+                        'evolucion_tratamiento' => $request['evolucion_tratamiento'] ?? null,
+                        'plan_continuidad' => $request['plan_continuidad'] ?? null,
+                        'intervencion_psiquiatria' => $request['intervencion_psiquiatria_consulta'] ?? null,
+                        'intervencion_neurologia' => $request['intervencion_neurologia_consulta'] ?? null,
+                        'intervencion_neuropsicologia' => $request['intervencion_neuropsicologia_consulta'] ?? null,
+                        'sugerencias_interconsultas' => $request['sugerencia_consulta'] ?? null,
+                        'observaciones_recomendaciones' => $request['observaciones_consulta'] ?? null
+                    ]));
+
+                    // Confirmar transacción
+                    DB::commit();
+                    return  $idConsulta;
                 } catch (\Exception $e) {
                     // Revertir transacción en caso de error
                     DB::rollBack();
@@ -480,6 +554,14 @@ class HistoriaPsicologica extends Model
             ->where("id", $idHisto)
             ->first();
     }
+
+    public static function busquedaConsulta($idConsulta)
+    {
+        return DB::connection('mysql')->table('consultas_psicologica')
+            ->where("id", $idConsulta)
+            ->first();
+    }
+    
     public static function busquedaHistoriaPaciente($idPac)
     {
         return DB::connection('mysql')->table('historia_clinica')
@@ -500,7 +582,7 @@ class HistoriaPsicologica extends Model
             ->where("id_historia", $idHisto)
             ->get();
     }
-    
+
     public static function busquedaAntPrenatales($idHisto)
     {
         return DB::connection('mysql')->table('antecedentes_prenatales')

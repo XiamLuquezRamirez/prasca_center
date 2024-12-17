@@ -35,12 +35,12 @@ class HistoriasController extends Controller
         $aparienciaPersonal = HistoriaPsicologica::busquedaAparienciaPersonal($historia->id);
         $funcionesCognitiva = HistoriaPsicologica::busquedaFuncionesCognitivas($historia->id);
         $funcionesSomaticas = HistoriaPsicologica::busquedaFuncionesSomaticas($historia->id);
-        
+
         $antecedentesPrenatales = HistoriaPsicologica::busquedaAntPrenatales($historia->id);
         $antecedentesNatales = HistoriaPsicologica::busquedaAntNatales($historia->id);
         $antecedentesPosnatales = HistoriaPsicologica::busquedaAntPosnatales($historia->id);
         $desarrolloPsicomotor = HistoriaPsicologica::desarrolloPsicomotor($historia->id);
-        
+
         return response()->json([
             'historia' => $historia,
             'paciente' => $pacientes,
@@ -50,18 +50,29 @@ class HistoriasController extends Controller
             'interconuslta' => $interconuslta,
             'aparienciaPersonal' => $aparienciaPersonal,
             'funcionesCognitiva' => $funcionesCognitiva,
-            'funcionesSomaticas' => $funcionesSomaticas,       
-            'antecedentesPrenatales' => $antecedentesPrenatales,       
-            'antecedentesNatales' => $antecedentesNatales,       
-            'antecedentesPosnatales' => $antecedentesPosnatales,       
+            'funcionesSomaticas' => $funcionesSomaticas,
+            'antecedentesPrenatales' => $antecedentesPrenatales,
+            'antecedentesNatales' => $antecedentesNatales,
+            'antecedentesPosnatales' => $antecedentesPosnatales,
             'desarrolloPsicomotor' => $desarrolloPsicomotor
         ]);
     }
 
-    public function buscaProfesionalHistoria(Request $request){
+    public function buscaConsultaPsicologica(Request $request)
+    {
+        $idConsulta = $request->input('idConsulta');
+        $consulta = HistoriaPsicologica::busquedaConsulta($idConsulta);
+      
+        return response()->json([
+            'consulta' => $consulta
+        ]);
+    }
+
+    public function buscaProfesionalHistoria(Request $request)
+    {
         $idProf = $request->input('idProf');
         $profesional = Profesional::busquedaProfesionalHitoria($idProf);
-       
+
         return response()->json($profesional);
     }
 
@@ -113,7 +124,7 @@ class HistoriasController extends Controller
 
     public function obtenerOpcionesHCP()
     {
-       
+
         $categorias = CategoriaHCP::with('opciones')->get();
         return response()->json($categorias);
     }
@@ -123,7 +134,7 @@ class HistoriasController extends Controller
         $id = $request->get('id');
         $query = $request->get('q');
         $page = $request->get('page', 1);
-        $perPage = 30; 
+        $perPage = 30;
 
         if ($id) {
             $resultado = DB::connection('mysql')
@@ -172,8 +183,107 @@ class HistoriasController extends Controller
         }
 
         $data = $request->all();
-
         $respuesta = HistoriaPsicologica::guardar($data);
+
+        // Verificar el resultado y preparar la respuesta
+        if ($respuesta) {
+            $estado = 'success';
+            $message = 'La operación fue realizada exitosamente.';
+            $title = '¡Buen trabajo!';
+        } else {
+            $message = 'No se pudo realizada la operación.';
+            $estado = 'warning';
+            $title = '¡Opps salio algo mal!';
+        }
+        // Retornar la respuesta en formato JSON
+        return response()->json([
+            'success' => $estado,
+            'id' => $respuesta,
+            'message' =>  $message,
+            'title' =>  $title
+        ]);
+    }
+
+
+    public function listaConsultasModal(Request $request)
+    {
+        if (Auth::check()) {
+            $perPage = 10; // Número de posts por página
+            $page = request()->get('page', 1);
+            $search = request()->get('search');
+            $idHist = request()->get('idHist');
+            if (!is_numeric($page)) {
+                $page = 1; // Establecer un valor predeterminado si no es numérico
+            }
+
+            $consultas = DB::connection('mysql')
+                ->table('consultas_psicologica')
+                ->leftJoin("referencia_cups", "referencia_cups.id", "consultas_psicologica.codigo_consulta")
+                ->leftJoin("referencia_cie10", "referencia_cie10.id", "consultas_psicologica.impresion_diagnostica")
+                ->leftJoin("profesionales", "profesionales.usuario", "consultas_psicologica.id_profesional")
+                ->select(
+                    'consultas_psicologica.id',
+                    'consultas_psicologica.fecha_consulta',
+                    'referencia_cups.nombre AS consulta',
+                    'referencia_cie10.nombre AS diagnostico',
+                    'profesionales.nombre AS profesional'
+                );
+
+            if ($search) {
+                $consultas->where(function ($query) use ($search) {
+                    $query->where('profesionales.nombre', 'LIKE', '%' . $search . '%')
+                    ->orWhere('referencia_cups.nombre', 'LIKE', '%' . $search . '%')
+                    ->orWhere('referencia_cie10.nombre', 'LIKE', '%' . $search . '%');
+                });
+            }
+
+            $ListConsultas = $consultas->paginate($perPage, ['*'], 'page', $page);
+
+            $tdTable = '';
+            $x = ($page - 1) * $perPage + 1;
+            $const = 1;
+            foreach ($ListConsultas as $i => $item) {
+                if (!is_null($item)) {
+                    $tdTable .= '<tr>
+                                    <td>' . date('d/m/Y g:i:s A', strtotime($item->fecha_consulta)) . '</td>
+                                    <td>' . $item->consulta . '</td>
+                                    <td>' . $item->diagnostico . '</td>
+                                    <td>' . $item->profesional . '</td>
+                                    <td class="table-action min-w-100">
+                                        <a onclick="editarConsulta(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
+                                                data-feather="edit-2"></i></a>
+                                        <a onclick="eliminarConsulta(' . $item->id . ');" style="cursor: pointer;" title="Eliminar" class="text-fade hover-warning"><i class="align-middle"
+                                                data-feather="trash"></i></a>
+                                    </td>
+                                </tr>';
+                    $x++;
+                    $const++;
+                }
+            }
+            $pagination = $ListConsultas->links('Adminitraccion.Paginacion')->render();
+
+            return response()->json([
+                'consultas' => $tdTable,
+                'links' => $pagination
+            ]);
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+
+
+    public function  guardarConsultaPsicologica(Request $request)
+    {
+        if (!Auth::check()) {
+            return response()->json([
+                'estado' => 'error',
+                'mensaje' => 'Su sesión ha terminado.',
+            ], 401);
+        }
+
+        $data = $request->all();
+
+        $respuesta = HistoriaPsicologica::guardarConsulta($data);
 
         // Verificar el resultado y preparar la respuesta
         if ($respuesta) {

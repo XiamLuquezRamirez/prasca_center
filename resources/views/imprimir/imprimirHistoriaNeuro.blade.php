@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            background-color: white;
             margin: 0px;
             font-size: 10px;
         }
@@ -25,7 +25,7 @@
             }
         }
 
-        td {
+        td, tr {
             border: 1px solid black;
             padding: 5px;
             text-transform: capitalize;
@@ -43,6 +43,27 @@
         table {
             width: 100%;
             border-collapse: collapse;
+        }
+
+        .encabezado {
+            background-color: #bfbfbf;
+            font-weight: bold;
+            width: 97.3%;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .seccion {
+            border-left: 1px solid grey;
+            border-right: 1px solid grey;
+            border-top: 1px solid grey;
+            padding: 5px;
+            border-radius: 5px 5px 0px 0px;
+            background-color: white;
+        }
+
+        p {
+            margin-bottom: 5px !important;
         }
     </style>
 </head>
@@ -99,7 +120,7 @@
                 <td><strong>Estado civil:</strong></td>
                 <td>{{$paciente->estado_civil}}</td>
                 <td><strong>Ocupación: </strong></td>
-                <td colspan="2">{{$paciente->ocupacion}}</td>
+                <td>{{$paciente->ocupacion}}</td>
             </tr>
             <tr>
                 <td><strong>Correo electrónico: </strong></td>
@@ -113,9 +134,80 @@
                 <td><strong>Municipio: </strong></td>
                 <td colspan="2">{{$paciente->municipio_info->nombre}}</td>
                 <td><strong>Zona: </strong></td>
-                <td colspan="2">{{$paciente->zona_residencial == '01' ? 'Rural' : 'Urbana'}}</td>
+                <td>{{$paciente->zona_residencial == '01' ? 'Rural' : 'Urbana'}}</td>
             </tr>
+            @if ($paciente->acompanante != "")
+                <tr>
+                    <td colspan="2"><strong>En caso de emergencia llamar a: </strong></td>
+                    <td colspan="6">{{$paciente->acompanante}} - Parentesco ({{$paciente->parentesco}})</td>
+                </tr>
+            @endif
         </table>
+        <br>
+        <div>
+            <div class="encabezado">
+                <strong>Apertura Neuropsicología del {{ $historia->fecha_historia }}: {{ $edad }} Años</strong>
+            </div>
+            <br>
+            <div class="seccion" style="background-color:rgb(238, 238, 238);">
+                <h3><strong>DATOS GENERALES</strong></h3>
+                <div class="seccion">
+                    <p style="font-weight: bold;">Remisión</p>
+                    <p>{!! $historia->remision !!}</p>
+                </div>
+                <div class="seccion">
+                    <p><strong>DX principal</strong></p>
+                    <p>{{ $historia->dx_principal_detalle->nombre }}</p>
+                </div>
+                <div class="seccion">
+                    <p><strong>Código de consulta</strong></p>
+                    <p>{{ $historia->codigo_consulta_detalle->nombre }}</p>
+                </div>
+                <div class="seccion">
+                    <p><strong>Motivo de consulta</strong></p>
+                    <p>{{ $historia->motivo_consulta_detalle->opcion }}</p>
+                </div>
+                @if ($historia->otro_motivo_consulta != null)
+                    <div class="seccion">
+                        <p><strong>Otro motivo de consulta</strong></p>
+                        <p>{{ $historia->otro_motivo_consulta }}</p>
+                    </div>
+                @endif
+                <div class="seccion">
+                    <p><strong>Enfermedad actual</strong></p>
+                    <p>{!! $historia->enfermedad_actual !!}</p>
+                </div>
+            </div>
+            <br>
+            <div class="seccion" style="background-color:rgb(238, 238, 238);">
+                <h3><strong>ANTECEDENTES</strong></h3>
+                <h4><strong>Médicos Personales</strong></h4>
+                <table style="border: none; width: 100%; table-layout: fixed;">
+                    <tr style="border: none; ">
+                        <td style="border: none; width: 50%; vertical-align: top;">
+                            @foreach($antecedentesPersonales as $index => $item)
+                                @if($index % 2 == 0)
+                                    <div class="seccion">
+                                        <p><strong>{{$item->nombre}}</strong></p>
+                                        <p>{!! $item->detalle !!}</p>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </td>
+                        <td style="border: none; width: 50%; vertical-align: top;">
+                            @foreach($antecedentesPersonales as $index => $item)
+                                @if($index % 2 != 0)
+                                    <div class="seccion">
+                                        <p><strong>{{$item->nombre}}</strong></p>
+                                        <p>{!! $item->detalle !!}</p>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
 </body>
 </html>

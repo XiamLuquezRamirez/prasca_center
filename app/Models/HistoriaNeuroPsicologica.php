@@ -491,6 +491,22 @@ class HistoriaNeuroPsicologica extends Model
         ->where('id', $historia->motivo_consulta)
         ->first();
 
+        $historia->impresion_diagnostica_detalle = DB::connection('mysql')
+        ->table('referencia_cie10')
+        ->where('id', $historia->codigo_diagnostico)
+        ->first();
+
+        $historia->plan_intervension_detalle = DB::connection('mysql')
+        ->table('opciones_hc_psicologia')
+        ->where('id', $historia->plan_intervension)
+        ->first();
+
+        $historia->profesional_detalle = DB::connection('mysql')->table('profesionales')
+        ->join("users", "users.id", "profesionales.usuario")
+        ->where("profesionales.usuario", $historia->id_profesional)
+        ->select("profesionales.*", "users.login_usuario", "users.estado_usuario", "users.id as idUsuario")
+        ->first();
+
         return $historia;
     }
 
@@ -538,16 +554,35 @@ class HistoriaNeuroPsicologica extends Model
 
     public static function busquedaAparienciaPersonal($idHisto)
     {
-        return DB::connection('mysql')->table('apariencia_personal_neuro')
-            ->where("id_historia", $idHisto)
-            ->get();
+        $apariencias = DB::connection('mysql')->table('apariencia_personal_neuro')
+        ->where("id_historia", $idHisto)
+        ->get();
+
+        foreach ($apariencias as $item) {
+           $item->apariencia_detalle =  DB::connection('mysql')->table('opciones_hc_psicologia')
+           ->where("id", $item->detalle)
+           ->select("opcion")
+           ->first();
+        }
+
+        return $apariencias;
     }
 
     public static function busquedaFuncionesCognitivas($idHisto)
     {
-        return DB::connection('mysql')->table('funciones_cognitivas_neuro')
-            ->where("id_historia", $idHisto)
-            ->get();
+        $funciones = DB::connection('mysql')->table('funciones_cognitivas_neuro')
+        ->where("id_historia", $idHisto)
+        ->get();
+
+        foreach ($funciones as $item) {
+            $item->funciones_detalle =  DB::connection('mysql')->table('opciones_hc_psicologia')
+            ->where("id", $item->detalle)
+            ->select("opcion")
+            ->first();
+        }
+
+        return $funciones;
+
     }
 
     public static function busquedaFuncionesSomaticas($idHisto)

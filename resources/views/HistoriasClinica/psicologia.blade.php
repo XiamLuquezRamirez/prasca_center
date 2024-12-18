@@ -145,120 +145,9 @@
                                                     style="width: 100%;"><i class="fa fa-edit"></i> Iniciar
                                                     consulta</button>
                                             </div>
-                                            <div class="mt-4">
-                                                <div class="pb-20">
-                                                    <div class="dropdown float-end">
-                                                        <a href="#" class="dropdown-toggle no-caret"
-                                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <i class="mdi mdi-dots-vertical"></i>
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a href="javascript:void(0);"
-                                                                class="dropdown-item">Settings</a>
-                                                            <!-- item-->
-                                                            <a href="javascript:void(0);" class="dropdown-item">Action</a>
-                                                        </div> <!-- item-->
+                                            <div id="historialConsulta">
 
-                                                    </div>
-                                                    <p class="fs-16">7 Julio 2024</p>
-                                                    <div class="d-flex align-items-center justify-content-between">
-                                                        <div class="d-flex align-items-center">
-                                                            <div
-                                                                class="bg-transparent h-50 w-50 border border-light product_icon text-center">
-                                                                <p class="mb-0 fs-20 w-50 fw-600 l-h-40"><i
-                                                                        class="fa fa-stethoscope" aria-hidden="true"></i>
-                                                                </p>
-                                                            </div>
-                                                            <div class="d-flex flex-column font-weight-500 mx-10">
-                                                                <a href="#"
-                                                                    class="text-dark hover-primary mb-1  fs-15">CONSULTA DE
-                                                                    PRIMERA VEZ POR PSICOLOGIA</a>
-                                                                <span class="text-fade"><i
-                                                                        class="fa fa-fw fa-circle fs-10 text-success"></i>
-                                                                    OTROS TRASTORNOS DEL DESARROLLO PSICOLOGICO</span>
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <div class="d-flex flex-column font-weight-500">
-                                                                <span class="text-fade text-end"><i
-                                                                        class="fa fa-user-md"></i> Maria Pumarejo</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
-                                            <div class="mb-0">
-                                                <div class="pb-20">
-                                                    <div class="dropdown float-end">
-                                                        <a href="#" class="dropdown-toggle no-caret"
-                                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <i class="mdi mdi-dots-vertical"></i>
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a href="javascript:void(0);"
-                                                                class="dropdown-item">Settings</a>
-                                                            <!-- item-->
-                                                            <a href="javascript:void(0);" class="dropdown-item">Action</a>
-                                                        </div> <!-- item-->
-
-                                                    </div>
-                                                    <p class="fs-16">7 Julio 2024</p>
-                                                    <div class="d-flex align-items-center justify-content-between">
-                                                        <div class="d-flex align-items-center">
-                                                            <div
-                                                                class="bg-transparent h-50 w-50 border border-light product_icon text-center">
-                                                                <p class="mb-0 fs-20 w-50 fw-600 l-h-40"><i
-                                                                        class="fa fa-stethoscope" aria-hidden="true"></i>
-                                                                </p>
-                                                            </div>
-                                                            <div class="d-flex flex-column font-weight-500 mx-10">
-                                                                <a href="#"
-                                                                    class="text-dark hover-primary mb-1  fs-15">CONSULTA DE
-                                                                    PRIMERA VEZ POR PSICOLOGIA</a>
-                                                                <span class="text-fade"><i
-                                                                        class="fa fa-fw fa-circle fs-10 text-success"></i>
-                                                                    OTROS TRASTORNOS DEL DESARROLLO PSICOLOGICO</span>
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <div class="d-flex flex-column font-weight-500">
-                                                                <span class="text-fade text-end"><i
-                                                                        class="fa fa-user-md"></i> Maria Pumarejo</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mb-0">
-                                                <div class="pb-20">
-                                                    <p class="fs-16">7 Julio 2024</p>
-                                                    <div class="d-flex align-items-center justify-content-between">
-                                                        <div class="d-flex align-items-center">
-                                                            <div
-                                                                class="bg-transparent h-50 w-50 border border-light product_icon text-center">
-                                                                <p class="mb-0 fs-20 w-50 fw-600 l-h-40"><i
-                                                                        class="fa fa-stethoscope" aria-hidden="true"></i>
-                                                                </p>
-                                                            </div>
-                                                            <div class="d-flex flex-column font-weight-500 mx-10">
-                                                                <a href="#"
-                                                                    class="text-dark hover-primary mb-1  fs-15">CONSULTA DE
-                                                                    PRIMERA VEZ POR PSICOLOGIA</a>
-                                                                <span class="text-fade"><i
-                                                                        class="fa fa-fw fa-circle fs-10 text-success"></i>
-                                                                    OTROS TRASTORNOS DEL DESARROLLO PSICOLOGICO</span>
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <div class="d-flex flex-column font-weight-500">
-                                                                <span class="text-fade text-end"><i
-                                                                        class="fa fa-user-md"></i> Maria Pumarejo</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
                                         </div>
                                     </div> <!-- end card-body-->
                                 </div> <!-- end card-->
@@ -1529,8 +1418,8 @@
                                                     class="btn btn-primary-light me-1">
                                                     <i class="ti-share-alt "></i> Cancelar
                                                 </button>
-                                                <button onclick="guardarHistoria()" type="button"
-                                                    class="btn btn-primary">
+                                                <button onclick="guardarHistoria()" id="btn-guardarHistoria"
+                                                    type="button" class="btn btn-primary">
                                                     <i class="ti-save-alt"></i> Guardar
                                                 </button>
                                             </div>
@@ -1687,7 +1576,8 @@
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <div class="form-group">
-                                                                <label for="codConsulta" class="form-label">Código de
+                                                                <label for="codConsultaConsulta"
+                                                                    class="form-label">Código de
                                                                     consulta:</label>
                                                                 <select class="form-control select2"
                                                                     id="codConsultaConsulta"
@@ -1704,7 +1594,7 @@
                                                         </div>
                                                         <div class="col-md-12">
                                                             <div class="form-group">
-                                                                <label for="impresion_diagnostica"
+                                                                <label for="codImpresionDiagnosticoConsulta"
                                                                     class="form-label">Impresión Diagnóstica (CIE 10 –
                                                                     DSM-V):</label>
                                                                 <select class="form-control select2"
@@ -1740,7 +1630,7 @@
                                                     </div>
                                                     <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label for="plann_continuidad" class="form-label">Plan de
+                                                            <label for="plan_continuidad" class="form-label">Plan de
                                                                 continuidad
                                                                 actual:</label>
                                                             <textarea class="form-control" id="plan_continuidad" name="plan_continuidad" rows="3"
@@ -2327,14 +2217,33 @@
                 backdrop: 'static',
                 keyboard: false
             })
-
             modal.show()
-            let formHistoria = document.getElementById("formHistoria")
-            formHistoria.reset()
+
+            limpiarHistoria()
+
+            var btnGuardar = document.getElementById("btn-guardarHistoria")
+            btnGuardar.disabled = false
 
             cargarPacientes(1)
             mapearDatosProfesional(document.getElementById("idUsuario").value)
             document.getElementById("btn-imprimirHistoria").style.display = ""
+        }
+
+        function limpiarHistoria() {
+            let formHistoria = document.getElementById("formHistoria")
+            formHistoria.reset()
+
+            for (var instanceName in CKEDITOR.instances) {
+                CKEDITOR.instances[instanceName].setData('');
+            }
+
+            $('#motivoConsulta').val(null).trigger('change');
+            $('#codConsulta').val(null).trigger('change');
+            $('#codDiagnostico').val(null).trigger('change');
+            $('#codImpresionDiagnostico').val(null).trigger('change');
+            document.querySelectorAll('input[data-role="tagsinput"]').forEach(input => {
+                $(input).tagsinput('removeAll');
+            });
         }
 
         function nuevoRegistroConsulta() {
@@ -2345,8 +2254,8 @@
         }
 
         function cargarPacientes(page, searchTerm = '') {
-            let url = "{{ route('pacientes.listaPacientesModal') }}" // Definir la URL
-            // Eliminar los campos ocultos anteriores
+            let url = "{{ route('pacientes.listaPacientesModal') }}"
+
             var oldPageInput = document.getElementById('pagePac')
             var oldSearchTermInput = document.getElementById('busquedaPac')
             if (oldPageInput) oldPageInput.remove()
@@ -2357,7 +2266,7 @@
                 search: searchTerm
             }
 
-            // Limpiar la tabla antes de cargar nuevos datos
+
             fetch(url, {
                     method: 'POST',
                     headers: {
@@ -2368,10 +2277,10 @@
                 })
                 .then(response => response.json())
                 .then(responseData => {
-                    // Rellenar la tabla con las filas generadas
+
                     document.getElementById('trRegistrosPacientes').innerHTML = responseData.pacientes
                     feather.replace()
-                    // Colocar los enlaces de paginación
+
                     document.getElementById('pagination-links-pacientes').innerHTML = responseData.links
                     loadNow(0)
                 })
@@ -2422,6 +2331,56 @@
             }
         }
 
+        function cerrarHistoria(element) {
+            let idHist = element.getAttribute("data-id")
+            let estado = element.getAttribute("data-estado")
+            if(estado == "abierta"){
+                swal({
+                title: "Cerrar historia clinica del paciente.",
+                text: "Al cerrar la historia clicnica del paciente esta no podra ser editada, ¿Desea cerrar la historia?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, cerrarla!",
+                cancelButtonText: "Cancelar",
+                confirmButtonClass: "btn btn-warning",
+                cancelButtonClass: "btn btn-danger ml-1",
+                buttonsStyling: false
+            }, function(isConfirm) {
+                if (isConfirm) {
+                    let url = "{{ route('historia.cerrarHistoria') }}";
+                    fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content')
+                            },
+                            body: JSON.stringify({
+                                idHist: idHist
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                swal("¡Buen trabajo!",
+                                    data.message,
+                                    "success");
+                                cargarHistorias(1);
+                            } else {
+                                swal("¡Alerta!",
+                                    "La operación fue realizada exitosamente",
+                                    data.message,
+                                    "success");
+                            }
+                        })
+                }
+            })
+            }
+            
+        }
+
         function mostrarInformacionHistoria(idPaciente) {
             let url = "{{ route('pacientes.buscaPacienteHistoria') }}"
 
@@ -2454,7 +2413,10 @@
                             buttonsStyling: false
                         }, function(isConfirm) {
                             if (isConfirm) {
-
+                                let elemento = document.createElement('div'); // O cualquier otro elemento
+                                elemento.setAttribute('data-id', data.historia.id);
+                                elemento.setAttribute('data-tipo', data.historia.tipologia);
+                                verHistoria(elemento)
                             }
                         })
                     } else {
@@ -2462,10 +2424,6 @@
                         document.getElementById('listado').style.display = 'none'
                         document.getElementById('historia').style.display = 'block'
                     }
-
-
-
-
                 })
                 .catch(error => console.error('Error:', error))
         }
@@ -2541,18 +2499,25 @@
         }
 
         function abrirConsultas(op) {
-            var modal = new bootstrap.Modal(document.getElementById("modalConsulta"), {
-                backdrop: 'static',
-                keyboard: false
-            })
+            if (document.getElementById("idHistoria").value != "") {
+                var modal = new bootstrap.Modal(document.getElementById("modalConsulta"), {
+                    backdrop: 'static',
+                    keyboard: false
+                })
 
-            modal.show()
-            if (op == 1) {
-                document.getElementById("listadoConsultas").style.display = "initial"
-                document.getElementById("fomrConsultas").style.display = "none"
+                modal.show()
+                if (op == 1) {
+                    document.getElementById("listadoConsultas").style.display = "initial"
+                    document.getElementById("fomrConsultas").style.display = "none"
+                }
+
+                cargarConsultas(1)
+            } else {
+                swal("¡Atención!",
+                    "El paciente no tiene una historia clínica abierta en el sistema.",
+                    "warning");
             }
 
-            cargarConsultas(1)
         }
 
         function cargarConsultas(page, searchTerm = '') {
@@ -2616,7 +2581,7 @@
                     .then(data => {
                         console.log(data)
                         if (data.success = 'success') {
-
+                            document.getElementById("idHistoria").value = data.id
                             swal(data.title, data.message, data.success)
                             cancelarHistoria()
                             cargarHistorias(1)
@@ -2671,18 +2636,23 @@
             }
         }
 
-        function verHistoria(idHist) {
-
+        function verHistoria(element) {
+            editarHistoria(element);
+            var btnGuardar = document.getElementById("btn-guardarHistoria")
+            btnGuardar.disabled = true
         }
 
-
-
         function editarHistoria(element) {
+            loadNow(1);
+            limpiarHistoria()
             document.getElementById('listado').style.display = 'none'
             document.getElementById('historia').style.display = 'block'
 
             let idHist = element.getAttribute("data-id")
             let tipoHis = element.getAttribute("data-tipo")
+
+            var btnGuardar = document.getElementById("btn-guardarHistoria")
+            btnGuardar.disabled = false
 
             let url = "{{ route('historia.buscaHistoriaPsicologica') }}"
 
@@ -2709,6 +2679,9 @@
                     mapearFuncionesCognitivas(data.funcionesCognitiva)
                     mapearFuncionesSomaticas(data.funcionesSomaticas)
 
+                    mapearHistorialConsultas(data.historialConsultas)
+
+
                     if (data.historia.tipologia == "Pediatría") {
                         document.getElementById("infPediatria").style.display = "initial"
                         mapearAntecedentesPrenatales(data.antecedentesPrenatales)
@@ -2719,9 +2692,14 @@
                         document.getElementById("infPediatria").style.display = "none"
 
                     }
+                    loadNow(0);
 
                 })
                 .catch(error => console.error('Error:', error))
+        }
+
+        function mapearHistorialConsultas(historialConsultas) {
+            document.getElementById("historialConsulta").innerHTML = historialConsultas
         }
 
         function editarConsulta(idConsulta) {
@@ -2746,18 +2724,23 @@
                 .then(response => response.json())
                 .then(data => {
                     cargarSelConsulta(data.consulta.codigo_consulta, 'codConsultaConsulta')
-                    cargarImpresion(historia.impresion_diagnostica, 'codImpresionDiagnosticoConsulta')
+
+                    cargarImpresion(data.consulta.impresion_diagnostica, 'codImpresionDiagnosticoConsulta')
+
                     CKEDITOR.instances['remisionConsuta'].setData(data.consulta.remision)
                     CKEDITOR.instances['resumen_evaluacion_inicial'].setData(data.consulta.resumen_evaluacion)
                     CKEDITOR.instances['evolucion_tratamiento'].setData(data.consulta.evolucion_tratamiento)
                     CKEDITOR.instances['plan_continuidad'].setData(data.consulta.plan_continuidad)
 
-                    document.getElementById("intervencion_psiquiatria_consulta").value = data.consulta.intervencion_psiquiatria	
-                    document.getElementById("intervencion_neurologia_consulta").value = data.consulta.intervencion_neurologia	
-                    document.getElementById("intervencion_neuropsicologia_consulta").value = data.consulta.intervencion_neuropsicologia	
+                    document.getElementById("intervencion_psiquiatria_consulta").value = data.consulta
+                        .intervencion_psiquiatria
+                    document.getElementById("intervencion_neurologia_consulta").value = data.consulta
+                        .intervencion_neurologia
+                    document.getElementById("intervencion_neuropsicologia_consulta").value = data.consulta
+                        .intervencion_neuropsicologia
 
-                    CKEDITOR.instances['sugerencia_consulta'].setData(historia.sugerencias_interconsultas)
-                    CKEDITOR.instances['observaciones_consulta'].setData(historia.observaciones_recomendaciones)
+                    CKEDITOR.instances['sugerencia_consulta'].setData(data.consulta.sugerencias_interconsultas)
+                    CKEDITOR.instances['observaciones_consulta'].setData(data.consulta.observaciones_recomendaciones)
 
                 })
                 .catch(error => console.error('Error:', error))
@@ -2910,24 +2893,25 @@
         function mapearAntedentesPersonales(antecedentesPersonales) {
             setTimeout(() => {
                 antecedentesPersonales.forEach(item => {
-                    const element = document.getElementById(item.tipo)
+                    const element = document.getElementById(item.tipo);
                     if (element) {
-                        if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-                            element.value = item.detalle
-                            console.log(element.value)
-
+                        if (element.dataset.role === "tagsinput") {
+                            // Usar el método de la biblioteca para actualizar el valor del tagsinput
+                            $(element).tagsinput('add', item.detalle);
+                        } else if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                            element.value = item.detalle;
                         } else if (element.tagName === "SELECT") {
-                            element.value = item.detalle.toLowerCase()
-                            console.log(item.detalle.toLowerCase())
+                            element.value = item.detalle.toLowerCase();
                         } else {
-                            console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                            console.warn(`El elemento con ID "${item.tipo}" no es compatible.`);
                         }
                     } else {
-                        console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+                        console.error(`No se encontró un elemento con el ID "${item.tipo}".`);
                     }
-                })
-            }, 1000)
+                });
+            }, 1000);
         }
+
 
         function mapearAntedentesFamiliares(antecedentesFamiliares) {
 
@@ -3091,6 +3075,7 @@
         }
 
         function cargarImpresion(codigo_dx, id) {
+
             let rtotal = $("#RutaTotal").data("ruta")
 
             if (codigo_dx) {
@@ -3118,6 +3103,55 @@
                         console.error('Error al cargar codDiagnostico:', error)
                     })
             }
+        }
+
+        function eliminarConsulta(idCons) {
+
+            swal({
+                title: "Esta seguro de eliminar esta consulta ?",
+                text: "¡No podrás revertir esto!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, eliminar!",
+                cancelButtonText: "Cancelar",
+                confirmButtonClass: "btn btn-warning",
+                cancelButtonClass: "btn btn-danger ml-1",
+                buttonsStyling: false
+            }, function(isConfirm) {
+                if (isConfirm) {
+                    let url = "{{ route('historia.eliminarConsulta') }}";
+                    fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content')
+                            },
+                            body: JSON.stringify({
+                                idConsulta: idCons
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                swal("¡Buen trabajo!",
+                                    data.message,
+                                    "success");
+                                cargarConsultas(1);
+                            } else {
+                                swal("¡Alerta!",
+                                    "La operación fue realizada exitosamente",
+                                    data.message,
+                                    "success");
+                            }
+                        })
+
+                } else {
+                    swal("Cancelado", "Tu registro esta salvo :)", "error");
+                }
+            });
         }
     </script>
 

@@ -350,14 +350,14 @@ class AdminitraccionController extends Controller
                 return response()->json(
                     [
                         'success' => true,
-                        'message' => 'Especialidad eliminada correctamente'
+                        'message' => 'Profesional eliminada correctamente'
                     ]
                 );
             } else {
                 return response()->json(
                     [
                         'success' => false,
-                        'message' => 'No se encontró la especialidad o no se pudo eliminar'
+                        'message' => 'No se encontró el profesional o no se pudo eliminar'
                     ],
                     404
                 );
@@ -367,7 +367,7 @@ class AdminitraccionController extends Controller
             return response()->json(
                 [
                     'success' => false,
-                    'message' => 'Ocurrió un error al intentar eliminar la especialidad',
+                    'message' => 'Ocurrió un error al intentar eliminar el profesional',
                     'error' => $e->getMessage()
                 ],
                 500

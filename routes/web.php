@@ -80,11 +80,13 @@ Route::get('/hitoriaPsicologica/categorias', [HistoriasController::class, 'obten
 Route::post('/HistoriasClinicas/listaHistoriasPsicologica', [HistoriasController::class, 'listaHistoriasPsicologica'])->name('HistoriasClinicas.listaHistoriasPsicologica');
 Route::post('/historia/buscaHistoriaPsicologica', [HistoriasController::class, 'buscaHistoriaPsicologica'])->name('historia.buscaHistoriaPsicologica');
 Route::post('/historia/buscaProfesionalHistoria', [HistoriasController::class, 'buscaProfesionalHistoria'])->name('historia.buscaProfesionalHistoria');
+Route::post('/historia/cerrarHistoria', [HistoriasController::class, 'cerrarHistoria'])->name('historia.cerrarHistoria');
 
 /// GESTIONAR CONSULTAS
 Route::post('/historia/guardarConsultaPsicologica', [HistoriasController::class, 'guardarConsultaPsicologica'])->name('form.guardarConsultaPsicologica');
 Route::post('/historia/listaConsultasModal', [HistoriasController::class, 'listaConsultasModal'])->name('historia.listaConsultasModal');
 Route::post('/historia/buscaConsultaPsicologica', [HistoriasController::class, 'buscaConsultaPsicologica'])->name('historia.buscaConsultaPsicologica');
+Route::post('/historia/eliminarConsulta', [HistoriasController::class, 'eliminarConsulta'])->name('historia.eliminarConsulta');
 
 
 /// HISTORIAS CLINICAS NEURO

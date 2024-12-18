@@ -110,8 +110,29 @@
                                 <div class="form-group">
                                     <label for="tipoIdentificacion" class="form-label">Tipo de identificación :</label>
                                     <select class="form-control" id="tipoId" name="tipoId" aria-invalid="false">
-                                        
-                                    </select>
+                                            <option value="">Selecciona una
+                                                opción</option>
+                                            <option value="AS">
+                                                Adulto sin Identificación </option>
+                                            <option value="CC">
+                                                Cédula Ciudadanía </option>
+                                            <option value="CD">
+                                                Carné Diplomático </option>
+                                            <option value="CE">
+                                                Cédula de Extranjería </option>
+                                            <option value="MS">
+                                                Menor sin Identificación </option>
+                                            <option value="NV">
+                                                Certificado de Nacido Vivo </option>
+                                            <option value="PE">
+                                                Permiso Especial del Permanencia </option>
+                                            <option value="PT">
+                                                Permiso por protección temporal </option>
+                                            <option value="RC">
+                                                Registro Civil </option>
+                                            <option value="TI">
+                                                Tarjeta de identidad </option>
+                                        </select>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -126,28 +147,7 @@
                                     <label for="tipoUsuario" class="form-label">Tipo de usuario :</label>
                                     <select class="form-control" id="tipoUsuario" name="tipoUsuario"
                                         aria-invalid="false">
-                                        <option value="">Selecciona una
-                                            opción</option>
-                                        <option value="01">
-                                            Contributivo cotizante </option>
-                                        <option value="02">
-                                            Contributivo beneficiario </option>
-                                        <option value="03">
-                                            Contributivo adicional </option>
-                                        <option value="04">
-                                            Subsidiado </option>
-                                        <option value="05">
-                                            No afiliado </option>
-                                        <option value="06">
-                                            Especial o Excepcion cotizante </option>
-                                        <option value="07">
-                                            Especial o Excepcion beneficiario </option>
-                                        <option value="08">
-                                            Personas privadas de la libertad a cargo del Fondo Nacional de Salud </option>
-                                        <option value="09">
-                                            Tomador / Amparado ARL </option>
-                                        <option value="10">
-                                            Tomador / Amparado SOAT </option>
+                                        
                                     </select>
                                 </div>
                             </div>
@@ -314,7 +314,7 @@
                                     <label for="municipio" class="form-label">Municipio de residencia:</label>
                                     <select class="form-control select2" id="municipio" name="municipio"
                                         aria-invalid="false">
-                                        <option value="">Selecciona una opción</option>
+                                        <option value=" ">Selecciona una opción</option>
                                     </select>
                                 </div>
                             </div>
@@ -410,7 +410,7 @@
 
             $.validator.addMethod("dateFormat", function(value, element) {
                 // Verificar si la fecha está en el formato dd/mm/yyyy
-               
+
                 var dateParts = value.split("/");
                 if (dateParts.length === 3) {
                     var day = parseInt(dateParts[0], 10);
@@ -811,18 +811,18 @@
             cargarTipoUsuario();
         }
 
-      
+
 
         function eliminarPaciente(idPac) {
 
             swal({
-                title: "Esta seguro de cambiar el estado a " + estado + " ?",
+                title: "Esta seguro de eliminar este paciente ?",
                 text: "¡No podrás revertir esto!",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Si, cambiar!",
+                confirmButtonText: "Si, eliminar!",
                 cancelButtonText: "Cancelar",
                 confirmButtonClass: "btn btn-warning",
                 cancelButtonClass: "btn btn-danger ml-1",
@@ -892,10 +892,11 @@
                     });
             });
         }
+
         function cargarTipoUsuario() {
             return new Promise((resolve, reject) => {
                 let select = document.getElementById("tipoUsuario");
-                select.innerHTML=""
+                select.innerHTML = ""
                 let url = "{{ route('pacientes.tipoUSuario') }}";
 
                 let defaultOption = document.createElement("option");

@@ -1848,6 +1848,8 @@
                 keyboard: false
             });
 
+            limpiarHistoria();
+
             modal.show()
             let formHistoria = document.getElementById("formHistoria")
             formHistoria.reset()
@@ -1855,6 +1857,22 @@
             mapearDatosProfesional(document.getElementById("idUsuario").value)
         }
 
+        function limpiarHistoria() {
+            let formHistoria = document.getElementById("formHistoria")
+            formHistoria.reset()
+
+            for (var instanceName in CKEDITOR.instances) {
+                CKEDITOR.instances[instanceName].setData('');
+            }
+
+            $('#motivoConsulta').val(null).trigger('change');
+            $('#codConsulta').val(null).trigger('change');
+            $('#codDiagnostico').val(null).trigger('change');
+            $('#codImpresionDiagnostico').val(null).trigger('change');
+            document.querySelectorAll('input[data-role="tagsinput"]').forEach(input => {
+                $(input).tagsinput('removeAll');
+            });
+        }
         function cargarPacientes(page, searchTerm = '') {
             let url = "{{ route('pacientes.listaPacientesModal') }}"; // Definir la URL
             // Eliminar los campos ocultos anteriores
@@ -2279,7 +2297,10 @@
                     if(item.tipo=="medicacion"){
                         CKEDITOR.instances['medicacion'].setData(item.detalle)
                     }else{
-                        if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                        if (element.dataset.role === "tagsinput") {
+                            $(element).tagsinput('add', item.detalle);
+                        }
+                        else if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
                             element.value = item.detalle // Asignar el valor al input o textarea
                         } else if (element.tagName === "SELECT") {
                             element.value = item.detalle.toLowerCase() // Asignar el valor a un select

@@ -16,14 +16,12 @@
             width: 100%;
         }
 
-        @page { margin: 5px; }
-
-        /* Estilos para el salto de página en impresión */
-        @media print {
-            .page-break {
-                page-break-before: always;
-            }
+        @page { margin: 10px; }
+        
+        .page-break {
+            page-break-before: always;
         }
+        
 
         td, tr {
             border: 1px solid black;
@@ -54,9 +52,9 @@
         }
 
         .seccion {
-            border-left: 1px solid grey;
-            border-right: 1px solid grey;
-            border-top: 1px solid grey;
+            border-left: 0.5px solid grey;
+            border-right: 0.5px solid grey;
+            border-top: 0.5px solid grey;
             padding: 5px;
             border-radius: 5px 5px 0px 0px;
             background-color: white;
@@ -71,19 +69,41 @@
     <div class="container">
         <table>
             <tr>
-                <td rowspan="2"> 
+                <td rowspan="2" style="width: 20%"> 
                     <div class="flex_div">
-                        Historia <br> # {{$historia->id}}
+                        <img width="150" src="app-assets/images/logo/logo_prasca.png" alt="">
                      </div>
                 </td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>
+                <td colspan="2">
                     <div class="flex_div">
                         <strong>IMPRESIÓN DE HISTORIA CLÍNICA NEUROPSICOLOGÍA</strong>
                     </div>
                 </td>
+            </tr>
+            <tr>
+                @php
+                    $numero_historia = "";
+
+                    if($historia->id < 10){
+                        $numero_historia = '0000'.$historia->id;
+                    }else{
+                        if ($historia->id < 100){
+                            $numero_historia = '000'.$historia->id;
+                        }else{
+                            if($historia->id < 1000){
+                                $numero_historia = '00'.$historia->id;
+                            }else{
+                                if($historia->id < 10000){
+                                    $numero_historia = '0'.$historia->id;
+                                }else{
+                                    $numero_historia = $historia->id;
+                                }
+                            }
+                        }
+                    }
+                @endphp
+                <td>Historia # {{ $numero_historia }}</td>
+                <td>Fecha de impresión: {{ date('d-m-Y H:i:s') }}</td>
             </tr>
         </table>
         <br>
@@ -149,7 +169,7 @@
                 <strong>Apertura Neuropsicología del {{ $historia->fecha_historia }}: {{ $edad }} Años</strong>
             </div>
             <br>
-            <div class="seccion" style="background-color:rgb(238, 238, 238);">
+            <div class="seccion" style="background-color:rgb(243, 243, 243);">
                 <h3><strong>DATOS GENERALES</strong></h3>
                 <div class="seccion">
                     <p style="font-weight: bold;">Remisión</p>
@@ -179,9 +199,9 @@
                 </div>
             </div>
             <br>
-            <div class="seccion" style="background-color:rgb(238, 238, 238);">
+            <div class="seccion" style="background-color:rgb(243, 243, 243);">
                 <h3><strong>ANTECEDENTES</strong></h3>
-                <h4><strong>Médicos Personales</strong></h4>
+                <h3><strong>Médicos Personales</strong></h3>
                 <table style="border: none; width: 100%; table-layout: fixed;">
                     <tr style="border: none; ">
                         <td style="border: none; width: 50%; vertical-align: top;">
@@ -207,6 +227,288 @@
                     </tr>
                 </table>
             </div>
+            <div class="page-break"></div>
+            @if($historia->tipologia == 'Pediatría')
+                <div class="seccion" style="background-color:rgb(243, 243, 243);">
+                    <h3><strong>ANTECEDENTES</strong></h3>
+                    <h3><strong>Prenatales</strong></h3>
+                    <table style="border: none; width: 100%; table-layout: fixed;">
+                        <tr style="border: none; ">
+                            <td style="border: none; width: 50%; vertical-align: top;">
+                                @foreach($antecedentesPrenatales as $index => $item)
+                                    @if($index % 2 == 0)
+                                        <div class="seccion">
+                                            <p><strong>{{$item->nombre}}</strong></p>
+                                            <p>{!! $item->detalle !!}</p>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </td>
+                            <td style="border: none; width: 50%; vertical-align: top;">
+                                @foreach($antecedentesPrenatales as $index => $item)
+                                    @if($index % 2 != 0)
+                                        <div class="seccion">
+                                            <p><strong>{{$item->nombre}}</strong></p>
+                                            <p>{!! $item->detalle !!}</p>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <br><br>
+                <div class="seccion" style="background-color:rgb(243, 243, 243);">
+                    <h3><strong>ANTECEDENTES</strong></h3>
+                    <h3><strong>Natales</strong></h3>
+                    <table style="border: none; width: 100%; table-layout: fixed;">
+                        <tr style="border: none; ">
+                            <td style="border: none; width: 50%; vertical-align: top;">
+                                @foreach($antecedentesNatales as $index => $item)
+                                    @if($index % 2 == 0)
+                                        <div class="seccion">
+                                            <p><strong>{{$item->nombre}}</strong></p>
+                                            <p>{!! $item->detalle !!}</p>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </td>
+                            <td style="border: none; width: 50%; vertical-align: top;">
+                                @foreach($antecedentesNatales as $index => $item)
+                                    @if($index % 2 != 0)
+                                        <div class="seccion">
+                                            <p><strong>{{$item->nombre}}</strong></p>
+                                            <p>{!! $item->detalle !!}</p>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <br><br>
+                <div class="seccion" style="background-color:rgb(243, 243, 243);">
+                    <h3><strong>ANTECEDENTES</strong></h3>
+                    <h3><strong>Posnatales</strong></h3>
+                    <table style="border: none; width: 100%; table-layout: fixed;">
+                        <tr style="border: none; ">
+                            <td style="border: none; width: 50%; vertical-align: top;">
+                                @foreach($antecedentesPosnatales as $index => $item)
+                                    @if($index % 2 == 0)
+                                        <div class="seccion">
+                                            <p><strong>{{$item->nombre}}</strong></p>
+                                            <p>{!! $item->detalle !!}</p>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </td>
+                            <td style="border: none; width: 50%; vertical-align: top;">
+                                @foreach($antecedentesPosnatales as $index => $item)
+                                    @if($index % 2 != 0)
+                                        <div class="seccion">
+                                            <p><strong>{{$item->nombre}}</strong></p>
+                                            <p>{!! $item->detalle !!}</p>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <br><br>
+                <div class="seccion" style="background-color:rgb(243, 243, 243);">
+                    <h3><strong>ANTECEDENTES</strong></h3>
+                    <h3><strong>Desarrollo Psicomotor</strong></h3>
+                    <table style="border: none; width: 100%; table-layout: fixed;">
+                        <tr style="border: none; ">
+                            <td style="border: none; width: 50%; vertical-align: top;">
+                                @foreach($desarrolloPsicomotor as $index => $item)
+                                    @if($index % 2 == 0)
+                                        <div class="seccion">
+                                            <p><strong>{{$item->nombre}}</strong></p>
+                                            <p>{!! $item->detalle !!}</p>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </td>
+                            <td style="border: none; width: 50%; vertical-align: top;">
+                                @foreach($desarrolloPsicomotor as $index => $item)
+                                    @if($index % 2 != 0)
+                                        <div class="seccion">
+                                            <p><strong>{{$item->nombre}}</strong></p>
+                                            <p>{!! $item->detalle !!}</p>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="page-break"></div>
+            @endif
+            <div class="seccion" style="background-color:rgb(243, 243, 243);">
+                <h3><strong>ANTECEDENTES</strong></h3>
+                <h3><strong>Médicos Familiares</strong></h3>
+                <table style="border: none; width: 100%; table-layout: fixed;">
+                    <tr style="border: none; ">
+                        <td style="border: none; width: 50%; vertical-align: top;">
+                            @foreach($antecedentesFamiliares as $index => $item)
+                                @if($index % 2 == 0)
+                                    <div class="seccion">
+                                        <p><strong>{{$item->nombre}}</strong></p>
+                                        <p>{!! $item->detalle !!}</p>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </td>
+                        <td style="border: none; width: 50%; vertical-align: top;">
+                            @foreach($antecedentesFamiliares as $index => $item)
+                                @if($index % 2 != 0)
+                                    <div class="seccion">
+                                        <p><strong>{{$item->nombre}}</strong></p>
+                                        <p>{!! $item->detalle !!}</p>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br><br>
+            <div class="seccion" style="background-color:rgb(243, 243, 243);">
+                <h3><strong>Áreas de Ajuste y/o Desempeño</strong></h3>
+                @foreach($areaAjuste as $index => $item)
+                    <div class="seccion">
+                        <p><strong>{{$item->nombre}}</strong></p>
+                        <p>{!! $item->detalle !!}</p>
+                    </div>
+                @endforeach
+            </div>
+            <br><br>
+            <div class="seccion" style="background-color:rgb(243, 243, 243);">
+                <h3><strong>Interconsultas e Intervenciones</strong></h3>
+                @foreach($interconuslta as $index => $item)
+                    <div class="seccion">
+                        <p><strong>{{$item->nombre}}</strong></p>
+                        <p>{!! $item->detalle !!}</p>
+                    </div>
+                @endforeach
+            </div>
+            <div class="page-break"></div>
+            <div class="seccion" style="background-color:rgb(243, 243, 243);">
+                <h3><strong>Apariencia personal</strong></h3>
+                <table style="border: none; width: 100%; table-layout: fixed;">
+                    <tr style="border: none; ">
+                        <td style="border: none; width: 50%; vertical-align: top;">
+                            @foreach($aparienciaPersonal as $index => $item)
+                                @if($index % 2 == 0)
+                                    <div class="seccion">
+                                        <p><strong>{{$item->nombre}}</strong></p>
+                                        <p>{!! $item->apariencia_detalle->opcion !!}</p>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </td>
+                        <td style="border: none; width: 50%; vertical-align: top;">
+                            @foreach($aparienciaPersonal as $index => $item)
+                                @if($index % 2 != 0)
+                                    <div class="seccion">
+                                        <p><strong>{{$item->nombre}}</strong></p>
+                                        <p>{!! $item->apariencia_detalle->opcion !!}</p>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br><br>
+            <div class="seccion" style="background-color:rgb(243, 243, 243);">
+                <h3><strong>Funciones Cognitivas</strong></h3>
+                <table style="border: none; width: 100%; table-layout: fixed;">
+                    <tr style="border: none; ">
+                        <td style="border: none; width: 50%; vertical-align: top;">
+                            @foreach($funcionesCognitiva as $index => $item)
+                                @if($index % 2 == 0)
+                                    <div class="seccion">
+                                        <p><strong>{{$item->nombre}}</strong></p>
+                                        <p>{!! $item->funciones_detalle->opcion !!}</p>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </td>
+                        <td style="border: none; width: 50%; vertical-align: top;">
+                            @foreach($funcionesCognitiva as $index => $item)
+                                @if($index % 2 != 0)
+                                    <div class="seccion">
+                                        <p><strong>{{$item->nombre}}</strong></p>
+                                        <p>{!! $item->funciones_detalle->opcion !!}</p>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br><br>
+            <div class="seccion" style="background-color:rgb(243, 243, 243);">
+                <h3><strong>Funciones Somáticas</strong></h3>
+                <div class="seccion">
+                    <p><strong>Ciclos del Sueño</strong></p>
+                    <p>{!! $funcionesSomaticas->ciclos_del_sueno !!}</p>
+                </div>
+                <div class="seccion">
+                    <p><strong>Apetito</strong></p>
+                    <p>{!! $funcionesSomaticas->apetito !!}</p>
+                </div>
+                <div class="seccion">
+                    <p><strong>Actividades de Autocuidado</strong></p>
+                    <p>{!! $funcionesSomaticas->actividades_autocuidado !!}</p>
+                </div>
+            </div>
+            <div class="page-break"></div>
+            <div class="seccion" style="background-color:rgb(243, 243, 243);">
+                <h3><strong>IMPRESIÓN DIAGNOSTICA</strong></h3>
+                <div class="seccion">
+                    <p><strong>Impresión Diagnóstica (CIE 10 - DSM-V):</strong></p>
+                    <p>{!! $historia->impresion_diagnostica_detalle->nombre !!}</p>
+                </div>
+                <div class="seccion">
+                    <p><strong>Establecido por primera vez</strong></p>
+                    <p>{!! $historia->diagnostico_primera_vez !!}</p>
+                </div>
+            </div>
+            <br><br>
+            <div class="seccion" style="background-color:rgb(243, 243, 243);">
+                <h3><strong>PLAN DE INTERVENCIÓN</strong></h3>
+                <div class="seccion">
+                    <p><strong>Plan de intervención</strong></p>
+                    <p>{!! $historia->plan_intervension_detalle->opcion !!}</p>
+                </div>
+                <div class="seccion">
+                    <p><strong>Objetivo General</strong></p>
+                    <p>{!! $historia->objetivo_general !!}</p>
+                </div>
+                <div class="seccion">
+                    <p><strong>Objetivos Específicos</strong></p>
+                    <p>{!! $historia->objetivos_especificos !!}</p>
+                </div>
+                <div class="seccion">
+                    <p><strong>Sugerencia para Interconsultas</strong></p>
+                    <p>{!! $historia->sugerencias_interconsultas !!}</p>
+                </div>
+                <div class="seccion">
+                    <p><strong>Observaciones y Recomendaciones</strong></p>
+                    <p>{!! $historia->observaciones_recomendaciones !!}</p>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div style="width: 100%; border-top: 1px solid grey;">
+            <br>
+            <img width="180" src="app-assets/images/firmasProfesionales/{{$historia->profesional_detalle->firma}}" alt="">
+            <h2>{{$historia->profesional_detalle->nombre}}</h2>
+            <h3><strong>Tarjeta Profesional: </strong>{{$historia->profesional_detalle->registro}}</h3>
         </div>
     </div>
 </body>

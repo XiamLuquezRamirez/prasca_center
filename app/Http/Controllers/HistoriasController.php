@@ -41,6 +41,59 @@ class HistoriasController extends Controller
         $antecedentesPosnatales = HistoriaPsicologica::busquedaAntPosnatales($historia->id);
         $desarrolloPsicomotor = HistoriaPsicologica::desarrolloPsicomotor($historia->id);
 
+        $historialConsultas = HistoriaPsicologica::historialConsultas($historia->id);
+
+        $historiaCon = "";
+        $mt = "mt-4";
+        foreach ($historialConsultas as $i => $item) {
+
+            if ($i > 0) {
+                $mt = "mb-0";
+            }
+
+            $historiaCon .= '<div class="' . $mt . '">
+            <div class="pb-20">
+                <div class="dropdown float-end">
+                    <a href="#" class="dropdown-toggle no-caret"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="mdi mdi-dots-vertical"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                    <a href="javascript:verConsulta(' . $item->id . ');"
+                            class="dropdown-item"><i class="fa fa-eye"></i> Ver</a>    
+                    <a href="javascript:imprimirConsulta(' . $item->id . ');"
+                            class="dropdown-item"><i class="fa fa-print"></i> Imprimir</a>
+                    </div> <!-- item-->
+                </div>
+                    <p class="fs-16">' . date('d/m/Y g:i:s A', strtotime($item->fecha_consulta)) . '</p>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <div
+                                class="bg-transparent h-50 w-50 border border-light product_icon text-center">
+                                <p class="mb-0 fs-20 w-50 fw-600 l-h-40"><i
+                                    class="fa fa-stethoscope"
+                                    aria-hidden="true"></i>
+                                </p>
+                            </div>
+                            <div class="d-flex flex-column font-weight-500 mx-10">
+                                <a href="#"
+                                    class="text-dark hover-primary mb-1  fs-15">' . $item->consulta . '</a>
+                                <span class="text-fade"><i
+                                    class="fa fa-fw fa-circle fs-10 text-success"></i>
+                                    ' . $item->diagnostico . '</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="d-flex flex-column font-weight-500">
+                                <span class="text-fade text-end"><i
+                                        class="fa fa-user-md"></i> ' . $item->profesional . '</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>';
+        }
+
         return response()->json([
             'historia' => $historia,
             'paciente' => $pacientes,
@@ -54,15 +107,119 @@ class HistoriasController extends Controller
             'antecedentesPrenatales' => $antecedentesPrenatales,
             'antecedentesNatales' => $antecedentesNatales,
             'antecedentesPosnatales' => $antecedentesPosnatales,
-            'desarrolloPsicomotor' => $desarrolloPsicomotor
+            'desarrolloPsicomotor' => $desarrolloPsicomotor,
+            'historialConsultas' => $historiaCon
         ]);
+    }
+
+    public function eliminarConsulta()
+    {
+        try {
+            $idConsulta = request()->input('idConsulta');
+            if (!$idConsulta) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'ID de la consulta no proporcionada'
+                    ],
+                    400
+                );
+            }
+
+            $consulta = DB::connection('mysql')
+                ->table('consultas_psicologica')
+                ->where('id', $idConsulta)
+                ->update([
+                    'estado' => 'ELIMINADO',
+                ]);
+
+
+
+            if ($consulta) {
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => 'Consulta eliminada correctamente'
+                    ]
+                );
+            } else {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'No se encontró la consulta o no se pudo eliminar'
+                    ],
+                    404
+                );
+            }
+        } catch (\Exception $e) {
+            // Manejar cualquier error o excepción
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Ocurrió un error al intentar eliminar la consulta',
+                    'error' => $e->getMessage()
+                ],
+                500
+            );
+        }
+    }
+
+    public function cerrarHistoria()
+    {
+        try {
+            $idHist = request()->input('idHist');
+            if (!$idHist) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'ID de la historia no proporcionada'
+                    ],
+                    400
+                );
+            }
+
+            $consulta = DB::connection('mysql')
+                ->table('historia_clinica')
+                ->where('id', $idHist)
+                ->update([
+                    'estado_hitoria' => 'cerrada',
+                ]);
+
+
+            if ($consulta) {
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => 'Historia cerrada correctamente'
+                    ]
+                );
+            } else {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'No se encontró la historia o no se pudo cerrar'
+                    ],
+                    404
+                );
+            }
+        } catch (\Exception $e) {
+            // Manejar cualquier error o excepción
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Ocurrió un error al intentar cerrar la historia',
+                    'error' => $e->getMessage()
+                ],
+                500
+            );
+        }
     }
 
     public function buscaConsultaPsicologica(Request $request)
     {
         $idConsulta = $request->input('idConsulta');
         $consulta = HistoriaPsicologica::busquedaConsulta($idConsulta);
-      
+
         return response()->json([
             'consulta' => $consulta
         ]);
@@ -208,7 +365,7 @@ class HistoriasController extends Controller
     public function listaConsultasModal(Request $request)
     {
         if (Auth::check()) {
-            $perPage = 10; // Número de posts por página
+            $perPage = 5; // Número de posts por página
             $page = request()->get('page', 1);
             $search = request()->get('search');
             $idHist = request()->get('idHist');
@@ -221,6 +378,8 @@ class HistoriasController extends Controller
                 ->leftJoin("referencia_cups", "referencia_cups.id", "consultas_psicologica.codigo_consulta")
                 ->leftJoin("referencia_cie10", "referencia_cie10.id", "consultas_psicologica.impresion_diagnostica")
                 ->leftJoin("profesionales", "profesionales.usuario", "consultas_psicologica.id_profesional")
+                ->where("consultas_psicologica.estado", "ACTIVO")
+                ->orderBy('consultas_psicologica.fecha_consulta', 'desc')
                 ->select(
                     'consultas_psicologica.id',
                     'consultas_psicologica.fecha_consulta',
@@ -232,8 +391,8 @@ class HistoriasController extends Controller
             if ($search) {
                 $consultas->where(function ($query) use ($search) {
                     $query->where('profesionales.nombre', 'LIKE', '%' . $search . '%')
-                    ->orWhere('referencia_cups.nombre', 'LIKE', '%' . $search . '%')
-                    ->orWhere('referencia_cie10.nombre', 'LIKE', '%' . $search . '%');
+                        ->orWhere('referencia_cups.nombre', 'LIKE', '%' . $search . '%')
+                        ->orWhere('referencia_cie10.nombre', 'LIKE', '%' . $search . '%');
                 });
             }
 
@@ -348,7 +507,7 @@ class HistoriasController extends Controller
                 if (!is_null($item)) {
 
                     if ($item->estado_hitoria == "abierta") {
-                        $estado = "<i class='fa fa-unlock'></i> Abierta";
+                        $estado = "<i  class='fa fa-unlock'></i> Abierta";
                         $class = "text-success";
                         $disabled = "";
                     } else {
@@ -366,7 +525,7 @@ class HistoriasController extends Controller
                                             <h3 class="mb-0 fw-500">Paciente: ' . $item->identificacion_completa . ' - ' . $item->nombre_completo . '</h3>
                                         </div>
                                         <div class="mt-10 mt-md-0">
-                                            <a onclick="verHistoria(' . $item->id . ')"
+                                            <a data-id="' . $item->id . '" data-tipo="' . $item->tipologia . '" onclick="verHistoria(this)"
                                                 class="waves-effect waves-light btn btn-outline btn-primary">Ver
                                                 Detalles</a>
                                         </div>
@@ -378,7 +537,7 @@ class HistoriasController extends Controller
                                                 <p class="mb-0 text-fade">Fecha de Creación</p>
                                                 <h6 class="mb-0">' . date('d/m/Y g:i:s A', strtotime($item->fecha_historia)) . '</h6>
                                             </div>
-                                            <div class="mx-lg-50 mx-20 min-w-70">
+                                            <div style="cursor:pointer;" data-id="' . $item->id . '" data-estado="' . $item->estado_hitoria . '" onclick="cerrarHistoria(this)" class="mx-lg-50 mx-20 min-w-70">
                                                 <p class="mb-0 text-fade">Estado</p>
                                                 <h6 class="mb-0 ' . $class . '">' . $estado . '</h6>
                                             </div>
@@ -393,7 +552,7 @@ class HistoriasController extends Controller
                                                     class="fa fa-edit me-10"></i>Editar</button>
                                             <button type="button" onclick="evolucionHistoria(' . $item->id . ');"
                                                 class="waves-effect waves-light btn btn-secondary btn-flat"><i
-                                                    class="fa fa-arrow-right me-10"></i>Evolución</button>
+                                                    class="fa fa-arrow-right me-10"></i>Consulta</button>
                                             <button type="button" onclick="imprimirHistoria(' . $item->id . ');"
                                                 class="waves-effect waves-light btn btn-danger btn-flat"><i
                                                     class="fa fa-print me-10"></i>Imprimir</button>

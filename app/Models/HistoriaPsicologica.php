@@ -495,7 +495,8 @@ class HistoriaPsicologica extends Model
                         'intervencion_neurologia' => $request['intervencion_neurologia_consulta'] ?? null,
                         'intervencion_neuropsicologia' => $request['intervencion_neuropsicologia_consulta'] ?? null,
                         'sugerencias_interconsultas' => $request['sugerencia_consulta'] ?? null,
-                        'observaciones_recomendaciones' => $request['observaciones_consulta'] ?? null
+                        'observaciones_recomendaciones' => $request['observaciones_consulta'] ?? null,
+                        'estado' => 'ACTIVO'
                     ]));
 
                     // Confirmar transacción
@@ -512,11 +513,8 @@ class HistoriaPsicologica extends Model
                 try {
                     // Insertar en `historia_clinica`
 
-                    $idConsulta = $request['idHist'];
+                    $idConsulta = $request['idHistoriaConsulta'];
                     DB::table('consultas_psicologica')->where('id', $idConsulta)->update(array_filter([
-                        'id_historia' => $request['idHist'] ?? null,
-                        'id_profesional' => Auth::user()->id,
-                        'fecha_consulta' => now(),
                         'codigo_consulta' => $request['codConsultaConsulta'] ?? null,
                         'impresion_diagnostica' => $request['codImpresionDiagnosticoConsulta']  ?? null,
                         'remision' => $request['remisionConsuta'] ?? null,
@@ -566,7 +564,7 @@ class HistoriaPsicologica extends Model
     {
         return DB::connection('mysql')->table('historia_clinica')
             ->where("id_paciente", $idPac)
-            ->exists();
+            ->first();
     }
 
     public static function busquedaAntecedentes($idHisto)
@@ -615,6 +613,26 @@ class HistoriaPsicologica extends Model
     {
         return DB::connection('mysql')->table('historia_ajuste_desempeno')
             ->where("id_historia", $idHisto)
+            ->get();
+    }
+
+    public static function historialConsultas($idHisto)
+    {
+        return DB::connection('mysql')->table('consultas_psicologica')
+        ->leftJoin("referencia_cups", "referencia_cups.id", "consultas_psicologica.codigo_consulta")
+                ->leftJoin("referencia_cie10", "referencia_cie10.id", "consultas_psicologica.impresion_diagnostica")
+                ->leftJoin("profesionales", "profesionales.usuario", "consultas_psicologica.id_profesional")
+            ->where("consultas_psicologica.id_historia", $idHisto)
+            ->orderBy('consultas_psicologica.fecha_consulta', 'desc')
+            ->where("consultas_psicologica.estado", "ACTIVO")
+            ->take(5)
+            ->select(
+                'consultas_psicologica.id',
+                'consultas_psicologica.fecha_consulta',
+                'referencia_cups.nombre AS consulta',
+                'referencia_cie10.nombre AS diagnostico',
+                'profesionales.nombre AS profesional'
+            )
             ->get();
     }
 

@@ -279,11 +279,11 @@ class PacientesController extends Controller
                                     <td>' . $item->telefono . '</td>
                                     <td><span class="badge ' . $clases . '">' . $item->estado . '</span></td>
                                     <td class="table-action min-w-100">
-                                         <a onclick="verPaciente(' . $item->id . ');" style="cursor: pointer;" title="Ver paciente" class="text-fade hover-success"><i class="align-middle"
+                                    <a onclick="verPaciente(' . $item->id . ');" style="cursor: pointer;" title="Ver paciente" class="text-fade hover-success"><i class="align-middle"
                                                 data-feather="search"></i></a>
-                                         <a onclick="historiaClinica(' . $item->id . ');" style="cursor: pointer;" title="Historia clinica" class="text-fade hover-info"><i class="align-middle"
+                                    <a onclick="historiaClinica(' . $item->id . ');" style="cursor: pointer;" title="Historia clinica" class="text-fade hover-info"><i class="align-middle"
                                                 data-feather="file-text"></i></a>
-                                         <a onclick="editarPaciente(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
+                                    <a onclick="editarPaciente(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
                                                 data-feather="edit-2"></i></a>
                                         <a onclick="eliminarPaciente(' . $item->id . ');" style="cursor: pointer;" title="Eliminar" class="text-fade hover-warning"><i class="align-middle"
                                                 data-feather="trash"></i></a>

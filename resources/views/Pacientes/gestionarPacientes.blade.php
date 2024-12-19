@@ -1022,7 +1022,7 @@
             nuevaPestana.focus();
         }
 
-        function goHistoriaNeuropsicologia(idPaciente) {
+        function goHistoriaNeuropsicologia(element) {
             let idPaciente = element.getAttribute("data-id")           
             let edadPaciente = element.getAttribute("data-edad")
             localStorage.clear();

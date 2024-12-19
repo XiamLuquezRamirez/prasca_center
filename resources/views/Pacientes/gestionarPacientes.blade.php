@@ -735,7 +735,6 @@
                     document.getElementById("tipoId").value = data.tipo_identificacion
                     document.getElementById("identificacion").value = data.identificacion
 
-
                     var fechForm = convertirFecha(data.fecha_nacimiento);
                     $("#fechaNacimiento").val(fechForm);
                     document.getElementById("edad").value = data.edad
@@ -776,7 +775,6 @@
             return fechaFormateada;
         }
 
-
         function mostrarListado() {
             let listado = document.getElementById("listado");
             let formulario = document.getElementById("formulario");
@@ -810,8 +808,6 @@
             cargarDepartamento();
             cargarTipoUsuario();
         }
-
-
 
         function eliminarPaciente(idPac) {
 

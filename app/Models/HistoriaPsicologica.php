@@ -58,7 +58,7 @@ class HistoriaPsicologica extends Model
                     // insertar datos de consulta 
 
                     $idConsulta = DB::table('consultas_psicologica')->insertGetId(array_filter([
-                        'id_historia' => $idHistoria ,
+                        'id_historia' => $idHistoria,
                         'id_profesional' => Auth::user()->id,
                         'fecha_consulta' => now(),
                         'codigo_consulta' => $request['codConsulta'] ?? null,
@@ -255,7 +255,7 @@ class HistoriaPsicologica extends Model
 
                     // Confirmar transacción
                     DB::commit();
-                  
+
                     return ['idHistoria' => $idHistoria, 'idConsulta' => $idConsulta];
                 } catch (\Exception $e) {
                     // Revertir transacción en caso de error
@@ -288,6 +288,30 @@ class HistoriaPsicologica extends Model
                         'observaciones_recomendaciones' => $request['observaciones_recomendaciones'] ?? null,
                         'tipologia' => $request['tipoPsicologia'] ?? null,
                         'estado_hitoria' => 'abierta'
+                    ]));
+
+
+                    $consulta = DB::connection('mysql')->table('consultas_psicologica')
+                        ->where("id_historia", $idHistoria)
+                        ->orderBy("fecha_consulta", "asc")
+                        ->first();
+
+
+                    $idConsulta =  DB::table('consultas_psicologica')->where('id', $consulta->id)->update(array_filter([
+                        'id_historia' => $idHistoria,
+                        'id_profesional' => Auth::user()->id,
+                        'fecha_consulta' => now(),
+                        'codigo_consulta' => $request['codConsulta'] ?? null,
+                        'impresion_diagnostica' => $request['codDiagnostico']  ?? null,
+                        'remision' => $request['remision'] ?? null,
+                        'evolucion_tratamiento' => "",
+                        'plan_continuidad' => "",
+                        'intervencion_psiquiatria' => $request['intervencion_psiquiatria'] ?? null,
+                        'intervencion_neurologia' => $request['intervencion_neurologia'] ?? null,
+                        'intervencion_neuropsicologia' => $request['intervencion_neuropsicologia'] ?? null,
+                        'sugerencias_interconsultas' => $request['sugerencia_interconsultas'] ?? null,
+                        'observaciones_recomendaciones' => $request['observaciones_recomendaciones'] ?? null,
+                        'estado' => 'ACTIVO'
                     ]));
 
                     // Insertar antecedentes médicos
@@ -483,7 +507,7 @@ class HistoriaPsicologica extends Model
 
                     // Confirmar transacción
                     DB::commit();
-                    return ['idHistoria' => $idHistoria, 'idConsulta' => ""];
+                    return ['idHistoria' => $idHistoria, 'idConsulta' => $idConsulta];
                 } catch (\Exception $e) {
                     // Revertir transacción en caso de error
                     DB::rollBack();
@@ -586,7 +610,7 @@ class HistoriaPsicologica extends Model
             ->where("id", $idConsulta)
             ->first();
     }
-    
+
     public static function busquedaHistoriaPaciente($idPac)
     {
         return DB::connection('mysql')->table('historia_clinica')
@@ -646,9 +670,9 @@ class HistoriaPsicologica extends Model
     public static function historialConsultas($idHisto)
     {
         return DB::connection('mysql')->table('consultas_psicologica')
-        ->leftJoin("referencia_cups", "referencia_cups.id", "consultas_psicologica.codigo_consulta")
-                ->leftJoin("referencia_cie10", "referencia_cie10.id", "consultas_psicologica.impresion_diagnostica")
-                ->leftJoin("profesionales", "profesionales.usuario", "consultas_psicologica.id_profesional")
+            ->leftJoin("referencia_cups", "referencia_cups.id", "consultas_psicologica.codigo_consulta")
+            ->leftJoin("referencia_cie10", "referencia_cie10.id", "consultas_psicologica.impresion_diagnostica")
+            ->leftJoin("profesionales", "profesionales.usuario", "consultas_psicologica.id_profesional")
             ->where("consultas_psicologica.id_historia", $idHisto)
             ->orderBy('consultas_psicologica.fecha_consulta', 'desc')
             ->where("consultas_psicologica.estado", "ACTIVO")

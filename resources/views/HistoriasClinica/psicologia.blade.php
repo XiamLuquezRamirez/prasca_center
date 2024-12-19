@@ -1504,7 +1504,7 @@
                                                             Tratamiento actual</span>
                                                     </a>
                                                 </li>
-                                                <li class="nav-item">
+                                                <li style="display: none;" class="nav-item">
                                                     <a href="#interconsultas" data-bs-toggle="tab"
                                                         aria-expanded="true" class="nav-link rounded-0">
                                                         <span class="d-none d-md-block"><i
@@ -1537,8 +1537,8 @@
                                                         <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label for="remision"
-                                                                    class="form-label">Remisión:</label>
-                                                                <textarea class="form-control" id="remisionConsuta" name="remisionConsuta" rows="3"
+                                                                    class="form-label">Motivo de consulta:</label>
+                                                                <textarea class="form-control" id="motivoConsultaModal" name="motivoConsultaModal" rows="3"
                                                                     placeholder="Ingrese de dónde es remitido el paciente.."></textarea>
                                                             </div>
                                                         </div>
@@ -1951,7 +1951,7 @@
                 'objetivo_general',
                 'medicacion',
                 'remision',
-                'remisionConsuta',
+                'motivoConsultaModal',
                 'resumen_evaluacion_inicial',
                 'evolucion_tratamiento',
                 'plan_continuidad',
@@ -2719,7 +2719,7 @@
 
                     cargarImpresion(data.consulta.impresion_diagnostica, 'codImpresionDiagnosticoConsulta')
 
-                    CKEDITOR.instances['remisionConsuta'].setData(data.consulta.remision)
+                    CKEDITOR.instances['motivoConsultaModal'].setData(data.consulta.motivo)
                     CKEDITOR.instances['resumen_evaluacion_inicial'].setData(data.consulta.resumen_evaluacion)
                     CKEDITOR.instances['evolucion_tratamiento'].setData(data.consulta.evolucion_tratamiento)
                     CKEDITOR.instances['plan_continuidad'].setData(data.consulta.plan_continuidad)

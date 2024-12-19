@@ -114,8 +114,9 @@ class HistoriasController extends Controller
                     </div>
                 </div>
             </div>';
-            return $historiaCon;
+            
         }
+        return $historiaCon;
     }
 
     public function eliminarConsulta()

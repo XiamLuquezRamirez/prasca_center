@@ -129,126 +129,13 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h4 class="header-title mb-3">Historial de consultas</h4>
-
                                         <div class="text-start mt-3">
                                             <div class="activ_box_button " style="width: 100%;">
-                                                <button class="btn btn-success" style="width: 100%;"><i
-                                                        class="fa fa-edit"></i> Iniciar consulta</button>
+                                                <button class="btn btn-success" onclick="abrirConsultas(1)"
+                                                    style="width: 100%;"><i class="fa fa-edit"></i> Gestionar consultas</button>
                                             </div>
-                                            <div class="mt-4">
-                                                <div class="pb-20">
-                                                    <div class="dropdown float-end">
-                                                        <a href="#" class="dropdown-toggle no-caret"
-                                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <i class="mdi mdi-dots-vertical"></i>
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a href="javascript:void(0);"
-                                                                class="dropdown-item">Settings</a>
-                                                            <!-- item-->
-                                                            <a href="javascript:void(0);" class="dropdown-item">Action</a>
-                                                        </div> <!-- item-->
-
-                                                    </div>
-                                                    <p class="fs-16">7 Julio 2024</p>
-                                                    <div class="d-flex align-items-center justify-content-between">
-                                                        <div class="d-flex align-items-center">
-                                                            <div
-                                                                class="bg-transparent h-50 w-50 border border-light product_icon text-center">
-                                                                <p class="mb-0 fs-20 w-50 fw-600 l-h-40"><i
-                                                                        class="fa fa-stethoscope" aria-hidden="true"></i>
-                                                                </p>
-                                                            </div>
-                                                            <div class="d-flex flex-column font-weight-500 mx-10">
-                                                                <a href="#"
-                                                                    class="text-dark hover-primary mb-1  fs-15">CONSULTA DE
-                                                                    PRIMERA VEZ POR PSICOLOGIA</a>
-                                                                <span class="text-fade"><i
-                                                                        class="fa fa-fw fa-circle fs-10 text-success"></i>
-                                                                    OTROS TRASTORNOS DEL DESARROLLO PSICOLOGICO</span>
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <div class="d-flex flex-column font-weight-500">
-                                                                <span class="text-fade text-end"><i
-                                                                        class="fa fa-user-md"></i> Maria Pumarejo</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            <div id="historialConsulta">
                                             </div>
-                                            <div class="mb-0">
-                                                <div class="pb-20">
-                                                    <div class="dropdown float-end">
-                                                        <a href="#" class="dropdown-toggle no-caret"
-                                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <i class="mdi mdi-dots-vertical"></i>
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a href="javascript:void(0);"
-                                                                class="dropdown-item">Settings</a>
-                                                            <!-- item-->
-                                                            <a href="javascript:void(0);" class="dropdown-item">Action</a>
-                                                        </div> <!-- item-->
-
-                                                    </div>
-                                                    <p class="fs-16">7 Julio 2024</p>
-                                                    <div class="d-flex align-items-center justify-content-between">
-                                                        <div class="d-flex align-items-center">
-                                                            <div
-                                                                class="bg-transparent h-50 w-50 border border-light product_icon text-center">
-                                                                <p class="mb-0 fs-20 w-50 fw-600 l-h-40"><i
-                                                                        class="fa fa-stethoscope" aria-hidden="true"></i>
-                                                                </p>
-                                                            </div>
-                                                            <div class="d-flex flex-column font-weight-500 mx-10">
-                                                                <a href="#"
-                                                                    class="text-dark hover-primary mb-1  fs-15">CONSULTA DE
-                                                                    PRIMERA VEZ POR PSICOLOGIA</a>
-                                                                <span class="text-fade"><i
-                                                                        class="fa fa-fw fa-circle fs-10 text-success"></i>
-                                                                    OTROS TRASTORNOS DEL DESARROLLO PSICOLOGICO</span>
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <div class="d-flex flex-column font-weight-500">
-                                                                <span class="text-fade text-end"><i
-                                                                        class="fa fa-user-md"></i> Maria Pumarejo</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mb-0">
-                                                <div class="pb-20">
-                                                    <p class="fs-16">7 Julio 2024</p>
-                                                    <div class="d-flex align-items-center justify-content-between">
-                                                        <div class="d-flex align-items-center">
-                                                            <div
-                                                                class="bg-transparent h-50 w-50 border border-light product_icon text-center">
-                                                                <p class="mb-0 fs-20 w-50 fw-600 l-h-40"><i
-                                                                        class="fa fa-stethoscope" aria-hidden="true"></i>
-                                                                </p>
-                                                            </div>
-                                                            <div class="d-flex flex-column font-weight-500 mx-10">
-                                                                <a href="#"
-                                                                    class="text-dark hover-primary mb-1  fs-15">CONSULTA DE
-                                                                    PRIMERA VEZ POR PSICOLOGIA</a>
-                                                                <span class="text-fade"><i
-                                                                        class="fa fa-fw fa-circle fs-10 text-success"></i>
-                                                                    OTROS TRASTORNOS DEL DESARROLLO PSICOLOGICO</span>
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <div class="d-flex flex-column font-weight-500">
-                                                                <span class="text-fade text-end"><i
-                                                                        class="fa fa-user-md"></i> Maria Pumarejo</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
                                         </div>
                                     </div> <!-- end card-body-->
                                 </div> <!-- end card-->
@@ -259,15 +146,20 @@
                                     <input type="hidden" id="idHistoria" name="idHistoria" />
                                     <input type="hidden" id="idPaciente" name="idPaciente" />
                                     <input type="hidden" id="tipoPsicologia" name="tipoPsicologia" />
-
+                                    <input type="hidden" id="estadoHistoria" name="estadoHistoria" />
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="card-header">
                                                 <h5 class="text-uppercase"><i class="fa fa-h-square me-1"></i>
                                                     Evaluación clínica psicológica</h5>
-                                                <button type="button" class="btn btn-info btn-sm mb-2"><i
-                                                        class="fa fa-print"></i> Imprimir historia</button>
+                                                <div>
+                                                    <button id="btnCancelar" onclick="cancelarHistoria()" type="button"
+                                                        class="btn btn-primary-light me-1">
+                                                        <i class="ti-share-alt "></i> Cancelar
+                                                    </button>
+                                                    <button onclick="imprimirHistoria()" id="btnImprimir" type="button" class="btn btn-info-light me-1"><i class="fa fa-print"></i> Imprimir historia</button>
 
+                                                </div>
                                             </div>
                                             <br>
                                             <div class="row">
@@ -1450,10 +1342,6 @@
                                                 </p>
                                             </div>
                                             <div class="box-footer text-end">
-                                                <button onclick="cancelarHistoria()" type="button"
-                                                    class="btn btn-primary-light me-1">
-                                                    <i class="ti-share-alt "></i> Cancelar
-                                                </button>
                                                 <button onclick="guardarHistoria()" type="button"
                                                     class="btn btn-primary">
                                                     <i class="ti-save-alt"></i> Guardar
@@ -1514,7 +1402,242 @@
         </div><!-- /.modal -->
     </div>
 
+    <!-- MODAL CONSULTA -->
+    <div class="modal fade" id="modalConsulta" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="titConsulta">Gestionar consultas</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div id="listadoConsultas" class="col-12 col-xl-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title">Listado de motivo de consulta</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="box-controls pull-right">
+                                        <div class="box-header-actions">
+                                            <div class="input-group input-group-merge">
+                                                <input type="text" id="busquedaConsultaa" class="form-control">
+                                                <div class="input-group-text" data-password="false">
+                                                    <span class="fa fa-search"></span>
+                                                </div>
+                                                <button type="button" onclick="nuevoRegistroConsulta();"
+                                                    class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i>
+                                                    Nueva
+                                                    consulta</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:5%;">Fecha</th>
+                                                <th style="width:37%;">Consulta</th>
+                                                <th style="width:35%;">Diagnóstico</th>
+                                                <th style="width:15%;">Profesional</th>
+                                                <th style="width:10%;">Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="trRegistrosConsultas">
+                                        </tbody>
+                                    </table>
+                                    <div id="pagination-links-consulta" class="text-center ml-1 mt-2">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="fomrConsultas" style="display: none;">
+                            <div class="card-body">
+                                <form id="formConsulta">
+                                    @csrf <!-- Directiva para el token CSRF de Laravel -->
+                                    <input type="hidden" id="accHistoriaConsulta" name="accHistoriaConsulta" />
+                                    <input type="hidden" id="idHistoriaConsulta" name="idHistoriaConsulta" />
+                                    <div class="tab-content">
+                                        <div class="tab-pane show active" id="justified-tabs-preview">
+                                            <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                                                <li class="nav-item">
+                                                    <a href="#datos_iniciales" data-bs-toggle="tab"
+                                                        aria-expanded="false" class="nav-link rounded-0 active">
+                                                        <span class="d-none d-md-block"><i
+                                                                class="fa fa-user-circle"></i> Datos Iniciales</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="#resumenEval" data-bs-toggle="tab" aria-expanded="true"
+                                                        class="nav-link rounded-0">
+                                                        <span class="d-none d-md-block"><i class="fa fa-check"></i>
+                                                            Tratamiento actual</span>
+                                                    </a>
+                                                </li>
+                                                <!--
+                                                <li class="nav-item">
+                                                    <a href="#interconsultas" data-bs-toggle="tab"
+                                                        aria-expanded="true" class="nav-link rounded-0">
+                                                        <span class="d-none d-md-block"><i
+                                                                class="fa fa-stethoscope"></i> Interconsultas</span>
+                                                    </a>
+                                                </li>
+                                                -->
+                                                <li class="nav-item">
+                                                    <a href="#observaciones" data-bs-toggle="tab"
+                                                        aria-expanded="false" class="nav-link rounded-0">
+                                                        <span class="d-none d-md-block"><i class="fa fa-list-ol"></i>
+                                                            Observaciones</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+
+                                            <div class="tab-content px-20">
+                                                <!-- Datos Iniciales -->
+                                                <div class="tab-pane show active" id="datos_iniciales">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="codConsultaConsulta"
+                                                                    class="form-label">Código de
+                                                                    consulta:</label>
+                                                                <select class="form-control select2"
+                                                                    id="codConsultaConsulta"
+                                                                    name="codConsultaConsulta"></select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="remisionConsuta"
+                                                                    class="form-label">Motivo de consulta:</label>
+                                                                <textarea class="form-control" id="remisionConsuta" name="motivoConsultaModal" rows="3"
+                                                                    placeholder="Ingrese de dónde es remitido el paciente.."></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="codImpresionDiagnosticoConsulta"
+                                                                    class="form-label">Impresión Diagnóstica (CIE 10 –
+                                                                    DSM-V):</label>
+                                                                <select class="form-control select2"
+                                                                    id="codImpresionDiagnosticoConsulta"
+                                                                    name="codImpresionDiagnosticoConsulta"></select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Resumen de evaluación -->
+                                                <div class="tab-pane show" id="resumenEval">
+                                                    <div class="col-md-12" style="display: none;">
+                                                        <div class="form-group">
+                                                            <label for="resumen_evaluacion_inicial"
+                                                                class="form-label">Resumen de evaluación psicolólogica
+                                                                inicial
+                                                                inicial:</label>
+                                                            <textarea class="form-control" id="resumen_evaluacion_inicial" name="resumen_evaluacion_inicial" rows="3"
+                                                                placeholder="Resumen de evaluación psicológica inicial"></textarea>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="evolucion_tratamiento"
+                                                                class="form-label">Evolución del tratamiento psicolólogico
+                                                                actual
+                                                                actual:</label>
+                                                            <textarea class="form-control" id="evolucion_tratamiento" name="evolucion_tratamiento" rows="3"
+                                                                placeholder="Evolución del tratamiento psicolólogico actual"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="plan_continuidad" class="form-label">Plan de
+                                                                continuidad
+                                                                actual:</label>
+                                                            <textarea class="form-control" id="plan_continuidad" name="plan_continuidad" rows="3"
+                                                                placeholder="Resumen de plan de continuidad"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Interconsultas -->
+                                                <div class="tab-pane" id="interconsultas">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="intervencion_psiquiatria"
+                                                                    class="form-label">Intervención por
+                                                                    Psiquiatría:</label>
+                                                                <textarea class="form-control" id="intervencion_psiquiatria_consulta" name="intervencion_psiquiatria_consulta"
+                                                                    rows="3" placeholder="Describa la intervención por Psiquiatría..."></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="intervencion_neurologia"
+                                                                    class="form-label">Intervención por
+                                                                    Neurología:</label>
+                                                                <textarea class="form-control" id="intervencion_neurologia_consulta" name="intervencion_neurologia_consulta"
+                                                                    rows="3" placeholder="Describa la intervención por Neurología..."></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="intervencion_neuropsicologia"
+                                                                    class="form-label">Intervención por
+                                                                    Neuropsicología:</label>
+                                                                <textarea class="form-control" id="intervencion_neuropsicologia_consulta"
+                                                                    name="intervencion_neuropsicologia_consulta" rows="3"
+                                                                    placeholder="Describa la intervención por Neuropsicología..."></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group mt-3">
+                                                        <label for="sugerencia_interconsultas"
+                                                            class="form-label">Sugerencia para Interconsultas:</label>
+                                                        <textarea class="form-control" id="sugerencia_consulta" name="sugerencia_consulta" rows="3"
+                                                            placeholder="Ingrese las sugerencias para interconsultas..."></textarea>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Observaciones -->
+                                                <div class="tab-pane" id="observaciones">
+                                                    <div class="form-group">
+                                                        <label for="observaciones_recomendaciones"
+                                                            class="form-label">Observaciones y Recomendaciones:</label>
+                                                        <textarea class="form-control" id="observaciones_consulta" name="observaciones_consulta" rows="3"
+                                                            placeholder="Ingrese observaciones y recomendaciones..."></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="box-footer text-end mt-3">
+                                                <button onclick="cancelarConsulta()" type="button"
+                                                    class="btn btn-primary-light me-1">
+                                                    <i class="ti-share-alt"></i> Cancelar
+                                                </button>
+                                                <button onclick="guardarConsulta()" type="button"
+                                                    class="btn btn-primary">
+                                                    <i class="ti-save-alt"></i> Guardar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </div><!-- /.modal -->
+    </div>
+
     <script>
+
+        var idHistoriaImprimir = "";
         document.addEventListener("DOMContentLoaded", function() {
 
             let menuP = document.getElementById("principalHistoriClinica");
@@ -1690,6 +1813,118 @@
                 }
             });
             
+            $('#codConsultaConsulta').select2({
+                dropdownAutoWidth: true,
+                width: '100%',
+                dropdownParent: $('#modalConsulta'),
+                placeholder: 'Buscar consulta por código o nombre...',
+                language: {
+                    inputTooShort: function() {
+                        return 'Por favor, ingresa al menos un carácter'
+                    },
+                    noResults: function() {
+                        return 'No se encontraron resultados.'
+                    },
+                    searching: function() {
+                        return 'Buscando...'
+                    }
+                },
+                minimumInputLength: 1, // Requiere al menos 1 carácter
+                ajax: {
+                    transport: function(params, success, failure) {
+                        const query = params.data.q || '' // Término de búsqueda
+                        const page = params.data.page || 1 // Número de página
+
+                        fetch(`${rtotal}historia/buscaCUPS?q=${query}&page=${page}`, {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                cache: 'no-cache'
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Error en la solicitud')
+                                }
+                                return response.json()
+                            })
+                            .then(data => {
+
+                                const results = {
+                                    results: data.data,
+                                    pagination: {
+                                        more: (page * 30) < data.total_count
+                                    }
+                                }
+                                success(results) // Envía los resultados a Select2
+                            })
+                            .catch(error => {
+                                console.error('Error al buscar:', error)
+                                failure(error) // Maneja errores en Select2
+                            })
+                    }
+                },
+                escapeMarkup: function(markup) {
+                    return markup // Evita inyección de HTML
+                }
+            })
+
+            $('#codImpresionDiagnosticoConsulta').select2({
+                dropdownAutoWidth: true,
+                width: '100%',
+                dropdownParent: $('#modalConsulta'),
+                placeholder: 'Buscar diagnóstico  por código o nombre...',
+                language: {
+                    inputTooShort: function() {
+                        return 'Por favor, ingresa al menos un carácter'
+                    },
+                    noResults: function() {
+                        return 'No se encontraron resultados.'
+                    },
+                    searching: function() {
+                        return 'Buscando...'
+                    }
+                },
+                minimumInputLength: 1, // Requiere al menos 1 carácter
+                ajax: {
+                    transport: function(params, success, failure) {
+                        const query = params.data.q || '' // Término de búsqueda
+                        const page = params.data.page || 1 // Número de página
+
+                        fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                cache: 'no-cache'
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Error en la solicitud')
+                                }
+                                return response.json()
+                            })
+                            .then(data => {
+                                const results = {
+                                    results: data.data,
+                                    pagination: {
+                                        more: (page * 30) < data.total_count
+                                    }
+                                }
+                                success(results) // Envía los resultados a Select2
+                            })
+                            .catch(error => {
+                                console.error('Error al buscar:', error)
+                                failure(error) // Maneja errores en Select2
+                            })
+                    }
+                },
+                escapeMarkup: function(markup) {
+                    return markup // Evita inyección de HTML
+                }
+            })
+
+
             const ids = [
                 'enfermedadActual',
                 'remision',
@@ -1698,6 +1933,12 @@
                 'objetivo_general',
                 'observaciones_recomendaciones',
                 'sugerencia_interconsultas',
+                'remisionConsuta',
+                'resumen_evaluacion_inicial',
+                'evolucion_tratamiento',
+                'plan_continuidad',
+                'sugerencia_consulta',
+                'observaciones_consulta'
             ];
 
             $(function() {
@@ -1764,6 +2005,12 @@
                     searchTerm)
             })
 
+            document.getElementById('busquedaConsultaa').addEventListener('input', function() {
+                var searchTerm = this.value
+                cargarConsultas(1,
+                    searchTerm)
+            })
+
             document.addEventListener('click', function(event) {
                 if (event.target.matches('.pagPac a')) {
                     event.preventDefault()
@@ -1781,7 +2028,39 @@
                 showbuttons: 'bottom',
                 mode: 'inline'
             })
+
+            var ultimaParteURLAnterior = document.referrer.split('/').filter(Boolean).pop()
+
+            if (ultimaParteURLAnterior == "Gestionar") {
+                let elemento = document.createElement('div')
+                elemento.setAttribute('data-id', localStorage.getItem('idPaciente'))
+                elemento.setAttribute('data-edad', localStorage.getItem('edadPaciente'))
+                if (localStorage.getItem('idPaciente')) {
+                    cagaHistPaciente(elemento)
+                }
+
+            }
         });
+
+        function cagaHistPaciente(element) {
+            let idPaciente = element.getAttribute("data-id")
+            let edadPaciente = parseInt(element.getAttribute("data-edad"), 10)
+            let tipoPsicologia = "";
+            if (edadPaciente < 18) {
+                tipoPsicologia = "Pediatría"
+                document.getElementById("infPediatria").style.display = "initial"
+            } else {
+                tipoPsicologia = "Adulto"
+                document.getElementById("infPediatria").style.display = "none"
+
+            }
+
+            let tipoText = document.getElementById("tipoPsicologia")
+            tipoText.value = tipoPsicologia
+
+            document.getElementById('idPaciente').value = idPaciente
+            mostrarInformacionHistoria(idPaciente)
+        }
 
         function cargarCategorias() {
             return new Promise((resolve, reject) => {
@@ -1873,6 +2152,7 @@
                 $(input).tagsinput('removeAll');
             });
         }
+
         function cargarPacientes(page, searchTerm = '') {
             let url = "{{ route('pacientes.listaPacientesModal') }}"; // Definir la URL
             // Eliminar los campos ocultos anteriores
@@ -1968,6 +2248,7 @@
                                 mapearInfPaciente(data.paciente)
                                 document.getElementById('listado').style.display = 'none'
                                 document.getElementById('historia').style.display = 'block'
+                                verHistoria(data.historia.id)
                             }
                         });
                     } else {
@@ -2081,13 +2362,36 @@
                     .then(response => response.json())
                     .then(data => {
                         console.log(data);
-                        if (data.success = 'success') {
-                            swal('Atención', data.message, data.success);
-                            setTimeout(() => {
-                                //location.reload();
-                            }, 1500);
+                        if (data.success == 'success') {
+                            document.getElementById("idHistoria").value = data.id;
+                            cargarHistorias(1);
+                            swal({
+                                title: "¡Operación realizada correctamente!",
+                                text: "Se ha registrado la consulta con información incompleta. ¿Desea completarla ahora?",
+                                type: "success",
+                                showCancelButton: true,
+                                confirmButtonColor: "#3085d6",
+                                cancelButtonColor: "#d33",
+                                confirmButtonText: "Si, completar!",
+                                cancelButtonText: "Cancelar",
+                                confirmButtonClass: "btn btn-warning",
+                                cancelButtonClass: "btn btn-danger ml-1",
+                                buttonsStyling: false
+                            }, function(isConfirm) {
+                                if (isConfirm) {
+                                    if (data.idConsulta != "") {
+                                        editarConsulta(data.idConsulta);
+                                        var modal = new bootstrap.Modal(document.getElementById(
+                                            "modalConsulta"), {
+                                            backdrop: 'static',
+                                            keyboard: false,
+                                        });
+                                        modal.show();
+                                    }
+                                }
+                            });
                         } else {
-                            swal('Atención', data.message, data.success);
+                            swal(data.tittle, data.message, 'error');
                         }
                     })
                     .catch(error => {
@@ -2131,6 +2435,9 @@
         }
 
         function verHistoria(idHist) {
+
+            idHistoriaImprimir = idHist;
+
             document.getElementById('listado').style.display = 'none'
             document.getElementById('historia').style.display = 'block'
 
@@ -2160,6 +2467,8 @@
                 mapearAparienciaPersonal(data.aparienciaPersonal)
                 mapearFuncionesCognitivas(data.funcionesCognitiva)
                 mapearFuncionesSomaticas(data.funcionesSomaticas)
+
+                mapearHistorialConsultas(data.historialConsultas)
 
                 if (data.historia.tipologia == "Pediatría") {
                     document.getElementById("infPediatria").style.display = "initial"
@@ -2190,6 +2499,8 @@
             document.getElementById("cke_objetivos_especificos").style.pointerEvents = 'none';
             document.getElementById("cke_sugerencia_interconsultas").style.pointerEvents = 'none';
             document.getElementById("cke_observaciones_recomendaciones").style.pointerEvents = 'none';            
+            document.getElementById("btnImprimir").disabled = false;
+            document.getElementById("btnCancelar").disabled = false;
         }
 
         function editarHistoria(element) {
@@ -2198,6 +2509,8 @@
 
             let idHist = element.getAttribute("data-id")
             let tipoHis = element.getAttribute("data-tipo")
+
+            idHistoriaImprimir = idHist;
 
             let url = "{{ route('historia.buscaHistoriaNeuroPsicologica') }}";
 
@@ -2226,6 +2539,8 @@
                 mapearFuncionesCognitivas(data.funcionesCognitiva)
                 mapearFuncionesSomaticas(data.funcionesSomaticas)
 
+                mapearHistorialConsultas(data.historialConsultas)
+
                 if (data.historia.tipologia == "Pediatría") {
                     document.getElementById("infPediatria").style.display = "initial"
                     mapearAntecedentesPrenatales(data.antecedentesPrenatales)
@@ -2244,10 +2559,10 @@
             document.getElementById("accHistoria").value = "editar"
             document.getElementById("idHistoria").value = historia.id
             document.getElementById("idPaciente").value = historia.id_paciente
-
-
+            document.getElementById("estadoHistoria").value = historia.estado_hitoria
+            
             CKEDITOR.instances['remision'].setData(historia.remision)
-            cargarSelConsulta(historia.codigo_consulta)
+            cargarSelConsulta(historia.codigo_consulta, 'codConsulta')
 
             const valoresConsulta = historia.motivo_consulta.split(',')
 
@@ -2277,7 +2592,7 @@
             $('#establecidoPrimeraVez').trigger('change')
 
             document.getElementById("otroMotivo").value = historia.otro_motivo_consulta
-            cargarImpresion(historia.codigo_diagnostico)
+            cargarImpresion(historia.codigo_diagnostico, 'codDiagnostico')
 
             CKEDITOR.instances['enfermedadActual'].setData(historia.enfermedad_actual)
             CKEDITOR.instances['objetivo_general'].setData(historia.objetivo_general)
@@ -2399,7 +2714,7 @@
             }
         }
 
-        function cargarSelConsulta(codigo_consulta) {
+        function cargarSelConsulta(codigo_consulta, id) {
             let rtotal = $("#RutaTotal").data("ruta")
 
             if (codigo_consulta) {
@@ -2420,7 +2735,7 @@
                         if (data && data.id && data.text) {
                             // Agregar opción al select si no está ya presente
                             const newOption = new Option(data.text, data.id, true, true)
-                            $('#codConsulta').append(newOption).trigger('change')
+                            $('#' + id).append(newOption).trigger('change')
                         }
                     })
                     .catch(error => {
@@ -2459,7 +2774,7 @@
             }
         }
 
-        function cargarImpresion(codigo_dx) {
+        function cargarImpresion(codigo_dx, id) {
             let rtotal = $("#RutaTotal").data("ruta")
 
             if (codigo_dx) {
@@ -2480,12 +2795,12 @@
                         if (data && data.id && data.text) {
                             // Agregar opción al select si no está ya presente
                             const newOption = new Option(data.text, data.id, true, true)
-                            $('#codImpresionDiagnostico').append(newOption).trigger('change')
+                            $('#' + id).append(newOption).trigger('change')
                         }
                     })
                     .catch(error => {
-                        console.error('Error al cargar codImpresionDiagnostico:', error)
-                    });
+                        console.error('Error al cargar codDiagnostico:', error)
+                    })
             }
         }
 
@@ -2586,6 +2901,283 @@
                 }
             })
         }
-    </script>
+
+        function cerrarHistoria(element) {
+            let idHist = element.getAttribute("data-id")
+            let estado = element.getAttribute("data-estado")
+            if(estado == "abierta"){
+                swal({
+                    title: "Cerrar historia clinica del paciente.",
+                    text: "Al cerrar la historia clicnica del paciente esta no podra ser editada, ¿Desea cerrar la historia?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Si, cerrarla!",
+                    cancelButtonText: "Cancelar",
+                    confirmButtonClass: "btn btn-warning",
+                    cancelButtonClass: "btn btn-danger ml-1",
+                    buttonsStyling: false
+                }, function(isConfirm) {
+                    if (isConfirm) {
+                        let url = "{{ route('historia.cerrarHistoriaNeuro') }}";
+                        fetch(url, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                        'content')
+                                },
+                                body: JSON.stringify({
+                                    idHist: idHist
+                                })
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    swal("¡Buen trabajo!",
+                                        data.message,
+                                        "success");
+                                    cargarHistorias(1);
+                                } else {
+                                    swal("¡Alerta!",
+                                        "La operación fue realizada exitosamente",
+                                        data.message,
+                                        "success");
+                                }
+                            })
+                    }
+                })
+            }
+            
+        }
+
+        function nuevoRegistroConsulta() {
+            document.getElementById("listadoConsultas").style.display = "none"
+            document.getElementById("fomrConsultas").style.display = "initial"
+            document.getElementById("titConsulta").innerHTML = "Agregar consulta"
+            document.getElementById("accHistoriaConsulta").value = "guardar"
+            limpiarConsulta();
+        }
+
+        function editarConsulta(idConsulta) {
+            document.getElementById("listadoConsultas").style.display = "none"
+            document.getElementById("fomrConsultas").style.display = "initial"
+
+            document.getElementById("idHistoriaConsulta").value = idConsulta
+            document.getElementById("accHistoriaConsulta").value = "editar"
+
+            let url = "{{ route('historia.buscaConsultaNeuroPsicologica') }}"
+
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        idConsulta: idConsulta
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    cargarSelConsulta(data.consulta.codigo_consulta, 'codConsultaConsulta')
+
+                    cargarImpresion(data.consulta.impresion_diagnostica, 'codImpresionDiagnosticoConsulta')
+
+                    CKEDITOR.instances['remisionConsuta'].setData(data.consulta.motivo)
+                    CKEDITOR.instances['resumen_evaluacion_inicial'].setData(data.consulta.resumen_evaluacion)
+                    CKEDITOR.instances['evolucion_tratamiento'].setData(data.consulta.evolucion_tratamiento)
+                    CKEDITOR.instances['plan_continuidad'].setData(data.consulta.plan_continuidad)
+
+                    document.getElementById("intervencion_psiquiatria_consulta").value = data.consulta
+                        .intervencion_psiquiatria
+                    document.getElementById("intervencion_neurologia_consulta").value = data.consulta
+                        .intervencion_neurologia
+                    document.getElementById("intervencion_neuropsicologia_consulta").value = data.consulta
+                        .intervencion_neuropsicologia
+
+                    CKEDITOR.instances['sugerencia_consulta'].setData(data.consulta.sugerencias_interconsultas)
+                    CKEDITOR.instances['observaciones_consulta'].setData(data.consulta.observaciones_recomendaciones)
+
+                })
+                .catch(error => console.error('Error:', error))
+        }
+
+        function guardarConsulta() {
+            if ($("#formConsulta").valid()) {
+                for (var instanceName in CKEDITOR.instances) {
+                    CKEDITOR.instances[instanceName].updateElement()
+                }
+                const formConsulta = document.getElementById('formConsulta')
+                const formData = new FormData(formConsulta)
+                formData.append('idHist', document.getElementById("idHistoria").value)
+
+                const url = "{{ route('form.guardarConsultaNeuroPsicologica') }}"
+
+                fetch(url, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        if (data.success = 'success') {
+
+                            swal(data.title, data.message, data.success)
+                            cargarConsultas(1)
+                            document.getElementById("listadoConsultas").style.display = "initial"
+                            document.getElementById("fomrConsultas").style.display = "none"
+
+                        } else {
+                            swal(data.title, data.message, data.success)
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error al enviar los datos:", error)
+                    })
+
+            }
+        }
+
+        function cargarConsultas(page, searchTerm = '') {
+
+            let url = "{{ route('historia.listaConsultasModalNeuro') }}" // Definir la URL
+            // Eliminar los campos ocultos anteriores
+            var oldPageInput = document.getElementById('pageConsulta')
+            var oldSearchTermInput = document.getElementById('busquedaConsulta')
+            if (oldPageInput) oldPageInput.remove()
+            if (oldSearchTermInput) oldSearchTermInput.remove()
+
+            var data = {
+                page: page,
+                search: searchTerm,
+                idHist: document.getElementById("idHistoria").value
+            }
+
+            // Limpiar la tabla antes de cargar nuevos datos
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(responseData => {
+                    // Rellenar la tabla con las filas generadas
+                    document.getElementById("historialConsulta").innerHTML = responseData.historialConsultas
+                    document.getElementById('trRegistrosConsultas').innerHTML = responseData.consultas
+                    feather.replace()
+                    // Colocar los enlaces de paginación
+                    document.getElementById('pagination-links-consulta').innerHTML = responseData.links
+                    loadNow(0)
+                })
+                .catch(error => console.error('Error:', error))
+        }
+
+        function abrirConsultas(op) {
+            if (document.getElementById("idHistoria").value != "") {
+                if (document.getElementById("estadoHistoria").value == "cerrada") {
+                    var modal = new bootstrap.Modal(document.getElementById("modalConsulta"), {
+                    backdrop: 'static',
+                    keyboard: false
+                })
+
+                modal.show()
+                if (op == 1) {
+                    document.getElementById("listadoConsultas").style.display = "initial"
+                    document.getElementById("fomrConsultas").style.display = "none"
+                }
+
+                cargarConsultas(1)
+                }else{
+                    swal("¡Atención!",
+                    "Para gestionar las consultas la historia clinica debe estar cerrada.",
+                    "warning");   
+                }
+            
+            } else {
+                swal("¡Atención!",
+                    "El paciente no tiene una historia clínica abierta en el sistema.",
+                    "warning");
+            }
+
+        }
+
+        function mapearHistorialConsultas(historialConsultas) {
+            document.getElementById("historialConsulta").innerHTML = historialConsultas
+        }
+
+        function cancelarConsulta() {
+            document.getElementById('listadoConsultas').style.display = 'block'
+            document.getElementById('fomrConsultas').style.display = 'none'
+            document.getElementById("titConsulta").innerHTML = "Gestionar consulta"
+        }
+
+        function limpiarConsulta() {
+            let formHistoria = document.getElementById("formConsulta")
+            formHistoria.reset()
+
+            CKEDITOR.instances['remisionConsuta'].setData('')
+            CKEDITOR.instances['resumen_evaluacion_inicial'].setData('')
+            CKEDITOR.instances['evolucion_tratamiento'].setData('')
+            CKEDITOR.instances['plan_continuidad'].setData('')
+            CKEDITOR.instances['sugerencia_consulta'].setData('')
+            CKEDITOR.instances['observaciones_consulta'].setData('')
+
+            $('#codConsultaConsulta').val(null).trigger('change');
+            $('#codImpresionDiagnosticoConsulta').val(null).trigger('change');
+        }
+
+        function imprimirHistoria(id) {
+            let url = "{{ route('historia.imprimirHistoriaNeuro') }}";
+
+            let idHisto = id || idHistoriaImprimir;
+
+            let params = new URLSearchParams({
+                idHist: idHisto
+            });
+
+            url += '?' + params.toString();
+
+           
+            swal({
+                title: 'Cargando...',
+                text: 'Espere mientras se genera el PDF, gracias.',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+            });
+
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.url){
+                    swal({
+                        title: "Se genero el PDF correctamente.",
+                        type: "success",
+                        showConfirmButton: true,
+                        confirmButtonText: "Visualizar",
+                        allowOutsideClick: false,
+                    }, function(isConfirm) {
+                        if (isConfirm) {
+                            window.open(data.url, '_blank');
+                        }
+                    })
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+</script>
 
 @endsection

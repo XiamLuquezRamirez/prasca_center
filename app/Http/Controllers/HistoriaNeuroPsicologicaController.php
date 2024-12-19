@@ -229,7 +229,7 @@ class HistoriaNeuroPsicologicaController extends Controller
             'antecedentesPosnatales' => $antecedentesPosnatales,       
             'desarrolloPsicomotor' => $desarrolloPsicomotor 
         ];
-                
+        
         $pdf = PDF::loadView('imprimir.imprimirHistoriaNeuro', $data)->setPaper('a4');
 
         $fileName = 'Historia_neuro_'.$idHist. '.pdf';

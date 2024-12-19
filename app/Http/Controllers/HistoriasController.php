@@ -41,7 +41,29 @@ class HistoriasController extends Controller
         $antecedentesPosnatales = HistoriaPsicologica::busquedaAntPosnatales($historia->id);
         $desarrolloPsicomotor = HistoriaPsicologica::desarrolloPsicomotor($historia->id);
 
-        $historialConsultas = HistoriaPsicologica::historialConsultas($historia->id);
+        $historiaCon = self::consultasLateral($historia->id);
+        
+
+        return response()->json([
+            'historia' => $historia,
+            'paciente' => $pacientes,
+            'antecedentesPersonales' => $antecedentesPersonales,
+            'antecedentesFamiliares' => $antecedentesFamiliares,
+            'areaAjuste' => $areaAjuste,
+            'interconuslta' => $interconuslta,
+            'aparienciaPersonal' => $aparienciaPersonal,
+            'funcionesCognitiva' => $funcionesCognitiva,
+            'funcionesSomaticas' => $funcionesSomaticas,
+            'antecedentesPrenatales' => $antecedentesPrenatales,
+            'antecedentesNatales' => $antecedentesNatales,
+            'antecedentesPosnatales' => $antecedentesPosnatales,
+            'desarrolloPsicomotor' => $desarrolloPsicomotor,
+            'historialConsultas' => $historiaCon
+        ]);
+    }
+
+    public function consultasLateral($idHistoria)   {
+        $historialConsultas = HistoriaPsicologica::historialConsultas($idHistoria);
 
         $historiaCon = "";
         $mt = "mt-4";
@@ -92,24 +114,8 @@ class HistoriasController extends Controller
                     </div>
                 </div>
             </div>';
+            return $historiaCon;
         }
-
-        return response()->json([
-            'historia' => $historia,
-            'paciente' => $pacientes,
-            'antecedentesPersonales' => $antecedentesPersonales,
-            'antecedentesFamiliares' => $antecedentesFamiliares,
-            'areaAjuste' => $areaAjuste,
-            'interconuslta' => $interconuslta,
-            'aparienciaPersonal' => $aparienciaPersonal,
-            'funcionesCognitiva' => $funcionesCognitiva,
-            'funcionesSomaticas' => $funcionesSomaticas,
-            'antecedentesPrenatales' => $antecedentesPrenatales,
-            'antecedentesNatales' => $antecedentesNatales,
-            'antecedentesPosnatales' => $antecedentesPosnatales,
-            'desarrolloPsicomotor' => $desarrolloPsicomotor,
-            'historialConsultas' => $historiaCon
-        ]);
     }
 
     public function eliminarConsulta()
@@ -355,7 +361,8 @@ class HistoriasController extends Controller
         // Retornar la respuesta en formato JSON
         return response()->json([
             'success' => $estado,
-            'id' => $respuesta,
+            'id' => $respuesta['idHistoria'],
+            'idConsulta' => $respuesta['idConsulta'],
             'message' =>  $message,
             'title' =>  $title
         ]);
@@ -379,6 +386,7 @@ class HistoriasController extends Controller
                 ->leftJoin("referencia_cie10", "referencia_cie10.id", "consultas_psicologica.impresion_diagnostica")
                 ->leftJoin("profesionales", "profesionales.usuario", "consultas_psicologica.id_profesional")
                 ->where("consultas_psicologica.estado", "ACTIVO")
+                ->where("consultas_psicologica.id_historia",$idHist)
                 ->orderBy('consultas_psicologica.fecha_consulta', 'desc')
                 ->select(
                     'consultas_psicologica.id',
@@ -421,9 +429,12 @@ class HistoriasController extends Controller
             }
             $pagination = $ListConsultas->links('Adminitraccion.Paginacion')->render();
 
+            $consutlasLateral = self::consultasLateral($idHist);
+
             return response()->json([
                 'consultas' => $tdTable,
-                'links' => $pagination
+                'links' => $pagination,
+                'historialConsultas' =>$consutlasLateral
             ]);
         } else {
             return redirect("/")->with("error", "Su Sesión ha Terminado");

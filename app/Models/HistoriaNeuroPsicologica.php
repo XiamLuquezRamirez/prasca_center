@@ -55,6 +55,24 @@ class HistoriaNeuroPsicologica extends Model
                         'estado_registro' => 'ACTIVO',
                     ]));
 
+                     // insertar datos de consulta 
+
+                     $idConsulta = DB::table('consultas_psicologica_neuro')->insertGetId(array_filter([
+                        'id_historia' => $idHistoria ,
+                        'id_profesional' => Auth::user()->id,
+                        'fecha_consulta' => now(),
+                        'codigo_consulta' => $request['codConsulta'] ?? null,
+                        'impresion_diagnostica' => $request['codDiagnostico']  ?? null,
+                        'evolucion_tratamiento' => "",
+                        'plan_continuidad' => "",
+                        'intervencion_psiquiatria' => $request['intervencion_psiquiatria'] ?? null,
+                        'intervencion_neurologia' => $request['intervencion_neurologia'] ?? null,
+                        'intervencion_neuropsicologia' => $request['intervencion_neuropsicologia'] ?? null,
+                        'sugerencias_interconsultas' => $request['sugerencia_interconsultas'] ?? null,
+                        'observaciones_recomendaciones' => $request['observaciones_recomendaciones'] ?? null,
+                        'estado' => 'ACTIVO'
+                    ]));
+
                     // Insertar antecedentes médicos
                     $antecedentesMedicos = array_filter([
                         ['id_historia' => $idHistoria, 'tipo' => 'quirurgicos', 'detalle' => $request['quirurgicos'], 'nombre' => 'Quirúrgico'],
@@ -231,12 +249,11 @@ class HistoriaNeuroPsicologica extends Model
                         ], function ($item) {
                             return !empty($item['detalle']);
                         });
-                        DB::table('desarrollo_psicomotor_neuro')->insert($antecedentesFamiliares);
-                                        
+                        DB::table('desarrollo_psicomotor_neuro')->insert($antecedentesFamiliares);            
                     }
                     // Confirmar transacción
                     DB::commit();
-                    return  $idHistoria;
+                    return ['idHistoria' => $idHistoria, 'idConsulta' => $idConsulta];
                 } catch (\Exception $e) {
                     // Revertir transacción en caso de error
                     DB::rollBack();
@@ -267,6 +284,29 @@ class HistoriaNeuroPsicologica extends Model
                         'fecha_historia' => now(),
                         'estado_hitoria' => 'abierta',
                         'estado_registro' => 'ACTIVO',
+                    ]));
+
+                    //actualizar primera consulta
+                    $consulta = DB::connection('mysql')->table('consultas_psicologica_neuro')
+                    ->where("id_historia", $idHistoria)
+                    ->orderBy("fecha_consulta", "asc")
+                    ->first();
+
+                    $idConsulta = $consulta->id;
+                    
+                    DB::table('consultas_psicologica_neuro')->where('id', $consulta->id)->update(array_filter([
+                        'id_historia' => $idHistoria,
+                        'id_profesional' => Auth::user()->id,
+                        'fecha_consulta' => now(),
+                        'motivo' => $request['motivoConsultaModal'] ?? null,
+                        'codigo_consulta' => $request['codConsulta'] ?? null,
+                        'impresion_diagnostica' => $request['codDiagnostico']  ?? null,
+                        'intervencion_psiquiatria' => $request['intervencion_psiquiatria'] ?? null,
+                        'intervencion_neurologia' => $request['intervencion_neurologia'] ?? null,
+                        'intervencion_neuropsicologia' => $request['intervencion_neuropsicologia'] ?? null,
+                        'sugerencias_interconsultas' => $request['sugerencia_interconsultas'] ?? null,
+                        'observaciones_recomendaciones' => $request['observaciones_consulta'] ?? null,
+                        'estado' => 'ACTIVO'
                     ]));
 
                     // Insertar antecedentes médicos
@@ -455,7 +495,7 @@ class HistoriaNeuroPsicologica extends Model
                     }
 
                     DB::commit();
-                    return  $idHistoria;
+                    return ['idHistoria' => $idHistoria, 'idConsulta' => $idConsulta];
                 } catch (\Exception $e) {
                     DB::rollBack();
                     throw $e;
@@ -469,6 +509,102 @@ class HistoriaNeuroPsicologica extends Model
             ], 500);
         }
         
+    }
+
+    public static function guardarConsulta($request)
+    {
+        try {
+            if ($request['accHistoriaConsulta'] == 'guardar') {
+                DB::beginTransaction();
+                try {
+                    // Insertar en `historia_clinica`
+                    $idConsulta = DB::table('consultas_psicologica_neuro')->insertGetId(array_filter([
+                        'id_historia' => $request['idHist'] ?? null,
+                        'id_profesional' => Auth::user()->id,
+                        'fecha_consulta' => now(),
+                        'codigo_consulta' => $request['codConsultaConsulta'] ?? null,
+                        'impresion_diagnostica' => $request['codImpresionDiagnosticoConsulta']  ?? null,
+                        'motivo' => $request['motivoConsultaModal'] ?? null,
+                        'resumen_evaluacion' => $request['resumen_evaluacion_inicial'] ?? null,
+                        'evolucion_tratamiento' => $request['evolucion_tratamiento'] ?? null,
+                        'plan_continuidad' => $request['plan_continuidad'] ?? null,
+                        'intervencion_psiquiatria' => $request['intervencion_psiquiatria_consulta'] ?? null,
+                        'intervencion_neurologia' => $request['intervencion_neurologia_consulta'] ?? null,
+                        'intervencion_neuropsicologia' => $request['intervencion_neuropsicologia_consulta'] ?? null,
+                        'sugerencias_interconsultas' => $request['sugerencia_consulta'] ?? null,
+                        'observaciones_recomendaciones' => $request['observaciones_consulta'] ?? null,
+                        'estado' => 'ACTIVO'
+                    ]));
+                    // Confirmar transacción
+                    DB::commit();
+                    return  $idConsulta;
+                } catch (\Exception $e) {
+                    // Revertir transacción en caso de error
+                    DB::rollBack();
+                    throw $e;
+                }
+            } else {
+                DB::beginTransaction();
+                try {
+                    // Insertar en `historia_clinica`
+                    $idConsulta = $request['idHistoriaConsulta'];
+                    DB::table('consultas_psicologica_neuro')->where('id', $idConsulta)->update(array_filter([
+                        'codigo_consulta' => $request['codConsultaConsulta'] ?? null,
+                        'impresion_diagnostica' => $request['codImpresionDiagnosticoConsulta']  ?? null,
+                        'motivo' => $request['motivoConsultaModal'] ?? null,
+                        'resumen_evaluacion' => $request['resumen_evaluacion_inicial'] ?? null,
+                        'evolucion_tratamiento' => $request['evolucion_tratamiento'] ?? null,
+                        'plan_continuidad' => $request['plan_continuidad'] ?? null,
+                        'intervencion_psiquiatria' => $request['intervencion_psiquiatria_consulta'] ?? null,
+                        'intervencion_neurologia' => $request['intervencion_neurologia_consulta'] ?? null,
+                        'intervencion_neuropsicologia' => $request['intervencion_neuropsicologia_consulta'] ?? null,
+                        'sugerencias_interconsultas' => $request['sugerencia_consulta'] ?? null,
+                        'observaciones_recomendaciones' => $request['observaciones_consulta'] ?? null
+                    ]));
+
+                    // Confirmar transacción
+                    DB::commit();
+                    return  $idConsulta;
+                } catch (\Exception $e) {
+                    // Revertir transacción en caso de error
+                    DB::rollBack();
+                    throw $e;
+                }
+            }
+        } catch (Exception $e) {
+            // Manejo del error
+            return response()->json([
+                'success' => false,
+                'message' => 'Ocurrió un error al procesar el formulario: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public static function busquedaConsulta($idConsulta)
+    {
+        return DB::connection('mysql')->table('consultas_psicologica_neuro')
+        ->where("id", $idConsulta)
+        ->first();
+    }
+
+    public static function historialConsultas($idHisto)
+    {
+        return DB::connection('mysql')->table('consultas_psicologica_neuro')
+        ->leftJoin("referencia_cups", "referencia_cups.id", "consultas_psicologica_neuro.codigo_consulta")
+                ->leftJoin("referencia_cie10", "referencia_cie10.id", "consultas_psicologica_neuro.impresion_diagnostica")
+                ->leftJoin("profesionales", "profesionales.usuario", "consultas_psicologica_neuro.id_profesional")
+            ->where("consultas_psicologica_neuro.id_historia", $idHisto)
+            ->orderBy('consultas_psicologica_neuro.fecha_consulta', 'desc')
+            ->where("consultas_psicologica_neuro.estado", "ACTIVO")
+            ->take(5)
+            ->select(
+                'consultas_psicologica_neuro.id',
+                'consultas_psicologica_neuro.fecha_consulta',
+                'referencia_cups.nombre AS consulta',
+                'referencia_cie10.nombre AS diagnostico',
+                'profesionales.nombre AS profesional'
+            )
+            ->get();
     }
 
     public static function busquedaHistoriaNeuro($idHisto){
@@ -514,7 +650,7 @@ class HistoriaNeuroPsicologica extends Model
     {
         return DB::connection('mysql')->table('historia_clinica_neuro')
         ->where("id_paciente", $idPac)
-        ->exists();
+        ->first();
     }
 
     public static function busquedaHistoriaPaciente($idPac)

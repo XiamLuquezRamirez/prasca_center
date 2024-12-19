@@ -146,6 +146,7 @@
                                     <input type="hidden" id="idHistoria" name="idHistoria" />
                                     <input type="hidden" id="idPaciente" name="idPaciente" />
                                     <input type="hidden" id="tipoPsicologia" name="tipoPsicologia" />
+                                    <input type="hidden" id="estadoHistoria" name="estadoHistoria" />
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="card-header">
@@ -2450,7 +2451,8 @@
 
         function abrirConsultas(op) {
             if (document.getElementById("idHistoria").value != "") {
-                var modal = new bootstrap.Modal(document.getElementById("modalConsulta"), {
+                if (document.getElementById("estadoHistoria").value == "cerrada") {
+                    var modal = new bootstrap.Modal(document.getElementById("modalConsulta"), {
                     backdrop: 'static',
                     keyboard: false
                 })
@@ -2462,6 +2464,12 @@
                 }
 
                 cargarConsultas(1)
+                }else{
+                    swal("¡Atención!",
+                    "Para gestionar las consultas la historia clinica debe estar cerrada.",
+                    "warning");   
+                }
+            
             } else {
                 swal("¡Atención!",
                     "El paciente no tiene una historia clínica abierta en el sistema.",
@@ -2540,7 +2548,7 @@
                             btnGuardar.disabled = true;
 
                             swal({
-                                title: "¡Operación realizada correctamente!",
+                                title: "Operación realizada correctamente",
                                 text: "Se ha registrado la consulta con información incompleta. ¿Desea completarla ahora?",
                                 type: "success",
                                 showCancelButton: true,
@@ -2917,6 +2925,7 @@
 
         function mapearHisoria(historia) {
             document.getElementById("accHistoria").value = "editar"
+            document.getElementById("estadoHistoria").value = historia.estado_hitoria
             document.getElementById("idHistoria").value = historia.id
             document.getElementById("idPaciente").value = historia.id_paciente
 

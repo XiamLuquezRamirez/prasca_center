@@ -27,7 +27,7 @@
                         <i data-feather="menu"></i>
                     </a>
                 </li>
-                <li  class="btn-group d-lg-inline-flex d-none">
+                {{-- <li class="btn-group d-lg-inline-flex d-none">
                     <div class="app-menu" id="divBusquedaGen">
                         <div class="search-bx mx-5">
                             <form>
@@ -40,7 +40,7 @@
                             </form>
                         </div>
                     </div>
-                </li>
+                </li> --}}
             </ul>
         </div>
 

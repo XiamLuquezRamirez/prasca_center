@@ -63,9 +63,6 @@ class HistoriaPsicologica extends Model
                         'fecha_consulta' => now(),
                         'codigo_consulta' => $request['codConsulta'] ?? null,
                         'impresion_diagnostica' => $request['codDiagnostico']  ?? null,
-                        'motivo' => "",
-                        'evolucion_tratamiento' => "",
-                        'plan_continuidad' => "",
                         'intervencion_psiquiatria' => $request['intervencion_psiquiatria'] ?? null,
                         'intervencion_neurologia' => $request['intervencion_neurologia'] ?? null,
                         'intervencion_neuropsicologia' => $request['intervencion_neuropsicologia'] ?? null,
@@ -295,7 +292,7 @@ class HistoriaPsicologica extends Model
                         ->where("id_historia", $idHistoria)
                         ->orderBy("fecha_consulta", "asc")
                         ->first();
-
+                   
 
                     $idConsulta =  DB::table('consultas_psicologica')->where('id', $consulta->id)->update(array_filter([
                         'id_historia' => $idHistoria,
@@ -504,7 +501,7 @@ class HistoriaPsicologica extends Model
 
                     // Confirmar transacción
                     DB::commit();
-                    return ['idHistoria' => $idHistoria, 'idConsulta' => $idConsulta];
+                    return ['idHistoria' => $idHistoria, 'idConsulta' => $consulta->id];
                 } catch (\Exception $e) {
                     // Revertir transacción en caso de error
                     DB::rollBack();

@@ -68,8 +68,6 @@
 
                                         <h4 class="mb-0 mt-2" id="nombrePaciente"></h4>
                                         <p class="text-muted fs-14" id="edadPaciente"></p>
-
-
                                         <div class="text-start mt-3">
                                             <p class="header-title mb-2"><strong>Notas Rapidas :</strong></p>
                                             <div class="my-3"><a href="#" id="inline-comments" data-type="textarea"
@@ -79,27 +77,22 @@
                                                     :</strong>
                                                 <span class="ms-2" id="nombreCompletoPacienteHist"></span>
                                             </p>
-
                                             <p class="text-muted mb-2 "><strong class="text-dark">Identificación
                                                     :</strong><span class="ms-2" id="identificacionPacienteHist"></span>
                                             </p>
-
                                             <p class="text-muted mb-2 "><strong class="text-dark">Fecha de nacimiento
                                                     :</strong> <span class="ms-2" id="fechaNacimeintoPacienteHist"></span>
                                             </p>
-
                                             <p class="text-muted mb-1 "><strong class="text-dark">Tipo de usuario
                                                     :</strong>
                                                 <span class="ms-2" id="tipoUsuarioPacienteHist"></span>
                                             </p>
-
                                             <p class="text-muted mb-1 "><strong class="text-dark">Sexo :</strong>
                                                 <span class="ms-2" id="sexoPacienteHist"></span>
                                             </p>
                                         </div>
                                     </div> <!-- end card-body -->
                                 </div> <!-- end card -->
-
                                 <!-- Messages-->
                                 <div class="card">
                                     <div class="card-body">
@@ -116,7 +109,6 @@
                                             </div> --}}
                                         </div>
                                         <h4 class="header-title mb-3">Información de Contacto</h4>
-
                                         <div class="text-start mt-3">
                                             <p class="text-muted mb-1 "><strong class="text-dark">Teléfono :</strong>
                                                 <span class="ms-2" id="telefonoPacienteHist"></span>
@@ -134,45 +126,43 @@
                                         </div>
                                     </div> <!-- end card-body-->
                                 </div> <!-- end card-->
-
                                 <div class="card">
                                     <div class="card-body">
                                         <h4 class="header-title mb-3">Historial de consultas</h4>
-
                                         <div class="text-start mt-3">
                                             <div class="activ_box_button " style="width: 100%;">
                                                 <button class="btn btn-success" onclick="abrirConsultas(1)"
-                                                    style="width: 100%;"><i class="fa fa-edit"></i> Iniciar
-                                                    consulta</button>
+                                                    style="width: 100%;"><i class="fa fa-edit"></i> Gestionar consultas</button>
                                             </div>
                                             <div id="historialConsulta">
-
                                             </div>
                                         </div>
                                     </div> <!-- end card-body-->
                                 </div> <!-- end card-->
-
-
                             </div> <!-- end col-->
-
                             <div class="col-xl-8 col-lg-7">
                                 <form id="formHistoria">
                                     <input type="hidden" id="accHistoria" name="accHistoria" />
                                     <input type="hidden" id="idHistoria" name="idHistoria" />
                                     <input type="hidden" id="idPaciente" name="idPaciente" />
                                     <input type="hidden" id="tipoPsicologia" name="tipoPsicologia" />
-
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="card-header">
                                                 <h5 class="text-uppercase"><i class="fa fa-h-square me-1"></i>
                                                     Evaluación clínica psicológica</h5>
-                                                <button type="button" style="display: none;" id="btn-imprimirHistoria"
-                                                    class="btn btn-info btn-sm mb-2"><i class="fa fa-print"></i> Imprimir
-                                                    historia</button>
+                                                <div>
+                                                    <button onclick="cancelarHistoria()" type="button"
+                                                        class="btn btn-primary-light me-1">
+                                                        <i class="ti-back-left"></i> Atras
+                                                    </button>
+                                                    <button type="button" style="display: none;"
+                                                        id="btn-imprimirHistoria" class="btn btn-info-light me-1"><i
+                                                            class="fa fa-print"></i> Imprimir
+                                                        historia</button>
+                                                </div>
 
                                             </div>
-
                                             <div class="row">
                                                 <div class="col-md-6 d-flex align-items-center">
                                                     <label for="primeraVez" class="form-label me-2">¿Es la primera vez que
@@ -184,7 +174,6 @@
                                                         <span class="switch-description"></span>
                                                     </label>
                                                 </div>
-
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label for="remision" class="form-label">Remisión :</label>
@@ -213,7 +202,6 @@
                                                         <input type="text" placeholder="Otro motivo de consulta"
                                                             id="otroMotivo" name="otroMotivo"
                                                             class="form-control mt-1" />
-
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
@@ -252,8 +240,7 @@
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a href="#impresion" style="padding-left: 0;padding-right: 0;
-}"
+                                                    <a href="#impresion" style="padding-left: 0;padding-right: 0;"
                                                         data-bs-toggle="tab" class="nav-link rounded-0">
                                                         <i class="fa fa-stethoscope"></i> Impresión Diagnóstica
                                                     </a>
@@ -264,10 +251,7 @@
                                                     </a>
                                                 </li>
                                             </ul>
-
-
                                             <div class="tab-content">
-
                                                 <!-- Antecedentes -->
                                                 <div class="tab-pane active" id="antecedentes">
                                                     <div class="box-header pb-1">
@@ -289,7 +273,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="toxicos" class="form-label">Tóxicos:</label>
@@ -303,7 +286,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                         <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label for="hospitalizaciones"
@@ -312,7 +294,6 @@
                                                                     placeholder="Describa las causas de hospitalización..."></textarea>
                                                             </div>
                                                         </div>
-
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="traumaticos"
@@ -321,15 +302,17 @@
                                                                     name="traumaticos">
                                                                     <option value="">Seleccione una
                                                                         opción...</option>
-                                                                    <option value="fracturas">Fracturas óseas</option>
-                                                                    <option value="traumatismo_craneoencefalico">
+                                                                    <option value="fracturas óseas">Fracturas óseas
+                                                                    </option>
+                                                                    <option value="traumatismo craneoencefalico">
                                                                         Traumatismo
                                                                         craneoencefálico</option>
-                                                                    <option value="luxaciones_esguinces">Luxaciones y
+                                                                    <option value="luxaciones y esguinces">Luxaciones y
                                                                         esguinces
                                                                     </option>
                                                                     <option value="quemaduras">Quemaduras</option>
-                                                                    <option value="accidente_transito">Accidente de tráfico
+                                                                    <option value="accidente de transito">Accidente de
+                                                                        transito
                                                                     </option>
                                                                     <option value="otro">Otro</option>
                                                                     <option value="ninguno">Ninguno</option>
@@ -349,7 +332,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                         <!-- patologia -->
                                                         <div class="col-md-12">
                                                             <div class="form-group">
@@ -359,7 +341,6 @@
                                                                     placeholder="Describa la patología..."></textarea>
                                                             </div>
                                                         </div>
-
                                                         <!-- Medicación -->
                                                         <div class="col-md-12">
                                                             <div class="form-group">
@@ -369,7 +350,6 @@
                                                                     placeholder="Describa la medicación actual..."></textarea>
                                                             </div>
                                                         </div>
-
                                                     </div>
                                                     <div id="infPediatria" style="display: none;">
                                                         <!-- Prenatales -->
@@ -449,7 +429,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                         <!-- Natales -->
                                                         <div class="box-header pb-1">
                                                             <h5 class="text-uppercase">
@@ -497,7 +476,7 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="peso_nacer" class="form-label">Peso al
-                                                                        nacer: :</label>
+                                                                        nacer:</label>
                                                                     <input type="text" class="form-control"
                                                                         id="peso_nacer" name="peso_nacer"
                                                                         placeholder="Ejemplo: 1KG">
@@ -506,7 +485,7 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="talla_nacer" class="form-label">Talla al
-                                                                        nacer: :</label>
+                                                                        nacer:</label>
                                                                     <input type="text" class="form-control"
                                                                         id="talla_nacer" name="talla_nacer"
                                                                         placeholder="Ejemplo: 50 cm">
@@ -515,7 +494,7 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="llanto_nacer" class="form-label">Llanto al
-                                                                        nacer: :</label>
+                                                                        nacer:</label>
                                                                     <select class="form-control" id="llanto_nacer"
                                                                         name="llanto_nacer">
                                                                         <option value="">Seleccione una opción...
@@ -526,7 +505,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                         <!-- Posnatales -->
                                                         <div class="box-header pb-1">
                                                             <h5 class="text-uppercase">
@@ -553,7 +531,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                         <!-- Desarrollo Psicomotor -->
                                                         <div class="box-header pb-1">
                                                             <h5 class="text-uppercase">
@@ -652,7 +629,7 @@
                                                                     name="depresion">
                                                                     <option value="">Selecciona una opción
                                                                     </option>
-                                                                    <option value="no_refiere">No refiere</option>
+                                                                    <option value="no refiere">No refiere</option>
                                                                     <option value="padre">Padre</option>
                                                                     <option value="madre">Madre</option>
                                                                     <option value="hijo">Hijo/a</option>
@@ -666,7 +643,6 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-
                                                         <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label for="ansiedad" class="form-label">Ansiedad:</label>
@@ -674,7 +650,7 @@
                                                                     name="ansiedad">
                                                                     <option value="">Selecciona una opción
                                                                     </option>
-                                                                    <option value="no_refiere">No refiere</option>
+                                                                    <option value="no refiere">No refiere</option>
                                                                     <option value="padre">Padre</option>
                                                                     <option value="madre">Madre</option>
                                                                     <option value="hijo">Hijo/a</option>
@@ -688,7 +664,6 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-
                                                         <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label for="demencia" class="form-label">Demencia:</label>
@@ -696,7 +671,7 @@
                                                                     name="demencia">
                                                                     <option value="">Selecciona una opción
                                                                     </option>
-                                                                    <option value="no_refiere">No refiere</option>
+                                                                    <option value="no refiere">No refiere</option>
                                                                     <option value="padre">Padre</option>
                                                                     <option value="madre">Madre</option>
                                                                     <option value="hijo">Hijo/a</option>
@@ -710,7 +685,6 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-
                                                         <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label for="alcoholismo"
@@ -719,7 +693,7 @@
                                                                     name="alcoholismo">
                                                                     <option value="">Selecciona una opción
                                                                     </option>
-                                                                    <option value="no_refiere">No refiere</option>
+                                                                    <option value="no refiere">No refiere</option>
                                                                     <option value="padre">Padre</option>
                                                                     <option value="madre">Madre</option>
                                                                     <option value="hijo">Hijo/a</option>
@@ -733,7 +707,6 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-
                                                         <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label for="drogadiccion"
@@ -742,7 +715,7 @@
                                                                     name="drogadiccion">
                                                                     <option value="">Selecciona una opción
                                                                     </option>
-                                                                    <option value="no_refiere">No refiere</option>
+                                                                    <option value="no refiere">No refiere</option>
                                                                     <option value="padre">Padre</option>
                                                                     <option value="madre">Madre</option>
                                                                     <option value="hijo">Hijo/a</option>
@@ -756,7 +729,6 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-
                                                         <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label for="discapacidad_intelectual"
@@ -766,7 +738,7 @@
                                                                     name="discapacidad_intelectual">
                                                                     <option value="">Selecciona una opción
                                                                     </option>
-                                                                    <option value="no_refiere">No refiere</option>
+                                                                    <option value="no refiere">No refiere</option>
                                                                     <option value="padre">Padre</option>
                                                                     <option value="madre">Madre</option>
                                                                     <option value="hijo">Hijo/a</option>
@@ -780,7 +752,6 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-
                                                         <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label for="patologicos"
@@ -789,7 +760,7 @@
                                                                     name="patologicos">
                                                                     <option value="">Selecciona una opción
                                                                     </option>
-                                                                    <option value="no_refiere">No refiere</option>
+                                                                    <option value="no refiere">No refiere</option>
                                                                     <option value="padre">Padre</option>
                                                                     <option value="madre">Madre</option>
                                                                     <option value="hijo">Hijo/a</option>
@@ -803,7 +774,6 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-
                                                         <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label for="otros" class="form-label">Otros:</label>
@@ -811,7 +781,7 @@
                                                                     name="otros">
                                                                     <option value="">Selecciona una opción
                                                                     </option>
-                                                                    <option value="no_refiere">No refiere</option>
+                                                                    <option value="no refiere">No refiere</option>
                                                                     <option value="padre">Padre</option>
                                                                     <option value="madre">Madre</option>
                                                                     <option value="hijo">Hijo/a</option>
@@ -825,10 +795,8 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-
                                                     </div>
                                                 </div>
-
                                                 <!-- Áreas de Ajuste -->
                                                 <div class="tab-pane" id="ajustes">
                                                     <div class="box-header pb-1">
@@ -848,7 +816,6 @@
                                                                     placeholder="Describa la historia educativa..."></textarea>
                                                             </div>
                                                         </div>
-
                                                         <!-- Historia Laboral -->
                                                         <div class="col-md-12">
                                                             <div class="form-group">
@@ -859,7 +826,6 @@
                                                                     placeholder="Describa la historia laboral..."></textarea>
                                                             </div>
                                                         </div>
-
                                                         <!-- Historia Familiar -->
                                                         <div class="col-md-12">
                                                             <div class="form-group">
@@ -870,7 +836,6 @@
                                                                     placeholder="Describa la historia familiar..."></textarea>
                                                             </div>
                                                         </div>
-
                                                         <!-- Historia Social -->
                                                         <div class="col-md-12">
                                                             <div class="form-group">
@@ -881,7 +846,6 @@
                                                                     placeholder="Describa la historia social..."></textarea>
                                                             </div>
                                                         </div>
-
                                                         <!-- Historia Socio-Afectiva -->
                                                         <div class="col-md-12">
                                                             <div class="form-group">
@@ -909,7 +873,6 @@
                                                                     placeholder="Describa la intervención por Psiquiatría..."></textarea>
                                                             </div>
                                                         </div>
-
                                                         <!-- Intervención por Neurología (Medicación) -->
                                                         <div class="col-md-4">
                                                             <div class="form-group">
@@ -919,7 +882,6 @@
                                                                     placeholder="Describa la intervención por Neurología..."></textarea>
                                                             </div>
                                                         </div>
-
                                                         <!-- Intervención por Neuropsicología -->
                                                         <div class="col-md-4">
                                                             <div class="form-group">
@@ -933,7 +895,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
                                                 <!-- Examen Mental -->
                                                 <div class="tab-pane" id="examen">
                                                     <div class="box-header pb-1">
@@ -950,19 +911,16 @@
                                                                 </h5>
                                                             </div>
                                                         </div>
-
                                                         <div class="col-md-6">
                                                             <label for="edad" class="form-label">Edad:</label>
                                                             <select class="form-select" id="edad" name="edad"
                                                                 onchange="toggleOtro(this)">
                                                                 <option value="">Seleccione...</option>
-
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
                                                                 id="edad_otro" name="edad_otro"
                                                                 placeholder="Especifique otro">
                                                         </div>
-
                                                         <!-- Desarrollo pondoestatural -->
                                                         <div class="col-md-6">
                                                             <label for="desarrollo" class="form-label">Desarrollo
@@ -975,7 +933,6 @@
                                                                 id="desarrollo_otro" name="desarrollo_otro"
                                                                 placeholder="Especifique otro">
                                                         </div>
-
                                                         <!-- Aseo y arreglo -->
                                                         <div class="col-md-6">
                                                             <label for="aseo" class="form-label">Aseo y
@@ -988,7 +945,6 @@
                                                                 id="aseo_otro" name="aseo_otro"
                                                                 placeholder="Especifique otro">
                                                         </div>
-
                                                         <!-- Salud somática -->
                                                         <div class="col-md-6">
                                                             <label for="salud" class="form-label">Salud
@@ -1001,7 +957,6 @@
                                                                 id="salud_otro" name="salud_otro"
                                                                 placeholder="Especifique otro">
                                                         </div>
-
                                                         <!-- Facies -->
                                                         <div class="col-md-6">
                                                             <label for="facies" class="form-label">Facies:</label>
@@ -1013,7 +968,6 @@
                                                                 id="facies_otro" name="facies_otro"
                                                                 placeholder="Especifique otro">
                                                         </div>
-
                                                         <!-- Biotipo -->
                                                         <div class="col-md-6">
                                                             <label for="biotipo" class="form-label">Biotipo:</label>
@@ -1025,7 +979,6 @@
                                                                 id="biotipo_otro" name="biotipo_otro"
                                                                 placeholder="Especifique otro">
                                                         </div>
-
                                                         <!-- Actitud -->
                                                         <div class="col-md-6">
                                                             <label for="actitud" class="form-label">Actitud:</label>
@@ -1055,7 +1008,6 @@
                                                                 id="consciencia_otro" name="consciencia_otro"
                                                                 placeholder="Especifique otro">
                                                         </div>
-
                                                         <!-- Orientación -->
                                                         <div class="col-md-6">
                                                             <label for="orientacion"
@@ -1414,10 +1366,7 @@
                                                 </p>
                                             </div>
                                             <div class="box-footer text-end">
-                                                <button onclick="cancelarHistoria()" type="button"
-                                                    class="btn btn-primary-light me-1">
-                                                    <i class="ti-share-alt "></i> Cancelar
-                                                </button>
+
                                                 <button onclick="guardarHistoria()" id="btn-guardarHistoria"
                                                     type="button" class="btn btn-primary">
                                                     <i class="ti-save-alt"></i> Guardar
@@ -1551,7 +1500,7 @@
                                                     <a href="#resumenEval" data-bs-toggle="tab" aria-expanded="true"
                                                         class="nav-link rounded-0">
                                                         <span class="d-none d-md-block"><i class="fa fa-check"></i>
-                                                            Resumen Evaluación</span>
+                                                            Tratamiento actual</span>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
@@ -1607,7 +1556,7 @@
 
                                                 <!-- Resumen de evaluación -->
                                                 <div class="tab-pane show" id="resumenEval">
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-12" style="display: none;">
                                                         <div class="form-group">
                                                             <label for="resumen_evaluacion_inicial"
                                                                 class="form-label">Resumen de evaluación psicolólogica
@@ -2226,7 +2175,7 @@
 
             cargarPacientes(1)
             mapearDatosProfesional(document.getElementById("idUsuario").value)
-            document.getElementById("btn-imprimirHistoria").style.display = ""
+            document.getElementById("btn-imprimirHistoria").style.display = "none"
         }
 
         function limpiarHistoria() {
@@ -2334,51 +2283,52 @@
         function cerrarHistoria(element) {
             let idHist = element.getAttribute("data-id")
             let estado = element.getAttribute("data-estado")
-            if(estado == "abierta"){
+            if (estado == "abierta") {
                 swal({
-                title: "Cerrar historia clinica del paciente.",
-                text: "Al cerrar la historia clicnica del paciente esta no podra ser editada, ¿Desea cerrar la historia?",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Si, cerrarla!",
-                cancelButtonText: "Cancelar",
-                confirmButtonClass: "btn btn-warning",
-                cancelButtonClass: "btn btn-danger ml-1",
-                buttonsStyling: false
-            }, function(isConfirm) {
-                if (isConfirm) {
-                    let url = "{{ route('historia.cerrarHistoria') }}";
-                    fetch(url, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                                    'content')
-                            },
-                            body: JSON.stringify({
-                                idHist: idHist
+                    title: "Cerrar historia clinica del paciente.",
+                    text: "Al cerrar la historia clicnica del paciente esta no podra ser editada, ¿Desea cerrar la historia?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Si, cerrarla!",
+                    cancelButtonText: "Cancelar",
+                    confirmButtonClass: "btn btn-warning",
+                    cancelButtonClass: "btn btn-danger ml-1",
+                    buttonsStyling: false
+                }, function(isConfirm) {
+                    if (isConfirm) {
+                        let url = "{{ route('historia.cerrarHistoria') }}";
+                        fetch(url, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                        .getAttribute(
+                                            'content')
+                                },
+                                body: JSON.stringify({
+                                    idHist: idHist
+                                })
                             })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                swal("¡Buen trabajo!",
-                                    data.message,
-                                    "success");
-                                cargarHistorias(1);
-                            } else {
-                                swal("¡Alerta!",
-                                    "La operación fue realizada exitosamente",
-                                    data.message,
-                                    "success");
-                            }
-                        })
-                }
-            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    swal("¡Buen trabajo!",
+                                        data.message,
+                                        "success");
+                                    cargarHistorias(1);
+                                } else {
+                                    swal("¡Alerta!",
+                                        "La operación fue realizada exitosamente",
+                                        data.message,
+                                        "success");
+                                }
+                            })
+                    }
+                })
             }
-            
+
         }
 
         function mostrarInformacionHistoria(idPaciente) {
@@ -2547,6 +2497,7 @@
                 .then(response => response.json())
                 .then(responseData => {
                     // Rellenar la tabla con las filas generadas
+                    document.getElementById("historialConsulta").innerHTML = responseData.historialConsultas
                     document.getElementById('trRegistrosConsultas').innerHTML = responseData.consultas
                     feather.replace()
                     // Colocar los enlaces de paginación
@@ -2558,18 +2509,21 @@
 
         function guardarHistoria() {
             if ($("#formHistoria").valid()) {
-
+                // Actualizar elementos de CKEditor
                 for (var instanceName in CKEDITOR.instances) {
-                    CKEDITOR.instances[instanceName].updateElement()
+                    CKEDITOR.instances[instanceName].updateElement();
                 }
 
-                const formHistoria = document.getElementById('formHistoria')
-                const formData = new FormData(formHistoria)
-                document.getElementById('primeraVez').checked ? formData.append('primeraVez', '1') : formData.append(
-                    'primeraVez', '0')
+                // Obtener el formulario y preparar los datos
+                const formHistoria = document.getElementById('formHistoria');
+                const formData = new FormData(formHistoria);
+                document.getElementById('primeraVez').checked ?
+                    formData.append('primeraVez', '1') :
+                    formData.append('primeraVez', '0');
 
-                const url = "{{ route('form.guardarHistoriaPsicologica') }}"
+                const url = "{{ route('form.guardarHistoriaPsicologica') }}";
 
+                // Enviar datos usando fetch
                 fetch(url, {
                         method: 'POST',
                         body: formData,
@@ -2579,31 +2533,59 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data)
-                        if (data.success = 'success') {
-                            document.getElementById("idHistoria").value = data.id
-                            swal(data.title, data.message, data.success)
-                            cancelarHistoria()
-                            cargarHistorias(1)
+                        if (data.success === 'success') { // Comparación estricta
+                            document.getElementById("idHistoria").value = data.id;
+                            cargarHistorias(1);
+                            var btnGuardar = document.getElementById("btn-guardarHistoria");
+                            btnGuardar.disabled = true;
+
+                            swal({
+                                title: "¡Operación realizada correctamente!",
+                                text: "Se ha registrado la consulta con información incompleta. ¿Desea completarla ahora?",
+                                type: "success",
+                                showCancelButton: true,
+                                confirmButtonColor: "#3085d6",
+                                cancelButtonColor: "#d33",
+                                confirmButtonText: "Si, completat!",
+                                cancelButtonText: "Cancelar",
+                                confirmButtonClass: "btn btn-warning",
+                                cancelButtonClass: "btn btn-danger ml-1",
+                                buttonsStyling: false
+                            }, function(isConfirm) {
+                                if (isConfirm) {
+                                    if (data.idConsulta != "") {
+                                        editarConsulta(data.idConsulta);
+                                        var modal = new bootstrap.Modal(document.getElementById(
+                                            "modalConsulta"), {
+                                            backdrop: 'static',
+                                            keyboard: false,
+                                        });
+                                        modal.show();
+                                    }
+                                }
+                            });
 
                         } else {
-                            swal(data.title, data.message, data.success)
+                            Swal.fire(data.title, data.message, "error");
                         }
                     })
                     .catch(error => {
-                        console.error("Error al enviar los datos:", error)
-                    })
-
+                        console.error("Error al enviar los datos:", error);
+                    });
             }
+        }
+
+
+        function miFuncion() {
+            console.log("La función fue llamada después de que el usuario hizo clic en 'OK'");
+            // Aquí puedes agregar tu lógica adicional
         }
 
         function guardarConsulta() {
             if ($("#formConsulta").valid()) {
-
                 for (var instanceName in CKEDITOR.instances) {
                     CKEDITOR.instances[instanceName].updateElement()
                 }
-
                 const formConsulta = document.getElementById('formConsulta')
                 const formData = new FormData(formConsulta)
                 formData.append('idHist', document.getElementById("idHistoria").value)
@@ -2623,7 +2605,9 @@
                         if (data.success = 'success') {
 
                             swal(data.title, data.message, data.success)
-                            cargarHistorias(1)
+                            cargarConsultas(1)
+                            document.getElementById("listadoConsultas").style.display = "initial"
+                            document.getElementById("fomrConsultas").style.display = "none"
 
                         } else {
                             swal(data.title, data.message, data.success)

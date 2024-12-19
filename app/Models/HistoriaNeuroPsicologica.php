@@ -305,7 +305,7 @@ class HistoriaNeuroPsicologica extends Model
                         'intervencion_neurologia' => $request['intervencion_neurologia'] ?? null,
                         'intervencion_neuropsicologia' => $request['intervencion_neuropsicologia'] ?? null,
                         'sugerencias_interconsultas' => $request['sugerencia_interconsultas'] ?? null,
-                        'observaciones_recomendaciones' => $request['observaciones_recomendaciones'] ?? null,
+                        'observaciones_recomendaciones' => $request['observaciones_consulta'] ?? null,
                         'estado' => 'ACTIVO'
                     ]));
 
@@ -650,7 +650,7 @@ class HistoriaNeuroPsicologica extends Model
     {
         return DB::connection('mysql')->table('historia_clinica_neuro')
         ->where("id_paciente", $idPac)
-        ->exists();
+        ->first();
     }
 
     public static function busquedaHistoriaPaciente($idPac)

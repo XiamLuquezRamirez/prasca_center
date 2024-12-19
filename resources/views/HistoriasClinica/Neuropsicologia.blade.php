@@ -152,9 +152,14 @@
                                             <div class="card-header">
                                                 <h5 class="text-uppercase"><i class="fa fa-h-square me-1"></i>
                                                     Evaluación clínica psicológica</h5>
-                                                <button type="button" class="btn btn-info btn-sm mb-2"><i
-                                                        class="fa fa-print"></i> Imprimir historia</button>
+                                                <div>
+                                                    <button id="btnCancelar" onclick="cancelarHistoria()" type="button"
+                                                        class="btn btn-primary-light me-1">
+                                                        <i class="ti-share-alt "></i> Cancelar
+                                                    </button>
+                                                    <button onclick="imprimirHistoria()" id="btnImprimir" type="button" class="btn btn-info-light me-1"><i class="fa fa-print"></i> Imprimir historia</button>
 
+                                                </div>
                                             </div>
                                             <br>
                                             <div class="row">
@@ -1337,10 +1342,6 @@
                                                 </p>
                                             </div>
                                             <div class="box-footer text-end">
-                                                <button onclick="cancelarHistoria()" type="button"
-                                                    class="btn btn-primary-light me-1">
-                                                    <i class="ti-share-alt "></i> Cancelar
-                                                </button>
                                                 <button onclick="guardarHistoria()" type="button"
                                                     class="btn btn-primary">
                                                     <i class="ti-save-alt"></i> Guardar
@@ -1635,6 +1636,8 @@
     </div>
 
     <script>
+
+        var idHistoriaImprimir = "";
         document.addEventListener("DOMContentLoaded", function() {
 
             let menuP = document.getElementById("principalHistoriClinica");
@@ -2042,7 +2045,7 @@
         function cagaHistPaciente(element) {
             let idPaciente = element.getAttribute("data-id")
             let edadPaciente = parseInt(element.getAttribute("data-edad"), 10)
-            let tipoPsicologia
+            let tipoPsicologia = "";
             if (edadPaciente < 18) {
                 tipoPsicologia = "Pediatría"
                 document.getElementById("infPediatria").style.display = "initial"
@@ -2245,6 +2248,7 @@
                                 mapearInfPaciente(data.paciente)
                                 document.getElementById('listado').style.display = 'none'
                                 document.getElementById('historia').style.display = 'block'
+                                verHistoria(data.historia.id)
                             }
                         });
                     } else {
@@ -2431,6 +2435,9 @@
         }
 
         function verHistoria(idHist) {
+
+            idHistoriaImprimir = idHist;
+
             document.getElementById('listado').style.display = 'none'
             document.getElementById('historia').style.display = 'block'
 
@@ -2492,6 +2499,8 @@
             document.getElementById("cke_objetivos_especificos").style.pointerEvents = 'none';
             document.getElementById("cke_sugerencia_interconsultas").style.pointerEvents = 'none';
             document.getElementById("cke_observaciones_recomendaciones").style.pointerEvents = 'none';            
+            document.getElementById("btnImprimir").disabled = false;
+            document.getElementById("btnCancelar").disabled = false;
         }
 
         function editarHistoria(element) {
@@ -2500,6 +2509,8 @@
 
             let idHist = element.getAttribute("data-id")
             let tipoHis = element.getAttribute("data-tipo")
+
+            idHistoriaImprimir = idHist;
 
             let url = "{{ route('historia.buscaHistoriaNeuroPsicologica') }}";
 
@@ -3123,6 +3134,50 @@
             $('#codImpresionDiagnosticoConsulta').val(null).trigger('change');
         }
 
+        function imprimirHistoria(id) {
+            let url = "{{ route('historia.imprimirHistoriaNeuro') }}";
+
+            let idHisto = id || idHistoriaImprimir;
+
+            let params = new URLSearchParams({
+                idHist: idHisto
+            });
+
+            url += '?' + params.toString();
+
+           
+            swal({
+                title: 'Cargando...',
+                text: 'Espere mientras se genera el PDF, gracias.',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+            });
+
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.url){
+                    swal({
+                        title: "Se genero el PDF correctamente.",
+                        type: "success",
+                        showConfirmButton: true,
+                        confirmButtonText: "Visualizar",
+                        allowOutsideClick: false,
+                    }, function(isConfirm) {
+                        if (isConfirm) {
+                            window.open(data.url, '_blank');
+                        }
+                    })
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
 </script>
 
 @endsection

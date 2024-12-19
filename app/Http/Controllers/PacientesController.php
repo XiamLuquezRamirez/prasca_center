@@ -21,11 +21,27 @@ class PacientesController extends Controller
         }
     }
 
+    public function historiaPsicologica(){
+        $bandera = "";
+        if (Auth::check()) {
+            return view('HistoriasClinica.psicologia', compact('bandera'));
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+    public function historiaNeuropsicologica(){
+        $bandera = "";
+        if (Auth::check()) {
+            return view('HistoriasClinica.Neuropsicologia', compact('bandera'));
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+
     public function eliminarPaciente()
     {
         try {
             $idPaciente = request()->input('idPaciente');
-
 
             if (!$idPaciente) {
                 return response()->json(
@@ -242,7 +258,7 @@ class PacientesController extends Controller
             "),
 
                     DB::raw("STR_TO_DATE(fecha_nacimiento, '%Y-%m-%d') as fecha_nacimiento_formateada"),
-                    DB::raw("CONCAT(TIMESTAMPDIFF(YEAR, STR_TO_DATE(fecha_nacimiento, '%Y-%m-%d'), CURDATE()),' Años') as edad"),
+                    DB::raw("CONCAT(TIMESTAMPDIFF(YEAR, STR_TO_DATE(fecha_nacimiento, '%Y-%m-%d'), CURDATE())) as edad"),
                     DB::raw("
                 CASE 
                     WHEN completo = 1 THEN 'COMPLETO'
@@ -275,17 +291,19 @@ class PacientesController extends Controller
                                     <td>' . $item->nombre_completo . '</td>
                                     <td>' . $item->regimen . '</td>
                                     <td>' . $item->sexo . '</td>
-                                    <td>' . $item->edad . '</td>
+                                    <td>' . $item->edad . ' Años</td>
                                     <td>' . $item->telefono . '</td>
                                     <td><span class="badge ' . $clases . '">' . $item->estado . '</span></td>
                                     <td class="table-action min-w-100">
-                                    <a onclick="verPaciente(' . $item->id . ');" style="cursor: pointer;" title="Ver paciente" class="text-fade hover-success"><i class="align-middle"
-                                                data-feather="search"></i></a>
-                                    <a onclick="historiaClinica(' . $item->id . ');" style="cursor: pointer;" title="Historia clinica" class="text-fade hover-info"><i class="align-middle"
-                                                data-feather="file-text"></i></a>
-                                    <a onclick="editarPaciente(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
+                                    <a  style="cursor: pointer;" data-bs-toggle="dropdown" title="Historia clinica" class="text-fade hover-info"><i class="align-middle"
+                                    data-feather="file-text"></i></a>
+                                        <div class="dropdown-menu">
+									        <a class="dropdown-item" id="hsitPsi'.$item->id .'" data-id="' . $item->id . '" data-edad="' . $item->edad . '" style="cursor:pointer;" onclick="goHistoriaPsicologia(this)" >Historia clinica psicológica</a>
+									        <a class="dropdown-item" id="hsitNeu'.$item->id .'" data-id="' . $item->id . '" data-edad="' . $item->edad . '" style="cursor:pointer;" onclick="goHistoriaNeuropsicologia(this)">Historia clinica neuropsicológica</a>
+								        </div>
+                                    <a  onclick="editarPaciente(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
                                                 data-feather="edit-2"></i></a>
-                                        <a onclick="eliminarPaciente(' . $item->id . ');" style="cursor: pointer;" title="Eliminar" class="text-fade hover-warning"><i class="align-middle"
+                                    <a  onclick="eliminarPaciente(' . $item->id . ');" style="cursor: pointer;" title="Eliminar" class="text-fade hover-warning"><i class="align-middle"
                                                 data-feather="trash"></i></a>
                                     </td>
                                 </tr>';

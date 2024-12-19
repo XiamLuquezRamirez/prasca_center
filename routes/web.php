@@ -39,6 +39,9 @@ Route::post('/verificar-identificacion', [PacientesController::class, 'verificar
 Route::post('/pacientes/guardar', [PacientesController::class, 'guardarPaciente'])->name('form.guardarPaciente');
 Route::post('/pacientes/buscaPaciente', [PacientesController::class, 'busquedaPaciente'])->name('pacientes.buscaPaciente');
 Route::post('/pacientes/eliminarPac', [PacientesController::class, 'eliminarPaciente'])->name('pacientes.eliminarPac');
+Route::get('/pacientes/historiaPsicologica', [PacientesController::class,'historiaPsicologica']);
+Route::get('/pacientes/historiaNeuropsicologica', [PacientesController::class,'historiaNeuropsicologica']);
+
 
 ////ADMINISTRACCION
 ///GESTIONAR ESPECIALIDADES

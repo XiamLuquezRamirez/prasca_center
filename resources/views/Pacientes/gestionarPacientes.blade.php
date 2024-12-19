@@ -110,29 +110,29 @@
                                 <div class="form-group">
                                     <label for="tipoIdentificacion" class="form-label">Tipo de identificación :</label>
                                     <select class="form-control" id="tipoId" name="tipoId" aria-invalid="false">
-                                            <option value="">Selecciona una
-                                                opción</option>
-                                            <option value="AS">
-                                                Adulto sin Identificación </option>
-                                            <option value="CC">
-                                                Cédula Ciudadanía </option>
-                                            <option value="CD">
-                                                Carné Diplomático </option>
-                                            <option value="CE">
-                                                Cédula de Extranjería </option>
-                                            <option value="MS">
-                                                Menor sin Identificación </option>
-                                            <option value="NV">
-                                                Certificado de Nacido Vivo </option>
-                                            <option value="PE">
-                                                Permiso Especial del Permanencia </option>
-                                            <option value="PT">
-                                                Permiso por protección temporal </option>
-                                            <option value="RC">
-                                                Registro Civil </option>
-                                            <option value="TI">
-                                                Tarjeta de identidad </option>
-                                        </select>
+                                        <option value="">Selecciona una
+                                            opción</option>
+                                        <option value="AS">
+                                            Adulto sin Identificación </option>
+                                        <option value="CC">
+                                            Cédula Ciudadanía </option>
+                                        <option value="CD">
+                                            Carné Diplomático </option>
+                                        <option value="CE">
+                                            Cédula de Extranjería </option>
+                                        <option value="MS">
+                                            Menor sin Identificación </option>
+                                        <option value="NV">
+                                            Certificado de Nacido Vivo </option>
+                                        <option value="PE">
+                                            Permiso Especial del Permanencia </option>
+                                        <option value="PT">
+                                            Permiso por protección temporal </option>
+                                        <option value="RC">
+                                            Registro Civil </option>
+                                        <option value="TI">
+                                            Tarjeta de identidad </option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -147,7 +147,7 @@
                                     <label for="tipoUsuario" class="form-label">Tipo de usuario :</label>
                                     <select class="form-control" id="tipoUsuario" name="tipoUsuario"
                                         aria-invalid="false">
-                                        
+
                                     </select>
                                 </div>
                             </div>
@@ -405,6 +405,7 @@
                 width: '100%'
             });
 
+            localStorage.clear();
 
             $('[data-mask]').inputmask();
 
@@ -1008,6 +1009,28 @@
                 })
                 .catch(error => console.error('Error:', error));
 
+        }
+
+        function goHistoriaPsicologia(element) {
+            let idPaciente = element.getAttribute("data-id")           
+            let edadPaciente = element.getAttribute("data-edad")
+            localStorage.clear();
+            localStorage.setItem('idPaciente', idPaciente);
+            localStorage.setItem('edadPaciente', edadPaciente);
+            let prascaURL = '{{ url('/pacientes/historiaPsicologica') }}';
+            const nuevaPestana = window.open(prascaURL, '_blank');
+            nuevaPestana.focus();
+        }
+
+        function goHistoriaNeuropsicologia(idPaciente) {
+            let idPaciente = element.getAttribute("data-id")           
+            let edadPaciente = element.getAttribute("data-edad")
+            localStorage.clear();
+            localStorage.setItem('idPaciente', idPaciente);
+            localStorage.setItem('edadPaciente', edadPaciente);
+            let prascaURL = '{{ url('/pacientes/historiaNeuropsicologica') }}';
+            const nuevaPestana = window.open(prascaURL, '_blank');
+            nuevaPestana.focus();
         }
     </script>
 

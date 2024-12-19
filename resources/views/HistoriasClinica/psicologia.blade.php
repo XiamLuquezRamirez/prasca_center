@@ -72,7 +72,8 @@
                                             <p class="header-title mb-2"><strong>Notas Rapidas :</strong></p>
                                             <div class="my-3"><a href="#" id="inline-comments" data-type="textarea"
                                                     data-pk="1" data-placeholder="Agregue notas rapidas del paciente..."
-                                                    data-title="Agrege notas rapidas">Sin nota</a></div>
+                                                    data-title="Agregar notas rapidas">Sin nota</a>
+                                            </div>
                                             <p class="text-muted mb-2 "><strong class="text-dark">Nombre completo
                                                     :</strong>
                                                 <span class="ms-2" id="nombreCompletoPacienteHist"></span>
@@ -132,7 +133,8 @@
                                         <div class="text-start mt-3">
                                             <div class="activ_box_button " style="width: 100%;">
                                                 <button class="btn btn-success" onclick="abrirConsultas(1)"
-                                                    style="width: 100%;"><i class="fa fa-edit"></i> Gestionar consultas</button>
+                                                    style="width: 100%;"><i class="fa fa-edit"></i> Gestionar
+                                                    consultas</button>
                                             </div>
                                             <div id="historialConsulta">
                                             </div>
@@ -1370,7 +1372,7 @@
 
                                                 <button onclick="guardarHistoria()" id="btn-guardarHistoria"
                                                     type="button" class="btn btn-primary">
-                                                    <i class="ti-save-alt"></i> Guardar
+                                                    <i class="ti-save"></i> Guardar
                                                 </button>
                                             </div>
                                         </div>
@@ -1536,8 +1538,8 @@
                                                         </div>
                                                         <div class="col-md-12">
                                                             <div class="form-group">
-                                                                <label for="remision"
-                                                                    class="form-label">Motivo de consulta:</label>
+                                                                <label for="remision" class="form-label">Motivo de
+                                                                    consulta:</label>
                                                                 <textarea class="form-control" id="motivoConsultaModal" name="motivoConsultaModal" rows="3"
                                                                     placeholder="Ingrese de dónde es remitido el paciente.."></textarea>
                                                             </div>
@@ -1668,6 +1670,20 @@
             menuP.classList.add("active", "menu-open")
             menuS.classList.add("active")
             let rtotal = $("#RutaTotal").data("ruta")
+
+            ///verifica si viene de pacientes 
+            var ultimaParteURLAnterior = document.referrer.split('/').filter(Boolean).pop()
+
+            if (ultimaParteURLAnterior == "Gestionar") {
+                let elemento = document.createElement('div')
+                elemento.setAttribute('data-id', localStorage.getItem('idPaciente'))
+                elemento.setAttribute('data-edad', localStorage.getItem('edadPaciente'))
+                if (localStorage.getItem('idPaciente')) {
+                    cagaHistPaciente(elemento)
+                }
+
+            }
+
 
             //Initialize Select2 Elements
             $('.select2').select2()
@@ -2050,6 +2066,27 @@
 
         })
 
+
+        function cagaHistPaciente(element) {
+            let idPaciente = element.getAttribute("data-id")
+            let edadPaciente = parseInt(element.getAttribute("data-edad"), 10)
+            let tipoPsicologia
+            if (edadPaciente < 18) {
+                tipoPsicologia = "Pediatría"
+                document.getElementById("infPediatria").style.display = "initial"
+            } else {
+                tipoPsicologia = "Adulto"
+                document.getElementById("infPediatria").style.display = "none"
+
+            }
+
+            let tipoText = document.getElementById("tipoPsicologia")
+            tipoText.value = tipoPsicologia
+
+            document.getElementById('idPaciente').value = idPaciente
+            mostrarInformacionHistoria(idPaciente)
+        }
+
         function cancelarHistoria() {
             document.getElementById('listado').style.display = 'block'
             document.getElementById('historia').style.display = 'none'
@@ -2196,11 +2233,27 @@
             });
         }
 
+        function limpiarConsulta() {
+            let formHistoria = document.getElementById("formConsulta")
+            formHistoria.reset()
+
+            CKEDITOR.instances['motivoConsultaModal'].setData('')
+            CKEDITOR.instances['resumen_evaluacion_inicial'].setData('')
+            CKEDITOR.instances['evolucion_tratamiento'].setData('')
+            CKEDITOR.instances['plan_continuidad'].setData('')
+            CKEDITOR.instances['sugerencia_consulta'].setData('')
+            CKEDITOR.instances['observaciones_consulta'].setData('')
+
+            $('#codConsultaConsulta').val(null).trigger('change');
+            $('#codImpresionDiagnosticoConsulta').val(null).trigger('change');
+        }
+
         function nuevoRegistroConsulta() {
             document.getElementById("listadoConsultas").style.display = "none"
             document.getElementById("fomrConsultas").style.display = "initial"
             document.getElementById("titConsulta").innerHTML = "Agregar consulta"
             document.getElementById("accHistoriaConsulta").value = "guardar"
+            limpiarConsulta()
         }
 
         function cargarPacientes(page, searchTerm = '') {
@@ -2239,8 +2292,8 @@
         }
 
         function seleccionarPaciente(element) {
-            let idPaciente = element.getAttribute("data-id")
 
+            let idPaciente = element.getAttribute("data-id")
             let edadPaciente = parseInt(element.getAttribute("data-edad"), 10)
             let tipoPsicologia
             if (edadPaciente < 18) {
@@ -2453,23 +2506,23 @@
             if (document.getElementById("idHistoria").value != "") {
                 if (document.getElementById("estadoHistoria").value == "cerrada") {
                     var modal = new bootstrap.Modal(document.getElementById("modalConsulta"), {
-                    backdrop: 'static',
-                    keyboard: false
-                })
+                        backdrop: 'static',
+                        keyboard: false
+                    })
 
-                modal.show()
-                if (op == 1) {
-                    document.getElementById("listadoConsultas").style.display = "initial"
-                    document.getElementById("fomrConsultas").style.display = "none"
-                }
+                    modal.show()
+                    if (op == 1) {
+                        document.getElementById("listadoConsultas").style.display = "initial"
+                        document.getElementById("fomrConsultas").style.display = "none"
+                    }
 
-                cargarConsultas(1)
-                }else{
+                    cargarConsultas(1)
+                } else {
                     swal("¡Atención!",
-                    "Para gestionar las consultas la historia clinica debe estar cerrada.",
-                    "warning");   
+                        "Para gestionar las consultas la historia clinica debe estar cerrada.",
+                        "warning");
                 }
-            
+
             } else {
                 swal("¡Atención!",
                     "El paciente no tiene una historia clínica abierta en el sistema.",

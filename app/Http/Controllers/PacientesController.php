@@ -43,7 +43,6 @@ class PacientesController extends Controller
         try {
             $idPaciente = request()->input('idPaciente');
 
-
             if (!$idPaciente) {
                 return response()->json(
                     [

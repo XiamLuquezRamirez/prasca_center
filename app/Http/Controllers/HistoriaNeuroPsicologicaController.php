@@ -32,22 +32,140 @@ class HistoriaNeuroPsicologicaController extends Controller
         }
 
         $data = $request->all();
-
         $respuesta = HistoriaNeuroPsicologica::guardar($data);
 
-        // Verificar el resultado y preparar la respuesta
         if ($respuesta) {
-            $estado = true;
+            $estado = 'success';
+            $message = 'La operación fue realizada exitosamente.';
+            $title = '¡Buen trabajo!';
         } else {
-            $estado = false;
+            $message = 'No se pudo realizada la operación.';
+            $estado = 'warning';
+            $title = '¡Opps salio algo mal!';
         }
 
         // Retornar la respuesta en formato JSON
         return response()->json([
             'success' => $estado,
-            'id' => $respuesta,
-            'message' => 'Datos guardados'
+            'id' => $respuesta['idHistoria'],
+            'idConsulta' => $respuesta['idConsulta'],
+            'message' =>  $message,
+            'title' =>  $title
         ]);
+    }
+
+    public function  guardarConsultaNeuroPsicologica(Request $request)
+    {
+        if (!Auth::check()) {
+            return response()->json([
+                'estado' => 'error',
+                'mensaje' => 'Su sesión ha terminado.',
+            ], 401);
+        }
+
+        $data = $request->all();
+
+        $respuesta = HistoriaNeuroPsicologica::guardarConsulta($data);
+
+        // Verificar el resultado y preparar la respuesta
+        if ($respuesta) {
+            $estado = 'success';
+            $message = 'La operación fue realizada exitosamente.';
+            $title = '¡Buen trabajo!';
+        } else {
+            $message = 'No se pudo realizada la operación.';
+            $estado = 'warning';
+            $title = '¡Opps salio algo mal!';
+        }
+        // Retornar la respuesta en formato JSON
+        return response()->json([
+            'success' => $estado,
+            'id' => $respuesta,
+            'message' =>  $message,
+            'title' =>  $title
+        ]);
+    }
+
+    public function buscaConsultaNeuroPsicologica(Request $request)
+    {
+        $idConsulta = $request->input('idConsulta');
+        $consulta = HistoriaNeuroPsicologica::busquedaConsulta($idConsulta);
+
+        return response()->json([
+            'consulta' => $consulta
+        ]);
+    }
+
+    public function listaConsultasModalNeuro(Request $request)
+    {
+        if (Auth::check()) {
+            $perPage = 5; // Número de posts por página
+            $page = request()->get('page', 1);
+            $search = request()->get('search');
+            $idHist = request()->get('idHist');
+            if (!is_numeric($page)) {
+                $page = 1; // Establecer un valor predeterminado si no es numérico
+            }
+
+            $consultas = DB::connection('mysql')
+                ->table('consultas_psicologica_neuro')
+                ->leftJoin("referencia_cups", "referencia_cups.id", "consultas_psicologica_neuro.codigo_consulta")
+                ->leftJoin("referencia_cie10", "referencia_cie10.id", "consultas_psicologica_neuro.impresion_diagnostica")
+                ->leftJoin("profesionales", "profesionales.usuario", "consultas_psicologica_neuro.id_profesional")
+                ->where("consultas_psicologica_neuro.estado", "ACTIVO")
+                ->where("consultas_psicologica_neuro.id_historia",$idHist)
+                ->orderBy('consultas_psicologica_neuro.fecha_consulta', 'desc')
+                ->select(
+                    'consultas_psicologica_neuro.id',
+                    'consultas_psicologica_neuro.fecha_consulta',
+                    'referencia_cups.nombre AS consulta',
+                    'referencia_cie10.nombre AS diagnostico',
+                    'profesionales.nombre AS profesional'
+                );
+
+            if ($search) {
+                $consultas->where(function ($query) use ($search) {
+                    $query->where('profesionales.nombre', 'LIKE', '%' . $search . '%')
+                        ->orWhere('referencia_cups.nombre', 'LIKE', '%' . $search . '%')
+                        ->orWhere('referencia_cie10.nombre', 'LIKE', '%' . $search . '%');
+                });
+            }
+
+            $ListConsultas = $consultas->paginate($perPage, ['*'], 'page', $page);
+
+            $tdTable = '';
+            $x = ($page - 1) * $perPage + 1;
+            $const = 1;
+            foreach ($ListConsultas as $i => $item) {
+                if (!is_null($item)) {
+                    $tdTable .= '<tr>
+                                    <td>' . date('d/m/Y g:i:s A', strtotime($item->fecha_consulta)) . '</td>
+                                    <td>' . $item->consulta . '</td>
+                                    <td>' . $item->diagnostico . '</td>
+                                    <td>' . $item->profesional . '</td>
+                                    <td class="table-action min-w-100">
+                                        <a onclick="editarConsulta(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
+                                                data-feather="edit-2"></i></a>
+                                        <a onclick="eliminarConsulta(' . $item->id . ');" style="cursor: pointer;" title="Eliminar" class="text-fade hover-warning"><i class="align-middle"
+                                                data-feather="trash"></i></a>
+                                    </td>
+                                </tr>';
+                    $x++;
+                    $const++;
+                }
+            }
+            $pagination = $ListConsultas->links('Adminitraccion.Paginacion')->render();
+
+            $consutlasLateral = self::consultasLateral($idHist);
+
+            return response()->json([
+                'consultas' => $tdTable,
+                'links' => $pagination,
+                'historialConsultas' =>$consutlasLateral
+            ]);
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
     }
 
     public function listaHistoriasNeuroPsicologica(Request $request)
@@ -123,7 +241,7 @@ class HistoriaNeuroPsicologicaController extends Controller
                                                 <p class="mb-0 text-fade">Fecha de Creación</p>
                                                 <h6 class="mb-0">' . date('d/m/Y g:i:s A', strtotime($item->fecha_historia)) . '</h6>
                                             </div>
-                                            <div class="mx-lg-50 mx-20 min-w-70">
+                                            <div style="cursor:pointer;" data-id="' . $item->id . '" data-estado="' . $item->estado_hitoria . '" onclick="cerrarHistoria(this)" class="mx-lg-50 mx-20 min-w-70">
                                                 <p class="mb-0 text-fade">Estado</p>
                                                 <h6 class="mb-0 ' . $class . '">' . $estado . '</h6>
                                             </div>
@@ -179,6 +297,7 @@ class HistoriaNeuroPsicologicaController extends Controller
         $antecedentesPosnatales = HistoriaNeuroPsicologica::busquedaAntPosnatales($historia->id);
         $desarrolloPsicomotor = HistoriaNeuroPsicologica::desarrolloPsicomotor($historia->id);
        
+        $historiaCon = self::consultasLateral($historia->id);
         return response()->json([
             'historia' => $historia,
             'paciente' => $pacientes,
@@ -192,8 +311,65 @@ class HistoriaNeuroPsicologicaController extends Controller
             'antecedentesPrenatales' => $antecedentesPrenatales,       
             'antecedentesNatales' => $antecedentesNatales,       
             'antecedentesPosnatales' => $antecedentesPosnatales,       
-            'desarrolloPsicomotor' => $desarrolloPsicomotor          
+            'desarrolloPsicomotor' => $desarrolloPsicomotor,
+            'historialConsultas' => $historiaCon          
         ]);
+    }
+
+    public function consultasLateral($idHistoria)   {
+        $historialConsultas = HistoriaNeuroPsicologica::historialConsultas($idHistoria);
+
+        $historiaCon = "";
+        $mt = "mt-4";
+        foreach ($historialConsultas as $i => $item) {
+
+            if ($i > 0) {
+                $mt = "mb-0";
+            }
+
+            $historiaCon .= '<div class="' . $mt . '">
+            <div class="pb-20">
+                <div class="dropdown float-end">
+                    <a href="#" class="dropdown-toggle no-caret"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="mdi mdi-dots-vertical"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                    <a href="javascript:verConsulta(' . $item->id . ');"
+                            class="dropdown-item"><i class="fa fa-eye"></i> Ver</a>    
+                    <a href="javascript:imprimirConsulta(' . $item->id . ');"
+                            class="dropdown-item"><i class="fa fa-print"></i> Imprimir</a>
+                    </div> <!-- item-->
+                </div>
+                    <p class="fs-16">' . date('d/m/Y g:i:s A', strtotime($item->fecha_consulta)) . '</p>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <div
+                                class="bg-transparent h-50 w-50 border border-light product_icon text-center">
+                                <p class="mb-0 fs-20 w-50 fw-600 l-h-40"><i
+                                    class="fa fa-stethoscope"
+                                    aria-hidden="true"></i>
+                                </p>
+                            </div>
+                            <div class="d-flex flex-column font-weight-500 mx-10">
+                                <a href="#"
+                                    class="text-dark hover-primary mb-1  fs-15">' . $item->consulta . '</a>
+                                <span class="text-fade"><i
+                                    class="fa fa-fw fa-circle fs-10 text-success"></i>
+                                    ' . $item->diagnostico . '</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="d-flex flex-column font-weight-500">
+                                <span class="text-fade text-end"><i
+                                        class="fa fa-user-md"></i> ' . $item->profesional . '</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>';
+        }
+        return $historiaCon;
     }
 
     public function imprimirHistoria(Request $request)
@@ -238,5 +414,56 @@ class HistoriaNeuroPsicologicaController extends Controller
         $url = asset($filePath);
 
         return response()->json(['url' => $url]);
+    }
+
+    public function cerrarHistoriaNeuro()
+    {
+        try {
+            $idHist = request()->input('idHist');
+            if (!$idHist) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'ID de la historia no proporcionada'
+                    ],
+                    400
+                );
+            }
+
+            $consulta = DB::connection('mysql')
+                ->table('historia_clinica_neuro')
+                ->where('id', $idHist)
+                ->update([
+                    'estado_hitoria' => 'cerrada',
+                ]);
+
+
+            if ($consulta) {
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => 'Historia cerrada correctamente'
+                    ]
+                );
+            } else {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'No se encontró la historia o no se pudo cerrar'
+                    ],
+                    404
+                );
+            }
+        } catch (\Exception $e) {
+            // Manejar cualquier error o excepción
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Ocurrió un error al intentar cerrar la historia',
+                    'error' => $e->getMessage()
+                ],
+                500
+            );
+        }
     }
 }

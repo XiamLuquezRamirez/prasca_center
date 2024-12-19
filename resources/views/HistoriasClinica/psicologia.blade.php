@@ -1685,6 +1685,8 @@
             }
 
 
+
+
             //Initialize Select2 Elements
             $('.select2').select2()
 
@@ -2060,9 +2062,30 @@
             })
 
             $('#inline-comments').editable({
-                showbuttons: 'bottom',
-                mode: 'inline'
-            })
+                url: '/guardar-notas', // Ruta donde se enviarán los datos
+                showbuttons: 'bottom', // Botones de confirmación en la parte inferior
+                mode: 'inline', // Modo de edición en línea
+                type: 'textarea', // Tipo de entrada
+                title: 'Agregar notas rápidas', // Título del campo
+                emptytext: 'Sin nota', // Texto predeterminado si está vacío
+                params: function(params) {
+                    // Personalizar los datos enviados al backend
+                    return {
+                        id: params.pk, // Identificador del elemento (data-pk)
+                        name: params.name, // Nombre del campo (si aplica)
+                        value: params.value // Nuevo valor ingresado
+                    };
+                },
+                success: function(response, newValue) {
+                    // Manejo exitoso
+                    console.log('Nota guardada:', response);
+                },
+                error: function(response) {
+                    // Manejo de errores
+                    console.error('Error al guardar:', response.responseText || response.statusText);
+                }
+            });
+
 
         })
 
@@ -2070,7 +2093,7 @@
         function cagaHistPaciente(element) {
             let idPaciente = element.getAttribute("data-id")
             let edadPaciente = parseInt(element.getAttribute("data-edad"), 10)
-            let tipoPsicologia
+            let tipoPsicologia = ""
             if (edadPaciente < 18) {
                 tipoPsicologia = "Pediatría"
                 document.getElementById("infPediatria").style.display = "initial"
@@ -2289,6 +2312,10 @@
                 })
                 .catch(error => console.error('Error:', error))
 
+        }
+
+        function updateClase(nota){
+            alert(nota)
         }
 
         function seleccionarPaciente(element) {

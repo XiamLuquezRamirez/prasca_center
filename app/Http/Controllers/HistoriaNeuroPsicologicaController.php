@@ -109,8 +109,6 @@ class HistoriaNeuroPsicologicaController extends Controller
 
             $consultas = DB::connection('mysql')
                 ->table('consultas_psicologica_neuro')
-                ->leftJoin("referencia_cups", "referencia_cups.id", "consultas_psicologica_neuro.codigo_consulta")
-                ->leftJoin("referencia_cie10", "referencia_cie10.id", "consultas_psicologica_neuro.impresion_diagnostica")
                 ->leftJoin("profesionales", "profesionales.usuario", "consultas_psicologica_neuro.id_profesional")
                 ->where("consultas_psicologica_neuro.estado", "ACTIVO")
                 ->where("consultas_psicologica_neuro.id_historia",$idHist)
@@ -118,16 +116,12 @@ class HistoriaNeuroPsicologicaController extends Controller
                 ->select(
                     'consultas_psicologica_neuro.id',
                     'consultas_psicologica_neuro.fecha_consulta',
-                    'referencia_cups.nombre AS consulta',
-                    'referencia_cie10.nombre AS diagnostico',
                     'profesionales.nombre AS profesional'
                 );
 
             if ($search) {
                 $consultas->where(function ($query) use ($search) {
-                    $query->where('profesionales.nombre', 'LIKE', '%' . $search . '%')
-                        ->orWhere('referencia_cups.nombre', 'LIKE', '%' . $search . '%')
-                        ->orWhere('referencia_cie10.nombre', 'LIKE', '%' . $search . '%');
+                    $query->where('profesionales.nombre', 'LIKE', '%' . $search . '%');
                 });
             }
 
@@ -139,9 +133,7 @@ class HistoriaNeuroPsicologicaController extends Controller
             foreach ($ListConsultas as $i => $item) {
                 if (!is_null($item)) {
                     $tdTable .= '<tr>
-                                    <td>' . date('d/m/Y g:i:s A', strtotime($item->fecha_consulta)) . '</td>
-                                    <td>' . $item->consulta . '</td>
-                                    <td>' . $item->diagnostico . '</td>
+                                    <td>' . $item->fecha_consulta . '</td>
                                     <td>' . $item->profesional . '</td>
                                     <td class="table-action min-w-100">
                                         <a onclick="editarConsulta(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
@@ -254,7 +246,7 @@ class HistoriaNeuroPsicologicaController extends Controller
                                             <button type="button" ' . $disabled . ' data-id="' . $item->id . '" data-tipo="' . $item->tipologia . '" onclick="editarHistoria(this);"
                                                 class="waves-effect waves-light btn btn-primary btn-flat"><i
                                                     class="fa fa-edit me-10"></i>Editar</button>
-                                            <button type="button" onclick="evolucionHistoria(' . $item->id . ');"
+                                            <button type="button" data-id="' . $item->id . '" data-estado="' . $item->estado_hitoria . '" onclick="evolucionHistoria(this);"
                                                 class="waves-effect waves-light btn btn-secondary btn-flat"><i
                                                     class="fa fa-arrow-right me-10"></i>Evolución</button>
                                             <button type="button" onclick="imprimirHistoria(' . $item->id . ');"
@@ -328,7 +320,7 @@ class HistoriaNeuroPsicologicaController extends Controller
             }
 
             $historiaCon .= '<div class="' . $mt . '">
-            <div class="pb-20">
+            <div class="mb-20" style="border: 1px solid #cfcfcf; border-radius: 10px; padding: 10px;">
                 <div class="dropdown float-end">
                     <a href="#" class="dropdown-toggle no-caret"
                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -341,7 +333,6 @@ class HistoriaNeuroPsicologicaController extends Controller
                             class="dropdown-item"><i class="fa fa-print"></i> Imprimir</a>
                     </div> <!-- item-->
                 </div>
-                    <p class="fs-16">' . date('d/m/Y g:i:s A', strtotime($item->fecha_consulta)) . '</p>
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center">
                             <div
@@ -351,14 +342,8 @@ class HistoriaNeuroPsicologicaController extends Controller
                                     aria-hidden="true"></i>
                                 </p>
                             </div>
-                            <div class="d-flex flex-column font-weight-500 mx-10">
-                                <a href="#"
-                                    class="text-dark hover-primary mb-1  fs-15">' . $item->consulta . '</a>
-                                <span class="text-fade"><i
-                                    class="fa fa-fw fa-circle fs-10 text-success"></i>
-                                    ' . $item->diagnostico . '</span>
-                            </div>
                         </div>
+                        <p style="margin: 0px" class="fs-16">' . $item->fecha_consulta . '</p>
                         <div>
                             <div class="d-flex flex-column font-weight-500">
                                 <span class="text-fade text-end"><i

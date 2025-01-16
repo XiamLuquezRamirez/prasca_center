@@ -1,17 +1,17 @@
 @extends('Plantilla.Principal')
-@section('title', 'Gestionar usuarios')
+@section('title', 'Gestionar perfiles')
 @section('Contenido')
 
     <div class="content-header">
         <div class="d-flex align-items-center">
             <div class="me-auto">
-                <h4 class="page-title">Gestionar usuarios</h4>
+                <h4 class="page-title">Gestionar perfiles</h4>
                 <div class="d-inline-block align-items-center">
                     <nav>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
                             <li class="breadcrumb-item" aria-current="page">Inicio</li>
-                            <li class="breadcrumb-item active" aria-current="page">Gestionar usuarios</li>
+                            <li class="breadcrumb-item active" aria-current="page">Gestionar perfiles</li>
                         </ol>
                     </nav>
                 </div>
@@ -25,7 +25,7 @@
             <div id="listado" class="col-12 col-xl-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title">Listado de usuarios</h5>
+                        <h5 class="card-title">Listado de perfiles</h5>
                     </div>
                     <div class="card-body">
                         <div class="box-controls pull-right">
@@ -45,10 +45,7 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th style="width:45%;">Nombre</th>
-                                    <th style="width:15%;">Usuario</th>
-                                    <th style="width:10%;">Tipo usuario</th>
-                                    <th style="width:10%;">Estado</th>
+                                    <th style="width:80%;">Nombre</th>
                                     <th style="width:20%;">Acción</th>
                                 </tr>
                             </thead>
@@ -68,82 +65,31 @@
                 <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="tituloModal">Agregar usuario</h4>
+                            <h4 class="modal-title" id="tituloModal">Agregar perfil</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                         </div>
                         <div class="modal-body">
                             <form class="form" id="formUsuario">
-                                <input type="hidden" name="accUsuario" value="guardar" id="accUsuario" />
-                                <input type="hidden" name="idUsuario" value="" id="idUsuario" />
-                                <input type="hidden" id="usuarioOriginal" name="usuarioOriginal" value="">
+                                <input type="hidden" name="accPerfil" value="guardar" id="accPerfil" />
+                                <input type="hidden" name="idPerfil" value="" id="idPerfil" />
 
-                                <div class="box-body">
-                                    <div class="form-group">
-                                        <label for="nombre" class="form-label">Nombre :</label>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text"><i class="ti-user"></i></span>
-                                            <input type="text" id="nombre" name="nombre" class="form-control">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="tipo" class="form-label">Tipo de usuario :</label>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text"><i class="ti-key"></i></span>
-                                            <select class="form-control" id="tipo" name="tipo">
-                                                <option value="">Seleccione...</option>
-                                                <option value="Administrador">Administrador</option>
-                                                <option disabled value="Profesional">Profesional</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="estado_usuario" class="form-label">Estado :</label>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text"><i class="ti-check "></i></span>
-                                            <select class="form-control" id="estado_usuario" name="estado_usuario">
-                                                <option value="Habilitada">Habilitada</option>
-                                                <option value="Deshabilitada">Deshabilitada</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="usuario" class="form-label">Usuario :</label>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text"><i class="ti-user"></i></span>
-                                            <input type="text" id="usuario" name="usuario" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Email :</label>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text"><i class="ti-email"></i></span>
-                                            <input type="email" id="email" name="email" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div id="div-cambioPasw" style="display: none;" class="form-group">
-                                        <label for="cambioPasw" class="form-label">Actualizar contraseña :</label>
-
-                                        <label class="switch switch-border switch-primary">
-                                            <input type="checkbox" onchange="habilitarPasw()" id="cambioPasw"
-                                                name="cambioPasw">
-                                            <span class="switch-indicator"></span>
-                                            <span class="switch-description"></span>
-                                        </label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="pasw" class="form-label">Contraseña :</label>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text"><i class="ti-lock"></i></span>
-                                            <input type="password" id="pasw" name="pasw" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="confPasw" class="form-label">Confirmar Contraseña :</label>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text"><i class="ti-lock"></i></span>
-                                            <input type="password" id="confPasw" name="confPasw" class="form-control">
-                                        </div>
+                                <div class="form-group">
+                                    <label for="nombrePerfil">Nombre del Perfil</label>
+                                    <input type="text" id="nombrePerfil" name="nombrePerfil" class="form-control"
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Permisos disponibles</label>
+                                    <div class="checkbox-list">
+                                        <label><input type="checkbox" name="permisos[]" value="1"> Agenda</label>
+                                        <label><input type="checkbox" name="permisos[]" value="2"> Pacientes</label>
+                                        <label><input type="checkbox" name="permisos[]" value="3"> Historias
+                                            clínicas</label>
+                                        <label><input type="checkbox" name="permisos[]" value="4"> Informes</label>
+                                        <label><input type="checkbox" name="permisos[]" value="5">
+                                            Administración</label>
+                                        <label><input type="checkbox" name="permisos[]" value="6"> Gestionar
+                                            usuarios</label>
                                     </div>
                                 </div>
 
@@ -180,86 +126,11 @@
             loader = document.getElementById('loader')
             loadNow(1)
 
-            $("#formUsuario").validate({
-                rules: {
-                    nombre: {
-                        required: true
-                    },
-                    tipo: {
-                        required: true
-                    },
-                    usuario: {
-                        required: true,
-                        remote: {
-                            url: "/verificar-usuario", // URL para la verificación
-                            type: "post",
-                            data: {
-                                usuario: function() {
-                                    return $("#usuario").val()
-                                },
-                                usuarioOriginal: function() {
-                                    return $("#usuarioOriginal")
-                                        .val() // Usuario original en caso de edición
-                                },
-                                _token: function() {
-                                    return "{{ csrf_token() }}" // Genera el token CSRF
-                                }
-                            },
-                            // Validar solo si el usuario cambió
-                            beforeSend: function(xhr, settings) {
-                                if ($("#usuario").val() === $("#usuarioOriginal").val()) {
-                                    // Cancelar la validación si el usuario no cambió
-                                    xhr.abort()
-                                }
-                            }
-                        }
-                    },
-                    email: {
-                        required: true,
-                        email: true
-                    },
-                    pasw: {
-                        required: true,
-                        minlength: 4
-                    },
-                    confPasw: {
-                        required: true,
-                        equalTo: "#pasw"
-                    }
-                },
-                messages: {
-                    nombre: {
-                        required: "Por favor, ingresa el nombre del usuario."
-                    },
-                    tipo: {
-                        required: "Por favor, selecciona el tipo de usuario."
-                    },
-                    usuario: {
-                        required: "Por favor, ingresa el nombre de usuario.",
-                        remote: "Este nombre de usuario ya está registrado. Por favor, elige otro."
-                    },
-                    email: {
-                        required: "Por favor, ingresa un email.",
-                        email: "Por favor, ingresa un email válido."
-                    },
-                    pasw: {
-                        required: "Por favor, ingresa una contraseña.",
-                        minlength: "La contraseña debe tener al menos 6 caracteres."
-                    },
-                    confPasw: {
-                        required: "Por favor, confirma la contraseña.",
-                        equalTo: "Las contraseñas no coinciden."
-                    }
-                },
-                submitHandler: function(form) {
-                    guardar()
-                }
-            })
 
-            cargarListaUsuarios(1)
+            cargarListaPerfiles(1)
 
-               // Evento click para la paginación
-               document.addEventListener('click', function(event) {
+            // Evento click para la paginación
+            document.addEventListener('click', function(event) {
                 if (event.target.matches('.pagination a')) {
                     event.preventDefault();
                     var href = event.target.getAttribute('href');
@@ -267,21 +138,21 @@
 
                     // Asegurarse de que 'page' sea un número antes de hacer la solicitud
                     if (!isNaN(page)) {
-                        cargarListaUsuarios(page);
+                        cargarListaPerfiles(page);
                     }
                 }
             });
             // Evento input para el campo de búsqueda
             document.getElementById('busqueda').addEventListener('input', function() {
                 var searchTerm = this.value;
-                cargarListaUsuarios(1,
+                cargarListaPerfiles(1,
                     searchTerm);
             });
 
         })
 
-        function cargarListaUsuarios(page, searchTerm = '') {
-            let url = "{{ route('usuarios.listaUsuarios') }}"
+        function cargarListaPerfiles(page, searchTerm = '') {
+            let url = "{{ route('usuarios.listaPerfiles') }}"
 
             var oldPageInput = document.getElementById('page')
             var oldSearchTermInput = document.getElementById('searchTerm')
@@ -303,7 +174,7 @@
                 })
                 .then(response => response.json())
                 .then(responseData => {
-                    document.getElementById('trRegistros').innerHTML = responseData.usuarios
+                    document.getElementById('trRegistros').innerHTML = responseData.perfiles
                     feather.replace()
                     document.getElementById('pagination-links').innerHTML = responseData.links
                     loadNow(0)

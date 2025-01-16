@@ -19,7 +19,9 @@
   <script src="{{ asset('app-assets/vendor_plugins/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
   <script src="{{ asset('app-assets/vendor_plugins/input-mask/jquery.inputmask.extensions.js') }}"></script>
   <script src="{{ asset('app-assets/vendor_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js') }}"></script>
+  <script src="{{ asset('app-assets/vendor_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
   <script src="{{ asset('app-assets/vendor_plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.js') }}"></script>
+  <script src="{{ asset('app-assets/vendor_plugins/timepicker/bootstrap-timepicker.min.js') }}"></script>
   <script src="{{ asset('app-assets/vendor_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js') }}"></script>
 
   <!-- InvestX App -->

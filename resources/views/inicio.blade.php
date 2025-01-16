@@ -214,16 +214,16 @@
                                                     Paciente
                                                 </h4>
                                                 <div class="card-body">
-                                                    <ul class="nav nav-tabs nav-bordered mb-3" >
+                                                    <ul class="nav nav-tabs nav-bordered mb-3">
                                                         <li class="nav-item" onclick="habPacExist();">
-                                                            <a href="#existente"
-                                                            data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                                                            <a href="#existente" data-bs-toggle="tab"
+                                                                aria-expanded="false" class="nav-link active">
                                                                 <i class="fa fa-user"></i> Paciente
                                                                 existente</a>
                                                         </li>
-                                                        <li  onclick="habPacNuevo();">
+                                                        <li onclick="habPacNuevo();">
                                                             <a data-bs-toggle="tab" aria-expanded="true" class="nav-link"
-                                                                href="#nuevo" >
+                                                                href="#nuevo">
                                                                 <i class="fa fa-user-plus"></i> Paciente nuevo</a>
                                                         </li>
                                                     </ul>
@@ -265,8 +265,11 @@
                                                             <div class="row">
                                                                 <div class="col-md-3">
                                                                     <div class="form-group">
-                                                                        <label for="tipoIdentificacion" class="form-label">Tipo de identificación:</label>
-                                                                        <select class="form-control" id="tipoId" name="tipoId" aria-invalid="false">
+                                                                        <label for="tipoIdentificacion"
+                                                                            class="form-label">Tipo de
+                                                                            identificación:</label>
+                                                                        <select class="form-control" id="tipoId"
+                                                                            name="tipoId" aria-invalid="false">
                                                                             <option value="">Selecciona una
                                                                                 opción</option>
                                                                             <option value="AS">
@@ -294,16 +297,19 @@
                                                                 </div>
                                                                 <div class="col-md-2">
                                                                     <div class="form-group">
-                                                                        <label for="identificación" class="form-label">Identificación:</label>
-                                                                        <input type="text" minlength="4" maxlength="20" class="form-control"
+                                                                        <label for="identificación"
+                                                                            class="form-label">Identificación:</label>
+                                                                        <input type="text" minlength="4"
+                                                                            maxlength="20" class="form-control"
                                                                             id="identificacion" name="identificacion">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-3">
                                                                     <div class="form-group">
-                                                                        <label for="tipoUsuario" class="form-label">Tipo de usuario:</label>
-                                                                        <select class="form-control" id="tipoUsuario" name="tipoUsuario"
-                                                                            aria-invalid="false">
+                                                                        <label for="tipoUsuario" class="form-label">Tipo
+                                                                            de usuario:</label>
+                                                                        <select class="form-control" id="tipoUsuario"
+                                                                            name="tipoUsuario" aria-invalid="false">
                                                                             <option value="">Selecciona una
                                                                                 opción</option>
                                                                             <option value="01">
@@ -321,7 +327,8 @@
                                                                             <option value="07">
                                                                                 Especial o Excepcion beneficiario </option>
                                                                             <option value="08">
-                                                                                Personas privadas de la libertad a cargo del Fondo Nacional de Salud </option>
+                                                                                Personas privadas de la libertad a cargo del
+                                                                                Fondo Nacional de Salud </option>
                                                                             <option value="09">
                                                                                 Tomador / Amparado ARL </option>
                                                                             <option value="10">
@@ -331,52 +338,67 @@
                                                                 </div>
                                                                 <div class="col-md-2">
                                                                     <div class="form-group">
-                                                                        <label for="fechaNacimiento" class="form-label">Fecha de nacimiento:</label>
+                                                                        <label for="fechaNacimiento"
+                                                                            class="form-label">Fecha de nacimiento:</label>
                                                                         <div class="input-group">
                                                                             <div class="input-group-addon">
                                                                                 <i class="fa fa-calendar"></i>
                                                                             </div>
-                                                                            <input type="text" id="fechaNacimiento" placeholder="" name="fechaNacimiento"
-                                                                                class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                                                            <input type="text" id="fechaNacimiento"
+                                                                                placeholder="" name="fechaNacimiento"
+                                                                                class="form-control"
+                                                                                data-inputmask="'alias': 'dd/mm/yyyy'"
+                                                                                data-mask>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-2">
                                                                     <div class="form-group">
-                                                                        <label for="edad" class="form-label">Edad:</label>
-                                                                        <input type="text" readonly class="form-control" id="edad" name="edad">
+                                                                        <label for="edad"
+                                                                            class="form-label">Edad:</label>
+                                                                        <input type="text" readonly
+                                                                            class="form-control" id="edad"
+                                                                            name="edad">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-3">
                                                                     <div class="form-group">
-                                                                        <label for="primerNombre" class="form-label">Primer nombre:</label>
-                                                                        <input type="text" class="form-control" id="primerNombre" name="primerNombre">
+                                                                        <label for="primerNombre"
+                                                                            class="form-label">Primer nombre:</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="primerNombre" name="primerNombre">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-3">
                                                                     <div class="form-group">
-                                                                        <label for="segundoNombre" class="form-label">Segundo nombre:</label>
-                                                                        <input type="text" class="form-control" id="segundoNombre" name="segundoNombre">
+                                                                        <label for="segundoNombre"
+                                                                            class="form-label">Segundo nombre:</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="segundoNombre" name="segundoNombre">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-3">
                                                                     <div class="form-group">
-                                                                        <label for="primerApellido" class="form-label">Primer apellido:</label>
-                                                                        <input type="text" class="form-control" id="primerApellido"
-                                                                            name="primerApellido">
+                                                                        <label for="primerApellido"
+                                                                            class="form-label">Primer apellido:</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="primerApellido" name="primerApellido">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-3">
                                                                     <div class="form-group">
-                                                                        <label for="segundoApellido" class="form-label">Segundo apellido:</label>
-                                                                        <input type="text" class="form-control" id="segundoApellido"
-                                                                            name="segundoApellido">
+                                                                        <label for="segundoApellido"
+                                                                            class="form-label">Segundo apellido:</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="segundoApellido" name="segundoApellido">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-2">
                                                                     <div class="form-group">
-                                                                        <label for="sexo" class="form-label">Sexo:</label>
-                                                                        <select class="form-control" id="sexo" name="sexo" aria-invalid="false">
+                                                                        <label for="sexo"
+                                                                            class="form-label">Sexo:</label>
+                                                                        <select class="form-control" id="sexo"
+                                                                            name="sexo" aria-invalid="false">
                                                                             <option value="">Selecciona una
                                                                                 opción</option>
                                                                             <option value="H">
@@ -390,27 +412,34 @@
                                                                 </div>
                                                                 <div class="col-md-3">
                                                                     <div class="form-group">
-                                                                        <label for="email" class="form-label">Email:</label>
-                                                                        <input type="text" class="form-control" id="email" name="email">
+                                                                        <label for="email"
+                                                                            class="form-label">Email:</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="email" name="email">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-2">
                                                                     <div class="form-group">
-                                                                        <label for="telefono" class="form-label">Teléfono:</label>
-                                                                        <input type="text" class="form-control" id="telefono" name="telefono">
+                                                                        <label for="telefono"
+                                                                            class="form-label">Teléfono:</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="telefono" name="telefono">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-3">
                                                                     <div class="form-group">
-                                                                        <label for="direccion" class="form-label">Dirección:</label>
-                                                                        <input type="text" class="form-control" id="direccion" name="direccion">
+                                                                        <label for="direccion"
+                                                                            class="form-label">Dirección:</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="direccion" name="direccion">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-2">
                                                                     <div class="form-group">
-                                                                        <label for="zonaResidencial" class="form-label">Zona de residencia:</label>
-                                                                        <select class="form-control" id="zonaResidencial" name="zonaResidencial"
-                                                                            aria-invalid="false">
+                                                                        <label for="zonaResidencial"
+                                                                            class="form-label">Zona de residencia:</label>
+                                                                        <select class="form-control" id="zonaResidencial"
+                                                                            name="zonaResidencial" aria-invalid="false">
                                                                             <option value="">Selecciona una
                                                                                 opción</option>
                                                                             <option value="01">Rural</option>
@@ -457,56 +486,56 @@
             </div>
         </div>
 
-         {{--  Modal comentarios  --}}
-         <div class="modal fade text-left" id="modalComentarios" tabindex="-1" role="dialog"
-         aria-labelledby="myModalLabel1" aria-hidden="true">
-         <div class="modal-dialog modal-dialog-centered" role="document">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <h4 class="modal-title">Comentarios</h4>
+        {{--  Modal comentarios  --}}
+        <div class="modal fade text-left" id="modalComentarios" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Comentarios</h4>
 
-                 </div>
-                 <div class="modal-body">
-                     <div class="card-body">
+                    </div>
+                    <div class="modal-body">
+                        <div class="card-body">
 
-                         <form class="form" method="post" id="formGuardarComentario">
+                            <form class="form" method="post" id="formGuardarComentario">
 
-                             <div class="row">
-                                 <div class="col-12">
-                                     <div class="form-group">
-                                         <label for="userinput8">Comentario:</label>
-                                         <div class="d-flex align-items-start">
-                                             <textarea name="comentarioCitaVal" class="form-control textarea-maxlength" id="comentarioCitaVal"
-                                                 placeholder="Ingrese un comentario.." maxlength="250" rows="5"></textarea>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="userinput8">Comentario:</label>
+                                            <div class="d-flex align-items-start">
+                                                <textarea name="comentarioCitaVal" class="form-control textarea-maxlength" id="comentarioCitaVal"
+                                                    placeholder="Ingrese un comentario.." maxlength="250" rows="5"></textarea>
 
-                                         </div>
-                                     </div>
-                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
 
-                                 <div class="col-12">
-                                     <div class="form-actions right">
-                                         <button type="button" onclick="guardarComentario();"
-                                             class="btn btn-success mr-1">
-                                             <i class="ti-save"></i>
-                                             Guardar
-                                         </button>
-                                         <button type="button" onclick="salirComentario();"
-                                             class="btn btn-warning mr-1">
-                                             <i class="ti-close "></i>
-                                             Salir
-                                         </button>
+                                    <div class="col-12">
+                                        <div class="form-actions right">
+                                            <button type="button" onclick="guardarComentario();"
+                                                class="btn btn-success mr-1">
+                                                <i class="ti-save"></i>
+                                                Guardar
+                                            </button>
+                                            <button type="button" onclick="salirComentario();"
+                                                class="btn btn-warning mr-1">
+                                                <i class="ti-close "></i>
+                                                Salir
+                                            </button>
 
-                                     </div>
-                                 </div>
-                             </div>
-                         </form>
-                     </div>
-                 </div>
-             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
-         </div>
-     </div>
+            </div>
+        </div>
 
         <div class="modal fade text-left" id="modalCitasDeta" tabindex="-1" role="dialog"
             aria-labelledby="myModalLabel1" aria-hidden="true">
@@ -515,9 +544,8 @@
                     <div class="modal-header" style="padding-bottom: 0px">
                         <div class="media p-1">
                             <div class="media-left pr-1"><span class="avatar avatar-online avatar-sm rounded-circle"
-                                    style="width: 60px !important;  height: 60px !important;"><img
-                                        src="" alt="avatar"
-                                        id="previewImageDetCita"><i></i></span></div>
+                                    style="width: 60px !important;  height: 60px !important;"><img src=""
+                                        alt="avatar" id="previewImageDetCita"><i></i></span></div>
                             <div class="media-body media-middle">
                                 <h5 id="npacientedetCita" style="text-transform: capitalize;"
                                     class="media-heading text-bold-600">77097205 - Xiamir Luquez Ramirez</h5>
@@ -530,18 +558,18 @@
                         <div class="card-body">
                             <ul class="nav nav-tabs nav-bordered mb-3">
                                 <li class="nav-item">
-                                    <a href="#infCita" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                                    <a href="#infCita" data-bs-toggle="tab" aria-expanded="false"
+                                        class="nav-link active">
                                         <i class="fa fa-calendar"></i> Detalle de la Cita</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#infHistoria" data-bs-toggle="tab" aria-expanded="false" class="nav-link"><i
-                                            class="fa fa-street-view"></i> Historia clinica</a>
+                                    <a href="#infHistoria" data-bs-toggle="tab" aria-expanded="false"
+                                        class="nav-link"><i class="fa fa-street-view"></i> Historia clinica</a>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a href="#infDatos" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
                                         <i class="fa fa-address-card-o"></i> Datos Personales</a>
                                 </li>
-                              
                             </ul>
                             <div class="tab-content px-1 pt-1">
                                 <div class="tab-pane active" id="infCita" aria-labelledby="homeIcon-tab"
@@ -615,37 +643,26 @@
 
                                     </div>
                                 </div>
-                                <div class="tab-pane" id="infHistoria" aria-labelledby="profileIcon-tab" role="tabpanel">
-                                    {{-- <div class="card-content">
-                                        <div class="card-body">
-                                            <p><span class="float-right"><a
-                                                        style="color: #009c9f;text-decoration: none; background-color: transparent;"
-                                                        onclick="$.verTratamientos();" target="_blank">Ver Tratamientos <i
-                                                            class="feather icon-arrow-right"></i></a></span></p>
-                                        </div>
-                                        <div class="table-responsive">
-                                            <table id="recent-orders"
-                                                class="table table-hover mb-0 ps-container ps-theme-default">
-                                                <thead>
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>Tratamiento</th>
-                                                        <th>Nombre</th>
-                                                        <th>Profesional</th>
-                                                        <th>Estado</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="tratamientos-citas">
-
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div> --}}
+                                <div class="tab-pane" id="infHistoria" aria-labelledby="profileIcon-tab"
+                                    role="tabpanel">
+                                    <div class="clearfix" style="display: flex; justify-content: center; ">
+                                        <a style="padding: 30px; height: 100%;font-size: 20px;"
+                                            onclick="irHistoria('psicologia')"
+                                            class="waves-effect waves-light btn btn-app btn-info" href="#">
+                                            <i class="fa fa-user-md"></i> Psicolólogia
+                                        </a>
+                                        <a style="padding: 30px; height: 100%; font-size: 20px;"
+                                            onclick="irHistoria('neuro')"
+                                            class="waves-effect waves-light btn btn-app btn-success" href="#">
+                                            <i class="fa fa-user-md"></i> Neuropsicología
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="tab-pane" id="infDatos" aria-labelledby="dropdownIcon1-tab"
                                     role="tabpanel">
                                     <div class="col-12">
-
+                                     
+                                        <input type="hidden" id="edadPacienteCita" name="edadPacienteCita" value="">
 
                                         <h5 class="mb-1"><i class="feather icon-info"></i> Información Personal</h5>
                                         <table class="table table-borderless mb-0">
@@ -673,9 +690,9 @@
 
                                                 <tr>
                                                     <td class="text-bold-600">Dirección:</td>
-                                                    <td id="direccionCita" ></td>
+                                                    <td id="direccionCita"></td>
                                                     <td class="text-bold-600">Tipo de usuario:</td>
-                                                    <td id="tipoUsuarioCita" ></td>
+                                                    <td id="tipoUsuarioCita"></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -775,8 +792,9 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", async function() {
-             loader = document.getElementById('loader');
-             loadNow(1);
+            loader = document.getElementById('loader');
+            loadNow(1);
+            localStorage.clear();
 
             let menuP = document.getElementById("agenda");
             menuP.classList.add("active");
@@ -795,6 +813,26 @@
                 dropdownParent: $('#event-modal-add-cita'),
                 width: '100%'
             });
+
         });
+
+        function irHistoria(tipo) {
+            let idPaciente = document.getElementById("idPaciente").value    
+            let edadPaciente = document.getElementById("edadPacienteCita").value    
+            
+            localStorage.clear();
+            localStorage.setItem('idPaciente', idPaciente);
+            localStorage.setItem('edadPaciente', edadPaciente);
+            let prascaURL;
+            if(tipo == 'psicologia'){
+                prascaURL = '{{ url('/pacientes/historiaPsicologica') }}';
+            }else{
+                prascaURL = '{{ url('/pacientes/historiaNeuropsicologica') }}';
+            }
+                        
+            const nuevaPestana = window.open(prascaURL, '_blank');
+            nuevaPestana.focus();
+        }
+
     </script>
 @endsection

@@ -140,7 +140,11 @@ class PacientesController extends Controller
     {
         $idPaciente = $request->input('idPaciente');
         $paciente = Pacientes::busquedaPaciente($idPaciente);
-        return response()->json($paciente);
+        $anexos = Pacientes::busquedaPacienteAnexos($idPaciente);
+        return response()->json([
+            'paciente' => $paciente,
+            'anexos' => $anexos
+        ]);
     }
     public function buscaPacienteHistoria(Request $request)
     {
@@ -197,6 +201,44 @@ class PacientesController extends Controller
             } else {
                 $data['img'] = $data['fotoCargada'];
             }
+        }
+
+        // manejar anexos de pacientes 
+        if ($request->hasFile('archivos')) {
+            $archivos = $request->file('archivos'); // Obtiene todos los archivos con el name "archivos[]"
+        
+            $arc = [];
+            $tip = [];
+            $nom = [];
+            $siz = [];
+        
+            foreach ($archivos as $archivo) {
+                $nombreOriginal = $archivo->getClientOriginalName();
+                $tipoMime = $archivo->getClientMimeType();
+                $peso = $archivo->getSize();
+                // Generar un nombre único para el archivo
+                $prefijo = substr(md5(uniqid(rand())), 0, 6);
+                $nombreArchivo = self::sanear_string($prefijo . '_' . $nombreOriginal);
+        
+                // Mover el archivo a la carpeta deseada
+                $archivo->move(public_path('anexosPacientes'), $nombreArchivo);
+        
+                // Almacenar la información del archivo en arrays
+                $arc[] = $nombreArchivo;
+                $tip[] = $tipoMime;
+                $nom[] = $nombreOriginal;
+                $siz[] = $peso;
+            }
+        
+            // Preparar los datos para trabajar con ellos o almacenarlos
+
+            $data['archivo'] = $arc;
+            $data['tipoArc'] = $tip;
+            $data['nombre'] = $nom;
+            $data['peso'] = $siz;
+        
+            // Aquí puedes guardar la información en la base de datos si lo necesitas
+            // Ejemplo: Archivo::createMany($data);
         }
 
         // Guardar la información del paciente
@@ -277,7 +319,7 @@ class PacientesController extends Controller
                 });
             }
 
-            $ListPacientes = $pacientes->paginate($perPage, ['*'], 'page', $page);
+            $ListPacientes = $pacientes->paginate($perPage, ['*'], 'page', $page)->appends(request()->except('page'));
 
             $tdTable = '';
             $x = ($page - 1) * $perPage + 1;

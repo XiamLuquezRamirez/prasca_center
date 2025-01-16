@@ -178,6 +178,59 @@ class UsuariosController extends Controller
             return redirect("/")->with("error", "Su Sesión ha Terminado");
         }
     }
+
+    public function listaPerfiles(Request $request)
+    {
+
+        if (Auth::check()) {
+            $perPage = 10; // Número de posts por página
+            $page = request()->get('page', 1);
+            $search = request()->get('search');
+            if (!is_numeric($page)) {
+                $page = 1; // Establecer un valor predeterminado si no es numérico
+            }
+
+            $perfiles = DB::connection('mysql')
+                ->table('perfiles')
+                ->where('estado', 'ACTIVO');
+
+            if ($search) {
+                $perfiles->where(function ($query) use ($search) {
+                    $query->where('nombre', 'LIKE', '%' . $search . '%');
+                });
+            }
+
+            $ListPerfiles = $perfiles->paginate($perPage, ['*'], 'page', $page);
+
+            $tdTable = '';
+            $x = ($page - 1) * $perPage + 1;
+
+            foreach ($ListPerfiles as $i => $item) {
+                if (!is_null($item)) {
+
+                    $tdTable .= '<tr>
+                                    <td>' . $item->nombre . '</td>
+                                    <td class="table-action min-w-100">
+                                        <a onclick="editarPerfil(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
+                                                data-feather="edit-2"></i></a>
+                                        <a onclick="eliminarPerfil(' . $item->id . ');" style="cursor: pointer;" title="Eliminar" class="text-fade hover-primary"><i class="align-middle"
+                                                data-feather="trash"></i></a>
+                                    </td>
+                                </tr>';
+                    $x++;
+                }
+            }
+
+            $pagination = $ListPerfiles->links('Usuario.paginacionUsuarios')->render();
+
+            return response()->json([
+                'perfiles' => $tdTable,
+                'links' => $pagination,
+            ]);
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
     
 
     public function Logout()

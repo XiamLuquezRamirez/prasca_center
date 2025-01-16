@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 
 function limpiarValores($valor)
@@ -38,8 +39,8 @@ class HistoriaPsicologica extends Model
                         'primera_vez' => $request['primeraVez'] ?? null,
                         'remision' => $request['remision'] ?? null,
                         'codigo_consulta' => $request['codConsulta'] ?? null,
-                        'motivo_consulta' => implode(',', $request['motivoConsulta']) ?? null,
-                        'otro_motivo_consulta' => $request['otroMotivo'] ?? null,
+                        'motivo_consulta' => $request['motivoConsulta'] ?? null,
+                        'otro_motivo_consulta' => !empty($request['motivoConsultaOtro']) ? implode(',', $request['motivoConsultaOtro']) : null,
                         'enfermedad_actual' => $request['enfermedadActual'] ?? null,
                         'dx_principal' => $request['codDiagnostico'] ?? null,
                         'codigo_diagnostico' => $request['codImpresionDiagnostico'] ?? null,
@@ -53,23 +54,25 @@ class HistoriaPsicologica extends Model
                         'fecha_historia' => now(),
                         'estado_hitoria' => 'abierta',
                         'estado_registro' => 'ACTIVO',
+                        'eval_inicial' => $request['resumen_evaluacion_inicial'] ?? null
+
                     ]));
 
                     // insertar datos de consulta 
 
-                    $idConsulta = DB::table('consultas_psicologica')->insertGetId(array_filter([
-                        'id_historia' => $idHistoria,
-                        'id_profesional' => Auth::user()->id,
-                        'fecha_consulta' => now(),
-                        'codigo_consulta' => $request['codConsulta'] ?? null,
-                        'impresion_diagnostica' => $request['codDiagnostico']  ?? null,
-                        'intervencion_psiquiatria' => $request['intervencion_psiquiatria'] ?? null,
-                        'intervencion_neurologia' => $request['intervencion_neurologia'] ?? null,
-                        'intervencion_neuropsicologia' => $request['intervencion_neuropsicologia'] ?? null,
-                        'sugerencias_interconsultas' => $request['sugerencia_interconsultas'] ?? null,
-                        'observaciones_recomendaciones' => $request['observaciones_recomendaciones'] ?? null,
-                        'estado' => 'ACTIVO'
-                    ]));
+                    // $idConsulta = DB::table('consultas_psicologica')->insertGetId(array_filter([
+                    //     'id_historia' => $idHistoria,
+                    //     'id_profesional' => Auth::user()->id,
+                    //     'fecha_consulta' => now(),
+                    //     'codigo_consulta' => $request['codConsulta'] ?? null,
+                    //     'impresion_diagnostica' => $request['codDiagnostico']  ?? null,
+                    //     'intervencion_psiquiatria' => $request['intervencion_psiquiatria'] ?? null,
+                    //     'intervencion_neurologia' => $request['intervencion_neurologia'] ?? null,
+                    //     'intervencion_neuropsicologia' => $request['intervencion_neuropsicologia'] ?? null,
+                    //     'sugerencias_interconsultas' => $request['sugerencia_interconsultas'] ?? null,
+                    //     'observaciones_recomendaciones' => $request['observaciones_recomendaciones'] ?? null,
+                    //     'estado' => 'ACTIVO'
+                    // ]));
 
                     // Insertar antecedentes médicos
                     $antecedentesMedicos = array_filter([
@@ -79,7 +82,7 @@ class HistoriaPsicologica extends Model
                         ['id_historia' => $idHistoria, 'tipo' => 'medicacion', 'detalle' => $request['medicacion'], 'nombre' => 'Medicación'],
                         ['id_historia' => $idHistoria, 'tipo' => 'paraclinicos', 'detalle' => $request['paraclinicos'], 'nombre' => 'Paraclínicos'],
                         ['id_historia' => $idHistoria, 'tipo' => 'hospitalizaciones', 'detalle' => $request['hospitalizaciones'], 'nombre' => 'Hospitalizaciones'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'patologia', 'detalle' => $request['patologias'], 'nombre' => 'Patología']
+                        ['id_historia' => $idHistoria, 'tipo' => 'patologia', 'detalle' => $request['patologia'], 'nombre' => 'Patología']
                     ], function ($item) {
                         return !empty($item['detalle']);
                     });
@@ -196,7 +199,7 @@ class HistoriaPsicologica extends Model
 
 
                     /// En el caso de que sea pediatria
-                    if ($request['tipoPsicologia'] == "Pediatria") {
+                    if ($request['tipoPsicologia'] == "Pediatría") {
                         // Insertar antecedentes prenatales
                         $antecedentesFamiliares = array_filter([
                             ['id_historia' => $idHistoria, 'tipo' => 'edad_madre', 'detalle' => $request['edad_madre'], 'nombre' => 'Edad de la madre en el embarazo'],
@@ -225,7 +228,7 @@ class HistoriaPsicologica extends Model
 
                         // Insertar antecedentes posnatales
                         $antecedentesFamiliares = array_filter([
-                            ['id_historia' => $idHistoria, 'tipo' => 'hospitalizaciones_postnatales', 'detalle' => $request['hospitalizaciones'], 'nombre' => 'Hospitalizaciones recién nacido'],
+                            ['id_historia' => $idHistoria, 'tipo' => 'hospitalizaciones_postnatales', 'detalle' => $request['hospitalizaciones_postnatales'], 'nombre' => 'Hospitalizaciones recién nacido'],
                             ['id_historia' => $idHistoria, 'tipo' => 'desarrollo_psicomotor', 'detalle' => $request['desarrollo_psicomotor'], 'nombre' => 'Desarrollo psicomotor']
                         ], function ($item) {
                             return !empty($item['detalle']);
@@ -253,7 +256,7 @@ class HistoriaPsicologica extends Model
                     // Confirmar transacción
                     DB::commit();
 
-                    return ['idHistoria' => $idHistoria, 'idConsulta' => $idConsulta];
+                    return ['idHistoria' => $idHistoria];
                 } catch (\Exception $e) {
                     // Revertir transacción en caso de error
                     DB::rollBack();
@@ -272,8 +275,8 @@ class HistoriaPsicologica extends Model
                         'primera_vez' => $request['primeraVez'] ?? null,
                         'remision' => $request['remision'] ?? null,
                         'codigo_consulta' => $request['codConsulta'] ?? null,
-                        'motivo_consulta' => implode(',', $request['motivoConsulta']) ?? null,
-                        'otro_motivo_consulta' => $request['otroMotivo'] ?? null,
+                        'motivo_consulta' => $request['motivoConsulta'] ?? null,
+                        'otro_motivo_consulta' => !empty($request['motivoConsultaOtro']) ? implode(',', $request['motivoConsultaOtro']) : null,
                         'enfermedad_actual' => $request['enfermedadActual'] ?? null,
                         'dx_principal' => $request['codDiagnostico'] ?? null,
                         'codigo_diagnostico' => $request['codImpresionDiagnostico'] ?? null,
@@ -284,29 +287,31 @@ class HistoriaPsicologica extends Model
                         'sugerencias_interconsultas' => $request['sugerencia_interconsultas'] ?? null,
                         'observaciones_recomendaciones' => $request['observaciones_recomendaciones'] ?? null,
                         'tipologia' => $request['tipoPsicologia'] ?? null,
-                        'estado_hitoria' => 'abierta'
+                        'estado_hitoria' => 'abierta',
+                        'eval_inicial' => $request['resumen_evaluacion_inicial'] ?? null
+
                     ]));
 
 
-                    $consulta = DB::connection('mysql')->table('consultas_psicologica')
-                        ->where("id_historia", $idHistoria)
-                        ->orderBy("fecha_consulta", "asc")
-                        ->first();
-                   
+                    // $consulta = DB::connection('mysql')->table('consultas_psicologica')
+                    //     ->where("id_historia", $idHistoria)
+                    //     ->orderBy("fecha_consulta", "asc")
+                    //     ->first();
 
-                    $idConsulta =  DB::table('consultas_psicologica')->where('id', $consulta->id)->update(array_filter([
-                        'id_historia' => $idHistoria,
-                        'id_profesional' => Auth::user()->id,
-                        'fecha_consulta' => now(),
-                        'codigo_consulta' => $request['codConsulta'] ?? null,
-                        'impresion_diagnostica' => $request['codDiagnostico']  ?? null,
-                        'intervencion_psiquiatria' => $request['intervencion_psiquiatria'] ?? null,
-                        'intervencion_neurologia' => $request['intervencion_neurologia'] ?? null,
-                        'intervencion_neuropsicologia' => $request['intervencion_neuropsicologia'] ?? null,
-                        'sugerencias_interconsultas' => $request['sugerencia_interconsultas'] ?? null,
-                        'observaciones_recomendaciones' => $request['observaciones_recomendaciones'] ?? null,
-                        'estado' => 'ACTIVO'
-                    ]));
+
+                    // $idConsulta =  DB::table('consultas_psicologica')->where('id', $consulta->id)->update(array_filter([
+                    //     'id_historia' => $idHistoria,
+                    //     'id_profesional' => Auth::user()->id,
+                    //     'fecha_consulta' => now(),
+                    //     'codigo_consulta' => $request['codConsulta'] ?? null,
+                    //     'impresion_diagnostica' => $request['codDiagnostico']  ?? null,
+                    //     'intervencion_psiquiatria' => $request['intervencion_psiquiatria'] ?? null,
+                    //     'intervencion_neurologia' => $request['intervencion_neurologia'] ?? null,
+                    //     'intervencion_neuropsicologia' => $request['intervencion_neuropsicologia'] ?? null,
+                    //     'sugerencias_interconsultas' => $request['sugerencia_interconsultas'] ?? null,
+                    //     'observaciones_recomendaciones' => $request['observaciones_recomendaciones'] ?? null,
+                    //     'estado' => 'ACTIVO'
+                    // ]));
 
                     // Insertar antecedentes médicos
                     DB::table('antecedentes_medicos')->where('id_historia', $idHistoria)->delete();
@@ -317,7 +322,7 @@ class HistoriaPsicologica extends Model
                         ['id_historia' => $idHistoria, 'tipo' => 'medicacion', 'detalle' => $request['medicacion'], 'nombre' => 'Medicación'],
                         ['id_historia' => $idHistoria, 'tipo' => 'paraclinicos', 'detalle' => $request['paraclinicos'], 'nombre' => 'Paraclínicos'],
                         ['id_historia' => $idHistoria, 'tipo' => 'hospitalizaciones', 'detalle' => $request['hospitalizaciones'], 'nombre' => 'Hospitalizaciones'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'patologia', 'detalle' => $request['patologias'], 'nombre' => 'Patología']
+                        ['id_historia' => $idHistoria, 'tipo' => 'patologia', 'detalle' => $request['patologia'], 'nombre' => 'Patología']
                     ], function ($item) {
                         return !empty($item['detalle']);
                     });
@@ -475,7 +480,7 @@ class HistoriaPsicologica extends Model
                         // Insertar antecedentes posnatales
                         DB::table('antecedentes_posnatales')->where('id_historia', $idHistoria)->delete();
                         $antecedentesFamiliares = array_filter([
-                            ['id_historia' => $idHistoria, 'tipo' => 'hospitalizaciones_postnatales', 'detalle' => $request['hospitalizaciones'], 'nombre' => 'Hospitalizaciones recién nacido'],
+                            ['id_historia' => $idHistoria, 'tipo' => 'hospitalizaciones_postnatales', 'detalle' => $request['hospitalizaciones_postnatales'], 'nombre' => 'Hospitalizaciones recién nacido'],
                             ['id_historia' => $idHistoria, 'tipo' => 'desarrollo_psicomotor', 'detalle' => $request['desarrollo_psicomotor'], 'nombre' => 'Desarrollo psicomotor']
                         ], function ($item) {
                             return !empty($item['detalle']);
@@ -501,7 +506,7 @@ class HistoriaPsicologica extends Model
 
                     // Confirmar transacción
                     DB::commit();
-                    return ['idHistoria' => $idHistoria, 'idConsulta' => $consulta->id];
+                    return ['idHistoria' => $idHistoria];
                 } catch (\Exception $e) {
                     // Revertir transacción en caso de error
                     DB::rollBack();
@@ -529,18 +534,15 @@ class HistoriaPsicologica extends Model
                     $idConsulta = DB::table('consultas_psicologica')->insertGetId(array_filter([
                         'id_historia' => $request['idHist'] ?? null,
                         'id_profesional' => Auth::user()->id,
-                        'fecha_consulta' => now(),
+                        'fecha_consulta' => $request['fechaEvolucion'] . ' ' . $request['horaSeleccionada'],
                         'codigo_consulta' => $request['codConsultaConsulta'] ?? null,
                         'impresion_diagnostica' => $request['codImpresionDiagnosticoConsulta']  ?? null,
                         'motivo' => $request['motivoConsultaModal'] ?? null,
-                        'resumen_evaluacion' => $request['resumen_evaluacion_inicial'] ?? null,
-                        'evolucion_tratamiento' => $request['evolucion_tratamiento'] ?? null,
-                        'plan_continuidad' => $request['plan_continuidad'] ?? null,
-                        'intervencion_psiquiatria' => $request['intervencion_psiquiatria_consulta'] ?? null,
-                        'intervencion_neurologia' => $request['intervencion_neurologia_consulta'] ?? null,
-                        'intervencion_neuropsicologia' => $request['intervencion_neuropsicologia_consulta'] ?? null,
-                        'sugerencias_interconsultas' => $request['sugerencia_consulta'] ?? null,
-                        'observaciones_recomendaciones' => $request['observaciones_consulta'] ?? null,
+                        'objetivo_sesion' => $request['objetivo_sesion'] ?? null,
+                        'tecnicas_utilizadas' => $request['tecnicas_utilizadas'] ?? null,
+                        'actividades_especificas' => $request['actividades_especificas'] ?? null,
+                        'evaluacion_indicadores' => $request['evaluacion_indicadores'] ?? null,
+                        'evolucion_sesion' => $request['evolucion_sesion'] ?? null,
                         'estado' => 'ACTIVO'
                     ]));
 
@@ -560,17 +562,15 @@ class HistoriaPsicologica extends Model
 
                     $idConsulta = $request['idHistoriaConsulta'];
                     DB::table('consultas_psicologica')->where('id', $idConsulta)->update(array_filter([
+                        'fecha_consulta' => $request['fechaEvolucion'] . ' ' . $request['horaSeleccionada'],
                         'codigo_consulta' => $request['codConsultaConsulta'] ?? null,
                         'impresion_diagnostica' => $request['codImpresionDiagnosticoConsulta']  ?? null,
                         'motivo' => $request['motivoConsultaModal'] ?? null,
-                        'resumen_evaluacion' => $request['resumen_evaluacion_inicial'] ?? null,
-                        'evolucion_tratamiento' => $request['evolucion_tratamiento'] ?? null,
-                        'plan_continuidad' => $request['plan_continuidad'] ?? null,
-                        'intervencion_psiquiatria' => $request['intervencion_psiquiatria_consulta'] ?? null,
-                        'intervencion_neurologia' => $request['intervencion_neurologia_consulta'] ?? null,
-                        'intervencion_neuropsicologia' => $request['intervencion_neuropsicologia_consulta'] ?? null,
-                        'sugerencias_interconsultas' => $request['sugerencia_consulta'] ?? null,
-                        'observaciones_recomendaciones' => $request['observaciones_consulta'] ?? null
+                        'objetivo_sesion' => $request['objetivo_sesion'] ?? null,
+                        'tecnicas_utilizadas' => $request['tecnicas_utilizadas'] ?? null,
+                        'actividades_especificas' => $request['actividades_especificas'] ?? null,
+                        'evaluacion_indicadores' => $request['evaluacion_indicadores'] ?? null,
+                        'evolucion_sesion' => $request['evolucion_sesion'] ?? null,
                     ]));
 
                     // Confirmar transacción
@@ -591,11 +591,93 @@ class HistoriaPsicologica extends Model
         }
     }
 
+    public static function guardarInforme($request)
+    {
+        try {
+            $idInforme = $request['idInforme'];
+            if ($request['accInforme'] == 'guardar') {
+                DB::beginTransaction();
+                try {
+                    // Insertar en `informe_evolucion`
+                    $idInforme = DB::table('informe_evolucion')->insertGetId(array_filter([
+                        'id_paciente' => $request['idPaciente'] ?? null,
+                        'id_profesional' => $request['profesionalInforme'] ?? null,
+                        'fecha_creacion' => $request['fechaEvolucion'] . ' ' . $request['horaSeleccionada'],
+                        'impresion_diagnostica' => $request['codImpresionDiagnosticoConsulta'] ?? null,
+                        'establecido_primera' => $request['establecidoPrimeraVez']  ?? null,
+                        'remision' => $request['remision'] ?? null,
+                        'resumen_evaluacion_psicologica' => $request['resumen_evaluacion_inicial'] ?? null,
+                        'objetivos_terapeuticos_iniciales' => $request['objetivo_terapeutico'] ?? null,
+                        'evaluacion_actual' => $request['evolucion_tratamiento'] ?? null,
+                        'plan_tratamiento_continuidad' => $request['plan_continuidad'] ?? null,
+                        'intervencion_psiquiatria' => $request['intervencion_psiquiatria'] ?? null,
+                        'intervencion_neurologia' => $request['intervencion_neurologia'] ?? null,
+                        'intervencion_neuropsicologia' => $request['intervencion_neuropsicologia'] ?? null,
+                        'sugerencias_interconsultas' => $request['sugerencia_consulta'] ?? null,
+                        'observaciones_recomendaciones' => $request['observaciones_consulta'] ?? null,
+                        'numero_sesiones' => $request['numeroSesiones'] ?? null,
+                        'estado' => 'ACTIVO'
+                    ]));
+
+                    // Confirmar transacción
+                    DB::commit();
+                    return  $idInforme;
+                } catch (\Exception $e) {
+                    // Revertir transacción en caso de error
+                    DB::rollBack();
+                    throw $e;
+                }
+            } else {
+                DB::beginTransaction();
+
+                try {
+                    // Insertar en informe_evolucion`
+                    DB::table('informe_evolucion')->where('id', $idInforme)->update(array_filter([
+                        'id_paciente' => $request['idPaciente'] ?? null,
+                        'id_profesional' => $request['profesionalInforme'] ?? null,
+                        'fecha_creacion' => $request['fechaEvolucion'] . ' ' . $request['horaSeleccionada'],
+                        'impresion_diagnostica' => $request['codImpresionDiagnosticoConsulta'] ?? null,
+                        'establecido_primera' => $request['establecidoPrimeraVez']  ?? null,
+                        'remision' => $request['remision'] ?? null,
+                        'resumen_evaluacion_psicologica' => $request['resumen_evaluacion_inicial'] ?? null,
+                        'objetivos_terapeuticos_iniciales' => $request['objetivo_terapeutico'] ?? null,
+                        'evaluacion_actual' => $request['evolucion_tratamiento'] ?? null,
+                        'plan_tratamiento_continuidad' => $request['plan_continuidad'] ?? null,
+                        'intervencion_psiquiatria' => $request['intervencion_psiquiatria'] ?? null,
+                        'intervencion_neurologia' => $request['intervencion_neurologia'] ?? null,
+                        'intervencion_neuropsicologia' => $request['intervencion_neuropsicologia'] ?? null,
+                        'sugerencias_interconsultas' => $request['sugerencia_consulta'] ?? null,
+                        'observaciones_recomendaciones' => $request['observaciones_consulta'] ?? null,
+                        'numero_sesiones' => $request['numeroSesiones'] ?? null,
+                    ]));
+
+                    // Confirmar transacción
+                    DB::commit();
+                    return  $idInforme;
+                } catch (\Exception $e) {
+                    Log::error('Error al actualizar el informe: ' . $e->getMessage(), [
+                        'idInforme' => $idInforme,
+                        'data' => $request->all()
+                    ]);
+                    DB::rollBack();
+                    throw $e;
+                }
+            }
+        } catch (Exception $e) {
+            // Manejo del error
+            return response()->json([
+                'success' => false,
+                'message' => 'Ocurrió un error al procesar el formulario: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
     public static function busquedaHistoria($idHisto)
     {
-        return DB::connection('mysql')->table('historia_clinica')
+        $historia = DB::connection('mysql')->table('historia_clinica')
             ->where("id", $idHisto)
             ->first();
+        return $historia;
     }
 
     public static function busquedaConsulta($idConsulta)
@@ -605,11 +687,45 @@ class HistoriaPsicologica extends Model
             ->first();
     }
 
+    public static function busquedaInforme($idInf)
+    {
+        $informe = DB::connection('mysql')->table('informe_evolucion')
+            ->where("id", $idInf)
+            ->first();
+
+            if ($informe) {
+                $informe->impresion_diagnostica = DB::connection('mysql')->table('referencia_cie10')
+                    ->where("id", $informe->impresion_diagnostica)
+                    ->select(DB::raw('CONCAT(codigo, " - ", nombre) AS diagnostico'))
+                    ->first();
+            }
+
+            return $informe;
+
+    }
+
+    public static function busquedaEvolucionesPaciente($idHistoria)
+    {
+        return DB::connection('mysql')->table('consultas_psicologica')
+            ->where("id_historia", $idHistoria)
+            ->where("estado", "ACTIVO")
+            ->get();
+    }
+
     public static function busquedaHistoriaPaciente($idPac)
     {
-        return DB::connection('mysql')->table('historia_clinica')
+        $historia = DB::connection('mysql')->table('historia_clinica')
             ->where("id_paciente", $idPac)
             ->first();
+        if ($historia) {
+            $historia->impresion_diagnostica = DB::connection('mysql')->table('referencia_cie10')
+                ->where("id", $historia->codigo_diagnostico)
+                ->select(DB::raw('CONCAT(codigo, " - ", nombre) AS diagnostico'))
+                ->first();
+        }
+
+
+        return $historia;
     }
 
     public static function busquedaAntecedentes($idHisto)
@@ -653,6 +769,12 @@ class HistoriaPsicologica extends Model
             ->where("id_historia", $idHisto)
             ->get();
     }
+    public static function busquedaNotas($idHisto)
+    {
+        return DB::connection('mysql')->table('notas')
+            ->where("id_historia", $idHisto)
+            ->first();
+    }
 
     public static function busquedaAreaAjuste($idHisto)
     {
@@ -680,6 +802,31 @@ class HistoriaPsicologica extends Model
             )
             ->get();
     }
+
+    public static function busquedaConsultaDetalle($idEvolucion)
+    {
+        return DB::connection('mysql')->table('consultas_psicologica')
+            ->leftJoin("referencia_cups", "referencia_cups.id", "consultas_psicologica.codigo_consulta")
+            ->leftJoin("referencia_cie10", "referencia_cie10.id", "consultas_psicologica.impresion_diagnostica")
+            ->leftJoin("profesionales", "profesionales.usuario", "consultas_psicologica.id_profesional")
+            ->where("consultas_psicologica.id", $idEvolucion)
+            ->select(
+                'consultas_psicologica.id',
+                'consultas_psicologica.fecha_consulta',
+                'consultas_psicologica.impresion_diagnostica',
+                'consultas_psicologica.motivo',
+                'consultas_psicologica.objetivo_sesion',
+                'consultas_psicologica.tecnicas_utilizadas',
+                'consultas_psicologica.actividades_especificas',
+                'consultas_psicologica.evaluacion_indicadores',
+                'consultas_psicologica.evolucion_sesion',
+                'referencia_cups.nombre AS consulta',
+                'referencia_cie10.nombre AS diagnostico',
+                'profesionales.nombre AS profesional'
+            )
+            ->first();
+    }
+
 
     public static function busquedaInterconsulta($idHisto)
     {

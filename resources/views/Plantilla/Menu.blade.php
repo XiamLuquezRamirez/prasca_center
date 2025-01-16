@@ -30,48 +30,43 @@
                             <li id="principalHistoriClinicaPsicologia">
                                 <a href="{{ url('/HistoriasClinicas/GestionarHistoriaPsicologia') }}">
                                     <i class="icon-Commit"><span class="path1"></span><span
-                                            class="path2"></span></i>Psicológica 
+                                            class="path2"></span></i>Psicológica
                                 </a>
                             </li>
                             <li id="principalHistoriClinicaNeuropsicología">
                                 <a href="{{ url('/HistoriasClinicas/GestionarHistoriaNeuroPsicologia') }}">
                                     <i class="icon-Commit"><span class="path1"></span><span
-                                            class="path2"></span></i>Neuropsicologíca 
+                                            class="path2"></span></i>Neuropsicologíca
                                 </a>
                             </li>
                     </li>
                 </ul>
                 </li>
-                    <li id="principalInformes" class="treeview">
-                        <a href="#">
-                            <i data-feather="bar-chart"></i>
-                            <span>Informes</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-right pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li>
-                            <li id="principalInformes1">
-                                <a href="{{ url('/HistoriasClinicas/GestionarHistoriaPsicologia') }}">
-                                    <i class="icon-Commit"><span class="path1"></span><span
-                                            class="path2"></span></i>Informe 1 
-                                </a>
-                            </li>
-                            <li id="principalInformes2">
-                                <a href="{{ url('/HistoriasClinicas/GestionarHistoriaNeuroPsicologia') }}">
-                                    <i class="icon-Commit"><span class="path1"></span><span
-                                            class="path2"></span></i>Informe 2 
-                                </a>
-                            </li>
-                    </li>
+                <li id="principalInformes" class="treeview">
+                    <a href="#">
+                        <i data-feather="bar-chart"></i>
+                        <span>Informes</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-right pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li>
+                        <li id="informePsicologia">
+                            <a href="{{ url('/HistoriasClinicas/InformePsicologia') }}">
+                                <i class="icon-Commit"><span class="path1"></span><span
+                                        class="path2"></span></i>Informe psicológico
+                            </a>
+                        </li>
+                        <li id="principalInformes2" style="display: none;">
+                            <a href="{{ url('/HistoriasClinicas/GestionarHistoriaNeuroPsicologia') }}">
+                                <i class="icon-Commit"><span class="path1"></span><span
+                                        class="path2"></span></i>Informe 2
+                            </a>
+                        </li>
+                </li>
                 </ul>
                 </li>
-
-
-
-               
-
                 <li id="principalParametros" class="treeview">
                     <a href="#">
                         <i data-feather="settings"></i>
@@ -81,25 +76,49 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li id="principalParametrosProfesionales"><a href="{{ url('/Administracion/Profesionales') }}"><i class="icon-Commit"><span class="path1"></span><span
-                                        class="path2"></span></i>Profesionales</a></li>
-                        <li id="principalParametrosEspecialidades"><a href="{{ url('/Administracion/Especialidades') }}"><i class="icon-Commit"><span class="path1"></span><span
-                                        class="path2"></span></i>Motivo de consulta</a></li>
-
+                        <li id="principalParametrosProfesionales"><a
+                                href="{{ url('/Administracion/Profesionales') }}"><i class="icon-Commit"><span
+                                        class="path1"></span><span class="path2"></span></i>Profesionales</a></li>
+                        <li id="principalParametrosEspecialidades"><a
+                                href="{{ url('/Administracion/Especialidades') }}"><i class="icon-Commit"><span
+                                        class="path1"></span><span class="path2"></span></i>Motivo de consulta</a>
+                        </li>
                     </ul>
                 </li>
-                <li id="principalUsuarios">
-                    <a href="{{ url('/Administracion/Usuarios') }}">
-                        <i data-feather="user-plus"></i>
-                        <span>Usuarios</span>
+
+                <li id="principalUsuarios" class="treeview">
+                    <a href="#">
+                        <i data-feather="bar-chart"></i>
+                        <span>Gestionar usuarios</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-right pull-right"></i>
+                        </span>
                     </a>
+                    <ul class="treeview-menu">
+                        <li>
+                        <li id="usuarios">
+                            <a href="{{ url('/Administracion/Usuarios') }}">
+                                <i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>
+                                Usuarios
+                            </a>
+                        </li>
+                        <li id="perfiles">
+                            <a href="{{ url('/Administracion/Perfiles') }}">
+                                <i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>
+                                Perfiles
+                            </a>
+                        </li>
                 </li>
+                </ul>
+                </li>
+
+
                 </ul>
                 <div class="sidebar-widgets">
                     <div class="mx-25 mb-30 pb-20 side-bx bg-primary-light rounded20">
                         <div class="text-center">
-                            <img src="{{ asset('app-assets/images/svg-icon/Psicologia.png') }}"
-                                class="sideimg p-6" alt="">
+                            <img src="{{ asset('app-assets/images/svg-icon/Psicologia.png') }}" class="sideimg p-6"
+                                alt="">
                             {{-- <h4 class="title-bx text-primary"></h4> --}}
                         </div>
                     </div>

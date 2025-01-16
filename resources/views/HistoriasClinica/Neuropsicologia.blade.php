@@ -128,11 +128,11 @@
 
                                 <div class="card">
                                     <div class="card-body">
-                                        <h4 class="header-title mb-3">Historial de consultas</h4>
+                                        <h4 class="header-title mb-3">Historial de evoluciones</h4>
                                         <div class="text-start mt-3">
                                             <div class="activ_box_button " style="width: 100%;">
                                                 <button class="btn btn-success" onclick="abrirConsultas(1)"
-                                                    style="width: 100%;"><i class="fa fa-edit"></i> Gestionar consultas</button>
+                                                    style="width: 100%;"><i class="fa fa-edit"></i> Gestionar evolución</button>
                                             </div>
                                             <div id="historialConsulta">
                                             </div>
@@ -1408,7 +1408,7 @@
         <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="titConsulta">Gestionar consultas</h4>
+                    <h4 class="modal-title" id="titConsulta">Gestionar evoluciones</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                 </div>
                 <div class="modal-body">
@@ -1416,7 +1416,7 @@
                         <div id="listadoConsultas" class="col-12 col-xl-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h5 class="card-title">Listado de motivo de consulta</h5>
+                                    <h5 class="card-title">Listado de evoluciones</h5>
                                 </div>
                                 <div class="card-body">
                                     <div class="box-controls pull-right">
@@ -1429,7 +1429,7 @@
                                                 <button type="button" onclick="nuevoRegistroConsulta();"
                                                     class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i>
                                                     Nueva
-                                                    consulta</button>
+                                                    evolución</button>
                                             </div>
 
                                         </div>
@@ -1437,11 +1437,9 @@
                                     <table class="table table-striped">
                                         <thead>
                                             <tr>
-                                                <th style="width:5%;">Fecha</th>
-                                                <th style="width:37%;">Consulta</th>
-                                                <th style="width:35%;">Diagnóstico</th>
-                                                <th style="width:15%;">Profesional</th>
-                                                <th style="width:10%;">Acción</th>
+                                                <th style="width:40%;">Fecha</th>
+                                                <th style="width:40%;">Profesional</th>
+                                                <th style="width:20%;">Acción</th>
                                             </tr>
                                         </thead>
                                         <tbody id="trRegistrosConsultas">
@@ -1462,155 +1460,57 @@
                                     <div class="tab-content">
                                         <div class="tab-pane show active" id="justified-tabs-preview">
                                             <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                                                <!-- 
                                                 <li class="nav-item">
                                                     <a href="#datos_iniciales" data-bs-toggle="tab"
                                                         aria-expanded="false" class="nav-link rounded-0 active">
-                                                        <span class="d-none d-md-block"><i
-                                                                class="fa fa-user-circle"></i> Datos Iniciales</span>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a href="#resumenEval" data-bs-toggle="tab" aria-expanded="true"
-                                                        class="nav-link rounded-0">
-                                                        <span class="d-none d-md-block"><i class="fa fa-check"></i>
-                                                            Tratamiento actual</span>
-                                                    </a>
-                                                </li>
-                                                <!--
-                                                <li class="nav-item">
-                                                    <a href="#interconsultas" data-bs-toggle="tab"
-                                                        aria-expanded="true" class="nav-link rounded-0">
-                                                        <span class="d-none d-md-block"><i
-                                                                class="fa fa-stethoscope"></i> Interconsultas</span>
+                                                        <span class="d-none d-md-block">
+                                                            <i class="fa fa-user-circle"></i> 
+                                                            Datos Iniciales
+                                                        </span>
                                                     </a>
                                                 </li>
                                                 -->
                                                 <li class="nav-item">
-                                                    <a href="#observaciones" data-bs-toggle="tab"
-                                                        aria-expanded="false" class="nav-link rounded-0">
-                                                        <span class="d-none d-md-block"><i class="fa fa-list-ol"></i>
-                                                            Observaciones</span>
+                                                    <a href="#resumenEval" data-bs-toggle="tab" aria-expanded="true"
+                                                        class="nav-link rounded-0">
+                                                        <span class="d-none d-md-block">
+                                                            <i class="fa fa-check"></i>
+                                                            Evolución y/o Plan de manejo
+                                                        </span>
                                                     </a>
-                                                </li>
+                                                </li>                                        
                                             </ul>
 
                                             <div class="tab-content px-20">
-                                                <!-- Datos Iniciales -->
-                                                <div class="tab-pane show active" id="datos_iniciales">
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label for="codConsultaConsulta"
-                                                                    class="form-label">Código de
-                                                                    consulta:</label>
-                                                                <select class="form-control select2"
-                                                                    id="codConsultaConsulta"
-                                                                    name="codConsultaConsulta"></select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label for="remisionConsuta"
-                                                                    class="form-label">Motivo de consulta:</label>
-                                                                <textarea class="form-control" id="remisionConsuta" name="motivoConsultaModal" rows="3"
-                                                                    placeholder="Ingrese de dónde es remitido el paciente.."></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label for="codImpresionDiagnosticoConsulta"
-                                                                    class="form-label">Impresión Diagnóstica (CIE 10 –
-                                                                    DSM-V):</label>
-                                                                <select class="form-control select2"
-                                                                    id="codImpresionDiagnosticoConsulta"
-                                                                    name="codImpresionDiagnosticoConsulta"></select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
                                                 <!-- Resumen de evaluación -->
-                                                <div class="tab-pane show" id="resumenEval">
-                                                    <div class="col-md-12" style="display: none;">
-                                                        <div class="form-group">
-                                                            <label for="resumen_evaluacion_inicial"
-                                                                class="form-label">Resumen de evaluación psicolólogica
-                                                                inicial
-                                                                inicial:</label>
-                                                            <textarea class="form-control" id="resumen_evaluacion_inicial" name="resumen_evaluacion_inicial" rows="3"
-                                                                placeholder="Resumen de evaluación psicológica inicial"></textarea>
+                                                <div class="tab-pane show active" id="resumenEval">
+                                                    <div class="col-md-4">
+                                                        <label for="codConsultaConsulta"
+                                                            class="form-label">Fecha:</label>
+                                        
+                                                        <div class="input-group">
+                                                            <input type="date" class="form-control"
+                                                                id="fechaEvolucion" name="fechaEvolucion"
+                                                                placeholder="Seleccione la fecha de la evolución" />
+                                                            <input type="time" id="horaSeleccionada" name="horaSeleccionada" 
+                                                                class="form-control">
+                                                            <div class="input-group-addon">
+                                                                <i class="fa fa-clock-o"></i>
+                                                            </div>
                                                         </div>
                                                     </div>
-
+                                                    <br>
                                                     <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label for="evolucion_tratamiento"
-                                                                class="form-label">Evolución del tratamiento psicolólogico
-                                                                actual
-                                                                actual:</label>
-                                                            <textarea class="form-control" id="evolucion_tratamiento" name="evolucion_tratamiento" rows="3"
+                                                            <label for="evolucion_plan"
+                                                                class="form-label">Evolución y/o Plan de manejo:</label>
+                                                            <textarea class="form-control" id="evolucion_plan" name="evolucion_plan" rows="3"
                                                                 placeholder="Evolución del tratamiento psicolólogico actual"></textarea>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <label for="plan_continuidad" class="form-label">Plan de
-                                                                continuidad
-                                                                actual:</label>
-                                                            <textarea class="form-control" id="plan_continuidad" name="plan_continuidad" rows="3"
-                                                                placeholder="Resumen de plan de continuidad"></textarea>
-                                                        </div>
-                                                    </div>
                                                 </div>
-                                                <!-- Interconsultas -->
-                                                <div class="tab-pane" id="interconsultas">
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="intervencion_psiquiatria"
-                                                                    class="form-label">Intervención por
-                                                                    Psiquiatría:</label>
-                                                                <textarea class="form-control" id="intervencion_psiquiatria_consulta" name="intervencion_psiquiatria_consulta"
-                                                                    rows="3" placeholder="Describa la intervención por Psiquiatría..."></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="intervencion_neurologia"
-                                                                    class="form-label">Intervención por
-                                                                    Neurología:</label>
-                                                                <textarea class="form-control" id="intervencion_neurologia_consulta" name="intervencion_neurologia_consulta"
-                                                                    rows="3" placeholder="Describa la intervención por Neurología..."></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="intervencion_neuropsicologia"
-                                                                    class="form-label">Intervención por
-                                                                    Neuropsicología:</label>
-                                                                <textarea class="form-control" id="intervencion_neuropsicologia_consulta"
-                                                                    name="intervencion_neuropsicologia_consulta" rows="3"
-                                                                    placeholder="Describa la intervención por Neuropsicología..."></textarea>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group mt-3">
-                                                        <label for="sugerencia_interconsultas"
-                                                            class="form-label">Sugerencia para Interconsultas:</label>
-                                                        <textarea class="form-control" id="sugerencia_consulta" name="sugerencia_consulta" rows="3"
-                                                            placeholder="Ingrese las sugerencias para interconsultas..."></textarea>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Observaciones -->
-                                                <div class="tab-pane" id="observaciones">
-                                                    <div class="form-group">
-                                                        <label for="observaciones_recomendaciones"
-                                                            class="form-label">Observaciones y Recomendaciones:</label>
-                                                        <textarea class="form-control" id="observaciones_consulta" name="observaciones_consulta" rows="3"
-                                                            placeholder="Ingrese observaciones y recomendaciones..."></textarea>
-                                                    </div>
-                                                </div>
+    
                                             </div>
 
                                             <div class="box-footer text-end mt-3">
@@ -1933,12 +1833,7 @@
                 'objetivo_general',
                 'observaciones_recomendaciones',
                 'sugerencia_interconsultas',
-                'remisionConsuta',
-                'resumen_evaluacion_inicial',
-                'evolucion_tratamiento',
-                'plan_continuidad',
-                'sugerencia_consulta',
-                'observaciones_consulta'
+                'evolucion_plan',
             ];
 
             $(function() {
@@ -2365,31 +2260,7 @@
                         if (data.success == 'success') {
                             document.getElementById("idHistoria").value = data.id;
                             cargarHistorias(1);
-                            swal({
-                                title: "¡Operación realizada correctamente!",
-                                text: "Se ha registrado la consulta con información incompleta. ¿Desea completarla ahora?",
-                                type: "success",
-                                showCancelButton: true,
-                                confirmButtonColor: "#3085d6",
-                                cancelButtonColor: "#d33",
-                                confirmButtonText: "Si, completar!",
-                                cancelButtonText: "Cancelar",
-                                confirmButtonClass: "btn btn-warning",
-                                cancelButtonClass: "btn btn-danger ml-1",
-                                buttonsStyling: false
-                            }, function(isConfirm) {
-                                if (isConfirm) {
-                                    if (data.idConsulta != "") {
-                                        editarConsulta(data.idConsulta);
-                                        var modal = new bootstrap.Modal(document.getElementById(
-                                            "modalConsulta"), {
-                                            backdrop: 'static',
-                                            keyboard: false,
-                                        });
-                                        modal.show();
-                                    }
-                                }
-                            });
+                            swal(data.title, data.message, data.success);
                         } else {
                             swal(data.tittle, data.message, 'error');
                         }
@@ -2960,50 +2831,6 @@
             limpiarConsulta();
         }
 
-        function editarConsulta(idConsulta) {
-            document.getElementById("listadoConsultas").style.display = "none"
-            document.getElementById("fomrConsultas").style.display = "initial"
-
-            document.getElementById("idHistoriaConsulta").value = idConsulta
-            document.getElementById("accHistoriaConsulta").value = "editar"
-
-            let url = "{{ route('historia.buscaConsultaNeuroPsicologica') }}"
-
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        idConsulta: idConsulta
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    cargarSelConsulta(data.consulta.codigo_consulta, 'codConsultaConsulta')
-
-                    cargarImpresion(data.consulta.impresion_diagnostica, 'codImpresionDiagnosticoConsulta')
-
-                    CKEDITOR.instances['remisionConsuta'].setData(data.consulta.motivo)
-                    CKEDITOR.instances['resumen_evaluacion_inicial'].setData(data.consulta.resumen_evaluacion)
-                    CKEDITOR.instances['evolucion_tratamiento'].setData(data.consulta.evolucion_tratamiento)
-                    CKEDITOR.instances['plan_continuidad'].setData(data.consulta.plan_continuidad)
-
-                    document.getElementById("intervencion_psiquiatria_consulta").value = data.consulta
-                        .intervencion_psiquiatria
-                    document.getElementById("intervencion_neurologia_consulta").value = data.consulta
-                        .intervencion_neurologia
-                    document.getElementById("intervencion_neuropsicologia_consulta").value = data.consulta
-                        .intervencion_neuropsicologia
-
-                    CKEDITOR.instances['sugerencia_consulta'].setData(data.consulta.sugerencias_interconsultas)
-                    CKEDITOR.instances['observaciones_consulta'].setData(data.consulta.observaciones_recomendaciones)
-
-                })
-                .catch(error => console.error('Error:', error))
-        }
-
         function guardarConsulta() {
             if ($("#formConsulta").valid()) {
                 for (var instanceName in CKEDITOR.instances) {
@@ -3043,6 +2870,41 @@
             }
         }
 
+
+        function editarConsulta(idConsulta) {
+            document.getElementById("listadoConsultas").style.display = "none"
+            document.getElementById("fomrConsultas").style.display = "initial"
+
+            document.getElementById("idHistoriaConsulta").value = idConsulta
+            document.getElementById("accHistoriaConsulta").value = "editar"
+
+            let url = "{{ route('historia.buscaConsultaNeuroPsicologica') }}"
+
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        idConsulta: idConsulta
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    cargarSelConsulta(data.consulta.codigo_consulta, 'codConsultaConsulta')
+
+                    cargarImpresion(data.consulta.impresion_diagnostica, 'codImpresionDiagnosticoConsulta')
+
+                    CKEDITOR.instances['evolucion_plan'].setData(data.consulta.evolucion_y_o_plantrabajo)
+
+                    document.getElementById("fechaEvolucion").value = data.consulta.fecha_consulta.split(' ')[0];
+                    document.getElementById("horaSeleccionada").value = data.consulta.fecha_consulta.split(' ')[1];
+                })
+                .catch(error => console.error('Error:', error))
+        }
+
+
         function cargarConsultas(page, searchTerm = '') {
 
             let url = "{{ route('historia.listaConsultasModalNeuro') }}" // Definir la URL
@@ -3078,6 +2940,14 @@
                     loadNow(0)
                 })
                 .catch(error => console.error('Error:', error))
+        }
+
+        function evolucionHistoria(element) {
+            let idHist = element.getAttribute("data-id")
+            let estadoHis = element.getAttribute("data-estado")
+            document.getElementById("idHistoria").value = idHist
+            document.getElementById("estadoHistoria").value = estadoHis
+            abrirConsultas(1)
         }
 
         function abrirConsultas(op) {
@@ -3122,16 +2992,7 @@
         function limpiarConsulta() {
             let formHistoria = document.getElementById("formConsulta")
             formHistoria.reset()
-
-            CKEDITOR.instances['remisionConsuta'].setData('')
-            CKEDITOR.instances['resumen_evaluacion_inicial'].setData('')
-            CKEDITOR.instances['evolucion_tratamiento'].setData('')
-            CKEDITOR.instances['plan_continuidad'].setData('')
-            CKEDITOR.instances['sugerencia_consulta'].setData('')
-            CKEDITOR.instances['observaciones_consulta'].setData('')
-
-            $('#codConsultaConsulta').val(null).trigger('change');
-            $('#codImpresionDiagnosticoConsulta').val(null).trigger('change');
+            CKEDITOR.instances['evolucion_plan'].setData('')
         }
 
         function imprimirHistoria(id) {

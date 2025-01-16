@@ -55,9 +55,10 @@ class HistoriaNeuroPsicologica extends Model
                         'estado_registro' => 'ACTIVO',
                     ]));
 
-                     // insertar datos de consulta 
+                    // insertar datos de consulta 
 
-                     $idConsulta = DB::table('consultas_psicologica_neuro')->insertGetId(array_filter([
+                    /*
+                    $idConsulta = DB::table('consultas_psicologica_neuro')->insertGetId(array_filter([
                         'id_historia' => $idHistoria ,
                         'id_profesional' => Auth::user()->id,
                         'fecha_consulta' => now(),
@@ -72,6 +73,7 @@ class HistoriaNeuroPsicologica extends Model
                         'observaciones_recomendaciones' => $request['observaciones_recomendaciones'] ?? null,
                         'estado' => 'ACTIVO'
                     ]));
+                    */
 
                     // Insertar antecedentes médicos
                     $antecedentesMedicos = array_filter([
@@ -287,6 +289,7 @@ class HistoriaNeuroPsicologica extends Model
                     ]));
 
                     //actualizar primera consulta
+                    /*
                     $consulta = DB::connection('mysql')->table('consultas_psicologica_neuro')
                     ->where("id_historia", $idHistoria)
                     ->orderBy("fecha_consulta", "asc")
@@ -308,6 +311,7 @@ class HistoriaNeuroPsicologica extends Model
                         'observaciones_recomendaciones' => $request['observaciones_consulta'] ?? null,
                         'estado' => 'ACTIVO'
                     ]));
+                    */
 
                     // Insertar antecedentes médicos
                     DB::table('antecedentes_medicos_neuro')->where('id_historia', $idHistoria)->delete();
@@ -521,18 +525,8 @@ class HistoriaNeuroPsicologica extends Model
                     $idConsulta = DB::table('consultas_psicologica_neuro')->insertGetId(array_filter([
                         'id_historia' => $request['idHist'] ?? null,
                         'id_profesional' => Auth::user()->id,
-                        'fecha_consulta' => now(),
-                        'codigo_consulta' => $request['codConsultaConsulta'] ?? null,
-                        'impresion_diagnostica' => $request['codImpresionDiagnosticoConsulta']  ?? null,
-                        'motivo' => $request['motivoConsultaModal'] ?? null,
-                        'resumen_evaluacion' => $request['resumen_evaluacion_inicial'] ?? null,
-                        'evolucion_tratamiento' => $request['evolucion_tratamiento'] ?? null,
-                        'plan_continuidad' => $request['plan_continuidad'] ?? null,
-                        'intervencion_psiquiatria' => $request['intervencion_psiquiatria_consulta'] ?? null,
-                        'intervencion_neurologia' => $request['intervencion_neurologia_consulta'] ?? null,
-                        'intervencion_neuropsicologia' => $request['intervencion_neuropsicologia_consulta'] ?? null,
-                        'sugerencias_interconsultas' => $request['sugerencia_consulta'] ?? null,
-                        'observaciones_recomendaciones' => $request['observaciones_consulta'] ?? null,
+                        'fecha_consulta' => $request['fechaEvolucion'] . ' ' . $request['horaSeleccionada'] ?? null,
+                        'evolucion_y_o_plantrabajo' => $request['evolucion_plan']  ?? null,
                         'estado' => 'ACTIVO'
                     ]));
                     // Confirmar transacción
@@ -549,17 +543,8 @@ class HistoriaNeuroPsicologica extends Model
                     // Insertar en `historia_clinica`
                     $idConsulta = $request['idHistoriaConsulta'];
                     DB::table('consultas_psicologica_neuro')->where('id', $idConsulta)->update(array_filter([
-                        'codigo_consulta' => $request['codConsultaConsulta'] ?? null,
-                        'impresion_diagnostica' => $request['codImpresionDiagnosticoConsulta']  ?? null,
-                        'motivo' => $request['motivoConsultaModal'] ?? null,
-                        'resumen_evaluacion' => $request['resumen_evaluacion_inicial'] ?? null,
-                        'evolucion_tratamiento' => $request['evolucion_tratamiento'] ?? null,
-                        'plan_continuidad' => $request['plan_continuidad'] ?? null,
-                        'intervencion_psiquiatria' => $request['intervencion_psiquiatria_consulta'] ?? null,
-                        'intervencion_neurologia' => $request['intervencion_neurologia_consulta'] ?? null,
-                        'intervencion_neuropsicologia' => $request['intervencion_neuropsicologia_consulta'] ?? null,
-                        'sugerencias_interconsultas' => $request['sugerencia_consulta'] ?? null,
-                        'observaciones_recomendaciones' => $request['observaciones_consulta'] ?? null
+                        'fecha_consulta' => $request['fechaEvolucion'] . ' ' . $request['horaSeleccionada'] ?? null,
+                        'evolucion_y_o_plantrabajo' => $request['evolucion_plan']  ?? null,
                     ]));
 
                     // Confirmar transacción
@@ -590,8 +575,6 @@ class HistoriaNeuroPsicologica extends Model
     public static function historialConsultas($idHisto)
     {
         return DB::connection('mysql')->table('consultas_psicologica_neuro')
-        ->leftJoin("referencia_cups", "referencia_cups.id", "consultas_psicologica_neuro.codigo_consulta")
-                ->leftJoin("referencia_cie10", "referencia_cie10.id", "consultas_psicologica_neuro.impresion_diagnostica")
                 ->leftJoin("profesionales", "profesionales.usuario", "consultas_psicologica_neuro.id_profesional")
             ->where("consultas_psicologica_neuro.id_historia", $idHisto)
             ->orderBy('consultas_psicologica_neuro.fecha_consulta', 'desc')
@@ -600,8 +583,6 @@ class HistoriaNeuroPsicologica extends Model
             ->select(
                 'consultas_psicologica_neuro.id',
                 'consultas_psicologica_neuro.fecha_consulta',
-                'referencia_cups.nombre AS consulta',
-                'referencia_cie10.nombre AS diagnostico',
                 'profesionales.nombre AS profesional'
             )
             ->get();

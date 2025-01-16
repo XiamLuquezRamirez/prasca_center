@@ -273,7 +273,6 @@
         }
 
         function eliminarRegistro(idReg) {
-
             swal({
                 title: "Esta seguro?",
                 text: "No podrás recuperar este registrto!",

@@ -208,7 +208,7 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
             //get new value from input
             var newValue = this.input.input2value(); 
 
-            updateClase(newValue)
+            
 
             //validation: if validate returns string or truthy value - means error
             //if returns object like {newValue: '...'} => submitted value is reassigned to it
@@ -219,13 +219,15 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
                 if(typeof error.msg === 'string') {
                     this.error(error.msg);
                     this.showForm();
+               
                     return;
                 }
             } else if (error) {
                 this.error(error);
-                this.showForm();
+                this.showForm();               
                 return;
-            } 
+            }
+            updateNota(newValue) 
             
             //if value not changed --> trigger 'nochange' event and return
             /*jslint eqeq: true*/

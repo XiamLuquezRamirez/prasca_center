@@ -44,13 +44,12 @@ class Pacientes extends Model
     public static function Guardar($request)
     {
         try {
-            $fechaFormateada = date("Y-m-d", strtotime(str_replace('/', '-', $request['fechaNacimiento'])));
             if ($request['accPacientes'] == 'guardar') {
-                $respuesta = DB::connection('mysql')->table('pacientes')->insertGetId([
+                $idpaciente = DB::connection('mysql')->table('pacientes')->insertGetId([
                     'tipo_identificacion' => $request['tipoId'],
                     'identificacion' => $request['identificacion'],
                     'tipo_usuario' => $request['tipoUsuario'] ?? '',
-                    'fecha_nacimiento' => $fechaFormateada,
+                    'fecha_nacimiento' => $request['fechaNacimiento'],
                     'edad' => $request['edad'],
                     'primer_nombre' => $request['primerNombre'],
                     'segundo_nombre' => $request['segundoNombre'] ?? '',
@@ -77,8 +76,20 @@ class Pacientes extends Model
                     'completo' => true
                 ]);
 
+                if (isset($request['archivo']) && is_array($request['archivo'])) {
+                    foreach ($request['archivo'] as $key => $archivo) {
+                        DB::connection('mysql')->table('anexos_pacientes')->insert([
+                            'paciente' => $idpaciente,
+                            'origen' => 'PACIENTE',
+                            'url' => $archivo,
+                            'tipo_archivo' => $request['tipoArc'][$key] ?? null,
+                            'nombre_archivo' => $request['nombre'][$key] ?? null,
+                            'peso' => $request['peso'][$key] ?? null,
+                        ]);
+                    }
+                }
+                
             } else {
-            $fechaFormateada = date("Y-m-d", strtotime(str_replace('/', '-', $request['fechaNacimiento'])));
 
                 $respuesta = DB::connection('mysql')->table('pacientes')
                 ->where('id', $request['idPaciente'])  // Identificar el registro a actualizar
@@ -86,7 +97,7 @@ class Pacientes extends Model
                     'tipo_identificacion' => $request['tipoId'],
                     'identificacion' => $request['identificacion'],
                     'tipo_usuario' => $request['tipoUsuario'] ?? '',
-                    'fecha_nacimiento' => $fechaFormateada,
+                    'fecha_nacimiento' => $request['fechaNacimiento'],
                     'edad' => $request['edad'],
                     'primer_nombre' => $request['primerNombre'],
                     'segundo_nombre' => $request['segundoNombre'] ?? '',
@@ -110,10 +121,23 @@ class Pacientes extends Model
                     'parentesco' =>  $request['parentesco'] ?? '',
                     'telefono_acompanate' =>  $request['telefonoAcompanante'] ?? '',
                     'estado' => 'ACTIVO'
-                   
                 ]);
 
-                $respuesta = $request['idPaciente'];
+                $idpaciente = $request['idPaciente'];
+
+                if (isset($request['archivo']) && is_array($request['archivo'])) {
+                    foreach ($request['archivo'] as $key => $archivo) {
+                        DB::connection('mysql')->table('anexos_pacientes')->insert([
+                            'paciente' => $idpaciente,
+                            'origen' => 'PACIENTE',
+                            'url' => $archivo,
+                            'tipo_archivo' => $request['tipoArc'][$key] ?? null,
+                            'nombre_archivo' => $request['nombre'][$key] ?? null,
+                            'peso' => $request['peso'][$key] ?? null,
+                        ]);
+                    }
+                }
+                
             }
         } catch (Exception $e) {
             // Manejo del error
@@ -122,7 +146,7 @@ class Pacientes extends Model
                 'message' => 'Ocurrió un error al procesar el formulario: ' . $e->getMessage(),
             ], 500);
         }
-       return  $respuesta; 
+       return  $idpaciente; 
     }
     public static function guardarPend($request)
     {
@@ -161,6 +185,14 @@ class Pacientes extends Model
        return  $respuesta; 
     }
 
+    public static function busquedaPacienteAnexos($idPac){
+        $anexos = DB::connection('mysql')->table('anexos_pacientes')
+        ->where("paciente", $idPac)
+        ->where("origen", "PACIENTE")
+        ->get();
+
+        return $anexos;
+    }
     
     public static function busquedaPaciente($idPac){
         $paciente = DB::connection('mysql')->table('pacientes')

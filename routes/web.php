@@ -84,6 +84,7 @@ Route::post('/HistoriasClinicas/listaHistoriasPsicologica', [HistoriasController
 Route::post('/historia/buscaHistoriaPsicologica', [HistoriasController::class, 'buscaHistoriaPsicologica'])->name('historia.buscaHistoriaPsicologica');
 Route::post('/historia/buscaProfesionalHistoria', [HistoriasController::class, 'buscaProfesionalHistoria'])->name('historia.buscaProfesionalHistoria');
 Route::post('/historia/cerrarHistoria', [HistoriasController::class, 'cerrarHistoria'])->name('historia.cerrarHistoria');
+Route::post('/historia/notasHistoria', [HistoriasController::class, 'notasHistoria'])->name('historia.notasHistoria');
 
 /// GESTIONAR CONSULTAS
 Route::post('/historia/guardarConsultaPsicologica', [HistoriasController::class, 'guardarConsultaPsicologica'])->name('form.guardarConsultaPsicologica');
@@ -113,3 +114,17 @@ Route::post('/verificar-usuario', [UsuariosController::class, 'verificarUsuario'
 Route::post('/AdminUsuario/guardar', [UsuariosController::class, 'guardarUsuario'])->name('form.guardarUsusario');
 Route::post('/AdminUsuario/buscaUsuario', [UsuariosController::class, 'busquedaUsuario'])->name('usuario.buscaUsuario');
 Route::post('/AdminUsuario/eliminarUsuario', [UsuariosController::class, 'eliminarUsuario'])->name('usuario.eliminarUsuario');
+Route::post('/AdminUsuario/listaPerfiles', [UsuariosController::class, 'listaPerfiles'])->name('usuario.listaPerfiles');
+
+
+// INFORMES
+Route::get('/HistoriasClinicas/InformePsicologia', [HistoriasController::class, 'informePsicologia'])->name('gestionar.informePsicologia');
+Route::post('/informes/psicologia', [HistoriasController::class, 'listaPacientesInformePsicologia'])->name('informes.psicologia');
+Route::post('/informes/verHistorial', [HistoriasController::class, 'verHistorialEvoluciones'])->name('informes.verHistorial');
+Route::post('/informes/buscaEvolucionPsicologica', [HistoriasController::class, 'buscaEvolucionPsicologica'])->name('informes.buscaEvolucionPsicologica');
+Route::post('/informes/imprimirInformePsicologia', [HistoriasController::class, 'imprimirInformePsicologia'])->name('informes.imprimirInformePsicologia');
+Route::post('/informes/buscaHistoriaPsicologicaInforme', [HistoriasController::class, 'buscaHistoriaPsicologicaInforme'])->name('informes.buscaHistoriaPsicologicaInforme');
+Route::post('/informes/guardarInformePsicologica', [HistoriasController::class, 'guardarInformePsicologica'])->name('form.guardarInformePsicologica');
+Route::post('/informes/informePsicologia', [HistoriasController::class, 'informePsicologiaList'])->name('informes.informePsicologia');
+Route::post('/informes/buscaInformePsicologica', [HistoriasController::class, 'buscaInformePsicologica'])->name('informes.buscaInformePsicologica');
+Route::post('/informes/eliminarInforme', [HistoriasController::class, 'eliminarInforme'])->name('informes.eliminarInforme');

@@ -528,6 +528,8 @@ function verCita(idCita) {
             $("#cometarioCita").html(response.detaCita.comentario);
             //datos de paciente
             $("#idPaciente").val(response.paciente.id);
+            let pEdda = response.paciente.edad.split(" ");
+            $("#edadPacienteCita").val(pEdda[0]);            
             $("#identificacionCita").html(response.paciente
                 .tipo_identificacion + " " + response.paciente
                     .identificacion);

@@ -2,6 +2,7 @@
 @section('title', 'Gestionar pacientes')
 @section('Contenido')
     <input type="hidden" id="Ruta" data-ruta="{{ asset('/app-assets/') }}" />
+    <input type="hidden" id="RutaTotal" data-ruta="{{ asset('/') }}" />
     <input type="hidden" id="page" />
     <div class="content-header">
         <div class="d-flex align-items-center">
@@ -106,7 +107,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="tipoIdentificacion" class="form-label">Tipo de identificación :</label>
                                     <select class="form-control" id="tipoId" name="tipoId" aria-invalid="false">
@@ -155,15 +156,13 @@
                                 <div class="form-group">
                                     <label for="fechaNacimiento" class="form-label">Fecha de nacimiento:</label>
                                     <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <input type="text" id="fechaNacimiento" placeholder="" name="fechaNacimiento"
-                                            class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+
+                                        <input type="date" id="fechaNacimiento" placeholder="" name="fechaNacimiento"
+                                            class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'">
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="edad" class="form-label">Edad :</label>
                                     <input type="text" readonly class="form-control" id="edad" name="edad">
@@ -326,73 +325,135 @@
                             </div>
                         </div>
 
-                        <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-circle me-1"></i> Información
-                            acompañante</h5>
-                        <div class="row">
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label for="nombreAcompanante" class="form-label">Nombre :</label>
-                                    <input type="text" class="form-control" id="nombreAcompanante"
-                                        name="nombreAcompanante">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="parentesco" class="form-label">Parentesco :</label>
-                                    <select class="form-control" id="parentesco" name="parentesco" aria-invalid="false">
-                                        <option value="">Selecciona una
-                                            opción</option>
-                                        <option value="padre">Padre</option>
-                                        <option value="madre">Madre</option>
-                                        <option value="hijo">Hijo/a</option>
-                                        <option value="hermano">Hermano/a</option>
-                                        <option value="abuelo">Abuelo/a</option>
-                                        <option value="tio">Tío/a</option>
-                                        <option value="primo">Primo/a</option>
-                                        <option value="sobrino">Sobrino/a</option>
-                                        <option value="nieto">Nieto/a</option>
-                                        <option value="otro">Otro</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="telefonoAcompanante" class="form-label">Teléfono :</label>
-                                    <input type="text" class="form-control" id="telefonoAcompanante"
-                                        name="telefonoAcompanante">
-                                </div>
-                            </div>
+                        <div class="tab-pane show active" id="justified-tabs-preview">
+                            <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                                <li class="nav-item">
+                                    <a href="#acompanante" data-bs-toggle="tab" aria-expanded="true"
+                                        class="nav-link rounded-0 active">
 
-                            <div class="box-footer text-end">
-                                <button type="button" onclick="nuevoRegistro();" style="display: none;"
-                                    id="newPaciente" class="btn btn-primary-light me-1">
-                                    <i class="ti-plus "></i> Nuevo
-                                </button>
-                                <button type="button" id="cancelPacientes" onclick="cancelarPacientes();"
-                                    class="btn btn-primary-light me-1">
-                                    <i class="ti-close"></i> Cancelar
-                                </button>
-                                <button type="button" id="savePaciente" onclick="guardarPacientes();"
-                                    class="btn btn-primary">
-                                    <i class="ti-save"></i> Guardar
-                                </button>
+                                        <span class="d-none d-md-block"><i class="mdi mdi-account-circle me-1"></i>
+                                            Información
+                                            acompañante</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#anexos" data-bs-toggle="tab" aria-expanded="false"
+                                        class="nav-link rounded-0 ">
+                                        <span class="d-none d-md-block"><i class="mdi mdi-file-multiple me-1"></i>
+                                            Anexos</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content px-20">
+                                <d.iv class="tab-pane show active" id="acompanante">
+                                    <div class="row">
+                                        <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-circle me-1"></i>
+                                            Información
+                                            acompañante</h5>
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <div class="form-group">
+                                                    <label for="nombreAcompanante" class="form-label">Nombre :</label>
+                                                    <input type="text" class="form-control" id="nombreAcompanante"
+                                                        name="nombreAcompanante">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="parentesco" class="form-label">Parentesco :</label>
+                                                    <select class="form-control" id="parentesco" name="parentesco"
+                                                        aria-invalid="false">
+                                                        <option value="">Selecciona una
+                                                            opción</option>
+                                                        <option value="padre">Padre</option>
+                                                        <option value="madre">Madre</option>
+                                                        <option value="hijo">Hijo/a</option>
+                                                        <option value="hermano">Hermano/a</option>
+                                                        <option value="abuelo">Abuelo/a</option>
+                                                        <option value="tio">Tío/a</option>
+                                                        <option value="primo">Primo/a</option>
+                                                        <option value="sobrino">Sobrino/a</option>
+                                                        <option value="nieto">Nieto/a</option>
+                                                        <option value="otro">Otro</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="telefonoAcompanante" class="form-label">Teléfono :</label>
+                                                    <input type="text" class="form-control" id="telefonoAcompanante"
+                                                        name="telefonoAcompanante">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </d.iv>
+                                <div class="tab-pane" id="anexos">
+                                    <div class="box">
+                                        <div class="box-header with-border">
+                                            <div class="d-inline-block"></div>
+                                            <div class="box-controls pull-right">
+                                                <div class="box-header-actions" style="margin-top: -10px;">
+                                                    <button onclick="agregarArchivo()" type="button"
+                                                        class="waves-effect waves-light btn btn-info mb-5">
+                                                        <li class="fa fa-plus"></li> Agregar archivos
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-top: 20px" id="fileList">
+                                                <div class="col-md-12">
+                                                    <div class="form-group mt-4">
+                                                        <input type="file" name="archivos[]" class="form-control"
+                                                            placeholder="Seleccione un archivo">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="listAnexos" style="display: none;">
+                                                <hr />
+                                                <h5 class="mb-3">Anexos agregados del paciente</h5>
+                                                <div class="row" id="anexosAdd">
+
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <div class="box-footer text-end">
+                            <button type="button" onclick="nuevoRegistro();" style="display: none;" id="newPaciente"
+                                class="btn btn-primary-light me-1">
+                                <i class="ti-plus "></i> Nuevo
+                            </button>
+                            <button type="button" id="cancelPacientes" onclick="cancelarPacientes();"
+                                class="btn btn-primary-light me-1">
+                                <i class="ti-close"></i> Cancelar
+                            </button>
+                            <button type="button" id="savePaciente" onclick="guardarPacientes();"
+                                class="btn btn-primary">
+                                <i class="ti-save"></i> Guardar
+                            </button>
+                        </div>
+                </div>
 
-                    </form>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     </div><!-- /.modal -->
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            let menuP = document.getElementById("principalPacientes");
+            let menuP = document.getElementById("principalPacientes")
 
-            menuP.classList.add("active");
+            menuP.classList.add("active")
 
-            loader = document.getElementById('loader');
-            loadNow(1);
+            loader = document.getElementById('loader')
+            loadNow(1)
 
 
             $('#departamento').select2({
@@ -405,42 +466,47 @@
                 width: '100%'
             });
 
-            localStorage.clear();
+            localStorage.clear()
 
-            $('[data-mask]').inputmask();
-
+            $('[data-mask]').inputmask()
             $.validator.addMethod("dateFormat", function(value, element) {
-                // Verificar si la fecha está en el formato dd/mm/yyyy
-
-                var dateParts = value.split("/");
+                // Verificar si la fecha está en el formato yyyy-mm-dd
+                var dateParts = value.split("-")
                 if (dateParts.length === 3) {
-                    var day = parseInt(dateParts[0], 10);
-                    var month = parseInt(dateParts[1], 10);
-                    var year = parseInt(dateParts[2], 10);
+                    var year = parseInt(dateParts[0], 10)
+                    var month = parseInt(dateParts[1], 10)
+                    var day = parseInt(dateParts[2], 10)
 
                     // Comprobar si es una fecha válida
-                    var date = new Date(year, month - 1, day);
+                    var date = new Date(year, month - 1, day)
                     return date && (date.getFullYear() === year) && (date.getMonth() === month - 1) && (date
-                        .getDate() === day);
+                        .getDate() === day)
                 }
-                return false;
-            }, "Por favor, ingresa una fecha válida en formato dd/mm/yyyy.");
+                return false
+            }, "Por favor, ingresa una fecha válida en formato yyyy-mm-dd.")
+
 
             $.validator.addMethod("maxDate", function(value, element) {
-                var dateParts = value.split("/");
+                // Dividir la fecha en partes según el formato yyyy-mm-dd
+                var dateParts = value.split("-")
                 if (dateParts.length === 3) {
-                    var day = parseInt(dateParts[0], 10);
-                    var month = parseInt(dateParts[1], 10);
-                    var year = parseInt(dateParts[2], 10);
+                    var year = parseInt(dateParts[0], 10)
+                    var month = parseInt(dateParts[1], 10)
+                    var day = parseInt(dateParts[2], 10)
 
-                    // Convertir a formato Date
-                    var inputDate = new Date(year, month - 1, day);
-                    var today = new Date(); // Fecha actual
+                    // Convertir a objeto Date
+                    var inputDate = new Date(year, month - 1, day)
+                    var today = new Date() // Fecha actual sin hora
 
-                    return inputDate <= today; // Validar que no sea mayor
+                    // Asegurarse de que las horas, minutos y segundos no afecten la comparación
+                    today.setHours(0, 0, 0, 0)
+
+                    // Validar que la fecha de entrada no sea mayor a hoy
+                    return inputDate <= today
                 }
-                return false;
-            }, "La fecha no puede ser mayor a hoy.");
+                return false
+            }, "La fecha no puede ser mayor a hoy.")
+
 
             $("#formPaciente").validate({
                 rules: {
@@ -454,16 +520,16 @@
                             type: "post",
                             data: {
                                 identificacion: function() {
-                                    return $("#identificacion").val();
+                                    return $("#identificacion").val()
                                 },
                                 tipoId: function() {
-                                    return $("#tipoId").val(); // Tipo de identificación
+                                    return $("#tipoId").val() // Tipo de identificación
                                 },
                                 id: function() {
-                                    return $("#idPaciente").val() || null; // Enviar id si es edición
+                                    return $("#idPaciente").val() || null // Enviar id si es edición
                                 },
                                 _token: function() {
-                                    return "{{ csrf_token() }}"; // Token CSRF para seguridad
+                                    return "{{ csrf_token() }}" // Token CSRF para seguridad
                                 }
                             }
                         },
@@ -554,120 +620,131 @@
                     },
                 },
                 submitHandler: function(form) {
-                    guardarPacientes();
+                    guardarPacientes()
                 }
             });
 
-            cargarPacientes(1);
+            cargarPacientes(1)
+            cargarDepartamento()
+            cargarTipoUsuario()
 
             document.getElementById('account-upload').addEventListener('change', function(event) {
-                const file = event.target.files[0];
-                const previewImage = document.getElementById('previewImage');
+                const file = event.target.files[0]
+                const previewImage = document.getElementById('previewImage')
 
                 if (file) {
-                    const imageUrl = URL.createObjectURL(file);
-                    previewImage.src = imageUrl;
+                    const imageUrl = URL.createObjectURL(file)
+                    previewImage.src = imageUrl
                 }
-            });
+            })
 
             // Evento click para la paginación
             document.addEventListener('click', function(event) {
                 if (event.target.matches('.pagination a')) {
-                    event.preventDefault();
-                    var href = event.target.getAttribute('href');
-                    var page = href.split('page=')[1];
+                    event.preventDefault()
+                    var href = event.target.getAttribute('href')
+                    var page = href.split('page=')[1]
 
                     // Asegurarse de que 'page' sea un número antes de hacer la solicitud
                     if (!isNaN(page)) {
-                        cargarPacientes(page);
+                        cargarPacientes(page)
                     }
                 }
-            });
+            })
             // Evento input para el campo de búsqueda
             document.getElementById('busqueda').addEventListener('input', function() {
-                var searchTerm = this.value;
+                var searchTerm = this.value
                 cargarPacientes(1,
-                    searchTerm);
-            });
+                    searchTerm)
+            })
 
-            const fechaNacimiento = document.getElementById("fechaNacimiento");
+            const fechaNacimiento = document.getElementById("fechaNacimiento")
 
 
-            fechaNacimiento.addEventListener("change", validarIdentificacionPorEdad);
-            fechaNacimiento.addEventListener("input", validarIdentificacionPorEdad);
-            fechaNacimiento.addEventListener("blur", validarIdentificacionPorEdad);
-            document.getElementById("tipoId").addEventListener("change", validarIdentificacionPorEdad);
+            fechaNacimiento.addEventListener("change", validarIdentificacionPorEdad)
+            fechaNacimiento.addEventListener("input", validarIdentificacionPorEdad)
+            fechaNacimiento.addEventListener("blur", validarIdentificacionPorEdad)
+            document.getElementById("tipoId").addEventListener("change", validarIdentificacionPorEdad)
 
-        });
+        })
+
+        function agregarArchivo() {
+            // Crear un nuevo contenedor para el campo de entrada
+            const newFileContainer = document.createElement('div')
+            newFileContainer.classList.add('col-md-12', 'mt-1')
+
+            // Crear el nuevo campo de entrada
+            const newFileInput = document.createElement('input')
+            newFileInput.type = 'file'
+            newFileInput.name = 'archivos[]'
+            newFileInput.classList.add('form-control')
+            // Agregar el campo de entrada al contenedor
+            newFileContainer.appendChild(newFileInput)
+
+            // Agregar el contenedor al div con ID fileList
+            document.getElementById('fileList').appendChild(newFileContainer)
+        }
 
         function validarIdentificacionPorEdad() {
+            const tipoId = document.getElementById("tipoId").value
+            const fechaNacimiento = document.getElementById("fechaNacimiento").value
 
-            const tipoId = document.getElementById("tipoId").value;
-            const fechaNacimiento = document.getElementById("fechaNacimiento").value;
+            if (!fechaNacimiento) return // Si no hay fecha de nacimiento, salir
 
-            if (!fechaNacimiento) return; // Si no hay fecha de nacimiento, salir
-
-            const hoy = new Date();
-            const nacimiento = new Date(fechaNacimiento.split('/').reverse().join('-')); // Convertir a formato ISO
+            const hoy = new Date()
+            const nacimiento = new Date(fechaNacimiento.split('/').reverse().join('-')) // Convertir a formato ISO
 
             // Cálculo inicial de años, meses y días
-            let anios = hoy.getFullYear() - nacimiento.getFullYear();
-            let meses = hoy.getMonth() - nacimiento.getMonth();
-            let dias = hoy.getDate() - nacimiento.getDate();
+            let anios = hoy.getFullYear() - nacimiento.getFullYear()
+            let meses = hoy.getMonth() - nacimiento.getMonth()
+            let dias = hoy.getDate() - nacimiento.getDate()
 
             // Ajustar si los meses o días son negativos
             if (meses < 0 || (meses === 0 && dias < 0)) {
-                anios--;
-                meses += 12;
+                anios--
+                meses += 12
             }
             if (dias < 0) {
                 const ultimoDiaMesAnterior = new Date(hoy.getFullYear(), hoy.getMonth(), 0).getDate();
-                dias += ultimoDiaMesAnterior;
-                meses--;
+                dias += ultimoDiaMesAnterior
+                meses--
             }
 
-            let tiposPermitidos = [];
-            let edad;
+            // Crear la cadena de edad en el formato deseado
+            const edad =
+                `${anios} ${anios === 1 ? 'Año' : 'Años'}, ${meses} ${meses === 1 ? 'Mes' : 'Meses'} y ${dias} ${dias === 1 ? 'Día' : 'Días'}`;
 
-            if (anios > 0) {
-                edad = `${anios} ${anios === 1 ? 'año' : 'años'}`;
-            } else if (meses > 0) {
-                edad = `${meses} ${meses === 1 ? 'mes' : 'meses'}`;
-            } else {
-                edad = `${dias} ${dias === 1 ? 'día' : 'días'}`;
-            }
+            let tiposPermitidos = []
 
             // Determinar los tipos de documento permitidos según la edad
-
             if (anios <= 6) {
-                tiposPermitidos = ["RC", "NV", "PT", "CD", "PE", "MS"];
+                tiposPermitidos = ["RC", "NV", "PT", "CD", "PE", "MS"]
             } else if (anios >= 7 && anios <= 17) {
-                tiposPermitidos = ["TI", "CE", "PT", "CD", "PE", "MS"];
+                tiposPermitidos = ["TI", "CE", "PT", "CD", "PE", "MS"]
             } else if (anios >= 18) {
-                tiposPermitidos = ["CC", "TI", "CE", "PT", "CD", "PE", "AS"];
+                tiposPermitidos = ["CC", "TI", "CE", "PT", "CD", "PE", "AS"]
             }
 
             // Verificar si el tipo de identificación es válido
             if (!tiposPermitidos.includes(tipoId)) {
                 document.getElementById('fechaNacimiento').value = ""
                 document.getElementById('edad').value = ""
-                swal("¡Alerta!", `El tipo de identificación "${tipoId}" no corresponde con la edad de ${anios} años.`,
-                    "warning")
-
+                swal("¡Alerta!", `El tipo de identificación "${tipoId}" no corresponde con la edad de ${edad}.`, "warning");
             } else {
-                document.getElementById('edad').value = edad;
+                document.getElementById('edad').value = edad
             }
         }
+
 
 
         function guardarPacientes() {
 
             if ($("#formPaciente").valid()) {
 
-                const formPaciente = document.getElementById('formPaciente');
-                const formData = new FormData(formPaciente);
+                const formPaciente = document.getElementById('formPaciente')
+                const formData = new FormData(formPaciente)
 
-                const url = "{{ route('form.guardarPaciente') }}";
+                const url = "{{ route('form.guardarPaciente') }}"
 
                 fetch(url, {
                         method: 'POST',
@@ -678,7 +755,7 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data);
+                        console.log(data)
                         if (data.success = 'success') {
 
                             swal(data.title, data.message, data.success)
@@ -695,8 +772,8 @@
                         }
                     })
                     .catch(error => {
-                        console.error("Error al enviar los datos:", error);
-                    });
+                        console.error("Error al enviar los datos:", error)
+                    })
 
             }
         }
@@ -705,14 +782,20 @@
             var modal = new bootstrap.Modal(document.getElementById("modalPacientes"), {
                 backdrop: 'static',
                 keyboard: false
-            });
+            })
             document.getElementById("idPaciente").value = idPaciente
             document.getElementById("accPacientes").value = 'editar'
+            document.getElementById('savePaciente').removeAttribute('disabled')
 
-            modal.show();
-            cargarDepartamento();
+            document.getElementById('listAnexos').style.display = 'none'
+            document.getElementById('fileList').innerHTML = ""
+            document.getElementById('anexosAdd').innerHTML = ""
+            agregarArchivo()
 
-            let url = "{{ route('pacientes.buscaPaciente') }}";
+            modal.show()
+            cargarDepartamento()
+
+            let url = "{{ route('pacientes.buscaPaciente') }}"
 
             fetch(url, {
                     method: 'POST',
@@ -727,87 +810,144 @@
                 .then(response => response.json())
                 .then(data => {
 
-                    var foto = data.foto;
-                    $("#fotoCargada").val(foto);
+                    var foto = data.paciente.foto
+                    $("#fotoCargada").val(foto)
                     const previewImage = document.getElementById('previewImage');
-                    let url = $('#Ruta').data("ruta");
-                    previewImage.src = url + "/images/FotosPacientes/" + foto;
+                    let url = $('#Ruta').data("ruta")
+                    previewImage.src = url + "/images/FotosPacientes/" + foto
 
-                    document.getElementById("tipoId").value = data.tipo_identificacion
-                    document.getElementById("identificacion").value = data.identificacion
+                    document.getElementById("tipoId").value = data.paciente.tipo_identificacion
+                    document.getElementById("identificacion").value = data.paciente.identificacion
 
-                    var fechForm = convertirFecha(data.fecha_nacimiento);
-                    $("#fechaNacimiento").val(fechForm);
-                    document.getElementById("edad").value = data.edad
-                    document.getElementById("lugarNacimiento").value = data.lugar_nacimiento
-                    document.getElementById("primerNombre").value = data.primer_nombre
-                    document.getElementById("segundoNombre").value = data.segundo_nombre
-                    document.getElementById("primerApellido").value = data.primer_apellido
-                    document.getElementById("segundoApellido").value = data.segundo_apellido
-                    document.getElementById("sexo").value = data.sexo
-                    document.getElementById("estadocivil").value = data.estado_civil
-                    $('#ocupacion').value = data.ocupacion
-                    document.getElementById("tipoUsuario").value = data.tipo_usuario
-                    document.getElementById("lateralidad").value = data.lateralidad
-                    document.getElementById("religion").value = data.religion
-                    document.getElementById("email").value = data.email
-                    document.getElementById("telefono").value = data.telefono
-                    document.getElementById("direccion").value = data.direccion
-                    $('#departamento').val(data.departamento).trigger('change.select2')
-                    $('#municipio').val(data.municipio).trigger('change.select2')
-                    document.getElementById("zonaResidencial").value = data.zona_residencial
+                    document.getElementById("fechaNacimiento").value = data.paciente.fecha_nacimiento
+                    validarIdentificacionPorEdad()
 
-                    document.getElementById("observaciones").value = data.observaciones
-                    document.getElementById("nombreAcompanante").value = data.acompanante
-                    document.getElementById("parentesco").value = data.parentesco
-                    document.getElementById("telefonoAcompanante").value = data.telefono_acompanate
+                    document.getElementById("lugarNacimiento").value = data.paciente.lugar_nacimiento
+                    document.getElementById("primerNombre").value = data.paciente.primer_nombre
+                    document.getElementById("segundoNombre").value = data.paciente.segundo_nombre
+                    document.getElementById("primerApellido").value = data.paciente.primer_apellido
+                    document.getElementById("segundoApellido").value = data.paciente.segundo_apellido
+                    document.getElementById("sexo").value = data.paciente.sexo
+                    document.getElementById("estadocivil").value = data.paciente.estado_civil
+                    $('#ocupacion').value = data.paciente.ocupacion
+                    document.getElementById("tipoUsuario").value = data.paciente.tipo_usuario
+                    document.getElementById("lateralidad").value = data.paciente.lateralidad
+                    document.getElementById("religion").value = data.paciente.religion
+                    document.getElementById("email").value = data.paciente.email
+                    document.getElementById("telefono").value = data.paciente.telefono
+                    document.getElementById("direccion").value = data.paciente.direccion
+                    $('#departamento').val(data.paciente.departamento).trigger('change.select2')
+                    $('#municipio').val(data.paciente.municipio).trigger('change.select2')
+                    document.getElementById("zonaResidencial").value = data.paciente.zona_residencial
+
+                    document.getElementById("observaciones").value = data.paciente.observaciones
+                    document.getElementById("nombreAcompanante").value = data.paciente.acompanante
+                    document.getElementById("parentesco").value = data.paciente.parentesco
+                    document.getElementById("telefonoAcompanante").value = data.paciente.telefono_acompanate
+
+                    if (data.anexos.length > 0) {
+                        document.getElementById('listAnexos').style.display = 'initial'
+
+                        let anexos = document.getElementById('anexosAdd')
+                        let listAnexos = ""
+
+                        data.anexos.forEach(anexo => {
+                            let parTipo = anexo.tipo_archivo.split('/')
+                            listAnexos = `<div class="col-xl-6">
+                                                        <div class="card mb-1 shadow-none border">
+                                                            <div class="p-2">
+                                                                <div class="row align-items-center">
+                                                                    <div class="col-auto">
+                                                                        <div class="p-10 bg-primary-light text-primary rounded">
+                                                                            .${parTipo[1].toUpperCase()}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col ps-0">
+                                                                        <a href="javascript:verArchivo('${anexo.url}');" class="text-muted fw-500">${anexo.nombre_archivo}</a>
+                                                                        <p class="mb-0">${formatearTamano(anexo.peso)}</p>
+                                                                    </div>
+                                                                    <div class="col-auto">
+                                                                        <!-- Button -->
+                                                                        <a href="javascript:verArchivo('${anexo.url}');" class="p-10 fs-18 link">
+                                                                            <i class="fa fa-download"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>`
+                            anexos.innerHTML += listAnexos
+                        })
+
+                    }
+
                 })
-                .catch(error => console.error('Error:', error));
+                .catch(error => console.error('Error:', error))
 
+        }
+
+        function verArchivo(url) {
+            // Validar que la URL no esté vacía
+            if (!url) {
+                console.error("La URL proporcionada es inválida.");
+                return;
+            }
+            let rtotal = $("#RutaTotal").data("ruta")
+            // Abrir el archivo en una nueva pestaña
+            window.open(`${rtotal}anexosPacientes/${url}`, '_blank');
+        }
+
+        function formatearTamano(kb) {
+            if (kb < 1024) {
+                return `${kb} KB`;
+            } else {
+                const mb = kb / 1024;
+                return `${mb.toFixed(2)} MB`;
+            }
         }
 
         function convertirFecha(fecha) {
             // Dividir la fecha en año, mes y día
-            const [año, mes, dia] = fecha.split('-');
+            const [año, mes, dia] = fecha.split('-')
 
             // Formatear la fecha en el formato dd/mm/yyyy
             const fechaFormateada = `${dia.padStart(2, '0')}/${mes.padStart(2, '0')}/${año}`;
 
-            return fechaFormateada;
+            return fechaFormateada
         }
 
         function mostrarListado() {
-            let listado = document.getElementById("listado");
-            let formulario = document.getElementById("formulario");
+            let listado = document.getElementById("listado")
+            let formulario = document.getElementById("formulario")
 
-            listado.style.display = "block";
-            formulario.style.display = "none";
+            listado.style.display = "block"
+            formulario.style.display = "none"
         }
 
         function cancelarPacientes() {
-            const formPaciente = document.getElementById('formPaciente');
-            formPaciente.reset();
+            const formPaciente = document.getElementById('formPaciente')
+            formPaciente.reset()
             document.getElementById("municipio").innerHTML = "<option value="
             ">Selecciona una opción</option>"
+            document.getElementById('listAnexos').style.display = 'none'
+            document.getElementById('fileList').innerHTML = ""
+            agregarArchivo()
         }
 
         function nuevoRegistro() {
             var modal = new bootstrap.Modal(document.getElementById("modalPacientes"), {
                 backdrop: 'static',
                 keyboard: false
-            });
+            })
 
-            modal.show();
-
-            cancelarPacientes();
+            modal.show()
+            cancelarPacientes()
 
             document.getElementById('savePaciente').removeAttribute('disabled')
             document.getElementById('newPaciente').style.display = 'none'
             document.getElementById('cancelPacientes').style.display = 'initial'
             document.getElementById("accPacientes").value = "guardar"
 
-            cargarDepartamento();
-            cargarTipoUsuario();
         }
 
         function eliminarPaciente(idPac) {
@@ -826,7 +966,7 @@
                 buttonsStyling: false
             }, function(isConfirm) {
                 if (isConfirm) {
-                    let url = "{{ route('pacientes.eliminarPac') }}";
+                    let url = "{{ route('pacientes.eliminarPac') }}"
                     fetch(url, {
                             method: 'POST',
                             headers: {
@@ -843,8 +983,8 @@
                             if (data.success) {
                                 swal("¡Buen trabajo!",
                                     data.message,
-                                    "success");
-                                cargarPacientes(1);
+                                    "success")
+                                cargarPacientes(1)
                             } else {
                                 swal("¡Alerta!",
                                     "La operación fue realizada exitosamente",
@@ -854,87 +994,87 @@
                         })
 
                 } else {
-                    swal("Cancelado", "Tu registro esta salvo :)", "error");
+                    swal("Cancelado", "Tu registro esta salvo :)", "error")
                 }
-            });
+            })
         }
 
         function cargarDepartamento() {
             return new Promise((resolve, reject) => {
-                let select = document.getElementById("departamento");
-                let url = "{{ route('pacientes.departamentos') }}";
+                let select = document.getElementById("departamento")
+                let url = "{{ route('pacientes.departamentos') }}"
 
-                let defaultOption = document.createElement("option");
-                defaultOption.value = ""; // Valor en blanco
-                defaultOption.text = "Selecciona una opción"; // Texto que se mostrará
-                defaultOption.disabled = true; // Deshabilitar para que no pueda ser seleccionada
-                defaultOption.selected = true; // Que aparezca seleccionada por defecto
-                select.appendChild(defaultOption);
+                let defaultOption = document.createElement("option")
+                defaultOption.value = "" // Valor en blanco
+                defaultOption.text = "Selecciona una opción" // Texto que se mostrará
+                defaultOption.disabled = true // Deshabilitar para que no pueda ser seleccionada
+                defaultOption.selected = true // Que aparezca seleccionada por defecto
+                select.appendChild(defaultOption)
 
                 fetch(url)
                     .then(response => response.json())
                     .then(data => {
                         console.log(data)
                         data.forEach(departamento => {
-                            let option = document.createElement("option");
-                            option.value = departamento.codigo;
-                            option.text = departamento.nombre;
-                            select.appendChild(option);
-                        });
-                        resolve(); // Resuelve la promesa cuando los datos han sido cargados
+                            let option = document.createElement("option")
+                            option.value = departamento.codigo
+                            option.text = departamento.nombre
+                            select.appendChild(option)
+                        })
+                        resolve() // Resuelve la promesa cuando los datos han sido cargados
                     })
                     .catch(error => {
-                        console.error('Error:', error);
-                        reject(error); // Rechaza la promesa si ocurre un error
-                    });
-            });
+                        console.error('Error:', error)
+                        reject(error) // Rechaza la promesa si ocurre un error
+                    })
+            })
         }
 
         function cargarTipoUsuario() {
             return new Promise((resolve, reject) => {
-                let select = document.getElementById("tipoUsuario");
+                let select = document.getElementById("tipoUsuario")
                 select.innerHTML = ""
-                let url = "{{ route('pacientes.tipoUSuario') }}";
+                let url = "{{ route('pacientes.tipoUSuario') }}"
 
-                let defaultOption = document.createElement("option");
-                defaultOption.value = ""; // Valor en blanco
-                defaultOption.text = "Selecciona una opción"; // Texto que se mostrará
-                defaultOption.disabled = true; // Deshabilitar para que no pueda ser seleccionada
-                defaultOption.selected = true; // Que aparezca seleccionada por defecto
-                select.appendChild(defaultOption);
+                let defaultOption = document.createElement("option")
+                defaultOption.value = "" // Valor en blanco
+                defaultOption.text = "Selecciona una opción" // Texto que se mostrará
+                defaultOption.disabled = true // Deshabilitar para que no pueda ser seleccionada
+                defaultOption.selected = true // Que aparezca seleccionada por defecto
+                select.appendChild(defaultOption)
 
                 fetch(url)
                     .then(response => response.json())
                     .then(data => {
                         console.log(data)
                         data.forEach(tipo => {
-                            let option = document.createElement("option");
-                            option.value = tipo.id;
-                            option.text = tipo.descripcion;
-                            select.appendChild(option);
-                        });
-                        resolve(); // Resuelve la promesa cuando los datos han sido cargados
+                            let option = document.createElement("option")
+                            option.value = tipo.id
+                            option.text = tipo.descripcion
+                            select.appendChild(option)
+                        })
+                        resolve() // Resuelve la promesa cuando los datos han sido cargados
                     })
                     .catch(error => {
-                        console.error('Error:', error);
-                        reject(error); // Rechaza la promesa si ocurre un error
-                    });
-            });
+                        console.error('Error:', error)
+                        reject(error) // Rechaza la promesa si ocurre un error
+                    })
+            })
         }
 
 
         function cargarMunicipios(muni) {
             return new Promise((resolve, reject) => {
-                let select = document.getElementById("municipio");
-                select.innerHTML = "";
-                let url = "{{ route('pacientes.municipio') }}";
+                let select = document.getElementById("municipio")
+                select.innerHTML = ""
+                let url = "{{ route('pacientes.municipio') }}"
 
-                let defaultOption = document.createElement("option");
-                defaultOption.value = ""; // Valor en blanco
-                defaultOption.text = "Selecciona una opción"; // Texto que se mostrará
-                defaultOption.disabled = true; // Deshabilitar para que no pueda ser seleccionada
-                defaultOption.selected = true; // Que aparezca seleccionada por defecto
-                select.appendChild(defaultOption);
+                let defaultOption = document.createElement("option")
+                defaultOption.value = "" // Valor en blanco
+                defaultOption.text = "Selecciona una opción" // Texto que se mostrará
+                defaultOption.disabled = true // Deshabilitar para que no pueda ser seleccionada
+                defaultOption.selected = true // Que aparezca seleccionada por defecto
+                select.appendChild(defaultOption)
 
                 fetch(url, {
                         method: 'POST',
@@ -951,41 +1091,41 @@
                     .then(data => {
 
                         data.forEach(municipios => {
-                            let option = document.createElement("option");
-                            option.value = municipios.codigo;
-                            option.text = municipios.nombre;
-                            select.appendChild(option);
-                        });
-                        resolve(); // Resuelve la promesa cuando los datos han sido cargados
+                            let option = document.createElement("option")
+                            option.value = municipios.codigo
+                            option.text = municipios.nombre
+                            select.appendChild(option)
+                        })
+                        resolve() // Resuelve la promesa cuando los datos han sido cargados
                     })
                     .catch(error => {
-                        console.error('Error:', error);
-                        reject(error); // Rechaza la promesa si ocurre un error
-                    });
-            });
+                        console.error('Error:', error)
+                        reject(error) // Rechaza la promesa si ocurre un error
+                    })
+            })
         }
 
         function clearImage() {
-            const previewImage = document.getElementById('previewImage');
-            let url = $('#Ruta').data("ruta");
-            previewImage.src = url + "/images/FotosPacientes/default.jpg";
+            const previewImage = document.getElementById('previewImage')
+            let url = $('#Ruta').data("ruta")
+            previewImage.src = url + "/images/FotosPacientes/default.jpg"
         }
 
         function cargarPacientes(page, searchTerm = '') {
 
 
-            let url = "{{ route('pacientes.listaPacientes') }}"; // Definir la URL
+            let url = "{{ route('pacientes.listaPacientes') }}" // Definir la URL
 
             // Eliminar los campos ocultos anteriores
-            var oldPageInput = document.getElementById('page');
-            var oldSearchTermInput = document.getElementById('searchTerm');
-            if (oldPageInput) oldPageInput.remove();
-            if (oldSearchTermInput) oldSearchTermInput.remove();
+            var oldPageInput = document.getElementById('page')
+            var oldSearchTermInput = document.getElementById('searchTerm')
+            if (oldPageInput) oldPageInput.remove()
+            if (oldSearchTermInput) oldSearchTermInput.remove()
 
             var data = {
                 page: page,
                 search: searchTerm
-            };
+            }
 
             // Limpiar la tabla antes de cargar nuevos datos
 
@@ -1001,36 +1141,36 @@
                 .then(response => response.json())
                 .then(responseData => {
                     // Rellenar la tabla con las filas generadas
-                    document.getElementById('trRegistros').innerHTML = responseData.pacientes;
-                    feather.replace();
+                    document.getElementById('trRegistros').innerHTML = responseData.pacientes
+                    feather.replace()
                     // Colocar los enlaces de paginación
-                    document.getElementById('pagination-links').innerHTML = responseData.links;
-                    loadNow(0);
+                    document.getElementById('pagination-links').innerHTML = responseData.links
+                    loadNow(0)
                 })
-                .catch(error => console.error('Error:', error));
+                .catch(error => console.error('Error:', error))
 
         }
 
         function goHistoriaPsicologia(element) {
-            let idPaciente = element.getAttribute("data-id")           
+            let idPaciente = element.getAttribute("data-id")
             let edadPaciente = element.getAttribute("data-edad")
-            localStorage.clear();
-            localStorage.setItem('idPaciente', idPaciente);
-            localStorage.setItem('edadPaciente', edadPaciente);
-            let prascaURL = '{{ url('/pacientes/historiaPsicologica') }}';
-            const nuevaPestana = window.open(prascaURL, '_blank');
-            nuevaPestana.focus();
+            localStorage.clear()
+            localStorage.setItem('idPaciente', idPaciente)
+            localStorage.setItem('edadPaciente', edadPaciente)
+            let prascaURL = '{{ url('/pacientes/historiaPsicologica') }}'
+            const nuevaPestana = window.open(prascaURL, '_blank')
+            nuevaPestana.focus()
         }
 
         function goHistoriaNeuropsicologia(element) {
-            let idPaciente = element.getAttribute("data-id")           
+            let idPaciente = element.getAttribute("data-id")
             let edadPaciente = element.getAttribute("data-edad")
-            localStorage.clear();
-            localStorage.setItem('idPaciente', idPaciente);
-            localStorage.setItem('edadPaciente', edadPaciente);
-            let prascaURL = '{{ url('/pacientes/historiaNeuropsicologica') }}';
-            const nuevaPestana = window.open(prascaURL, '_blank');
-            nuevaPestana.focus();
+            localStorage.clear()
+            localStorage.setItem('idPaciente', idPaciente)
+            localStorage.setItem('edadPaciente', edadPaciente)
+            let prascaURL = '{{ url('/pacientes/historiaNeuropsicologica') }}'
+            const nuevaPestana = window.open(prascaURL, '_blank')
+            nuevaPestana.focus()
         }
     </script>
 

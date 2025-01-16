@@ -11,17 +11,18 @@ class Usuario extends Model
 {
     public static function login($request)
     {
-        $usuario = DB::connection("mysql")->select("select * from users where login_usuario ='" . $request['usuario'] . "' AND estado='ACTIVO'");
+        $usuario = DB::connection("mysql")
+        ->table('users')
+        ->where('login_usuario', $request['usuario'])
+        ->where('estado', 'ACTIVO')
+        ->first(); // Cambiado de `get()` a `first()`
 
-        if (!empty($usuario)) {
-            $usuario = $usuario[0];
+    if ($usuario && \Hash::check($request['pasword'], $usuario->pasword_usuario)) {
+        auth()->loginUsingId($usuario->id);
+        return $usuario;
+    }
 
-            if (\Hash::check($request['pasword'], $usuario->pasword_usuario)) {
-                auth()->loginUsingId($usuario->id);
-                return $usuario;
-            }
-        }
-        return false;
+    return false;
     }
 
     public static function busquedaUsuario($idUsu)
@@ -34,7 +35,6 @@ class Usuario extends Model
     public static function Guardar($request)
     {
         try {
-
             if ($request['accUsuario'] == 'guardar') {
                 $respuesta = DB::connection('mysql')->table('users')->insertGetId([
                     'nombre_usuario' => $request['nombre'],

@@ -8,6 +8,8 @@ use App\Models\Profesional;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use App\Models\Perfil;
+use App\Models\Permisos;
 
 class UsuariosController extends Controller
 {
@@ -25,6 +27,7 @@ class UsuariosController extends Controller
                 Session::put('registroProfesional', $profesional->registro);
                 Session::put('firmaProfesional', $profesional->firma);
             }
+          
             return redirect('Administracion');
         } else {
             $error = "Usuario ó Contraseña Inconrrecta";
@@ -35,9 +38,23 @@ class UsuariosController extends Controller
     public function busquedaUsuario(Request $request)
     {
         $idUsuario = $request->input('idUsuario');
-        $fauna = Usuario::busquedaUsuario($idUsuario);
-        return response()->json($fauna);
+        $usuario = Usuario::busquedaUsuario($idUsuario);
+        return response()->json($usuario);
     }
+
+    public function buscaPerfil(Request $request)
+    {
+        $idPerfil = $request->input('idPerfil');
+        $perfil = Usuario::busquedaPerfil($idPerfil);
+        return response()->json($perfil);
+    }
+
+    public function buscaListPerfiles()
+    {
+        $perfiles = Usuario::listPerfiles();
+        return response()->json($perfiles);
+    }
+
 
     public function Administracion()
     {
@@ -101,6 +118,79 @@ class UsuariosController extends Controller
         }
     }
 
+    public function eliminarPerfil()
+    {
+        try {
+            $idPerfil = request()->input('idPerfil');
+
+
+            if (!$idPerfil) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'ID de usuario no proporcionado'
+                    ],
+                    400
+                );
+            }
+
+            //consultar si el perfil esta relacionado con algun usuario si lo esta regresar mensaje que el perfil no se puede eliminar
+            $usuarios = DB::connection('mysql')
+                ->table('users')
+                ->where('tipo_usuario', $idPerfil)
+                ->where('estado', 'ACTIVO')
+                ->get();
+
+            if (count($usuarios) > 0) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'El perfil no se puede eliminar porque está relacionado con uno o más usuarios',
+                        'resp' => "relacionado"
+                    ],
+                    400
+                );
+            }
+
+            $usuario = DB::connection('mysql')
+                ->table('perfiles')
+                ->where('id', $idPerfil)
+                ->update([
+                    'estado' => 'ELIMINADO',
+                ]);
+
+
+            if ($usuario) {
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => 'Usuario eliminado correctamente',
+                        'resp' => "eliminado"
+                    ]
+                );
+            } else {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'No se encontró el usuario o no se pudo eliminar',
+                        'resp' => "no encontrado"
+                    ],
+                    404
+                );
+            }
+        } catch (\Exception $e) {
+            // Manejar cualquier error o excepción
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Ocurrió un error al intentar eliminar el usuario',
+                    'error' => $e->getMessage()
+                ],
+                500
+            );
+        }
+    }
+
     public function guardarUsuario(Request $request)
     {
 
@@ -119,6 +209,66 @@ class UsuariosController extends Controller
             return redirect("/")->with("error", "Su Sesión ha Terminado");
         }
     }
+    public function guardarPerfil(Request $request)
+    {
+        if (Auth::check()) {
+
+            // Insertar el perfil en la tabla 'perfiles' y obtener su ID
+            if ($request->input('accPerfil') == "guardar") {
+                $perfilId = DB::connection('mysql')->table('perfiles')->insertGetId([
+                    'nombre' => $request->input('nombrePerfil'),
+                    'estado' => 'ACTIVO'
+                ]);
+            } else {
+                $perfilId = $request->input('idPerfil');
+                DB::connection('mysql')->table('perfiles')
+                    ->where('id', $perfilId)
+                    ->update([
+                        'nombre' => $request->input('nombrePerfil')
+                    ]);
+                //eliminar permisos del perfil
+                DB::connection('mysql')->table('perfil_permiso')
+                    ->where('perfil_id', $perfilId)
+                    ->delete();
+            }
+
+
+            // Procesar los permisos seleccionados
+            if ($request->has('permisos') && !empty($request->input('permisos'))) {
+                $permisosSeleccionados = $request->input('permisos');
+
+                // Decodificar si los permisos llegan como cadena JSON
+                if (is_string($permisosSeleccionados)) {
+                    $permisosSeleccionados = json_decode($permisosSeleccionados, true);
+                }
+
+                // Verificar que sea un array válido
+                if (!is_array($permisosSeleccionados)) {
+                    return response()->json([
+                        'message' => 'Formato de permisos inválido.',
+                    ], 400);
+                }
+
+                // Insertar los permisos en la tabla pivote
+                foreach ($permisosSeleccionados as $permiso) {
+                    DB::connection('mysql')->table('perfil_permiso')->insert([
+                        'perfil_id' => $perfilId,
+                        'permiso' => $permiso
+                    ]);
+                }
+            }
+
+            // Retornar respuesta exitosa
+            return response()->json([
+                'message' => 'Perfil y permisos guardados con éxito.',
+                'perfil_id' => $perfilId,
+            ]);
+        } else {
+            // Redirigir si la sesión ha expirado
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+
 
     public function listaUsuarios(Request $request)
     {
@@ -156,7 +306,7 @@ class UsuariosController extends Controller
                                     <td>' . $item->nombre_usuario . '</td>
                                     <td>' . $item->login_usuario . '</td>
                                     <td>' . $item->tipo_usuario . '</td>
-                                    <td><span class="badge badge-sm badge-'.$estadoClass.'-light">'.$item->estado_usuario.'</span></td>
+                                    <td><span class="badge badge-sm badge-' . $estadoClass . '-light">' . $item->estado_usuario . '</span></td>
                                     <td class="table-action min-w-100">
                                         <a onclick="editarUsuario(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
                                                 data-feather="edit-2"></i></a>
@@ -231,7 +381,7 @@ class UsuariosController extends Controller
             return redirect("/")->with("error", "Su Sesión ha Terminado");
         }
     }
-    
+
 
     public function Logout()
     {
@@ -257,5 +407,4 @@ class UsuariosController extends Controller
 
         return response()->json(!$usuarioExistente); // Devuelve true si NO existe, false si ya está registrado
     }
-
 }

@@ -160,8 +160,9 @@
                                                         <i class="ti-back-left"></i> Atras
                                                     </button>
                                                     <button type="button" style="display: none;"
-                                                        id="btn-imprimirHistoria" class="btn btn-info-light me-1"><i
-                                                            class="fa fa-print"></i> Imprimir
+                                                        id="btn-imprimirHistoria" onclick="imprimirHistoria()"
+                                                        class="btn btn-info-light me-1"><i class="fa fa-print"></i>
+                                                        Imprimir
                                                         historia</button>
                                                 </div>
 
@@ -200,7 +201,8 @@
                                                             :</label>
                                                         <textarea class="form-control" id="motivoConsulta" name="motivoConsulta" rows="3"
                                                             placeholder="Describa la enfermedad actual del paciente..."></textarea>
-                                                        <label for="motivoConsultaOtro" class="form-label mt-1">Motivos relacionados:</label>
+                                                        <label for="motivoConsultaOtro" class="form-label mt-1">Motivos
+                                                            relacionados:</label>
                                                         <select class="form-control select2" multiple="multiple"
                                                             id="motivoConsultaOtro" name="motivoConsultaOtro[]"
                                                             data-placeholder="Seleccione otros motivos relacionados"
@@ -239,7 +241,8 @@
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a href="#evaluacion" data-bs-toggle="tab" class="nav-link rounded-0">
+                                                    <a href="#evaluacion" data-bs-toggle="tab"
+                                                        class="nav-link rounded-0">
                                                         <i class="fa  fa-check-square-o"></i> Eval. Psicológica
                                                     </a>
                                                 </li>
@@ -526,8 +529,8 @@
                                                                     <label for="hospitalizaciones_postnatales"
                                                                         class="form-label">Hospitalizaciones recién
                                                                         nacido:</label>
-                                                                    <textarea class="form-control" id="hospitalizaciones_postnatales" name="hospitalizaciones_postnatales" rows="3"
-                                                                        placeholder="Describa las causas de hospitalización"></textarea>
+                                                                    <textarea class="form-control" id="hospitalizaciones_postnatales" name="hospitalizaciones_postnatales"
+                                                                        rows="3" placeholder="Describa las causas de hospitalización"></textarea>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-12">
@@ -866,21 +869,22 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                   
-                                                    
+
+
                                                 </div>
                                                 <!-- Áreas de evaluacion -->
                                                 <div class="tab-pane" id="evaluacion">
                                                     <div class="box-header pb-1">
                                                         <h5 class="text-uppercase mt-4"><i
                                                                 class="fa  fa-check-square-o me-1"></i>
-                                                                Evaluación psicolólogica</h5>
+                                                            Evaluación psicolólogica</h5>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label for="resumen_evaluacion_inicial"
-                                                                    class="form-label">Evaluación psicolólogica inicial :</label>
+                                                                    class="form-label">Evaluación psicolólogica inicial
+                                                                    :</label>
                                                                 <textarea class="form-control" id="resumen_evaluacion_inicial" name="resumen_evaluacion_inicial" rows="3"
                                                                     placeholder="Resumen de evaluación psicológica inicial"></textarea>
                                                             </div>
@@ -892,7 +896,7 @@
                                                                 class="fa fa-stethoscope me-1"></i>
                                                             Interconsultas e Intervenciones</h5>
                                                     </div>
-                                                    
+
                                                     <div class="row">
                                                         <!-- Intervención por Psiquiatría (Medicación) -->
                                                         <div class="col-md-4">
@@ -1479,181 +1483,197 @@
                                 <div class="card-body">
                                     <div class="box-controls
                                     pull-right">
-                                    <div class="box-header-actions">
-                                        <div class="input-group input-group-merge">
-                                            <button type="button" onclick="nuevoRegistroConsulta();"
-                                                class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i>
-                                                Nueva
-                                                evolución</button>
+                                        <div class="box-header-actions">
+                                            <div class="input-group input-group-merge">
+                                                <button type="button" onclick="nuevoRegistroConsulta();"
+                                                    class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i>
+                                                    Nueva
+                                                    evolución</button>
+                                            </div>
+
                                         </div>
+                                    </div>
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:5%;">Fecha</th>
+                                                <th style="width:37%;">Consulta</th>
+                                                <th style="width:35%;">Diagnóstico</th>
+                                                <th style="width:15%;">Profesional</th>
+                                                <th style="width:10%;">Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="trRegistrosConsultas">
+                                        </tbody>
+                                    </table>
+                                    <div id="pagination-links-consulta" class="text-center ml-1 mt-2">
 
                                     </div>
-                                </div>
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th style="width:5%;">Fecha</th>
-                                            <th style="width:37%;">Consulta</th>
-                                            <th style="width:35%;">Diagnóstico</th>
-                                            <th style="width:15%;">Profesional</th>
-                                            <th style="width:10%;">Acción</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="trRegistrosConsultas">
-                                    </tbody>
-                                </table>
-                                <div id="pagination-links-consulta" class="text-center ml-1 mt-2">
-
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="fomrConsultas" style="display: none;">
-                        <div class="card-body">
-                            <form id="formConsulta">
-                                @csrf <!-- Directiva para el token CSRF de Laravel -->
-                                <input type="hidden" id="accHistoriaConsulta" name="accHistoriaConsulta" />
-                                <input type="hidden" id="idHistoriaConsulta" name="idHistoriaConsulta" />
-                                <div class="tab-content">
-                                    <div class="tab-pane show active" id="justified-tabs-preview">
-                                        <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
-                                            <li class="nav-item">
-                                                <a href="#datos_iniciales" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0 active">
-                                                    <span class="d-none d-md-block"><i class="fa fa-user-circle"></i> Datos Iniciales</span>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="#objetivo_desarrollo" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
-                                                    <span class="d-none d-md-block"><i class="fa fa-tasks"></i> Objetivo y Desarrollo</span>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="#evolucion_evaluacion" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
-                                                    <span class="d-none d-md-block"><i class="fa fa-line-chart"></i> Evolución y Evaluación</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        
-                                        <div class="tab-content px-20">
-                                            <!-- Datos Iniciales -->
-                                            <div class="tab-pane show active" id="datos_iniciales">
-                                                <div class="row">
-                                                    <div class="col-md-8">
-                                                        <div class="form-group">
-                                                            <label for="codConsultaConsulta" class="form-label">Código
-                                                                de
-                                                                consulta:</label>
-                                                            <select class="form-control select2"
-                                                                id="codConsultaConsulta"
-                                                                name="codConsultaConsulta"></select>
+                        <div id="fomrConsultas" style="display: none;">
+                            <div class="card-body">
+                                <form id="formConsulta">
+                                    @csrf <!-- Directiva para el token CSRF de Laravel -->
+                                    <input type="hidden" id="accHistoriaConsulta" name="accHistoriaConsulta" />
+                                    <input type="hidden" id="idHistoriaConsulta" name="idHistoriaConsulta" />
+                                    <div class="tab-content">
+                                        <div class="tab-pane show active" id="justified-tabs-preview">
+                                            <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                                                <li class="nav-item">
+                                                    <a href="#datos_iniciales" data-bs-toggle="tab"
+                                                        aria-expanded="false" class="nav-link rounded-0 active">
+                                                        <span class="d-none d-md-block"><i
+                                                                class="fa fa-user-circle"></i> Datos Iniciales</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="#objetivo_desarrollo" data-bs-toggle="tab"
+                                                        aria-expanded="false" class="nav-link rounded-0">
+                                                        <span class="d-none d-md-block"><i class="fa fa-tasks"></i>
+                                                            Objetivo y Desarrollo</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="#evolucion_evaluacion" data-bs-toggle="tab"
+                                                        aria-expanded="false" class="nav-link rounded-0">
+                                                        <span class="d-none d-md-block"><i class="fa fa-line-chart"></i>
+                                                            Evolución y Evaluación</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+
+                                            <div class="tab-content px-20">
+                                                <!-- Datos Iniciales -->
+                                                <div class="tab-pane show active" id="datos_iniciales">
+                                                    <div class="row">
+                                                        <div class="col-md-8">
+                                                            <div class="form-group">
+                                                                <label for="codConsultaConsulta"
+                                                                    class="form-label">Código
+                                                                    de
+                                                                    consulta:</label>
+                                                                <select class="form-control select2"
+                                                                    id="codConsultaConsulta"
+                                                                    name="codConsultaConsulta"></select>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <label for="codConsultaConsulta"
-                                                            class="form-label">Fecha:</label>
-                                        
-                                                        <div class="input-group">
-                                                            <input type="date" class="form-control"
-                                                                id="fechaEvolucion" name="fechaEvolucion"
-                                                                placeholder="Seleccione la fecha de la evolución" />
-                                                            <input type="time" id="horaSeleccionadad" name="horaSeleccionada" 
-                                                                class="form-control">
-                                                            <div class="input-group-addon">
-                                                                <i class="fa fa-clock-o"></i>
+                                                        <div class="col-md-4">
+                                                            <label for="codConsultaConsulta"
+                                                                class="form-label">Fecha:</label>
+
+                                                            <div class="input-group">
+                                                                <input type="date" class="form-control"
+                                                                    id="fechaEvolucion" name="fechaEvolucion"
+                                                                    placeholder="Seleccione la fecha de la evolución" />
+                                                                <input type="time" id="horaSeleccionadad"
+                                                                    name="horaSeleccionada" class="form-control">
+                                                                <div class="input-group-addon">
+                                                                    <i class="fa fa-clock-o"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="remision" class="form-label">Motivo de
+                                                                    consulta:</label>
+                                                                <textarea class="form-control" id="motivoConsultaModal" name="motivoConsultaModal" rows="3"
+                                                                    placeholder="Ingrese de dónde es remitido el paciente.."></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="codImpresionDiagnosticoConsulta"
+                                                                    class="form-label">Impresión Diagnóstica:</label>
+                                                                <select class="form-control select2"
+                                                                    id="codImpresionDiagnosticoConsulta"
+                                                                    name="codImpresionDiagnosticoConsulta"></select>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <label for="remision" class="form-label">Motivo de
-                                                                consulta:</label>
-                                                            <textarea class="form-control" id="motivoConsultaModal" name="motivoConsultaModal" rows="3"
-                                                                placeholder="Ingrese de dónde es remitido el paciente.."></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <label for="codImpresionDiagnosticoConsulta"
-                                                                class="form-label">Impresión Diagnóstica:</label>
-                                                            <select class="form-control select2"
-                                                                id="codImpresionDiagnosticoConsulta"
-                                                                name="codImpresionDiagnosticoConsulta"></select>
-                                                        </div>
-                                                    </div>
                                                 </div>
-                                            </div>
-                                        
-                                            <!-- Objetivo y Desarrollo -->
-                                            <div class="tab-pane" id="objetivo_desarrollo">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <label for="objetivo_sesion" class="form-label">Objetivo de la Sesión:</label>
-                                                            <textarea class="form-control" id="objetivo_sesion" name="objetivo_sesion" rows="3" 
-                                                                placeholder="Ingrese el objetivo de la sesión"></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="tecnicas_utilizadas" class="form-label">Técnicas Utilizadas:</label>
-                                                            <textarea class="form-control" id="tecnicas_utilizadas" name="tecnicas_utilizadas" rows="3" 
-                                                                placeholder="Ingrese las técnicas utilizadas"></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="actividades_especificas" class="form-label">Actividades Específicas:</label>
-                                                            <textarea class="form-control" id="actividades_especificas" name="actividades_especificas" rows="3" 
-                                                                placeholder="Ingrese las actividades específicas"></textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        
-                                            <!-- Evolución y Evaluación -->
-                                            <div class="tab-pane" id="evolucion_evaluacion">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <label for="evaluacion_indicadores" class="form-label">Evaluación / Indicadores de Éxito:</label>
-                                                            <textarea class="form-control" id="evaluacion_indicadores" name="evaluacion_indicadores" rows="3" 
-                                                                placeholder="Ingrese los indicadores de éxito"></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <label for="evolucion_sesion" class="form-label">Evolución de la Sesión:</label>
-                                                            <textarea class="form-control" id="evolucion_sesion" name="evolucion_sesion" rows="3" 
-                                                                placeholder="Describa la evolución de la sesión"></textarea>
-                                                        </div>
-                                                    </div>
-                                                   
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="box-footer text-end mt-3">
-                                            <button onclick="cancelarConsulta()" type="button"
-                                                class="btn btn-primary-light me-1">
-                                                <i class="ti-share-alt"></i> Cancelar
-                                            </button>
-                                            <button onclick="guardarConsulta()" type="button"
-                                                class="btn btn-primary">
-                                                <i class="ti-save-alt"></i> Guardar
-                                            </button>
+                                                <!-- Objetivo y Desarrollo -->
+                                                <div class="tab-pane" id="objetivo_desarrollo">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="objetivo_sesion" class="form-label">Objetivo
+                                                                    de la Sesión:</label>
+                                                                <textarea class="form-control" id="objetivo_sesion" name="objetivo_sesion" rows="3"
+                                                                    placeholder="Ingrese el objetivo de la sesión"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="tecnicas_utilizadas"
+                                                                    class="form-label">Técnicas Utilizadas:</label>
+                                                                <textarea class="form-control" id="tecnicas_utilizadas" name="tecnicas_utilizadas" rows="3"
+                                                                    placeholder="Ingrese las técnicas utilizadas"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="actividades_especificas"
+                                                                    class="form-label">Actividades Específicas:</label>
+                                                                <textarea class="form-control" id="actividades_especificas" name="actividades_especificas" rows="3"
+                                                                    placeholder="Ingrese las actividades específicas"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Evolución y Evaluación -->
+                                                <div class="tab-pane" id="evolucion_evaluacion">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="evaluacion_indicadores"
+                                                                    class="form-label">Evaluación / Indicadores de
+                                                                    Éxito:</label>
+                                                                <textarea class="form-control" id="evaluacion_indicadores" name="evaluacion_indicadores" rows="3"
+                                                                    placeholder="Ingrese los indicadores de éxito"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="evolucion_sesion"
+                                                                    class="form-label">Evolución de la Sesión:</label>
+                                                                <textarea class="form-control" id="evolucion_sesion" name="evolucion_sesion" rows="3"
+                                                                    placeholder="Describa la evolución de la sesión"></textarea>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="box-footer text-end mt-3">
+                                                <button onclick="cancelarConsulta()" type="button"
+                                                    class="btn btn-primary-light me-1">
+                                                    <i class="ti-share-alt"></i> Cancelar
+                                                </button>
+                                                <button onclick="guardarConsulta()" type="button"
+                                                    class="btn btn-primary">
+                                                    <i class="ti-save-alt"></i> Guardar
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                            </form>
+                                </form>
+                            </div>
                         </div>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
         </div><!-- /.modal -->
-    </div><!-- /.modal -->
     </div>
     <script>
+        window.userPermissions = @json(Auth::user()->permissions);
+
+        var idHistoriaImprimir = "";
         document.addEventListener("DOMContentLoaded", function() {
             let menuP = document.getElementById("principalHistoriClinica")
             let menuS = document.getElementById("principalHistoriClinicaPsicologia")
@@ -1679,7 +1699,7 @@
             $('.select2').select2()
 
             $('#motivoConsultaOtro').select2({
-                placeholder: "Seleccione otros motivos relacionados"                
+                placeholder: "Seleccione otros motivos relacionados"
             })
 
             $('#codConsulta').select2({
@@ -2068,6 +2088,10 @@
 
         })
 
+        function hasPermission(permission) {
+            return window.userPermissions && window.userPermissions.includes(permission);
+        }
+
         function cagaHistPaciente(element) {
             let idPaciente = element.getAttribute("data-id")
             let edadPaciente = parseInt(element.getAttribute("data-edad"), 10)
@@ -2189,7 +2213,7 @@
                                         option.setAttribute('data-nombre', opcion.opcion
                                             .toLowerCase())
                                         select.appendChild(option)
-                                    })                                 
+                                    })
                                 }
                             }
                         })
@@ -2211,7 +2235,7 @@
             cargarPacientes(1)
             mapearDatosProfesional(document.getElementById("idUsuario").value)
             document.getElementById("btn-imprimirHistoria").style.display = "none"
-             document.getElementById("historialConsulta").innerHTML = ""
+            document.getElementById("historialConsulta").innerHTML = ""
         }
 
         function limpiarHistoria() {
@@ -2353,25 +2377,23 @@
             }
         }
 
-        function cerrarHistoria(element) {
-            let idHist = element.getAttribute("data-id")
-            let estado = element.getAttribute("data-estado")
-            if (estado == "abierta") {
+        function eliminarHistoria(idHistoria) {
+            if (hasPermission('editarHistoria')) {
                 swal({
-                    title: "Cerrar historia clinica del paciente.",
-                    text: "Al cerrar la historia clicnica del paciente esta no podra ser editada, ¿Desea cerrar la historia?",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Si, cerrarla!",
-                    cancelButtonText: "Cancelar",
-                    confirmButtonClass: "btn btn-warning",
-                    cancelButtonClass: "btn btn-danger ml-1",
-                    buttonsStyling: false
-                }, function(isConfirm) {
-                    if (isConfirm) {
-                        let url = "{{ route('historia.cerrarHistoria') }}";
+                title: "Esta seguro de eliminar esta historia ?",
+                text: "¡No podrás revertir esto!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, eliminar!",
+                cancelButtonText: "Cancelar",
+                confirmButtonClass: "btn btn-warning",
+                cancelButtonClass: "btn btn-danger ml-1",
+                buttonsStyling: false
+            }, function(isConfirm) {
+                if (isConfirm) {
+                        let url = "{{ route('historia.eliminarHistoria') }}";
                         fetch(url, {
                                 method: 'POST',
                                 headers: {
@@ -2381,7 +2403,7 @@
                                             'content')
                                 },
                                 body: JSON.stringify({
-                                    idHist: idHist
+                                    idHistoria: idHistoria
                                 })
                             })
                             .then(response => response.json())
@@ -2389,19 +2411,128 @@
                                 if (data.success) {
                                     swal("¡Buen trabajo!",
                                         data.message,
-                                        "success");
-                                    cargarHistorias(1);
+                                        "success")
+                                    cargarHistorias(1)
                                 } else {
                                     swal("¡Alerta!",
                                         "La operación fue realizada exitosamente",
                                         data.message,
-                                        "success");
+                                        "success")
                                 }
                             })
                     }
                 })
+            } else {
+                swal("¡Alerta!",
+                    "No tiene el permiso necesario para realizar esta acción",
+                    "warning")
             }
+        }
 
+        function cerrarHistoria(element) {
+            let idHist = element.getAttribute("data-id")
+            let estado = element.getAttribute("data-estado")
+
+            if (hasPermission('editarHistoria')) {
+
+
+
+                if (estado == "abierta") {
+                    swal({
+                        title: "Cerrar historia clinica del paciente.",
+                        text: "Al cerrar la historia clicnica del paciente esta no podra ser editada, ¿Desea cerrar la historia?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Si, cerrarla!",
+                        cancelButtonText: "Cancelar",
+                        confirmButtonClass: "btn btn-warning",
+                        cancelButtonClass: "btn btn-danger ml-1",
+                        buttonsStyling: false
+                    }, function(isConfirm) {
+                        if (isConfirm) {
+                            let url = "{{ route('historia.cerrarHistoria') }}"
+                            fetch(url, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                            .getAttribute(
+                                                'content')
+                                    },
+                                    body: JSON.stringify({
+                                        idHist: idHist,
+                                        estado: estado
+                                    })
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        swal("¡Buen trabajo!",
+                                            data.message,
+                                            "success");
+                                        cargarHistorias(1);
+                                    } else {
+                                        swal("¡Alerta!",
+                                            "La operación fue realizada exitosamente",
+                                            data.message,
+                                            "success");
+                                    }
+                                })
+                        }
+                    })
+                } else {
+                    swal({
+                        title: "Abrir historia clinica del paciente.",
+                        text: "Al abrir la historia clicnica del paciente esta podra ser editada, ¿Desea abrir la historia?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Si, abrirla!",
+                        cancelButtonText: "Cancelar",
+                        confirmButtonClass: "btn btn-warning",
+                        cancelButtonClass: "btn btn-danger ml-1",
+                        buttonsStyling: false
+                    }, function(isConfirm) {
+                        if (isConfirm) {
+                            let url = "{{ route('historia.cerrarHistoria') }}";
+                            fetch(url, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                            .getAttribute(
+                                                'content')
+                                    },
+                                    body: JSON.stringify({
+                                        idHist: idHist,
+                                        estado: estado
+                                    })
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        swal("¡Buen trabajo!",
+                                            data.message,
+                                            "success")
+                                        cargarHistorias(1)
+                                    } else {
+                                        swal("¡Alerta!",
+                                            "La operación fue realizada exitosamente",
+                                            data.message,
+                                            "success")
+                                    }
+                                })
+                        }
+                    })
+                }
+            } else {
+                swal("¡Alerta!",
+                    "No tiene el permiso necesario para realizar esta acción",
+                    "warning")
+            }
         }
 
         function mostrarInformacionHistoria(idPaciente) {
@@ -2420,7 +2551,6 @@
                 .then(response => response.json())
                 .then(data => {
                     //DATOS DEL PACIENTE
-
                     if (data.historia) {
                         swal({
                             title: "Este paciente ya tiene una historia clínica registrada.",
@@ -2559,7 +2689,7 @@
         }
 
         function cargarConsultas(page, searchTerm = '') {
-           
+
             let url = "{{ route('historia.listaConsultasModal') }}" // Definir la URL
             // Eliminar los campos ocultos anteriores
             var oldPageInput = document.getElementById('pageConsulta')
@@ -2724,6 +2854,7 @@
 
             let idHist = element.getAttribute("data-id")
             let tipoHis = element.getAttribute("data-tipo")
+            idHistoriaImprimir = idHist;
 
             var btnGuardar = document.getElementById("btn-guardarHistoria")
             btnGuardar.disabled = false
@@ -2783,6 +2914,7 @@
         }
 
         function editarConsulta(idConsulta) {
+            if (hasPermission('editarEvoluciones')) {
             document.getElementById("listadoConsultas").style.display = "none"
             document.getElementById("fomrConsultas").style.display = "initial"
 
@@ -2814,14 +2946,19 @@
 
                     const [fecha, hora] = data.consulta.fecha_consulta.split(' ')
                     document.getElementById('fechaEvolucion').value = fecha
-                    document.getElementById('horaSeleccionadad').value = hora.slice(0, 5)                    
+                    document.getElementById('horaSeleccionadad').value = hora.slice(0, 5)
 
-                   
+
                     CKEDITOR.instances['evaluacion_indicadores'].setData(data.consulta.evaluacion_indicadores)
                     CKEDITOR.instances['evolucion_sesion'].setData(data.consulta.evolucion_sesion)
 
                 })
                 .catch(error => console.error('Error:', error))
+            } else {
+                swal("¡Alerta!",
+                    "No tiene el permiso necesario para realizar esta acción",
+                    "warning")
+            }
         }
 
         function mapearDesarrolloPsicomotor(antecedentesPrenatales) {
@@ -2948,7 +3085,7 @@
 
                 const element = document.getElementById(item.tipo).id
                 if (element) {
-                    CKEDITOR.instances[element].setData(item.detalle)   
+                    CKEDITOR.instances[element].setData(item.detalle)
                 } else {
                     console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
                 }
@@ -3027,7 +3164,7 @@
 
             cargarSelConsulta(historia.codigo_consulta, 'codConsulta')
 
-            if(historia.otro_motivo_consulta != null){
+            if (historia.otro_motivo_consulta != null) {
                 const valoresConsulta = historia.otro_motivo_consulta.split(',')
                 const motivoConsulta = document.getElementById('motivoConsultaOtro')
 
@@ -3045,10 +3182,11 @@
                 })
                 // Actualizar Select2 para reflejar los cambios
                 if ($(motivoConsulta).hasClass('select2')) {
-                    $(motivoConsulta).val(valoresConsulta).trigger('change') // Cambiar el valor y disparar el evento 'change'
+                    $(motivoConsulta).val(valoresConsulta).trigger(
+                        'change') // Cambiar el valor y disparar el evento 'change'
                 }
 
-            }     
+            }
 
             cargarDxPrincipa(historia.dx_principal)
 
@@ -3188,7 +3326,7 @@
         }
 
         function eliminarConsulta(idCons) {
-
+            if (hasPermission('editarEvoluciones')) {
             swal({
                 title: "Esta seguro de eliminar esta consulta ?",
                 text: "¡No podrás revertir esto!",
@@ -3234,6 +3372,56 @@
                     swal("Cancelado", "Tu registro esta salvo :)", "error");
                 }
             });
+            } else {
+                swal("¡Alerta!",
+                    "No tiene el permiso necesario para realizar esta acción",
+                    "warning")
+            }   
+        }
+
+        function imprimirHistoria(id) {
+            let url = "{{ route('historia.imprimirHistoria') }}";
+
+            let idHisto = id || idHistoriaImprimir;
+
+            let params = new URLSearchParams({
+                idHist: idHisto
+            });
+
+            url += '?' + params.toString();
+
+
+            swal({
+                title: 'Cargando...',
+                text: 'Espere mientras se genera el PDF, gracias.',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+            });
+
+            fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.url) {
+                        swal({
+                            title: "Se genero el PDF correctamente.",
+                            type: "success",
+                            showConfirmButton: true,
+                            confirmButtonText: "Visualizar",
+                            allowOutsideClick: false,
+                        }, function(isConfirm) {
+                            if (isConfirm) {
+                                window.open(data.url, '_blank');
+                            }
+                        })
+                    }
+                })
+                .catch(error => console.error('Error:', error));
         }
     </script>
 

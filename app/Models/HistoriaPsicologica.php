@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use \PDF;
 
 
 function limpiarValores($valor)
@@ -30,7 +31,6 @@ class HistoriaPsicologica extends Model
             if ($request['accHistoria'] == 'guardar') {
 
                 DB::beginTransaction();
-
                 try {
                     // Insertar en `historia_clinica`
                     $idHistoria = DB::table('historia_clinica')->insertGetId(array_filter([
@@ -52,9 +52,10 @@ class HistoriaPsicologica extends Model
                         'observaciones_recomendaciones' => $request['observaciones_recomendaciones'] ?? null,
                         'tipologia' => $request['tipoPsicologia'] ?? null,
                         'fecha_historia' => now(),
-                        'estado_hitoria' => 'abierta',
+                        'estado_hitoria' => 'cerrada',
                         'estado_registro' => 'ACTIVO',
-                        'eval_inicial' => $request['resumen_evaluacion_inicial'] ?? null
+                        'eval_inicial' => $request['resumen_evaluacion_inicial'] ?? null,
+
 
                     ]));
 
@@ -287,7 +288,6 @@ class HistoriaPsicologica extends Model
                         'sugerencias_interconsultas' => $request['sugerencia_interconsultas'] ?? null,
                         'observaciones_recomendaciones' => $request['observaciones_recomendaciones'] ?? null,
                         'tipologia' => $request['tipoPsicologia'] ?? null,
-                        'estado_hitoria' => 'abierta',
                         'eval_inicial' => $request['resumen_evaluacion_inicial'] ?? null
 
                     ]));
@@ -677,6 +677,38 @@ class HistoriaPsicologica extends Model
         $historia = DB::connection('mysql')->table('historia_clinica')
             ->where("id", $idHisto)
             ->first();
+
+
+        $historia->dx_principal_detalle = DB::connection('mysql')
+            ->table('referencia_cie10')
+            ->where('id', $historia->dx_principal)
+            ->first();
+
+        $historia->codigo_consulta_detalle = DB::connection('mysql')
+            ->table('referencia_cups')
+            ->where('id', $historia->codigo_consulta)
+            ->first();
+
+        $historia->motivo_consulta_detalle = DB::connection('mysql')
+            ->table('opciones_hc_psicologia')
+            ->where('id', $historia->otro_motivo_consulta)
+            ->first();
+
+        $historia->impresion_diagnostica_detalle = DB::connection('mysql')
+            ->table('referencia_cie10')
+            ->where('id', $historia->codigo_diagnostico)
+            ->first() ?? (object) [];
+
+        $historia->plan_intervension_detalle = DB::connection('mysql')
+            ->table('opciones_hc_psicologia')
+            ->where('id', $historia->plan_intervencion)
+            ->first();
+
+        $historia->profesional_detalle = DB::connection('mysql')->table('profesionales')
+            ->join("users", "users.id", "profesionales.usuario")
+            ->where("profesionales.usuario", $historia->id_profesional)
+            ->select("profesionales.*", "users.login_usuario", "users.estado_usuario", "users.id as idUsuario")
+            ->first();
         return $historia;
     }
 
@@ -693,15 +725,14 @@ class HistoriaPsicologica extends Model
             ->where("id", $idInf)
             ->first();
 
-            if ($informe) {
-                $informe->impresion_diagnostica = DB::connection('mysql')->table('referencia_cie10')
-                    ->where("id", $informe->impresion_diagnostica)
-                    ->select(DB::raw('CONCAT(codigo, " - ", nombre) AS diagnostico'))
-                    ->first();
-            }
+        if ($informe) {
+            $informe->impresion_diagnostica = DB::connection('mysql')->table('referencia_cie10')
+                ->where("id", $informe->impresion_diagnostica)
+                ->select(DB::raw('CONCAT(codigo, " - ", nombre) AS diagnostico'))
+                ->first();
+        }
 
-            return $informe;
-
+        return $informe;
     }
 
     public static function busquedaEvolucionesPaciente($idHistoria)
@@ -836,15 +867,33 @@ class HistoriaPsicologica extends Model
     }
     public static function busquedaAparienciaPersonal($idHisto)
     {
-        return DB::connection('mysql')->table('apariencia_personal')
+        $apariencias = DB::connection('mysql')->table('apariencia_personal')
             ->where("id_historia", $idHisto)
             ->get();
+
+        foreach ($apariencias as $item) {
+            $item->apariencia_detalle =  DB::connection('mysql')->table('opciones_hc_psicologia')
+                ->where("id", $item->detalle)
+                ->select("opcion")
+                ->first();
+        }
+
+        return $apariencias;
     }
     public static function busquedaFuncionesCognitivas($idHisto)
     {
-        return DB::connection('mysql')->table('funciones_cognitivas')
+        $funciones = DB::connection('mysql')->table('funciones_cognitivas')
             ->where("id_historia", $idHisto)
             ->get();
+
+        foreach ($funciones as $item) {
+            $item->funciones_detalle =  DB::connection('mysql')->table('opciones_hc_psicologia')
+                ->where("id", $item->detalle)
+                ->select("opcion")
+                ->first();
+        }
+
+        return $funciones;
     }
     public static function busquedaFuncionesSomaticas($idHisto)
     {

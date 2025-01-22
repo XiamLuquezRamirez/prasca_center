@@ -51,7 +51,7 @@ class HistoriaNeuroPsicologica extends Model
                         'tipologia' => $request['tipoPsicologia'] ?? null,
                         'plan_intervension' => $request['planIntervencion'] ?? null,
                         'fecha_historia' => now(),
-                        'estado_hitoria' => 'abierta',
+                        'estado_hitoria' => 'cerrada',
                         'estado_registro' => 'ACTIVO',
                     ]));
 
@@ -284,7 +284,6 @@ class HistoriaNeuroPsicologica extends Model
                         'tipologia' => $request['tipoPsicologia'] ?? null,
                         'plan_intervension' => $request['planIntervencion'] ?? null,
                         'fecha_historia' => now(),
-                        'estado_hitoria' => 'abierta',
                         'estado_registro' => 'ACTIVO',
                     ]));
 

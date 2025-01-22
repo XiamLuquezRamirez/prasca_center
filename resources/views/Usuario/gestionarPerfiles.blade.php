@@ -60,7 +60,7 @@
                 </div>
             </div>
 
-            <div class="modal fade" id="modalUsuario" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+            <div class="modal fade" id="modalPerfiles" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content">
@@ -69,7 +69,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                         </div>
                         <div class="modal-body">
-                            <form class="form" id="formUsuario">
+                            <form class="form" id="formPerfil">
                                 <input type="hidden" name="accPerfil" value="guardar" id="accPerfil" />
                                 <input type="hidden" name="idPerfil" value="" id="idPerfil" />
 
@@ -78,21 +78,144 @@
                                     <input type="text" id="nombrePerfil" name="nombrePerfil" class="form-control"
                                         required>
                                 </div>
-                                <div class="form-group">
-                                    <label>Permisos disponibles</label>
-                                    <div class="checkbox-list">
-                                        <label><input type="checkbox" name="permisos[]" value="1"> Agenda</label>
-                                        <label><input type="checkbox" name="permisos[]" value="2"> Pacientes</label>
-                                        <label><input type="checkbox" name="permisos[]" value="3"> Historias
-                                            clínicas</label>
-                                        <label><input type="checkbox" name="permisos[]" value="4"> Informes</label>
-                                        <label><input type="checkbox" name="permisos[]" value="5">
-                                            Administración</label>
-                                        <label><input type="checkbox" name="permisos[]" value="6"> Gestionar
-                                            usuarios</label>
-                                    </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="form-label"><strong>Permisos disponibles </strong></label>
                                 </div>
 
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <div class="form-group mb-3">
+                                                <!-- Agenda -->
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="permisos_agenda"
+                                                        name="permisos[]" value="agenda">
+                                                    <label class="form-check-label" for="permisos_agenda">Agenda</label>
+                                                </div>
+
+                                                <!-- Pacientes -->
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="permisos_paciente"
+                                                        name="permisos[]" value="paciente">
+                                                    <label class="form-check-label"
+                                                        for="permisos_paciente">Pacientes</label>
+                                                </div>
+
+                                                <!-- Historias Clínicas -->
+                                                <div class="form-check">
+                                                    <label class="form-check-label" for="permisoHistorias"><strong>Historias
+                                                            clínicas</strong> </label>
+                                                </div>
+                                                <div class="form-check ms-3">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="permisos_histPsicologia" name="permisos[]"
+                                                        value="histPsicologia">
+                                                    <label class="form-check-label"
+                                                        for="permisos_histPsicologia">Psicológica</label>
+                                                </div>
+                                                <div class="form-check ms-3">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="permisos_histNeuro" name="permisos[]" value="histNeuro">
+                                                    <label class="form-check-label"
+                                                        for="permisos_histNeuro">Neuropsicológica</label>
+                                                </div>
+
+                                                <!-- Administración -->
+                                                <div class="form-check">
+                                                    <label class="form-check-label"
+                                                        for="permisoAdministracion"><strong>Administración</strong></label>
+                                                </div>
+                                                <div class="form-check ms-3">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="permisos_adminProfesionales" name="permisos[]"
+                                                        value="adminProfesionales">
+                                                    <label class="form-check-label"
+                                                        for="permisos_adminProfesionales">Profesionales</label>
+                                                </div>
+                                                <div class="form-check ms-3">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="permisos_AdminMotivoConsulta" name="permisos[]"
+                                                        value="AdminMotivoConsulta">
+                                                    <label class="form-check-label"
+                                                        for="permisos_AdminMotivoConsulta">Motivo de
+                                                        consulta</label>
+                                                </div>
+
+                                                <!-- informes -->
+                                                <div class="form-check">
+                                                    <label class="form-check-label"
+                                                        for="permisoAdministracion"><strong>Infomres</strong></label>
+                                                </div>
+                                                <div class="form-check ms-3">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="permisos_informePsicologico" name="permisos[]"
+                                                        value="informePsicologico">
+                                                    <label class="form-check-label"
+                                                        for="permisos_informePsicologico">Informe
+                                                        psicológico</label>
+                                                </div>
+                                                <div class="form-check ms-3">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="permisos_informeNeuro" name="permisos[]"
+                                                        value="informeNeuro">
+                                                    <label class="form-check-label" for="permisos_informeNeuro">Informe
+                                                        neuropsicológico</label>
+                                                </div>
+                                                <div class="form-check ms-3">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="permisos_reportes" name="permisos[]" value="reportes">
+                                                    <label class="form-check-label" for="permisos_reportes">Reportes
+                                                        estadisticos</label>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <!-- Gestión de Usuarios -->
+                                            <div class="form-check">
+                                                <label class="form-check-label" for="permisoUsuarios"><strong>Gestión de
+                                                        Usuarios</strong></label>
+                                            </div>
+                                            <div class="form-check  ms-3">
+                                                <input class="form-check-input" type="checkbox"
+                                                    id="permisos_gestionUsuarios" name="permisos[]"
+                                                    value="gestionUsuarios">
+                                                <label class="form-check-label"
+                                                    for="permisos_gestionUsuarios">Usuarios</label>
+                                            </div>
+                                            <div class="form-check  ms-3">
+                                                <input class="form-check-input" type="checkbox"
+                                                    id="permisos_gestionPerfiles" name="permisos[]"
+                                                    value="gestionPerfiles">
+                                                <label class="form-check-label"
+                                                    for="permisos_gestionPerfiles">Perfiles</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <label class="form-check-label" for="permisoUsuarios"><strong>Otros permisos</strong></label>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="permisos_editarHistoria" name="permisos[]"
+                                                        value="editarHistoria">
+                                                    <label class="form-check-label"
+                                                        for="permisos_editarHistoria">Editar y eliminar historias clinicas</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="permisos_editarEvoluciones" name="permisos[]"
+                                                        value="editarEvoluciones">
+                                                    <label class="form-check-label"
+                                                        for="permisos_editarEvoluciones">Editar y eliminar evoluciones</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <!-- /.box-body -->
                                 <div class="box-footer text-end">
                                     <button type="button" onclick="nuevo()" style="display: none" id="btn-nuevo"
@@ -118,13 +241,29 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             let menuP = document.getElementById("principalUsuarios");
-            let menuS = document.getElementById("usuarios");
+            let menuS = document.getElementById("perfiles");
 
             menuP.classList.add("active", "menu-open");
             menuS.classList.add("active");
 
             loader = document.getElementById('loader')
             loadNow(1)
+
+            $("#formPerfil").validate({
+                rules: {
+                    nombrePerfil: {
+                        required: true
+                    }
+                },
+                messages: {
+                    nombrePerfil: {
+                        required: "Por favor, ingresa el nombre del perfil."
+                    }
+                },
+                submitHandler: function(form) {
+                    guardar();
+                }
+            });
 
 
             cargarListaPerfiles(1)
@@ -148,11 +287,10 @@
                 cargarListaPerfiles(1,
                     searchTerm);
             });
-
         })
 
         function cargarListaPerfiles(page, searchTerm = '') {
-            let url = "{{ route('usuarios.listaPerfiles') }}"
+            let url = "{{ route('usuario.listaPerfiles') }}"
 
             var oldPageInput = document.getElementById('page')
             var oldSearchTermInput = document.getElementById('searchTerm')
@@ -183,8 +321,8 @@
 
         }
 
-        function editarUsuario(idUsuario) {
-            var modal = new bootstrap.Modal(document.getElementById("modalUsuario"), {
+        function editarPerfil(idPerfil) {
+            var modal = new bootstrap.Modal(document.getElementById("modalPerfiles"), {
                 backdrop: 'static',
                 keyboard: false
             })
@@ -196,16 +334,12 @@
             document.getElementById('btn-cancel').style.display = 'initial'
 
 
-            document.getElementById("idUsuario").value = idUsuario
-            document.getElementById("accUsuario").value = "editar"
-            document.getElementById("div-cambioPasw").style.display = ''
-            document.getElementById('pasw').setAttribute('disabled', 'disabled')
-            document.getElementById('confPasw').setAttribute('disabled', 'disabled')
-            document.getElementById('cambioPasw').checked = false
+            document.getElementById("idPerfil").value = idPerfil
+            document.getElementById("accPerfil").value = "editar"
 
-            document.getElementById("tituloModal").innerHTML = "Editar usuario"
+            document.getElementById("tituloModal").innerHTML = "Editar perfil"
 
-            let url = "{{ route('usuario.buscaUsuario') }}"
+            let url = "{{ route('usuario.buscaPerfil') }}"
 
             fetch(url, {
                     method: 'POST',
@@ -214,27 +348,22 @@
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                     },
                     body: JSON.stringify({
-                        idUsuario: idUsuario
+                        idPerfil: idPerfil
                     })
                 })
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById("nombre").value = data.nombre_usuario
-                    document.getElementById("tipo").value = data.tipo_usuario
-                    data.tipo_usuario == "Profesional" ?
-                        document.getElementById('tipo').setAttribute('disabled', 'disabled') :
-                        document.getElementById('tipo').removeAttribute('disabled', 'disabled')
+                    document.getElementById("nombrePerfil").value = data.nombre
+                    data.permisos.forEach(permiso => {
 
-                    document.getElementById("estado_usuario").value = data.estado_usuario
-                    document.getElementById("usuario").value = data.login_usuario
-                    document.getElementById("usuarioOriginal").value = data.login_usuario
-                    document.getElementById("email").value = data.email_usuario
+                        document.getElementById(`permisos_${permiso.permiso}`).checked = true
+                    })
                 })
                 .catch(error => console.error('Error:', error))
 
         }
 
-        function eliminarUsuario(idUsuario) {
+        function eliminarPerfil(idPerfil) {
             swal({
                 title: "Esta seguro?",
                 text: "No podrás recuperar este registrto!",
@@ -247,7 +376,7 @@
                 closeOnCancel: false
             }, function(isConfirm) {
                 if (isConfirm) {
-                    let url = "{{ route('usuario.eliminarUsuario') }}"
+                    let url = "{{ route('usuario.eliminarPerfil') }}"
                     fetch(url, {
                             method: 'POST',
                             headers: {
@@ -256,7 +385,7 @@
                                     'content')
                             },
                             body: JSON.stringify({
-                                idUsuario: idUsuario
+                                idPerfil: idPerfil
                             })
                         })
                         .then(response => response.json())
@@ -265,12 +394,17 @@
                                 swal("¡Buen trabajo!",
                                     data.message,
                                     "success")
-                                cargarListaUsuarios()
+                                cargarListaPerfiles()
                             } else {
-                                swal("¡Alerta!",
-                                    "La operación fue realizada exitosamente",
-                                    data.message,
-                                    "success")
+                                if (data.resp === 'relacionado') {
+                                    swal("¡Alerta!",
+                                        data.message,
+                                        "warning")
+                                } else {
+                                    swal("¡Alerta!",
+                                        data.message,
+                                        "warning")
+                                }
                             }
                         })
 
@@ -281,19 +415,18 @@
         }
 
         function openModalUsuario() {
-            var modal = new bootstrap.Modal(document.getElementById("modalUsuario"), {
+            var modal = new bootstrap.Modal(document.getElementById("modalPerfiles"), {
                 backdrop: 'static',
                 keyboard: false
             })
-
 
             nuevo()
             modal.show()
         }
 
         function cancelar() {
-            const formUsuario = document.getElementById('formUsuario')
-            formUsuario.reset()
+            const formPerfil = document.getElementById('formPerfil')
+            formPerfil.reset()
         }
 
         function habilitarPasw() {
@@ -313,53 +446,61 @@
             document.getElementById('btn-guardar').removeAttribute('disabled')
             document.getElementById('btn-nuevo').style.display = 'none'
             document.getElementById('btn-cancel').style.display = 'initial'
-            document.getElementById("accUsuario").value = "guardar"
-            document.getElementById("div-cambioPasw").style.display = 'none'
-            document.getElementById('pasw').removeAttribute('disabled', 'disabled')
-            document.getElementById('confPasw').removeAttribute('disabled', 'disabled')
-            document.getElementById("tituloModal").innerHTML = "Agregar usuario"
-            document.getElementById('tipo').removeAttribute('disabled', 'disabled')
-
+            document.getElementById("accPerfil").value = "guardar"
+            document.getElementById("tituloModal").innerHTML = "Agregar perfil"
         }
 
         function guardar() {
+            // Verificar que el formulario es válido
+            if ($("#formPerfil").valid()) {
+                const formPerfil = document.getElementById('formPerfil');
 
-            if ($("#formUsuario").valid()) {
+                // Crear un nuevo objeto FormData y agregar los permisos seleccionados
+                const formData = new FormData(formPerfil);
 
-                const formUsuario = document.getElementById('formUsuario')
-                const formData = new FormData(formUsuario)
+                // Obtener los permisos seleccionados   
+                const permisos = [];
+                document.querySelectorAll('input[name="permisos[]"]:checked').forEach(checkbox => {
+                    permisos.push(checkbox.value);
+                });
 
-                const url = "{{ route('form.guardarUsusario') }}"
+                if (permisos.length === 0) {
+                    swal("¡Alerta!", "Debe seleccionar al menos un permiso", "warning");
+                    return;
+                }
 
+                // Añadir los permisos al objeto FormData
+                formData.append('permisos', JSON.stringify(permisos));
+
+                // URL de la ruta en Laravel para guardar el usuario
+                const url = "{{ route('form.guardarPerfil') }}";
+
+                // Enviar los datos a Laravel usando fetch
                 fetch(url, {
                         method: 'POST',
                         body: formData,
                         headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                'content') // Token CSRF
                         }
                     })
                     .then(response => response.json())
                     .then(data => {
+                        if (data) {
+                            swal("¡Buen trabajo!", "La operación fue realizada exitosamente", "success");
+                            document.getElementById('btn-guardar').setAttribute('disabled', 'disabled');
+                            document.getElementById('btn-nuevo').style.display = 'initial';
+                            document.getElementById('btn-cancel').style.display = 'none';
 
-                        if (data.success) {
-
-                            swal("¡Buen trabajo!", "La operación fue realizada exitosamente", "success")
-
-                            document.getElementById('btn-guardar').setAttribute('disabled', 'disabled')
-                            document.getElementById('btn-nuevo').style.display = 'initial'
-                            document.getElementById('btn-cancel').style.display = 'none'
-
-                            cargarListaUsuarios(1)
-                            document.getElementById("accUsuario").value = "guardar"
-
+                            cargarListaPerfiles(1);
+                            document.getElementById("accPErfil").value = "guardar";
                         } else {
-                            console.error('Error en el procesamiento:', data.message)
+                            console.error('Error en el procesamiento:', data.message);
                         }
                     })
                     .catch(error => {
-                        console.error("Error al enviar los datos:", error)
-                    })
-
+                        console.error("Error al enviar los datos:", error);
+                    });
             }
         }
     </script>

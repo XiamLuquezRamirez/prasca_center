@@ -39,6 +39,15 @@ class AdminitraccionController extends Controller
             return redirect("/")->with("error", "Su Sesión ha Terminado");
         }
     }
+    public function Perfiles()
+    {
+        if (Auth::check()) {
+            $bandera = "";
+            return view('Usuario.gestionarPerfiles', compact('bandera'));
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
 
   
     public function  guardarEspecialidad(Request $request){

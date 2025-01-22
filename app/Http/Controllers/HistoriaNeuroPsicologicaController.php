@@ -54,6 +54,58 @@ class HistoriaNeuroPsicologicaController extends Controller
         ]);
     }
 
+    public function eliminarConsultaNeuro()
+    {
+        try {
+            $idConsulta = request()->input('idConsulta');
+            if (!$idConsulta) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'ID de la consulta no proporcionada'
+                    ],
+                    400
+                );
+            }
+
+            $consulta = DB::connection('mysql')
+                ->table('consultas_psicologica_neuro')
+                ->where('id', $idConsulta)
+                ->update([
+                    'estado' => 'ELIMINADO',
+                ]);
+
+
+
+            if ($consulta) {
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => 'Consulta eliminada correctamente'
+                    ]
+                );
+            } else {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'No se encontró el Informe o no se pudo eliminar'
+                    ],
+                    404
+                );
+            }
+        } catch (\Exception $e) {
+            // Manejar cualquier error o excepción
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Ocurrió un error al intentar eliminar el Informe',
+                    'error' => $e->getMessage()
+                ],
+                500
+            );
+        }
+    }
+
     public function  guardarConsultaNeuroPsicologica(Request $request)
     {
         if (!Auth::check()) {
@@ -249,9 +301,12 @@ class HistoriaNeuroPsicologicaController extends Controller
                                             <button type="button" data-id="' . $item->id . '" data-estado="' . $item->estado_hitoria . '" onclick="evolucionHistoria(this);"
                                                 class="waves-effect waves-light btn btn-secondary btn-flat"><i
                                                     class="fa fa-arrow-right me-10"></i>Evolución</button>
-                                            <button type="button" onclick="imprimirHistoria(' . $item->id . ');"
-                                                class="waves-effect waves-light btn btn-danger btn-flat"><i
+                                                <button type="button" onclick="imprimirHistoria(' . $item->id . ');"
+                                                class="waves-effect waves-light btn btn-info btn-flat"><i
                                                     class="fa fa-print me-10"></i>Imprimir</button>
+                                            <button type="button" onclick="eliminarHistoria(' . $item->id . ');"
+                                                class="waves-effect waves-light btn btn-danger btn-flat"><i
+                                                    class="fa fa-print me-10"></i>Eliminar</button>
                                         </div>
                                     </div>
                                 </div>
@@ -405,6 +460,7 @@ class HistoriaNeuroPsicologicaController extends Controller
     {
         try {
             $idHist = request()->input('idHist');
+            $estado = request()->input('estado');
             if (!$idHist) {
                 return response()->json(
                     [
@@ -419,7 +475,7 @@ class HistoriaNeuroPsicologicaController extends Controller
                 ->table('historia_clinica_neuro')
                 ->where('id', $idHist)
                 ->update([
-                    'estado_hitoria' => 'cerrada',
+                    'estado_hitoria' => ($estado == 'abierta' ? 'cerrada' : 'abierta'),
                 ]);
 
 
@@ -427,14 +483,14 @@ class HistoriaNeuroPsicologicaController extends Controller
                 return response()->json(
                     [
                         'success' => true,
-                        'message' => 'Historia cerrada correctamente'
+                        'message' => 'Estado de la historia cambiado correctamente'
                     ]
                 );
             } else {
                 return response()->json(
                     [
                         'success' => false,
-                        'message' => 'No se encontró la historia o no se pudo cerrar'
+                        'message' => 'No se encontró la historia'
                     ],
                     404
                 );
@@ -444,7 +500,58 @@ class HistoriaNeuroPsicologicaController extends Controller
             return response()->json(
                 [
                     'success' => false,
-                    'message' => 'Ocurrió un error al intentar cerrar la historia',
+                    'message' => 'Ocurrió un error al intentar cambiar el estado de la historia',
+                    'error' => $e->getMessage()
+                ],
+                500
+            );
+        }
+    }
+
+    public function eliminarHistoriaNeuro()
+    {
+        try {
+            $idHistoria = request()->input('idHistoria');
+            if (!$idHistoria) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'ID de la historia no proporcionada'
+                    ],
+                    400
+                );
+            }
+
+         // eliminar historia con delete
+            $consulta = DB::connection('mysql')
+                ->table('historia_clinica_neuro')
+                ->where('id', $idHistoria)
+                ->update([
+                    'estado_registro' => 'ELIMINADO',
+                ]);
+
+            if ($consulta) {
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => 'Historia eliminada correctamente'
+                    ]
+                );
+            } else {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'No se encontró la historia o no se pudo eliminar'
+                    ],
+                    404
+                );
+            }
+        } catch (\Exception $e) {
+            // Manejar cualquier error o excepción
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Ocurrió un error al intentar eliminar la hisotria',
                     'error' => $e->getMessage()
                 ],
                 500

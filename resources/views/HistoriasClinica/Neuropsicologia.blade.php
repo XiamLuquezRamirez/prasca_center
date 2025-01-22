@@ -1536,7 +1536,7 @@
     </div>
 
     <script>
-
+         window.userPermissions = @json(Auth::user()->permissions);
         var idHistoriaImprimir = "";
         document.addEventListener("DOMContentLoaded", function() {
 
@@ -2773,55 +2773,113 @@
             })
         }
 
+        function hasPermission(permission) {
+            return window.userPermissions && window.userPermissions.includes(permission);
+        }
+
         function cerrarHistoria(element) {
             let idHist = element.getAttribute("data-id")
             let estado = element.getAttribute("data-estado")
-            if(estado == "abierta"){
-                swal({
-                    title: "Cerrar historia clinica del paciente.",
-                    text: "Al cerrar la historia clicnica del paciente esta no podra ser editada, ¿Desea cerrar la historia?",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Si, cerrarla!",
-                    cancelButtonText: "Cancelar",
-                    confirmButtonClass: "btn btn-warning",
-                    cancelButtonClass: "btn btn-danger ml-1",
-                    buttonsStyling: false
-                }, function(isConfirm) {
-                    if (isConfirm) {
-                        let url = "{{ route('historia.cerrarHistoriaNeuro') }}";
-                        fetch(url, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                                        'content')
-                                },
-                                body: JSON.stringify({
-                                    idHist: idHist
+
+            if (hasPermission('editarHistoria')) {
+                if (estado == "abierta") {
+                    swal({
+                        title: "Cerrar historia clinica del paciente.",
+                        text: "Al cerrar la historia clicnica del paciente esta no podra ser editada, ¿Desea cerrar la historia?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Si, cerrarla!",
+                        cancelButtonText: "Cancelar",
+                        confirmButtonClass: "btn btn-warning",
+                        cancelButtonClass: "btn btn-danger ml-1",
+                        buttonsStyling: false
+                    }, function(isConfirm) {
+                        if (isConfirm) {
+                            let url = "{{ route('historia.cerrarHistoriaNeuro') }}"
+                            fetch(url, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                            .getAttribute(
+                                                'content')
+                                    },
+                                    body: JSON.stringify({
+                                        idHist: idHist,
+                                        estado: estado
+                                    })
                                 })
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    swal("¡Buen trabajo!",
-                                        data.message,
-                                        "success");
-                                    cargarHistorias(1);
-                                } else {
-                                    swal("¡Alerta!",
-                                        "La operación fue realizada exitosamente",
-                                        data.message,
-                                        "success");
-                                }
-                            })
-                    }
-                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        swal("¡Buen trabajo!",
+                                            data.message,
+                                            "success");
+                                        cargarHistorias(1);
+                                    } else {
+                                        swal("¡Alerta!",
+                                            "La operación fue realizada exitosamente",
+                                            data.message,
+                                            "success");
+                                    }
+                                })
+                        }
+                    })
+                } else {
+                    swal({
+                        title: "Abrir historia clinica del paciente.",
+                        text: "Al abrir la historia clicnica del paciente esta podra ser editada, ¿Desea abrir la historia?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Si, abrirla!",
+                        cancelButtonText: "Cancelar",
+                        confirmButtonClass: "btn btn-warning",
+                        cancelButtonClass: "btn btn-danger ml-1",
+                        buttonsStyling: false
+                    }, function(isConfirm) {
+                        if (isConfirm) {
+                            let url = "{{ route('historia.cerrarHistoriaNeuro') }}";
+                            fetch(url, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                            .getAttribute(
+                                                'content')
+                                    },
+                                    body: JSON.stringify({
+                                        idHist: idHist,
+                                        estado: estado
+                                    })
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        swal("¡Buen trabajo!",
+                                            data.message,
+                                            "success")
+                                        cargarHistorias(1)
+                                    } else {
+                                        swal("¡Alerta!",
+                                            "La operación fue realizada exitosamente",
+                                            data.message,
+                                            "success")
+                                    }
+                                })
+                        }
+                    })
+                }
+            } else {
+                swal("¡Alerta!",
+                    "No tiene el permiso necesario para realizar esta acción",
+                    "warning")
             }
-            
         }
+
 
         function nuevoRegistroConsulta() {
             document.getElementById("listadoConsultas").style.display = "none"
@@ -2872,6 +2930,8 @@
 
 
         function editarConsulta(idConsulta) {
+            if (hasPermission('editarEvoluciones')) {
+                
             document.getElementById("listadoConsultas").style.display = "none"
             document.getElementById("fomrConsultas").style.display = "initial"
 
@@ -2902,8 +2962,68 @@
                     document.getElementById("horaSeleccionada").value = data.consulta.fecha_consulta.split(' ')[1];
                 })
                 .catch(error => console.error('Error:', error))
+            }else{
+                swal("¡Alerta!",
+                    "No tiene el permiso necesario para realizar esta acción",
+                    "warning")
+            }
         }
 
+
+        
+        function eliminarConsulta(idCons) {
+            if (hasPermission('editarEvoluciones')) {
+            swal({
+                title: "Esta seguro de eliminar esta consulta ?",
+                text: "¡No podrás revertir esto!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, eliminar!",
+                cancelButtonText: "Cancelar",
+                confirmButtonClass: "btn btn-warning",
+                cancelButtonClass: "btn btn-danger ml-1",
+                buttonsStyling: false
+            }, function(isConfirm) {
+                if (isConfirm) {
+                    let url = "{{ route('historia.eliminarConsultaNeuro') }}";
+                    fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content')
+                            },
+                            body: JSON.stringify({
+                                idConsulta: idCons
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                swal("¡Buen trabajo!",
+                                    data.message,
+                                    "success");
+                                cargarConsultas(1);
+                            } else {
+                                swal("¡Alerta!",
+                                    "La operación fue realizada exitosamente",
+                                    data.message,
+                                    "success");
+                            }
+                        })
+
+                } else {
+                    swal("Cancelado", "Tu registro esta salvo :)", "error");
+                }
+            });
+            } else {
+                swal("¡Alerta!",
+                    "No tiene el permiso necesario para realizar esta acción",
+                    "warning")
+            }   
+        }
 
         function cargarConsultas(page, searchTerm = '') {
 
@@ -2977,6 +3097,58 @@
                     "warning");
             }
 
+        }
+
+        function eliminarHistoria(idHistoria) {
+            if (hasPermission('editarHistoria')) {
+                swal({
+                title: "Esta seguro de eliminar esta historia ?",
+                text: "¡No podrás revertir esto!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, eliminar!",
+                cancelButtonText: "Cancelar",
+                confirmButtonClass: "btn btn-warning",
+                cancelButtonClass: "btn btn-danger ml-1",
+                buttonsStyling: false
+            }, function(isConfirm) {
+                if (isConfirm) {
+                        let url = "{{ route('historia.eliminarHistoriaNeuro') }}";
+                        fetch(url, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                        .getAttribute(
+                                            'content')
+                                },
+                                body: JSON.stringify({
+                                    idHistoria: idHistoria
+                                })
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    swal("¡Buen trabajo!",
+                                        data.message,
+                                        "success")
+                                    cargarHistorias(1)
+                                } else {
+                                    swal("¡Alerta!",
+                                        "La operación fue realizada exitosamente",
+                                        data.message,
+                                        "success")
+                                }
+                            })
+                    }
+                })
+            } else {
+                swal("¡Alerta!",
+                    "No tiene el permiso necesario para realizar esta acción",
+                    "warning")
+            }
         }
 
         function mapearHistorialConsultas(historialConsultas) {

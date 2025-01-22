@@ -32,6 +32,11 @@ class Pacientes extends Model
         return DB::connection('mysql')->table('tipo_usuario')
             ->get();
     }
+    public static function listEps()
+    {
+        return DB::connection('mysql')->table('eps')
+            ->get();
+    }
 
     
     public static function BuscarPaciente($id)
@@ -72,6 +77,7 @@ class Pacientes extends Model
                     'acompanante' => $request['nombreAcompanante'] ?? '',
                     'parentesco' =>  $request['parentesco'] ?? '',
                     'telefono_acompanate' =>  $request['telefonoAcompanante'] ?? '',
+                    'eps' =>  $request['eps'] ?? '',
                     'estado' => 'ACTIVO',
                     'completo' => true
                 ]);
@@ -120,6 +126,7 @@ class Pacientes extends Model
                     'acompanante' => $request['nombreAcompanante'] ?? '',
                     'parentesco' =>  $request['parentesco'] ?? '',
                     'telefono_acompanate' =>  $request['telefonoAcompanante'] ?? '',
+                    'eps' =>  $request['eps'] ?? '',
                     'estado' => 'ACTIVO'
                 ]);
 
@@ -197,6 +204,10 @@ class Pacientes extends Model
     public static function busquedaPaciente($idPac){
         $paciente = DB::connection('mysql')->table('pacientes')
         ->where("id", $idPac)
+        ->first();
+
+        $paciente->eps_info = DB::connection('mysql')->table('eps')
+        ->where("id", $paciente->eps)
         ->first();
 
         $paciente->departamento_info = DB::connection('mysql')->table('departamentos')

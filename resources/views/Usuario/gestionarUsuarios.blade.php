@@ -257,7 +257,7 @@
             })
 
             cargarListaUsuarios(1)
-
+            cargarPerfiles()
                // Evento click para la paginación
                document.addEventListener('click', function(event) {
                 if (event.target.matches('.pagination a')) {
@@ -279,6 +279,38 @@
             });
 
         })
+
+        function cargarPerfiles(){
+            return new Promise((resolve, reject) => {
+                let select = document.getElementById("tipo")
+                select.innerHTML = ""
+                let url = "{{ route('usuario.buscaListPerfiles') }}"
+
+                let defaultOption = document.createElement("option")
+                defaultOption.value = "" // Valor en blanco
+                defaultOption.text = "Selecciona una opción" // Texto que se mostrará
+                defaultOption.disabled = true // Deshabilitar para que no pueda ser seleccionada
+                defaultOption.selected = true // Que aparezca seleccionada por defecto
+                select.appendChild(defaultOption)
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                       
+                        data.forEach(perfil => {
+                            let option = document.createElement("option")
+                            option.value = perfil.id
+                            option.text = perfil.nombre
+                            select.appendChild(option)
+                        })
+                        resolve() // Resuelve la promesa cuando los datos han sido cargados
+                    })
+                    .catch(error => {
+                        console.error('Error:', error)
+                        reject(error) // Rechaza la promesa si ocurre un error
+                    })
+            }) 
+        }
 
         function cargarListaUsuarios(page, searchTerm = '') {
             let url = "{{ route('usuarios.listaUsuarios') }}"

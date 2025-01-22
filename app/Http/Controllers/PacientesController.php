@@ -116,6 +116,12 @@ class PacientesController extends Controller
         $tipoUSuario = Pacientes::listTipoUsuario();
         return response()->json($tipoUSuario);
     }
+    
+    public function eps()
+    {
+        $eps = Pacientes::listEps();
+        return response()->json($eps);
+    }
 
 
     public function verificarIdentPaciente(Request $request)

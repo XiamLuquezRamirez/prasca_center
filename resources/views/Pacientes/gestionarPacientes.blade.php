@@ -319,6 +319,15 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
+                                    <label for="eps" class="form-label">EPS:</label>
+                                    <select class="form-control select2" 
+                                        id="eps" name="eps" aria-invalid="false">
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
                                     <label for="observaciones" class="form-label">Observaciones :</label>
                                     <textarea class="form-control" id="observaciones" name="observaciones" rows="3"></textarea>
                                 </div>
@@ -457,6 +466,10 @@
 
 
             $('#departamento').select2({
+                dropdownParent: $('#modalPacientes'),
+                width: '100%'
+            });
+            $('#eps').select2({
                 dropdownParent: $('#modalPacientes'),
                 width: '100%'
             });
@@ -627,6 +640,7 @@
             cargarPacientes(1)
             cargarDepartamento()
             cargarTipoUsuario()
+            cargarEps()
 
             document.getElementById('account-upload').addEventListener('change', function(event) {
                 const file = event.target.files[0]
@@ -840,6 +854,8 @@
                     $('#municipio').val(data.paciente.municipio).trigger('change.select2')
                     document.getElementById("zonaResidencial").value = data.paciente.zona_residencial
 
+                    $('#eps').val(data.paciente.eps).trigger('change.select2')
+
                     document.getElementById("observaciones").value = data.paciente.observaciones
                     document.getElementById("nombreAcompanante").value = data.paciente.acompanante
                     document.getElementById("parentesco").value = data.paciente.parentesco
@@ -1051,6 +1067,38 @@
                             let option = document.createElement("option")
                             option.value = tipo.id
                             option.text = tipo.descripcion
+                            select.appendChild(option)
+                        })
+                        resolve() // Resuelve la promesa cuando los datos han sido cargados
+                    })
+                    .catch(error => {
+                        console.error('Error:', error)
+                        reject(error) // Rechaza la promesa si ocurre un error
+                    })
+            })
+        }
+
+        function cargarEps() {
+            return new Promise((resolve, reject) => {
+                let select = document.getElementById("eps")
+                select.innerHTML = ""
+                let url = "{{ route('pacientes.eps') }}"
+
+                let defaultOption = document.createElement("option")
+                defaultOption.value = "" // Valor en blanco
+                defaultOption.text = "Selecciona una opción" // Texto que se mostrará
+                defaultOption.disabled = true // Deshabilitar para que no pueda ser seleccionada
+                defaultOption.selected = true // Que aparezca seleccionada por defecto
+                select.appendChild(defaultOption)
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        data.forEach(eps => {
+                            let option = document.createElement("option")
+                            option.value = eps.id
+                            option.text = `${eps.codigo} - ${eps.entidad}` 
                             select.appendChild(option)
                         })
                         resolve() // Resuelve la promesa cuando los datos han sido cargados

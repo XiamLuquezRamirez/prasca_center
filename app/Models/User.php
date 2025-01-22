@@ -41,4 +41,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getPermissionsAttribute()
+{
+    // Verifica si los permisos están cargados en el modelo
+    if (isset($this->permisos)) {
+        return $this->permisos;
+    }
+
+    // Si no están cargados, intenta obtenerlos desde la sesión
+    return session('permisos', []);
+}
 }

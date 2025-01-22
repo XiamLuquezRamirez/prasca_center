@@ -620,10 +620,21 @@
 
                                                     <td colspan="2">
                                                         <div class="form-actions right">
-                                                            <button type="button" onclick="notifCPaciente();"
-                                                                class="btn btn-warning mr-1">
-                                                                <i class="fa fa-paper-plane-o"></i> Notificar al cliente
-                                                            </button>
+
+                                                            <div class="btn-group mb-5">
+                                                                <button type="button"
+                                                                    class="waves-effect waves-light btn btn-warning dropdown-toggle"
+                                                                    data-bs-toggle="dropdown"><i
+                                                                        class="fa fa-paper-plane-o"></i> Notificar al
+                                                                    cliente</button>
+                                                                <div class="dropdown-menu">
+                                                                    <a class="dropdown-item" style="cursor: pointer;"
+                                                                        onclick="notifCPaciente();">Notificar al correo</a>
+                                                                    <a class="dropdown-item" style="cursor: pointer;"
+                                                                        onclick="notifCPacienteWP();">Notificar al
+                                                                        whatsapp</a>
+                                                                </div>
+                                                            </div>
                                                             <button type="button" onclick="addComentario();"
                                                                 class="btn btn-primary">
                                                                 <i class="fa fa-comment-o"></i> Agregar
@@ -661,8 +672,9 @@
                                 <div class="tab-pane" id="infDatos" aria-labelledby="dropdownIcon1-tab"
                                     role="tabpanel">
                                     <div class="col-12">
-                                     
-                                        <input type="hidden" id="edadPacienteCita" name="edadPacienteCita" value="">
+
+                                        <input type="hidden" id="edadPacienteCita" name="edadPacienteCita"
+                                            value="">
 
                                         <h5 class="mb-1"><i class="feather icon-info"></i> Información Personal</h5>
                                         <table class="table table-borderless mb-0">
@@ -817,22 +829,41 @@
         });
 
         function irHistoria(tipo) {
-            let idPaciente = document.getElementById("idPaciente").value    
-            let edadPaciente = document.getElementById("edadPacienteCita").value    
-            
+            let idPaciente = document.getElementById("idPaciente").value
+            let edadPaciente = document.getElementById("edadPacienteCita").value
+
             localStorage.clear();
             localStorage.setItem('idPaciente', idPaciente);
             localStorage.setItem('edadPaciente', edadPaciente);
             let prascaURL;
-            if(tipo == 'psicologia'){
+            if (tipo == 'psicologia') {
                 prascaURL = '{{ url('/pacientes/historiaPsicologica') }}';
-            }else{
+            } else {
                 prascaURL = '{{ url('/pacientes/historiaNeuropsicologica') }}';
             }
-                        
+
             const nuevaPestana = window.open(prascaURL, '_blank');
             nuevaPestana.focus();
         }
 
+        function notifCPacienteWP() {
+            let parCita = document.getElementById("inicioCita").innerText.split(" ")
+            
+            let numeroTelefono = document.getElementById("telefonoCita").innerText; // Obtén el número desde el HTML
+            let mensaje = `Hola, este es un recordatorio de tu cita médica:
+            *- Fecha:* ${parCita[0]}
+            *- Hora:* ${parCita[1]}
+            *- Lugar:* 
+            Por favor, confirma tu asistencia respondiendo este mensaje o a través del siguiente enlace:`;
+
+            // Número de prueba; reemplázalo por el valor real en producción
+            numeroTelefono = "573164915332";
+
+            // Codificar el mensaje y generar el enlace de WhatsApp
+            const url = `https://wa.me/${numeroTelefono}?text=${encodeURIComponent(mensaje)}`;
+
+            // Abrir el enlace en una nueva pestaña
+            window.open(url, '_blank');
+        }
     </script>
 @endsection

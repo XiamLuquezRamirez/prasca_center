@@ -1,5 +1,5 @@
 <footer class="main-footer">
-	  &copy; <script>document.write(new Date().getFullYear())</script> <a href="#">Explorador</a>. Todos los derechos reservados.
+	  &copy; <script>document.write(new Date().getFullYear())</script> <a href="#">Prasca Center</a>. Todos los derechos reservados.
   </footer>
 
   <script src="{{ asset('app-assets/js/vendors.min.js') }}"></script>

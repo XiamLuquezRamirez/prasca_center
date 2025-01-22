@@ -10,6 +10,7 @@ use App\Models\CategoriaHCP;
 use App\Models\Pacientes;
 use App\Models\Profesional;
 use Dompdf\Dompdf;
+use \PDF;
 
 class HistoriasController extends Controller
 {
@@ -29,6 +30,7 @@ class HistoriasController extends Controller
             return redirect("/")->with("error", "Su Sesión ha Terminado");
         }
     }
+    
 
     public function buscaHistoriaPsicologica(Request $request)
     {
@@ -203,6 +205,57 @@ class HistoriasController extends Controller
             );
         }
     }
+    public function eliminarHistoria()
+    {
+        try {
+            $idHistoria = request()->input('idHistoria');
+            if (!$idHistoria) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'ID de la historia no proporcionada'
+                    ],
+                    400
+                );
+            }
+
+         // eliminar historia con delete
+            $consulta = DB::connection('mysql')
+                ->table('historia_clinica')
+                ->where('id', $idHistoria)
+                ->update([
+                    'estado_registro' => 'ELIMINADO',
+                ]);
+
+            if ($consulta) {
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => 'Historia eliminada correctamente'
+                    ]
+                );
+            } else {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'No se encontró la historia o no se pudo eliminar'
+                    ],
+                    404
+                );
+            }
+        } catch (\Exception $e) {
+            // Manejar cualquier error o excepción
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Ocurrió un error al intentar eliminar la hisotria',
+                    'error' => $e->getMessage()
+                ],
+                500
+            );
+        }
+    }
+
     public function eliminarInforme()
     {
         try {
@@ -257,6 +310,7 @@ class HistoriasController extends Controller
     {
         try {
             $idHist = request()->input('idHist');
+            $estado = request()->input('estado');
             if (!$idHist) {
                 return response()->json(
                     [
@@ -271,7 +325,7 @@ class HistoriasController extends Controller
                 ->table('historia_clinica')
                 ->where('id', $idHist)
                 ->update([
-                    'estado_hitoria' => 'cerrada',
+                    'estado_hitoria' => ($estado == 'abierta' ? 'cerrada' : 'abierta'),
                 ]);
 
 
@@ -279,14 +333,14 @@ class HistoriasController extends Controller
                 return response()->json(
                     [
                         'success' => true,
-                        'message' => 'Historia cerrada correctamente'
+                        'message' => 'Estado de la historia cambiado correctamente'
                     ]
                 );
             } else {
                 return response()->json(
                     [
                         'success' => false,
-                        'message' => 'No se encontró la historia o no se pudo cerrar'
+                        'message' => 'No se encontró la historia'
                     ],
                     404
                 );
@@ -296,7 +350,7 @@ class HistoriasController extends Controller
             return response()->json(
                 [
                     'success' => false,
-                    'message' => 'Ocurrió un error al intentar cerrar la historia',
+                    'message' => 'Ocurrió un error al intentar cambiar el estado de la historia',
                     'error' => $e->getMessage()
                 ],
                 500
@@ -793,8 +847,11 @@ class HistoriasController extends Controller
                                                 class="waves-effect waves-light btn btn-secondary btn-flat"><i
                                                     class="fa fa-arrow-right me-10"></i>Evolución</button>
                                             <button type="button" onclick="imprimirHistoria(' . $item->id . ');"
-                                                class="waves-effect waves-light btn btn-danger btn-flat"><i
+                                                class="waves-effect waves-light btn btn-info btn-flat"><i
                                                     class="fa fa-print me-10"></i>Imprimir</button>
+                                            <button type="button" onclick="eliminarHistoria(' . $item->id . ');"
+                                                class="waves-effect waves-light btn btn-danger btn-flat"><i
+                                                    class="fa fa-print me-10"></i>Eliminar</button>
                                         </div>
                                     </div>
                                 </div>
@@ -1197,4 +1254,48 @@ class HistoriasController extends Controller
             return redirect("/")->with("error", "Su Sesión ha Terminado");
         }
     }
+
+    public function imprimirHistoria(Request $request)
+    {
+        $idHist = $request->input('idHist');
+        
+        $historia = HistoriaPsicologica::busquedaHistoria($idHist);
+        $pacientes = Pacientes::busquedaPaciente($historia->id_paciente);
+        $antecedentesPersonales = HistoriaPsicologica::busquedaAntecedentes($historia->id);
+        $antecedentesFamiliares = HistoriaPsicologica::busquedaAntFamiliares($historia->id);
+        $areaAjuste = HistoriaPsicologica::busquedaAreaAjuste($historia->id);
+        $interconuslta = HistoriaPsicologica::busquedaInterconsulta($historia->id);
+        $aparienciaPersonal = HistoriaPsicologica::busquedaAparienciaPersonal($historia->id);
+        $funcionesCognitiva = HistoriaPsicologica::busquedaFuncionesCognitivas($historia->id);
+        $funcionesSomaticas = HistoriaPsicologica::busquedaFuncionesSomaticas($historia->id);
+        $antecedentesPrenatales = HistoriaPsicologica::busquedaAntPrenatales($historia->id);
+        $antecedentesNatales = HistoriaPsicologica::busquedaAntNatales($historia->id);
+        $antecedentesPosnatales = HistoriaPsicologica::busquedaAntPosnatales($historia->id);
+        $desarrolloPsicomotor = HistoriaPsicologica::desarrolloPsicomotor($historia->id);
+        
+        $data = [
+            'historia' => $historia,
+            'paciente' => $pacientes,
+            'antecedentesPersonales' => $antecedentesPersonales,
+            'antecedentesFamiliares' => $antecedentesFamiliares,
+            'areaAjuste' => $areaAjuste,
+            'interconuslta' => $interconuslta,
+            'aparienciaPersonal' => $aparienciaPersonal,
+            'funcionesCognitiva' => $funcionesCognitiva,
+            'funcionesSomaticas' => $funcionesSomaticas,
+            'antecedentesPrenatales' => $antecedentesPrenatales,       
+            'antecedentesNatales' => $antecedentesNatales,       
+            'antecedentesPosnatales' => $antecedentesPosnatales,       
+            'desarrolloPsicomotor' => $desarrolloPsicomotor 
+        ];
+        
+        $pdf = PDF::loadView('imprimir.imprimirHistoria', $data)->setPaper('a4');
+
+        $fileName = 'Historia_Psicologica_'.$idHist. '.pdf';
+        $filePath = 'historias_Psicologica/' . $fileName;
+        $pdf->save(public_path($filePath));
+        $url = asset($filePath);
+
+        return response()->json(['url' => $url]);
+    } 
 }

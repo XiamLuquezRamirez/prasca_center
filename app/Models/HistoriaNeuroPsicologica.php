@@ -39,6 +39,7 @@ class HistoriaNeuroPsicologica extends Model
                         'remision' => $request['remision'] ?? null,
                         'codigo_consulta' => $request['codConsulta'] ?? null,
                         'motivo_consulta' => $request['motivoConsulta'] ?? null,
+                        'motivo_consulta_texto' => $request['motivoConsultaTexto'] ?? null,
                         'otro_motivo_consulta' => $request['otroMotivo'] ?? null,
                         'enfermedad_actual' => $request['enfermedadActual'] ?? null,
                         'dx_principal' => $request['codDiagnostico'] ?? null,
@@ -255,7 +256,7 @@ class HistoriaNeuroPsicologica extends Model
                     }
                     // Confirmar transacción
                     DB::commit();
-                    return ['idHistoria' => $idHistoria, 'idConsulta' => $idConsulta];
+                    return ['idHistoria' => $idHistoria];
                 } catch (\Exception $e) {
                     // Revertir transacción en caso de error
                     DB::rollBack();
@@ -272,6 +273,7 @@ class HistoriaNeuroPsicologica extends Model
                         'remision' => $request['remision'] ?? null,
                         'codigo_consulta' => $request['codConsulta'] ?? null,
                         'motivo_consulta' => $request['motivoConsulta'] ?? null,
+                        'motivo_consulta_texto' => $request['motivoConsultaTexto'] ?? null,
                         'otro_motivo_consulta' => $request['otroMotivo'] ?? null,
                         'enfermedad_actual' => $request['enfermedadActual'] ?? null,
                         'dx_principal' => $request['codDiagnostico'] ?? null,
@@ -498,7 +500,7 @@ class HistoriaNeuroPsicologica extends Model
                     }
 
                     DB::commit();
-                    return ['idHistoria' => $idHistoria, 'idConsulta' => $idConsulta];
+                    return ['idHistoria' => $idHistoria];
                 } catch (\Exception $e) {
                     DB::rollBack();
                     throw $e;

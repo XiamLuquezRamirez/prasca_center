@@ -190,7 +190,13 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label for="motivoConsulta" class="form-label">Motivo de consulta
+                                                    <label for="motivoConsultaTexto" class="form-label">Motivo de consulta:</label>
+                                                    <textarea class="form-control" id="motivoConsultaTexto" name="motivoConsultaTexto" rows="3"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="motivoConsulta" class="form-label">Motivos relacionados
                                                             :</label>
                                                         <select class="form-control select2" multiple="multiple"
                                                             id="motivoConsulta" name="motivoConsulta"
@@ -251,10 +257,9 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="quirurgicos"
-                                                                    class="form-label">Quirúrgicos:</label>
                                                                 <div class="input-group flex-nowrap">
                                                                     <div class="tags-default">
+                                                                    <label for="quirurgicos" class="form-label">Quirúrgicos:</label>
                                                                         <input type="text" id="quirurgicos"
                                                                             name="quirurgicos" value=""
                                                                             data-role="tagsinput"
@@ -266,9 +271,9 @@
 
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="toxicos" class="form-label">Tóxicos:</label>
                                                                 <div class="input-group flex-nowrap">
                                                                     <div class="tags-default">
+                                                                    <label for="toxicos" class="form-label">Tóxicos:</label>
                                                                         <input type="text" id="toxicos"
                                                                             name="toxico" value=""
                                                                             data-role="tagsinput"
@@ -919,7 +924,7 @@
                                                         <div class="col-md-6">
                                                             <label for="desarrollo" class="form-label">Desarrollo
                                                                 pondoestatural:</label>
-                                                            <select class="form-select" id="desarrollo" id="desarrollo"
+                                                            <select class="form-select" id="desarrollo" name="desarrollo"
                                                                 onchange="toggleOtro(this)">
                                                                 <option value="">Seleccione...</option>
                                                             </select>
@@ -1535,6 +1540,22 @@
         </div><!-- /.modal -->
     </div>
 
+
+    <div class="modal fade" id="modalErrores" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myLargeModalLabel">Errores</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body" id="body_errores">
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
          window.userPermissions = @json(Auth::user()->permissions);
         var idHistoriaImprimir = "";
@@ -1828,6 +1849,7 @@
             const ids = [
                 'enfermedadActual',
                 'remision',
+                'motivoConsultaTexto',
                 'medicacion',
                 'objetivos_especificos',
                 'objetivo_general',
@@ -2247,7 +2269,10 @@
 
                 const url = "{{ route('form.guardarHistoriaNeuroPsicologica') }}";
 
-                fetch(url, {
+                var error = validarFormularioEnvio();
+                debugger
+                if(error == 1){
+                    fetch(url, {
                         method: 'POST',
                         body: formData,
                         headers: {
@@ -2268,7 +2293,7 @@
                     .catch(error => {
                         console.error("Error al enviar los datos:", error);
                     });
-
+                }
             }
         }
 
@@ -2364,6 +2389,7 @@
             });
 
             document.getElementById("cke_remision").style.pointerEvents = 'none';
+            document.getElementById("cke_motivoConsultaTexto").style.pointerEvents = 'none';
             document.getElementById("cke_enfermedadActual").style.pointerEvents = 'none';
             document.getElementById("cke_medicacion").style.pointerEvents = 'none';
             document.getElementById("cke_objetivo_general").style.pointerEvents = 'none';
@@ -2433,6 +2459,8 @@
             document.getElementById("estadoHistoria").value = historia.estado_hitoria
             
             CKEDITOR.instances['remision'].setData(historia.remision)
+            CKEDITOR.instances['motivoConsultaTexto'].setData(historia.motivo_consulta_texto)
+
             cargarSelConsulta(historia.codigo_consulta, 'codConsulta')
 
             const valoresConsulta = historia.motivo_consulta.split(',')
@@ -2463,8 +2491,8 @@
             $('#establecidoPrimeraVez').trigger('change')
 
             document.getElementById("otroMotivo").value = historia.otro_motivo_consulta
-            cargarImpresion(historia.codigo_diagnostico, 'codDiagnostico')
-
+            cargarImpresion(historia.codigo_diagnostico, 'codImpresionDiagnostico')
+    
             CKEDITOR.instances['enfermedadActual'].setData(historia.enfermedad_actual)
             CKEDITOR.instances['objetivo_general'].setData(historia.objetivo_general)
             CKEDITOR.instances['objetivos_especificos'].setData(historia.objetivos_especificos)
@@ -3210,6 +3238,116 @@
                 }
             })
             .catch(error => console.error('Error:', error));
+        }
+
+
+        function validarFormularioEnvio(){
+            var tipo = document.getElementById("tipoPsicologia");
+            var campos = [];
+
+            if(tipoPsicologia != "Pediatría"){
+                campos = [
+                    'remision', 'codDiagnostico', 'codConsulta', 'motivoConsultaTexto', 'motivoConsulta', 'enfermedadActual',
+                    'quirurgicos', 'toxicos', 'hospitalizaciones', 'traumaticos', 'paraclinicos',
+                    'patologia', 'medicacion', 'depresion', 'ansiedad', 'demencia', 'alcoholismo',
+                    'drogadiccion', 'discapacidad_intelectual', 'patologicos', 'otros',
+                    'historia_educativa', 'historia_laboral', 'historia_familiar', 'historia_social',
+                    'historia_socio_afectiva', 'intervencion_psiquiatria', 'intervencion_neurologia',
+                    'intervencion_neuropsicologia', 'edad', 'edad_otro', 'desarrollo', 'desarrollo_otro',
+                    'aseo', 'aseo_otro', 'salud', 'salud_otro', 'facies', 'facies_otro', 'biotipo',
+                    'biotipo_otro', 'actitud', 'actitud_otro', 'consciencia', 'consciencia_otro',
+                    'orientacion', 'orientacion_otro', 'memoria', 'memoria_otro', 'atencion',
+                    'atencion_otro', 'concentracion', 'concentracion_otro', 'lenguaje', 'lenguaje_otro',
+                    'pensamiento', 'pensamiento_otro', 'afecto', 'afecto_otro', 'sensopercepcion',
+                    'sensopercepcion_otro', 'psicomotricidad', 'psicomotricidad_otro', 'juicio', 'juicio_otro',
+                    'inteligencia', 'inteligencia_otro', 'conciencia_enfermedad', 'conciencia_enfermedad_otro',
+                    'sufrimiento_psicologico', 'sufrimiento_psicologico_otro', 'motivacion_tratamiento',
+                    'motivacion_tratamiento_otro', 'ciclos_del_sueno', 'apetito', 'autocuidado',
+                    'codImpresionDiagnostico', 'establecidoPrimeraVez', 'plan_intervencion',
+                    'objetivo_general', 'objetivos_especificos', 'sugerencia_interconsultas',
+                    'observaciones_recomendaciones'
+                ];
+            }else{
+                campos = [
+                    'remision', 'codDiagnostico', 'codConsulta', 'motivoConsultaTexto', 'motivoConsulta', 'enfermedadActual',
+                    'quirurgicos', 'toxicos', 'hospitalizaciones', 'traumaticos', 'paraclinicos',
+                    'patologia', 'medicacion', 'edad_madre', 'enfermedades_madre', 'numero_embarazo', 
+                    'enbarazo_controlado', 'planificacion', 'estado_madre', 'tipo_nacimiento', 'causa_cesarea', 
+                    'reanimacion', 'peso_nacer', 'talla_nacer', 'llanto_nacer', 'hospitalizaciones_postnatales', 'desarrollo_psicomotor', 
+                    'control_cefalico', 'rolado', 'sedente_solo', 'gateo', 'bipedo', 'marcha', 'lenguaje_verbal', 
+                    'lenguaje_verbal_fluido', 'depresion', 'ansiedad', 'demencia', 'alcoholismo',
+                    'drogadiccion', 'discapacidad_intelectual', 'patologicos', 'otros',
+                    'historia_educativa', 'historia_laboral', 'historia_familiar', 'historia_social',
+                    'historia_socio_afectiva', 'intervencion_psiquiatria', 'intervencion_neurologia',
+                    'intervencion_neuropsicologia', 'edad', 'edad_otro', 'desarrollo', 'desarrollo_otro',
+                    'aseo', 'aseo_otro', 'salud', 'salud_otro', 'facies', 'facies_otro', 'biotipo',
+                    'biotipo_otro', 'actitud', 'actitud_otro', 'consciencia', 'consciencia_otro',
+                    'orientacion', 'orientacion_otro', 'memoria', 'memoria_otro', 'atencion',
+                    'atencion_otro', 'concentracion', 'concentracion_otro', 'lenguaje', 'lenguaje_otro',
+                    'pensamiento', 'pensamiento_otro', 'afecto', 'afecto_otro', 'sensopercepcion',
+                    'sensopercepcion_otro', 'psicomotricidad', 'psicomotricidad_otro', 'juicio', 'juicio_otro',
+                    'inteligencia', 'inteligencia_otro', 'conciencia_enfermedad', 'conciencia_enfermedad_otro',
+                    'sufrimiento_psicologico', 'sufrimiento_psicologico_otro', 'motivacion_tratamiento',
+                    'motivacion_tratamiento_otro', 'ciclos_del_sueno', 'apetito', 'autocuidado',
+                    'codImpresionDiagnostico', 'establecidoPrimeraVez', 'plan_intervencion',
+                    'objetivo_general', 'objetivos_especificos', 'sugerencia_interconsultas',
+                    'observaciones_recomendaciones'
+                ];
+            }
+
+                    
+            var formularioValido = true;
+            var mensajesError = [];
+
+            campos.forEach(function(id) {
+                var elemento = document.getElementById(id);
+                var valor = elemento ? elemento.value.trim() : '';
+
+                if (!id.endsWith('_otro')) {
+                    if (valor === '') {
+                        formularioValido = false;
+                        var labelAnterior = elemento.previousElementSibling;
+                        var nombreCampo = labelAnterior.textContent.trim().replace(":", "");
+                        if(id == "quirurgicos"){
+                            nombreCampo = "Quirúrgicos";
+                        }
+                        if(id == "toxicos"){
+                            nombreCampo = "Tóxicos";
+                        }
+                        if(id == "paraclinicos"){
+                            nombreCampo = "Paraclínicos";
+                        }
+                        mensajesError.push(`<h4><i class="fa fa-exclamation-circle"></i> El campo '${nombreCampo}' es obligatorio. <br></h4>`);
+                    }
+                } else {
+                    
+                    var idSinOtro = id.replace(/_otro$/, '');
+                    var campoCorrespondiente = document.getElementById(idSinOtro);
+                    var valorCampoCorrespondiente =  campoCorrespondiente.options[campoCorrespondiente.selectedIndex].getAttribute('data-nombre');
+                    if (valorCampoCorrespondiente == 'otro') {
+                        if (valor === '') {
+                            formularioValido = false;
+                            var labelAnterior = campoCorrespondiente.previousElementSibling;
+                            var nombreCampo = labelAnterior.textContent.trim().replace(":", "");
+                            mensajesError.push(`<h4><i class="fa fa-exclamation-circle"></i> El campo '${nombreCampo}' es obligatorio. <br></h4>`);
+                        }
+                    }
+                }
+            });
+
+            if (formularioValido) {
+                return 1;
+            } else {
+                mostrarModalErrores(mensajesError);
+                return 0;
+            }
+        }
+
+        function mostrarModalErrores(mensajesError){
+            var errores = mensajesError.join(' ');
+            $('#modalErrores').modal('show');
+            document.getElementById("body_errores").innerHTML = "";
+            document.getElementById("body_errores").innerHTML = errores;
         }
 </script>
 

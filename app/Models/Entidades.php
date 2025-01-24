@@ -1,30 +1,33 @@
 <?php
 
 namespace App\Models;
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
-class Especialidades extends Model
+use Illuminate\Database\Eloquent\Model;
+
+class Entidades extends Model
 {
     public static function Guardar($request)
     {
-        try {  
+        try {
 
             if ($request['accRegistro'] == 'guardar') {
-                $respuesta = DB::connection('mysql')->table('especialidades')->insertGetId([
-                    'nombre' => $request['nombre'],
-                    'observacion' => $request['observaciones'] ?? '',
+                $respuesta = DB::connection('mysql')->table('eps')->insertGetId([
+                    'nit' => $request['nit'],
+                    'codigo' => $request['codigo'],
+                    'entidad' => $request['nombre'],
+                    'observaciones' => $request['observaciones'] ?? '',
                     'estado' => 'ACTIVO'
                 ]);
             } else {
-                $respuesta = DB::connection('mysql')->table('especialidades')
+                $respuesta = DB::connection('mysql')->table('eps')
                     ->where('id', $request['idRegistro'])  // Identificar el registro a actualizar
                     ->update([
-                        'nombre' => $request['nombre'],
-                        'observacion' => $request['observaciones'] ?? '',
+                        'nit' => $request['nit'],
+                        'codigo' => $request['codigo'],
+                        'entidad' => $request['nombre'],
+                        'observaciones' => $request['observaciones'] ?? '',
 
                     ]);
 
@@ -41,8 +44,8 @@ class Especialidades extends Model
         return  $respuesta;
     }
 
-    public static function busquedaEspecialidad($id){
-        return DB::connection('mysql')->table('especialidades')
+    public static function busquedaEntidad($id){
+        return DB::connection('mysql')->table('eps')
         ->where("id", $id)
         ->first();
     }

@@ -818,8 +818,10 @@ class HistoriasController extends Controller
                                             <h3 class="mb-0 fw-500">Paciente: ' . $item->identificacion_completa . ' - ' . $item->nombre_completo . '</h3>
                                         </div>
                                         <div class="mt-10 mt-md-0">
-                                            <a data-id="' . $item->id . '" data-tipo="' . $item->tipologia . '" onclick="verHistoria(this)"
-                                                class="waves-effect waves-light btn btn-outline btn-primary">Ver
+                                          <a data-id="' . $item->id . '"  onclick="ComprarPaquete(this)"
+                                                class="waves-effect waves-light btn btn-outline btn-info"><li class="fa fa-dollar"></li> Comprar paquete</a>   
+                                        <a data-id="' . $item->id . '" dapta-tipo="' . $item->tipologia . '" onclick="verHistoria(this)"
+                                                class="waves-effect waves-light btn btn-outline btn-primary"><li class="fa fa-search"></li> Ver
                                                 Detalles</a>
                                         </div>
                                     </div>
@@ -987,6 +989,7 @@ class HistoriasController extends Controller
         }
     }
 
+    
     public function imprimirInformePsicologia(Request $request)
     {
         if (Auth::check()) {
@@ -1047,8 +1050,8 @@ class HistoriasController extends Controller
             $html .= '<td class="no-border" style="padding: 0; vertical-align: top;">';
             $html .= '<p style="margin: 0;">DRA. MARIA ISABEL PUMAREJO</p>';
             $html .= '<p style="margin: 0;">PSICÒLOGA - T.P. No. 259542</p>';
-            $html .= '<p style="margin: 0;">Calle 11 # 11 -07 San Joaquin</p>';
-            $html .= '<p style="margin: 0;">Teléfono 312 5678078</p>';
+            $html .= '<p style="margin: 0;">Calle 11 # 11 - 07 San Joaquin</p>';
+            $html .= '<p style="margin: 0;">Teléfono: 312 5678078</p>';
             $html .= '</td>';
             $html .= '</tr>';
             $html .= '<tr>';

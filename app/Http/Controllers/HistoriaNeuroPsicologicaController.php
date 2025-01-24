@@ -22,6 +22,335 @@ class HistoriaNeuroPsicologicaController extends Controller
         }
     }
 
+    public function informePsicologia()
+    {
+        if (Auth::check()) {
+            return view('HistoriasClinica.informeNeuropsicologia');
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+
+    public function  guardarInformeNeuropsicologica(Request $request)
+    {
+        if (!Auth::check()) {
+            return response()->json([
+                'estado' => 'error',
+                'mensaje' => 'Su sesión ha terminado.',
+            ], 401);
+        }
+
+        $data = $request->all();
+
+        if ($request->hasFile('archivos')) {
+            $archivos = $request->file('archivos'); // Obtiene todos los archivos con el name "archivos[]"
+        
+            $arc = [];
+            $tip = [];
+            $nom = [];
+            $siz = [];
+        
+            foreach ($archivos as $archivo) {
+                $nombreOriginal = $archivo->getClientOriginalName();
+                $tipoMime = $archivo->getClientMimeType();
+                $peso = $archivo->getSize();
+                // Generar un nombre único para el archivo
+                $prefijo = substr(md5(uniqid(rand())), 0, 6);
+                $nombreArchivo = self::sanear_string($prefijo . '_' . $nombreOriginal);
+        
+                // Mover el archivo a la carpeta deseada
+                $archivo->move(public_path('anexosPacientes'), $nombreArchivo);
+        
+                // Almacenar la información del archivo en arrays
+                $arc[] = $nombreArchivo;
+                $tip[] = $tipoMime;
+                $nom[] = $nombreOriginal;
+                $siz[] = $peso;
+            }
+        
+            // Preparar los datos para trabajar con ellos o almacenarlos
+
+            $data['archivo'] = $arc;
+            $data['tipoArc'] = $tip;
+            $data['nombre'] = $nom;
+            $data['peso'] = $siz;
+        
+            // Aquí puedes guardar la información en la base de datos si lo necesitas
+            // Ejemplo: Archivo::createMany($data);
+        }
+
+        $respuesta = HistoriaNeuroPsicologica::guardarInforme($data);
+
+
+
+        // Verificar el resultado y preparar la respuesta
+        if ($respuesta) {
+            $estado = 'success';
+            $message = 'La operación fue realizada exitosamente.';
+            $title = '¡Buen trabajo!';
+        } else {
+            $message = 'No se pudo realizada la operación.';
+            $estado = 'warning';
+            $title = '¡Opps salio algo mal!';
+        }
+        // Retornar la respuesta en formato JSON
+        return response()->json([
+            'success' => $estado,
+            'id' => $respuesta,
+            'message' =>  $message,
+            'title' =>  $title
+        ]);
+    }
+
+
+    public function eliminarInformeNeuro()
+    {
+        try {
+            $idReg = request()->input('idReg');
+            if (!$idReg) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'ID de la Informe no proporcionado'
+                    ],
+                    400
+                );
+            }
+
+            $consulta = DB::connection('mysql')
+                ->table('informe_evolucion_neuropsicologia')
+                ->where('id', $idReg)
+                ->update([
+                    'estado' => 'ELIMINADO',
+                ]);
+
+            if ($consulta) {
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => 'Informe eliminado correctamente'
+                    ]
+                );
+            } else {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'No se encontró la consulta o no se pudo eliminar'
+                    ],
+                    404
+                );
+            }
+        } catch (\Exception $e) {
+            // Manejar cualquier error o excepción
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Ocurrió un error al intentar eliminar la consulta',
+                    'error' => $e->getMessage()
+                ],
+                500
+            );
+        }
+    }
+
+    public function eliminarAnexoInforme()
+    {
+        try {
+            $idAnexo = request()->input('idAnexo');
+            if (!$idAnexo) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'ID del anexo no proporcionado'
+                    ],
+                    400
+                );
+            }
+
+            $consulta = DB::connection('mysql')
+                ->table('anexos_informe_neuropsicologia')
+                ->where('id', $idAnexo)
+                ->delete();
+
+            if ($consulta) {
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => 'Anexo eliminado correctamente'
+                    ]
+                );
+            } else {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'No se encontró el anexo o no se pudo eliminar'
+                    ],
+                    404
+                );
+            }
+        } catch (\Exception $e) {
+            // Manejar cualquier error o excepción
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Ocurrió un error al intentar eliminar el anexo',
+                    'error' => $e->getMessage()
+                ],
+                500
+            );
+        }
+    }
+
+    public function listaPacientesInformeNeuropsicologia(Request $request)
+    {
+        if (Auth::check()) {
+            $perPage = 10; // Número de posts por página
+            $page = request()->get('page', 1);
+            $search = request()->get('search');
+            if (!is_numeric($page)) {
+                $page = 1; // Establecer un valor predeterminado si no es numérico
+            }
+
+            $pacientesEvol = DB::connection('mysql')
+                ->table('consultas_psicologica_neuro')
+                ->leftJoin('historia_clinica_neuro', 'historia_clinica_neuro.id', '=', 'consultas_psicologica_neuro.id_historia')
+                ->leftJoin('profesionales', 'profesionales.usuario', 'consultas_psicologica_neuro.id_profesional')
+                ->leftJoin('pacientes', 'pacientes.id', '=', 'historia_clinica_neuro.id_paciente')
+                ->where('consultas_psicologica_neuro.estado', 'ACTIVO')
+                ->select(
+                    'pacientes.id',
+                    'profesionales.nombre as profesional',
+                    DB::raw("CONCAT(pacientes.tipo_identificacion, ' ', pacientes.identificacion) as identificacion"),
+                    DB::raw("CONCAT(primer_nombre, ' ', segundo_nombre, ' ', primer_apellido, ' ', segundo_apellido) as nombre"),
+                    DB::raw('MAX(consultas_psicologica_neuro.fecha_consulta) as ultima_fecha_consulta')
+                )
+                ->groupBy('pacientes.id', 'tipo_identificacion', 'identificacion', 'primer_nombre', 'segundo_nombre', 'primer_apellido', 'segundo_apellido', 'profesionales.nombre');
+
+
+
+            if ($search) {
+                $pacientesEvol->where(function ($query) use ($search) {
+                    $query->where('pacientes.identificacion', 'LIKE', '%' . $search . '%')
+                        ->orWhere('pacientes.primer_nombre', 'LIKE', '%' . $search . '%')
+                        ->orWhere('pacientes.segundo_nombre', 'LIKE', '%' . $search . '%')
+                        ->orWhere('pacientes.primer_apellido', 'LIKE', '%' . $search . '%')
+                        ->orWhere('pacientes.segundo_apellido', 'LIKE', '%' . $search . '%');
+                });
+            }
+
+
+            $ListPacientesEvol = $pacientesEvol->paginate($perPage, ['*'], 'page', $page);
+
+            $tdTable = '';
+            $x = ($page - 1) * $perPage + 1;
+
+            foreach ($ListPacientesEvol as $i => $item) {
+                if (!is_null($item)) {
+                    $tdTable .= '<tr>
+                                    <td>' . $item->identificacion . ' - ' . $item->nombre . '</td>
+                                    <td>' . date('d/m/Y g:i:s A', strtotime($item->ultima_fecha_consulta)) . '</td>
+                                    <td>' . $item->profesional . '</td>
+                                    <td class="table-action min-w-100">
+                                        <a onclick="imprimirInforme(' . $item->id . ');" style="cursor: pointer;" title="Imprimir informe" class="text-fade hover-warning"><i class="align-middle"
+                                                data-feather="file-text"></i></a>
+                                    </td>
+                                </tr>';
+                    $x++;
+                }
+            }
+
+            $pagination = $ListPacientesEvol->links('HistoriasClinica.Paginacion')->render();
+
+            return response()->json([
+                'pacientesEvol' => $tdTable,
+                'links' => $pagination
+            ]);
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+
+    public function informeNeuropsicologiaList(Request $request)
+    {
+        if (Auth::check()) {
+            $perPage = 5; // Número de posts por página
+            $page = request()->get('page', 1);
+            $idPaciente = request()->get('idPac');
+            if (!is_numeric($page)) {
+                $page = 1; // Establecer un valor predeterminado si no es numérico
+            }
+
+            $informes = DB::connection('mysql')
+                ->table('informe_evolucion_neuropsicologia')
+                ->leftJoin("profesionales", "profesionales.id", "informe_evolucion_neuropsicologia.id_profesional")
+                ->where("informe_evolucion_neuropsicologia.estado", "ACTIVO")
+                ->where("informe_evolucion_neuropsicologia.id_paciente", $idPaciente)
+                ->orderBy('informe_evolucion_neuropsicologia.fecha_creacion', 'desc')
+                ->select(
+                    'informe_evolucion_neuropsicologia.id',
+                    'informe_evolucion_neuropsicologia.fecha_creacion',
+                    'profesionales.nombre AS profesional'
+                );
+            
+               
+            $ListInformes = $informes->paginate($perPage, ['*'], 'page', $page);
+            
+            $tdTable = '';
+            $x = ($page - 1) * $perPage + 1;
+            $const = 1;
+            foreach ($ListInformes as $i => $item) {
+                if (!is_null($item)) {
+                    $tdTable .= '<tr>
+                                    <td>' . $const . '</td>
+                                    <td>' . $item->profesional . '</td>
+                                    <td>' . date('d/m/Y g:i:s A', strtotime($item->fecha_creacion)) . '</td>
+                                    <td class="table-action min-w-100">
+                                        <a onclick="descargarArchivos(' . $item->id . ');" style="cursor: pointer;" title="Descargar informes" class="text-fade hover-primary"><i class="align-middle"
+                                                data-feather="file-text"></i></a>
+                                        <a onclick="editarInforme(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
+                                                data-feather="edit-2"></i></a>
+                                        <a onclick="eliminarInforme(' . $item->id . ');" style="cursor: pointer;" title="Eliminar" class="text-fade hover-warning"><i class="align-middle"
+                                                data-feather="trash"></i></a>
+                                    </td>
+                                </tr>';
+                    $x++;
+                    $const++;
+                }
+            }
+            $pagination = $ListInformes->links('HistoriasClinica.PaginacionConsultas')->render();
+
+            return response()->json([
+                'informes' => $tdTable,
+                'links' => $pagination
+            ]);
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+
+    public function buscaInformeNeuropsicologica(Request $request)
+    {
+        $idInforme = $request->input('idInforme');
+        $informe = HistoriaNeuroPsicologica::busquedaInforme($idInforme);
+        $anexos = HistoriaNeuroPsicologica::busquedaAnexosInformes($idInforme);
+        
+        return response()->json([
+            'informe' => $informe,
+            'anexos'  => $anexos
+        ]);
+    }
+    public function buscarAnexosInforme(Request $request)
+    {
+        $idInforme = $request->input('idInforme');
+        $anexos = HistoriaNeuroPsicologica::busquedaAnexosInformes($idInforme);
+        
+        return response()->json([
+            'anexos'  => $anexos
+        ]);
+    }
+
+    
+
     public function  guardarHistoriaNeuroPsicologica(Request $request)
     {
         if (!Auth::check()) {
@@ -557,5 +886,91 @@ class HistoriaNeuroPsicologicaController extends Controller
                 500
             );
         }
+    }
+
+    public function sanear_string($string)
+    {
+
+        $string = trim($string);
+
+        $string = str_replace(
+            array('á', 'à', 'ä', 'â', 'ª', 'Á', 'À', 'Â', 'Ä'),
+            array('a', 'a', 'a', 'a', 'a', 'A', 'A', 'A', 'A'),
+            $string
+        );
+
+        $string = str_replace(
+            array('é', 'è', 'ë', 'ê', 'É', 'È', 'Ê', 'Ë'),
+            array('e', 'e', 'e', 'e', 'E', 'E', 'E', 'E'),
+            $string
+        );
+
+        $string = str_replace(
+            array('í', 'ì', 'ï', 'î', 'Í', 'Ì', 'Ï', 'Î'),
+            array('i', 'i', 'i', 'i', 'I', 'I', 'I', 'I'),
+            $string
+        );
+
+        $string = str_replace(
+            array('ó', 'ò', 'ö', 'ô', 'Ó', 'Ò', 'Ö', 'Ô'),
+            array('o', 'o', 'o', 'o', 'O', 'O', 'O', 'O'),
+            $string
+        );
+
+        $string = str_replace(
+            array('ú', 'ù', 'ü', 'û', 'Ú', 'Ù', 'Û', 'Ü'),
+            array('u', 'u', 'u', 'u', 'U', 'U', 'U', 'U'),
+            $string
+        );
+
+        $string = str_replace(
+            array('ñ', 'Ñ', 'ç', 'Ç'),
+            array('n', 'N', 'c', 'C'),
+            $string
+        );
+
+        //Esta parte se encarga de eliminar cualquier caracter extraño
+        $string = str_replace(
+            array(
+                "¨",
+                "º",
+                "-",
+                "~",
+                "",
+                "@",
+                "|",
+                "!",
+                "·",
+                "$",
+                "%",
+                "&",
+                "/",
+                "(",
+                ")",
+                "?",
+                "'",
+                " h¡",
+                "¿",
+                "[",
+                "^",
+                "<code>",
+                "]",
+                "+",
+                "}",
+                "{",
+                "¨",
+                "´",
+                ">",
+                "< ",
+                ";",
+                ",",
+                ":",
+                " ",
+            ),
+            '',
+            $string
+        );
+
+        return $string;
     }
 }

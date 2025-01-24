@@ -141,6 +141,13 @@
                                                         for="permisos_AdminMotivoConsulta">Motivo de
                                                         consulta</label>
                                                 </div>
+                                                <div class="form-check ms-3">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="permisos_Admineps" name="permisos[]"
+                                                        value="Admineps">
+                                                    <label class="form-check-label"
+                                                        for="permisos_Admineps">Entidad promotora de salud</label>
+                                                </div>
 
                                                 <!-- informes -->
                                                 <div class="form-check">

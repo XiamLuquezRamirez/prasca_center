@@ -377,7 +377,6 @@ class HistoriaNeuroPsicologicaController extends Controller
         return response()->json([
             'success' => $estado,
             'id' => $respuesta['idHistoria'],
-            'idConsulta' => $respuesta['idConsulta'],
             'message' =>  $message,
             'title' =>  $title
         ]);

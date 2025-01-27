@@ -79,6 +79,20 @@
                                         </a>
                                     </li>
                                 @endif
+                                @if (in_array('Admineps', session('permisos', [])))
+                                    <li id="principalParametrosEPS">
+                                        <a href="{{ url('/Administracion/Entidades') }}">
+                                            <i class="icon-Commit"></i> Entidades promotoras 
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (in_array('Admineps', session('permisos', [])))
+                                    <li id="principalParametrosPaquetes">
+                                        <a href="{{ url('/Administracion/Paquetes') }}">
+                                            <i class="icon-Commit"></i> Paquetes 
+                                        </a>
+                                    </li>
+                                @endif
                             </ul>
                         </li>
                     @endif

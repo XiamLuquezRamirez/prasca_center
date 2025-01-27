@@ -42,7 +42,7 @@
                                                     aria-label="Close"></button>
 
                                                 <h4><i class="icon fa fa-check"></i> Alerta!</h4>
-                                                {!! session('error') !!}
+                                                {{ trim(session('error')) }}
                                             </div>
                                         @endif
                                         @if (Session::has('success'))

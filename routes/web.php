@@ -20,12 +20,15 @@ use App\Http\Controllers\HistoriaNeuroPsicologicaController;
 
 Route::get('/', function () {
     return view('Usuario.login');
-});
+})->name('home');
 
 ///INICIO DE SESIÓN
-Route::post('/Login', [UsuariosController::class,'Login']);
+Route::post('/Login', [UsuariosController::class, 'Login'])->name('login');
 Route::get('/Administracion', [UsuariosController::class,'Administracion'])->name('inicio');
 Route::get('/Logout', [UsuariosController::class,'Logout']);
+Route::get('/Administracion/perfil', [UsuariosController::class,'perfil']);
+Route::post('/Administracion/VerificarUsuario', [UsuariosController::class,'VerificarUsuarioPerfil']);
+Route::post('/Administracion/UpdatePerfil', [UsuariosController::class,'UpdatePerfil']);
 
 
 ///GESTIONAR PACIENTES
@@ -54,7 +57,7 @@ Route::middleware(['auth', 'permission:AdminMotivoConsulta'])->group(function ()
 Route::post('/especialidad/guardar', [AdminitraccionController::class, 'guardarEspecialidad'])->name('form.guardarEspecialidad');
 Route::post('/especialidad/listaEspecialidades', [AdminitraccionController::class, 'listaEspecialidades'])->name('especialidades.listaEspecialidades');
 Route::post('/especialidad/buscaEspecialidad', [AdminitraccionController::class, 'busquedaEspecialidad'])->name('especialidades.buscaEspecialidad');
-Route::post('/especialidad/eliminarEsp', [AdminitraccionController::class, 'eliminarEspecialidad'])->name('especialidades.eliminarEsp');
+Route::post('/especialidad/eliminarEspecialidad', [AdminitraccionController::class, 'eliminarEspecialidad'])->name('especialidades.eliminarEspecialidad');
 
 ///GESTIONAR PROFESIONALES
 Route::middleware(['auth', 'permission:adminProfesionales'])->group(function () {
@@ -67,6 +70,27 @@ Route::post('/profesional/guardar', [AdminitraccionController::class, 'guardarPr
 Route::post('/verificar-usuario', [UsuariosController::class, 'verificarUsuario']);
 Route::post('/profesional/buscaProfesional', [AdminitraccionController::class, 'busquedaProfesional'])->name('profesionales.buscaProfesional');
 Route::post('/profesional/eliminarProf', [AdminitraccionController::class, 'eliminarProfesional'])->name('profesionales.eliminarProf');
+
+
+///GESTIONAR ENTIDADES
+Route::middleware(['auth', 'permission:Admineps'])->group(function () {
+    Route::get('/Administracion/Entidades', [AdminitraccionController::class, 'Entidades']);
+});
+Route::post('/entidades/guardar', [AdminitraccionController::class, 'guardarEntidades'])->name('form.guardarEntidades');
+Route::post('/entidades/listaEntidades', [AdminitraccionController::class, 'listaEntidades'])->name('entidades.listaEntidades');
+Route::post('/entidades/buscaEntidad', [AdminitraccionController::class, 'buscaEntidad'])->name('entidades.buscaEntidad');
+Route::post('/entidades/eliminarEntidad', [AdminitraccionController::class, 'eliminarEntidad'])->name('entidades.eliminarEntidad');
+Route::post('/verificar-codigo-entidad', [AdminitraccionController::class, 'verificarCodigoEntidad']);
+
+///GESTIONAR PAQUETES
+Route::middleware(['auth', 'permission:Admineps'])->group(function () {
+    Route::get('/Administracion/Paquetes', [AdminitraccionController::class, 'Paquetes']);
+});
+Route::post('/paquetes/listaPaquetes', [AdminitraccionController::class, 'listaPaquetes'])->name('paquetes.listaPaquetes');
+Route::post('/paquetes/guardar', [AdminitraccionController::class, 'guardarPaquete'])->name('form.guardarPaquete');
+Route::post('/paquetes/buscarPaquete', [AdminitraccionController::class, 'buscarPaquete'])->name('paquetes.buscarPaquete');
+Route::post('/paquetes/eliminarPaquete', [AdminitraccionController::class, 'eliminarPaquete'])->name('paquetes.eliminarPaquete');
+
 
 /// AGENDA
 Route::post('/citas/agenda', [AgendaController::class, 'agenda'])->name('citas.agenda');
@@ -144,11 +168,11 @@ Route::post('/AdminUsuario/listaPerfiles', [UsuariosController::class, 'listaPer
 Route::get('/Administracion/buscaListPerfiles', [UsuariosController::class, 'buscaListPerfiles'])->name('usuario.buscaListPerfiles');
 
 
-// INFORMES
+// INFORMES PSICOLOGIA
 Route::middleware(['auth', 'permission:informePsicologico'])->group(function () {
     Route::get('/HistoriasClinicas/InformePsicologia', [HistoriasController::class, 'informePsicologia'])->name('gestionar.informePsicologia');
 });
-Route::get('/HistoriasClinicas/InformePsicologia', [HistoriasController::class, 'informePsicologia'])->name('gestionar.informePsicologia');
+
 Route::post('/informes/psicologia', [HistoriasController::class, 'listaPacientesInformePsicologia'])->name('informes.psicologia');
 Route::post('/informes/verHistorial', [HistoriasController::class, 'verHistorialEvoluciones'])->name('informes.verHistorial');
 Route::post('/informes/buscaEvolucionPsicologica', [HistoriasController::class, 'buscaEvolucionPsicologica'])->name('informes.buscaEvolucionPsicologica');
@@ -158,3 +182,16 @@ Route::post('/informes/guardarInformePsicologica', [HistoriasController::class, 
 Route::post('/informes/informePsicologia', [HistoriasController::class, 'informePsicologiaList'])->name('informes.informePsicologia');
 Route::post('/informes/buscaInformePsicologica', [HistoriasController::class, 'buscaInformePsicologica'])->name('informes.buscaInformePsicologica');
 Route::post('/informes/eliminarInforme', [HistoriasController::class, 'eliminarInforme'])->name('informes.eliminarInforme');
+
+// INFORMES NEUROPSICOLOGIA
+Route::middleware(['auth', 'permission:informeNeuro'])->group(function () {
+    Route::get('/HistoriasClinicas/InformeNeuropsicologico', [HistoriaNeuroPsicologicaController::class, 'informePsicologia'])->name('gestionar.InformeNeuropsicologico');
+});
+Route::post('/informes/neuropsicologia', [HistoriaNeuroPsicologicaController::class, 'listaPacientesInformeNeuropsicologia'])->name('informes.neuropsicologia');
+Route::post('/informes/informeNeuropsicologia', [HistoriaNeuroPsicologicaController::class, 'informeNeuropsicologiaList'])->name('informes.informeNeuropsicologia');
+Route::post('/informes/buscaInformeNeuropsicologica', [HistoriaNeuroPsicologicaController::class, 'buscaInformeNeuropsicologica'])->name('informes.buscaInformeNeuropsicologica');
+Route::post('/informes/eliminarInformeNeuro', [HistoriaNeuroPsicologicaController::class, 'eliminarInformeNeuro'])->name('informes.eliminarInformeNeuro');
+Route::post('/informes/guardarInformeNeuropsicologica', [HistoriaNeuroPsicologicaController::class, 'guardarInformeNeuropsicologica'])->name('form.guardarInformeNeuropsicologica');
+Route::post('/informes/buscarAnexosInforme', [HistoriaNeuroPsicologicaController::class, 'buscarAnexosInforme'])->name('informes.buscarAnexosInforme');
+Route::post('/informes/eliminarAnexoInforme', [HistoriaNeuroPsicologicaController::class, 'eliminarAnexoInforme'])->name('informes.eliminarAnexoInforme');
+

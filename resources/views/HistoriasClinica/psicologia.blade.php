@@ -1670,6 +1670,64 @@
             </div><!-- /.modal -->
         </div><!-- /.modal -->
     </div>
+
+    <!-- MODAL PAUETES -->
+    <div class="modal fade" id="modalPaquete" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 40%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="tituloAccion">Agregar paquete</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formPaquetes">
+                        <input type="hidden" name="accRegistro" id="accRegistro" value="guardar" />
+                        <input type="hidden" name="idRegistro" id="idRegistro" value="" />
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <label for="descripcion" class="form-label">Descripción :</label>
+                                    <input type="text" class="form-control" id="descripcion" name="descripcion">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="valor" class="form-label">Valor :</label>
+                                    <input type="text" class="form-control" id="valorVis" name="valorVis"
+                                        onchange="cambioFormato(this.id);" onkeypress="return validartxtnum(event)"
+                                        onclick="this.select();">
+                                    <input type="hidden" class="form-control" id="valor" name="valor">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="observaciones" class="form-label">Observaciones :</label>
+                                    <textarea class="form-control" id="observaciones" name="observaciones" rows="3"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="box-footer text-end">
+                                <button type="button" onclick="nuevoRegistro(2);" style="display: none;"
+                                    id="newRegistro" class="btn btn-primary-light me-1">
+                                    <i class="ti-plus "></i> Nuevo
+                                </button>
+                                <button type="button" id="cancelRegistro" onclick="cancelarRegistro();"
+                                    class="btn btn-primary-light me-1">
+                                    <i class="ti-close"></i> Cancelar
+                                </button>
+                                <button type="button" id="saveRegistro" onclick="guardarRegistro();"
+                                    class="btn btn-primary">
+                                    <i class="ti-save"></i> Guardar
+                                </button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div><!-- /.modal -->
     <script>
         window.userPermissions = @json(Auth::user()->permissions);
 
@@ -2380,19 +2438,19 @@
         function eliminarHistoria(idHistoria) {
             if (hasPermission('editarHistoria')) {
                 swal({
-                title: "Esta seguro de eliminar esta historia ?",
-                text: "¡No podrás revertir esto!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Si, eliminar!",
-                cancelButtonText: "Cancelar",
-                confirmButtonClass: "btn btn-warning",
-                cancelButtonClass: "btn btn-danger ml-1",
-                buttonsStyling: false
-            }, function(isConfirm) {
-                if (isConfirm) {
+                    title: "Esta seguro de eliminar esta historia ?",
+                    text: "¡No podrás revertir esto!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Si, eliminar!",
+                    cancelButtonText: "Cancelar",
+                    confirmButtonClass: "btn btn-warning",
+                    cancelButtonClass: "btn btn-danger ml-1",
+                    buttonsStyling: false
+                }, function(isConfirm) {
+                    if (isConfirm) {
                         let url = "{{ route('historia.eliminarHistoria') }}";
                         fetch(url, {
                                 method: 'POST',
@@ -2915,45 +2973,45 @@
 
         function editarConsulta(idConsulta) {
             if (hasPermission('editarEvoluciones')) {
-            document.getElementById("listadoConsultas").style.display = "none"
-            document.getElementById("fomrConsultas").style.display = "initial"
+                document.getElementById("listadoConsultas").style.display = "none"
+                document.getElementById("fomrConsultas").style.display = "initial"
 
-            document.getElementById("idHistoriaConsulta").value = idConsulta
-            document.getElementById("accHistoriaConsulta").value = "editar"
+                document.getElementById("idHistoriaConsulta").value = idConsulta
+                document.getElementById("accHistoriaConsulta").value = "editar"
 
-            let url = "{{ route('historia.buscaConsultaPsicologica') }}"
+                let url = "{{ route('historia.buscaConsultaPsicologica') }}"
 
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        idConsulta: idConsulta
+                fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            idConsulta: idConsulta
+                        })
                     })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    cargarSelConsulta(data.consulta.codigo_consulta, 'codConsultaConsulta')
+                    .then(response => response.json())
+                    .then(data => {
+                        cargarSelConsulta(data.consulta.codigo_consulta, 'codConsultaConsulta')
 
-                    cargarImpresion(data.consulta.impresion_diagnostica, 'codImpresionDiagnosticoConsulta')
+                        cargarImpresion(data.consulta.impresion_diagnostica, 'codImpresionDiagnosticoConsulta')
 
-                    CKEDITOR.instances['motivoConsultaModal'].setData(data.consulta.motivo)
-                    CKEDITOR.instances['objetivo_sesion'].setData(data.consulta.objetivo_sesion)
-                    CKEDITOR.instances['tecnicas_utilizadas'].setData(data.consulta.tecnicas_utilizadas)
-                    CKEDITOR.instances['actividades_especificas'].setData(data.consulta.actividades_especificas)
+                        CKEDITOR.instances['motivoConsultaModal'].setData(data.consulta.motivo)
+                        CKEDITOR.instances['objetivo_sesion'].setData(data.consulta.objetivo_sesion)
+                        CKEDITOR.instances['tecnicas_utilizadas'].setData(data.consulta.tecnicas_utilizadas)
+                        CKEDITOR.instances['actividades_especificas'].setData(data.consulta.actividades_especificas)
 
-                    const [fecha, hora] = data.consulta.fecha_consulta.split(' ')
-                    document.getElementById('fechaEvolucion').value = fecha
-                    document.getElementById('horaSeleccionadad').value = hora.slice(0, 5)
+                        const [fecha, hora] = data.consulta.fecha_consulta.split(' ')
+                        document.getElementById('fechaEvolucion').value = fecha
+                        document.getElementById('horaSeleccionadad').value = hora.slice(0, 5)
 
 
-                    CKEDITOR.instances['evaluacion_indicadores'].setData(data.consulta.evaluacion_indicadores)
-                    CKEDITOR.instances['evolucion_sesion'].setData(data.consulta.evolucion_sesion)
+                        CKEDITOR.instances['evaluacion_indicadores'].setData(data.consulta.evaluacion_indicadores)
+                        CKEDITOR.instances['evolucion_sesion'].setData(data.consulta.evolucion_sesion)
 
-                })
-                .catch(error => console.error('Error:', error))
+                    })
+                    .catch(error => console.error('Error:', error))
             } else {
                 swal("¡Alerta!",
                     "No tiene el permiso necesario para realizar esta acción",
@@ -3327,56 +3385,57 @@
 
         function eliminarConsulta(idCons) {
             if (hasPermission('editarEvoluciones')) {
-            swal({
-                title: "Esta seguro de eliminar esta consulta ?",
-                text: "¡No podrás revertir esto!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Si, eliminar!",
-                cancelButtonText: "Cancelar",
-                confirmButtonClass: "btn btn-warning",
-                cancelButtonClass: "btn btn-danger ml-1",
-                buttonsStyling: false
-            }, function(isConfirm) {
-                if (isConfirm) {
-                    let url = "{{ route('historia.eliminarConsulta') }}";
-                    fetch(url, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                                    'content')
-                            },
-                            body: JSON.stringify({
-                                idConsulta: idCons
+                swal({
+                    title: "Esta seguro de eliminar esta consulta ?",
+                    text: "¡No podrás revertir esto!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Si, eliminar!",
+                    cancelButtonText: "Cancelar",
+                    confirmButtonClass: "btn btn-warning",
+                    cancelButtonClass: "btn btn-danger ml-1",
+                    buttonsStyling: false
+                }, function(isConfirm) {
+                    if (isConfirm) {
+                        let url = "{{ route('historia.eliminarConsulta') }}";
+                        fetch(url, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                        .getAttribute(
+                                            'content')
+                                },
+                                body: JSON.stringify({
+                                    idConsulta: idCons
+                                })
                             })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                swal("¡Buen trabajo!",
-                                    data.message,
-                                    "success");
-                                cargarConsultas(1);
-                            } else {
-                                swal("¡Alerta!",
-                                    "La operación fue realizada exitosamente",
-                                    data.message,
-                                    "success");
-                            }
-                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    swal("¡Buen trabajo!",
+                                        data.message,
+                                        "success");
+                                    cargarConsultas(1);
+                                } else {
+                                    swal("¡Alerta!",
+                                        "La operación fue realizada exitosamente",
+                                        data.message,
+                                        "success");
+                                }
+                            })
 
-                } else {
-                    swal("Cancelado", "Tu registro esta salvo :)", "error");
-                }
-            });
+                    } else {
+                        swal("Cancelado", "Tu registro esta salvo :)", "error");
+                    }
+                });
             } else {
                 swal("¡Alerta!",
                     "No tiene el permiso necesario para realizar esta acción",
                     "warning")
-            }   
+            }
         }
 
         function imprimirHistoria(id) {
@@ -3422,6 +3481,18 @@
                     }
                 })
                 .catch(error => console.error('Error:', error));
+        }
+
+        function ComprarPaquete(element) {
+            // obtener data-id de element 
+            let id = element.getAttribute("data-id")
+
+            var modal = new bootstrap.Modal(document.getElementById("modalPaquete"), {
+                backdrop: 'static',
+                keyboard: false
+            });
+            modal.show()
+
         }
     </script>
 

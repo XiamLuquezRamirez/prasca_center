@@ -762,6 +762,7 @@
             document.querySelector('#salirInfo').style.display = 'none'
             document.getElementById('tituloInforme').innerHTML = 'Crear nuevo informe'
             feather.replace();
+             document.getElementById("accInforme").value = "guardar"
 
             cargarinformacionHistoria()
         }

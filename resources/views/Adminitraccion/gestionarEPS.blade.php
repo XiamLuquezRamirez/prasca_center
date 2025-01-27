@@ -1,16 +1,16 @@
 @extends('Plantilla.Principal')
-@section('title', 'Gestionar motivo de consulta')
+@section('title', 'Gestionar Entidades Promotoras de Salud (EPS)')
 @section('Contenido')
     <div class="content-header">
         <div class="d-flex align-items-center">
             <div class="me-auto">
-                <h4 class="page-title">Gestionar motivo de consulta</h4>
+                <h4 class="page-title">Gestionar Entidades Promotoras de Salud (EPS) </h4>
                 <div class="d-inline-block align-items-center">
                     <nav>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
                             <li class="breadcrumb-item" aria-current="page">Inicio</li>
-                            <li class="breadcrumb-item active" aria-current="page">Gestionar motivo de consulta</li>
+                            <li class="breadcrumb-item active" aria-current="page">Gestionar entidades Promotoras de Salud</li>
                         </ol>
                     </nav>
                 </div>
@@ -25,7 +25,7 @@
             <div id="listado" class="col-12 col-xl-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title">Listado de motivo de consulta</h5>
+                        <h5 class="card-title">Listado de Entidades Promotoras de Salud (EPS) </h5>
                     </div>
                     <div class="card-body">
                         <div class="box-controls pull-right">
@@ -37,7 +37,7 @@
                                     </div>
                                     <button type="button" onclick="nuevoRegistro(1);"
                                         class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i> Nueva
-                                        motivo</button>
+                                        EPS</button>
                                 </div>
 
                             </div>
@@ -45,8 +45,8 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th style="width:10%;">#</th>
-                                    <th style="width:80%;">Descripción</th>
+                                    <th style="width:10%;">Código</th>
+                                    <th style="width:80%;">Entidad</th>
                                     <th style="width:10%;">Acción</th>
                                 </tr>
                             </thead>
@@ -63,23 +63,36 @@
             </div>
         </div>
     </section>
-    <!-- MODAL MOTIVO DE CONSULTA -->
-    <div class="modal fade" id="modalEspecialidad" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    <!-- MODAL ENTIDADES -->
+    <div class="modal fade" id="modalEPS" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" style="max-width: 40%;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="tituloAccion">Agregar motivo de consulta</h4>
+                    <h4 class="modal-title" id="tituloAccion">Agregar entidad</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="formEspecialidad">
+                    <form id="formEntidades">
                         <input type="hidden" name="accRegistro" id="accRegistro" value="guardar" />
                         <input type="hidden" name="idRegistro" id="idRegistro" value="" />
+                        <input type="hidden" name="codigoOriginal" id="codigoOriginal" value="" />
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="nombre" class="form-label">Descripción :</label>
+                                    <label for="codigo" class="form-label">Código :</label>
+                                    <input type="text" class="form-control" id="codigo" name="codigo">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="nit" class="form-label">NIT :</label>
+                                    <input type="text" class="form-control" id="nit" name="nit">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nombre" class="form-label">Nombre :</label>
                                     <input type="text" class="form-control" id="nombre" name="nombre">
                                 </div>
                             </div>
@@ -115,26 +128,46 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             let menuP = document.getElementById("principalParametros");
-            let menuS = document.getElementById("principalParametrosEspecialidades");
+            let menuS = document.getElementById("principalParametrosEPS");
 
             menuP.classList.add("active", "menu-open");
             menuS.classList.add("active");
 
-            menuP.classList.add("active");
-
             loader = document.getElementById('loader');
             loadNow(1);
 
-            $("#formEspecialidad").validate({
+            $("#formEntidades").validate({
                 rules: {
 
+                    codigo: {
+                        required: true,
+                        remote: {
+                            url: "/verificar-codigo-entidad", // URL para verificar
+                            type: "post",
+                            data: {
+                                codigo: function() {
+                                    return $("#codigo").val()
+                                },
+                                id: function() {
+                                    return $("#idRegistro").val() || null // Enviar id si es edición
+                                },
+                                _token: function() {
+                                    return "{{ csrf_token() }}" // Token CSRF para seguridad
+                                }
+                            }
+                        },
+                    },
                     nombre: {
                         required: true
                     }
                 },
                 messages: {
                     nombre: {
-                        required: "Por favor, ingrese la descrición de la consulta."
+                        required: "Por favor, ingrese el nombre de la entidad."
+                    },
+                    codigo: {
+                        required: "Por favor, ingrese el código de la entidad.",
+                        remote: "Esta código ya está registrado."
                     }
                 },
                 submitHandler: function(form) {
@@ -170,12 +203,12 @@
 
         function guardarRegistro() {
 
-            if ($("#formEspecialidad").valid()) {
+            if ($("#formEntidades").valid()) {
 
-                const formEspecialidad = document.getElementById('formEspecialidad');
-                const formData = new FormData(formEspecialidad);
+                const formEntidades = document.getElementById('formEntidades');
+                const formData = new FormData(formEntidades);
 
-                const url = "{{ route('form.guardarEspecialidad') }}";
+                const url = "{{ route('form.guardarEntidades') }}";
 
                 fetch(url, {
                         method: 'POST',
@@ -210,18 +243,19 @@
         }
 
         function editarRegistro(idRegistro) {
-            var modal = new bootstrap.Modal(document.getElementById("modalEspecialidad"), {
+            var modal = new bootstrap.Modal(document.getElementById("modalEPS"), {
                 backdrop: 'static',
                 keyboard: false
             });
             document.getElementById("accRegistro").value = 'editar'
             document.getElementById("idRegistro").value = idRegistro
+            document.getElementById('saveRegistro').removeAttribute('disabled')
 
-            document.getElementById("tituloAccion").innerHTML  = "Editar motivo de consulta"
+            document.getElementById("tituloAccion").innerHTML  = "Editar entidad promotora de salud"
 
             modal.show();
 
-            let url = "{{ route('especialidades.buscaEspecialidad') }}";
+            let url = "{{ route('entidades.buscaEntidad') }}";
 
             fetch(url, {
                     method: 'POST',
@@ -235,9 +269,10 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-
-                    document.getElementById("nombre").value = data.nombre
-                    document.getElementById("observaciones").value = data.observacion
+                    document.getElementById("nombre").value = data.entidad
+                    document.getElementById("codigo").value = data.codigo
+                    document.getElementById("nit").value = data.nit
+                    document.getElementById("observaciones").value = data.observaciones
 
                 })
                 .catch(error => console.error('Error:', error));
@@ -247,14 +282,14 @@
 
 
         function cancelarRegistro() {
-            const formEspecialidad = document.getElementById('formEspecialidad');
-            formEspecialidad.reset();
+            const formEntidades = document.getElementById('formEntidades');
+            formEntidades.reset();
         }
 
         function nuevoRegistro(opc) {
 
             if (opc == 1) {
-                var modal = new bootstrap.Modal(document.getElementById("modalEspecialidad"), {
+                var modal = new bootstrap.Modal(document.getElementById("modalEPS"), {
                     backdrop: 'static',
                     keyboard: false
                 });
@@ -268,7 +303,7 @@
             document.getElementById("accRegistro").value = "guardar"
 
             
-            document.getElementById("tituloAccion").innerHTML  = "Agregar motivo de consulta"
+            document.getElementById("tituloAccion").innerHTML  = "Agregar entidad promotora de salud"
 
         }
 
@@ -285,7 +320,7 @@
                 closeOnCancel: false
             }, function(isConfirm) {
                 if (isConfirm) {
-                    let url = "{{ route('especialidades.eliminarEspecialidad') }}";
+                    let url = "{{ route('entidades.eliminarEntidad') }}";
                     fetch(url, {
                             method: 'POST',
                             headers: {
@@ -321,7 +356,7 @@
         function cargar(page, searchTerm = '') {
 
 
-            let url = "{{ route('especialidades.listaEspecialidades') }}"; // Definir la URL
+            let url = "{{ route('entidades.listaEntidades') }}"; // Definir la URL
 
             // Eliminar los campos ocultos anteriores
             var oldPageInput = document.getElementById('page');
@@ -348,7 +383,7 @@
                 .then(response => response.json())
                 .then(responseData => {
                     // Rellenar la tabla con las filas generadas
-                    document.getElementById('trRegistros').innerHTML = responseData.especialidades;
+                    document.getElementById('trRegistros').innerHTML = responseData.entidades;
                     feather.replace();
                     // Colocar los enlaces de paginación
                     document.getElementById('pagination-links').innerHTML = responseData.links;

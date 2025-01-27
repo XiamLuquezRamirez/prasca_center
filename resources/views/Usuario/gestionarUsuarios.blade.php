@@ -503,7 +503,6 @@
                     .then(data => {
 
                         if (data.success) {
-
                             swal("¡Buen trabajo!", "La operación fue realizada exitosamente", "success")
 
                             document.getElementById('btn-guardar').setAttribute('disabled', 'disabled')

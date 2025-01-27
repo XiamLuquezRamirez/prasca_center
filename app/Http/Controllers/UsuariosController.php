@@ -35,6 +35,58 @@ class UsuariosController extends Controller
         }
     }
 
+    public function UpdatePerfil()
+    {
+        if (Auth::check()) {
+            $data = request()->all();
+            if (isset($data['fotoUsuario'])) {
+                $archivo = $data['fotoUsuario'];
+                $nombreOriginal = $archivo->getClientOriginalName();
+                $tipoMime = $archivo->getClientMimeType();
+
+                $prefijo = substr(md5(uniqid(rand())), 0, 6);
+                $nombreArchivo = self::sanear_string($prefijo . '_' . $nombreOriginal);
+                $archivo->move(public_path() . '/app-assets/images/FotosUsuarios/', $nombreArchivo);
+                $data['img'] = $nombreArchivo;
+            } else {
+                $data['img'] = $data['fotoCargada'];
+            }
+
+            $perfil = Usuario::cambiosPerfil($data);
+            if (request()->ajax()) {
+                return response()->json([
+                    'estado' => "ok",
+                ]);
+            }
+            
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+
+    public function VerificarUsuarioPerfil()
+    {
+        $usu = request()->get('Usuario');
+        $usuario = Usuario::verifUsuario($usu);
+
+        if (request()->ajax()) {
+            return response()->json([
+                'usuario' => $usuario->count(),
+            ]);
+        }
+    }
+
+
+    public function perfil()
+    {
+        if (Auth::check()) {
+            $bandera = "";
+            return view('Adminitraccion.GestionarPerfil', compact('bandera'));
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+
     public function busquedaUsuario(Request $request)
     {
         $idUsuario = $request->input('idUsuario');
@@ -283,12 +335,14 @@ class UsuariosController extends Controller
 
             $usuarios = DB::connection('mysql')
                 ->table('users')
-                ->where('estado', 'ACTIVO');
+                ->leftJoin('perfiles', 'perfiles.id','users.tipo_usuario')
+                ->select('users.id','users.nombre_usuario','perfiles.nombre','users.estado_usuario','users.login_usuario')
+                ->where('users.estado', 'ACTIVO');
 
             if ($search) {
                 $usuarios->where(function ($query) use ($search) {
-                    $query->where('nombre_usuario', 'LIKE', '%' . $search . '%')
-                        ->orWhere('login_usuario', 'LIKE', '%' . $search . '%');
+                    $query->where('users.nombre_usuario', 'LIKE', '%' . $search . '%')
+                        ->orWhere('users.login_usuario', 'LIKE', '%' . $search . '%');
                 });
             }
 
@@ -305,7 +359,7 @@ class UsuariosController extends Controller
                     $tdTable .= '<tr>
                                     <td>' . $item->nombre_usuario . '</td>
                                     <td>' . $item->login_usuario . '</td>
-                                    <td>' . $item->tipo_usuario . '</td>
+                                    <td>' . $item->nombre . '</td>
                                     <td><span class="badge badge-sm badge-' . $estadoClass . '-light">' . $item->estado_usuario . '</span></td>
                                     <td class="table-action min-w-100">
                                         <a onclick="editarUsuario(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
@@ -407,4 +461,64 @@ class UsuariosController extends Controller
 
         return response()->json(!$usuarioExistente); // Devuelve true si NO existe, false si ya está registrado
     }
+
+    public function sanear_string($string)
+    {
+
+        $string = trim($string);
+
+        $string = str_replace(
+            array('á', 'à', 'ä', 'â', 'ª', 'Á', 'À', 'Â', 'Ä'),
+            array('a', 'a', 'a', 'a', 'a', 'A', 'A', 'A', 'A'),
+            $string
+        );
+
+        $string = str_replace(
+            array('é', 'è', 'ë', 'ê', 'É', 'È', 'Ê', 'Ë'),
+            array('e', 'e', 'e', 'e', 'E', 'E', 'E', 'E'),
+            $string
+        );
+
+        $string = str_replace(
+            array('í', 'ì', 'ï', 'î', 'Í', 'Ì', 'Ï', 'Î'),
+            array('i', 'i', 'i', 'i', 'I', 'I', 'I', 'I'),
+            $string
+        );
+
+        $string = str_replace(
+            array('ó', 'ò', 'ö', 'ô', 'Ó', 'Ò', 'Ö', 'Ô'),
+            array('o', 'o', 'o', 'o', 'O', 'O', 'O', 'O'),
+            $string
+        );
+
+        $string = str_replace(
+            array('ú', 'ù', 'ü', 'û', 'Ú', 'Ù', 'Û', 'Ü'),
+            array('u', 'u', 'u', 'u', 'U', 'U', 'U', 'U'),
+            $string
+        );
+
+        $string = str_replace(
+            array('ñ', 'Ñ', 'ç', 'Ç'),
+            array('n', 'N', 'c', 'C'),
+            $string
+        );
+
+        //Esta parte se encarga de eliminar cualquier caracter extraño
+        $string = str_replace(
+            array(
+                "¨", "º", "-", "~", "", "@", "|", "!",
+                "·", "$", "%", "&", "/",
+                "(", ")", "?", "'", " h¡",
+                "¿", "[", "^", "<code>", "]",
+                "+", "}", "{", "¨", "´",
+                ">", "< ", ";", ",", ":",
+                " ",
+            ),
+            '',
+            $string
+        );
+
+        return $string;
+    }
+
 }

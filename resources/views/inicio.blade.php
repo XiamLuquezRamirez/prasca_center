@@ -625,7 +625,7 @@
                                                                 <button type="button"
                                                                     class="waves-effect waves-light btn btn-warning dropdown-toggle"
                                                                     data-bs-toggle="dropdown"><i
-                                                                        class="fa fa-paper-plane-o"></i> Notificar al
+                                                                        class="fa fa-paper-plane-o"></i> Notificar recordatorio al
                                                                     cliente</button>
                                                                 <div class="dropdown-menu">
                                                                     <a class="dropdown-item" style="cursor: pointer;"
@@ -850,11 +850,14 @@
             let parCita = document.getElementById("inicioCita").innerText.split(" ")
             
             let numeroTelefono = document.getElementById("telefonoCita").innerText; // Obtén el número desde el HTML
-            let mensaje = `Hola, este es un recordatorio de tu cita médica:
-            *- Fecha:* ${parCita[0]}
-            *- Hora:* ${parCita[1]}
-            *- Lugar:* 
-            Por favor, confirma tu asistencia respondiendo este mensaje o a través del siguiente enlace:`;
+            let mensaje = `*Prasca Center*
+        Hola, este es un recordatorio de tu cita médica:
+            
+          *- Fecha:* ${parCita[0]}
+          *- Hora:* ${parCita[1]} ${parCita[2]}
+          *- Lugar:* Calle 11 # 11 - 07 San Joaquin 
+        
+        Por favor, confirma tu asistencia respondiendo este mensaje. Gracias.`; // Mensaje de prueba; reemplázalo por el mensaje real
 
             // Número de prueba; reemplázalo por el valor real en producción
             numeroTelefono = "573164915332";

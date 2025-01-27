@@ -185,11 +185,15 @@
                 </div>
                 <div class="seccion">
                     <p><strong>Motivo de consulta</strong></p>
+                    <p>{{ $historia->motivo_consulta_texto }}</p>
+                </div>
+                <div class="seccion">
+                    <p><strong>Motivo de consulta relacionado</strong></p>
                     <p>{{ $historia->motivo_consulta_detalle->opcion }}</p>
                 </div>
                 @if ($historia->otro_motivo_consulta != null)
                     <div class="seccion">
-                        <p><strong>Otro motivo de consulta</strong></p>
+                        <p><strong>Otro motivo de consulta relacionado</strong></p>
                         <p>{{ $historia->otro_motivo_consulta }}</p>
                     </div>
                 @endif

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Especialidades;
 use App\Models\Profesional;
 use App\Models\Entidades;
+use App\Models\HistoriaPsicologica;
 use App\Models\Paquetes;
 
 
@@ -22,6 +23,16 @@ class AdminitraccionController extends Controller
             return redirect("/")->with("error", "Su Sesión ha Terminado");
         }
     }
+    public function Recaudos()
+    {
+        if (Auth::check()) {
+            $bandera = "";
+            return view('Recaudos.gestionRecaudos', compact('bandera'));
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+
     public function Entidades()
     {
         if (Auth::check()) {
@@ -165,6 +176,292 @@ class AdminitraccionController extends Controller
         }
     }
 
+    public function listaVentasPacientes(Request $request)
+    {
+        if (Auth::check()) {
+            $perPage = 10; // Número de posts por página
+            $page = request()->get('page', 1);
+            $search = request()->get('search');
+            if (!is_numeric($page)) {
+                $page = 1; // Establecer un valor predeterminado si no es numérico
+            }
+
+            $paquetes = DB::connection('mysql')
+                ->table('ventas_paquetes')
+                ->leftJoin('historia_clinica', 'ventas_paquetes.historia_clinica_id',  'historia_clinica.id')
+                ->leftJoin('pacientes', 'historia_clinica.id_paciente',  'pacientes.id')
+                ->leftJoin('paquetes', 'ventas_paquetes.paquete_id',  'paquetes.id')
+                ->where('ventas_paquetes.estado', 'ACTIVO')
+                ->where('ventas_paquetes.estado_venta', 'PENDIENTE')
+                ->select(
+                    'ventas_paquetes.id',
+                    'paquetes.descripcion',
+                    DB::raw("CONCAT(pacientes.tipo_identificacion, ' ', pacientes.identificacion) as identificacion_completa"),
+                    DB::raw("CONCAT(pacientes.primer_nombre,' ',pacientes.segundo_nombre,' ',pacientes.primer_apellido,' ',pacientes.segundo_apellido) as nombre_paciente"),
+                    'ventas_paquetes.fecha_compra',
+                    'ventas_paquetes.sesiones_disponibles',
+                    'ventas_paquetes.sesiones_compradas',
+                    'ventas_paquetes.saldo'
+                );
+
+            if ($search) {
+                $paquetes->where(function ($query) use ($search) {
+                    $query->where('paquetes.descripcion', 'LIKE', '%' . $search . '%')
+                        ->orWhere('pacientes.identificacion', 'LIKE', '%' . $search . '%')
+                        ->orWhere('pacientes.primer_nombre', 'LIKE', '%' . $search . '%')
+                        ->orWhere('pacientes.primer_apellido', 'LIKE', '%' . $search . '%');
+                });
+            }
+
+            $ListPaquetes = $paquetes->paginate($perPage, ['*'], 'page', $page);
+
+            $tdTable = '';
+            $x = ($page - 1) * $perPage + 1;
+            $const = 1;
+            foreach ($ListPaquetes as $i => $item) {
+                if (!is_null($item)) {
+                    $saldo = number_format($item->saldo, 2, ',', '.');
+                    $tdTable .= '<tr>
+                                    <td>
+                                        <div style="cursor: pointer" onclick="realizarPago(' . $item->id . ');"
+                                            class="bg-primary-light h-50 w-50 l-h-60 rounded text-center">
+                                            <span class="fa fa-dollar fs-24"></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <h5 class="text-dark fw-600 hover-primary m-0">' . $item->identificacion_completa . ' - ' . $item->nombre_paciente . '</h5>
+                                        <span class="text-fade d-block fs-14"><strong>Paquete: </strong> ' . $item->descripcion . '</span>
+                                    </td>
+                                    <td>
+                                        <h3>' . $item->fecha_compra . '</h3>
+                                    </td>
+                                    <td>
+                                    <div class="text-center"><h3>' . $item->sesiones_disponibles . '/' . $item->sesiones_compradas . '</h3></div>
+                                        
+                                    </td>
+                                    <td>
+                                        <h3>$ ' . $saldo . '</h3>
+                                    </td>
+                                </tr>';
+                    $x++;
+                    $const++;
+                }
+            }
+            $pagination = $ListPaquetes->links('Recaudos.PaginacionRecaudos')->render();
+
+            //consultar pagos pendientes 
+            $pagosPendientes = DB::connection('mysql')
+            ->table('pagos')
+            ->where('estado', 'ACTIVO')
+            ->whereColumn('pago_realizado', '<', 'pago_total') // Comparar columnas
+            ->count();
+
+            /// consultar ventas con saldo
+            $ventasConSaldo = DB::connection('mysql')
+                ->table('ventas_paquetes')
+                ->where('estado', 'ACTIVO')
+                ->where('estado_venta', 'PENDIENTE')
+                ->where('saldo', '>', 0)
+                ->count();
+
+            /// consutlar recaudo de mes
+            $recaudoMes = DB::connection('mysql')
+                ->table('pagos')
+                ->where('estado', 'ACTIVO')
+                ->whereMonth('fecha_pago', date('m'))
+                ->sum('pago_realizado');
+
+            //consutlar recaudo de dia
+            $recaudoDia = DB::connection('mysql')
+                ->table('pagos')
+                ->where('estado', 'ACTIVO')
+                ->whereDate('fecha_pago', date('Y-m-d'))
+                ->sum('pago_realizado');
+
+
+            //consultar historial de pagos realizados mostra los ultimo 5 pagos realizados ordenados por fecha
+            $historialPagos = DB::connection('mysql')
+                ->table('pagos')
+                ->leftJoin('ventas_paquetes', 'pagos.venta_paquete_id', 'ventas_paquetes.id')
+                ->leftJoin('paquetes', 'ventas_paquetes.paquete_id', 'paquetes.id')
+                ->leftJoin('historia_clinica', 'ventas_paquetes.historia_clinica_id', 'historia_clinica.id')
+                ->leftJoin('pacientes', 'historia_clinica.id_paciente', 'pacientes.id')
+                ->where('pagos.estado', 'ACTIVO')
+                ->orderBy('fecha_pago', 'desc')
+                ->select(
+                    'pagos.id',
+                    'pagos.pago_realizado',
+                    'pagos.fecha_pago',
+                    'pacientes.primer_nombre',
+                    'pacientes.primer_apellido',
+                    'paquetes.descripcion'
+                    
+                )
+                ->limit(5)
+                ->get();
+
+
+            return response()->json([
+                'paquetesVentas' => $tdTable,
+                'links' => $pagination,
+                'pagosPendientes' => $pagosPendientes,
+                'ventasConSaldo' => $ventasConSaldo,
+                'recaudoMes' => $recaudoMes,
+                'recaudoDia' => $recaudoDia,
+                'historialPagos' => $historialPagos
+            ]);
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+
+    public function otraInformacionRecaudos(Request $request)
+    {
+        if (Auth::check()) {
+            //consultar pagos pendientes 
+            $pagosPendientes = DB::connection('mysql')
+            ->table('pagos')
+            ->where('estado', 'ACTIVO')
+            ->whereColumn('pago_realizado', '<', 'pago_total') // Comparar columnas
+            ->count();
+
+            /// consultar ventas con saldo
+            $ventasConSaldo = DB::connection('mysql')
+                ->table('ventas_paquetes')
+                ->where('estado', 'ACTIVO')
+                ->where('estado_venta', 'PENDIENTE')
+                ->where('saldo', '>', 0)
+                ->count();
+
+            /// consutlar recaudo de mes
+            $recaudoMes = DB::connection('mysql')
+                ->table('pagos')
+                ->where('estado', 'ACTIVO')
+                ->whereMonth('fecha_pago', date('m'))
+                ->sum('pago_realizado');
+
+            //consutlar recaudo de dia
+            $recaudoDia = DB::connection('mysql')
+                ->table('pagos')
+                ->where('estado', 'ACTIVO')
+                ->whereDate('fecha_pago', date('Y-m-d'))
+                ->sum('pago_realizado');
+
+
+            //consultar historial de pagos realizados mostra los ultimo 5 pagos realizados ordenados por fecha
+            $historialPagos = DB::connection('mysql')
+                ->table('pagos')
+                ->leftJoin('ventas_paquetes', 'pagos.venta_paquete_id', 'ventas_paquetes.id')
+                ->leftJoin('paquetes', 'ventas_paquetes.paquete_id', 'paquetes.id')
+                ->leftJoin('historia_clinica', 'ventas_paquetes.historia_clinica_id', 'historia_clinica.id')
+                ->leftJoin('pacientes', 'historia_clinica.id_paciente', 'pacientes.id')
+                ->where('pagos.estado', 'ACTIVO')
+                ->orderBy('fecha_pago', 'desc')
+                ->select(
+                    'pagos.id',
+                    'pagos.pago_realizado',
+                    'pagos.fecha_pago',
+                    'pacientes.primer_nombre',
+                    'pacientes.primer_apellido',
+                    'paquetes.descripcion'
+                    
+                )
+                ->limit(5)
+                ->get();
+
+            return response()->json([              
+                'pagosPendientes' => $pagosPendientes,
+                'ventasConSaldo' => $ventasConSaldo,
+                'recaudoMes' => $recaudoMes,
+                'recaudoDia' => $recaudoDia,
+                'historialPagos' => $historialPagos
+            ]);
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+
+    
+
+    public function listaVentasPacientesPagos(Request $request)
+    {
+        if (Auth::check()) {
+            $perPage = 10; // Número de posts por página
+            $page = request()->get('pagePago', 1);
+            $search = request()->get('searchPago');
+            if (!is_numeric($page)) {
+                $page = 1; // Establecer un valor predeterminado si no es numérico
+            }
+
+            $paquetes = DB::connection('mysql')
+                ->table('ventas_paquetes')
+                ->leftJoin('historia_clinica', 'ventas_paquetes.historia_clinica_id',  'historia_clinica.id')
+                ->leftJoin('pacientes', 'historia_clinica.id_paciente',  'pacientes.id')
+                ->leftJoin('paquetes', 'ventas_paquetes.paquete_id',  'paquetes.id')
+                ->leftJoin('pagos', 'ventas_paquetes.id',  'pagos.venta_paquete_id')
+                ->where('ventas_paquetes.estado', 'ACTIVO')
+                ->where('pagos.estado', 'ACTIVO')
+                ->where('ventas_paquetes.estado_venta', 'PAGADO')
+                ->select(
+                    'ventas_paquetes.id',
+                    'paquetes.descripcion',
+                    DB::raw("CONCAT(pacientes.tipo_identificacion, ' ', pacientes.identificacion) as identificacion_completa"),
+                    DB::raw("CONCAT(pacientes.primer_nombre,' ',pacientes.segundo_nombre,' ',pacientes.primer_apellido,' ',pacientes.segundo_apellido) as nombre_paciente"),
+                    'pagos.fecha_pago',
+                    'pagos.pago_realizado',
+
+                );
+
+            if ($search) {
+                $paquetes->where(function ($query) use ($search) {
+                    $query->where('paquetes.descripcion', 'LIKE', '%' . $search . '%')
+                        ->orWhere('pacientes.identificacion', 'LIKE', '%' . $search . '%')
+                        ->orWhere('pacientes.primer_nombre', 'LIKE', '%' . $search . '%')
+                        ->orWhere('pacientes.primer_apellido', 'LIKE', '%' . $search . '%');
+                });
+            }
+
+            $ListPaquetes = $paquetes->paginate($perPage, ['*'], 'page', $page);
+
+            $tdTable = '';
+            $x = ($page - 1) * $perPage + 1;
+            $const = 1;
+            foreach ($ListPaquetes as $i => $item) {
+                if (!is_null($item)) {
+                    $pago_realizado = number_format($item->pago_realizado, 2, ',', '.');
+                    $tdTable .= '<tr>
+                                    <td>
+                                        <div style="cursor: pointer" onclick="verPago(' . $item->id . ');"
+                                            class="bg-primary-light h-50 w-50 l-h-60 rounded text-center">
+                                            <span class="fa fa-search fs-24"></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <h5 class="text-dark fw-600 hover-primary m-0">' . $item->identificacion_completa . ' - ' . $item->nombre_paciente . '</h5>
+                                        <span class="text-fade d-block fs-14"><strong>Paquete: </strong> ' . $item->descripcion . '</span>
+                                    </td>
+                                    <td>
+                                        <h3>' . $item->fecha_pago . '</h3>
+                                    </td>                                  
+                                    <td>
+                                        <h3>$ ' . $pago_realizado . '</h3>
+                                    </td>
+                                </tr>';
+                    $x++;
+                    $const++;
+                }
+            }
+            $pagination = $ListPaquetes->links('Recaudos.PaginacionRecaudosPagos')->render();
+
+            return response()->json([
+                'paquetesVentas' => $tdTable,
+                'links' => $pagination,
+            ]);
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+
     public function Usuarios()
     {
         if (Auth::check()) {
@@ -213,6 +510,34 @@ class AdminitraccionController extends Controller
             'message' => 'Datos guardados'
         ]);
     }
+    public function  guardarPagoVenta(Request $request)
+    {
+        if (!Auth::check()) {
+            return response()->json([
+                'estado' => 'error',
+                'mensaje' => 'Su sesión ha terminado.',
+            ], 401); // Código de error 401: No autorizado
+        }
+
+        // Capturar los datos del request
+        $data = $request->all();
+        $respuesta = Paquetes::GuardarPagoPaquete($data);
+
+        // Verificar el resultado y preparar la respuesta
+        if ($respuesta) {
+            $estado = true;
+        } else {
+            $estado = false;
+        }
+
+        // Retornar la respuesta en formato JSON
+        return response()->json([
+            'success' => $estado,
+            'id' => $respuesta,
+            'message' => 'Datos guardados'
+        ]);
+    }
+   
 
     public function  guardarEntidades(Request $request)
     {
@@ -489,6 +814,66 @@ class AdminitraccionController extends Controller
         $entidad = Entidades::busquedaEntidad($idRegistro);
         return response()->json($entidad);
     }
+
+    public function detalleVentaPaquetePaciente(Request $request)
+    {
+        $idVenta = $request->input('idVenta');
+        $PaqueteVenta = Paquetes::busquedaPaquetesVentas($idVenta);
+        
+        $historialpagos = DB::connection('mysql')
+            ->table('pagos')
+            ->leftJoin('medio_pagos', 'pagos.id', 'medio_pagos.id_pago')
+            ->leftJoin("users", "pagos.usuario", "users.id")
+            ->where('venta_paquete_id', $idVenta)
+            ->where('pagos.estado', 'ACTIVO')
+            ->select(
+                'pagos.id',
+                'pagos.pago_realizado',
+                'pagos.fecha_pago',
+                'medio_pagos.id as idMedioPago',
+                DB::raw("CASE
+                WHEN medio_pagos.medio_pago = 'e' THEN 'Efectivo'
+                WHEN medio_pagos.medio_pago = 't' THEN 'Transferencia'
+                WHEN medio_pagos.medio_pago = 'tc' THEN 'Tarjeta de débito'
+                ELSE 'Tarjeta de crédito' END as nombreMedioPago"),
+                'medio_pagos.referencia',
+                'users.nombre_usuario'
+                
+            )
+            ->get();
+            
+            return response()->json([
+                'PaqueteVenta' => $PaqueteVenta,
+                'historialpagos' => $historialpagos
+            ]);
+
+        return response()->json($PaqueteVenta);
+    }
+    public function detalleVentaPagosPaciente(Request $request)
+    {
+        $idVenta = $request->input('idVenta');
+        $PaqueteVenta = Paquetes::busquedaPaquetesVentas($idVenta);
+        $historialpagos = DB::connection('mysql')
+            ->table('pagos')
+            ->leftJoin('users', 'pagos.usuario', 'users.id')
+            ->where('venta_paquete_id', $idVenta)
+            ->where('pagos.estado', 'ACTIVO')
+            ->select(
+                'pagos.id',
+                'pagos.pago_realizado',
+                'pagos.fecha_pago',
+                'users.nombre_usuario'
+            )
+            ->get();
+
+            return response()->json([
+                'PaqueteVenta' => $PaqueteVenta,
+                'historialpagos' => $historialpagos
+            ]);
+
+        return response()->json($PaqueteVenta);
+    }
+
     public function buscarPaquete(Request $request)
     {
         $idRegistro = $request->input('idRegistro');

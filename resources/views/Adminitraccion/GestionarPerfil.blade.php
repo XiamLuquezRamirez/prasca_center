@@ -158,9 +158,6 @@
     <script>
         $(document).ready(function() {
             localStorage.clear();
-            let menuP = document.getElementById("agenda")
-
-            menuP.classList.add("active")
 
             loader = document.getElementById('loader')
             loadNow(1)
@@ -272,7 +269,7 @@
                         return;
                     }
                     if ($("#telefono").val().trim() === "") {
-                        Swal.fire({
+                        swal({
                             type: "warning",
                             title: "Oops...",
                             text: "Debes de ingresar su teléfono",
@@ -283,7 +280,7 @@
                         return;
                     }
                     if ($("#usuario").val().trim() === "") {
-                        Swal.fire({
+                        swal({
                             type: "warning",
                             title: "Oops...",
                             text: "Debes de ingresar su usuario",
@@ -295,8 +292,8 @@
                     }
                     let checkPasw = document.getElementById("cambioPasw");
 
-                    if (checkPasw.checked && document.getElementById("cambioPasw").value == "") {
-                        Swal.fire({
+                    if (checkPasw.checked && document.getElementById("pasw").value == "") {
+                        swal({
                             type: "warning",
                             title: "Oops...",
                             text: "Debes de ingresar la contraseña si se desea cambiar",

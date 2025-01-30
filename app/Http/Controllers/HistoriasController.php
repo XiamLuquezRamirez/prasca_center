@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\HistoriaPsicologica;
 use App\Models\CategoriaHCP;
 use App\Models\Pacientes;
+use App\Models\Paquetes;
 use App\Models\Profesional;
 use Dompdf\Dompdf;
 use \PDF;
@@ -30,7 +31,223 @@ class HistoriasController extends Controller
             return redirect("/")->with("error", "Su Sesión ha Terminado");
         }
     }
-    
+
+    public function  guardarVentaConsulta(Request $request)
+    {
+        if (!Auth::check()) {
+            return response()->json([
+                'estado' => 'error',
+                'mensaje' => 'Su sesión ha terminado.',
+            ], 401); // Código de error 401: No autorizado
+        }
+
+        // Capturar los datos del request
+        $data = $request->all();
+        $respuesta = HistoriaPsicologica::guardarVentaConsulta($data);
+
+        // Verificar el resultado y preparar la respuesta
+        if ($respuesta) {
+            $estado = true;
+        } else {
+            $estado = false;
+        }
+
+        // Retornar la respuesta en formato JSON
+        return response()->json([
+            'success' => $estado,
+            'id' => $respuesta,
+            'message' => 'Datos guardados exitosamente'
+        ]);
+    }
+
+    public function  guardarVentaSesion(Request $request)
+    {
+        if (!Auth::check()) {
+            return response()->json([
+                'estado' => 'error',
+                'mensaje' => 'Su sesión ha terminado.',
+            ], 401); // Código de error 401: No autorizado
+        }
+
+        // Capturar los datos del request
+        $data = $request->all();
+        $respuesta = HistoriaPsicologica::guardarVentaSesion($data);
+
+        // Verificar el resultado y preparar la respuesta
+        if ($respuesta) {
+            $estado = true;
+        } else {
+            $estado = false;
+        }
+
+        // Retornar la respuesta en formato JSON
+        return response()->json([
+            'success' => $estado,
+            'id' => $respuesta,
+            'message' => 'Datos guardados exitosamente'
+        ]);
+    }
+
+    public function listaPaquetesSel()
+    {
+        $paquetes = Paquetes::listarPaquetes();
+        return response()->json($paquetes);
+    }
+
+    public function listaPaquetesModal(Request $request)
+    {
+
+        if (Auth::check()) {
+            $perPage = 10; // Número de posts por página
+            $page = request()->get('page', 1);
+            $search = request()->get('search');
+            if (!is_numeric($page)) {
+                $page = 1; // Establecer un valor predeterminado si no es numérico
+            }
+
+            $idHist = $request->input('idHist');
+            $paquetes = DB::connection('mysql')
+                ->table('ventas_paquetes')
+                ->leftJoin("paquetes", "paquetes.id", "ventas_paquetes.paquete_id")
+                ->where('ventas_paquetes.estado', 'ACTIVO')
+                ->where('ventas_paquetes.historia_clinica_id', $idHist)
+                ->select(
+                    "ventas_paquetes.id",
+                    "ventas_paquetes.fecha_compra",
+                    "ventas_paquetes.monto_total",
+                    "ventas_paquetes.estado_control",
+                    "ventas_paquetes.sesiones_compradas",
+                    "ventas_paquetes.sesiones_disponibles",
+                    "paquetes.descripcion"
+                );
+
+            if ($search) {
+                $paquetes->where(function ($query) use ($search) {
+                    $query->where('identificacion', 'LIKE', '%' . $search . '%');
+                });
+            }
+
+            $ListPaquetes = $paquetes->paginate($perPage, ['*'], 'page', $page);
+
+            $tdTable = '';
+            $x = ($page - 1) * $perPage + 1;
+
+            foreach ($ListPaquetes as $i => $item) {
+                if (!is_null($item)) {
+                    $valorTotal = number_format($item->monto_total, 2, ',', '.');
+                    $tdTable .= '<tr style="cursor: pointer;">
+                                    <td>' . $item->descripcion . '</td>
+                                    <td>' . $item->fecha_compra . '</td>
+                                    <td>' . $item->sesiones_compradas . '</td>
+                                    <td>' . $item->sesiones_disponibles . '</td>                                  
+                                    <td>$ ' . $valorTotal . '</td>
+                                    <td>' . $item->estado_control . '</td>
+                                    <td class="table-action min-w-100">
+                                        <a onclick="editarPaquete(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
+                                                data-feather="edit-2"></i></a>
+                                        <a onclick="eliminarPaquete(' . $item->id . ');" style="cursor: pointer;" title="Eliminar" class="text-fade hover-warning"><i class="align-middle"
+                                                data-feather="trash"></i></a>
+                                    </td>
+                                </tr>';
+                    $x++;
+                }
+            }
+
+            $pagination = $ListPaquetes->links('HistoriasClinica.PaginacionPaquetes')->render();
+
+            return response()->json([
+                'paquetes' => $tdTable,
+                'links' => $pagination
+            ]);
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+
+
+    public function buscaPlanIntervencion(request $request)
+    {
+        $idHist = $request->input('idHist');
+        $planIntervencion = HistoriaPsicologica::busquedaPlanIntervencion($idHist);
+
+        return response()->json([
+            'planIntervencion' => $planIntervencion
+        ]);
+    }
+
+    public function buscaVentaConsulta(request $request)
+    {
+        $idHist = $request->input('idHist');
+
+        $servicioConsulta = HistoriaPsicologica::busquedaVentaConsulta($idHist);
+
+        if (!$servicioConsulta) {
+            $servicioConsulta = HistoriaPsicologica::busquedaConsultaHistoria($idHist);
+        }
+        return response()->json([
+            'servicioConsulta' => $servicioConsulta
+        ]);
+    }
+
+    public function buscaSesionVenta(request $request)
+    {
+        $idVenta = $request->input('idVenta');
+
+        $servicio = HistoriaPsicologica::busquedaVentaSesiom($idVenta);
+       
+        return response()->json([
+            'servicioSesion' => $servicio
+        ]);
+    }
+
+    public function buscaVentaSesion(request $request)
+    {
+        if (Auth::check()) {
+            $servicio = DB::connection('mysql')
+                ->table('servicios')
+                ->leftJoin("ventas", "ventas.id_servicio", "servicios.id")
+                ->where('servicios.estado', 'ACTIVO')
+                ->where('servicios.tipo', 'SESION')
+                ->where('servicios.id_historia', $request->input('idHist'))
+                ->select(
+                    'servicios.id',
+                    'servicios.descripcion',
+                    'servicios.precio',
+                    'servicios.fecha',
+                    'ventas.estado_venta'
+                )
+                ->get();
+
+            $tdTable = '';
+            $const = 1;
+            foreach ($servicio as $i => $item) {
+                if (!is_null($item)) {
+                    $valor = number_format($item->precio, 2, ',', '.');
+                    $fecha = \Carbon\Carbon::parse($item->fecha)->format('d/m/Y h:i A');
+                    $tdTable .= '<tr>
+                               
+                                <td>' . $item->descripcion . '</td>
+                                <td>' . $fecha . '</td>
+                                <td>$' . $valor . '</td>                              
+                                <td>' . $item->estado_venta . '</td>
+                                <td class="table-action min-w-100">
+                                    <a data-id="'.$item->id.'" data-estado="'.$item->estado_venta.'" onclick="editarVentaSesion(this);" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
+                                            data-feather="edit-2"></i></a>
+                                    <a data-id="'.$item->id.'" data-estado="'.$item->estado_venta.'" onclick="eliminarVentaSesion(this);" style="cursor: pointer;" title="Eliminar" class="text-fade hover-warning"><i class="align-middle"
+                                            data-feather="trash"></i></a>
+                                </td>
+                            </tr>';
+                    $const++;
+                }
+            }
+
+            return response()->json([
+                'ventasSesiones' => $tdTable,
+            ]);
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
 
     public function buscaHistoriaPsicologica(Request $request)
     {
@@ -55,7 +272,6 @@ class HistoriasController extends Controller
             $notasPaciente = HistoriaPsicologica::busquedaNotas($historia->id);
 
             $historiaCon = self::consultasLateral($historia->id);
-
 
             return response()->json([
                 'historia' => $historia,
@@ -188,7 +404,7 @@ class HistoriasController extends Controller
                 return response()->json(
                     [
                         'success' => false,
-                        'message' => 'No se encontró el Informe o no se pudo eliminar'
+                        'message' => 'No se encontró la consulta o no se pudo eliminar'
                     ],
                     404
                 );
@@ -198,13 +414,116 @@ class HistoriasController extends Controller
             return response()->json(
                 [
                     'success' => false,
-                    'message' => 'Ocurrió un error al intentar eliminar el Informe',
+                    'message' => 'Ocurrió un error al intentar eliminar la consulta',
                     'error' => $e->getMessage()
                 ],
                 500
             );
         }
     }
+    public function eliminarPaquete()
+    {
+        try {
+            $idPaquete = request()->input('idPaquete');
+            if (!$idPaquete) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'ID del paquete no proporcionado'
+                    ],
+                    400
+                );
+            }
+
+            $consulta = DB::connection('mysql')
+                ->table('ventas_paquetes')
+                ->where('id', $idPaquete)
+                ->update([
+                    'estado' => 'ELIMINADO',
+                ]);
+
+
+
+            if ($consulta) {
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => 'Paquete eliminado correctamente'
+                    ]
+                );
+            } else {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'No se encontró el paquete o no se pudo eliminar'
+                    ],
+                    404
+                );
+            }
+        } catch (\Exception $e) {
+            // Manejar cualquier error o excepción
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Ocurrió un error al intentar eliminar el paquete',
+                    'error' => $e->getMessage()
+                ],
+                500
+            );
+        }
+    }
+    public function eliminarSesionVenta()
+    {
+        try {
+            $idVenta = request()->input('idVenta');
+            if (!$idVenta) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'ID de la Sesión no proporcionado'
+                    ],
+                    400
+                );
+            }
+
+            $consulta = DB::connection('mysql')
+                ->table('servicios')
+                ->where('id', $idVenta)
+                ->update([
+                    'estado' => 'ELIMINADO',
+                ]);
+
+
+
+            if ($consulta) {
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => 'Sesión eliminada correctamente'
+                    ]
+                );
+            } else {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'No se encontró la Sesión o no se pudo eliminar'
+                    ],
+                    404
+                );
+            }
+        } catch (\Exception $e) {
+            // Manejar cualquier error o excepción
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Ocurrió un error al intentar eliminar la Sesión )',
+                    'error' => $e->getMessage()
+                ],
+                500
+            );
+        }
+    }
+
     public function eliminarHistoria()
     {
         try {
@@ -219,7 +538,7 @@ class HistoriasController extends Controller
                 );
             }
 
-         // eliminar historia con delete
+            // eliminar historia con delete
             $consulta = DB::connection('mysql')
                 ->table('historia_clinica')
                 ->where('id', $idHistoria)
@@ -412,6 +731,16 @@ class HistoriasController extends Controller
             'consulta' => $consulta
         ]);
     }
+    public function buscaPaqueteVenta(Request $request)
+    {
+        $idPaquete = $request->input('idPaquete');
+        $paquetes = Paquetes::busquedaPaquetesVentas($idPaquete);
+
+        return response()->json([
+            'paquete' => $paquetes
+        ]);
+    }
+
     public function buscaInformePsicologica(Request $request)
     {
         $idInforme = $request->input('idInforme');
@@ -527,6 +856,36 @@ class HistoriasController extends Controller
         ]);
     }
 
+    public function guardarPlanIntervencion()
+    {
+        try {
+            $data = request()->all();
+            $respuesta = HistoriaPsicologica::guardarPlanIntervencion($data);
+
+            if ($respuesta) {
+                return response()->json([
+                    'success' => true,
+                    'title' => '¡Buen trabajo!',
+                    'message' => 'Plan de intervención guardado correctamente',
+                    'id' => $respuesta
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'title' => '¡Opps salio algo mal!',
+                    'message' => 'No se pudo guardar el plan de intervención'
+                ]);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'title' => '¡Opps salio algo mal!',
+                'message' => 'Ocurrió un error al intentar guardar el plan de intervención',
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
     public function  guardarHistoriaPsicologica(Request $request)
     {
         if (!Auth::check()) {
@@ -538,8 +897,6 @@ class HistoriasController extends Controller
 
         $data = $request->all();
         $respuesta = HistoriaPsicologica::guardar($data);
-
-
 
         // Verificar el resultado y preparar la respuesta
         if ($respuesta) {
@@ -655,10 +1012,10 @@ class HistoriasController extends Controller
                     'informe_evolucion.fecha_creacion',
                     'profesionales.nombre AS profesional'
                 );
-            
-               
+
+
             $ListInformes = $informes->paginate($perPage, ['*'], 'page', $page);
-            
+
             $tdTable = '';
             $x = ($page - 1) * $perPage + 1;
             $const = 1;
@@ -692,7 +1049,7 @@ class HistoriasController extends Controller
         }
     }
 
-  
+
     public function  guardarConsultaPsicologica(Request $request)
     {
         if (!Auth::check()) {
@@ -756,6 +1113,39 @@ class HistoriasController extends Controller
         ]);
     }
 
+
+    public function  guardarPaqueteVenta(Request $request)
+    {
+        if (!Auth::check()) {
+            return response()->json([
+                'estado' => 'error',
+                'mensaje' => 'Su sesión ha terminado.',
+            ], 401);
+        }
+
+        $data = $request->all();
+
+        $respuesta = Paquetes::guardarPaqueteVenta($data);
+
+        // Verificar el resultado y preparar la respuesta
+        if ($respuesta) {
+            $estado = 'success';
+            $message = 'La operación fue realizada exitosamente.';
+            $title = '¡Buen trabajo!';
+        } else {
+            $message = 'No se pudo realizada la operación.';
+            $estado = 'warning';
+            $title = '¡Opps salio algo mal!';
+        }
+        // Retornar la respuesta en formato JSON
+        return response()->json([
+            'success' => $estado,
+            'id' => $respuesta,
+            'message' =>  $message,
+            'title' =>  $title
+        ]);
+    }
+
     public function listaHistoriasPsicologica(Request $request)
     {
 
@@ -778,7 +1168,9 @@ class HistoriasController extends Controller
                     DB::raw("CONCAT(primer_nombre,' ',segundo_nombre,' ',primer_apellido,' ', segundo_apellido) as nombre_completo"),
                     "historia_clinica.fecha_historia",
                     "historia_clinica.tipologia",
-                    "historia_clinica.estado_hitoria"
+                    "historia_clinica.estado_hitoria",
+                    "pacientes.fecha_nacimiento",
+                    'historia_clinica.codigo_consulta'
                 );
 
             if ($search) {
@@ -799,6 +1191,13 @@ class HistoriasController extends Controller
             foreach ($ListHistoria as $i => $item) {
                 if (!is_null($item)) {
 
+                    $paqueteActivo = Paquetes::paqueteActivo($item->id);
+
+                    $event = "initial";
+                    if ($paqueteActivo) {
+                        $event = "none";
+                    }
+
                     if ($item->estado_hitoria == "abierta") {
                         $estado = "<i  class='fa fa-unlock'></i> Abierta";
                         $class = "text-success";
@@ -809,6 +1208,13 @@ class HistoriasController extends Controller
                         $disabled = "disabled";
                     }
 
+                    $fechaNacimiento = $item->fecha_nacimiento;
+                    $fechaNacimiento = \Carbon\Carbon::parse($fechaNacimiento);
+                    $fechaActual = \Carbon\Carbon::now();
+                    $diferencia = $fechaActual->diff($fechaNacimiento);
+                    $edadTexto = "{$diferencia->y} años, {$diferencia->m} meses, y {$diferencia->d} días";
+
+
                     $tdTable .= ' <div class="box pull-up">
                                 <div class="box-body">
                                     <div class="d-md-flex justify-content-between align-items-center">
@@ -818,27 +1224,31 @@ class HistoriasController extends Controller
                                             <h3 class="mb-0 fw-500">Paciente: ' . $item->identificacion_completa . ' - ' . $item->nombre_completo . '</h3>
                                         </div>
                                         <div class="mt-10 mt-md-0">
-                                          <a data-id="' . $item->id . '"  onclick="ComprarPaquete(this)"
-                                                class="waves-effect waves-light btn btn-outline btn-info"><li class="fa fa-dollar"></li> Comprar paquete</a>   
-                                        <a data-id="' . $item->id . '" dapta-tipo="' . $item->tipologia . '" onclick="verHistoria(this)"
-                                                class="waves-effect waves-light btn btn-outline btn-primary"><li class="fa fa-search"></li> Ver
-                                                Detalles</a>
-                                        </div>
+                                    <div class="btn-group mb-5">
+								    <button type="button" class="waves-effect waves-light btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-dollar"></i> Venta de servicios</button>
+								    <div class="dropdown-menu" style="">
+									<a class="dropdown-item" data-id="' . $item->id . '" data-consulta="' . $item->codigo_consulta . '" style="pointer-events: ' . $event . '; cursor: pointer;"  onclick="ventaConsulta(this)">Venta consulta</a>
+									<a class="dropdown-item" data-id="' . $item->id . '" style="pointer-events: ' . $event . '; cursor: pointer;"  onclick="ventaSesion(this)">Venta sesión</a>
+									<a class="dropdown-item" data-id="' . $item->id . '" style="cursor: pointer;"  onclick="ComprarPaquete(this)">Venta paquete</a>
+								    </div>
+								</div> 
+                                <button type="button" data-id="' . $item->id . '" dapta-tipo="' . $item->tipologia . '" onclick="verHistoria(this)" class="waves-effect waves-light btn btn-info mb-5">Ver detalle</button>
+                                </div>
                                     </div>
                                     <hr>
                                     <div class="d-md-flex justify-content-between align-items-center">
                                         <div class="d-flex justify-content-start align-items-center">
-                                            <div class="min-w-100">
+                                        <div class=" mx-20 min-w-70">
+                                                <p class="mb-0 text-fade">Edad</p>
+                                                <h6 class="mb-0">' . $edadTexto . '</h6>
+                                            </div>    
+                                        <div >
                                                 <p class="mb-0 text-fade">Fecha de Creación</p>
                                                 <h6 class="mb-0">' . date('d/m/Y g:i:s A', strtotime($item->fecha_historia)) . '</h6>
                                             </div>
                                             <div style="cursor:pointer;" data-id="' . $item->id . '" data-estado="' . $item->estado_hitoria . '" onclick="cerrarHistoria(this)" class="mx-lg-50 mx-20 min-w-70">
                                                 <p class="mb-0 text-fade">Estado</p>
                                                 <h6 class="mb-0 ' . $class . '">' . $estado . '</h6>
-                                            </div>
-                                            <div>
-                                                <p class="mb-0 text-fade">Notas</p>
-                                                <h6 class="mb-0">[Resumen o notas importantes]</h6>
                                             </div>
                                         </div>
                                         <div class="mt-10 mt-md-0">
@@ -848,6 +1258,9 @@ class HistoriasController extends Controller
                                             <button type="button" data-id="' . $item->id . '" data-estado="' . $item->estado_hitoria . '" onclick="evolucionHistoria(this);"
                                                 class="waves-effect waves-light btn btn-secondary btn-flat"><i
                                                     class="fa fa-arrow-right me-10"></i>Evolución</button>
+                                            <button type="button" data-id="' . $item->id . '"  onclick="PlanIntervencionHistoria(this);"
+                                                class="waves-effect waves-light btn btn-warning btn-flat"><i
+                                                    class="fa fa-list me-10"></i>Plan de intervención</button>
                                             <button type="button" onclick="imprimirHistoria(' . $item->id . ');"
                                                 class="waves-effect waves-light btn btn-info btn-flat"><i
                                                     class="fa fa-print me-10"></i>Imprimir</button>
@@ -989,7 +1402,7 @@ class HistoriasController extends Controller
         }
     }
 
-    
+
     public function imprimirInformePsicologia(Request $request)
     {
         if (Auth::check()) {
@@ -1010,7 +1423,7 @@ class HistoriasController extends Controller
             $paciente = Pacientes::busquedaPaciente($informe->id_paciente);
 
             $profesional = Profesional::busquedaProfesional($informe->id_profesional);
-            $firmaPath = public_path('app-assets/images/firmasProfesionales/'.$profesional->firma);
+            $firmaPath = public_path('app-assets/images/firmasProfesionales/' . $profesional->firma);
             $firmaData = base64_encode(file_get_contents($firmaPath));
             $firma = 'data:image/png;base64,' . $firmaData;
             $html = '<head>
@@ -1199,7 +1612,7 @@ class HistoriasController extends Controller
                     <h4>7. EVALUACIÒN ACTUAL</h4>
                         ' . $informe->evaluacion_actual . '
                 </div>';
-                 
+
             $html .= '
 
                 <div class="section">
@@ -1231,10 +1644,10 @@ class HistoriasController extends Controller
 
                 <div class="section">
                     <table style="width:100%; border-collapse: collapse; background-color: transparent;">
-                        <tr><td class="no-border"><b>'.$profesional->nombre.'</b></td></tr>
-                        <tr><td class="no-border"><img width="200" src="'.$firma.'" /></td></tr>
+                        <tr><td class="no-border"><b>' . $profesional->nombre . '</b></td></tr>
+                        <tr><td class="no-border"><img width="200" src="' . $firma . '" /></td></tr>
                        
-                        <tr><td class="no-border"><b>TARJETA PROFESIONAL: '.$profesional->registro.'</b></td></tr>
+                        <tr><td class="no-border"><b>TARJETA PROFESIONAL: ' . $profesional->registro . '</b></td></tr>
                     </table>
                 </div></div>
             </body>
@@ -1261,7 +1674,7 @@ class HistoriasController extends Controller
     public function imprimirHistoria(Request $request)
     {
         $idHist = $request->input('idHist');
-        
+
         $historia = HistoriaPsicologica::busquedaHistoria($idHist);
         $pacientes = Pacientes::busquedaPaciente($historia->id_paciente);
         $antecedentesPersonales = HistoriaPsicologica::busquedaAntecedentes($historia->id);
@@ -1275,7 +1688,7 @@ class HistoriasController extends Controller
         $antecedentesNatales = HistoriaPsicologica::busquedaAntNatales($historia->id);
         $antecedentesPosnatales = HistoriaPsicologica::busquedaAntPosnatales($historia->id);
         $desarrolloPsicomotor = HistoriaPsicologica::desarrolloPsicomotor($historia->id);
-        
+
         $data = [
             'historia' => $historia,
             'paciente' => $pacientes,
@@ -1286,19 +1699,19 @@ class HistoriasController extends Controller
             'aparienciaPersonal' => $aparienciaPersonal,
             'funcionesCognitiva' => $funcionesCognitiva,
             'funcionesSomaticas' => $funcionesSomaticas,
-            'antecedentesPrenatales' => $antecedentesPrenatales,       
-            'antecedentesNatales' => $antecedentesNatales,       
-            'antecedentesPosnatales' => $antecedentesPosnatales,       
-            'desarrolloPsicomotor' => $desarrolloPsicomotor 
+            'antecedentesPrenatales' => $antecedentesPrenatales,
+            'antecedentesNatales' => $antecedentesNatales,
+            'antecedentesPosnatales' => $antecedentesPosnatales,
+            'desarrolloPsicomotor' => $desarrolloPsicomotor
         ];
-        
+
         $pdf = PDF::loadView('imprimir.imprimirHistoria', $data)->setPaper('a4');
 
-        $fileName = 'Historia_Psicologica_'.$idHist. '.pdf';
+        $fileName = 'Historia_Psicologica_' . $idHist . '.pdf';
         $filePath = 'historias_Psicologica/' . $fileName;
         $pdf->save(public_path($filePath));
         $url = asset($filePath);
 
         return response()->json(['url' => $url]);
-    } 
+    }
 }

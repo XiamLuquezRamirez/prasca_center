@@ -121,6 +121,15 @@ Route::post('/historia/cerrarHistoria', [HistoriasController::class, 'cerrarHist
 Route::post('/historia/notasHistoria', [HistoriasController::class, 'notasHistoria'])->name('historia.notasHistoria');
 Route::get('/historia/imprimirHistoria', [HistoriasController::class, 'imprimirHistoria'])->name('historia.imprimirHistoria');
 Route::post('/historia/eliminarHistoria', [HistoriasController::class, 'eliminarHistoria'])->name('historia.eliminarHistoria');
+Route::post('/historia/buscaPlanIntervencion', [HistoriasController::class, 'buscaPlanIntervencion'])->name('historia.buscaPlanIntervencion');
+Route::post('/historia/guardarPlanIntervencion', [HistoriasController::class, 'guardarPlanIntervencion'])->name('form.guardarPlanIntervencion');
+
+///GESTIONAR VENTAS DE PAQUETE
+Route::post('/paquetes/listaPaquetesModal', [HistoriasController::class, 'listaPaquetesModal'])->name('paquetes.listaPaquetesModal');
+Route::get('/paquetes/listaPaquetesSel', [HistoriasController::class, 'listaPaquetesSel'])->name('paquetes.listaPaquetesSel');
+Route::post('/paquetes/guardarPaqueteVenta', [HistoriasController::class, 'guardarPaqueteVenta'])->name('form.guardarPaqueteVenta');
+Route::post('/paquetes/buscaPaqueteVenta', [HistoriasController::class, 'buscaPaqueteVenta'])->name('paquetes.buscaPaqueteVenta');
+Route::post('/paquetes/eliminarPaquete', [HistoriasController::class, 'eliminarPaquete'])->name('paquetes.eliminarPaquete');
 
 
 /// GESTIONAR CONSULTAS
@@ -195,3 +204,21 @@ Route::post('/informes/guardarInformeNeuropsicologica', [HistoriaNeuroPsicologic
 Route::post('/informes/buscarAnexosInforme', [HistoriaNeuroPsicologicaController::class, 'buscarAnexosInforme'])->name('informes.buscarAnexosInforme');
 Route::post('/informes/eliminarAnexoInforme', [HistoriaNeuroPsicologicaController::class, 'eliminarAnexoInforme'])->name('informes.eliminarAnexoInforme');
 
+//GESTIONNAR RECAUDOS
+
+Route::get('/Administracion/Recaudos', [AdminitraccionController::class, 'Recaudos']);
+Route::post('/Administracion/listaVentasPacientes', [AdminitraccionController::class, 'listaVentasPacientes'])->name('Administracion.listaVentasPacientes');
+Route::post('/Administracion/otraInformacionRecaudos', [AdminitraccionController::class, 'otraInformacionRecaudos'])->name('Administracion.otraInformacionRecaudos');
+Route::post('/Administracion/listaVentasPacientesPagos', [AdminitraccionController::class, 'listaVentasPacientesPagos'])->name('Administracion.listaVentasPacientesPagos');
+Route::post('/Administracion/detalleVentaPaquetePaciente', [AdminitraccionController::class, 'detalleVentaPaquetePaciente'])->name('Administracion.detalleVentaPaquetePaciente');
+Route::post('/Administracion/detalleVentaPagosPaciente', [AdminitraccionController::class, 'detalleVentaPagosPaciente'])->name('Administracion.detalleVentaPagosPaciente');
+Route::post('/Administracion/guardar', [AdminitraccionController::class, 'guardarPagoVenta'])->name('form.guardarPagoVenta');
+
+
+//
+Route::post('/historia/buscaVentaConsulta', [HistoriasController::class, 'buscaVentaConsulta'])->name('historia.buscaVentaConsulta');
+Route::post('/historia/buscaVentaSesion', [HistoriasController::class, 'buscaVentaSesion'])->name('historia.buscaVentaSesion');
+Route::post('/historia/guardarVentaConsulta', [HistoriasController::class, 'guardarVentaConsulta'])->name('form.guardarVentaConsulta');
+Route::post('/historia/guardarVentaSesion', [HistoriasController::class, 'guardarVentaSesion'])->name('form.guardarVentaSesion');
+Route::post('/historia/buscaSesionVenta', [HistoriasController::class, 'buscaSesionVenta'])->name('historia.buscaSesionVenta');
+Route::post('/historia/eliminarSesionVenta', [HistoriasController::class, 'eliminarSesionVenta'])->name('historia.eliminarSesionVenta');

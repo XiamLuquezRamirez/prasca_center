@@ -355,7 +355,6 @@
 
         function cargar(page, searchTerm = '') {
 
-
             let url = "{{ route('entidades.listaEntidades') }}"; // Definir la URL
 
             // Eliminar los campos ocultos anteriores

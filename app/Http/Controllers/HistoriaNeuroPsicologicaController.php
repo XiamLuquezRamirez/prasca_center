@@ -561,7 +561,8 @@ class HistoriaNeuroPsicologicaController extends Controller
                     DB::raw("CONCAT(primer_nombre,' ',segundo_nombre,' ',primer_apellido,' ', segundo_apellido) as nombre_completo"),
                     "historia_clinica_neuro.fecha_historia",
                     "historia_clinica_neuro.tipologia",
-                    "historia_clinica_neuro.estado_hitoria"
+                    "historia_clinica_neuro.estado_hitoria",
+                    "pacientes.fecha_nacimiento"
                 );
 
             if ($search) {
@@ -592,6 +593,12 @@ class HistoriaNeuroPsicologicaController extends Controller
                         $disabled = "disabled";
                     }
 
+                    $fechaNacimiento = $item->fecha_nacimiento;
+                    $fechaNacimiento = \Carbon\Carbon::parse($fechaNacimiento);
+                    $fechaActual = \Carbon\Carbon::now();
+                    $diferencia = $fechaActual->diff($fechaNacimiento);
+                    $edadTexto = "{$diferencia->y} años, {$diferencia->m} meses, y {$diferencia->d} días";
+
                     $tdTable .= ' <div class="box pull-up">
                                 <div class="box-body">
                                     <div class="d-md-flex justify-content-between align-items-center">
@@ -609,7 +616,11 @@ class HistoriaNeuroPsicologicaController extends Controller
                                     <hr>
                                     <div class="d-md-flex justify-content-between align-items-center">
                                         <div class="d-flex justify-content-start align-items-center">
-                                            <div class="min-w-100">
+                                                <div class=" mx-20 min-w-70">
+                                                <p class="mb-0 text-fade">Edad</p>
+                                                <h6 class="mb-0">'.$edadTexto .'</h6>
+                                            </div>   
+                                            <div>
                                                 <p class="mb-0 text-fade">Fecha de Creación</p>
                                                 <h6 class="mb-0">' . date('d/m/Y g:i:s A', strtotime($item->fecha_historia)) . '</h6>
                                             </div>
@@ -617,10 +628,7 @@ class HistoriaNeuroPsicologicaController extends Controller
                                                 <p class="mb-0 text-fade">Estado</p>
                                                 <h6 class="mb-0 ' . $class . '">' . $estado . '</h6>
                                             </div>
-                                            <div>
-                                                <p class="mb-0 text-fade">Notas</p>
-                                                <h6 class="mb-0">[Resumen o notas importantes]</h6>
-                                            </div>
+                                           
                                         </div>
                                         <div class="mt-10 mt-md-0">
                                             <button type="button" ' . $disabled . ' data-id="' . $item->id . '" data-tipo="' . $item->tipologia . '" onclick="editarHistoria(this);"

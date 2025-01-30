@@ -4,7 +4,7 @@
         <a href="{{ url('/Administracion') }}" class="logo">
             <!-- logo-->
             <div class="logo-mini w-40">
-                <span class="light-logo"><img src="{{ asset('app-assets/images/prasca-center.png') }}"
+                <span class="light-logo"><img src="{{ asset('app-assets/images/prasca-center.webp') }}"
                         alt="logo"></span>
             </div>
             <div class="logo-lg">

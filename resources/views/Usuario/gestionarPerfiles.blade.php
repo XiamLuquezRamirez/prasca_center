@@ -148,6 +148,13 @@
                                                     <label class="form-check-label"
                                                         for="permisos_Admineps">Entidad promotora de salud</label>
                                                 </div>
+                                                <div class="form-check ms-3">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="permisos_AdminPaquetes" name="permisos[]"
+                                                        value="AdminPaquetes">
+                                                    <label class="form-check-label"
+                                                        for="permisos_AdminPaquetes">Paquetes de sesiones</label>
+                                                </div>
 
                                                 <!-- informes -->
                                                 <div class="form-check">
@@ -183,6 +190,25 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
+                                            <!-- Gestión de Recaudo -->
+                                            <div class="form-check">
+                                                <label class="form-check-label" for="permisoRecaudo"><strong>Gestión de
+                                                        Recaudo</strong></label>
+                                            </div>
+                                            <div class="form-check  ms-3">
+                                                <input class="form-check-input" type="checkbox"
+                                                    id="permisos_gestionRecaudo" name="permisos[]"
+                                                    value="gestionRecaudo">
+                                                <label class="form-check-label"
+                                                    for="permisos_gestionRecaudo">Recaudo</label>
+                                            </div>
+                                            <div class="form-check  ms-3">
+                                                <input class="form-check-input" type="checkbox"
+                                                    id="permisos_gestionCaja" name="permisos[]"
+                                                    value="gestionCaja">
+                                                <label class="form-check-label"
+                                                    for="permisos_gestionCaja">Caja</label>
+                                            </div>
                                             <!-- Gestión de Usuarios -->
                                             <div class="form-check">
                                                 <label class="form-check-label" for="permisoUsuarios"><strong>Gestión de

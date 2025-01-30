@@ -9,11 +9,12 @@
     <title>@yield('title', 'Inicio') - Prasca Center</title>
 
 	<!-- Vendors Style-->
-	<link rel="stylesheet" href="{{ asset('app-assets/css/vendors_css.css') }}">
+	<link rel="stylesheet" rel="preload" href="{{ asset('app-assets/css/vendors_css.css') }}">
 
 	<!-- Style-->
-	<link rel="stylesheet" href="{{ asset('app-assets/css/style.css') }}">
-	<link rel="stylesheet" href="{{ asset('app-assets/css/skin_color.css') }}">
+	<link rel="stylesheet" rel="preload" href="{{ asset('app-assets/css/style.css') }}">
+	<link rel="stylesheet" rel="preload" href="{{ asset('app-assets/css/skin_color.css') }}">
+	<link rel="stylesheet" rel="preload" href="{{ asset('app-assets/css/custom.css') }}">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   
   </head>

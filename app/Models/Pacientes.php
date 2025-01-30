@@ -204,6 +204,7 @@ class Pacientes extends Model
     public static function busquedaPaciente($idPac){
         $paciente = DB::connection('mysql')->table('pacientes')
         ->where("id", $idPac)
+        ->where("estado", "ACTIVO")
         ->first();
 
         $paciente->eps_info = DB::connection('mysql')->table('eps')
@@ -217,6 +218,14 @@ class Pacientes extends Model
         $paciente->municipio_info = DB::connection('mysql')->table('municipios')
         ->where("codigo", $paciente->municipio)
         ->first();
+
+        $fechaNacimiento = $paciente->fecha_nacimiento;
+        $fechaNacimiento = \Carbon\Carbon::parse($fechaNacimiento);
+        $fechaActual = \Carbon\Carbon::now();
+        $diferencia = $fechaActual->diff($fechaNacimiento);
+        $edadTexto = "{$diferencia->y} años, {$diferencia->m} meses, y {$diferencia->d} días";
+
+        $paciente->edadTexto = $edadTexto;
 
         return $paciente;
     }

@@ -69,11 +69,7 @@
                                         <h4 class="mb-0 mt-2" id="nombrePaciente"></h4>
                                         <p class="text-muted fs-14" id="edadPaciente"></p>
                                         <div class="text-start mt-3">
-                                            <p class="header-title mb-2"><strong>Notas Rapidas :</strong></p>
-                                            <div class="my-3"><a href="#" id="inline-comments" data-type="textarea"
-                                                    data-pk="1" data-placeholder="Agregue notas rapidas del paciente..."
-                                                    data-title="Agregar notas rapidas">Sin nota</a>
-                                            </div>
+
                                             <p class="text-muted mb-2 "><strong class="text-dark">Nombre completo
                                                     :</strong>
                                                 <span class="ms-2" id="nombreCompletoPacienteHist"></span>
@@ -950,7 +946,7 @@
                                                             <label for="edad" class="form-label">Edad:</label>
                                                             <select class="form-select" id="edad" name="edad"
                                                                 onchange="toggleOtro(this)">
-                                                                <option value="">Seleccione...</option>
+
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
                                                                 id="edad_otro" name="edad_otro"
@@ -962,7 +958,7 @@
                                                                 pondoestatural:</label>
                                                             <select class="form-select" id="desarrollo" id="desarrollo"
                                                                 onchange="toggleOtro(this)">
-                                                                <option value="">Seleccione...</option>
+
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
                                                                 id="desarrollo_otro" name="desarrollo_otro"
@@ -974,7 +970,7 @@
                                                                 arreglo:</label>
                                                             <select class="form-select" id="aseo" name="aseo"
                                                                 onchange="toggleOtro(this)">
-                                                                <option value="">Seleccione...</option>
+
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
                                                                 id="aseo_otro" name="aseo_otro"
@@ -986,7 +982,7 @@
                                                                 somática:</label>
                                                             <select class="form-select" id="salud" name="salud"
                                                                 onchange="toggleOtro(this)">
-                                                                <option value="">Seleccione...</option>
+
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
                                                                 id="salud_otro" name="salud_otro"
@@ -997,7 +993,7 @@
                                                             <label for="facies" class="form-label">Facies:</label>
                                                             <select class="form-select" id="facies" name="facies"
                                                                 onchange="toggleOtro(this)">
-                                                                <option value="">Seleccione...</option>
+
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
                                                                 id="facies_otro" name="facies_otro"
@@ -1008,7 +1004,7 @@
                                                             <label for="biotipo" class="form-label">Biotipo:</label>
                                                             <select class="form-select" id="biotipo" name="biotipo"
                                                                 onchange="toggleOtro(this)">
-                                                                <option value="">Seleccione...</option>
+
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
                                                                 id="biotipo_otro" name="biotipo_otro"
@@ -1019,7 +1015,7 @@
                                                             <label for="actitud" class="form-label">Actitud:</label>
                                                             <select class="form-select" id="actitud" name="actitud"
                                                                 onchange="toggleOtro(this)">
-                                                                <option value="">Seleccione...</option>
+
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
                                                                 id="actitud_otro" name="actitud_otro"
@@ -1037,7 +1033,7 @@
                                                                 class="form-label">Consciencia:</label>
                                                             <select class="form-select" id="consciencia"
                                                                 name="consciencia" onchange="toggleOtro(this)">
-                                                                <option value="">Seleccione...</option>
+
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
                                                                 id="consciencia_otro" name="consciencia_otro"
@@ -1049,7 +1045,7 @@
                                                                 class="form-label">Orientación:</label>
                                                             <select class="form-select" id="orientacion"
                                                                 name="orientacion" onchange="toggleOtro(this)">
-                                                                <option value="">Seleccione...</option>
+
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
                                                                 id="orientacion_otro" name="orientacion_otro"
@@ -1061,7 +1057,7 @@
                                                             <label for="memoria" class="form-label">Memoria:</label>
                                                             <select class="form-select" id="memoria" name="memoria"
                                                                 onchange="toggleOtro(this)">
-                                                                <option value="">Seleccione...</option>
+
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
                                                                 id="memoria_otro" name="memoria_otro"
@@ -1073,7 +1069,7 @@
                                                             <label for="atencion" class="form-label">Atención:</label>
                                                             <select class="form-select" id="atencion" name="atencion"
                                                                 onchange="toggleOtro(this)">
-                                                                <option value="">Seleccione...</option>
+
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
                                                                 id="atencion_otro" name="atencion_otro"
@@ -1086,7 +1082,7 @@
                                                                 class="form-label">Concentración:</label>
                                                             <select class="form-select" id="concentracion"
                                                                 name="concentracion" onchange="toggleOtro(this)">
-                                                                <option value="">Seleccione...</option>
+
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
                                                                 id="concentracion_otro" name="concentracion_otro"
@@ -1098,7 +1094,7 @@
                                                             <label for="lenguaje" class="form-label">Lenguaje:</label>
                                                             <select class="form-select" id="lenguaje" name="lenguaje"
                                                                 onchange="toggleOtro(this)">
-                                                                <option value="">Seleccione...</option>
+
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
                                                                 id="lenguaje_otro" name="lenguaje_otro"
@@ -1111,7 +1107,7 @@
                                                                 class="form-label">Pensamiento:</label>
                                                             <select class="form-select" id="pensamiento"
                                                                 name="pensamiento" onchange="toggleOtro(this)">
-                                                                <option value="">Seleccione...</option>
+
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
                                                                 id="pensamiento_otro" name="pensamiento_otro"
@@ -1123,7 +1119,7 @@
                                                             <label for="afecto" class="form-label">Afecto:</label>
                                                             <select class="form-select" id="afecto" name="afecto"
                                                                 onchange="toggleOtro(this)">
-                                                                <option value="">Seleccione...</option>
+
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
                                                                 id="afecto_otro" name="afecto_otro"
@@ -1136,7 +1132,7 @@
                                                                 class="form-label">Sensopercepción:</label>
                                                             <select class="form-select" id="sensopercepcion"
                                                                 name="sensopercepcion" onchange="toggleOtro(this)">
-                                                                <option value="">Seleccione...</option>
+
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
                                                                 id="sensopercepcion_otro" name="sensopercepcion_otro"
@@ -1149,7 +1145,7 @@
                                                                 class="form-label">Psicomotricidad:</label>
                                                             <select class="form-select" id="psicomotricidad"
                                                                 name="psicomotricidad" onchange="toggleOtro(this)">
-                                                                <option value="">Seleccione...</option>
+
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
                                                                 id="psicomotricidad_otro" name="psicomotricidad_otro"
@@ -1161,7 +1157,7 @@
                                                             <label for="juicio" class="form-label">Juicio:</label>
                                                             <select class="form-select" id="juicio" name="juicio"
                                                                 onchange="toggleOtro(this)">
-                                                                <option value="">Seleccione...</option>
+
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
                                                                 id="juicio_otro" name="juicio_otro"
@@ -1174,7 +1170,7 @@
                                                                 class="form-label">Inteligencia:</label>
                                                             <select class="form-select" id="inteligencia"
                                                                 name="inteligencia" onchange="toggleOtro(this)">
-                                                                <option value="">Seleccione...</option>
+
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
                                                                 id="inteligencia_otro" name="inteligencia_otro"
@@ -1189,7 +1185,7 @@
                                                             <select class="form-select" id="conciencia_enfermedad"
                                                                 name="conciencia_enfermedad"
                                                                 onchange="toggleOtro(this)">
-                                                                <option value="">Seleccione...</option>
+
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
                                                                 id="conciencia_enfermedad_otro"
@@ -1204,7 +1200,7 @@
                                                             <select class="form-select" id="sufrimiento_psicologico"
                                                                 name="sufrimiento_psicologico"
                                                                 onchange="toggleOtro(this)">
-                                                                <option value="">Seleccione...</option>
+
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
                                                                 id="sufrimiento_psicologico_otro"
@@ -1219,7 +1215,7 @@
                                                             <select class="form-select" id="motivacion_tratamiento"
                                                                 name="motivacion_tratamiento"
                                                                 onchange="toggleOtro(this)">
-                                                                <option value="">Seleccione...</option>
+
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
                                                                 id="motivacion_tratamiento_otro"
@@ -1485,10 +1481,13 @@
                                     pull-right">
                                         <div class="box-header-actions">
                                             <div class="input-group input-group-merge">
+                                                <input type="text" id="busquedaCo" class="form-control">
+                                                <div class="input-group-text" data-password="false">
+                                                    <span class="fa fa-search"></span>
+                                                </div>
                                                 <button type="button" onclick="nuevoRegistroConsulta();"
                                                     class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i>
-                                                    Nueva
-                                                    evolución</button>
+                                                    Nueva evolución</button>
                                             </div>
 
                                         </div>
@@ -1560,7 +1559,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="codConsultaConsulta"
+                                                            <label for="fechaEvolucion"
                                                                 class="form-label">Fecha:</label>
 
                                                             <div class="input-group">
@@ -1656,7 +1655,7 @@
                                                 </button>
                                                 <button onclick="guardarConsulta()" type="button"
                                                     class="btn btn-primary">
-                                                    <i class="ti-save-alt"></i> Guardar
+                                                    <i class="ti-save"></i> Guardar
                                                 </button>
                                             </div>
                                         </div>
@@ -1671,52 +1670,68 @@
         </div><!-- /.modal -->
     </div>
 
-    <!-- MODAL PAUETES -->
+    <!-- MODAL PAQUETES -->
     <div class="modal fade" id="modalPaquete" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 40%;">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 70%;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="tituloAccion">Agregar paquete</h4>
+                    <h4 class="modal-title" id="tituloPaquete">Listado de paquetes</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="formPaquetes">
-                        <input type="hidden" name="accRegistro" id="accRegistro" value="guardar" />
-                        <input type="hidden" name="idRegistro" id="idRegistro" value="" />
+                    <form id="formPaquetes" style="display: none;">
+                        <input type="hidden" name="accPaquete" id="accPaquete" value="guardar" />
+                        <input type="hidden" name="idPaquete" id="idPaquete" value="" />
                         <div class="row">
                             <div class="col-md-9">
                                 <div class="form-group">
-                                    <label for="descripcion" class="form-label">Descripción :</label>
-                                    <input type="text" class="form-control" id="descripcion" name="descripcion">
+                                    <label for="descripcion" class="form-label">Paquete :</label>
+                                    <select class="form-control select2" onchange="seleccionarPaquete(this);"
+                                        id="selPaquete" name="selPaquete" aria-invalid="false">
+
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="valor" class="form-label">Valor :</label>
-                                    <input type="text" class="form-control" id="valorVis" name="valorVis"
-                                        onchange="cambioFormato(this.id);" onkeypress="return validartxtnum(event)"
-                                        onclick="this.select();">
-                                    <input type="hidden" class="form-control" id="valor" name="valor">
+                                    <label for="fechaPaquete" class="form-label">Fecha :</label>
+                                    <input type="date" class="form-control" id="fechaPaquete"
+                                        name="fechaPaquete">
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="observaciones" class="form-label">Observaciones :</label>
-                                    <textarea class="form-control" id="observaciones" name="observaciones" rows="3"></textarea>
+                                    <label for="precioSesionVis" class="form-label">Valor :</label>
+                                    <input type="text" class="form-control" id="precioSesionVis"
+                                        name="precioSesionVis" onchange="cambioFormato(this.id);"
+                                        onkeypress="return validartxtnum(event)" onclick="this.select();">
+                                    <input type="hidden" class="form-control" id="precioSesion"
+                                        name="precioSesion">
                                 </div>
                             </div>
-
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="numSesiones" class="form-label">Numero de sesiones :</label>
+                                    <input type="number" class="form-control" id="numSesiones" name="numSesiones"
+                                        onchange="calValorMonto()" max="20" min="1"
+                                        onkeypress="return validartxtnum(event)">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="montoFinal" class="form-label">Valor :</label>
+                                    <input type="text" readonly class="form-control" id="montoFinalVis"
+                                        name="montoFinalVis" value="$ 0,00">
+                                    <input type="hidden" class="form-control" id="montoFinal" name="montoFinal">
+                                </div>
+                            </div>
                             <div class="box-footer text-end">
-                                <button type="button" onclick="nuevoRegistro(2);" style="display: none;"
-                                    id="newRegistro" class="btn btn-primary-light me-1">
-                                    <i class="ti-plus "></i> Nuevo
-                                </button>
-                                <button type="button" id="cancelRegistro" onclick="cancelarRegistro();"
+                                <button type="button" id="cancelRegistroPaq" onclick="cancelarPaquetes();"
                                     class="btn btn-primary-light me-1">
                                     <i class="ti-close"></i> Cancelar
                                 </button>
-                                <button type="button" id="saveRegistro" onclick="guardarRegistro();"
+                                <button type="button" id="saveRegistroPaq" onclick="guardarPaquetes();"
                                     class="btn btn-primary">
                                     <i class="ti-save"></i> Guardar
                                 </button>
@@ -1724,10 +1739,281 @@
 
                         </div>
                     </form>
+                    <div id="listPaquetes">
+                        <div class="box-controls pull-right">
+                            <div class="box-header-actions">
+                                <div class="input-group input-group-merge">
+                                    <input type="text" id="busquedaP" class="form-control">
+                                    <div class="input-group-text" data-password="false">
+                                        <span class="fa fa-search"></span>
+                                    </div>
+                                    <button type="button" onclick="nuevoPaquete();"
+                                        class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i> Nuevo
+                                        paquete</button>
+                                </div>
+
+                            </div>
+                        </div>
+                        <table id="tblPaquetes" class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Descripción</th>
+                                    <th>Fecha de compra</th>
+                                    <th>Número de sesiones</th>
+                                    <th>Sesiones faltantes</th>
+                                    <th>Valor</th>
+                                    <th>Estado</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="trRegistrosPaquetes">
+
+                            </tbody>
+                        </table>
+                        <div id="pagination-links-paquetes" class="text-center ml-1 mt-2">
+                        </div>
+                    </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
     </div><!-- /.modal -->
+    <!-- MODAL PLAN INTERVENCION -->
+    <div class="modal fade" id="modalPlanIntervencion" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">`
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Plan de intervención</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div class="card-body">
+                                <form id="formPlanIntervencion">
+                                    @csrf <!-- Directiva para el token CSRF de Laravel -->
+                                    <input type="hidden" id="idHistoriaPlan" name="idHistoriaPlan" />
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="objetivoGeneralModal" class="form-label">Objetivo
+                                                    General:</label>
+                                                <textarea class="form-control" id="objetivoGeneralModal" name="objetivoGeneralModal" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="objetivoEspecificoModal" class="form-label">Objetivos
+                                                    Específicos:</label>
+                                                <textarea class="form-control" id="objetivoEspecificoModal" name="objetivoEspecificoModal" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="sugerenciasModal" class="form-label">Sugerencia para
+                                                    Interconsultas:</label>
+                                                <textarea class="form-control" id="sugerenciasModal" name="sugerenciasModal" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="observacionesModal" class="form-label">Observaciones y
+                                                    Recomendaciones:</label>
+                                                <textarea class="form-control" id="observacionesModal" name="observacionesModal" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="box-footer text-end mt-3">
+                                            <button onclick="cancelarPlan()" type="button"
+                                                class="btn btn-primary-light me-1">
+                                                <i class="ti-share-alt"></i> Cancelar
+                                            </button>
+                                            <button onclick="guardarPlan()" type="button" class="btn btn-primary">
+                                                <i class="ti-save"></i> Guardar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </div><!-- /.modal -->
+    </div>
+    <div class="modal fade" id="modalVentaConsulta" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">`
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Venta de consulta</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div class="card-body">
+                                <form id="formVentaConsulta">
+                                    @csrf <!-- Directiva para el token CSRF de Laravel -->
+                                    <input type="hidden" id="idHistoriaVenta" name="idHistoriaVenta" />
+                                    <input type="hidden" id="accHistoriaVenta" name="accHistoriaVenta" />
+                                    <input type="hidden" id="idConsultaVenta" name="idConsultaVenta" />
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label for="ConsultaVenta" class="form-label">Descripción de la
+                                                    consulta:</label>
+                                                <input type="text" class="form-control" id="ConsultaVenta"
+                                                    name="ConsultaVenta">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="fechaVentaConsulta" class="form-label">Fecha:</label>
+                                            <div class="input-group">
+                                                <input type="date" class="form-control" id="fechaVentaConsulta"
+                                                    name="fechaVentaConsulta"
+                                                    placeholder="Seleccione la fecha de venta consulta" />
+                                                <input type="time" id="horaSeleccionadaVentaConsulta"
+                                                    name="horaSeleccionadaVentaConsulta" class="form-control">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-clock-o"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="valorServConsultaVis" class="form-label">Valor :</label>
+                                                <input type="text" class="form-control" id="valorServConsultaVis"
+                                                    name="valorServConsultaVis" placeholder="$ 0,00" onchange="cambioFormato(this.id);"
+                                                    onkeypress="return validartxtnum(event)" onclick="this.select();">
+                                                <input type="hidden" class="form-control" id="valorServConsulta"
+                                                    name="valorServConsulta">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="estadoServicio" class="form-label">Estado servicio :</label>
+                                                <input type="text" class="form-control" id="estadoServicio"
+                                                    name="estadoServicio" readonly>
+
+                                            </div>
+                                        </div>
+                                        <div class="box-footer text-end mt-3">
+                                            <button onclick="cancelarVentaConsulta()" type="button"
+                                                class="btn btn-primary-light me-1">
+                                                <i class="ti-share-alt"></i> Cancelar
+                                            </button>
+                                            <button onclick="guardarVentaConsulta()" id="saveRegistroVentaConsulta"
+                                                type="button" class="btn btn-primary">
+                                                <i class="ti-save"></i> Guardar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </div><!-- /.modal -->
+    </div>
+    <div class="modal fade" id="modalVentaSesion" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">`
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="tituloVentaSesion" class="modal-title">Sesiones vendidas</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div class="card-body">
+                                <form style="display: none;" id="formVentaSesion">
+                                    @csrf <!-- Directiva para el token CSRF de Laravel -->
+                                    <input type="hidden" id="idHistoriaVentaSesion" name="idHistoriaVentaSesion" />
+                                    <input type="hidden" id="accHistoriaVentaSesion" name="accHistoriaVentaSesion" />
+                                    <input type="hidden" id="idVentaSesion" name="idVentaSesion" />
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label for="sugerenciasModal" class="form-label">Descripción de la
+                                                    sesión:</label>
+                                                <input type="text" class="form-control" id="descripcionVentaSesion"
+                                                    name="descripcionVentaSesion">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="fechaVentaSesion" class="form-label">Fecha:</label>
+                                            <div class="input-group">
+                                                <input type="date" class="form-control" id="fechaVentaSesion"
+                                                    name="fechaVentaSesion"
+                                                    placeholder="Seleccione la fecha de venta de la sesión" />
+                                                <input type="time" id="horaSeleccionadaVentaSesion"
+                                                    name="horaSeleccionadaVentaSesion" class="form-control">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-clock-o"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="valorServSesionVis" class="form-label">Valor :</label>
+                                                <input type="text" class="form-control" id="valorServSesionVis"
+                                                    name="valorServSesionVis" placeholder="$ 0,00" value=""
+                                                    onchange="cambioFormato(this.id);"
+                                                    onkeypress="return validartxtnum(event)" onclick="this.select();">
+                                                <input type="hidden" class="form-control" id="valorServSesion"
+                                                    name="valorServSesion">
+                                            </div>
+                                        </div>
+                                        <div class="box-footer text-end mt-3">
+                                            <button onclick="cancelarVentaSesion()" type="button"
+                                                class="btn btn-primary-light me-1">
+                                                <i class="ti-share-alt"></i> Cancelar
+                                            </button>
+                                            <button onclick="guardarVentaSesion()" type="button"
+                                                id="saveRegistroVentaSesion" class="btn btn-primary">
+                                                <i class="ti-save"></i> Guardar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div id="listVentaSesion">
+                                    <div class="box-controls pull-right">
+                                        <div class="box-header-actions">
+                                            <div class="input-group input-group-merge">
+                                                <button type="button" onclick="nuevaVentaSesion();"
+                                                    class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i>
+                                                    Nueva venta sesión</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <table id="tblPaquetes" class="table table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Descripción</th>
+                                                <th>Fecha de compra</th>
+                                                <th>Valor</th>
+                                                <th>Estado</th>
+                                                <th>Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="trRegistrosVentaSesion">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </div><!-- /.modal -->
+    </div>
     <script>
         window.userPermissions = @json(Auth::user()->permissions);
 
@@ -1759,6 +2045,116 @@
             $('#motivoConsultaOtro').select2({
                 placeholder: "Seleccione otros motivos relacionados"
             })
+
+            $('#selPaquete').select2({
+                dropdownParent: $('#modalPaquete'),
+                width: '100%'
+            });
+
+
+
+            //VALIDAR FORMULARIO DE PAQUETES
+
+            $("#formPaquetes").validate({
+                rules: {
+                    selPaquete: {
+                        required: true
+                    },
+                    fechaPaquete: {
+                        required: true
+                    },
+                    precioSesion: {
+                        required: true
+                    },
+                    numSesiones: {
+                        required: true
+                    }
+
+                },
+                messages: {
+                    selPaquete: {
+                        required: "Por favor, seleccione un paquete"
+                    },
+                    fechaPaquete: {
+                        required: "Por favor, seleccione una fecha"
+                    },
+                    precioSesion: {
+                        required: "Por favor, ingrese el valor de la sesión"
+                    },
+                    numSesiones: {
+                        required: "Por favor, ingrese el número de sesiones"
+                    }
+                },
+                submitHandler: function(form) {
+                    guardarPaquetes()
+                }
+            });
+
+            //VALIDAR FORMULARIO VENTA CONSULTA
+            $("#formVentaConsulta").validate({
+                rules: {
+                    ConsultaVenta: {
+                        required: true
+                    },
+                    fechaVentaConsulta: {
+                        required: true
+                    },
+                    valorServConsultaVis: {
+                        required: true
+                    }
+
+
+                },
+                messages: {
+                    ConsultaVenta: {
+                        required: "Por favor, ingrese la descripción de la consulta"
+                    },
+                    fechaVentaConsulta: {
+                        required: "Por favor, seleccione una fecha"
+                    },
+                    valorServConsultaVis: {
+                        required: "Por favor, ingrese el valor de la consulta"
+                    }
+
+                },
+                submitHandler: function(form) {
+                    guardarVentaConsulta()
+                }
+            });
+            ////
+
+               //VALIDAR FORMULARIO VENTA SESION
+            $("#formVentaSesion").validate({
+                rules: {
+                    descripcionVentaSesion: {
+                        required: true
+                    },
+                    fechaVentaSesion: {
+                        required: true
+                    },
+                    valorServSesionVis: {
+                        required: true
+                    }
+
+
+                },
+                messages: {
+                    descripcionVentaSesion: {
+                        required: "Por favor, ingrese la descripción de la sesión"
+                    },
+                    fechaVentaSesion: {
+                        required: "Por favor, seleccione una fecha"
+                    },
+                    valorServSesionVis: {
+                        required: "Por favor, ingrese el valor de la sesión"
+                    }
+
+                },
+                submitHandler: function(form) {
+                    guardarVentaSesion()
+                }
+            });
+            ////
 
             $('#codConsulta').select2({
                 dropdownAutoWidth: true,
@@ -2050,7 +2446,11 @@
                 'evolucion_sesion',
                 'intervencion_psiquiatria',
                 'intervencion_neurologia',
-                'intervencion_neuropsicologia'
+                'intervencion_neuropsicologia',
+                'sugerenciasModal',
+                'observacionesModal',
+                'objetivoGeneralModal',
+                'objetivoEspecificoModal'
             ]
 
             $(function() {
@@ -2118,9 +2518,14 @@
                     searchTerm)
             })
 
-            document.getElementById('busquedaConsulta').addEventListener('input', function() {
+            document.getElementById('busquedaCo').addEventListener('input', function() {
                 var searchTerm = this.value
                 cargarConsultas(1,
+                    searchTerm)
+            })
+            document.getElementById('busquedaP').addEventListener('input', function() {
+                var searchTerm = this.value
+                cargarPaquetes(1,
                     searchTerm)
             })
 
@@ -2135,13 +2540,6 @@
                         cargarPacientes(page)
                     }
                 }
-            })
-
-            $('#inline-comments').editable({
-                showbuttons: 'bottom', // Botones de confirmación en la parte inferior
-                mode: 'inline', // Modo de edición en línea
-                type: 'textarea', // Tipo de entrada
-                title: 'Agregar notas rápidas',
             })
 
         })
@@ -2180,6 +2578,12 @@
             document.getElementById('fomrConsultas').style.display = 'none'
             document.getElementById("titConsulta").innerHTML = "Gestionar consulta"
 
+        }
+
+        function cancelarPaquetes() {
+            document.getElementById('listPaquetes').style.display = 'block'
+            document.getElementById('formPaquetes').style.display = 'none'
+            document.getElementById("tituloPaquete").innerHTML = "Listado de paquetes"
         }
 
         function cargarHistorias(page, searchTerm = '') {
@@ -2262,6 +2666,11 @@
                             const categoria = data.find(cat => cat.nombre === categoriaNom)
                             if (categoria) {
                                 const select = document.getElementById(selectId)
+                                let defaultOption = document.createElement("option");
+                                defaultOption.value = ""; // Valor en blanco
+                                defaultOption.text = "Selecciona una opción"; // Texto que se mostrará
+                                defaultOption.selected = true; // Que aparezca seleccionada por defecto
+                                select.appendChild(defaultOption);
                                 if (select) {
                                     categoria.opciones.forEach(opcion => {
                                         const option = document.createElement('option')
@@ -2318,11 +2727,11 @@
             formHistoria.reset()
 
             CKEDITOR.instances['motivoConsultaModal'].setData('')
-            CKEDITOR.instances['resumen_evaluacion_inicial'].setData('')
             CKEDITOR.instances['objetivo_sesion'].setData('')
-            CKEDITOR.instances['plan_continuidad'].setData('')
-            CKEDITOR.instances['sugerencia_consulta'].setData('')
-            CKEDITOR.instances['observaciones_consulta'].setData('')
+            CKEDITOR.instances['tecnicas_utilizadas'].setData('')
+            CKEDITOR.instances['actividades_especificas'].setData('')
+            CKEDITOR.instances['evaluacion_indicadores'].setData('')
+            CKEDITOR.instances['evolucion_sesion'].setData('')
 
             $('#codConsultaConsulta').val(null).trigger('change');
             $('#codImpresionDiagnosticoConsulta').val(null).trigger('change');
@@ -2367,29 +2776,6 @@
                     loadNow(0)
                 })
                 .catch(error => console.error('Error:', error))
-
-        }
-
-        function updateNota(nota) {
-            let url = "{{ route('historia.notasHistoria') }}";
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                            .getAttribute(
-                                'content')
-                    },
-                    body: JSON.stringify({
-                        idPaciente: document.getElementById("idPaciente").value,
-                        idHistoria: document.getElementById("idHistoria").value,
-                        nota: nota
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-
-                })
         }
 
         function seleccionarPaciente(element) {
@@ -2415,8 +2801,6 @@
             modalInstance.hide()
 
             mostrarInformacionHistoria(idPaciente)
-
-
         }
 
         function toggleOtro(selectElement) {
@@ -2492,9 +2876,6 @@
             let estado = element.getAttribute("data-estado")
 
             if (hasPermission('editarHistoria')) {
-
-
-
                 if (estado == "abierta") {
                     swal({
                         title: "Cerrar historia clinica del paciente.",
@@ -2648,7 +3029,7 @@
 
             document.getElementById("nombrePaciente").innerHTML =
                 `${paciente.primer_nombre} ${paciente.primer_apellido} `
-            document.getElementById("edadPaciente").innerHTML = paciente.edad
+            document.getElementById("edadPaciente").innerHTML = paciente.edadTexto
 
             document.getElementById("identificacionPacienteHist").innerHTML =
                 `${paciente.tipo_identificacion} - ${paciente.identificacion}`
@@ -2658,7 +3039,7 @@
 
             var fechForm = convertirFecha(paciente.fecha_nacimiento)
             document.getElementById("fechaNacimeintoPacienteHist").innerHTML =
-                `${fechForm} (${paciente.edad})`
+                `${fechForm} (${paciente.edadTexto})`
             document.getElementById("tipoUsuarioPacienteHist").innerHTML = tipoUsuario(paciente
                 .tipo_usuario)
 
@@ -2799,58 +3180,153 @@
 
                 const url = "{{ route('form.guardarHistoriaPsicologica') }}";
 
-                // Enviar datos usando fetch
-                fetch(url, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success === 'success') { // Comparación estricta
-                            document.getElementById("idHistoria").value = data.id;
-                            cargarHistorias(1);
-                            var btnGuardar = document.getElementById("btn-guardarHistoria");
-                            btnGuardar.disabled = true;
+                var error = validarFormularioEnvio();
+                if (!error) {
+                    fetch(url, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content')
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success === 'success') { // Comparación estricta
+                                document.getElementById("idHistoria").value = data.id;
+                                cargarHistorias(1);
+                                var btnGuardar = document.getElementById("btn-guardarHistoria");
+                                btnGuardar.disabled = true;
 
-                            swal(data.title, data.message, data.success)
+                                swal(data.title, data.message, data.success)
 
-                            // swal({
-                            //     title: "Operación realizada correctamente",
-                            //     text: "Se ha registrado la consulta con información incompleta. ¿Desea completarla ahora?",
-                            //     type: "success",
-                            //     showCancelButton: true,
-                            //     confirmButtonColor: "#3085d6",
-                            //     cancelButtonColor: "#d33",
-                            //     confirmButtonText: "Si, completat!",
-                            //     cancelButtonText: "Cancelar",
-                            //     confirmButtonClass: "btn btn-warning",
-                            //     cancelButtonClass: "btn btn-danger ml-1",
-                            //     buttonsStyling: false
-                            // }, function(isConfirm) {
-                            //     if (isConfirm) {
-                            //         if (data.idConsulta != "") {
-                            //             //editarConsulta(data.idConsulta);
-                            //             var modal = new bootstrap.Modal(document.getElementById(
-                            //                 "modalConsulta"), {
-                            //                 backdrop: 'static',
-                            //                 keyboard: false,
-                            //             });
-                            //             modal.show();
-                            //         }
-                            //     }
-                            // });
 
-                        } else {
-                            Swal.fire(data.title, data.message, "error");
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error al enviar los datos:", error);
-                    });
+
+                            } else {
+                                Swal.fire(data.title, data.message, "error");
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error al enviar los datos:", error);
+                        });
+                }
             }
+        }
+
+        function validarFormularioEnvio() {
+
+            var error = false;
+            var mensaje = "";
+            if (document.getElementById("codConsulta").value == "") {
+                error = true;
+                mensaje += "Debe seleccionar un código de consulta. \n";
+            }
+            if (document.getElementById("codDiagnostico").value == "") {
+                error = true;
+                mensaje += "Debe seleccionar un código de diagnóstico. \n";
+            }
+            if (document.getElementById("codImpresionDiagnostico").value == "") {
+                error = true;
+                mensaje += "Debe seleccionar un código de impresión diagnóstica. \n";
+            }
+
+            if (document.getElementById("enfermedadActual").value == "") {
+                error = true;
+                mensaje += "Debe ingresar la enfermedad actual. \n";
+            }
+            if (document.getElementById("observaciones_recomendaciones").value == "") {
+                error = true;
+                mensaje += "Debe ingresar las observaciones y recomendaciones. \n";
+            }
+            if (document.getElementById("sugerencia_interconsultas").value == "") {
+                error = true;
+                mensaje += "Debe ingresar las sugerencias de interconsultas. \n";
+            }
+            if (document.getElementById("objetivos_especificos").value == "") {
+                error = true;
+                mensaje += "Debe ingresar los objetivos específicos. \n";
+            }
+            if (document.getElementById("objetivo_general").value == "") {
+                error = true;
+                mensaje += "Debe ingresar el objetivo general. \n";
+            }
+            if (document.getElementById("medicacion").value == "") {
+                error = true;
+                mensaje += "Debe ingresar la medicación. \n";
+            }
+            if (document.getElementById("remision").value == "") {
+                error = true;
+                mensaje += "Debe ingresar la remisión. \n";
+            }
+            if (document.getElementById("motivoConsulta").value == "") {
+                error = true;
+                mensaje += "Debe ingresar el motivo de la consulta. \n";
+            }
+            if (document.getElementById("resumen_evaluacion_inicial").value == "") {
+                error = true;
+                mensaje += "Debe ingresar el resumen de la evaluación inicial. \n";
+            }
+            // if (document.getElementById("plan_intervencion").value == "") {
+            //     error = true;
+            //     mensaje += "Debe ingresar el plan de intervención. \n";
+            // }
+            if (document.getElementById("codConsulta").value == "") {
+                error = true;
+                mensaje += "Debe seleccionar un código de consulta. \n";
+            }
+            if (document.getElementById("codDiagnostico").value == "") {
+                error = true;
+                mensaje += "Debe seleccionar un código de diagnóstico. \n";
+            }
+            if (document.getElementById("codImpresionDiagnostico").value == "") {
+                error = true;
+                mensaje += "Debe seleccionar un código de impresión diagnóstica. \n";
+            }
+
+            if (document.getElementById("enfermedadActual").value == "") {
+                error = true;
+                mensaje += "Debe ingresar la enfermedad actual. \n";
+            }
+            // if (document.getElementById("observaciones_recomendaciones").value == "") {
+            //     error = true;
+            //     mensaje += "Debe ingresar las observaciones y recomendaciones. \n";
+            // }
+            if (document.getElementById("sugerencia_interconsultas").value == "") {
+                error = true;
+                mensaje += "Debe ingresar las sugerencias de interconsultas. \n";
+            }
+            if (document.getElementById("objetivos_especificos").value == "") {
+                error = true;
+                mensaje += "Debe ingresar los objetivos específicos. \n";
+            }
+            if (document.getElementById("objetivo_general").value == "") {
+                error = true;
+                mensaje += "Debe ingresar el objetivo general. \n";
+            }
+            if (document.getElementById("medicacion").value == "") {
+                error = true;
+                mensaje += "Debe ingresar la medicación. \n";
+            }
+            if (document.getElementById("remision").value == "") {
+                error = true;
+                mensaje += "Debe ingresar la remisión. \n";
+            }
+
+            if (document.getElementById("resumen_evaluacion_inicial").value == "") {
+                error = true;
+                mensaje += "Debe ingresar el resumen de la evaluación inicial. \n";
+            }
+            if (document.getElementById("plan_intervencion").value == "") {
+                error = true;
+                mensaje += "Debe ingresar el plan de intervención. \n";
+            }
+
+            if (error) {
+                swal("¡Alerta!", mensaje, "warning");
+            }
+
+            return error;
+
         }
 
 
@@ -2870,32 +3346,76 @@
 
                 const url = "{{ route('form.guardarConsultaPsicologica') }}"
 
-                fetch(url, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data)
-                        if (data.success = 'success') {
+                var error = validarFormularioConsultaEnvio();
+                if (!error) {
+                    fetch(url, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content')
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data)
+                            if (data.success = 'success') {
 
-                            swal(data.title, data.message, data.success)
-                            cargarConsultas(1)
-                            document.getElementById("listadoConsultas").style.display = "initial"
-                            document.getElementById("fomrConsultas").style.display = "none"
+                                swal(data.title, data.message, data.success)
+                                cargarConsultas(1)
+                                document.getElementById("listadoConsultas").style.display = "initial"
+                                document.getElementById("fomrConsultas").style.display = "none"
 
-                        } else {
-                            swal(data.title, data.message, data.success)
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error al enviar los datos:", error)
-                    })
+                            } else {
+                                swal(data.title, data.message, data.success)
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error al enviar los datos:", error)
+                        })
+                }
 
             }
+        }
+
+        function validarFormularioConsultaEnvio() {
+            var error = false;
+            var mensaje = "";
+            if (document.getElementById("codConsultaConsulta").value == "") {
+                error = true;
+                mensaje += "Debe seleccionar un código de evolución. \n";
+            }
+            if (document.getElementById("codImpresionDiagnosticoConsulta").value == "") {
+                error = true;
+                mensaje += "Debe seleccionar un código de impresión diagnóstica. \n";
+            }
+
+            if (document.getElementById("objetivo_sesion").value == "") {
+                error = true;
+                mensaje += "Debe ingresar el objetivo de la sesión. \n";
+            }
+            if (document.getElementById("tecnicas_utilizadas").value == "") {
+                error = true;
+                mensaje += "Debe ingresar las técnicas utilizadas. \n";
+            }
+            if (document.getElementById("actividades_especificas").value == "") {
+                error = true;
+                mensaje += "Debe ingresar las actividades específicas. \n";
+            }
+            if (document.getElementById("evaluacion_indicadores").value == "") {
+                error = true;
+                mensaje += "Debe ingresar la evaluación de indicadores. \n";
+            }
+            if (document.getElementById("evolucion_sesion").value == "") {
+                error = true;
+                mensaje += "Debe ingresar la evolución de la sesión. \n";
+            }
+
+            if (error) {
+                swal("¡Alerta!", mensaje, "warning");
+            }
+
+            return error;
         }
 
         function verHistoria(element) {
@@ -2944,7 +3464,7 @@
 
                     mapearHistorialConsultas(data.historialConsultas)
 
-                    mapearNota(data.notasPaciente)
+
 
 
                     if (data.historia.tipologia == "Pediatría") {
@@ -2963,9 +3483,7 @@
                 .catch(error => console.error('Error:', error))
         }
 
-        function mapearNota(notas) {
-            document.getElementById("inline-comments").innerHTML = notas.nota
-        }
+
 
         function mapearHistorialConsultas(historialConsultas) {
             document.getElementById("historialConsulta").innerHTML = historialConsultas
@@ -3486,6 +4004,7 @@
         function ComprarPaquete(element) {
             // obtener data-id de element 
             let id = element.getAttribute("data-id")
+            document.getElementById("idHistoria").value = id
 
             var modal = new bootstrap.Modal(document.getElementById("modalPaquete"), {
                 backdrop: 'static',
@@ -3493,6 +4012,641 @@
             });
             modal.show()
 
+            cargarPaquetes(1)
+            cargarSelectPaquetes()
+
+        }
+
+        function cargarSelectPaquetes() {
+            return new Promise((resolve, reject) => {
+                let select = document.getElementById("selPaquete");
+                let url = "{{ route('paquetes.listaPaquetesSel') }}";
+
+                // Limpia el select antes de agregar nuevas opciones
+                select.innerHTML = "";
+
+                // Crear la opción por defecto
+                let defaultOption = document.createElement("option");
+                defaultOption.value = ""; // Valor en blanco
+                defaultOption.text = "Selecciona una opción"; // Texto que se mostrará
+                defaultOption.selected = true; // Que aparezca seleccionada por defecto
+                select.appendChild(defaultOption);
+
+                // Fetch para obtener los datos y cargar las opciones
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(paquete => {
+                            let option = document.createElement("option");
+                            option.value = paquete.id;
+                            option.setAttribute('data-valor', paquete.precio_por_sesion);
+                            option.text = paquete.descripcion;
+                            select.appendChild(option);
+                        });
+                        resolve(); // Resuelve la promesa cuando los datos han sido cargados
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        reject(error); // Rechaza la promesa si ocurre un error
+                    });
+            });
+        }
+
+        function calValorMonto() {
+
+            let valor = document.getElementById("precioSesion").value
+            let nsesiones = document.getElementById("numSesiones").value
+            let total = valor * nsesiones
+            document.getElementById("montoFinal").value = total
+            let formatoMoneda = formatCurrency(total, 'es-CO', 'COP')
+            document.getElementById("montoFinalVis").value = formatoMoneda
+
+        }
+
+        function seleccionarPaquete(element) {
+            let precio = element.options[element.selectedIndex].getAttribute('data-valor')
+            var formatoMoneda = formatCurrency(precio, 'es-CO', 'COP')
+            document.getElementById("precioSesion").value = precio
+            document.getElementById("precioSesionVis").value = formatoMoneda
+            calValorMonto()
+        }
+
+
+        function cambioFormato(id) {
+            let numero = document.getElementById(id)
+            //elimina ultimos 3 caracateres de id de numero 
+            let idPrecio = numero.id.slice(0, -3)
+            document.getElementById(idPrecio).value = numero.value
+            let formatoMoneda = formatCurrency(numero.value, 'es-CO', 'COP')
+            numero.value = formatoMoneda
+
+        }
+
+        function formatCurrency(number, locale, currencySymbol) {
+            return new Intl.NumberFormat(locale, {
+                style: 'currency',
+                currency: currencySymbol,
+                minimumFractionDigits: 2
+            }).format(number)
+        }
+
+        function validartxtnum(e) {
+            tecla = e.which || e.keyCode
+            patron = /[0-9]+$/
+            te = String.fromCharCode(tecla)
+            return (patron.test(te) || tecla == 9 || tecla == 8 || tecla == 37 || tecla == 39 || tecla == 44)
+        }
+
+        function cancelarVentaConsulta() {
+            let formVentaSesion = document.getElementById("formVentaConsulta")
+            formVentaConsulta.reset()
+            const modal = document.getElementById('modalVentaConsulta')
+            const modalInstance = bootstrap.Modal.getInstance(modal)
+            modalInstance.hide()
+        }
+        function cancelarVentaSesion() {
+            let formVentaSesion = document.getElementById("formVentaSesion")
+            formVentaSesion.reset()
+            document.getElementById("formVentaSesion").style.display = "none"
+            document.getElementById("listVentaSesion").style.display = "initial"
+        }
+
+        function cargarPaquetes(page, searchTerm = '') {
+            let url = "{{ route('paquetes.listaPaquetesModal') }}" // Definir la URL
+            // Eliminar los campos ocultos anteriores
+            var oldPageInput = document.getElementById('pagePaquetes')
+            var oldSearchTermInput = document.getElementById('busquedaPaq')
+            if (oldPageInput) oldPageInput.remove()
+            if (oldSearchTermInput) oldSearchTermInput.remove()
+
+            var data = {
+                page: page,
+                search: searchTerm,
+                idHist: document.getElementById("idHistoria").value
+            }
+
+            // Limpiar la tabla antes de cargar nuevos datos
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(responseData => {
+                    // Rellenar la tabla con las filas generadas
+                    document.getElementById("trRegistrosPaquetes").innerHTML = responseData.paquetes
+                    feather.replace()
+                    // Colocar los enlaces de paginación
+                    document.getElementById('pagination-links-paquetes').innerHTML = responseData.links
+                    loadNow(0)
+                })
+                .catch(error => console.error('Error:', error))
+        }
+
+        function nuevoPaquete() {
+            //recorrer en la tabla html y verificar si existem paqueter sin terminar
+            let table = document.getElementById("tblPaquetes")
+            let rows = table.getElementsByTagName("tr")
+            debugger
+            for (let i = 0; i < rows.length; i++) {
+                let cells = rows[i].getElementsByTagName("td")
+                if (cells.length > 0) {
+                    let estado = cells[5].innerHTML
+                    if (estado == "PENDIENTE") {
+                        swal("¡Alerta!", "No puede crear un nuevo paquete, mientras tenga uno Pendiente", "warning")
+                        document.getElementById("listPaquetes").style.display = "initial"
+                        document.getElementById("formPaquetes").style.display = "none"
+                        return
+                    }
+                }
+            }
+
+            let formPaquete = document.getElementById("formPaquetes")
+            formPaquete.reset()
+            document.getElementById("accPaquete").value = "guardar"
+            document.getElementById("idPaquete").value = ""
+            document.getElementById('saveRegistroPaq').removeAttribute('disabled')
+            document.getElementById("tituloPaquete").innerHTML = "Nuevo Paquete"
+            formPaquete.style.display = "initial"
+            document.getElementById("listPaquetes").style.display = "none"
+
+        }
+
+
+        function guardarPaquetes() {
+            if ($("#formPaquetes").valid()) {
+
+                const formPaquetes = document.getElementById('formPaquetes')
+                const formData = new FormData(formPaquetes)
+                formData.append('idHist', document.getElementById("idHistoria").value)
+
+                const url = "{{ route('form.guardarPaqueteVenta') }}"
+
+                fetch(url, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        if (data.success = 'success') {
+
+                            swal(data.title, data.message, data.success)
+                            cargarPaquetes(1)
+                            document.getElementById("listPaquetes").style.display = "initial"
+                            document.getElementById("formPaquetes").style.display = "none"
+
+                        } else {
+                            swal(data.title, data.message, data.success)
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error al enviar los datos:", error)
+                    })
+
+            }
+        }
+
+        function editarPaquete(idPaquete) {
+
+            document.getElementById("listPaquetes").style.display = "none"
+            document.getElementById("formPaquetes").style.display = "initial"
+
+            document.getElementById("idPaquete").value = idPaquete
+            document.getElementById("accPaquete").value = "editar"
+
+            let url = "{{ route('paquetes.buscaPaqueteVenta') }}"
+
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        idPaquete: idPaquete
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("tituloPaquete").innerHTML = "Editar Paquete"
+                    document.getElementById("precioSesion").value = data.paquete.valor_sesion
+                    document.getElementById("numSesiones").value = data.paquete.sesiones_compradas
+                    document.getElementById("montoFinal").value = data.paquete.monto_total
+                    document.getElementById("montoFinalVis").value = formatCurrency(data.paquete.monto_total, 'es-CO',
+                        'COP')
+                    document.getElementById("fechaPaquete").value = data.paquete.fecha_compra
+                    $('#selPaquete').val(data.paquete.paquete_id).trigger('change.select2')
+                    document.getElementById("precioSesionVis").value = formatCurrency(data.paquete.valor_sesion,
+                        'es-CO', 'COP')
+                    document.getElementById("saveRegistroPaq").removeAttribute('disabled')
+                })
+                .catch(error => console.error('Error:', error))
+        }
+
+        function editarVentaSesion(element) {
+            let idVenta = element.getAttribute("data-id")
+            let estado = element.getAttribute("data-estado")
+
+            if(estado == "PAGADO"){
+                swal("¡Alerta!", "No puede editar una sesión que ya ha sido pagada", "warning")
+                return
+            }
+
+            document.getElementById("listVentaSesion").style.display = "none"
+            document.getElementById("formVentaSesion").style.display = "initial"
+
+            document.getElementById("idVentaSesion").value = idPaquete
+            document.getElementById("accHistoriaVentaSesion").value = "editar"
+
+            let url = "{{ route('historia.buscaSesionVenta') }}"
+
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        idVenta: idVenta
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("tituloVentaSesion").innerHTML = "Editar sesión"
+                    document.getElementById("idVentaSesion").value = data.servicioSesion.id
+                    document.getElementById("descripcionVentaSesion").value = data.servicioSesion.descripcion
+                    let parFecha = data.servicioSesion.fecha.split(" ")
+                    document.getElementById("fechaVentaSesion").value = parFecha[0]
+                    document.getElementById("horaSeleccionadaVentaSesion").value = parFecha[1]
+                    document.getElementById("valorServSesionVis").value = formatCurrency(data.servicioSesion.precio, 'es-CO',
+                        'COP')
+                    document.getElementById("valorServSesion").value = data.servicioSesion.precio
+
+                    document.getElementById("saveRegistroVentaSesion").removeAttribute('disabled')
+                })
+                .catch(error => console.error('Error:', error))
+        }
+
+        function eliminarPaquete(idPaquete) {
+
+          
+
+            swal({
+                title: "Esta seguro de eliminar este paquete ?",
+                text: "¡No podrás revertir esto!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, eliminar!",
+                cancelButtonText: "Cancelar",
+                confirmButtonClass: "btn btn-warning",
+                cancelButtonClass: "btn btn-danger ml-1",
+                buttonsStyling: false
+            }, function(isConfirm) {
+                if (isConfirm) {
+                    let url = "{{ route('paquetes.eliminarPaquete') }}";
+                    fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                    .getAttribute(
+                                        'content')
+                            },
+                            body: JSON.stringify({
+                                idPaquete: idPaquete
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                swal("¡Buen trabajo!",
+                                    data.message,
+                                    "success");
+                                cargarPaquetes(1);
+                            } else {
+                                swal("¡Alerta!",
+                                    "La operación fue realizada exitosamente",
+                                    data.message,
+                                    "success");
+                            }
+                        })
+
+                } else {
+                    swal("Cancelado", "Tu registro esta salvo :)", "error");
+                }
+            });
+
+        }
+
+        function eliminarVentaSesion(element) {
+            let idVenta = element.getAttribute("data-id")
+            let estado = element.getAttribute("data-estado")
+
+            if(estado == "PAGADO"){
+                swal("¡Alerta!", "No puede eliminar una sesión que ya ha sido pagada", "warning")
+                return
+            }
+
+            swal({
+                title: "Esta seguro de eliminar esta sesión ?",
+                text: "¡No podrás revertir esto!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, eliminar!",
+                cancelButtonText: "Cancelar",
+                confirmButtonClass: "btn btn-warning",
+                cancelButtonClass: "btn btn-danger ml-1",
+                buttonsStyling: false
+            }, function(isConfirm) {
+                if (isConfirm) {
+                    let url = "{{ route('historia.eliminarSesionVenta') }}";
+                    fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                    .getAttribute(
+                                        'content')
+                            },
+                            body: JSON.stringify({
+                                idVenta: idVenta
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                swal("¡Buen trabajo!",
+                                    data.message,
+                                    "success");
+                                cargarSesionesVentas(1);
+                            } else {
+                                swal("¡Alerta!",
+                                    "La operación fue realizada exitosamente",
+                                    data.message,
+                                    "success");
+                            }
+                        })
+
+                } else {
+                    swal("Cancelado", "Tu registro esta salvo :)", "error");
+                }
+            });
+
+        }
+
+        function PlanIntervencionHistoria(element) {
+            let idHist = element.getAttribute("data-id")
+            document.getElementById("idHistoriaPlan").value = idHist
+
+            var modal = new bootstrap.Modal(document.getElementById("modalPlanIntervencion"), {
+                backdrop: 'static',
+                keyboard: false
+            })
+
+            modal.show()
+            let url = "{{ route('historia.buscaPlanIntervencion') }}"
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        idHist: idHist
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // document.getElementById("idPlanIntervencion").value = data.historia.id_plan_intervencion
+                    CKEDITOR.instances['sugerenciasModal'].setData(data.planIntervencion.sugerencias_interconsultas)
+                    CKEDITOR.instances['observacionesModal'].setData(data.planIntervencion
+                        .observaciones_recomendaciones)
+                    CKEDITOR.instances['objetivoGeneralModal'].setData(data.planIntervencion.objetivo_general)
+                    CKEDITOR.instances['objetivosEspecificosModal'].setData(data.planIntervencion.objetivos_especificos)
+                })
+                .catch(error => console.error('Error:', error))
+
+        }
+
+        function cancelarPlan() {
+            document.getElementById("formPlanIntervencion").reset()
+            CKEDITOR.instances['sugerenciasModal'].setData("")
+            const modal = document.getElementById('modalPlanIntervencion')
+            const modalInstance = bootstrap.Modal.getInstance(modal)
+            modalInstance.hide()
+
+        }
+
+        function guardarPlan() {
+            if ($("#formPlanIntervencion").valid()) {
+                for (var instanceName in CKEDITOR.instances) {
+                    CKEDITOR.instances[instanceName].updateElement()
+                }
+                const formPlanIntervencion = document.getElementById('formPlanIntervencion')
+                const formData = new FormData(formPlanIntervencion)
+
+                const url = "{{ route('form.guardarPlanIntervencion') }}"
+
+                fetch(url, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        if (data.success = 'success') {
+
+                            swal(data.title, data.message, data.success)
+                            const modal = document.getElementById('modalPlanIntervencion')
+                            const modalInstance = bootstrap.Modal.getInstance(modal)
+                            modalInstance.hide()
+
+                        } else {
+                            swal(data.title, data.message, data.success)
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error al enviar los datos:", error)
+                    })
+
+            }
+        }
+
+        function guardarVentaConsulta() {
+            if ($("#formVentaConsulta").valid()) {
+
+                const formVentaConsulta = document.getElementById('formVentaConsulta')
+                const formData = new FormData(formVentaConsulta)
+
+                const url = "{{ route('form.guardarVentaConsulta') }}"
+
+                fetch(url, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        if (data.success = 'success') {
+
+                            swal("¡Buen trabajo!", data.message, data.success)
+                            const modal = document.getElementById('modalVentaConsulta')
+                            const modalInstance = bootstrap.Modal.getInstance(modal)
+                            modalInstance.hide()
+
+                        } else {
+                            swal(data.title, data.message, data.success)
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error al enviar los datos:", error)
+                    })
+            }
+        }
+        function guardarVentaSesion() {
+            if ($("#formVentaSesion").valid()) {
+
+                const formVentaSesion = document.getElementById('formVentaSesion')
+                const formData = new FormData(formVentaSesion)
+
+                const url = "{{ route('form.guardarVentaSesion') }}"
+
+                fetch(url, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        if (data.success = 'success') {
+
+                            swal("¡Buen trabajo!", data.message, data.success)
+                            document.getElementById("formVentaSesion").style.display = "none"
+                            document.getElementById("listVentaSesion").style.display = "initial"
+                            cargarSesionesVentas()
+
+                        } else {
+                            swal(data.title, data.message, data.success)
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error al enviar los datos:", error)
+                    })
+            }
+        }
+
+        function ventaConsulta(element) {
+            let idHist = element.getAttribute("data-id")
+            document.getElementById("idHistoriaVenta").value = idHist
+            var modal = new bootstrap.Modal(document.getElementById("modalVentaConsulta"), {
+                backdrop: 'static',
+                keyboard: false
+            })
+            modal.show()
+            //cargar informacion si ya fue guardada la venta
+            let url = "{{ route('historia.buscaVentaConsulta') }}"
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        idHist: idHist
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.servicioConsulta.estadoVentaConsulta)
+                    if (data.servicioConsulta.estadoVentaConsulta == 'PENDIENTE') {
+                        document.getElementById("ConsultaVenta").value = data.servicioConsulta.descripcion.nombre
+                        document.getElementById("estadoServicio").value = data.servicioConsulta.estadoVentaConsulta
+                        document.getElementById("valorServConsultaVis").value = ""
+                        document.getElementById("valorServConsulta").value = "0"
+                        document.getElementById("accHistoriaVenta").value = "guardar"
+                        document.getElementById("saveRegistroVentaConsulta").removeAttribute('disabled')
+                    } else {
+                        document.getElementById("idConsultaVenta").value = data.servicioConsulta.id
+                        document.getElementById("ConsultaVenta").value = data.servicioConsulta.descripcion
+                        document.getElementById("estadoServicio").value = data.servicioConsulta.estadoVentaConsulta
+                        document.getElementById("valorServConsultaVis").value = formatCurrency(data.servicioConsulta
+                            .precio, 'es-CO', 'COP')
+                        document.getElementById("valorServConsulta").value = data.servicioConsulta.precio
+                        let parFecha = data.servicioConsulta.fecha.split(' ')
+                        document.getElementById("fechaVentaConsulta").value = parFecha[0]
+                        document.getElementById("horaSeleccionadaVentaConsulta").value = parFecha[1]
+                        document.getElementById("accHistoriaVenta").value = "editar"
+
+                        if (data.servicioConsulta.estadoVentaConsulta == 'PAGADO') {
+                            document.getElementById("saveRegistroVentaConsulta").setAttribute('disabled', 'disabled')
+                        }
+
+                    }
+                })
+                .catch(error => console.error('Error:', error))
+
+        }
+
+
+        function ventaSesion(element) {
+            let idHist = element.getAttribute("data-id")
+            document.getElementById("idHistoriaVentaSesion").value = idHist
+            var modal = new bootstrap.Modal(document.getElementById("modalVentaSesion"), {
+                backdrop: 'static',
+                keyboard: false
+            })
+            modal.show()
+            cargarSesionesVentas()
+        }
+
+        function cargarSesionesVentas() {
+            let url = "{{ route('historia.buscaVentaSesion') }}"
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        idHist: document.getElementById("idHistoriaVentaSesion").value
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("trRegistrosVentaSesion").innerHTML = data.ventasSesiones
+                    feather.replace()
+                })
+                .catch(error => console.error('Error:', error))
+        }
+
+        function nuevaVentaSesion() {
+            document.getElementById("formVentaSesion").reset()
+            document.getElementById("accHistoriaVentaSesion").value = "guardar"
+            document.getElementById("saveRegistroVentaSesion").removeAttribute('disabled')
+            document.getElementById("tituloVentaSesion").innerHTML = "Nueva Venta de Sesión"
+            document.getElementById("listVentaSesion").style.display = "none"
+            document.getElementById("formVentaSesion").style.display = "initial"
+        
         }
     </script>
 

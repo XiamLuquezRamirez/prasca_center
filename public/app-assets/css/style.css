@@ -46627,3 +46627,12 @@ img.online {
   background-color: #f0f3f6;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+.aumento {
+  color: green !important;
+  font-weight: bold;
+}
+.disminucion {
+  color: red !important;
+  font-weight: bold;
+}

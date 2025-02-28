@@ -111,7 +111,6 @@ class HistoriasController extends Controller
                 ->whereBetween('fecha', [$fechaInicio, $fechaFin])
                 ->sum('precio');
 
-           
 
             return response()->json([
                 'totalCitas' => $totalCitas,
@@ -134,6 +133,44 @@ class HistoriasController extends Controller
             ]);
         } else {
             return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+    public function otrosInformes(){
+        if (Auth::check()) {
+            $fecha1 = request()->get('fecha1');
+            $fecha2 = request()->get('fecha2');
+
+            $fechaInicio = \Carbon\Carbon::createFromFormat('d/m/Y', $fecha1)->format('Y-m-d') . 'T00:00:00';
+            $fechaFin = \Carbon\Carbon::createFromFormat('d/m/Y', $fecha2)->format('Y-m-d') . 'T23:59:59';
+
+            $recaudo = DB::connection('mysql')
+            ->table('pagos')
+            ->selectRaw('DATE(fecha_pago) as fecha, SUM(pago_realizado) as total_recaudo')
+            ->where('estado', 'ACTIVO')
+            ->whereBetween('fecha_pago', [$fechaInicio, $fechaFin])
+            ->groupBy('fecha')
+            ->orderBy('fecha', 'asc')
+            ->get();
+
+            $citas = DB::connection('mysql')
+            ->table('citas')
+            ->selectRaw('DATE(inicio) as fecha, COUNT(id) as cant')
+            ->where('estado', 'Atendida')
+            ->whereBetween('inicio', [$fechaInicio, $fechaFin])
+            ->groupBy(DB::raw('DATE(inicio)'))
+            ->orderBy('fecha', 'asc')
+            ->get();
+
+                return response()->json([
+                    'recaudo' => $recaudo,
+                    'citas' => $citas
+    
+                ]);
+
+
+        }else{
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+
         }
     }
 

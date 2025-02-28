@@ -221,6 +221,7 @@ Route::post('/informes/eliminarAnexoInforme', [HistoriaNeuroPsicologicaControlle
 // INFORMES GENERALES
 Route::get('/HistoriasClinicas/informes', [HistoriasController::class, 'informes'])->name('gestionar.informes');
 Route::post('/informes/informeGeneral', [HistoriasController::class, 'informeGeneral'])->name('informes.informeGeneral');
+Route::post('/informes/otrosInformes', [HistoriasController::class, 'otrosInformes'])->name('informes.otrosInformes');
 
 //GESTIONNAR RECAUDOS
 Route::get('/Administracion/Recaudos', [AdminitraccionController::class, 'Recaudos']);

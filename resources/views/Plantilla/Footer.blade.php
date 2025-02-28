@@ -27,6 +27,9 @@
 
   <script src="{{asset('app-assets/js/pdfmake/pdfmake.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('app-assets/js/pdfmake/vfs_fonts.js')}}" type="text/javascript"></script>
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
 
   <!-- InvestX App -->
   <script src="{{ asset('app-assets/js/demo.js') }}"></script>

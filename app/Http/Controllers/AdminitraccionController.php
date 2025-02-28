@@ -494,7 +494,13 @@ class AdminitraccionController extends Controller
             $perPage = 20; // Número de posts por página
             $page = request()->get('page', 1);
             $search = request()->get('search');
-            $fechaFiltro = request()->get('fecha');
+            $fecha1 = request()->get('fecha1');
+            $fecha2 = request()->get('fecha2');
+
+            $fechaInicio = \Carbon\Carbon::createFromFormat('d/m/Y', $fecha1)->format('Y-m-d') . 'T00:00:00';
+            $fechaFin = \Carbon\Carbon::createFromFormat('d/m/Y', $fecha2)->format('Y-m-d') . 'T23:59:59';
+
+
             if (!is_numeric($page)) {
                 $page = 1; // Establecer un valor predeterminado si no es numérico
             }
@@ -518,11 +524,9 @@ class AdminitraccionController extends Controller
                 });
             }
 
-            if (!empty($fechaFiltro)) {
-                $gastos->whereDate('gastos.fecha_gasto', $fechaFiltro);
+            if (!empty($fechaInicio)) {
+                $gastos->whereBetween('gastos.fecha_gasto',  [$fechaInicio, $fechaFin]);
             }
-
-
 
 
             $ListGastos = $gastos->paginate($perPage, ['*'], 'page', $page);

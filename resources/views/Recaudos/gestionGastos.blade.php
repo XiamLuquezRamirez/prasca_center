@@ -31,16 +31,24 @@
                         <strong style="font-size: 20px" id="gastosTotales">Gasto total: $ 45,000.00</strong>
                         <div class="box-controls pull-right">
                             <div class="box-header-actions">
-                           
+
                                 <div class="input-group input-group-merge">
-                                    <input type="date" value="" id="fechafiltro" class="form-control">
-                                    <input type="text" id="busqueda" class="form-control">
-                                    <div class="input-group-text" data-password="false">
-                                        <span class="fa fa-search"></span>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right" id="reservation2">
+                                        <input type="text" id="busqueda" class="form-control">
+                                        <div class="input-group-text" data-password="false">
+                                            <span class="fa fa-search"></span>
+                                        </div>
+                                        <button type="button" onclick="nuevoRegistro(1);"
+                                            class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i> Nuevo
+                                            gasto</button>
                                     </div>
-                                    <button type="button" onclick="nuevoRegistro(1);"
-                                        class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i> Nuevo
-                                        gasto</button>
+
+
+
                                 </div>
 
                             </div>
@@ -122,7 +130,7 @@
                                     <label for="medioPago" class="form-label">Medio de pago:</label>
                                     <select class="form-select" id="medioPago" name="medioPago">
                                         <option value="Efectivo">Efectivo</option>
-                                        <option value="Tranferencia">Tranferencia</option>
+                                        <option value="Transferencia">Tranferencia</option>
                                     </select>
                                 </div>
                             </div>
@@ -229,6 +237,29 @@
 
             loader = document.getElementById('loader')
             loadNow(1)
+
+            $('#reservation2').daterangepicker({
+                locale: {
+                    format: 'DD/MM/YYYY',
+                    applyLabel: "Aplicar",
+                    cancelLabel: "Cancelar",
+                    fromLabel: "Desde",
+                    toLabel: "Hasta",
+                    customRangeLabel: "Personalizado",
+                    weekLabel: "S",
+                    daysOfWeek: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+                    monthNames: [
+                        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+                    ],
+                    firstDay: 1
+                }
+            });
+
+            $('#reservation2').on('apply.daterangepicker', function(ev, picker) {
+                cargar(1)
+            });
+
 
             $("#formGastos").validate({
                 rules: {
@@ -356,7 +387,7 @@
             })
         }
 
-        function editarRegistro(idGasto){
+        function editarRegistro(idGasto) {
             var modal = new bootstrap.Modal(document.getElementById("modalGasto"), {
                 backdrop: 'static',
                 keyboard: false
@@ -396,7 +427,7 @@
         }
 
 
-        function eliminarRegistro(idGastos){
+        function eliminarRegistro(idGastos) {
             swal({
                 title: "Esta seguro?",
                 text: "No podrás recuperar este registro!",
@@ -414,7 +445,8 @@
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content')
                             },
                             body: JSON.stringify({
                                 idGastos: idGastos
@@ -534,7 +566,7 @@
             }
         }
 
-       
+
 
         function cancelarRegistro() {
             const formGastos = document.getElementById('formGastos')
@@ -596,10 +628,19 @@
             if (oldPageInput) oldPageInput.remove();
             if (oldSearchTermInput) oldSearchTermInput.remove();
 
+            let fecha = $('#reservation2').val()
+            let fechas = fecha.split(" - ")
+            fechas = {
+                fechaInicio: fechas[0],
+                fechaFin: fechas[1]
+            }
+
+
             var data = {
                 page: page,
                 search: searchTerm,
-                fecha: document.getElementById('fechafiltro').value
+                fecha1: fechas.fechaInicio,
+                fecha2: fechas.fechaFin
             };
 
             // Limpiar la tabla antes de cargar nuevos datos

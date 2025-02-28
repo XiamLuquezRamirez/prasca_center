@@ -242,6 +242,13 @@
                                 </tbody>
                                 <tfoot class="bg-teal bg-lighten-4 height-50">
                                     <tr>
+                                        <th style="width: 70%">Total gastos:
+                                        </th>
+                                        <th></th>
+                                        <th></th>
+                                        <th style="text-align:right;" id="infTotalGastosIni">$ 0,00</th>
+                                    </tr>
+                                    <tr>
                                         <th style="width: 70%">Total caja efectivo (saldo inicial + recaudado -
                                             gastos):
                                         </th>
@@ -815,26 +822,28 @@
                         // Sumar al total correspondiente
                         if (gasto.forma_pago === "Efectivo") {
                             totalEfectivo += parseInt(gasto.valor);
-                        } else if (gasto.forma_pago === "Transferecia") {
+                        } else if (gasto.forma_pago === "Transferencia") {
                             totalTransferencia += parseInt(gasto.valor);
                         }
                     });
 
                     document.getElementById("infGastos").innerHTML = formatCurrency(totalEfectivo, 'es-CO', 'COP')
                     document.getElementById("infGastosT").innerHTML = formatCurrency(totalTransferencia, 'es-CO', 'COP')
-
-                    let totalCaja = parseInt(data.caja.saldo_inicial) +
-                        parseInt(totalMedioPago);
+                  
+                    let totalCaja = (parseInt(data.caja.saldo_inicial) + parseInt(totalMedioPago)) 
 
                     let totalCajaT = totalMedioPagoT - totalTransferencia;
 
                     totalCaja = totalCaja - parseInt(totalEfectivo)
-                    document.getElementById("valorMontoCierre").value = totalCaja
-                    document.getElementById("valorVisMontoCierre").value = formatCurrency(totalCaja, 'es-CO', 'COP')
+                    let totalGastos = totalEfectivo + totalTransferencia
+                    let totalCierre = totalCaja + (totalCajaT)
+                    document.getElementById("valorMontoCierre").value = totalCierre
+                    document.getElementById("valorVisMontoCierre").value = formatCurrency(totalCierre, 'es-CO', 'COP')
 
                     document.getElementById("infTotalCaja").innerHTML = formatCurrency(totalCaja, 'es-CO', 'COP')
                     document.getElementById("infTotalCajaT").innerHTML = formatCurrency(totalCajaT, 'es-CO', 'COP')
-                    document.getElementById("valTotalGeneral").innerHTML = formatCurrency(totalCaja, 'es-CO', 'COP')
+                    document.getElementById("valTotalGeneral").innerHTML = formatCurrency(totalCierre, 'es-CO', 'COP')
+                    document.getElementById("infTotalGastosIni").innerHTML = formatCurrency(totalGastos, 'es-CO', 'COP')
 
                     ////MOSTRAR DETALLES RECAUDO
                     let detaRecaudos = '';
@@ -1063,7 +1072,7 @@
                         // Sumar al total correspondiente
                         if (gasto.forma_pago === "Efectivo") {
                             totalEfectivo += parseInt(gasto.valor);
-                        } else if (gasto.forma_pago === "Transferecia") {
+                        } else if (gasto.forma_pago === "Transferencia") {
                             totalTransferencia += parseInt(gasto.valor);
                         }
                         totalGastosDet += parseInt(gasto.valor);
@@ -1074,9 +1083,12 @@
                     let totalCaja = parseInt(respuestaGlobal.caja.saldo_inicial) + parseInt(
                         totalMedioPago);
                     totalCaja = totalCaja - parseInt(totalEfectivo)
+                   
 
                     let totalCajaT = totalMedioPagoT - totalTransferencia
 
+                    let totalGastos = totalEfectivo + totalTransferencia
+                    let totalCierre = totalCaja + (totalCajaT)
 
 
                     let colorCaja = "";
@@ -1115,7 +1127,7 @@
                                         style: 'title'
                                     },
                                     {
-                                        text: formatCurrency(totalCaja, 'es-CO', 'COP'),
+                                        text: formatCurrency(totalCierre, 'es-CO', 'COP'),
                                         style: 'total'
                                     }
                                 ]
@@ -1284,6 +1296,41 @@
                                         }, {
                                             text: formatCurrency(totalTransferencia,
                                                 'es-CO', 'COP'),
+                                            alignment: 'right'
+                                        }]
+                                    ],
+                                    // Configuración de estilos de la tabla
+                                    layout: {
+                                        hLineWidth: function(i, node) {
+                                            return (i === 0) ? 0 :
+                                                1; // 0 para quitar el borde superior, 1 para mantener el resto de los bordes
+                                        },
+                                        vLineWidth: function(i, node) {
+                                            return 0;
+                                        },
+                                        hLineColor: function(i, node) {
+                                            return '#fff'; // Color blanco para ocultar el borde superior
+                                        },
+                                        vLineColor: function(i, node) {
+                                            return '#fff';
+                                        },
+                                    }
+                                }
+                            },
+                            {
+                                style: 'tableExample', // Puedes ajustar el estilo según tus necesidades
+                                table: {
+                                    headerRows: 0, // Sin filas de encabezado
+                                    widths: ['75%', '25%'],
+                                    body: [
+                                        [{
+                                            text: 'Gastos',
+                                            fillColor: '#D7D7DB'
+                                        }, {
+                                            text: formatCurrency(totalGastos,
+                                                'es-CO',
+                                                'COP'),
+                                            fillColor: '#D7D7DB',
                                             alignment: 'right'
                                         }]
                                     ],

@@ -2801,6 +2801,7 @@
                             console.log(data);
                             if (data.success == 'success') {
                                 document.getElementById("idHistoria").value = data.id;
+                                document.getElementById("btn-guardarHistoria").disabled = true;
                                 cargarHistorias(1);
                                 swal(data.title, data.message, data.success);
                             } else {
@@ -3824,7 +3825,7 @@ fetch(url, {
 
             if (tipoPsicologia != "Pediatría") {
                 campos = [
-                    'remision', 'codDiagnostico', 'codConsulta', 'motivoConsultaTexto', 'motivoConsulta',
+                    'remision', 'codDiagnostico', 'codConsulta', 'motivoConsultaTexto',
                     'enfermedadActual',
                     'quirurgicos', 'toxicos', 'hospitalizaciones', 'traumaticos', 'paraclinicos',
                     'patologia', 'medicacion', 'depresion', 'ansiedad', 'demencia', 'alcoholismo',
@@ -3847,7 +3848,7 @@ fetch(url, {
                 ];
             } else {
                 campos = [
-                    'remision', 'codDiagnostico', 'codConsulta', 'motivoConsultaTexto', 'motivoConsulta',
+                    'remision', 'codDiagnostico', 'codConsulta', 'motivoConsultaTexto',
                     'enfermedadActual',
                     'quirurgicos', 'toxicos', 'hospitalizaciones', 'traumaticos', 'paraclinicos',
                     'patologia', 'medicacion', 'edad_madre', 'enfermedades_madre', 'numero_embarazo',

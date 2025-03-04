@@ -75,7 +75,7 @@
                                     </a>
                                 </li>
                             @endif
-                            @if (in_array('gestionRecaudo', session('permisos', [])))
+                            @if (in_array('gestionGastos', session('permisos', [])))
                                 <li id="principalRecaudoGestionGastos">
                                     <a href="{{ url('/Administracion/Gastos') }}">
                                         <i class="icon-Commit"><span class="path1"></span><span

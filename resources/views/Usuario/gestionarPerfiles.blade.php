@@ -204,6 +204,13 @@
                                             </div>
                                             <div class="form-check  ms-3">
                                                 <input class="form-check-input" type="checkbox"
+                                                    id="permisos_gestionGastos" name="permisos[]"
+                                                    value="gestionGastos">
+                                                <label class="form-check-label"
+                                                    for="permisos_gestionGastos">Gastos</label>
+                                            </div>
+                                            <div class="form-check  ms-3">
+                                                <input class="form-check-input" type="checkbox"
                                                     id="permisos_gestionCaja" name="permisos[]"
                                                     value="gestionCaja">
                                                 <label class="form-check-label"

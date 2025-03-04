@@ -913,6 +913,10 @@ function continuar() {
     document.getElementById("calendaCita").style = "display: none";
     document.getElementById("calendaCitaPaci").style = "display: block";
 
+    document.getElementById("comentario").value = ""
+    document.getElementById("notifCliente").checked = false
+    
+
     var btnGuardar = document.getElementById("btnGuardar");
     var btm_atras = document.getElementById("btnAtras");
     var cancelRegistro = document.getElementById("cancelRegistro");
@@ -1207,10 +1211,15 @@ function guardarCita(opc) {
     loader = document.getElementById('loader');
     loadNow(0);
     $("#notCliente").remove();
+   
     const formProfesional = document.getElementById('formCita');
-    formProfesional.append("<input type='hidden' id='notCliente' name='notCliente'  value='" +
-        notCli +
-        "'>");
+    const notClienteInput = document.createElement('input');
+    notClienteInput.type = 'hidden';
+    notClienteInput.id = 'notCliente';
+    notClienteInput.name = 'notCliente';
+    notClienteInput.value = notCli;
+    formProfesional.appendChild(notClienteInput);
+    
     const formData = new FormData(formProfesional);
     const url = $('#urlBase').data("ruta")
     fetch(`${url}citas/guardar`, {

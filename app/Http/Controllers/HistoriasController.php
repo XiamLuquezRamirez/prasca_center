@@ -1013,7 +1013,7 @@ class HistoriasController extends Controller
 
         $data = $request->all();
         $respuesta = HistoriaPsicologica::guardar($data);
-
+        
         // Verificar el resultado y preparar la respuesta
         if ($respuesta) {
             $estado = 'success';
@@ -1798,6 +1798,7 @@ class HistoriasController extends Controller
         $idHist = $request->input('idHist');
 
         $historia = HistoriaPsicologica::busquedaHistoria($idHist);
+        
         $pacientes = Pacientes::busquedaPaciente($historia->id_paciente);
         $antecedentesPersonales = HistoriaPsicologica::busquedaAntecedentes($historia->id);
         $antecedentesFamiliares = HistoriaPsicologica::busquedaAntFamiliares($historia->id);

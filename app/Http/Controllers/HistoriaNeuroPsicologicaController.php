@@ -841,7 +841,6 @@ class HistoriaNeuroPsicologicaController extends Controller
         $antecedentesNatales = HistoriaNeuroPsicologica::busquedaAntNatales($historia->id);
         $antecedentesPosnatales = HistoriaNeuroPsicologica::busquedaAntPosnatales($historia->id);
         $desarrolloPsicomotor = HistoriaNeuroPsicologica::desarrolloPsicomotor($historia->id);
-
         $data = [
             'historia' => $historia,
             'paciente' => $pacientes,

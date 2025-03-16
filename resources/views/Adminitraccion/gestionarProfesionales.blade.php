@@ -172,7 +172,15 @@
                                         placeholder="" value="">
                                 </div>
                             </div>
-                            <div class="col-md-6 ml-auto">
+                            <div class="col-md-6 ">
+                                <div class="form-group">
+                                    <label for="tipo">Tipo de usuario :</label>
+                                    <select class="form-control" id="tipo" name="tipo" aria-invalid="false">
+                                      
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 ">
                                 <div class="form-group">
                                     <label for="estado">Estado de la cuenta :</label>
                                     <select class="form-control" id="estado" name="estado" aria-invalid="false">
@@ -323,7 +331,8 @@
             });
 
 
-            cargar(1);
+            cargar(1); 
+            cargarPerfiles()
 
             // Evento click para la paginación
             document.addEventListener('click', function(event) {
@@ -346,6 +355,36 @@
             });
 
         });
+
+        function cargarPerfiles(){
+            return new Promise((resolve, reject) => {
+                let select = document.getElementById("tipo")
+                select.innerHTML = ""
+                let url = "{{ route('usuario.buscaListPerfiles') }}"
+
+                let defaultOption = document.createElement("option")
+                defaultOption.value = "" // Valor en blanco
+                defaultOption.text = "Selecciona una opción" // Texto que se mostrará
+                select.appendChild(defaultOption)
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                       
+                        data.forEach(perfil => {
+                            let option = document.createElement("option")
+                            option.value = perfil.id
+                            option.text = perfil.nombre
+                            select.appendChild(option)
+                        })
+                        resolve() // Resuelve la promesa cuando los datos han sido cargados
+                    })
+                    .catch(error => {
+                        console.error('Error:', error)
+                        reject(error) // Rechaza la promesa si ocurre un error
+                    })
+            }) 
+        }
 
         function guardarRegistro() {
 
@@ -405,8 +444,6 @@
             document.getElementById('newRegistro').style.display = 'none'
             document.getElementById('cancelRegistro').style.display = 'initial'
 
-
-
             modal.show();
 
             let url = "{{ route('profesionales.buscaProfesional') }}";
@@ -433,8 +470,11 @@
                     document.getElementById("usuarioOriginal").value = data.login_usuario
                     document.getElementById("usuario").value = data.login_usuario
                     document.getElementById("estado").value = data.estado_usuario
+                    document.getElementById("tipo").value = data.tipo_usuario
+
                     document.getElementById("registroProf").value = data.registro
                     document.getElementById("firmaOriginal").value = data.firma
+                    
                     if (data.firma) {
                         document.getElementById("firmaProf").style.display = 'none'
                         document.getElementById("verFirma").style.display = 'block'

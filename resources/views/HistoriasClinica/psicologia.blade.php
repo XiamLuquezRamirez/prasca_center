@@ -217,6 +217,16 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group">
+                                                        <label for="otro_CodDiagnostico" class="form-label">
+                                                            Otro tipo de diagnóstico:</label>
+                                                        <input type="text" class="form-control"
+                                                            id="otro_CodDiagnostico" name="otro_CodDiagnostico"
+                                                            placeholder="Ingrese el diagnóstico">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
                                                         <label for="enfermedadActual" class="form-label">Enfermedad actual
                                                             :</label>
                                                         <textarea class="form-control" id="enfermedadActual" name="enfermedadActual" rows="3"
@@ -944,8 +954,9 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label for="edad" class="form-label">Edad:</label>
-                                                            <select class="form-select" id="edad" name="edad"
-                                                                onchange="toggleOtro(this)">
+                                                            <select id="edad" name="edad[]"
+                                                                class="form-select select2 examen" multiple="multiple"
+                                                                style="width: 100%" onchange="toggleOtro(this)">
 
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
@@ -956,7 +967,8 @@
                                                         <div class="col-md-6">
                                                             <label for="desarrollo" class="form-label">Desarrollo
                                                                 pondoestatural:</label>
-                                                            <select class="form-select" id="desarrollo" id="desarrollo"
+                                                            <select class="form-select select2 examen" multiple="multiple"
+                                                                id="desarrollo" name="desarrollo[]" style="width: 100%"
                                                                 onchange="toggleOtro(this)">
 
                                                             </select>
@@ -968,7 +980,8 @@
                                                         <div class="col-md-6">
                                                             <label for="aseo" class="form-label">Aseo y
                                                                 arreglo:</label>
-                                                            <select class="form-select" id="aseo" name="aseo"
+                                                            <select class="form-select select2 examen" multiple="multiple"
+                                                                id="aseo" name="aseo[]" style="width: 100%"
                                                                 onchange="toggleOtro(this)">
 
                                                             </select>
@@ -980,7 +993,8 @@
                                                         <div class="col-md-6">
                                                             <label for="salud" class="form-label">Salud
                                                                 somática:</label>
-                                                            <select class="form-select" id="salud" name="salud"
+                                                            <select class="form-select select2 examen" multiple="multiple"
+                                                                id="salud" name="salud[]" style="width: 100%"
                                                                 onchange="toggleOtro(this)">
 
                                                             </select>
@@ -991,7 +1005,8 @@
                                                         <!-- Facies -->
                                                         <div class="col-md-6">
                                                             <label for="facies" class="form-label">Facies:</label>
-                                                            <select class="form-select" id="facies" name="facies"
+                                                            <select class="form-select select2 examen" multiple="multiple"
+                                                                id="facies" name="facies[]" style="width: 100%"
                                                                 onchange="toggleOtro(this)">
 
                                                             </select>
@@ -1002,7 +1017,8 @@
                                                         <!-- Biotipo -->
                                                         <div class="col-md-6">
                                                             <label for="biotipo" class="form-label">Biotipo:</label>
-                                                            <select class="form-select" id="biotipo" name="biotipo"
+                                                            <select class="form-select select2 examen" multiple="multiple"
+                                                                id="biotipo" name="biotipo[]" style="width: 100%"
                                                                 onchange="toggleOtro(this)">
 
                                                             </select>
@@ -1013,7 +1029,8 @@
                                                         <!-- Actitud -->
                                                         <div class="col-md-6">
                                                             <label for="actitud" class="form-label">Actitud:</label>
-                                                            <select class="form-select" id="actitud" name="actitud"
+                                                            <select class="form-select select2 examen" multiple="multiple"
+                                                                id="actitud" name="actitud[]" style="width: 100%"
                                                                 onchange="toggleOtro(this)">
 
                                                             </select>
@@ -1031,8 +1048,9 @@
                                                         <div class="col-md-6">
                                                             <label for="consciencia"
                                                                 class="form-label">Consciencia:</label>
-                                                            <select class="form-select" id="consciencia"
-                                                                name="consciencia" onchange="toggleOtro(this)">
+                                                            <select class="form-select select2 examen" multiple="multiple"
+                                                                id="consciencia" name="consciencia[]" style="width: 100%"
+                                                                onchange="toggleOtro(this)">
 
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
@@ -1043,8 +1061,9 @@
                                                         <div class="col-md-6">
                                                             <label for="orientacion"
                                                                 class="form-label">Orientación:</label>
-                                                            <select class="form-select" id="orientacion"
-                                                                name="orientacion" onchange="toggleOtro(this)">
+                                                            <select class="form-select select2 examen" multiple="multiple"
+                                                                id="orientacion" name="orientacion[]" style="width: 100%"
+                                                                onchange="toggleOtro(this)">
 
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
@@ -1055,7 +1074,8 @@
                                                         <!-- Memoria -->
                                                         <div class="col-md-6">
                                                             <label for="memoria" class="form-label">Memoria:</label>
-                                                            <select class="form-select" id="memoria" name="memoria"
+                                                            <select class="form-select select2 examen" multiple="multiple"
+                                                                id="memoria" name="memoria[]" style="width: 100%"
                                                                 onchange="toggleOtro(this)">
 
                                                             </select>
@@ -1067,7 +1087,8 @@
                                                         <!-- Atención -->
                                                         <div class="col-md-6">
                                                             <label for="atencion" class="form-label">Atención:</label>
-                                                            <select class="form-select" id="atencion" name="atencion"
+                                                            <select class="form-select select2 examen" multiple="multiple"
+                                                                id="atencion" name="atencion[]" style="width: 100%"
                                                                 onchange="toggleOtro(this)">
 
                                                             </select>
@@ -1080,8 +1101,9 @@
                                                         <div class="col-md-6">
                                                             <label for="concentracion"
                                                                 class="form-label">Concentración:</label>
-                                                            <select class="form-select" id="concentracion"
-                                                                name="concentracion" onchange="toggleOtro(this)">
+                                                            <select class="form-select select2 examen" multiple="multiple"
+                                                                id="concentracion" name="concentracion[]"
+                                                                style="width: 100%" onchange="toggleOtro(this)">
 
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
@@ -1092,8 +1114,9 @@
                                                         <!-- Lenguaje -->
                                                         <div class="col-md-6">
                                                             <label for="lenguaje" class="form-label">Lenguaje:</label>
-                                                            <select class="form-select" id="lenguaje" name="lenguaje"
-                                                                onchange="toggleOtro(this)">
+                                                            <select class="form-select select2 examen"
+                                                                multiple="multiple" id="lenguaje" name="lenguaje[]"
+                                                                style="width: 100%" onchange="toggleOtro(this)">
 
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
@@ -1105,8 +1128,10 @@
                                                         <div class="col-md-6">
                                                             <label for="pensamiento"
                                                                 class="form-label">Pensamiento:</label>
-                                                            <select class="form-select" id="pensamiento"
-                                                                name="pensamiento" onchange="toggleOtro(this)">
+                                                            <select class="form-select select2 examen"
+                                                                multiple="multiple" id="pensamiento"
+                                                                name="pensamiento[]" style="width: 100%"
+                                                                onchange="toggleOtro(this)">
 
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
@@ -1117,8 +1142,9 @@
                                                         <!-- Afecto -->
                                                         <div class="col-md-6">
                                                             <label for="afecto" class="form-label">Afecto:</label>
-                                                            <select class="form-select" id="afecto" name="afecto"
-                                                                onchange="toggleOtro(this)">
+                                                            <select class="form-select select2 examen"
+                                                                multiple="multiple" id="afecto" name="afecto[]"
+                                                                style="width: 100%" onchange="toggleOtro(this)">
 
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
@@ -1130,8 +1156,10 @@
                                                         <div class="col-md-6">
                                                             <label for="sensopercepcion"
                                                                 class="form-label">Sensopercepción:</label>
-                                                            <select class="form-select" id="sensopercepcion"
-                                                                name="sensopercepcion" onchange="toggleOtro(this)">
+                                                            <select class="form-select select2 examen"
+                                                                multiple="multiple" id="sensopercepcion"
+                                                                name="sensopercepcion[]" style="width: 100%"
+                                                                onchange="toggleOtro(this)">
 
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
@@ -1143,8 +1171,10 @@
                                                         <div class="col-md-6">
                                                             <label for="psicomotricidad"
                                                                 class="form-label">Psicomotricidad:</label>
-                                                            <select class="form-select" id="psicomotricidad"
-                                                                name="psicomotricidad" onchange="toggleOtro(this)">
+                                                            <select class="form-select select2 examen"
+                                                                multiple="multiple" id="psicomotricidad"
+                                                                name="psicomotricidad[]" style="width: 100%"
+                                                                onchange="toggleOtro(this)">
 
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
@@ -1155,8 +1185,9 @@
                                                         <!-- Juicio -->
                                                         <div class="col-md-6">
                                                             <label for="juicio" class="form-label">Juicio:</label>
-                                                            <select class="form-select" id="juicio" name="juicio"
-                                                                onchange="toggleOtro(this)">
+                                                            <select class="form-select select2 examen"
+                                                                multiple="multiple" id="juicio" name="juicio[]"
+                                                                style="width: 100%" onchange="toggleOtro(this)">
 
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
@@ -1168,8 +1199,10 @@
                                                         <div class="col-md-6">
                                                             <label for="inteligencia"
                                                                 class="form-label">Inteligencia:</label>
-                                                            <select class="form-select" id="inteligencia"
-                                                                name="inteligencia" onchange="toggleOtro(this)">
+                                                            <select class="form-select select2 examen"
+                                                                multiple="multiple" id="inteligencia"
+                                                                name="inteligencia[]" name="inteligencia[]"
+                                                                style="width: 100%" onchange="toggleOtro(this)">
 
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
@@ -1182,8 +1215,10 @@
                                                             <label for="conciencia_enfermedad"
                                                                 class="form-label">Conciencia
                                                                 de enfermedad:</label>
-                                                            <select class="form-select" id="conciencia_enfermedad"
-                                                                name="conciencia_enfermedad"
+                                                            <select class="form-select select2 examen"
+                                                                multiple="multiple" id="conciencia_enfermedad"
+                                                                name="conciencia_enfermedad[]" style="width: 100%"
+                                                                onchange="toggleOtro(this)">
                                                                 onchange="toggleOtro(this)">
 
                                                             </select>
@@ -1197,8 +1232,10 @@
                                                         <div class="col-md-6">
                                                             <label for="sufrimiento_psicologico"
                                                                 class="form-label">Sufrimiento psicológico:</label>
-                                                            <select class="form-select" id="sufrimiento_psicologico"
-                                                                name="sufrimiento_psicologico"
+                                                            <select class="form-select select2 examen"
+                                                                multiple="multiple" id="sufrimiento_psicologico"
+                                                                name="sufrimiento_psicologico[]" style="width: 100%"
+                                                                onchange="toggleOtro(this)">
                                                                 onchange="toggleOtro(this)">
 
                                                             </select>
@@ -1212,8 +1249,9 @@
                                                         <div class="col-md-6">
                                                             <label for="motivacion_tratamiento"
                                                                 class="form-label">Motivación al tratamiento:</label>
-                                                            <select class="form-select" id="motivacion_tratamiento"
-                                                                name="motivacion_tratamiento"
+                                                            <select class="form-select select2 examen"
+                                                                multiple="multiple" id="motivacion_tratamiento"
+                                                                name="motivacion_tratamiento[]" style="width: 100%"
                                                                 onchange="toggleOtro(this)">
 
                                                             </select>
@@ -1276,6 +1314,17 @@
                                                                     id="codImpresionDiagnostico"
                                                                     name="codImpresionDiagnostico" aria-invalid="false">
                                                                 </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="otra_ImpresionDiagnostica"
+                                                                    class="form-label">
+                                                                    Otro tipo de impresión diagnóstica:</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="otra_ImpresionDiagnostica"
+                                                                    name="otra_ImpresionDiagnostica"
+                                                                    placeholder="Ingrese el diagnóstico">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-12">
@@ -1400,9 +1449,8 @@
                                                 <div class="row">
                                                     <label for="account-username">Profesional:</label>
                                                     <select class="form-control select2"
-                                                        onchange="seleccionarProfesional(this.value)"
-                                                        style="width: 100%;" id="profesionalSelect"
-                                                        name="profesionalSelect">
+                                                        onchange="seleccionarProfesional(this)" style="width: 100%;"
+                                                        id="profesionalSelect" name="profesionalSelect">
                                                     </select>
                                                 </div>
                                             </div>
@@ -1698,7 +1746,7 @@
                         <input type="hidden" name="accVentaPaquete" id="accVentaPaquete" value="guardar" />
                         <input type="hidden" name="idVentaPaquete" id="idVentaPaquete" value="" />
                         <input type="hidden" name="tipoHistoria" id="tipoHistoria" value="PSICOLOGIA" />
-                        <input type="hidden" id="idPacienteVentaPaquete" name="idPacienteVentaPaquete" />                        
+                        <input type="hidden" id="idPacienteVentaPaquete" name="idPacienteVentaPaquete" />
                         <input type="hidden" name="descripcionVentaPaquete" id="descripcionVentaPaquete"
                             value="" />
                         <div class="row">
@@ -2077,6 +2125,10 @@
             $('#motivoConsultaOtro').select2({
                 placeholder: "Seleccione otros motivos relacionados"
             })
+
+            $('.examen').select2({
+                placeholder: "Seleccione..."
+            });
 
             $('#selPaquete').select2({
                 dropdownParent: $('#modalPaquete'),
@@ -2598,6 +2650,7 @@
                 const option = document.createElement('option');
                 option.value = item.id;
                 option.textContent = item.nombre;
+                option.setAttribute('data-id', item.usuario);
                 selectElement.appendChild(option);
             });
         }
@@ -2869,6 +2922,7 @@
             const inputField = document.getElementById(inputId)
 
             // Obtener el atributo data-nombre del elemento seleccionado
+            
             const selectedOption = selectElement.options[selectElement.selectedIndex]
             const dataNombre = selectedOption ? selectedOption.getAttribute('data-nombre') : null
 
@@ -3096,7 +3150,7 @@
             document.getElementById("identificacionPacienteHist").innerHTML =
                 `${paciente.tipo_identificacion} - ${paciente.identificacion}`
             document.getElementById("nombreCompletoPacienteHist").innerHTML =
-                `${paciente.primer_nombre} ${paciente.primer_apellido} ${paciente.segundo_nombre} ${paciente.segundo_apellido} `
+                `${paciente.primer_nombre} ${paciente.segundo_nombre} ${paciente.primer_apellido} ${paciente.segundo_apellido} `
 
 
             var fechForm = convertirFecha(paciente.fecha_nacimiento)
@@ -3283,34 +3337,17 @@
                 error = true;
                 mensaje += "Debe seleccionar un código de consulta. \n";
             }
+
             if (document.getElementById("codDiagnostico").value == "") {
                 error = true;
                 mensaje += "Debe seleccionar un código de diagnóstico. \n";
             }
-            if (document.getElementById("codImpresionDiagnostico").value == "") {
-                error = true;
-                mensaje += "Debe seleccionar un código de impresión diagnóstica. \n";
-            }
+          
             if (document.getElementById("enfermedadActual").value == "") {
                 error = true;
                 mensaje += "Debe ingresar la enfermedad actual. \n";
             }
-            if (document.getElementById("observaciones_recomendaciones").value == "") {
-                error = true;
-                mensaje += "Debe ingresar las observaciones y recomendaciones. \n";
-            }
-            if (document.getElementById("sugerencia_interconsultas").value == "") {
-                error = true;
-                mensaje += "Debe ingresar las sugerencias de interconsultas. \n";
-            }
-            if (document.getElementById("objetivos_especificos").value == "") {
-                error = true;
-                mensaje += "Debe ingresar los objetivos específicos. \n";
-            }
-            if (document.getElementById("objetivo_general").value == "") {
-                error = true;
-                mensaje += "Debe ingresar el objetivo general. \n";
-            }
+                                  
             if (document.getElementById("medicacion").value == "") {
                 error = true;
                 mensaje += "Debe ingresar la medicación. \n";
@@ -3331,9 +3368,184 @@
                 error = true;
                 mensaje += "Debe ingresar el plan de intervención. \n";
             }
-            if(document.getElementById("idProfesional").value == ""){
+            if (document.getElementById("idProfesional").value == "") {
                 error = true;
                 mensaje += "Debe seleccionar un profesional. \n";
+            }
+
+            if(document.getElementById("edad").value == ""){
+                error = true;
+                mensaje += "Debe ingresar en apariencia personal la edad. \n";
+            }
+
+            if(document.getElementById("desarrollo").value == ""){
+                error = true;
+                mensaje += "Debe ingresar en apariencia personal el pondoestatural. \n";
+            }
+
+            if(document.getElementById("aseo").value == ""){
+                error = true;
+                mensaje += "Debe ingresar en apariencia personal el aseo. \n";
+            }
+
+            if(document.getElementById("salud").value == ""){
+                error = true;
+                mensaje += "Debe ingresar en apariencia personal la salud. \n";
+            }
+
+            if(document.getElementById("facies").value == ""){
+                error = true;
+                mensaje += "Debe ingresar en apariencia personal la facies. \n";
+            }
+
+            if(document.getElementById("biotipo").value == ""){
+                error = true;
+                mensaje += "Debe ingresar en apariencia personal el biotipo. \n";
+            }
+
+            if(document.getElementById("actitud").value == ""){
+                error = true;
+                mensaje += "Debe ingresar en apariencia personal la actitud. \n";
+            }
+
+            if(document.getElementById("consciencia").value == ""){
+                error = true;
+                mensaje += "Debe ingresar en funciones cognitivas la consciencia. \n";
+            }
+
+            if(document.getElementById("orientacion").value == ""){
+                error = true;
+                mensaje += "Debe ingresar en apariencia personal la orientacion. \n";
+            }
+
+            if(document.getElementById("memoria").value == ""){
+                error = true;
+                mensaje += "Debe ingresar en funciones cognitivas la memoria. \n";
+            }
+
+            if(document.getElementById("atencion").value == ""){
+                error = true;
+                mensaje += "Debe ingresar en funciones cognitivas la atención. \n";
+            }
+
+            if(document.getElementById("concentracion").value == ""){
+                error = true;
+                mensaje += "Debe ingresar en funciones cognitivas la concentración. \n";
+            }
+
+            if(document.getElementById("lenguaje").value == ""){
+                error = true;
+                mensaje += "Debe ingresar en funciones cognitivas el lenguaje. \n";
+            }
+
+            if(document.getElementById("pensamiento").value == ""){
+                error = true;
+                mensaje += "Debe ingresar en funciones cognitivas el pensamiento. \n";
+            }
+
+            if(document.getElementById("afecto").value == ""){
+                error = true;
+                mensaje += "Debe ingresar en funciones cognitivas el afecto. \n";
+            }
+
+            if(document.getElementById("sensopercepcion").value == ""){
+                error = true;
+                mensaje += "Debe ingresar en funciones cognitivas la sensopercepción. \n";
+            }
+            
+            if(document.getElementById("psicomotricidad").value == ""){
+                error = true;
+                mensaje += "Debe ingresar en funciones cognitivas la psicomotricidad. \n";
+            }
+
+            if(document.getElementById("juicio").value == ""){
+                error = true;
+                mensaje += "Debe ingresar en funciones cognitivas el juicio. \n";
+            }
+
+            if(document.getElementById("inteligencia").value == ""){
+                error = true;
+                mensaje += "Debe ingresar en funciones cognitivas la inteligencia. \n";
+            }
+
+            if(document.getElementById("conciencia_enfermedad").value == ""){
+                error = true;
+                mensaje += "Debe ingresar en funciones cognitivas la conciencia de la enfermedad. \n";
+            }
+
+            if(document.getElementById("sufrimiento_psicologico").value == ""){
+                error = true;
+                mensaje += "Debe ingresar en funciones cognitivas el sufrimiento psicológico. \n";
+            }
+
+            if(document.getElementById("motivacion_tratamiento").value == ""){
+                error = true;
+                mensaje += "Debe ingresar en funciones cognitivas la motivación del tratamiento. \n";
+            }
+
+          
+
+            if(document.getElementById("tipoPsicologia").value == "Pediatría"){
+                if(document.getElementById("edad_madre").value == ""){
+                    error = true;
+                    mensaje += "Debe ingresar la edad de la madre en el embarazo. \n";
+                }
+
+                if(document.getElementById("enfermedades_madre").value == ""){
+                    error = true;
+                    mensaje += "Debe ingresar las enfermedades de la madre en el embarazo. \n";
+                }
+
+                if(document.getElementById("numero_embarazo").value == ""){
+                    error = true;
+                    mensaje += "Debe ingresar el número de embarazo. \n";
+                }
+
+                if(document.getElementById("enbarazo_controlado").value == ""){
+                    error = true;
+                    mensaje += "Debe ingresar si el embarazo fue controlado. \n";
+                }
+
+                if(document.getElementById("planificacion").value == ""){
+                    error = true;
+                    mensaje += "Debe ingresar si hubo planificacion. \n";
+                }
+
+                if(document.getElementById("estado_madre").value == ""){
+                    error = true;
+                    mensaje += "Debe ingresar el estado de la madre en el embarazo. \n";
+                }
+
+                if(document.getElementById("tipo_nacimiento").value == ""){
+                    error = true;
+                    mensaje += "Debe ingresar el tipo de nacimiento. \n";
+                }
+
+                if(document.getElementById("causa_cesarea").value == ""){
+                    error = true;
+                    mensaje += "Debe ingresar la causa de la cesarea. \n";
+                }
+
+                if(document.getElementById("reanimacion").value == ""){
+                    error = true;
+                    mensaje += "Debe ingresar si se realizo reanimacion. \n";
+                }
+
+                if(document.getElementById("peso_nacer").value == ""){
+                    error = true;
+                    mensaje += "Debe ingresar el peso al nacer. \n";
+                }
+                
+                if(document.getElementById("talla_nacer").value == ""){
+                    error = true;
+                    mensaje += "Debe ingresar la talla al nacer. \n";
+                }
+
+                if(document.getElementById("llanto_nacer").value == ""){
+                    error = true;
+                    mensaje += "Debe ingresar el llanto al nacer. \n";
+                }   
+
             }
 
             if (error) {
@@ -3429,8 +3641,8 @@
 
         function verHistoria(element) {
             editarHistoria(element);
-            var btnGuardar = document.getElementById("btn-guardarHistoria")
-            btnGuardar.disabled = true
+            // var btnGuardar = document.getElementById("btn-guardarHistoria")
+            // btnGuardar.disabled = true
             document.getElementById("btn-imprimirHistoria").style.display = "initial"
         }
 
@@ -3473,9 +3685,6 @@
                     mapearFuncionesSomaticas(data.funcionesSomaticas)
 
                     mapearHistorialConsultas(data.historialConsultas)
-
-
-
 
                     if (data.historia.tipologia == "Pediatría") {
                         document.getElementById("infPediatria").style.display = "initial"
@@ -3556,6 +3765,7 @@
                         element.value = item.detalle // Asignar el valor al input o textarea
                     } else if (element.tagName === "SELECT") {
                         element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                        $('#' + item.tipo).val(item.detalle).trigger('change')
                     } else {
                         console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
                     }
@@ -3574,6 +3784,7 @@
                         element.value = item.detalle // Asignar el valor al input o textarea
                     } else if (element.tagName === "SELECT") {
                         element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                        $('#' + item.tipo).val(item.detalle).trigger('change')
                     } else {
                         console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
                     }
@@ -3586,12 +3797,13 @@
         function mapearAntecedentesPrenatales(antecedentesPrenatales) {
             antecedentesPrenatales.forEach(item => {
                 const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
-
+                
                 if (element) {
                     if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
                         element.value = item.detalle // Asignar el valor al input o textarea
                     } else if (element.tagName === "SELECT") {
                         element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                        $('#' + item.tipo).val(item.detalle).trigger('change')
                     } else {
                         console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
                     }
@@ -3610,6 +3822,7 @@
                         element.value = item.detalle // Asignar el valor al input o textarea
                     } else if (element.tagName === "SELECT") {
                         element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                        $('#' + item.tipo).val(item.detalle).trigger('change')
                     } else {
                         console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
                     }
@@ -3635,8 +3848,8 @@
                     if (element.tagName === "INPUT") {
                         element.value = item.detalle // Asignar el valor al input o textarea
                     } else if (element.tagName === "SELECT") {
-                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
-                        $('#' + item.caracteristica).trigger('change')
+                        const valores = item.detalle ? item.detalle.split(',') : []
+                        $('#' + item.caracteristica).val(valores).trigger('change')
                     } else {
                         console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
                     }
@@ -3653,9 +3866,11 @@
                 if (element) {
                     if (element.tagName === "INPUT") {
                         element.value = item.detalle // Asignar el valor al input o textarea
-                    } else if (element.tagName === "SELECT") {
-                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
-                        $('#' + item.caracteristica).trigger('change')
+                    } else if (element.tagName === "SELECT") { //convertir en array
+                        const valores = item.detalle ? item.detalle.split(',') : []
+
+                        // Asignar el valor en Select2 correctamente
+                        $('#' + item.caracteristica).val(valores).trigger('change')
                     } else {
                         console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
                     }
@@ -3695,14 +3910,20 @@
             setTimeout(() => {
                 antecedentesPersonales.forEach(item => {
                     const element = document.getElementById(item.tipo);
+
                     if (element) {
                         if (element.dataset.role === "tagsinput") {
                             // Usar el método de la biblioteca para actualizar el valor del tagsinput
                             $(element).tagsinput('add', item.detalle);
                         } else if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-                            element.value = item.detalle;
+                            if (element.style.visibility == "hidden") {
+                                CKEDITOR.instances[item.tipo].setData(item.detalle);
+                            } else {
+                                element.value = item.detalle;
+                            }
                         } else if (element.tagName === "SELECT") {
                             element.value = item.detalle.toLowerCase();
+                            $('#' + item.tipo).val(item.detalle).trigger('change')
                         } else {
                             console.warn(`El elemento con ID "${item.tipo}" no es compatible.`);
                         }
@@ -3723,6 +3944,7 @@
                         element.value = item.detalle
                     } else if (element.tagName === "SELECT") {
                         element.value = item.detalle.toLowerCase()
+                        $('#' + item.tipo).val(item.detalle).trigger('change')
                     } else {
                         console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
                     }
@@ -3733,6 +3955,7 @@
         }
 
         function mapearHistoria(historia) {
+            
             document.getElementById("accHistoria").value = "editar"
             document.getElementById("estadoHistoria").value = historia.estado_hitoria
             document.getElementById("idHistoria").value = historia.id
@@ -3749,6 +3972,11 @@
             CKEDITOR.instances['resumen_evaluacion_inicial'].setData(historia.eval_inicial)
 
             cargarSelConsulta(historia.codigo_consulta, 'codConsulta')
+            document.getElementById('otro_CodDiagnostico').value = historia.otro_dx_principal
+            document.getElementById('otra_ImpresionDiagnostica').value = historia.otro_cod_diagnostico
+
+            document.getElementById('plan_intervencion').value = historia.plan_intervencion
+            $('#plan_intervencion').trigger('change')
 
             if (historia.otro_motivo_consulta != null) {
                 const valoresConsulta = historia.otro_motivo_consulta.split(',')
@@ -3771,15 +3999,24 @@
                     $(motivoConsulta).val(valoresConsulta).trigger(
                         'change') // Cambiar el valor y disparar el evento 'change'
                 }
+               
 
             }
+
+            
+            if(historia.estado_hitoria == "cerrada"){
+                    var btnGuardar = document.getElementById("btn-guardarHistoria")
+                    btnGuardar.disabled = true
+                }else{
+                    var btnGuardar = document.getElementById("btn-guardarHistoria")
+                    btnGuardar.disabled = false
+                }
 
             cargarDxPrincipa(historia.dx_principal)
 
             document.getElementById('establecidoPrimeraVez').value = historia.diagnostico_primera_vez
             $('#establecidoPrimeraVez').trigger('change')
 
-            //
             cargarImpresion(historia.codigo_diagnostico, 'codDiagnostico')
 
             CKEDITOR.instances['enfermedadActual'].setData(historia.enfermedad_actual)
@@ -3810,7 +4047,7 @@
                     if (data.profesional) {
                         document.getElementById("defaulProfesional").style.display = "initial"
                         document.getElementById("divProfesional").style.display = "none"
-                        document.getElementById("idProfesional").value = data.profesional.id
+                        document.getElementById("idProfesional").value = data.profesional.usuario
                         document.getElementById("nombreProfesional").innerHTML = data.profesional.nombre
                         document.getElementById("registroProfesional").innerHTML =
                             `<strong>Tarjeta Profesional:</strong> ${data.profesional.registro}`
@@ -4684,7 +4921,11 @@
 
         }
 
-        function seleccionarProfesional(idProfesional) {
+        function seleccionarProfesional(element) {
+            let selectedOption = element.options[element.selectedIndex];
+            // Obtener el valor del data-id
+            let idProfesional = selectedOption.getAttribute("data-id");
+
             document.getElementById("idProfesional").value = idProfesional
 
         }

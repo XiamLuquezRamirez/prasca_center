@@ -1164,7 +1164,7 @@ class AdminitraccionController extends Controller
             if ($data['accRegistro'] == 'guardar') {
                 $data['firma'] = "sinFima.jpg";
             } else {
-                $data['firma'] = $data['firmaCargada'];
+                $data['firma'] = $data['firmaOriginal'];
             }
         }
 

@@ -19,13 +19,13 @@
         @page { margin: 10px; }
         
         .page-break {
-            page-break-before: always;
+            page-break-before: auto;
         }
         
 
         td, tr {
             border: 1px solid black;
-            padding: 5px;
+            padding: 3px;
             text-transform: capitalize;
         }
 
@@ -36,6 +36,7 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            margin: 2px 0;
         }
 
         table {
@@ -47,21 +48,71 @@
             background-color: #bfbfbf;
             font-weight: bold;
             width: 97.3%;
-            padding: 10px;
+            padding: 5px;
             text-align: left;
+            margin-bottom: 5px;
         }
 
         .seccion {
             border-left: 0.5px solid grey;
             border-right: 0.5px solid grey;
             border-top: 0.5px solid grey;
-            padding: 5px;
+            padding: 3px;
             border-radius: 5px 5px 0px 0px;
             background-color: white;
+            margin-bottom: 3px;
         }
 
         p {
-            margin-bottom: 5px !important;
+            margin: 2px 0 !important;
+            line-height: 1.2;
+        }
+
+        h3 {
+            margin: 2px 0;
+            font-size: 11px;
+        }
+
+        br {
+            display: none;
+        }
+
+        .section-separator {
+            margin: 3px 0;
+        }
+
+        @media print {
+            .seccion {
+                page-break-inside: avoid;
+            }
+
+            table {
+                page-break-inside: auto;
+            }
+
+            tr {
+                page-break-inside: avoid;
+            }
+
+            h3 {
+                page-break-after: avoid;
+            }
+
+            .seccion-grupo {
+                page-break-inside: avoid;
+            }
+        }
+
+        .seccion + .seccion {
+            margin-top: 3px;
+        }
+
+        table {
+            margin-bottom: 3px;
+        }
+
+        .antecedentes-section {
+            margin-bottom: 5px;
         }
     </style>
 </head>
@@ -156,6 +207,15 @@
                 <td><strong>Zona: </strong></td>
                 <td>{{$paciente->zona_residencial == '01' ? 'Rural' : 'Urbana'}}</td>
             </tr>
+            <tr>
+                <td colspan="1"><strong>Empresa: </strong></td>
+                @if ($paciente->eps_info == "Sin EPS")
+                <td colspan="7">Particular</td>
+                @else
+                <td colspan="7">{{ $paciente->eps_info->codigo }} - ({{ $paciente->eps_info->entidad }})</td>
+                @endif
+            </tr>
+
             @if ($paciente->acompanante != "")
                 <tr>
                     <td colspan="2"><strong>En caso de emergencia llamar a: </strong></td>
@@ -178,6 +238,10 @@
                 <div class="seccion">
                     <p><strong>DX principal</strong></p>
                     <p>{{ $historia->dx_principal_detalle->nombre }}</p>
+                    @if ($historia->otro_dx_principal != null)
+                        <p><strong>Otro tipo de diagnóstico</strong></p>
+                        <p>{{ $historia->otro_dx_principal }}</p>
+                    @endif
                 </div>
                 <div class="seccion">
                     <p><strong>Código de consulta</strong></p>
@@ -408,7 +472,7 @@
                                 @if($index % 2 == 0)
                                     <div class="seccion">
                                         <p><strong>{{$item->nombre}}</strong></p>
-                                        <p>{!! $item->apariencia_detalle->opcion !!}</p>
+                                        <p>{!! $item->apariencia_detalle !!}</p>
                                     </div>
                                 @endif
                             @endforeach
@@ -418,7 +482,7 @@
                                 @if($index % 2 != 0)
                                     <div class="seccion">
                                         <p><strong>{{$item->nombre}}</strong></p>
-                                        <p>{!! $item->apariencia_detalle->opcion !!}</p>
+                                        <p>{!! $item->apariencia_detalle !!}</p>
                                     </div>
                                 @endif
                             @endforeach
@@ -436,7 +500,7 @@
                                 @if($index % 2 == 0)
                                     <div class="seccion">
                                         <p><strong>{{$item->nombre}}</strong></p>
-                                        <p>{!! $item->funciones_detalle->opcion !!}</p>
+                                        <p>{!! $item->funciones_detalle !!}</p>
                                     </div>
                                 @endif
                             @endforeach
@@ -446,7 +510,7 @@
                                 @if($index % 2 != 0)
                                     <div class="seccion">
                                         <p><strong>{{$item->nombre}}</strong></p>
-                                        <p>{!! $item->funciones_detalle->opcion !!}</p>
+                                        <p>{!! $item->funciones_detalle !!}</p>
                                     </div>
                                 @endif
                             @endforeach
@@ -470,8 +534,7 @@
                     <p>{!! $funcionesSomaticas->actividades_autocuidado !!}</p>
                 </div>
             </div>
-            <div class="page-break"></div>
-            <div class="seccion" style="background-color:rgb(243, 243, 243);">
+            <div class="seccion" style="background-color:rgb(243, 243, 243); margin-top: 20px;">
                 <h3><strong>IMPRESIÓN DIAGNOSTICA</strong></h3>
                 <div class="seccion">
                     <p><strong>Impresión Diagnóstica (CIE 10 - DSM-V):</strong></p>
@@ -483,7 +546,7 @@
                 </div>
             </div>
             <br><br>
-            <div class="seccion" style="background-color:rgb(243, 243, 243);">
+            <div class="seccion" style="background-color:rgb(243, 243, 243); margin-top: 20px;">
                 <h3><strong>PLAN DE INTERVENCIÓN</strong></h3>
                 <div class="seccion">
                     <p><strong>Plan de intervención</strong></p>
@@ -510,7 +573,11 @@
         <br><br>
         <div style="width: 100%; border-top: 1px solid grey;">
             <br>
-            <img width="180" src="app-assets/images/firmasProfesionales/{{$historia->profesional_detalle->firma}}" alt="">
+            @if ($historia->profesional_detalle->firma != "sinFima.jpg")
+            <img width="180"
+                src="app-assets/images/firmasProfesionales/{{ $historia->profesional_detalle->firma }}"
+                alt="">
+             @endif
             <h2>{{$historia->profesional_detalle->nombre}}</h2>
             <h3><strong>Tarjeta Profesional: </strong>{{$historia->profesional_detalle->registro}}</h3>
         </div>

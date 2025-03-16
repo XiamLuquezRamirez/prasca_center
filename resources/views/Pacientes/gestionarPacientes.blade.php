@@ -72,8 +72,8 @@
         </div>
     </section>
     <!-- MODAL PACIENTES -->
-    <div class="modal fade" id="modalPacientes" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="modalPacientes" tabindex="-1" data-bs-focus="false" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
             <div class="modal-content">
                 <div class="modal-header">
@@ -302,7 +302,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="departamento" class="form-label">Departamento de residencia:</label>
-                                    <select class="form-control select2" onchange="cargarMunicipios(this.value)"
+                                    <select class="form-control" onchange="cargarMunicipios(this.value)"
                                         id="departamento" name="departamento" aria-invalid="false">
 
                                     </select>
@@ -311,7 +311,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="municipio" class="form-label">Municipio de residencia:</label>
-                                    <select class="form-control select2" id="municipio" name="municipio"
+                                    <select class="form-control" id="municipio" name="municipio"
                                         aria-invalid="false">
                                         <option value=" ">Selecciona una opción</option>
                                     </select>
@@ -320,7 +320,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="eps" class="form-label">EPS:</label>
-                                    <select class="form-control select2" id="eps" name="eps"
+                                    <select class="form-control" id="eps" name="eps"
                                         aria-invalid="false">
 
                                     </select>
@@ -466,25 +466,35 @@
             loadNow(1)
 
 
-            $('#departamento').select2({
-                dropdownParent: $('#modalPacientes'),
-                width: '100%'
-            });
+                        // $('#departamento').select2({
+                        //     dropdownParent: $('#modalPacientes'),
+                        //     width: '100%'
+                        // });
 
             $("#departamento").on("change", function() {
                 $(this).valid(); // Dispara la validación cuando cambie el valor
             });
 
-            $('#eps').select2({
-                dropdownParent: $('#modalPacientes'),
-                width: '100%'
+            // $('#eps').select2({
+            //     dropdownParent: $('#modalPacientes'),
+            //     width: '100%'
+            // });
+        
+            // $('#municipio').select2({
+            //     dropdownParent: $('#modalPacientes'),
+            //     width: '100%',
+            //     placeholder: "Selecciona una opción"
+            // });
+
+            $('#modalPacientes').on('shown.bs.modal', function() {
+                $(document).off('focusin.modal');
             });
 
-            $('#municipio').select2({
-                dropdownParent: $('#modalPacientes'),
-                width: '100%',
-                placeholder: "Selecciona una opción"
-            });
+        
+            // Detectar cuando el usuario suelta el clic sobre el select
+            // $('#eps').on('mouseup', function() {
+            //     $(this).select2('open');
+            // });
 
             localStorage.clear()
 
@@ -1115,7 +1125,7 @@
                         data.forEach(eps => {
                             let option = document.createElement("option")
                             option.value = eps.id
-                            option.text = `${eps.codigo} - ${eps.entidad}`
+                            option.text = `${eps.entidad}`
                             select.appendChild(option)
                         })
                         resolve() // Resuelve la promesa cuando los datos han sido cargados

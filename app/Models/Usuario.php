@@ -140,7 +140,7 @@ class Usuario extends Model
                 ];
 
                 if (isset($request['pasw'])) {
-                    $updateData['password_usuario'] = bcrypt($request['pasw']);
+                    $updateData['pasword_usuario'] = bcrypt($request['pasw']);
                 }
 
                 $respuesta = DB::connection('mysql')->table('users')

@@ -10,7 +10,7 @@ class Profesional extends Model
 {
     public static function Guardar($request)
     {
-
+      
         try {
             if ($request['accRegistro'] == 'guardar') {
 
@@ -18,7 +18,7 @@ class Profesional extends Model
                     'nombre_usuario' => $request['nombre'],
                     'login_usuario' => $request['usuario'],
                     'pasword_usuario' => password_hash($request['pasword'], PASSWORD_DEFAULT),
-                    'tipo_usuario' => 'Profesional',
+                    'tipo_usuario' => $request['tipo'],
                     'email_usuario' => $request['email'],
                     'foto_usuario' => 'avatar-13.png',
                     'estado_usuario' => $request['estado'],                  
@@ -37,15 +37,17 @@ class Profesional extends Model
                     'estado' => 'ACTIVO'
                 ]);
             } else {
-                if ($request['pasword'] != "") {
+               
+                if (isset($request['pasword'])) {
                     $respuesta = DB::connection('mysql')->table('users')
                         ->where('login_usuario', $request['usuarioOriginal'])  // Identificar el registro a actualizar
                         ->update([
                             'nombre_usuario' => $request['nombre'],
                             'login_usuario' => $request['usuario'],
+                            'tipo_usuario' => $request['tipo'],
                             'pasword_usuario' => password_hash($request['pasword'], PASSWORD_DEFAULT),
                             'email_usuario' => $request['email'],
-                            'estado_usuario' => $request['estado'],
+                            'estado_usuario' => $request['estado']
                         ]);
                 } else {
                     $respuesta = DB::connection('mysql')->table('users')
@@ -53,12 +55,13 @@ class Profesional extends Model
                         ->update([
                             'nombre_usuario' => $request['nombre'],
                             'login_usuario' => $request['usuario'],
+                            'tipo_usuario' => $request['tipo'],
                             'email_usuario' => $request['email'],
                             'estado_usuario' => $request['estado'],
                         ]);
                 }
 
-
+               
 
                 $respuesta = DB::connection('mysql')->table('profesionales')
                     ->where('id', $request['idRegistro'])  // Identificar el registro a actualizar
@@ -89,7 +92,7 @@ class Profesional extends Model
         $profesional =  DB::connection('mysql')->table('profesionales')
             ->join("users", "users.id", "profesionales.usuario")
             ->where("profesionales.id", $id)
-            ->select("profesionales.*", "users.login_usuario", "users.estado_usuario", "users.id as idUsuario")
+            ->select("profesionales.*", "users.login_usuario","users.tipo_usuario", "users.estado_usuario", "users.id as idUsuario")
             ->first();
 
         return $profesional;

@@ -1,16 +1,16 @@
 @extends('Plantilla.Principal')
-@section('title', 'Gestionar paquetes de Sesiones')
+@section('title', 'Gestionar Pruebas')
 @section('Contenido')
     <div class="content-header">
         <div class="d-flex align-items-center">
             <div class="me-auto">
-                <h4 class="page-title">Gestionar paquetes de Sesiones</h4>
+                <h4 class="page-title">Gestionar Pruebas</h4>
                 <div class="d-inline-block align-items-center">
                     <nav>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
                             <li class="breadcrumb-item" aria-current="page">Inicio</li>
-                            <li class="breadcrumb-item active" aria-current="page">Gestionar paquetes de Sesiones</li>
+                            <li class="breadcrumb-item active" aria-current="page">Gestionar Pruebas</li>
                         </ol>
                     </nav>
                 </div>
@@ -25,7 +25,7 @@
             <div id="listado" class="col-12 col-xl-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title">Listado de paquetes de Sesiones </h5>
+                        <h5 class="card-title">Listado de Pruebas </h5>
                     </div>
                     <div class="card-body">
                         <div class="box-controls pull-right">
@@ -36,7 +36,7 @@
                                         <span class="fa fa-search"></span>
                                     </div>
                                     <button type="button" onclick="nuevoRegistro(1);"
-                                        class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i> Nuevo paquete</button>
+                                        class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i> Nueva Prueba</button>
                                 </div>
 
                             </div>
@@ -45,7 +45,7 @@
                             <thead>
                                 <tr>
                                     <th style="width:70%;">Descripción</th>
-                                    <th style="width:20%;">valor por sesión </th>
+                                    <th style="width:20%;">valor </th>
                                     <th style="width:10%;">Acción</th>
                                 </tr>
                             </thead>
@@ -62,13 +62,13 @@
             </div>
         </div>
     </section>
-    <!-- MODAL PAUETES -->
-    <div class="modal fade" id="modalPaquete" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    <!-- MODAL PRUEBAS -->
+    <div class="modal fade" id="modalPrueba" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" style="max-width: 40%;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="tituloAccion">Agregar paquete</h4>
+                    <h4 class="modal-title" id="tituloAccion">Agregar Prueba</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                 </div>
                 <div class="modal-body">
@@ -84,7 +84,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="valor" class="form-label">Valor por sesión:</label>
+                                    <label for="valor" class="form-label">Valor :</label>
                                     <input type="text" class="form-control" id="valorVis" name="valorVis"
                                     onchange="cambioFormato(this.id);"
                                     onkeypress="return validartxtnum(event)"
@@ -124,7 +124,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             let menuP = document.getElementById("principalParametros")
-            let menuS = document.getElementById("principalParametrosPaquetes")
+            let menuS = document.getElementById("principalParametrosPruebas")
 
             menuP.classList.add("active", "menu-open")
             menuS.classList.add("active")
@@ -144,10 +144,10 @@
                 },
                 messages: {
                     descripcion: {
-                        required: "Por favor, ingrese la descripción del paquete."
+                        required: "Por favor, ingrese la descripción de la prueba."
                     },
                     valorVis: {
-                        required: "Por favor, el valor unitario por sesión.",
+                        required: "Por favor, el valor de la prueba.",
                     }
                 },
                 submitHandler: function(form) {
@@ -186,7 +186,7 @@
                 const formPaquetes = document.getElementById('formPaquetes');
                 const formData = new FormData(formPaquetes);
 
-                const url = "{{ route('form.guardarPaquete') }}";
+                const url = "{{ route('form.guardarPrueba') }}";
 
                 fetch(url, {
                         method: 'POST',
@@ -221,7 +221,7 @@
         }
 
         function editarRegistro(idRegistro) {
-            var modal = new bootstrap.Modal(document.getElementById("modalPaquete"), {
+            var modal = new bootstrap.Modal(document.getElementById("modalPrueba"), {
                 backdrop: 'static',
                 keyboard: false
             });
@@ -229,11 +229,11 @@
             document.getElementById("idRegistro").value = idRegistro
             document.getElementById('saveRegistro').removeAttribute('disabled')
 
-            document.getElementById("tituloAccion").innerHTML  = "Editar paquete"
+            document.getElementById("tituloAccion").innerHTML  = "Editar prueba"
 
             modal.show();
 
-            let url = "{{ route('paquetes.buscarPaquete') }}";
+            let url = "{{ route('pruebas.buscarPrueba') }}";
 
             fetch(url, {
                     method: 'POST',
@@ -248,7 +248,7 @@
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById("descripcion").value = data.descripcion
-                    var numero = data.precio_por_sesion
+                    var numero = data.precio
                     var formatoMoneda = formatCurrency(numero, 'es-CO', 'COP')
                     document.getElementById("valorVis").value = formatoMoneda
                     document.getElementById("valor").value = numero
@@ -260,8 +260,8 @@
         }
 
         function cancelarRegistro() {
-            const formPaquetes = document.getElementById('formPaquetes')
-            formPaquetes.reset();
+            const formPruebas = document.getElementById('formPruebas')
+            formPruebas.reset();
         }
 
         function cambioFormato(id){
@@ -290,7 +290,7 @@
         function nuevoRegistro(opc) {
 
             if (opc == 1) {
-                var modal = new bootstrap.Modal(document.getElementById("modalPaquete"), {
+                var modal = new bootstrap.Modal(document.getElementById("modalPrueba"), {
                     backdrop: 'static',
                     keyboard: false
                 });
@@ -304,59 +304,65 @@
             document.getElementById("accRegistro").value = "guardar"
 
             
-            document.getElementById("tituloAccion").innerHTML  = "Agregar paquetes de sesiones"
+            document.getElementById("tituloAccion").innerHTML  = "Agregar prueba"
         }
 
+       
         function eliminarRegistro(idReg) {
-            swal({
-                title: "Esta seguro?",
-                text: "No podrás recuperar este registrto!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#fec801",
-                confirmButtonText: "Si, eliminar!",
-                cancelButtonText: "No, cancelar!",
-                closeOnConfirm: false,
-                closeOnCancel: false
-            }, function(isConfirm) {
-                if (isConfirm) {
-                    let url = "{{ route('paquetes.eliminarPaqueteLista') }}";
-                    fetch(url, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                                    'content')
-                            },
-                            body: JSON.stringify({
-                                idReg: idReg
-                            })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                swal("¡Buen trabajo!",
-                                    data.message,
-                                    "success");
-                                cargar(1);
-                            } else {
-                                swal("¡Alerta!",
-                                    "La operación fue realizada exitosamente",
-                                    data.message,
-                                    "success");
-                            }
-                        })
+    console.log("Intentando eliminar:", idReg); // Para verificar el ID
+    swal({
+        title: "¿Está seguro?",
+        text: "No podrás recuperar este registro!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#fec801",
+        confirmButtonText: "Sí, eliminar!",
+        cancelButtonText: "No, cancelar!",
+        closeOnConfirm: false,
+        closeOnCancel: false
+    }, function(isConfirm) {
+        if (isConfirm) {
+            let url = "{{ route('pruebas.eliminarPruebaLista') }}";
 
-                } else {
-                    swal("Cancelado", "Tu registro esta salvo :)", "error");
-                }
-            });
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({ idReg: idReg })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Respuesta del servidor:", data);
+                    if (data.success) {
+                        swal("¡Buen trabajo!", data.message, "success");
+                        cargar(1);
+                    } else {
+                        swal("¡Alerta!", "La operación no se completó", "warning");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error en fetch:", error);
+                    swal("Error", "Hubo un problema con la solicitud", "error");
+                });
+
+        } else {
+            swal("Cancelado", "Tu registro está a salvo :)", "error");
         }
+    });
+}
+
 
         function cargar(page, searchTerm = '') {
 
 
-            let url = "{{ route('paquetes.listaPaquetes') }}"; // Definir la URL
+            let url = "{{ route('pruebas.listaPruebas') }}"; // Definir la URL
 
             // Eliminar los campos ocultos anteriores
             var oldPageInput = document.getElementById('page');
@@ -371,7 +377,6 @@
 
             // Limpiar la tabla antes de cargar nuevos datos
 
-
             fetch(url, {
                     method: 'POST',
                     headers: {
@@ -383,13 +388,13 @@
                 .then(response => response.json())
                 .then(responseData => {
                     // Rellenar la tabla con las filas generadas
-                    document.getElementById('trRegistros').innerHTML = responseData.paquetes;
-                    feather.replace();
+                    document.getElementById('trRegistros').innerHTML = responseData.pruebas
+                    feather.replace()
                     // Colocar los enlaces de paginación
-                    document.getElementById('pagination-links').innerHTML = responseData.links;
-                    loadNow(0);
+                    document.getElementById('pagination-links').innerHTML = responseData.links
+                    loadNow(0)
                 })
-                .catch(error => console.error('Error:', error));
+                .catch(error => console.error('Error:', error))
 
         }
     </script>

@@ -91,12 +91,6 @@ class Paquetes extends Model
         $paquetes->descripion_paquete = DB::connection('mysql')->table('paquetes')
             ->where("id", $paquetes->id_paquete)
             ->first();
-
-         //sumatorio de abonos realizados
-        //  $paquetes->abonos = DB::connection('mysql')->table('pagos')
-        //     ->where("venta_paquete_id", $id)
-        //     ->sum('abono');
-
         return $paquetes;
     }
 
@@ -107,84 +101,7 @@ class Paquetes extends Model
             ->get();
     }
 
-    public static function guardarPaqueteVenta($request)
-    {
-        try {
-            $idPaquete = $request['idVentaPaquete'];
-            if ($request['accVentaPaquete'] == 'guardar') {
-                DB::beginTransaction();
-                try {
-                    $idPaqueteVenta = DB::table('servicios')->insertGetId(array_filter([
-                        'tipo' => 'PAQUETE',
-                        'descripcion' => $request['descripcionVentaPaquete'],
-                        'id_historia' => $request['idHist'],
-                        'precio' => $request['montoFinal'],
-                        'estado' => 'ACTIVO',
-                        'tipo_historia' => $request['tipoHistoria'],
-                        'fecha' => $request['fechaPaquete'] ,
-                        'id_paquete' => $request['selPaquete'],
-                        'id_paciente' => $request['idPacienteVentaPaquete'],
-                    ]));
-
-                    $idVenta = DB::table('ventas')->insertGetId(array_filter([
-                        'id_servicio' => $idPaqueteVenta,
-                        'id_historia' => $request['idHist'],
-                        'usuario' => Auth::user()->id,
-                        'valor' => $request['precioSesion'],
-                        'cantidad' => $request['numSesiones'],
-                        'total' => $request['montoFinal'],
-                        'estado_venta' => 'PENDIENTE',
-                        'saldo' => $request['montoFinal']
-                    ]));
-
-                    // Confirmar transacción
-                    DB::commit();
-                    return  $idPaqueteVenta;
-                } catch (\Exception $e) {
-                    // Revertir transacción en caso de error
-                    DB::rollBack();
-                    throw $e;
-                }
-            } else {
-                DB::beginTransaction();
-
-                try {
-
-                    DB::table('servicios')->where('id', $request['idVentaPaquete'])->update(array_filter([
-                        'descripcion' => $request['descripcionVentaPaquete'],
-                        'id_paquete' => $request['selPaquete'],
-                        'precio' => $request['montoFinal'],
-                        'fecha' => $request['fechaPaquete'],
-                    ]));
-
-                    DB::table('ventas')->where('id_servicio', $request['idVentaPaquete'])->update(array_filter([
-                        'valor' => $request['precioSesion'],
-                        'total' => $request['montoFinal'],
-                        'cantidad' => $request['numSesiones'],
-                        'saldo' => $request['montoFinal'],
-                    ]));
-                    DB::commit();
-
-                    // Confirmar transacción
-                    DB::commit();
-                    return  $idPaquete;
-                } catch (\Exception $e) {
-                    Log::error('Error al actualizar el informe: ' . $e->getMessage(), [
-                        'idPaquete' => $idPaquete,
-                        'data' => $request->all()
-                    ]);
-                    DB::rollBack();
-                    throw $e;
-                }
-            }
-        } catch (Exception $e) {
-            // Manejo del error
-            return response()->json([
-                'success' => false,
-                'message' => 'Ocurrió un error al procesar el formulario: ' . $e->getMessage(),
-            ], 500);
-        }
-    }
+    
     
 
     public static function GuardarPagoPaquete($request)

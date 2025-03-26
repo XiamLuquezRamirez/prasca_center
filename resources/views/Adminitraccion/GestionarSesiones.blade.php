@@ -1,16 +1,16 @@
 @extends('Plantilla.Principal')
-@section('title', 'Gestionar paquetes de Sesiones')
+@section('title', 'Gestionar Pruebas')
 @section('Contenido')
     <div class="content-header">
         <div class="d-flex align-items-center">
             <div class="me-auto">
-                <h4 class="page-title">Gestionar paquetes de Sesiones</h4>
+                <h4 class="page-title">Gestionar Sesiones</h4>
                 <div class="d-inline-block align-items-center">
                     <nav>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
                             <li class="breadcrumb-item" aria-current="page">Inicio</li>
-                            <li class="breadcrumb-item active" aria-current="page">Gestionar paquetes de Sesiones</li>
+                            <li class="breadcrumb-item active" aria-current="page">Gestionar Sesiones</li>
                         </ol>
                     </nav>
                 </div>
@@ -25,7 +25,7 @@
             <div id="listado" class="col-12 col-xl-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title">Listado de paquetes de Sesiones </h5>
+                        <h5 class="card-title">Listado de Sesiones </h5>
                     </div>
                     <div class="card-body">
                         <div class="box-controls pull-right">
@@ -36,7 +36,7 @@
                                         <span class="fa fa-search"></span>
                                     </div>
                                     <button type="button" onclick="nuevoRegistro(1);"
-                                        class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i> Nuevo paquete</button>
+                                        class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i> Nueva Sesión</button>
                                 </div>
 
                             </div>
@@ -45,7 +45,7 @@
                             <thead>
                                 <tr>
                                     <th style="width:70%;">Descripción</th>
-                                    <th style="width:20%;">valor por sesión </th>
+                                    <th style="width:20%;">valor </th>
                                     <th style="width:10%;">Acción</th>
                                 </tr>
                             </thead>
@@ -62,17 +62,17 @@
             </div>
         </div>
     </section>
-    <!-- MODAL PAUETES -->
-    <div class="modal fade" id="modalPaquete" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    <!-- MODAL PRUEBAS -->
+    <div class="modal fade" id="modalSesiones" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" style="max-width: 40%;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="tituloAccion">Agregar paquete</h4>
+                    <h4 class="modal-title" id="tituloAccion">Agregar </h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="formPaquetes">
+                    <form id="formSesiones">
                         <input type="hidden" name="accRegistro" id="accRegistro" value="guardar" />
                         <input type="hidden" name="idRegistro" id="idRegistro" value="" />
                         <div class="row">
@@ -84,7 +84,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="valor" class="form-label">Valor por sesión:</label>
+                                    <label for="valor" class="form-label">Valor :</label>
                                     <input type="text" class="form-control" id="valorVis" name="valorVis"
                                     onchange="cambioFormato(this.id);"
                                     onkeypress="return validartxtnum(event)"
@@ -124,7 +124,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             let menuP = document.getElementById("principalParametros")
-            let menuS = document.getElementById("principalParametrosPaquetes")
+            let menuS = document.getElementById("principalParametrosSesiones")
 
             menuP.classList.add("active", "menu-open")
             menuS.classList.add("active")
@@ -132,7 +132,7 @@
             loader = document.getElementById('loader')
             loadNow(1)
 
-            $("#formPaquetes").validate({
+            $("#formSesiones").validate({
                 rules: {
 
                     descripcion: {
@@ -144,10 +144,10 @@
                 },
                 messages: {
                     descripcion: {
-                        required: "Por favor, ingrese la descripción del paquete."
+                        required: "Por favor, ingrese la descripción de la sesión."
                     },
                     valorVis: {
-                        required: "Por favor, el valor unitario por sesión.",
+                        required: "Por favor, el valor de la sesión.",
                     }
                 },
                 submitHandler: function(form) {
@@ -181,12 +181,12 @@
 
         function guardarRegistro() {
 
-            if ($("#formPaquetes").valid()) {
+            if ($("#formSesiones").valid()) {
 
-                const formPaquetes = document.getElementById('formPaquetes');
-                const formData = new FormData(formPaquetes);
+                const formSesiones = document.getElementById('formSesiones');
+                const formData = new FormData(formSesiones);
 
-                const url = "{{ route('form.guardarPaquete') }}";
+                const url = "{{ route('sesiones.guardarSesion') }}";
 
                 fetch(url, {
                         method: 'POST',
@@ -221,19 +221,20 @@
         }
 
         function editarRegistro(idRegistro) {
-            var modal = new bootstrap.Modal(document.getElementById("modalPaquete"), {
+            var modal = new bootstrap.Modal(document.getElementById("modalSesiones"), {
                 backdrop: 'static',
                 keyboard: false
             });
+            
             document.getElementById("accRegistro").value = 'editar'
             document.getElementById("idRegistro").value = idRegistro
             document.getElementById('saveRegistro').removeAttribute('disabled')
 
-            document.getElementById("tituloAccion").innerHTML  = "Editar paquete"
+            document.getElementById("tituloAccion").innerHTML  = "Editar Sesión"
 
             modal.show();
 
-            let url = "{{ route('paquetes.buscarPaquete') }}";
+            let url = "{{ route('sesiones.buscarSesion') }}";
 
             fetch(url, {
                     method: 'POST',
@@ -248,7 +249,7 @@
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById("descripcion").value = data.descripcion
-                    var numero = data.precio_por_sesion
+                    var numero = data.precio
                     var formatoMoneda = formatCurrency(numero, 'es-CO', 'COP')
                     document.getElementById("valorVis").value = formatoMoneda
                     document.getElementById("valor").value = numero
@@ -260,8 +261,8 @@
         }
 
         function cancelarRegistro() {
-            const formPaquetes = document.getElementById('formPaquetes')
-            formPaquetes.reset();
+            const formSesiones = document.getElementById('formSesiones')
+            formSesiones.reset();
         }
 
         function cambioFormato(id){
@@ -290,7 +291,7 @@
         function nuevoRegistro(opc) {
 
             if (opc == 1) {
-                var modal = new bootstrap.Modal(document.getElementById("modalPaquete"), {
+                var modal = new bootstrap.Modal(document.getElementById("modalSesiones"), {
                     backdrop: 'static',
                     keyboard: false
                 });
@@ -304,7 +305,7 @@
             document.getElementById("accRegistro").value = "guardar"
 
             
-            document.getElementById("tituloAccion").innerHTML  = "Agregar paquetes de sesiones"
+            document.getElementById("tituloAccion").innerHTML  = "Agregar Sesión"
         }
 
         function eliminarRegistro(idReg) {
@@ -320,7 +321,7 @@
                 closeOnCancel: false
             }, function(isConfirm) {
                 if (isConfirm) {
-                    let url = "{{ route('paquetes.eliminarPaqueteLista') }}";
+                    let url = "{{ route('sesiones.eliminarSesion') }}";
                     fetch(url, {
                             method: 'POST',
                             headers: {
@@ -356,7 +357,7 @@
         function cargar(page, searchTerm = '') {
 
 
-            let url = "{{ route('paquetes.listaPaquetes') }}"; // Definir la URL
+            let url = "{{ route('sesiones.listaSesiones') }}"; // Definir la URL
 
             // Eliminar los campos ocultos anteriores
             var oldPageInput = document.getElementById('page');
@@ -371,7 +372,6 @@
 
             // Limpiar la tabla antes de cargar nuevos datos
 
-
             fetch(url, {
                     method: 'POST',
                     headers: {
@@ -383,13 +383,13 @@
                 .then(response => response.json())
                 .then(responseData => {
                     // Rellenar la tabla con las filas generadas
-                    document.getElementById('trRegistros').innerHTML = responseData.paquetes;
-                    feather.replace();
+                    document.getElementById('trRegistros').innerHTML = responseData.sesiones
+                    feather.replace()
                     // Colocar los enlaces de paginación
-                    document.getElementById('pagination-links').innerHTML = responseData.links;
-                    loadNow(0);
+                    document.getElementById('pagination-links').innerHTML = responseData.links
+                    loadNow(0)
                 })
-                .catch(error => console.error('Error:', error));
+                .catch(error => console.error('Error:', error))
 
         }
     </script>

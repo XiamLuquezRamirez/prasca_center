@@ -11,10 +11,11 @@ use App\Models\Entidades;
 use App\Models\HistoriaPsicologica;
 use App\Models\Paquetes;
 use App\Models\Gastos;
+use App\Models\Pruebas;
 use Dompdf\Dompdf;
 use \PDF;
 use App\Models\Pacientes;
-
+use App\Models\Sesiones;
 
 class AdminitraccionController extends Controller
 {
@@ -25,6 +26,22 @@ class AdminitraccionController extends Controller
             return view('Adminitraccion.gestionarEspecialidades', compact('bandera'));
         } else {
             return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+
+    public function Sesiones()
+    {
+        if (Auth::check()) {
+            $bandera = "";
+            return view('Adminitraccion.gestionarSesiones', compact('bandera'));
+        }
+    }
+    
+    public function Pruebas()
+    {
+        if (Auth::check()) {
+            $bandera = "";
+            return view('Adminitraccion.gestionarPruebas', compact('bandera'));
         }
     }
 
@@ -65,6 +82,125 @@ class AdminitraccionController extends Controller
             return redirect("/")->with("error", "Su Sesión ha Terminado");
         }
     }
+
+    public function listaPruebas(Request $request) {
+        
+        if (Auth::check()) {
+            $perPage = 10; // Número de posts por página
+            $page = request()->get('page', 1);
+            $search = request()->get('search');
+            if (!is_numeric($page)) {
+                $page = 1; // Establecer un valor predeterminado si no es numérico
+            }
+
+            $paquetes = DB::connection('mysql')
+                ->table('pruebas')
+                ->where('estado', 'ACTIVO')
+                ->select(
+                    'descripcion',
+                    'id',
+                    'precio'
+                );
+
+            if ($search) {
+                $paquetes->where(function ($query) use ($search) {
+                    $query->where('descripcion', 'LIKE', '%' . $search . '%');
+                });
+            }
+
+            $ListPaquetes = $paquetes->paginate($perPage, ['*'], 'page', $page);
+
+            $tdTable = '';
+            $x = ($page - 1) * $perPage + 1;
+            $const = 1;
+            foreach ($ListPaquetes as $i => $item) {
+                if (!is_null($item)) {
+                    $valor = number_format($item->precio, 2, ',', '.');
+                    $tdTable .= '<tr>
+                                    <td>' . $item->descripcion . '</td>
+                                    <td>$ ' . $valor . '</td>
+                                    <td class="table-action min-w-100">
+                                        <a onclick="editarRegistro(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
+                                                data-feather="edit-2"></i></a>
+                                        <a onclick="eliminarRegistro(' . $item->id . ');" style="cursor: pointer;" title="Eliminar" class="text-fade hover-warning"><i class="align-middle"
+                                                data-feather="trash"></i></a>
+                                    </td>
+                                </tr>';
+                    $x++;
+                    $const++;
+                }
+            }
+            $pagination = $ListPaquetes->links('Adminitraccion.Paginacion')->render();
+
+            return response()->json([
+                'pruebas' => $tdTable,
+                'links' => $pagination
+            ]);
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+
+    }
+
+    public function listaSesiones(Request $request) {
+        
+        if (Auth::check()) {
+            $perPage = 10; // Número de posts por página
+            $page = request()->get('page', 1);
+            $search = request()->get('search');
+            if (!is_numeric($page)) {
+                $page = 1; // Establecer un valor predeterminado si no es numérico
+            }
+
+            $sesiones = DB::connection('mysql')
+                ->table('sesiones')
+                ->where('estado', 'ACTIVO')
+                ->select(
+                    'descripcion',
+                    'id',
+                    'precio'
+                );
+
+            if ($search) {
+                $sesiones->where(function ($query) use ($search) {
+                    $query->where('descripcion', 'LIKE', '%' . $search . '%');
+                });
+            }
+
+            $ListSesiones = $sesiones->paginate($perPage, ['*'], 'page', $page);
+
+            $tdTable = '';
+            $x = ($page - 1) * $perPage + 1;
+            $const = 1;
+            foreach ($ListSesiones as $i => $item) {
+                if (!is_null($item)) {
+                    $valor = number_format($item->precio, 2, ',', '.');
+                    $tdTable .= '<tr>
+                                    <td>' . $item->descripcion . '</td>
+                                    <td>$ ' . $valor . '</td>
+                                    <td class="table-action min-w-100">
+                                        <a onclick="editarRegistro(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
+                                                data-feather="edit-2"></i></a>
+                                        <a onclick="eliminarRegistro(' . $item->id . ');" style="cursor: pointer;" title="Eliminar" class="text-fade hover-warning"><i class="align-middle"
+                                                data-feather="trash"></i></a>
+                                    </td>
+                                </tr>';
+                    $x++;
+                    $const++;
+                }
+            }
+            $pagination = $ListSesiones->links('Adminitraccion.Paginacion')->render();
+
+            return response()->json([
+                'sesiones' => $tdTable,
+                'links' => $pagination
+            ]);
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+
+    }
+
 
     function cerrarCaja()
     {
@@ -682,6 +818,7 @@ class AdminitraccionController extends Controller
                     'ventas.saldo'
                 );
 
+
             if ($search) {
                 $servicios->where(function ($query) use ($search) {
                     $query->where('servicios.descripcion', 'LIKE', '%' . $search . '%')
@@ -1024,6 +1161,62 @@ class AdminitraccionController extends Controller
             'message' => 'Datos guardados'
         ]);
     }
+    public function  guardarPrueba(Request $request)
+    {
+        if (!Auth::check()) {
+            return response()->json([
+                'estado' => 'error',
+                'mensaje' => 'Su sesión ha terminado.',
+            ], 401); // Código de error 401: No autorizado
+        }
+
+        // Capturar los datos del request
+        $data = $request->all();
+        // Guardar la información del paciente
+        $respuesta = Pruebas::guardar($data);
+
+        // Verificar el resultado y preparar la respuesta
+        if ($respuesta) {
+            $estado = true;
+        } else {
+            $estado = false;
+        }
+
+        // Retornar la respuesta en formato JSON
+        return response()->json([
+            'success' => $estado,
+            'id' => $respuesta,
+            'message' => 'Datos guardados'
+        ]);
+    }
+    public function  guardarSesion(Request $request)
+    {
+        if (!Auth::check()) {
+            return response()->json([
+                'estado' => 'error',
+                'mensaje' => 'Su sesión ha terminado.',
+            ], 401); // Código de error 401: No autorizado
+        }
+
+        // Capturar los datos del request
+        $data = $request->all();
+        // Guardar la información del paciente
+        $respuesta = Sesiones::guardar($data);
+
+        // Verificar el resultado y preparar la respuesta
+        if ($respuesta) {
+            $estado = true;
+        } else {
+            $estado = false;
+        }
+
+        // Retornar la respuesta en formato JSON
+        return response()->json([
+            'success' => $estado,
+            'id' => $respuesta,
+            'message' => 'Datos guardados'
+        ]);
+    }
 
     public function  guardarGastos(Request $request)
     {
@@ -1201,6 +1394,7 @@ class AdminitraccionController extends Controller
                 ->where('estado', 'ACTIVO')
                 ->select(
                     'nombre',
+                    'precio',
                     'id'
                 );
 
@@ -1217,9 +1411,11 @@ class AdminitraccionController extends Controller
             $const = 1;
             foreach ($ListEspecialidades as $i => $item) {
                 if (!is_null($item)) {
+                    $valor = number_format($item->precio, 2, ',', '.');
                     $tdTable .= '<tr>
                                     <td>' . $const . '</td>
                                     <td>' . $item->nombre . '</td>
+                                    <td>$' .  $valor . '</td>
                                     <td class="table-action min-w-100">
                                         <a onclick="editarRegistro(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
                                                 data-feather="edit-2"></i></a>
@@ -1424,6 +1620,20 @@ class AdminitraccionController extends Controller
         $paquete = Paquetes::busquedaPaquetes($idRegistro);
         return response()->json($paquete);
     }
+    public function buscarPrueba(Request $request)
+    {
+        $idRegistro = $request->input('idRegistro');
+        $prueba = Pruebas::busquedaPruebas($idRegistro);
+        return response()->json($prueba);
+    }
+
+    public function buscarSesion(Request $request)
+    {
+        $idRegistro = $request->input('idRegistro');
+        $sesion = Sesiones::busquedaSesiones($idRegistro);
+        return response()->json($sesion);
+    }
+
     public function buscarGasto(Request $request)
     {
         $idGasto = $request->input('idGasto');
@@ -1588,6 +1798,107 @@ class AdminitraccionController extends Controller
             );
         }
     }
+
+    public function eliminarPrueba(){
+        try {
+            $idReg = request()->input('idReg');
+            if (!$idReg) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'ID de la prueba no proporcionado'
+                    ],
+                    400
+                );
+            }
+
+            
+            $paciente = DB::connection('mysql')
+                ->table('pruebas')
+                ->where('id', $idReg)
+                ->update([
+                    'estado' => 'ELIMINADO',
+                ]);
+
+            if ($paciente) {
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => 'Pruea eliminada correctamente'
+                    ]
+                );
+            } else {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'No se encontró la prueba o no se pudo eliminar'
+                    ],
+                    404
+                );
+            }
+        } catch (\Exception $e) {
+            // Manejar cualquier error o excepción
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Ocurrió un error al intentar eliminar la prueba',
+                    'error' => $e->getMessage()
+                ],
+                500
+            );
+        }
+    }
+
+    public function eliminarSesion(){
+        try {
+            $idReg = request()->input('idReg');
+            if (!$idReg) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'ID de la sesión no proporcionado'
+                    ],
+                    400
+                );
+            }
+
+
+            $paciente = DB::connection('mysql')
+                ->table('sesiones')
+                ->where('id', $idReg)
+                ->update([
+                    'estado' => 'ELIMINADO',
+                ]);
+
+            if ($paciente) {
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => 'Sesión eliminada correctamente'
+                    ]
+                );
+            } else {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'No se encontró la sesión o no se pudo eliminar'
+                    ],
+                    404
+                );
+            }
+        } catch (\Exception $e) {
+            // Manejar cualquier error o excepción
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Ocurrió un error al intentar eliminar la sesión',
+                    'error' => $e->getMessage()
+                ],
+                500
+            );
+        }
+    }
+
     public function eliminarCategoria()
     {
         try {

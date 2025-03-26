@@ -7,29 +7,27 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
-class Especialidades extends Model
+class Sesiones extends Model
 {
-    public static function Guardar($request)
+    public static function guardar($request)
     {
-        try {  
+        try {
 
             if ($request['accRegistro'] == 'guardar') {
-                $respuesta = DB::connection('mysql')->table('especialidades')->insertGetId([
-                    'nombre' => $request['nombre'],
-                    'observacion' => $request['observaciones'] ?? '',
+                $respuesta = DB::connection('mysql')->table('sesiones')->insertGetId([
+                    'descripcion' => $request['descripcion'],
                     'precio' => $request['valor'],
                     'estado' => 'ACTIVO'
                 ]);
             } else {
-                $respuesta = DB::connection('mysql')->table('especialidades')
+                $respuesta = DB::connection('mysql')->table('sesiones')
                     ->where('id', $request['idRegistro'])  // Identificar el registro a actualizar
                     ->update([
-                        'nombre' => $request['nombre'],
-                        'observacion' => $request['observaciones'] ?? '',
+                        'descripcion' => $request['descripcion'],
                         'precio' => $request['valor'],
+                        'observaciones' => $request['observaciones'] ?? '',
+
                     ]);
-
-
                 $respuesta = $request['idRegistro'];
             }
         } catch (Exception $e) {
@@ -40,11 +38,12 @@ class Especialidades extends Model
             ], 500);
         }
         return  $respuesta;
+    
+    }
+    public static function busquedaSesiones($idRegistro)
+    {
+        $sesion = DB::connection('mysql')->table('sesiones')->where('id', $idRegistro)->first();
+        return $sesion;
     }
 
-    public static function busquedaEspecialidad($id){
-        return DB::connection('mysql')->table('especialidades')
-        ->where("id", $id)
-        ->first();
-    }
 }

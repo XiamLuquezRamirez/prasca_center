@@ -611,9 +611,16 @@
                 .then(data => {
                     document.getElementById("idVentaServicio").value = data.PaqueteVenta.id
                     document.getElementById("descripcionPaquete").innerText = data.PaqueteVenta.descripcion
-                    document.getElementById("sesionesPaquete").innerText =
+                  
+                    if(data.PaqueteVenta.tipo != "PRUEBAS"){
+                         document.getElementById("sesionesPaquete").innerText =
                         `Cantidad de sesiones: ${data.PaqueteVenta.cantidad}`
-                    document.getElementById("valorPaquete").innerText = formatCurrency(data.PaqueteVenta.precio,
+                    }else{
+                        document.getElementById("sesionesPaquete").innerHTML = ""
+                    }
+                   
+                    
+                        document.getElementById("valorPaquete").innerText = formatCurrency(data.PaqueteVenta.precio,
                         'es-CO', 'COP')
 
                     document.getElementById("valorAbonoPrevioVis").innerText = formatCurrency(data.totalAbonos,
@@ -675,7 +682,7 @@
                     var a = document.createElement('a');
                     var url = window.URL.createObjectURL(blob);
                     a.href = url;
-                    a.download = 'InformeEvolucion.pdf';
+                    a.download = 'Recaudo.pdf';
                     a.click();
                     window.URL.revokeObjectURL(url);
                 })

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\HistoriaNeuroPsicologica;
 use App\Models\CategoriaHCP;
 use App\Models\Pacientes;
+use App\Models\Pruebas;
 use \PDF;
 use App\Models\Paquetes;
 
@@ -18,6 +19,186 @@ class HistoriaNeuroPsicologicaController extends Controller
     {
         if (Auth::check()) {
             return view('HistoriasClinica.Neuropsicologia');
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+
+    public function listaPaquetesSel()
+    {
+        $pruebas = Pruebas::listarPruebas();
+        return response()->json($pruebas);
+    }
+
+    public function eliminarPrueba()
+    {
+        try {
+            $idPrueba = request()->input('idPrueba');
+            if (!$idPrueba) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'ID de la prueba no proporcionado'
+                    ],
+                    400
+                );
+            }
+
+            $consulta = DB::connection('mysql')
+                ->table('servicios')
+                ->where('id', $idPrueba)
+                ->update([
+                    'estado' => 'ELIMINADO',
+                ]);
+
+
+            if ($consulta) {
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => 'Prueba eliminada correctamente'
+                    ]
+                );
+            } else {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'No se encontró la prueba o no se pudo eliminar'
+                    ],
+                    404
+                );
+            }
+        } catch (\Exception $e) {
+            // Manejar cualquier error o excepción
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Ocurrió un error al intentar eliminar la prueba',
+                    'error' => $e->getMessage()
+                ],
+                500
+            );
+        }
+    }
+
+    public function buscaPruebaVenta(Request $request){
+        $idPrueba = $request->input('idPrueba');
+        $prueba = Pruebas::busquedaPaquetesVentas($idPrueba);
+
+        return response()->json([
+            'prueba' => $prueba
+        ]);
+    }
+
+    public function  guardarPruebaVenta(Request $request)
+    {
+        if (!Auth::check()) {
+            return response()->json([
+                'estado' => 'error',
+                'mensaje' => 'Su sesión ha terminado.',
+            ], 401);
+        }
+
+        $data = $request->all();
+
+        $respuesta = Pruebas::guardarPruebaVenta($data);
+
+        // Verificar el resultado y preparar la respuesta
+        if ($respuesta) {
+            $estado = 'success';
+            $message = 'La operación fue realizada exitosamente.';
+            $title = '¡Buen trabajo!';
+        } else {
+            $message = 'No se pudo realizada la operación.';
+            $estado = 'warning';
+            $title = '¡Opps salio algo mal!';
+        }
+        // Retornar la respuesta en formato JSON
+        return response()->json([
+            'success' => $estado,
+            'id' => $respuesta,
+            'message' =>  $message,
+            'title' =>  $title
+        ]);
+    }
+
+    public function listaPruebasModal(Request $request){
+
+        if (Auth::check()) {
+            $perPage = 10; // Número de posts por página
+            $page = request()->get('page', 1);
+            $search = request()->get('search');
+            if (!is_numeric($page)) {
+                $page = 1; // Establecer un valor predeterminado si no es numérico
+            }
+
+            $idHist = $request->input('idHist');
+            $tipoHist = $request->input('tipoHist');
+
+            $pruebas = DB::connection('mysql')
+                ->table('servicios')
+                ->leftJoin("ventas", "servicios.id", "ventas.id_servicio")
+                ->leftJoin("pruebas", "pruebas.id", "servicios.id_paquete")
+                ->where('servicios.estado', 'ACTIVO')
+                ->where('servicios.tipo', 'PRUEBAS')
+                ->where('servicios.id_historia', $idHist)
+                ->where('servicios.tipo_historia', $tipoHist)
+                ->select(
+                    'servicios.id',
+                    'servicios.fecha AS fecha_compra',
+                    'ventas.total AS monto_total',
+                    'ventas.estado_venta AS estado_control',
+                    'pruebas.descripcion',
+                    'servicios.descripcion as descripcion_prueba'
+                )
+                ->groupBy(
+                    'servicios.id',
+                    'servicios.fecha',
+                    'ventas.total',
+                    'ventas.estado_venta',
+                    'pruebas.descripcion',
+                    'servicios.descripcion'
+                );
+
+              
+
+            if ($search) {
+                $pruebas->where(function ($query) use ($search) {
+                    $query->where('pruebas.descripcion', 'LIKE', '%' . $search . '%');
+                });
+            }
+
+            $ListPruebas = $pruebas->paginate($perPage, ['*'], 'page', $page);
+
+            $tdTable = '';
+            $x = ($page - 1) * $perPage + 1;
+
+            foreach ($ListPruebas as $i => $item) {
+                if (!is_null($item)) {
+                    $valorTotal = number_format($item->monto_total, 2, ',', '.');
+
+                    $tdTable .= '<tr style="cursor: pointer;">
+                                    <td>' . $item->descripcion_prueba . '</td>
+                                    <td>' . $item->fecha_compra . '</td>
+                                    <td>$ ' . $valorTotal . '</td>
+                                    <td>' . $item->estado_control . '</td>
+                                    <td class="table-action min-w-100">
+                                        <a onclick="editarPrueba(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
+                                                data-feather="edit-2"></i></a>
+                                        <a onclick="eliminarPrueba(' . $item->id . ');" style="cursor: pointer;" title="Eliminar" class="text-fade hover-warning"><i class="align-middle"
+                                                data-feather="trash"></i></a>
+                                    </td>
+                                </tr>';
+                    $x++;
+                }
+            }
+
+            $pagination = $ListPruebas->links('HistoriasClinica.PaginacionPruebas')->render();
+
+            return response()->json([
+                'pruebas' => $tdTable,
+                'links' => $pagination
+            ]);
         } else {
             return redirect("/")->with("error", "Su Sesión ha Terminado");
         }
@@ -680,6 +861,7 @@ class HistoriaNeuroPsicologicaController extends Controller
                         <a class="dropdown-item" data-paciente="'.$item->id_paciente.'" data-id="' . $item->id . '" data-consulta="' . $item->codigo_consulta . '" style="pointer-events: ' . $event . '; cursor: pointer;"  onclick="ventaConsulta(this)">Venta consulta</a>
                         <a class="dropdown-item" data-paciente="'.$item->id_paciente.'" data-id="' . $item->id . '" style="pointer-events: ' . $event . '; cursor: pointer;"  onclick="ventaSesion(this)">Venta sesión</a>
                         <a class="dropdown-item" data-paciente="'.$item->id_paciente.'" data-id="' . $item->id . '" style="cursor: pointer;"  onclick="ComprarPaquete(this)">Venta paquete</a>
+                        <a class="dropdown-item" data-paciente="'.$item->id_paciente.'" data-id="' . $item->id . '" style="cursor: pointer;"  onclick="ComprarPrueba(this)">Venta prueba</a>
                         </div>
                     </div> 
                     <button type="button" data-id="' . $item->id . '" dapta-tipo="' . $item->tipologia . '" onclick="verHistoria(this)" class="waves-effect waves-light btn btn-info mb-5"><i class="fa fa-search"></i> Ver detalle</button>

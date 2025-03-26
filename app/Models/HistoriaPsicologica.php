@@ -129,127 +129,9 @@ class HistoriaPsicologica extends Model
         return $servicios;
     }
 
-    public static function guardarVentaConsulta($request)
-    {
-        try {
-            $idHistoriaVenta = $request['idHistoriaVenta'];
+   
 
-            DB::beginTransaction();
-            try {
-                if ($request['accHistoriaVenta'] == "editar") {
-                    DB::table('servicios')->where('id', $request['idConsultaVenta'])->update(array_filter([
-                        'descripcion' => $request['ConsultaVenta'],
-                        'precio' => $request['valorServConsulta'],
-                        'fecha' => $request['fechaVentaConsulta'] . ' ' . $request['horaSeleccionadaVentaConsulta'],
-                    ]));
-                    DB::table('ventas')->where('id_servicio', $request['idConsultaVenta'])->update(array_filter([
-                        'valor' => $request['valorServConsulta'],
-                        'total' => $request['valorServConsulta'],
-                        'saldo' => $request['valorServConsulta'],
-                    ]));
-                    DB::commit();
-                    return  $request['idConsultaVenta'];
-                } else {
-                    $idConsultaVenta = DB::table('servicios')->insertGetId(array_filter([
-                        'descripcion' => $request['ConsultaVenta'],
-                        'tipo' => 'CONSULTA',
-                        'id_historia' => $idHistoriaVenta,
-                        'precio' => $request['valorServConsulta'],
-                        'estado' => 'ACTIVO',
-                        'tipo_historia' => $request['tipoHistoria'],
-                        'id_paciente' => $request['idPacienteVenta'],
-                        'fecha' => $request['fechaVentaConsulta'] . ' ' . $request['horaSeleccionadaVentaConsulta'],
-                    ]));
-
-                    $idVenta = DB::table('ventas')->insertGetId(array_filter([
-                        'id_servicio' => $idConsultaVenta,
-                        'id_historia' => $idHistoriaVenta,
-                        'usuario' => Auth::user()->id,
-                        'valor' => $request['valorServConsulta'],
-                        'cantidad' => '1',
-                        'total' => $request['valorServConsulta'],
-                        'estado_venta' => 'PENDIENTE',
-                        'saldo' => $request['valorServConsulta'],
-                    ]));
-
-                    // Confirmar transacción
-                    DB::commit();
-                    return  $idConsultaVenta;
-                }
-            } catch (\Exception $e) {
-                // Revertir transacción en caso de error
-                DB::rollBack();
-                throw $e;
-            }
-        } catch (Exception $e) {
-            // Manejo del error
-            return response()->json([
-                'success' => false,
-                'message' => 'Ocurrió un error al procesar el formulario: ' . $e->getMessage(),
-            ], 500);
-        }
-    }
-
-    public static function guardarVentaSesion($request)
-    {
-        try {
-            $idHistoriaVenta = $request['idHistoriaVentaSesion'];
-
-            DB::beginTransaction();
-            try {
-                if ($request['accHistoriaVentaSesion'] == "editar") {
-                    DB::table('servicios')->where('id', $request['idVentaSesion'])->update(array_filter([
-                        'descripcion' => $request['descripcionVentaSesion'],
-                        'precio' => $request['valorServSesion'],
-                        'fecha' => $request['fechaVentaSesion'] . ' ' . $request['horaSeleccionadaVentaSesion'],
-                    ]));
-                    DB::table('ventas')->where('id_servicio', $request['idVentaSesion'])->update(array_filter([
-                        'valor' => $request['valorServSesion'],
-                        'total' => $request['valorServSesion'],
-                        'saldo' => $request['valorServSesion'],
-                    ]));
-                    DB::commit();
-                    return  $request['idVentaSesion'];
-                } else {
-                    $idSesionVenta = DB::table('servicios')->insertGetId(array_filter([
-                        'descripcion' => $request['descripcionVentaSesion'],
-                        'tipo' => 'SESION',
-                        'id_historia' => $idHistoriaVenta,
-                        'precio' => $request['valorServSesion'],
-                        'estado' => 'ACTIVO',
-                        'tipo_historia' => $request['tipoHistoria'],
-                        'id_paciente' => $request['idPacienteVentaSesion'],
-                        'fecha' => $request['fechaVentaSesion'] . ' ' . $request['horaSeleccionadaVentaSesion'],
-                    ]));
-
-                    $idVenta = DB::table('ventas')->insertGetId(array_filter([
-                        'id_servicio' => $idSesionVenta,
-                        'id_historia' => $idHistoriaVenta,
-                        'usuario' => Auth::user()->id,
-                        'valor' => $request['valorServSesion'],
-                        'cantidad' => '1',
-                        'total' => $request['valorServSesion'],
-                        'estado_venta' => 'PENDIENTE',
-                        'saldo' => $request['valorServSesion'],
-                    ]));
-
-                    // Confirmar transacción
-                    DB::commit();
-                    return  $idSesionVenta;
-                }
-            } catch (\Exception $e) {
-                // Revertir transacción en caso de error
-                DB::rollBack();
-                throw $e;
-            }
-        } catch (Exception $e) {
-            // Manejo del error
-            return response()->json([
-                'success' => false,
-                'message' => 'Ocurrió un error al procesar el formulario: ' . $e->getMessage(),
-            ], 500);
-        }
-    }
+   
 
     public static function busquedaConsultaHistoria($idHistoria)
     {
@@ -788,15 +670,20 @@ class HistoriaPsicologica extends Model
                         'estado' => 'ACTIVO'
                     ]));
 
+                    $Paciente = DB::table('historia_clinica')
+                    ->where('id', $request['idHist'])
+                    ->select('id_paciente')
+                    ->first();
+
+                 
                     //ACTUALIZAR NUMERO DE PAQUETES DISPONIBLES
                     $paquete = DB::connection('mysql')
                         ->table('servicios')
                         ->leftJoin("ventas", "servicios.id", "ventas.id_servicio")
                         ->leftJoin('sesiones_paquete_uso', 'ventas.id',  'sesiones_paquete_uso.venta_id')
-                        ->where('servicios.id_historia', $request['idHist'])
+                        ->where('servicios.id_paciente', $Paciente->id_paciente)
                         ->where('servicios.tipo', 'PAQUETE')
                         ->where('ventas.estado_venta', 'PENDIENTE')
-                        ->where('servicios.tipo_historia', 'PSICOLOGIA')
                         ->where('servicios.estado', 'ACTIVO')
                         ->select(
                             'ventas.id',
@@ -806,10 +693,12 @@ class HistoriaPsicologica extends Model
                         ->groupBy('ventas.id', 'ventas.cantidad', 'ventas.cantidad') // Agregar GROUP BY
                         ->first();
 
+                       
+               
                     //VALIAR SI EL sesiones_disponibles ES 1 PARA CAMBIAR EL ESTADO A TERMIANDO
                     if ($paquete->sesiones_disponibles == 1) {
                         $paqueteUpdate = DB::table('ventas')
-                            ->where('id_historia', $request['idHist'])
+                            ->where('id_pacientes', $Paciente->id_paciente)
                             ->where('estado_venta', 'PENDIENTE')
                             ->update(array_filter([
                                 'estado_venta' => 'TERMINADO'
@@ -817,13 +706,13 @@ class HistoriaPsicologica extends Model
 
                         $sesiones = DB::table('sesiones_paquete_uso')->insert(array_filter([
                             'venta_id' => $paquete->id,
-                            'id_historia' => $request['idHist'],
+                            'id_paciente' => $Paciente->id_paciente,
                             'fecha_usada' => $request['fechaEvolucion']
                         ]));
                     } else {
                         $sesiones = DB::table('sesiones_paquete_uso')->insert(array_filter([
                             'venta_id' => $paquete->id,
-                            'id_historia' => $request['idHist'],
+                            'id_paciente' => $Paciente->id_paciente,
                             'fecha_usada' => $request['fechaEvolucion']
                         ]));
                     }

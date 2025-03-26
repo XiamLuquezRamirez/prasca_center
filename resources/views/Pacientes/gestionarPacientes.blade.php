@@ -1,6 +1,7 @@
 @extends('Plantilla.Principal')
 @section('title', 'Gestionar pacientes')
 @section('Contenido')
+
     <input type="hidden" id="Ruta" data-ruta="{{ asset('/app-assets/') }}" />
     <input type="hidden" id="RutaTotal" data-ruta="{{ asset('/') }}" />
     <input type="hidden" id="page" />
@@ -311,8 +312,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="municipio" class="form-label">Municipio de residencia:</label>
-                                    <select class="form-control" id="municipio" name="municipio"
-                                        aria-invalid="false">
+                                    <select class="form-control" id="municipio" name="municipio" aria-invalid="false">
                                         <option value=" ">Selecciona una opción</option>
                                     </select>
                                 </div>
@@ -320,8 +320,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="eps" class="form-label">EPS:</label>
-                                    <select class="form-control" id="eps" name="eps"
-                                        aria-invalid="false">
+                                    <select class="form-control" id="eps" name="eps" aria-invalid="false">
 
                                     </select>
                                 </div>
@@ -453,7 +452,302 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    </div><!-- /.modal -->
+    <!-- MODAL VENTA DE SERVICIOS -->
+    <div class="modal fade" id="modalVentaServicios" tabindex="-1" aria-labelledby="modalVentaServiciosLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalVentaServiciosLabel">Venta de servicios</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                </div>
+                <div class="input-group input-group-merge d-flex justify-content-end p-3">
+                    <button type="button" onclick="cancelarVentaServicio();" style="display: none;" id="btnRegresar"
+                        class="btn btn-primary">
+                        <i class="ti-arrow-left"></i> Regresar
+                    </button>
+                    <button type="button" onclick="nuevaVentaServicio();" id="newVentaServicio"
+                        class="btn btn-primary">
+                        <i class="ti-plus"></i> Nuevo servicio
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="listadoVentaServicios">
+                        <table id="tablaServicios" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Descripción</th>
+                                    <th>Tipo</th>
+                                    <th>Sesiones</th>
+                                    <th>Fecha</th>
+                                    <th>Valor</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="trRegistrosServicios">
+
+
+                            </tbody>
+                        </table>
+                        <div id="pagination-links-servicios"></div>
+                    </div>
+                    <div id="VentaServicio" style="display: none;">
+                        <div class="text-center mb-4">
+                            <h3 class="text-primary">Seleccione el servicio a vender</h3>
+                            <p class="text-muted">Escoja el tipo de servicio que desea registrar</p>
+                        </div>
+                        <div class="row g-4">
+                            <!-- Card Consulta -->
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="card service-card">
+                                    <div class="card-body">
+                                        <div class="icon-circle bg-primary-light">
+                                            <i class="mdi mdi-stethoscope text-primary" style="font-size: 28px;"></i>
+                                        </div>
+                                        <div class="service-description">
+                                            <h6 class="card-title">Venta de consulta</h6>
+                                            <p class="text-muted small">Gestione consultas individuales</p>
+                                        </div>
+                                        <button class="btn btn-primary btn-sm"
+                                            onclick="seleccionarServicio('consulta')">Seleccionar</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card Sesión -->
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="card service-card">
+                                    <div class="card-body">
+                                        <div class="icon-circle bg-success-light">
+                                            <i class="mdi mdi-calendar-check text-success" style="font-size: 28px;"></i>
+                                        </div>
+                                        <div class="service-description">
+                                            <h6 class="card-title">Venta de sesión</h6>
+                                            <p class="text-muted small">Registre sesiones de terapia</p>
+                                        </div>
+                                        <button class="btn btn-success btn-sm"
+                                            onclick="seleccionarServicio('sesion')">Seleccionar</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card Paquete -->
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="card service-card">
+                                    <div class="card-body">
+                                        <div class="icon-circle bg-warning-light">
+                                            <i class="mdi mdi-package text-warning" style="font-size: 28px;"></i>
+                                        </div>
+                                        <div class="service-description">
+                                            <h6 class="card-title">Venta de paquete</h6>
+                                            <p class="text-muted small">Gestione paquetes completos</p>
+                                        </div>
+                                        <button class="btn btn-warning btn-sm"
+                                            onclick="seleccionarServicio('paquete')">Seleccionar</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card Prueba -->
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="card service-card">
+                                    <div class="card-body">
+                                        <div class="icon-circle bg-info-light">
+                                            <i class="mdi mdi-test-tube text-info" style="font-size: 28px;"></i>
+                                        </div>
+                                        <div class="service-description">
+                                            <h6 class="card-title">Venta de prueba</h6>
+                                            <p class="text-muted small">Registre pruebas diagnósticas</p>
+                                        </div>
+                                        <button class="btn btn-info btn-sm"
+                                            onclick="seleccionarServicio('prueba')">Seleccionar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="formVentaServicio" style="display: none;">
+                        <!-- FORMULARIO DE VENTA DE SERVICIO CONSULTA -->
+                        <form id="formVentaConsulta" style="display: none;">
+                            <input type="hidden" id="idConsultaVenta" name="idConsultaVenta" />
+                            <input type="hidden" id="accHistoriaVenta" name="accHistoriaVenta" />
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="consultaVenta" class="form-label">Descripción de la
+                                            consulta:</label>
+                                        <select class="form-control" onchange="cargarPrecioConsulta(this)"
+                                            id="consultaVenta" name="consultaVenta">
+                                            <option value="">Seleccione la consulta</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="fechaVentaConsulta" class="form-label">Fecha:</label>
+                                    <div class="input-group">
+                                        <input type="date" class="form-control" id="fechaVentaConsulta"
+                                            name="fechaVentaConsulta"
+                                            placeholder="Seleccione la fecha de venta consulta" />
+                                        <input type="time" id="horaSeleccionadaVentaConsulta"
+                                            name="horaSeleccionadaVentaConsulta" class="form-control">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-clock-o"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="valorServConsultaVis" class="form-label">Valor :</label>
+                                        <input type="text" class="form-control" id="valorServConsultaVis"
+                                            name="valorServConsultaVis" placeholder="$ 0,00"
+                                            onchange="cambioFormato(this.id);" onkeypress="return validartxtnum(event)"
+                                            onclick="this.select();">
+                                        <input type="hidden" class="form-control" id="valorServConsulta"
+                                            name="valorServConsulta">
+                                    </div>
+                                </div>
+
+                                <div class="box-footer text-end mt-3">
+                                    <button onclick="cancelarVentaConsulta()" type="button"
+                                        class="btn btn-primary-light me-1">
+                                        <i class="ti-share-alt"></i> Cancelar
+                                    </button>
+                                    <button onclick="guardarVentaConsulta()" id="saveRegistroVentaConsulta"
+                                        type="button" class="btn btn-primary">
+                                        <i class="ti-save"></i> Guardar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- FORMULARIO DE VENTA DE SERVICIO SESSION -->
+                        <form id="formVentaSesion" style="display: none;">
+                            <input type="hidden" id="accHistoriaVentaSesion" value=""
+                                name="accHistoriaVentaSesion" />
+                            <input type="hidden" id="idVentaSesion" value="" name="idVentaSesion" />
+
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="sugerenciasModal" class="form-label">Descripción de la
+                                            sesión:</label>
+                                        <select class="form-control" id="sesionVenta" name="sesionVenta">
+                                            <option value="">Seleccione la sesión</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="fechaVentaSesion" class="form-label">Fecha:</label>
+                                    <div class="input-group">
+                                        <input type="date" class="form-control" id="fechaVentaSesion"
+                                            name="fechaVentaSesion"
+                                            placeholder="Seleccione la fecha de venta de la sesión" />
+                                        <input type="time" id="horaSeleccionadaVentaSesion"
+                                            name="horaSeleccionadaVentaSesion" class="form-control">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-clock-o"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="valorServSesionVis" class="form-label">Valor :</label>
+                                        <input type="text" class="form-control" id="valorServSesionVis"
+                                            name="valorServSesionVis" placeholder="$ 0,00" value=""
+                                            onchange="cambioFormato(this.id);" onkeypress="return validartxtnum(event)"
+                                            onclick="this.select();">
+                                        <input type="hidden" class="form-control" id="valorServSesion"
+                                            name="valorServSesion">
+                                    </div>
+                                </div>
+                                <div class="box-footer text-end mt-3">
+                                    <button onclick="cancelarVentaSesion()" type="button"
+                                        class="btn btn-primary-light me-1">
+                                        <i class="ti-share-alt"></i> Cancelar
+                                    </button>
+                                    <button onclick="guardarVentaSesion()" type="button" id="saveRegistroVentaSesion"
+                                        class="btn btn-primary">
+                                        <i class="ti-save"></i> Guardar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- FORMULARIO DE VENTA DE SERVICIO PAQUETE -->
+                        <form id="formVentaPaquete" style="display: none;">
+
+                            <input type="hidden" name="accVentaPaquete" id="accVentaPaquete" value="guardar" />
+                            <input type="hidden" name="idVentaPaquete" id="idVentaPaquete" value="" />
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <label for="descripcion" class="form-label">Paquete :</label>
+                                        <select class="form-control select2" onchange="seleccionarPaquete(this);"
+                                            id="selPaquete" name="selPaquete" aria-invalid="false">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="fechaPaquete" class="form-label">Fecha :</label>
+                                        <input type="date" class="form-control" id="fechaPaquete"
+                                            name="fechaPaquete">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="precioSesionVis" class="form-label">Valor :</label>
+                                        <input type="text" class="form-control" id="precioSesionVis"
+                                            name="precioSesionVis" onchange="cambioFormato(this.id);"
+                                            onkeypress="return validartxtnum(event)" onclick="this.select();">
+                                        <input type="hidden" class="form-control" id="precioSesion"
+                                            name="precioSesion">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="numSesiones" class="form-label">Numero de sesiones :</label>
+                                        <input type="number" class="form-control" id="numSesiones" name="numSesiones"
+                                            onchange="calValorMonto()" max="20" min="1"
+                                            onkeypress="return validartxtnum(event)">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="montoFinal" class="form-label">Valor :</label>
+                                        <input type="text" readonly class="form-control" id="montoFinalVis"
+                                            name="montoFinalVis" value="$ 0,00">
+                                        <input type="hidden" class="form-control" id="montoFinal" name="montoFinal">
+                                    </div>
+                                </div>
+                                <div class="box-footer text-end">
+                                    <button type="button" id="cancelRegistroPaq" onclick="cancelarVentaPaquete();"
+                                        class="btn btn-primary-light me-1">
+                                        <i class="ti-close"></i> Cancelar
+                                    </button>
+                                    <button type="button" id="saveRegistroPaq" onclick="guardarPaquetes();"
+                                        class="btn btn-primary">
+                                        <i class="ti-save"></i> Guardar
+                                    </button>
+                                </div>
+
+                            </div>
+                        </form>
+                        <!-- FORMULARIO DE VENTA DE SERVICIO PRUEBA -->
+                        <div id="formVentaPrueba" style="display: none;">
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
 
     <script>
         window.userPermissions = @json(Auth::user()->permissions);
@@ -466,10 +760,10 @@
             loadNow(1)
 
 
-                        // $('#departamento').select2({
-                        //     dropdownParent: $('#modalPacientes'),
-                        //     width: '100%'
-                        // });
+            // $('#departamento').select2({
+            //     dropdownParent: $('#modalPacientes'),
+            //     width: '100%'
+            // });
 
             $("#departamento").on("change", function() {
                 $(this).valid(); // Dispara la validación cuando cambie el valor
@@ -479,7 +773,7 @@
             //     dropdownParent: $('#modalPacientes'),
             //     width: '100%'
             // });
-        
+
             // $('#municipio').select2({
             //     dropdownParent: $('#modalPacientes'),
             //     width: '100%',
@@ -490,7 +784,7 @@
                 $(document).off('focusin.modal');
             });
 
-        
+
             // Detectar cuando el usuario suelta el clic sobre el select
             // $('#eps').on('mouseup', function() {
             //     $(this).select2('open');
@@ -660,6 +954,105 @@
                 },
                 submitHandler: function(form) {
                     guardarPacientes()
+                }
+            });
+
+            //VALIDAR FORMULARIO VENTA CONSULTA
+            $("#formVentaConsulta").validate({
+                rules: {
+                    consultaVenta: {
+                        required: true
+                    },
+                    fechaVentaConsulta: {
+                        required: true
+                    },
+                    valorServConsultaVis: {
+                        required: true
+                    }
+
+
+                },
+                messages: {
+                    consultaVenta: {
+                        required: "Por favor, ingrese la descripción de la consulta"
+                    },
+                    fechaVentaConsulta: {
+                        required: "Por favor, seleccione una fecha"
+                    },
+                    valorServConsultaVis: {
+                        required: "Por favor, ingrese el valor de la consulta"
+                    }
+
+                },
+                submitHandler: function(form) {
+                    guardarVentaConsulta()
+                }
+            });
+
+            //VALIDAR FORMULARIO VENTA SESION
+            $("#formVentaSesion").validate({
+                rules: {
+                    sesionVenta: {
+                        required: true
+                    },
+                    fechaVentaSesion: {
+                        required: true
+                    },
+                    valorServSesionVis: {
+                        required: true
+                    }
+                },
+                messages: {
+                    sesionVenta: {
+                        required: "Por favor, seleccione la sesión"
+                    },
+                    fechaVentaSesion: {
+                        required: "Por favor, seleccione una fecha"
+                    },
+                    valorServSesionVis: {
+                        required: "Por favor, ingrese el valor de la sesión"
+                    }
+
+                },
+                submitHandler: function(form) {
+                    guardarVentaSesion()
+                }
+            });
+
+            //VALIDAR FORMULARIO DE PAQUETES
+
+            $("#formVentaPaquete").validate({
+                rules: {
+                    selPaquete: {
+                        required: true
+                    },
+                    fechaPaquete: {
+                        required: true
+                    },
+                    precioSesion: {
+                        required: true
+                    },
+                    numSesiones: {
+                        required: true
+                    }
+
+                },
+                messages: {
+                    selPaquete: {
+                        required: "Por favor, seleccione un paquete"
+                    },
+                    fechaPaquete: {
+                        required: "Por favor, seleccione una fecha"
+                    },
+                    precioSesion: {
+                        required: "Por favor, ingrese el valor de la sesión"
+                    },
+                    numSesiones: {
+                        required: "Por favor, ingrese el número de sesiones"
+                    }
+                },
+                submitHandler: function(form) {
+                    guardarPaquetes()
                 }
             });
 
@@ -1259,6 +1652,631 @@
                     "warning")
             }
         }
+
+        function verServiciosVenta(idPaciente) {
+            var modal = new bootstrap.Modal(document.getElementById("modalVentaServicios"), {
+                backdrop: 'static',
+                keyboard: false
+            })
+            modal.show()
+            document.getElementById("idPaciente").value = idPaciente
+
+            cargarVentaServiciosPacientes(1)
+            cargarConsultas()
+            cargarSesiones()
+            cargarPaquetes()
+
+        }
+
+        function cargarVentaServiciosPacientes(page, searchTerm = '') {
+            let url = "{{ route('pacientes.listaVentaServiciosPacientes') }}"
+            let data = {
+                page: page,
+                search: searchTerm,
+                idPaciente: document.getElementById('idPaciente').value
+            }
+
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(responseData => {
+                    document.getElementById('trRegistrosServicios').innerHTML = responseData.servicios
+                    feather.replace()
+                    document.getElementById('pagination-links-servicios').innerHTML = responseData.links
+                    loadNow(0)
+                })
+                .catch(error => console.error('Error:', error))
+        }
+
+        function nuevaVentaServicio() {
+
+            let listado = document.getElementById("listadoVentaServicios")
+            listado.style.display = "none"
+            let formulario = document.getElementById("VentaServicio")
+            formulario.style.display = "block"
+            let btnNewVenta = document.getElementById("newVentaServicio")
+            btnNewVenta.style.display = "none"
+            let btnRegresar = document.getElementById("btnRegresar")
+            btnRegresar.style.display = "block"
+        
+        }
+
+        function cancelarVentaServicio() {
+            let listado = document.getElementById("listadoVentaServicios")
+            listado.style.display = "block"
+            let formulario = document.getElementById("VentaServicio")
+            formulario.style.display = "none"
+            let btnNewVenta = document.getElementById("newVentaServicio")
+            btnNewVenta.style.display = "block"
+            let btnRegresar = document.getElementById("btnRegresar")
+            btnRegresar.style.display = "none"
+
+        }
+
+        function seleccionarServicio(servicio) {
+            document.getElementById("formVentaServicio").style.display = "block"
+            
+            switch (servicio) {
+                case 'consulta':
+                    document.getElementById("formVentaConsulta").style.display = "block"
+                    document.getElementById("formVentaConsulta").reset()
+                    document.getElementById("formVentaSesion").style.display = "none"
+                    document.getElementById("formVentaPaquete").style.display = "none"
+                    document.getElementById("formVentaPrueba").style.display = "none"
+                    document.getElementById("VentaServicio").style.display = "none"
+                    document.getElementById("accHistoriaVenta").value = "guardar"
+
+
+                    break
+                case 'sesion':
+                    document.getElementById("formVentaSesion").style.display = "block"
+                    document.getElementById("formVentaSesion").reset()
+                    document.getElementById("formVentaConsulta").style.display = "none"
+                    document.getElementById("formVentaPaquete").style.display = "none"
+                    document.getElementById("formVentaPrueba").style.display = "none"
+                    document.getElementById("VentaServicio").style.display = "none"
+                    document.getElementById("accHistoriaVentaSesion").value = "guardar"
+
+                    break
+                case 'paquete':
+
+                 //valirdar paquetes pendientes
+                let tablaServicios = document.getElementById("tablaServicios")
+                    let filas = tablaServicios.getElementsByTagName("tr")
+                    
+                    for (let i = 0; i < filas.length; i++) {
+                        let celda = filas[i].getElementsByTagName("td")
+                        if(celda.length > 0){
+                        let estado = celda[5].innerHTML
+                        let tipo = celda[1].innerText
+                        if(estado == "PENDIENTE" && tipo == "PAQUETE"){
+                            swal("¡Alerta!", "No puede crear un nuevo paquete, mientras tenga uno Pendiente", "warning")
+                            return
+                        }
+                    }
+                    }
+
+                    document.getElementById("formVentaPaquete").style.display = "block"
+                    document.getElementById("formVentaPaquete").reset()
+                    document.getElementById("formVentaConsulta").style.display = "none"
+                    document.getElementById("formVentaSesion").style.display = "none"
+                    document.getElementById("formVentaPrueba").style.display = "none"
+                    document.getElementById("VentaServicio").style.display = "none"
+                    document.getElementById("accVentaPaquete").value = "guardar"
+
+                    break
+                case 'prueba':
+                    document.getElementById("formVentaPrueba").style.display = "block"
+                    document.getElementById("formVentaPrueba").reset()
+                    document.getElementById("formVentaConsulta").style.display = "none"
+                    document.getElementById("formVentaSesion").style.display = "none"
+                    document.getElementById("formVentaPaquete").style.display = "none"
+                    document.getElementById("VentaServicio").style.display = "none"
+                    document.getElementById("accHistoriaVentaPrueba").value = "guardar"
+                    break
+                default:
+            }
+            document.getElementById("btnRegresar").style.display = "none"
+        }
+
+        function cargarConsultas() {
+            let select = document.getElementById("consultaVenta")
+            select.innerHTML = ""
+            let defaultOption = document.createElement("option")
+            defaultOption.value = ""
+            defaultOption.text = "Seleccione una consulta"
+            defaultOption.setAttribute("data-precio", "0")
+            select.appendChild(defaultOption)
+            let url = "{{ route('pacientes.consultas') }}"
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+
+                    data.forEach(consulta => {
+                        let option = document.createElement("option")
+                        option.value = consulta.id
+                        option.text = consulta.nombre
+                        option.setAttribute("data-precio", consulta.precio)
+
+                        select.appendChild(option)
+                    })
+                })
+                .catch(error => console.error('Error:', error))
+        }
+
+        function cargarSesiones() {
+            let select = document.getElementById("sesionVenta")
+            select.innerHTML = ""
+            let defaultOption = document.createElement("option")
+            defaultOption.value = ""
+            defaultOption.text = "Seleccione una sesión"
+            select.appendChild(defaultOption)
+            let url = "{{ route('pacientes.sesiones') }}"
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(sesion => {
+                        let option = document.createElement("option")
+                        option.value = sesion.id
+                        option.text = sesion.descripcion
+                        select.appendChild(option)
+                    })
+                })
+                .catch(error => console.error('Error:', error))
+
+        }
+
+        function cargarPaquetes() {
+            let select = document.getElementById("selPaquete")
+            select.innerHTML = ""
+            let defaultOption = document.createElement("option")
+            defaultOption.value = ""
+            defaultOption.text = "Seleccione un paquete"
+            select.appendChild(defaultOption)
+            let url = "{{ route('pacientes.paquetes') }}"
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(paquete => {
+                        let option = document.createElement("option")
+                        option.value = paquete.id
+                        option.text = paquete.descripcion
+                        option.setAttribute("data-valor", paquete.precio_por_sesion)
+                        select.appendChild(option)
+                    })
+                })
+                .catch(error => console.error('Error:', error))
+        }
+
+
+        function cargarPrecioConsulta(element) {
+            let precio = element.options[element.selectedIndex].getAttribute("data-precio")
+            let valorServConsultaVis = document.getElementById("valorServConsultaVis")
+            valorServConsultaVis.value = formatCurrency(precio, 'es-CO', 'COP')
+            let valorServConsulta = document.getElementById("valorServConsulta")
+            valorServConsulta.value = precio
+        }
+
+        function cambioFormato(id) {
+            let numero = document.getElementById(id)
+            //elimina ultimos 3 caracateres de id de numero 
+            let idPrecio = numero.id.slice(0, -3)
+            document.getElementById(idPrecio).value = numero.value
+            let formatoMoneda = formatCurrency(numero.value, 'es-CO', 'COP')
+            numero.value = formatoMoneda
+
+        }
+
+        function validartxtnum(e) {
+            tecla = e.which || e.keyCode
+            patron = /[0-9]+$/
+            te = String.fromCharCode(tecla)
+            return (patron.test(te) || tecla == 9 || tecla == 8 || tecla == 37 || tecla == 39 || tecla == 44)
+        }
+
+        function formatCurrency(number, locale, currencySymbol) {
+            return new Intl.NumberFormat(locale, {
+                style: 'currency',
+                currency: currencySymbol,
+                minimumFractionDigits: 2
+            }).format(number)
+        }
+
+        function guardarVentaConsulta() {
+
+            if ($("#formVentaConsulta").valid()) {
+
+                const formVentaConsulta = document.getElementById('formVentaConsulta')
+                const formData = new FormData(formVentaConsulta)
+                formData.append('idPaciente', document.getElementById('idPaciente').value)
+
+                const url = "{{ route('form.guardarVentaConsulta') }}"
+
+                fetch(url, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        if (data.success = 'success') {
+
+                            swal("¡Buen trabajo!", data.message, data.success)
+                            document.getElementById("formVentaConsulta").reset()
+                            document.getElementById("formVentaServicio").style.display = "none"
+                            document.getElementById("VentaServicio").style.display = "none"
+                            document.getElementById("listadoVentaServicios").style.display = "block"
+                            document.getElementById("btnRegresar").style.display = "none"
+                            document.getElementById("newVentaServicio").style.display = "block"
+                            cargarVentaServiciosPacientes(1)
+
+                        } else {
+                            swal(data.title, data.message, data.success)
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error al enviar los datos:", error)
+                    })
+            }
+        }
+
+        function cancelarVentaConsulta() {
+            document.getElementById("formVentaConsulta").style.display = "none"
+            document.getElementById("VentaServicio").style.display = "block"
+            document.getElementById("btnRegresar").style.display = "block"
+        }
+
+        function cancelarVentaSesion() {
+            document.getElementById("formVentaSesion").style.display = "none"
+            document.getElementById("VentaServicio").style.display = "block"
+            document.getElementById("btnRegresar").style.display = "block"
+        }
+
+        function cancelarVentaPaquete() {
+            document.getElementById("formVentaPaquete").style.display = "none"
+            document.getElementById("VentaServicio").style.display = "block"
+            document.getElementById("btnRegresar").style.display = "block"
+        }
+
+        function editarRegistro(idServicio) {
+
+            let listadoVentaServicios = document.getElementById("listadoVentaServicios")
+            listadoVentaServicios.style.display = "none"
+            let formularioVentaServicio = document.getElementById("formVentaServicio")
+            formVentaServicio.style.display = "block"
+            let btnNewVenta = document.getElementById("newVentaServicio")
+            btnNewVenta.style.display = "none"
+            let btnRegresar = document.getElementById("btnRegresar")
+            btnRegresar.style.display = "noen"
+
+            let url = "{{ route('pacientes.buscaServicioVenta') }}"
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        idServicio: idServicio
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+
+                    if (data.tipo == 'CONSULTA') {
+                        document.getElementById("formVentaConsulta").style.display = "block"
+                        document.getElementById("formVentaSesion").style.display = "none"
+                        document.getElementById("formVentaPaquete").style.display = "none"
+                        document.getElementById("formVentaPrueba").style.display = "none"
+
+                        document.getElementById("valorServConsultaVis").value = formatCurrency(data.precio, 'es-CO',
+                            'COP')
+                        document.getElementById("valorServConsulta").value = data.precio
+                        document.getElementById("consultaVenta").value = data.id_tipo_servicio
+                        let paraFecha = data.fecha.split(" ")
+                        document.getElementById("fechaVentaConsulta").value = paraFecha[0]
+                        document.getElementById("horaSeleccionadaVentaConsulta").value = paraFecha[1]
+                        document.getElementById("idConsultaVenta").value = data.id
+                        document.getElementById("accHistoriaVenta").value = 'editar'
+
+                    } else if (data.tipo == 'SESION') {
+
+                        document.getElementById("formVentaSesion").style.display = "block"
+                        document.getElementById("formVentaConsulta").style.display = "none"
+                        document.getElementById("formVentaPaquete").style.display = "none"
+                        document.getElementById("formVentaPrueba").style.display = "none"
+
+                        document.getElementById("valorServSesionVis").value = formatCurrency(data.precio, 'es-CO',
+                            'COP')
+                        document.getElementById("valorServSesion").value = data.precio
+                        document.getElementById("sesionVenta").value = data.id_tipo_servicio
+                        let paraFecha = data.fecha.split(" ")
+                        document.getElementById("fechaVentaSesion").value = paraFecha[0]
+                        document.getElementById("horaSeleccionadaVentaSesion").value = paraFecha[1]
+                        document.getElementById("idVentaSesion").value = data.id
+
+                        document.getElementById("accHistoriaVentaSesion").value = 'editar'
+                    } else if (data.tipo == 'PAQUETE') {
+                        document.getElementById("formVentaPaquete").style.display = "block"
+                        document.getElementById("formVentaConsulta").style.display = "none"
+                        document.getElementById("formVentaSesion").style.display = "none"
+                        document.getElementById("formVentaPrueba").style.display = "none"
+
+                        document.getElementById("selPaquete").value = data.id_tipo_servicio
+                        document.getElementById("numSesiones").value = data.cantidad
+                        document.getElementById("precioSesion").value = data.precio	
+                        document.getElementById("precioSesionVis").value = formatCurrency(data.precio, 'es-CO', 'COP')
+                        document.getElementById("montoFinal").value = data.precio * data.cantidad
+                        document.getElementById("montoFinalVis").value = formatCurrency(data.precio	* data.cantidad, 'es-CO', 'COP')
+                        document.getElementById("idVentaPaquete").value = data.id
+                        document.getElementById("accVentaPaquete").value = 'editar'
+                        
+                    } else if (data.tipo == 'PRUEBA') {
+                        document.getElementById("formVentaPrueba").style.display = "block"
+                        document.getElementById("formVentaConsulta").style.display = "none"
+                        document.getElementById("formVentaSesion").style.display = "none"
+                        document.getElementById("formVentaPaquete").style.display = "none"
+                    }
+                })
+                .catch(error => console.error('Error:', error))
+
+
+        }
+
+        function eliminarRegistro(idServicio) {
+
+
+            swal({
+                title: "Esta seguro de eliminar este servicio ?",
+                text: "¡No podrás revertir esto!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, eliminar!",
+                cancelButtonText: "Cancelar",
+                confirmButtonClass: "btn btn-warning",
+                cancelButtonClass: "btn btn-danger ml-1",
+                buttonsStyling: false
+            }, function(isConfirm) {
+                if (isConfirm) {
+                    let url = "{{ route('pacientes.eliminarServicioVenta') }}"
+                    fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content')
+                            },
+                            body: JSON.stringify({
+                                idServicio: idServicio
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                swal("¡Buen trabajo!",
+                                    data.message,
+                                    "success")
+                                cargarVentaServiciosPacientes(1)
+                            } else {
+                                swal("¡Alerta!",
+                                    "La operación fue realizada exitosamente",
+                                    data.message,
+                                    "success");
+                            }
+                        })
+
+                } else {
+                    swal("Cancelado", "Tu registro esta salvo :)", "error")
+                }
+            })
+        }
+
+        function guardarVentaSesion() {
+            if ($("#formVentaSesion").valid()) {
+
+                const formVentaSesion = document.getElementById('formVentaSesion')
+                const formData = new FormData(formVentaSesion)
+                formData.append('idPaciente', document.getElementById('idPaciente').value)
+
+                const url = "{{ route('form.guardarVentaSesion') }}"
+
+                fetch(url, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        if (data.success = 'success') {
+
+                            swal("¡Buen trabajo!", data.message, data.success)
+                            document.getElementById("formVentaSesion").reset()
+                            document.getElementById("formVentaServicio").style.display = "none"
+                            document.getElementById("VentaServicio").style.display = "none"
+                            document.getElementById("listadoVentaServicios").style.display = "block"
+                            document.getElementById("btnRegresar").style.display = "none"
+                            document.getElementById("newVentaServicio").style.display = "block"
+                            cargarVentaServiciosPacientes(1)
+
+                        } else {
+                            swal(data.title, data.message, data.success)
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error al enviar los datos:", error)
+                    })
+            }
+        }
+
+        function seleccionarPaquete(element) {
+            let precio = element.options[element.selectedIndex].getAttribute('data-valor')
+            var formatoMoneda = formatCurrency(precio, 'es-CO', 'COP')
+            document.getElementById("precioSesion").value = precio
+            document.getElementById("precioSesionVis").value = formatoMoneda
+          
+            calValorMonto()
+        }
+
+        function calValorMonto() {
+
+            let valor = document.getElementById("precioSesion").value
+            let nsesiones = document.getElementById("numSesiones").value
+            let total = valor * nsesiones
+            document.getElementById("montoFinal").value = total
+            let formatoMoneda = formatCurrency(total, 'es-CO', 'COP')
+            document.getElementById("montoFinalVis").value = formatoMoneda
+        }
+
+        function guardarPaquetes() {
+            if ($("#formVentaPaquete").valid()) {
+
+                const formVentaPaquete = document.getElementById('formVentaPaquete')
+                const formData = new FormData(formVentaPaquete)
+                formData.append('idPaciente', document.getElementById('idPaciente').value)
+
+                const url = "{{ route('form.guardarPaqueteVenta') }}"
+
+                fetch(url, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+
+                        if (data.success = 'success') {
+                            swal(data.title, data.message, data.success)
+                            document.getElementById("formVentaPaquete").style.display = "none" 
+                            document.getElementById("formVentaServicio").style.display = "none"
+                            document.getElementById("VentaServicio").style.display = "none"
+                            document.getElementById("btnRegresar").style.display = "none"
+                            document.getElementById("listadoVentaServicios").style.display = "block"
+                            document.getElementById("newVentaServicio").style.display = "block"
+                            cargarVentaServiciosPacientes(1)
+                        } else {
+                            swal(data.title, data.message, data.success)
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error al enviar los datos:", error)
+                    })
+
+            }
+        }
     </script>
+
+    <style>
+        /* Estilos mejorados para las cards */
+        .modal-body {
+            max-height: 75vh;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .service-card {
+            height: 100%;
+            min-height: 220px;
+            transition: all 0.3s ease;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .service-card .card-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1.5rem;
+            height: 100%;
+        }
+
+        .icon-circle {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1.25rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover .icon-circle {
+            transform: scale(1.1);
+        }
+
+        .service-description {
+            flex-grow: 1;
+            margin: 1rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .service-description h6 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .service-description p {
+            color: #6c757d;
+            margin-bottom: 0;
+            line-height: 1.4;
+        }
+
+        .service-card .btn {
+            width: 100%;
+            padding: 0.5rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .service-card .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Colores personalizados para los fondos de los iconos */
+        .bg-primary-light {
+            background-color: rgba(var(--bs-primary-rgb), 0.15);
+        }
+
+        .bg-success-light {
+            background-color: rgba(var(--bs-success-rgb), 0.15);
+        }
+
+        .bg-warning-light {
+            background-color: rgba(var(--bs-warning-rgb), 0.15);
+        }
+
+        .bg-info-light {
+            background-color: rgba(var(--bs-info-rgb), 0.15);
+        }
+    </style>
 
 @endsection

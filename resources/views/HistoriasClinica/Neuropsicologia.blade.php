@@ -1546,16 +1546,16 @@
                                         <div class="tab-pane show active" id="justified-tabs-preview">
                                             <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
                                                 <!--
-                                                                    <li class="nav-item">
-                                                                        <a href="#datos_iniciales" data-bs-toggle="tab"
-                                                                            aria-expanded="false" class="nav-link rounded-0 active">
-                                                                            <span class="d-none d-md-block">
-                                                                                <i class="fa fa-user-circle"></i>
-                                                                                Datos Iniciales
-                                                                            </span>
-                                                                        </a>
-                                                                    </li>
-                                                                    -->
+                                                                        <li class="nav-item">
+                                                                            <a href="#datos_iniciales" data-bs-toggle="tab"
+                                                                                aria-expanded="false" class="nav-link rounded-0 active">
+                                                                                <span class="d-none d-md-block">
+                                                                                    <i class="fa fa-user-circle"></i>
+                                                                                    Datos Iniciales
+                                                                                </span>
+                                                                            </a>
+                                                                        </li>
+                                                                        -->
                                                 <li class="nav-item">
                                                     <a href="#resumenEval" data-bs-toggle="tab" aria-expanded="true"
                                                         class="nav-link rounded-0">
@@ -1981,7 +1981,107 @@
         </div><!-- /.modal -->
     </div><!-- /.modal -->
 
-    <div class="modal fade" id="modalErrores" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    <!-- MODAL PRUEBAS -->
+    <div class="modal fade" id="modalPrueba" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 70%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="tituloPrueba">Listado de pruebas vendidas</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formPruebas" style="display: none;">
+                        <input type="hidden" name="accVentaPrueba" id="accVentaPrueba" value="guardar" />
+                        <input type="hidden" name="idVentaPrueba" id="idVentaPrueba" value="" />
+                        <input type="hidden" id="idPacienteVentaPrueba" name="idPacienteVentaPrueba" />
+                        <input type="hidden" name="tipoHistoria" id="tipoHistoria" value="NEUROPSICOLOGIA" />
+                        <input type="hidden" name="descripcionVentaPrueba" id="descripcionVentaPrueba"
+                            value="" />
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <label for="descripcion" class="form-label">Prueba :</label>
+                                    <select class="form-control select2" onchange="seleccionarPrueba(this);"
+                                        id="selPrueba" name="selPrueba" aria-invalid="false">
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="fechaPrueba" class="form-label">Fecha :</label>
+                                    <input type="date" class="form-control" id="fechaPrueba" name="fechaPrueba">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="descripcion" class="form-label">Descripción :</label>
+                                    <textarea class="form-control" id="descripcionPrueba" name="descripcionPrueba"></textarea>
+                                </div>
+
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="precioPruebaVis" class="form-label">Valor :</label>
+                                    <input type="text" class="form-control" id="precioPruebaVis"
+                                        name="precioPruebaVis" onchange="cambioFormato(this.id);"
+                                        onkeypress="return validartxtnum(event)" onclick="this.select();">
+                                    <input type="hidden" class="form-control" id="precioPrueba"
+                                        name="precioPrueba">
+                                </div>
+                            </div>
+
+
+                            <div class="box-footer text-end">
+                                <button type="button" id="cancelRegistroPrueba" onclick="cancelarPrueba();"
+                                    class="btn btn-primary-light me-1">
+                                    <i class="ti-close"></i> Cancelar
+                                </button>
+                                <button type="button" id="saveRegistroPrueba" onclick="guardarPruebas();"
+                                    class="btn btn-primary">
+                                    <i class="ti-save"></i> Guardar
+                                </button>
+                            </div>
+
+                        </div>
+                    </form>
+                    <div id="listPruebas">
+                        <div class="box-controls pull-right">
+                            <div class="box-header-actions">
+                                <div class="input-group input-group-merge">
+                                    <input type="text" id="busquedaP" class="form-control">
+                                    <div class="input-group-text" data-password="false">
+                                        <span class="fa fa-search"></span>
+                                    </div>
+                                    <button type="button" onclick="nuevaPrueba();"
+                                        class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i> Nueva
+                                        prueba</button>
+                                </div>
+                            </div>
+                        </div>
+                        <table id="tblPruebas" class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Descripción</th>
+                                    <th>Fecha de compra</th>
+                                    <th>Valor</th>
+                                    <th>Estado</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="trRegistrosPruebas">
+
+                            </tbody>
+                        </table>
+                        <div id="pagination-links-pruebas" class="text-center ml-1 mt-2">
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+    < <div class="modal fade" id="modalErrores" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
             <div class="modal-content">
@@ -1994,722 +2094,1613 @@
                 </div>
             </div>
         </div>
-    </div>
+        </div>
 
-    <script>
-        window.userPermissions = @json(Auth::user()->permissions);
-        var idHistoriaImprimir = "";
-        document.addEventListener("DOMContentLoaded", function() {
+        <script>
+            window.userPermissions = @json(Auth::user()->permissions);
+            var idHistoriaImprimir = "";
+            document.addEventListener("DOMContentLoaded", function() {
 
-            let menuP = document.getElementById("principalHistoriClinica");
-            let menuS = document.getElementById("principalHistoriClinicaNeuropsicología");
+                let menuP = document.getElementById("principalHistoriClinica");
+                let menuS = document.getElementById("principalHistoriClinicaNeuropsicología");
 
-            menuP.classList.add("active", "menu-open");
-            menuS.classList.add("active");
-            let rtotal = $("#RutaTotal").data("ruta");
+                menuP.classList.add("active", "menu-open");
+                menuS.classList.add("active");
+                let rtotal = $("#RutaTotal").data("ruta");
 
-            //Initialize Select2 Elements
-            $('.select2').select2();
+                //Initialize Select2 Elements
+                $('.select2').select2();
 
-            $('.examen').select2({
-                placeholder: "Seleccione..."
-            });
+                $('.examen').select2({
+                    placeholder: "Seleccione..."
+                });
 
-            $('#selPaquete').select2({
-                dropdownParent: $('#modalPaquete'),
-                width: '100%'
-            });
+                $('#selPaquete').select2({
+                    dropdownParent: $('#modalPaquete'),
+                    width: '100%'
+                });
+                $('#selPrueba').select2({
+                    dropdownParent: $('#modalPrueba'),
+                    width: '100%'
+                });
 
 
-            $('#codConsulta').select2({
-                dropdownAutoWidth: true,
-                width: '100%',
-                placeholder: 'Buscar consulta por código o nombre...',
-                language: {
-                    inputTooShort: function() {
-                        return 'Por favor, ingresa al menos un carácter';
+                $('#codConsulta').select2({
+                    dropdownAutoWidth: true,
+                    width: '100%',
+                    placeholder: 'Buscar consulta por código o nombre...',
+                    language: {
+                        inputTooShort: function() {
+                            return 'Por favor, ingresa al menos un carácter';
+                        },
+                        noResults: function() {
+                            return 'No se encontraron resultados.';
+                        },
+                        searching: function() {
+                            return 'Buscando...';
+                        }
                     },
-                    noResults: function() {
-                        return 'No se encontraron resultados.';
-                    },
-                    searching: function() {
-                        return 'Buscando...';
-                    }
-                },
-                minimumInputLength: 1, // Requiere al menos 1 carácter
-                ajax: {
-                    transport: function(params, success, failure) {
-                        const query = params.data.q || ''; // Término de búsqueda
-                        const page = params.data.page || 1; // Número de página
+                    minimumInputLength: 1, // Requiere al menos 1 carácter
+                    ajax: {
+                        transport: function(params, success, failure) {
+                            const query = params.data.q || ''; // Término de búsqueda
+                            const page = params.data.page || 1; // Número de página
 
-                        fetch(`${rtotal}historia/buscaCUPS?q=${query}&page=${page}`, {
-                                method: 'GET',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                cache: 'no-cache'
-                            })
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error('Error en la solicitud');
-                                }
-                                return response.json();
-                            })
-                            .then(data => {
-
-                                const results = {
-                                    results: data.data,
-                                    pagination: {
-                                        more: (page * 30) < data.total_count
+                            fetch(`${rtotal}historia/buscaCUPS?q=${query}&page=${page}`, {
+                                    method: 'GET',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    cache: 'no-cache'
+                                })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Error en la solicitud');
                                     }
-                                };
-                                success(results); // Envía los resultados a Select2
-                            })
-                            .catch(error => {
-                                console.error('Error al buscar:', error);
-                                failure(error); // Maneja errores en Select2
-                            });
+                                    return response.json();
+                                })
+                                .then(data => {
+
+                                    const results = {
+                                        results: data.data,
+                                        pagination: {
+                                            more: (page * 30) < data.total_count
+                                        }
+                                    };
+                                    success(results); // Envía los resultados a Select2
+                                })
+                                .catch(error => {
+                                    console.error('Error al buscar:', error);
+                                    failure(error); // Maneja errores en Select2
+                                });
+                        }
+                    },
+                    escapeMarkup: function(markup) {
+                        return markup; // Evita inyección de HTML
                     }
-                },
-                escapeMarkup: function(markup) {
-                    return markup; // Evita inyección de HTML
-                }
-            });
+                });
 
-            //VALIDAR FORMULARIO VENTA CONSULTA
-            $("#formVentaConsulta").validate({
-                rules: {
-                    ConsultaVenta: {
-                        required: true
+                //VALIDAR FORMULARIO VENTA CONSULTA
+                $("#formVentaConsulta").validate({
+                    rules: {
+                        ConsultaVenta: {
+                            required: true
+                        },
+                        fechaVentaConsulta: {
+                            required: true
+                        },
+                        valorServConsultaVis: {
+                            required: true
+                        }
+
+
                     },
-                    fechaVentaConsulta: {
-                        required: true
+                    messages: {
+                        ConsultaVenta: {
+                            required: "Por favor, ingrese la descripción de la consulta"
+                        },
+                        fechaVentaConsulta: {
+                            required: "Por favor, seleccione una fecha"
+                        },
+                        valorServConsultaVis: {
+                            required: "Por favor, ingrese el valor de la consulta"
+                        }
+
                     },
-                    valorServConsultaVis: {
-                        required: true
+                    submitHandler: function(form) {
+                        guardarVentaConsulta()
                     }
+                });
+                ////
 
+                //VALIDAR FORMULARIO VENTA SESION
+                $("#formVentaSesion").validate({
+                    rules: {
+                        descripcionVentaSesion: {
+                            required: true
+                        },
+                        fechaVentaSesion: {
+                            required: true
+                        },
+                        valorServSesionVis: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        descripcionVentaSesion: {
+                            required: "Por favor, ingrese la descripción de la sesión"
+                        },
+                        fechaVentaSesion: {
+                            required: "Por favor, seleccione una fecha"
+                        },
+                        valorServSesionVis: {
+                            required: "Por favor, ingrese el valor de la sesión"
+                        }
 
-                },
-                messages: {
-                    ConsultaVenta: {
-                        required: "Por favor, ingrese la descripción de la consulta"
                     },
-                    fechaVentaConsulta: {
-                        required: "Por favor, seleccione una fecha"
-                    },
-                    valorServConsultaVis: {
-                        required: "Por favor, ingrese el valor de la consulta"
+                    submitHandler: function(form) {
+                        guardarVentaSesion()
                     }
+                });
+                ////
 
-                },
-                submitHandler: function(form) {
-                    guardarVentaConsulta()
-                }
-            });
-            ////
+                //VALIDAR FORMULARIO DE PAQUETES
 
-            //VALIDAR FORMULARIO VENTA SESION
-            $("#formVentaSesion").validate({
-                rules: {
-                    descripcionVentaSesion: {
-                        required: true
+                $("#formPaquetes").validate({
+                    rules: {
+                        selPaquete: {
+                            required: true
+                        },
+                        fechaPaquete: {
+                            required: true
+                        },
+                        precioSesion: {
+                            required: true
+                        },
+                        numSesiones: {
+                            required: true
+                        }
+
                     },
-                    fechaVentaSesion: {
-                        required: true
+                    messages: {
+                        selPaquete: {
+                            required: "Por favor, seleccione un paquete"
+                        },
+                        fechaPaquete: {
+                            required: "Por favor, seleccione una fecha"
+                        },
+                        precioSesion: {
+                            required: "Por favor, ingrese el valor de la sesión"
+                        },
+                        numSesiones: {
+                            required: "Por favor, ingrese el número de sesiones"
+                        }
                     },
-                    valorServSesionVis: {
-                        required: true
+                    submitHandler: function(form) {
+                        guardarPaquetes()
                     }
-                },
-                messages: {
-                    descripcionVentaSesion: {
-                        required: "Por favor, ingrese la descripción de la sesión"
+                });
+
+                //VALIDAR FORMULARIO DE PRUEBAS
+
+                $("#formPruebas").validate({
+                    rules: {
+                        selPrueba: {
+                            required: true
+                        },
+                        fechaPrueba: {
+                            required: true
+                        },
+                        precioPruebaVis: {
+                            required: true
+                        }
+
                     },
-                    fechaVentaSesion: {
-                        required: "Por favor, seleccione una fecha"
+                    messages: {
+                        selPrueba: {
+                            required: "Por favor, seleccione una prueba"
+                        },
+                        fechaPrueba: {
+                            required: "Por favor, seleccione una fecha"
+                        },
+                        precioPruebaVis: {
+                            required: "Por favor, ingrese el valor de la prueba"
+                        }
                     },
-                    valorServSesionVis: {
-                        required: "Por favor, ingrese el valor de la sesión"
+                    submitHandler: function(form) {
+                        guardarPruebas()
                     }
+                });
 
-                },
-                submitHandler: function(form) {
-                    guardarVentaSesion()
-                }
-            });
-            ////
+                $('#codDiagnostico').select2({
+                    dropdownAutoWidth: true,
+                    width: '100%',
+                    placeholder: 'Buscar diagnóstico  por código o nombre...',
+                    language: {
+                        inputTooShort: function() {
+                            return 'Por favor, ingresa al menos un carácter';
+                        },
+                        noResults: function() {
+                            return 'No se encontraron resultados.';
+                        },
+                        searching: function() {
+                            return 'Buscando...';
+                        }
+                    },
+                    minimumInputLength: 1, // Requiere al menos 1 carácter
+                    ajax: {
+                        transport: function(params, success, failure) {
+                            const query = params.data.q || ''; // Término de búsqueda
+                            const page = params.data.page || 1; // Número de página
 
-            //VALIDAR FORMULARIO DE PAQUETES
-
-            $("#formPaquetes").validate({
-                rules: {
-                    selPaquete: {
-                        required: true
-                    },
-                    fechaPaquete: {
-                        required: true
-                    },
-                    precioSesion: {
-                        required: true
-                    },
-                    numSesiones: {
-                        required: true
-                    }
-
-                },
-                messages: {
-                    selPaquete: {
-                        required: "Por favor, seleccione un paquete"
-                    },
-                    fechaPaquete: {
-                        required: "Por favor, seleccione una fecha"
-                    },
-                    precioSesion: {
-                        required: "Por favor, ingrese el valor de la sesión"
-                    },
-                    numSesiones: {
-                        required: "Por favor, ingrese el número de sesiones"
-                    }
-                },
-                submitHandler: function(form) {
-                    guardarPaquetes()
-                }
-            });
-
-            $('#codDiagnostico').select2({
-                dropdownAutoWidth: true,
-                width: '100%',
-                placeholder: 'Buscar diagnóstico  por código o nombre...',
-                language: {
-                    inputTooShort: function() {
-                        return 'Por favor, ingresa al menos un carácter';
-                    },
-                    noResults: function() {
-                        return 'No se encontraron resultados.';
-                    },
-                    searching: function() {
-                        return 'Buscando...';
-                    }
-                },
-                minimumInputLength: 1, // Requiere al menos 1 carácter
-                ajax: {
-                    transport: function(params, success, failure) {
-                        const query = params.data.q || ''; // Término de búsqueda
-                        const page = params.data.page || 1; // Número de página
-
-                        fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
-                                method: 'GET',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                cache: 'no-cache'
-                            })
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error('Error en la solicitud');
-                                }
-                                return response.json();
-                            })
-                            .then(data => {
-                                const results = {
-                                    results: data.data,
-                                    pagination: {
-                                        more: (page * 30) < data.total_count
+                            fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
+                                    method: 'GET',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    cache: 'no-cache'
+                                })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Error en la solicitud');
                                     }
-                                };
-                                success(results); // Envía los resultados a Select2
-                            })
-                            .catch(error => {
-                                console.error('Error al buscar:', error);
-                                failure(error); // Maneja errores en Select2
-                            });
-                    }
-                },
-                escapeMarkup: function(markup) {
-                    return markup; // Evita inyección de HTML
-                }
-            });
-
-            $('#codImpresionDiagnostico').select2({
-                dropdownAutoWidth: true,
-                width: '100%',
-                placeholder: 'Buscar diagnóstico  por código o nombre...',
-                language: {
-                    inputTooShort: function() {
-                        return 'Por favor, ingresa al menos un carácter';
+                                    return response.json();
+                                })
+                                .then(data => {
+                                    const results = {
+                                        results: data.data,
+                                        pagination: {
+                                            more: (page * 30) < data.total_count
+                                        }
+                                    };
+                                    success(results); // Envía los resultados a Select2
+                                })
+                                .catch(error => {
+                                    console.error('Error al buscar:', error);
+                                    failure(error); // Maneja errores en Select2
+                                });
+                        }
                     },
-                    noResults: function() {
-                        return 'No se encontraron resultados.';
-                    },
-                    searching: function() {
-                        return 'Buscando...';
+                    escapeMarkup: function(markup) {
+                        return markup; // Evita inyección de HTML
                     }
-                },
-                minimumInputLength: 1, // Requiere al menos 1 carácter
-                ajax: {
-                    transport: function(params, success, failure) {
-                        const query = params.data.q || ''; // Término de búsqueda
-                        const page = params.data.page || 1; // Número de página
+                });
 
-                        fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
-                                method: 'GET',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                cache: 'no-cache'
-                            })
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error('Error en la solicitud');
-                                }
-                                return response.json();
-                            })
-                            .then(data => {
-                                const results = {
-                                    results: data.data,
-                                    pagination: {
-                                        more: (page * 30) < data.total_count
+                $('#codImpresionDiagnostico').select2({
+                    dropdownAutoWidth: true,
+                    width: '100%',
+                    placeholder: 'Buscar diagnóstico  por código o nombre...',
+                    language: {
+                        inputTooShort: function() {
+                            return 'Por favor, ingresa al menos un carácter';
+                        },
+                        noResults: function() {
+                            return 'No se encontraron resultados.';
+                        },
+                        searching: function() {
+                            return 'Buscando...';
+                        }
+                    },
+                    minimumInputLength: 1, // Requiere al menos 1 carácter
+                    ajax: {
+                        transport: function(params, success, failure) {
+                            const query = params.data.q || ''; // Término de búsqueda
+                            const page = params.data.page || 1; // Número de página
+
+                            fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
+                                    method: 'GET',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    cache: 'no-cache'
+                                })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Error en la solicitud');
                                     }
-                                };
-                                success(results); // Envía los resultados a Select2
-                            })
-                            .catch(error => {
-                                console.error('Error al buscar:', error);
-                                failure(error); // Maneja errores en Select2
-                            });
-                    }
-                },
-                escapeMarkup: function(markup) {
-                    return markup; // Evita inyección de HTML
-                }
-            });
-
-            $('#codConsultaConsulta').select2({
-                dropdownAutoWidth: true,
-                width: '100%',
-                dropdownParent: $('#modalConsulta'),
-                placeholder: 'Buscar consulta por código o nombre...',
-                language: {
-                    inputTooShort: function() {
-                        return 'Por favor, ingresa al menos un carácter'
+                                    return response.json();
+                                })
+                                .then(data => {
+                                    const results = {
+                                        results: data.data,
+                                        pagination: {
+                                            more: (page * 30) < data.total_count
+                                        }
+                                    };
+                                    success(results); // Envía los resultados a Select2
+                                })
+                                .catch(error => {
+                                    console.error('Error al buscar:', error);
+                                    failure(error); // Maneja errores en Select2
+                                });
+                        }
                     },
-                    noResults: function() {
-                        return 'No se encontraron resultados.'
-                    },
-                    searching: function() {
-                        return 'Buscando...'
+                    escapeMarkup: function(markup) {
+                        return markup; // Evita inyección de HTML
                     }
-                },
-                minimumInputLength: 1, // Requiere al menos 1 carácter
-                ajax: {
-                    transport: function(params, success, failure) {
-                        const query = params.data.q || '' // Término de búsqueda
-                        const page = params.data.page || 1 // Número de página
+                });
 
-                        fetch(`${rtotal}historia/buscaCUPS?q=${query}&page=${page}`, {
-                                method: 'GET',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                cache: 'no-cache'
-                            })
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error('Error en la solicitud')
-                                }
-                                return response.json()
-                            })
-                            .then(data => {
+                $('#codConsultaConsulta').select2({
+                    dropdownAutoWidth: true,
+                    width: '100%',
+                    dropdownParent: $('#modalConsulta'),
+                    placeholder: 'Buscar consulta por código o nombre...',
+                    language: {
+                        inputTooShort: function() {
+                            return 'Por favor, ingresa al menos un carácter'
+                        },
+                        noResults: function() {
+                            return 'No se encontraron resultados.'
+                        },
+                        searching: function() {
+                            return 'Buscando...'
+                        }
+                    },
+                    minimumInputLength: 1, // Requiere al menos 1 carácter
+                    ajax: {
+                        transport: function(params, success, failure) {
+                            const query = params.data.q || '' // Término de búsqueda
+                            const page = params.data.page || 1 // Número de página
 
-                                const results = {
-                                    results: data.data,
-                                    pagination: {
-                                        more: (page * 30) < data.total_count
+                            fetch(`${rtotal}historia/buscaCUPS?q=${query}&page=${page}`, {
+                                    method: 'GET',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    cache: 'no-cache'
+                                })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Error en la solicitud')
                                     }
-                                }
-                                success(results) // Envía los resultados a Select2
-                            })
-                            .catch(error => {
-                                console.error('Error al buscar:', error)
-                                failure(error) // Maneja errores en Select2
-                            })
-                    }
-                },
-                escapeMarkup: function(markup) {
-                    return markup // Evita inyección de HTML
-                }
-            })
+                                    return response.json()
+                                })
+                                .then(data => {
 
-            $('#codImpresionDiagnosticoConsulta').select2({
-                dropdownAutoWidth: true,
-                width: '100%',
-                dropdownParent: $('#modalConsulta'),
-                placeholder: 'Buscar diagnóstico  por código o nombre...',
-                language: {
-                    inputTooShort: function() {
-                        return 'Por favor, ingresa al menos un carácter'
-                    },
-                    noResults: function() {
-                        return 'No se encontraron resultados.'
-                    },
-                    searching: function() {
-                        return 'Buscando...'
-                    }
-                },
-                minimumInputLength: 1, // Requiere al menos 1 carácter
-                ajax: {
-                    transport: function(params, success, failure) {
-                        const query = params.data.q || '' // Término de búsqueda
-                        const page = params.data.page || 1 // Número de página
-
-                        fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
-                                method: 'GET',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                cache: 'no-cache'
-                            })
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error('Error en la solicitud')
-                                }
-                                return response.json()
-                            })
-                            .then(data => {
-                                const results = {
-                                    results: data.data,
-                                    pagination: {
-                                        more: (page * 30) < data.total_count
+                                    const results = {
+                                        results: data.data,
+                                        pagination: {
+                                            more: (page * 30) < data.total_count
+                                        }
                                     }
-                                }
-                                success(results) // Envía los resultados a Select2
-                            })
-                            .catch(error => {
-                                console.error('Error al buscar:', error)
-                                failure(error) // Maneja errores en Select2
-                            })
+                                    success(results) // Envía los resultados a Select2
+                                })
+                                .catch(error => {
+                                    console.error('Error al buscar:', error)
+                                    failure(error) // Maneja errores en Select2
+                                })
+                        }
+                    },
+                    escapeMarkup: function(markup) {
+                        return markup // Evita inyección de HTML
                     }
-                },
-                escapeMarkup: function(markup) {
-                    return markup // Evita inyección de HTML
-                }
-            })
+                })
+
+                $('#codImpresionDiagnosticoConsulta').select2({
+                    dropdownAutoWidth: true,
+                    width: '100%',
+                    dropdownParent: $('#modalConsulta'),
+                    placeholder: 'Buscar diagnóstico  por código o nombre...',
+                    language: {
+                        inputTooShort: function() {
+                            return 'Por favor, ingresa al menos un carácter'
+                        },
+                        noResults: function() {
+                            return 'No se encontraron resultados.'
+                        },
+                        searching: function() {
+                            return 'Buscando...'
+                        }
+                    },
+                    minimumInputLength: 1, // Requiere al menos 1 carácter
+                    ajax: {
+                        transport: function(params, success, failure) {
+                            const query = params.data.q || '' // Término de búsqueda
+                            const page = params.data.page || 1 // Número de página
+
+                            fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
+                                    method: 'GET',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    cache: 'no-cache'
+                                })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Error en la solicitud')
+                                    }
+                                    return response.json()
+                                })
+                                .then(data => {
+                                    const results = {
+                                        results: data.data,
+                                        pagination: {
+                                            more: (page * 30) < data.total_count
+                                        }
+                                    }
+                                    success(results) // Envía los resultados a Select2
+                                })
+                                .catch(error => {
+                                    console.error('Error al buscar:', error)
+                                    failure(error) // Maneja errores en Select2
+                                })
+                        }
+                    },
+                    escapeMarkup: function(markup) {
+                        return markup // Evita inyección de HTML
+                    }
+                })
 
 
-            const ids = [
-                'enfermedadActual',
-                'remision',
-                'motivoConsultaTexto',
-                'medicacion',
-                'objetivos_especificos',
-                'objetivo_general',
-                'observaciones_recomendaciones',
-                'sugerencia_interconsultas',
-                'evolucion_plan',
-                'sugerenciasModal',
-                'observacionesModal',
-                'objetivoGeneralModal',
-                'objetivoEspecificoModal'
-            ];
+                const ids = [
+                    'enfermedadActual',
+                    'remision',
+                    'motivoConsultaTexto',
+                    'medicacion',
+                    'objetivos_especificos',
+                    'objetivo_general',
+                    'observaciones_recomendaciones',
+                    'sugerencia_interconsultas',
+                    'evolucion_plan',
+                    'sugerenciasModal',
+                    'observacionesModal',
+                    'objetivoGeneralModal',
+                    'objetivoEspecificoModal'
+                ];
 
-            $(function() {
-                "use strict";
-                ids.forEach(id => {
-                    CKEDITOR.replace(id, {
-                        extraPlugins: 'uploadimage,pastefromword,maximize',
-                        toolbar: [{
-                                name: 'basicstyles',
-                                items: ['Bold', 'Italic', 'Underline']
-                            }, // Formato básico
-                            {
-                                name: 'paragraph',
-                                items: ['NumberedList', 'BulletedList']
-                            }, // Listas
-                            {
-                                name: 'undo',
-                                items: ['Undo', 'Redo']
-                            }, // Deshacer/rehacer
-                            {
-                                name: 'maximize',
-                                items: ['Maximize']
-                            } // Maximizar
-                        ],
-                        removePlugins: 'elementspath,mediaembed,flash,image', // Eliminar plugins innecesarios
-                        language: 'es', // Idioma en español
-                        height: 100, // Altura del editor ajustada
-                        resize_enabled: false // Deshabilitar redimensionamiento del editor
+                $(function() {
+                    "use strict";
+                    ids.forEach(id => {
+                        CKEDITOR.replace(id, {
+                            extraPlugins: 'uploadimage,pastefromword,maximize',
+                            toolbar: [{
+                                    name: 'basicstyles',
+                                    items: ['Bold', 'Italic', 'Underline']
+                                }, // Formato básico
+                                {
+                                    name: 'paragraph',
+                                    items: ['NumberedList', 'BulletedList']
+                                }, // Listas
+                                {
+                                    name: 'undo',
+                                    items: ['Undo', 'Redo']
+                                }, // Deshacer/rehacer
+                                {
+                                    name: 'maximize',
+                                    items: ['Maximize']
+                                } // Maximizar
+                            ],
+                            removePlugins: 'elementspath,mediaembed,flash,image', // Eliminar plugins innecesarios
+                            language: 'es', // Idioma en español
+                            height: 100, // Altura del editor ajustada
+                            resize_enabled: false // Deshabilitar redimensionamiento del editor
+                        });
                     });
                 });
+
+                menuP.classList.add("active");
+
+                loader = document.getElementById('loader');
+                loadNow(1);
+
+                cargarCategorias();
+                cargarProfesionales()
+                cargarHistorias(1);
+
+                // Evento click para la paginación
+                document.addEventListener('click', function(event) {
+                    if (event.target.matches('.pagination a')) {
+                        event.preventDefault()
+                        var href = event.target.getAttribute('href')
+                        var page = href.split('page=')[1]
+
+                        // Asegurarse de que 'page' sea un número antes de hacer la solicitud
+                        if (!isNaN(page)) {
+                            cargarHistorias(page)
+                        }
+                    }
+                })
+                // Evento input para el campo de búsqueda
+                document.getElementById('busqueda').addEventListener('input', function() {
+                    var searchTerm = this.value
+                    cargarHistorias(1,
+                        searchTerm)
+                })
+
+                document.getElementById('busquedaPa').addEventListener('input', function() {
+                    var searchTerm = this.value
+                    cargarPacientes(1,
+                        searchTerm)
+                })
+
+                document.getElementById('bus').addEventListener('input', function() {
+                    var searchTerm = this.value
+                    cargarConsultas(1,
+                        searchTerm)
+                })
+
+                document.addEventListener('click', function(event) {
+                    if (event.target.matches('.pagPac a')) {
+                        event.preventDefault()
+                        var href = event.target.getAttribute('href')
+                        var page = href.split('page=')[1]
+
+                        // Asegurarse de que 'page' sea un número antes de hacer la solicitud
+                        if (!isNaN(page)) {
+                            cargarPacientes(page)
+                        }
+                    }
+                })
+
+                var ultimaParteURLAnterior = document.referrer.split('/').filter(Boolean).pop()
+
+                if (ultimaParteURLAnterior == "Gestionar") {
+                    let elemento = document.createElement('div')
+                    elemento.setAttribute('data-id', localStorage.getItem('idPaciente'))
+                    elemento.setAttribute('data-edad', localStorage.getItem('edadPaciente'))
+                    if (localStorage.getItem('idPaciente')) {
+                        cagaHistPaciente(elemento)
+                    }
+
+                }
             });
 
-            menuP.classList.add("active");
+            function cagaHistPaciente(element) {
+                let idPaciente = element.getAttribute("data-id")
+                let edadPaciente = parseInt(element.getAttribute("data-edad"), 10)
+                let tipoPsicologia = "";
+                if (edadPaciente < 18) {
+                    tipoPsicologia = "Pediatría"
+                    document.getElementById("infPediatria").style.display = "initial"
+                } else {
+                    tipoPsicologia = "Adulto"
+                    document.getElementById("infPediatria").style.display = "none"
 
-            loader = document.getElementById('loader');
-            loadNow(1);
-
-            cargarCategorias();
-            cargarProfesionales()
-            cargarHistorias(1);
-
-            // Evento click para la paginación
-            document.addEventListener('click', function(event) {
-                if (event.target.matches('.pagination a')) {
-                    event.preventDefault()
-                    var href = event.target.getAttribute('href')
-                    var page = href.split('page=')[1]
-
-                    // Asegurarse de que 'page' sea un número antes de hacer la solicitud
-                    if (!isNaN(page)) {
-                        cargarHistorias(page)
-                    }
-                }
-            })
-            // Evento input para el campo de búsqueda
-            document.getElementById('busqueda').addEventListener('input', function() {
-                var searchTerm = this.value
-                cargarHistorias(1,
-                    searchTerm)
-            })
-
-            document.getElementById('busquedaPa').addEventListener('input', function() {
-                var searchTerm = this.value
-                cargarPacientes(1,
-                    searchTerm)
-            })
-
-            document.getElementById('bus').addEventListener('input', function() {
-                var searchTerm = this.value
-                cargarConsultas(1,
-                    searchTerm)
-            })
-
-            document.addEventListener('click', function(event) {
-                if (event.target.matches('.pagPac a')) {
-                    event.preventDefault()
-                    var href = event.target.getAttribute('href')
-                    var page = href.split('page=')[1]
-
-                    // Asegurarse de que 'page' sea un número antes de hacer la solicitud
-                    if (!isNaN(page)) {
-                        cargarPacientes(page)
-                    }
-                }
-            })
-
-            var ultimaParteURLAnterior = document.referrer.split('/').filter(Boolean).pop()
-
-            if (ultimaParteURLAnterior == "Gestionar") {
-                let elemento = document.createElement('div')
-                elemento.setAttribute('data-id', localStorage.getItem('idPaciente'))
-                elemento.setAttribute('data-edad', localStorage.getItem('edadPaciente'))
-                if (localStorage.getItem('idPaciente')) {
-                    cagaHistPaciente(elemento)
                 }
 
-            }
-        });
+                let tipoText = document.getElementById("tipoPsicologia")
+                tipoText.value = tipoPsicologia
 
-        function cagaHistPaciente(element) {
-            let idPaciente = element.getAttribute("data-id")
-            let edadPaciente = parseInt(element.getAttribute("data-edad"), 10)
-            let tipoPsicologia = "";
-            if (edadPaciente < 18) {
-                tipoPsicologia = "Pediatría"
-                document.getElementById("infPediatria").style.display = "initial"
-            } else {
-                tipoPsicologia = "Adulto"
-                document.getElementById("infPediatria").style.display = "none"
-
+                document.getElementById('idPaciente').value = idPaciente
+                mostrarInformacionHistoria(idPaciente)
             }
 
-            let tipoText = document.getElementById("tipoPsicologia")
-            tipoText.value = tipoPsicologia
+            function cargarCategorias() {
+                return new Promise((resolve, reject) => {
 
-            document.getElementById('idPaciente').value = idPaciente
-            mostrarInformacionHistoria(idPaciente)
-        }
+                    let url = "{{ route('hitoriaPsicologica.categorias') }}";
+                    const categoriaMap = {
+                        motivoConsulta: 'MOTIVO DE CONSULTA: neuro',
+                        edad: 'APARIENCIA PERSONAL: Edad',
+                        desarrollo: 'APARIENCIA PERSONAL: Desarrollo pondoestatural',
+                        aseo: 'APARIENCIA PERSONAL: Aseo y arreglo',
+                        salud: 'APARIENCIA PERSONAL: Salud somática',
+                        facies: 'APARIENCIA PERSONAL: Facies',
+                        biotipo: 'APARIENCIA PERSONAL: Biotipo',
+                        actitud: 'APARIENCIA PERSONAL: Actitud',
+                        consciencia: 'FUNCIONES COGNITIVAS: Consciencia',
+                        orientacion: 'FUNCIONES COGNITIVAS: Orientación',
+                        memoria: 'FUNCIONES COGNITIVAS: Memoria',
+                        atencion: 'FUNCIONES COGNITIVAS: Atencion',
+                        concentracion: 'FUNCIONES COGNITIVAS: Concentración',
+                        lenguaje: 'FUNCIONES COGNITIVAS: Lenguaje',
+                        pensamiento: 'FUNCIONES COGNITIVAS: Pensamiento',
+                        afecto: 'FUNCIONES COGNITIVAS: Afecto',
+                        sensopercepcion: 'FUNCIONES COGNITIVAS: Sensopercepcion',
+                        psicomotricidad: 'FUNCIONES COGNITIVAS: Psicomotricidad',
+                        juicio: 'FUNCIONES COGNITIVAS: Juicio',
+                        inteligencia: 'FUNCIONES COGNITIVAS: Inteligencia',
+                        conciencia_enfermedad: 'FUNCIONES COGNITIVAS: Conciencia de enfermedad',
+                        sufrimiento_psicologico: 'FUNCIONES COGNITIVAS: Sufrimiento psicológico',
+                        motivacion_tratamiento: 'FUNCIONES COGNITIVAS: Motivación al tratamiento',
+                        plan_intervencion: 'PLAN DE INTERVENCIÓN',
+                    };
 
-        function cargarCategorias() {
-            return new Promise((resolve, reject) => {
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            // Recorrer el mapa de categorías
+                            Object.keys(categoriaMap).forEach(selectId => {
+                                const categoriaNom = categoriaMap[selectId];
 
-                let url = "{{ route('hitoriaPsicologica.categorias') }}";
-                const categoriaMap = {
-                    motivoConsulta: 'MOTIVO DE CONSULTA: neuro',
-                    edad: 'APARIENCIA PERSONAL: Edad',
-                    desarrollo: 'APARIENCIA PERSONAL: Desarrollo pondoestatural',
-                    aseo: 'APARIENCIA PERSONAL: Aseo y arreglo',
-                    salud: 'APARIENCIA PERSONAL: Salud somática',
-                    facies: 'APARIENCIA PERSONAL: Facies',
-                    biotipo: 'APARIENCIA PERSONAL: Biotipo',
-                    actitud: 'APARIENCIA PERSONAL: Actitud',
-                    consciencia: 'FUNCIONES COGNITIVAS: Consciencia',
-                    orientacion: 'FUNCIONES COGNITIVAS: Orientación',
-                    memoria: 'FUNCIONES COGNITIVAS: Memoria',
-                    atencion: 'FUNCIONES COGNITIVAS: Atencion',
-                    concentracion: 'FUNCIONES COGNITIVAS: Concentración',
-                    lenguaje: 'FUNCIONES COGNITIVAS: Lenguaje',
-                    pensamiento: 'FUNCIONES COGNITIVAS: Pensamiento',
-                    afecto: 'FUNCIONES COGNITIVAS: Afecto',
-                    sensopercepcion: 'FUNCIONES COGNITIVAS: Sensopercepcion',
-                    psicomotricidad: 'FUNCIONES COGNITIVAS: Psicomotricidad',
-                    juicio: 'FUNCIONES COGNITIVAS: Juicio',
-                    inteligencia: 'FUNCIONES COGNITIVAS: Inteligencia',
-                    conciencia_enfermedad: 'FUNCIONES COGNITIVAS: Conciencia de enfermedad',
-                    sufrimiento_psicologico: 'FUNCIONES COGNITIVAS: Sufrimiento psicológico',
-                    motivacion_tratamiento: 'FUNCIONES COGNITIVAS: Motivación al tratamiento',
-                    plan_intervencion: 'PLAN DE INTERVENCIÓN',
+                                // Filtrar las opciones de la categoría correspondiente
+                                const categoria = data.find(cat => cat.nombre === categoriaNom);
+                                if (categoria) {
+                                    const select = document.getElementById(selectId);
+                                    if (select) {
+                                        categoria.opciones.forEach(opcion => {
+                                            const option = document.createElement('option');
+                                            option.value = opcion.id;
+                                            option.textContent = opcion.opcion;
+                                            option.setAttribute('data-nombre', opcion.opcion
+                                                .toLowerCase());
+                                            select.appendChild(option);
+                                        });
+                                    }
+                                }
+                            });
+                        })
+                        .catch(error => console.error('Error cargando las opciones:', error));
+                });
+            }
+
+            function nuevoRegistro() {
+                var modal = new bootstrap.Modal(document.getElementById("modalHistoria"), {
+                    backdrop: 'static',
+                    keyboard: false
+                });
+
+                limpiarHistoria();
+
+                modal.show()
+                document.getElementById("loaderPacientes").style.display = "block";
+
+                let formHistoria = document.getElementById("formHistoria")
+                formHistoria.reset()
+                cargarPacientes(1)
+                mapearDatosProfesional(document.getElementById("idUsuario").value)
+                document.getElementById("btn-imprimirHistoria").style.display = "none"
+                document.getElementById("historialConsulta").innerHTML = ""
+            }
+
+            function limpiarHistoria() {
+                let formHistoria = document.getElementById("formHistoria")
+                formHistoria.reset()
+
+                for (var instanceName in CKEDITOR.instances) {
+                    CKEDITOR.instances[instanceName].setData('');
+                }
+
+                $('#motivoConsulta').val(null).trigger('change');
+                $('#codConsulta').val(null).trigger('change');
+                $('#codDiagnostico').val(null).trigger('change');
+                $('#codImpresionDiagnostico').val(null).trigger('change');
+                document.querySelectorAll('input[data-role="tagsinput"]').forEach(input => {
+                    $(input).tagsinput('removeAll');
+                });
+            }
+
+            function cargarPacientes(page, searchTerm = '') {
+                let url = "{{ route('pacientes.listaPacientesModal') }}"; // Definir la URL
+                // Eliminar los campos ocultos anteriores
+                var oldPageInput = document.getElementById('pagePac');
+                var oldSearchTermInput = document.getElementById('busquedaPac');
+                if (oldPageInput) oldPageInput.remove();
+                if (oldSearchTermInput) oldSearchTermInput.remove();
+
+                var data = {
+                    page: page,
+                    search: searchTerm
                 };
 
-                fetch(url)
+                // Limpiar la tabla antes de cargar nuevos datos
+                fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(response => response.json())
+                    .then(responseData => {
+                        // Rellenar la tabla con las filas generadas
+                        document.getElementById('trRegistrosPacientes').innerHTML = responseData.pacientes;
+                        feather.replace();
+                        // Colocar los enlaces de paginación
+                        document.getElementById('pagination-links-pacientes').innerHTML = responseData.links;
+                        loadNow(0);
+                    })
+                    .catch(error => console.error('Error:', error))
+                    .finally(() => {
+                        // Ocultar loader después de recibir la respuesta (éxito o error)
+                        document.getElementById("loaderPacientes").style.display = "none";
+                    })
+
+            }
+
+            function seleccionarPaciente(element) {
+                let idPaciente = element.getAttribute("data-id")
+
+                let edadPaciente = parseInt(element.getAttribute("data-edad"), 10)
+                let tipoPsicologia
+                if (edadPaciente < 18) {
+                    tipoPsicologia = "Pediatría"
+                    document.getElementById("infPediatria").style.display = "initial"
+                } else {
+                    tipoPsicologia = "Adulto"
+                    document.getElementById("infPediatria").style.display = "none"
+
+                }
+
+                let tipoText = document.getElementById("tipoPsicologia")
+                tipoText.value = tipoPsicologia
+
+                document.getElementById('idPaciente').value = idPaciente;
+                const modal = document.getElementById('modalHistoria');
+                const modalInstance = bootstrap.Modal.getInstance(modal);
+                modalInstance.hide();
+
+                mostrarInformacionHistoria(idPaciente)
+            }
+
+            function mostrarInformacionHistoria(idPaciente) {
+                let url = "{{ route('pacientes.buscaPacienteHistoriaNeuro') }}";
+
+                fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            idPaciente: idPaciente
+                        })
+                    })
                     .then(response => response.json())
                     .then(data => {
-                        // Recorrer el mapa de categorías
-                        Object.keys(categoriaMap).forEach(selectId => {
-                            const categoriaNom = categoriaMap[selectId];
+                        //DATOS DEL PACIENTE
 
-                            // Filtrar las opciones de la categoría correspondiente
-                            const categoria = data.find(cat => cat.nombre === categoriaNom);
-                            if (categoria) {
-                                const select = document.getElementById(selectId);
-                                if (select) {
-                                    categoria.opciones.forEach(opcion => {
-                                        const option = document.createElement('option');
-                                        option.value = opcion.id;
-                                        option.textContent = opcion.opcion;
-                                        option.setAttribute('data-nombre', opcion.opcion
-                                            .toLowerCase());
-                                        select.appendChild(option);
-                                    });
+                        if (data.historia) {
+                            swal({
+                                title: "Este paciente ya tiene una historia clínica registrada.",
+                                text: "Desea abrir la historia",
+                                type: "warning",
+                                showCancelButton: true,
+                                confirmButtonColor: "#3085d6",
+                                cancelButtonColor: "#d33",
+                                confirmButtonText: "Si, abrirla!",
+                                cancelButtonText: "Cancelar",
+                                confirmButtonClass: "btn btn-warning",
+                                cancelButtonClass: "btn btn-danger ml-1",
+                                buttonsStyling: false
+                            }, function(isConfirm) {
+                                if (isConfirm) {
+                                    mapearInfPaciente(data.paciente)
+                                    document.getElementById('listado').style.display = 'none'
+                                    document.getElementById('historia').style.display = 'block'
+                                    verHistoria(data.historia.id)
+                                }
+                            });
+                        } else {
+                            mapearInfPaciente(data.paciente)
+                            document.getElementById('listado').style.display = 'none'
+                            document.getElementById('historia').style.display = 'block'
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+
+            function mapearInfPaciente(paciente) {
+                var foto = paciente.foto;
+                const previewImage = document.getElementById('imgPaciente');
+                let url = $('#Ruta').data("ruta");
+                previewImage.src = url + "/images/FotosPacientes/" + foto;
+
+                document.getElementById("nombrePaciente").innerHTML =
+                    `${paciente.primer_nombre} ${paciente.primer_apellido} `
+                document.getElementById("edadPaciente").innerHTML = paciente.edadTexto
+
+                document.getElementById("identificacionPacienteHist").innerHTML =
+                    `${paciente.tipo_identificacion} - ${paciente.identificacion}`
+                document.getElementById("nombreCompletoPacienteHist").innerHTML =
+                    `${paciente.primer_nombre} ${paciente.segundo_nombre} ${paciente.primer_apellido} ${paciente.segundo_apellido} `
+
+
+                var fechForm = convertirFecha(paciente.fecha_nacimiento);
+                document.getElementById("fechaNacimeintoPacienteHist").innerHTML =
+                    `${fechForm} (${paciente.edadTexto})`
+                document.getElementById("tipoUsuarioPacienteHist").innerHTML = tipoUsuario(paciente
+                    .tipo_usuario)
+
+                let sexo =
+                    (paciente.sexo === "H") ? "Hombre" :
+                    (paciente.sexo === "M") ? "Mujer" :
+                    "Indeterminado o Intersexual";
+
+                document.getElementById("sexoPacienteHist").innerHTML = sexo
+                document.getElementById("emailPacienteHist").innerHTML = paciente.email
+                document.getElementById("telefonoPacienteHist").innerHTML = paciente.telefono
+                document.getElementById("direccionPacienteHist").innerHTML = paciente.direccion
+                let zona = (paciente.zona_residencial === "01") ? "Rural" : "Urbano";
+                document.getElementById("zonaResidencialPacienteHist").innerHTML = zona
+                document.getElementById("accHistoria").value = 'guardar'
+            }
+
+            function tipoUsuario(tipUsuario) {
+                let usuario =
+                    (tipUsuario === "01") ? "Contributivo cotizante" :
+                    (tipUsuario === "02") ? "Contributivo beneficiario" :
+                    (tipUsuario === "03") ? "Contributivo adicional" :
+                    (tipUsuario === "04") ? "Subsidiado" :
+                    (tipUsuario === "05") ? "No afiliado" :
+                    (tipUsuario === "06") ? "Especial o Excepcion cotizante" :
+                    (tipUsuario === "07") ? "Especial o Excepcion beneficiario" :
+                    (tipUsuario === "08") ? "Personas privadas de la libertad a cargo del Fondo Nacional de Salud" :
+                    (tipUsuario === "09") ? "Tomador / Amparado ARL" :
+                    (tipUsuario === "10") ? "Tomador / Amparado SOAT" :
+                    "Sin Especificar"
+
+                return usuario
+            }
+
+            function convertirFecha(fecha) {
+                const [año, mes, dia] = fecha.split('-');
+                const fechaFormateada = `${dia.padStart(2, '0')}/${mes.padStart(2, '0')}/${año}`;
+                return fechaFormateada;
+            }
+
+            function toggleOtro(selectElement) {
+                const inputId = selectElement.id + "_otro";
+                const inputField = document.getElementById(inputId);
+
+                // Obtener el atributo data-nombre del elemento seleccionado
+                const selectedOption = selectElement.options[selectElement.selectedIndex];
+                const dataNombre = selectedOption ? selectedOption.getAttribute('data-nombre') : null;
+
+                if (dataNombre === "otro") {
+                    inputField.classList.remove("d-none");
+                    inputField.focus();
+                } else {
+                    inputField.classList.add("d-none");
+                }
+            }
+
+            function cancelarHistoria() {
+                document.getElementById('listado').style.display = 'block';
+                document.getElementById('historia').style.display = 'none';
+            }
+
+            function guardarHistoria() {
+                if ($("#formHistoria").valid()) {
+
+                    for (var instanceName in CKEDITOR.instances) {
+                        CKEDITOR.instances[instanceName].updateElement();
+                    }
+
+                    const formHistoria = document.getElementById('formHistoria');
+                    const formData = new FormData(formHistoria);
+
+                    const url = "{{ route('form.guardarHistoriaNeuroPsicologica') }}";
+
+
+                    var error = validarFormularioEnvio();
+
+                    if (error == 1) {
+                        fetch(url, {
+                                method: 'POST',
+                                body: formData,
+                                headers: {
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                        'content')
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log(data);
+                                if (data.success == 'success') {
+                                    document.getElementById("idHistoria").value = data.id;
+                                    document.getElementById("btn-guardarHistoria").disabled = true;
+                                    cargarHistorias(1);
+                                    swal(data.title, data.message, data.success);
+                                } else {
+                                    swal(data.tittle, data.message, 'error');
+                                }
+                            })
+                            .catch(error => {
+                                console.error("Error al enviar los datos:", error);
+                            });
+                    }
+                }
+            }
+
+            function validarFormularioEnvio() {
+                var tipo = document.getElementById("tipoPsicologia");
+                var campos = [];
+
+                if (tipoPsicologia != "Pediatría") {
+                    campos = [
+                        'remision', 'codDiagnostico', 'codConsulta', 'motivoConsultaTexto',
+                        'enfermedadActual',
+                        'quirurgicos', 'toxicos', 'hospitalizaciones', 'traumaticos', 'paraclinicos',
+                        'patologia', 'medicacion', 'depresion', 'ansiedad', 'demencia', 'alcoholismo',
+                        'drogadiccion', 'discapacidad_intelectual', 'patologicos', 'otros',
+                        'historia_educativa', 'historia_laboral', 'historia_familiar', 'historia_social',
+                        'historia_socio_afectiva', 'intervencion_psiquiatria', 'intervencion_neurologia',
+                        'intervencion_neuropsicologia', 'edad', 'desarrollo',
+                        'aseo', 'salud', 'facies', 'biotipo', 'actitud', 'consciencia',
+                        'orientacion', 'memoria', 'atencion', 'concentracion', 'lenguaje',
+                        'pensamiento', 'afecto', 'sensopercepcion',
+                        'psicomotricidad', 'juicio', 'inteligencia', 'conciencia_enfermedad',
+                        'sufrimiento_psicologico', 'motivacion_tratamiento',
+                        'ciclos_del_sueno', 'apetito', 'autocuidado',
+                        'codImpresionDiagnostico', 'establecidoPrimeraVez', 'plan_intervencion',
+                        'objetivo_general', 'objetivos_especificos', 'sugerencia_interconsultas',
+                        'observaciones_recomendaciones', 'idProfesional'
+                    ];
+                } else {
+                    campos = [
+                        'remision', 'codDiagnostico', 'codConsulta', 'motivoConsultaTexto',
+                        'enfermedadActual',
+                        'quirurgicos', 'toxicos', 'hospitalizaciones', 'traumaticos', 'paraclinicos',
+                        'patologia', 'medicacion', 'edad_madre', 'enfermedades_madre', 'numero_embarazo',
+                        'enbarazo_controlado', 'planificacion', 'estado_madre', 'tipo_nacimiento', 'causa_cesarea',
+                        'reanimacion', 'peso_nacer', 'talla_nacer', 'llanto_nacer', 'hospitalizaciones_postnatales',
+                        'desarrollo_psicomotor',
+                        'control_cefalico', 'rolado', 'sedente_solo', 'gateo', 'bipedo', 'marcha', 'lenguaje_verbal',
+                        'lenguaje_verbal_fluido', 'depresion', 'ansiedad', 'demencia', 'alcoholismo',
+                        'drogadiccion', 'discapacidad_intelectual', 'patologicos', 'otros',
+                        'historia_educativa', 'historia_laboral', 'historia_familiar', 'historia_social',
+                        'historia_socio_afectiva', 'intervencion_psiquiatria', 'intervencion_neurologia',
+                        'intervencion_neuropsicologia', 'edad', 'desarrollo',
+                        'aseo', 'salud', 'facies', 'biotipo', 'actitud', 'consciencia',
+                        'orientacion', 'memoria', 'atencion', 'concentracion', 'lenguaje', 'pensamiento', 'afecto',
+                        'sensopercepcion',
+                        'psicomotricidad', 'juicio', 'inteligencia', 'conciencia_enfermedad',
+                        'sufrimiento_psicologico', 'motivacion_tratamiento', 'ciclos_del_sueno', 'apetito', 'autocuidado',
+                        'codImpresionDiagnostico', 'establecidoPrimeraVez', 'plan_intervencion',
+                        'objetivo_general', 'objetivos_especificos', 'sugerencia_interconsultas',
+                        'observaciones_recomendaciones', 'idProfesional'
+                    ];
+                }
+
+                let camposFaltantes = []; // Array para almacenar los campos incompletos
+
+                for (let campo of campos) {
+                    const elemento = document.getElementById(campo);
+                    if (!elemento) {
+                        console.error(`Campo ${campo} no encontrado`);
+                        continue;
+                    }
+
+                    let valor = '';
+
+                    // Verificar si es un select
+                    if (elemento.tagName === 'SELECT') {
+                        if (elemento.selectedIndex !== -1) {
+                            valor = elemento.options[elemento.selectedIndex].value;
+
+                            // Si el valor seleccionado es "otro", verificar el campo de texto asociado
+                            if (valor === 'otro') {
+                                const campoOtro = document.getElementById(`${campo}_otro`);
+                                if (campoOtro && !campoOtro.value.trim()) {
+                                    const label = document.querySelector(`label[for="${campo}"]`);
+                                    const nombreCampo = label ? label.textContent.trim() : campo;
+                                    camposFaltantes.push(`${nombreCampo} - Especifique Otro`);
                                 }
                             }
-                        });
-                    })
-                    .catch(error => console.error('Error cargando las opciones:', error));
-            });
-        }
+                        }
+                    } else {
+                        // Para inputs de texto y otros tipos
+                        valor = elemento.value.trim();
+                    }
 
-        function nuevoRegistro() {
-            var modal = new bootstrap.Modal(document.getElementById("modalHistoria"), {
-                backdrop: 'static',
-                keyboard: false
-            });
+                    if (!valor) {
+                        // Buscar el label asociado al campo
+                        const label = document.querySelector(`label[for="${campo}"]`);
+                        const nombreCampo = label ? label.textContent.trim() : campo;
+                        camposFaltantes.push(nombreCampo);
+                    }
+                }
 
-            limpiarHistoria();
-
-            modal.show()
-            document.getElementById("loaderPacientes").style.display = "block";
-
-            let formHistoria = document.getElementById("formHistoria")
-            formHistoria.reset()
-            cargarPacientes(1)
-            mapearDatosProfesional(document.getElementById("idUsuario").value)
-            document.getElementById("btn-imprimirHistoria").style.display = "none"
-            document.getElementById("historialConsulta").innerHTML = ""
-        }
-
-        function limpiarHistoria() {
-            let formHistoria = document.getElementById("formHistoria")
-            formHistoria.reset()
-
-            for (var instanceName in CKEDITOR.instances) {
-                CKEDITOR.instances[instanceName].setData('');
+                // Si hay campos faltantes, mostrar swal
+                if (camposFaltantes.length > 0) {
+                    swal(
+                        'Campos Incompletos',
+                        'Por favor complete los siguientes campos:\n\n' + camposFaltantes.join('\n'),
+                        'warning'
+                    );
+                    // Enfocar el primer campo faltante (excluyendo los campos "otro")
+                    const primerCampo = camposFaltantes[0].split(' - ')[0];
+                    const elementoEnfocar = document.querySelector(`[for="${primerCampo}"]`) ||
+                        document.getElementById(primerCampo);
+                    if (elementoEnfocar) {
+                        elementoEnfocar.focus();
+                    }
+                    return false;
+                }
+                return true;
             }
 
-            $('#motivoConsulta').val(null).trigger('change');
-            $('#codConsulta').val(null).trigger('change');
-            $('#codDiagnostico').val(null).trigger('change');
-            $('#codImpresionDiagnostico').val(null).trigger('change');
-            document.querySelectorAll('input[data-role="tagsinput"]').forEach(input => {
-                $(input).tagsinput('removeAll');
-            });
-        }
+            function cargarHistorias(page, searchTerm = '') {
+                let url = "{{ route('HistoriasClinicas.listaHistoriasNeuroPsicologica') }}"; // Definir la URL
 
-        function cargarPacientes(page, searchTerm = '') {
-            let url = "{{ route('pacientes.listaPacientesModal') }}"; // Definir la URL
-            // Eliminar los campos ocultos anteriores
-            var oldPageInput = document.getElementById('pagePac');
-            var oldSearchTermInput = document.getElementById('busquedaPac');
-            if (oldPageInput) oldPageInput.remove();
-            if (oldSearchTermInput) oldSearchTermInput.remove();
+                var oldPageInput = document.getElementById('page');
+                var oldSearchTermInput = document.getElementById('searchTerm');
+                if (oldPageInput) oldPageInput.remove();
+                if (oldSearchTermInput) oldSearchTermInput.remove();
 
-            var data = {
-                page: page,
-                search: searchTerm
-            };
+                var data = {
+                    page: page,
+                    search: searchTerm
+                };
 
-            // Limpiar la tabla antes de cargar nuevos datos
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then(responseData => {
-                    // Rellenar la tabla con las filas generadas
-                    document.getElementById('trRegistrosPacientes').innerHTML = responseData.pacientes;
-                    feather.replace();
-                    // Colocar los enlaces de paginación
-                    document.getElementById('pagination-links-pacientes').innerHTML = responseData.links;
-                    loadNow(0);
-                })
-                .catch(error => console.error('Error:', error))
-                .finally(() => {
-                    // Ocultar loader después de recibir la respuesta (éxito o error)
-                    document.getElementById("loaderPacientes").style.display = "none";
-                })
-
-        }
-
-        function seleccionarPaciente(element) {
-            let idPaciente = element.getAttribute("data-id")
-
-            let edadPaciente = parseInt(element.getAttribute("data-edad"), 10)
-            let tipoPsicologia
-            if (edadPaciente < 18) {
-                tipoPsicologia = "Pediatría"
-                document.getElementById("infPediatria").style.display = "initial"
-            } else {
-                tipoPsicologia = "Adulto"
-                document.getElementById("infPediatria").style.display = "none"
-
+                fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(response => response.json())
+                    .then(responseData => {
+                        // Rellenar la tabla con las filas generadas
+                        document.getElementById('hisoriasListado').innerHTML = responseData.historias;
+                        feather.replace();
+                        // Colxocar los enlaces de paginación
+                        document.getElementById('pagination-links').innerHTML = responseData.links;
+                        loadNow(0);
+                    })
+                    .catch(error => console.error('Error:', error));
             }
 
-            let tipoText = document.getElementById("tipoPsicologia")
-            tipoText.value = tipoPsicologia
+            function verHistoria(idHist) {
 
-            document.getElementById('idPaciente').value = idPaciente;
-            const modal = document.getElementById('modalHistoria');
-            const modalInstance = bootstrap.Modal.getInstance(modal);
-            modalInstance.hide();
+                idHistoriaImprimir = idHist;
 
-            mostrarInformacionHistoria(idPaciente)
-        }
+                // var btnGuardar = document.getElementById("btn-guardarHistoria")
+                // btnGuardar.disabled = true
 
-        function mostrarInformacionHistoria(idPaciente) {
-            let url = "{{ route('pacientes.buscaPacienteHistoriaNeuro') }}";
+                document.getElementById('listado').style.display = 'none'
+                document.getElementById('historia').style.display = 'block'
+                document.getElementById("btn-imprimirHistoria").style.display = "initial"
 
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        idPaciente: idPaciente
+                let url = "{{ route('historia.buscaHistoriaNeuroPsicologica') }}";
+
+                fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            idHist: idHist
+                        })
                     })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    //DATOS DEL PACIENTE
+                    .then(response => response.json())
+                    .then(data => {
+                        mapearInfPaciente(data.paciente)
+                        mapearHisoria(data.historia)
+                        mapearAntedentesPersonales(data.antecedentesPersonales)
+                        mapearAntedentesFamiliares(data.antecedentesFamiliares)
+                        mapearAreaDesempeno(data.areaAjuste)
+                        mapearInterconsulta(data.interconuslta)
+                        mapearAparienciaPersonal(data.aparienciaPersonal)
+                        mapearFuncionesCognitivas(data.funcionesCognitiva)
+                        mapearFuncionesSomaticas(data.funcionesSomaticas)
 
-                    if (data.historia) {
+                        mapearHistorialConsultas(data.historialConsultas)
+
+                        if (data.historia.tipologia == "Pediatría") {
+                            document.getElementById("infPediatria").style.display = "initial"
+                            mapearAntecedentesPrenatales(data.antecedentesPrenatales)
+                            mapearAntecedentesNatales(data.antecedentesNatales)
+                            mapearAntecedentesPosnatales(data.antecedentesPosnatales)
+                            mapearDesarrolloPsicomotor(data.desarrolloPsicomotor)
+                        } else {
+                            document.getElementById("infPediatria").style.display = "none"
+                        }
+
+                        //   deshabilitarInputsBotones();
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+
+            function deshabilitarInputsBotones() {
+                var formulario = document.getElementById("formHistoria");
+                var elementos = formulario.querySelectorAll("input, select, button, textarea");
+                elementos.forEach(function(elemento) {
+                    elemento.disabled = true;
+                });
+
+                document.getElementById("cke_remision").style.pointerEvents = 'none';
+                document.getElementById("cke_motivoConsultaTexto").style.pointerEvents = 'none';
+                document.getElementById("cke_enfermedadActual").style.pointerEvents = 'none';
+                document.getElementById("cke_medicacion").style.pointerEvents = 'none';
+                document.getElementById("cke_objetivo_general").style.pointerEvents = 'none';
+                document.getElementById("cke_objetivos_especificos").style.pointerEvents = 'none';
+                document.getElementById("cke_sugerencia_interconsultas").style.pointerEvents = 'none';
+                document.getElementById("cke_observaciones_recomendaciones").style.pointerEvents = 'none';
+                document.getElementById("btn-imprimirHistoria").disabled = false;
+                document.getElementById("btnCancelar").disabled = false;
+            }
+
+            function editarHistoria(element) {
+                document.getElementById('listado').style.display = 'none'
+                document.getElementById('historia').style.display = 'block'
+
+                let idHist = element.getAttribute("data-id")
+                let tipoHis = element.getAttribute("data-tipo")
+                idHistoriaImprimir = idHist;
+
+                var btnGuardar = document.getElementById("btn-guardarHistoria")
+                btnGuardar.disabled = false
+
+                let url = "{{ route('historia.buscaHistoriaNeuroPsicologica') }}";
+
+                let params = new URLSearchParams({
+                    idHist: idHist
+                });
+
+                url += '?' + params.toString();
+
+                fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        mapearInfPaciente(data.paciente)
+                        mapearHisoria(data.historia)
+                        mapearAntedentesPersonales(data.antecedentesPersonales)
+                        mapearAntedentesFamiliares(data.antecedentesFamiliares)
+                        mapearAreaDesempeno(data.areaAjuste)
+                        mapearInterconsulta(data.interconuslta)
+                        mapearAparienciaPersonal(data.aparienciaPersonal)
+                        mapearFuncionesCognitivas(data.funcionesCognitiva)
+                        mapearFuncionesSomaticas(data.funcionesSomaticas)
+
+                        mapearHistorialConsultas(data.historialConsultas)
+
+                        if (data.historia.tipologia == "Pediatría") {
+                            document.getElementById("infPediatria").style.display = "initial"
+                            mapearAntecedentesPrenatales(data.antecedentesPrenatales)
+                            mapearAntecedentesNatales(data.antecedentesNatales)
+                            mapearAntecedentesPosnatales(data.antecedentesPosnatales)
+                            mapearDesarrolloPsicomotor(data.desarrolloPsicomotor)
+                        } else {
+                            document.getElementById("infPediatria").style.display = "none"
+                        }
+
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+
+            function mapearHisoria(historia) {
+                document.getElementById("accHistoria").value = "editar"
+                document.getElementById("idHistoria").value = historia.id
+                document.getElementById("idPaciente").value = historia.id_paciente
+                document.getElementById("estadoHistoria").value = historia.estado_hitoria
+
+                CKEDITOR.instances['remision'].setData(historia.remision)
+                CKEDITOR.instances['motivoConsultaTexto'].setData(historia.motivo_consulta_texto)
+
+                cargarSelConsulta(historia.codigo_consulta, 'codConsulta')
+
+                const valoresConsulta = historia.motivo_consulta.split(',')
+
+                const motivoConsulta = document.getElementById('motivoConsulta')
+
+                // Restablecer las selecciones actuales (solo en este select)
+                Array.from(motivoConsulta.options).forEach(option => {
+                    option.selected = false
+                })
+
+                // Marcar las opciones como seleccionadas (solo las especificadas)
+                valoresConsulta.forEach(value => {
+                    const option = motivoConsulta.querySelector(`option[value="${value}"]`)
+                    if (option) {
+                        option.selected = true
+                    }
+                })
+
+                // Actualizar Select2 para reflejar los cambios
+                if ($(motivoConsulta).hasClass('select2')) {
+                    $(motivoConsulta).val(valoresConsulta).trigger('change') // Cambiar el valor y disparar el evento 'change'
+                }
+
+                if (historia.estado_hitoria == "cerrada") {
+                    var btnGuardar = document.getElementById("btn-guardarHistoria")
+                    btnGuardar.disabled = true
+                } else {
+                    var btnGuardar = document.getElementById("btn-guardarHistoria")
+                    btnGuardar.disabled = false
+                }
+
+                cargarDxPrincipa(historia.dx_principal)
+
+                document.getElementById('establecidoPrimeraVez').value = historia.diagnostico_primera_vez
+                $('#establecidoPrimeraVez').trigger('change')
+
+                document.getElementById("otroMotivo").value = historia.otro_motivo_consulta
+                cargarImpresion(historia.codigo_diagnostico, 'codImpresionDiagnostico')
+
+                CKEDITOR.instances['enfermedadActual'].setData(historia.enfermedad_actual)
+                CKEDITOR.instances['objetivo_general'].setData(historia.objetivo_general)
+                CKEDITOR.instances['objetivos_especificos'].setData(historia.objetivos_especificos)
+                CKEDITOR.instances['sugerencia_interconsultas'].setData(historia.sugerencias_interconsultas)
+                CKEDITOR.instances['observaciones_recomendaciones'].setData(historia.observaciones_recomendaciones)
+                document.getElementById("tipoPsicologia").value = historia.tipologia
+
+                document.getElementById('plan_intervencion').value = historia.plan_intervension
+                $('#plan_intervencion').trigger('change')
+
+                mapearDatosProfesional(historia.id_profesional)
+            }
+
+            function mapearAntedentesPersonales(antecedentesPersonales) {
+                antecedentesPersonales.forEach(item => {
+                    const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
+
+                    if (element) {
+                        if (item.tipo == "medicacion") {
+                            CKEDITOR.instances['medicacion'].setData(item.detalle)
+                        } else {
+                            if (element.dataset.role === "tagsinput") {
+                                $(element).tagsinput('add', item.detalle);
+                            } else if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                                if (element.style.visibility == "hidden") {
+                                    CKEDITOR.instances[item.tipo].setData(item.detalle);
+                                } else {
+                                    element.value = item.detalle;
+                                }
+                            } else if (element.tagName === "SELECT") {
+                                element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                                $('#' + item.tipo).val(item.detalle).trigger('change')
+
+                            } else {
+                                console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                            }
+                        }
+
+                    } else {
+                        console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+                    }
+                })
+            }
+
+            function mapearAntedentesFamiliares(antecedentesFamiliares) {
+                antecedentesFamiliares.forEach(item => {
+                    const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
+                    if (element) {
+                        if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                            element.value = item.detalle // Asignar el valor al input o textarea
+                        } else if (element.tagName === "SELECT") {
+                            element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                            $('#' + item.tipo).val(item.detalle).trigger('change')
+                        } else {
+                            console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                        }
+                    } else {
+                        console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+                    }
+                })
+            }
+
+            function mapearAreaDesempeno(antecedentesAreaAjuste) {
+                antecedentesAreaAjuste.forEach(item => {
+                    const element = document.getElementById(item.area)
+                    if (element) {
+                        element.value = item.detalle
+                    } else {
+                        console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+                    }
+                })
+            }
+
+            function mapearInterconsulta(interconuslta) {
+                interconuslta.forEach(item => {
+
+                    const element = document.getElementById(item.tipo)
+                    if (element) {
+                        element.value = item.detalle
+                    } else {
+                        console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+                    }
+                })
+            }
+
+            function mapearAparienciaPersonal(apariencia) {
+                apariencia.forEach(item => {
+                    const element = document.getElementById(item.caracteristica)
+                    if (element) {
+                        if (element.tagName === "INPUT") {
+                            element.value = item.detalle // Asignar el valor al input o textarea
+                        } else if (element.tagName === "SELECT") {
+                            const valores = item.detalle ? item.detalle.split(',') : []
+
+                            // Asignar el valor en Select2 correctamente
+                            $('#' + item.caracteristica).val(valores).trigger('change')
+                        } else {
+                            console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                        }
+                    } else {
+                        console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+                    }
+                })
+            }
+
+            function mapearFuncionesCognitivas(cognitivas) {
+                cognitivas.forEach(item => {
+                    const element = document.getElementById(item.caracteristica)
+                    if (element) {
+                        if (element.tagName === "INPUT") {
+                            element.value = item.detalle // Asignar el valor al input o textarea
+                        } else if (element.tagName === "SELECT") {
+                            const valores = item.detalle ? item.detalle.split(',') : []
+                            $('#' + item.caracteristica).val(valores).trigger('change')
+                        } else {
+                            console.warn(`El elemento con ID "${item.caracteristica}" no es compatible.`)
+                        }
+                    } else {
+                        console.error(`No se encontró un elemento con el ID "${item.caracteristica}".`)
+                    }
+                })
+            }
+
+            function mapearFuncionesSomaticas(somaticas) {
+                if (somaticas) {
+                    document.getElementById("ciclos_del_sueno").value = somaticas.ciclos_del_sueno
+                    document.getElementById("apetito").value = somaticas.apetito
+                    document.getElementById("autocuidado").value = somaticas.actividades_autocuidado
+                }
+            }
+
+            function cargarSelConsulta(codigo_consulta, id) {
+                let rtotal = $("#RutaTotal").data("ruta")
+
+                if (codigo_consulta) {
+                    // Hacer una petición para buscar el texto correspondiente al ID
+                    fetch(`${rtotal}historia/buscaCUPS?id=${codigo_consulta}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error al obtener el valor para codConsulta')
+                            }
+                            return response.json()
+                        })
+                        .then(data => {
+                            if (data && data.id && data.text) {
+                                // Agregar opción al select si no está ya presente
+                                const newOption = new Option(data.text, data.id, true, true)
+                                $('#' + id).append(newOption).trigger('change')
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error al cargar codConsulta:', error)
+                        })
+                }
+            }
+
+            function cargarDxPrincipa(codigo_dx) {
+                let rtotal = $("#RutaTotal").data("ruta")
+
+                if (codigo_dx) {
+                    // Hacer una petición para buscar el texto correspondiente al ID
+                    fetch(`${rtotal}historia/buscaCIE?id=${codigo_dx}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error al obtener el valor para codConsulta')
+                            }
+                            return response.json()
+                        })
+                        .then(data => {
+                            if (data && data.id && data.text) {
+                                // Agregar opción al select si no está ya presente
+                                const newOption = new Option(data.text, data.id, true, true)
+                                $('#codDiagnostico').append(newOption).trigger('change')
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error al cargar codDiagnostico:', error)
+                        })
+                }
+            }
+
+            function cargarImpresion(codigo_dx, id) {
+                let rtotal = $("#RutaTotal").data("ruta")
+
+                if (codigo_dx) {
+                    // Hacer una petición para buscar el texto correspondiente al ID
+                    fetch(`${rtotal}historia/buscaCIE?id=${codigo_dx}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error al obtener el valor para codConsulta')
+                            }
+                            return response.json()
+                        })
+                        .then(data => {
+                            if (data && data.id && data.text) {
+                                // Agregar opción al select si no está ya presente
+                                const newOption = new Option(data.text, data.id, true, true)
+                                $('#' + id).append(newOption).trigger('change')
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error al cargar codDiagnostico:', error)
+                        })
+                }
+            }
+
+            function mapearDatosProfesional(idProf) {
+
+                let url = "{{ route('historia.buscaProfesionalHistoria') }}"
+                fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            idProf: idProf
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+
+                        if (data.profesional) {
+                            document.getElementById("defaulProfesional").style.display = "initial"
+                            document.getElementById("divProfesional").style.display = "none"
+                            document.getElementById("idProfesional").value = data.profesional.usuario
+                            document.getElementById("nombreProfesional").innerHTML = data.profesional.nombre
+                            document.getElementById("registroProfesional").innerHTML =
+                                `<strong>Tarjeta Profesional:</strong> ${data.profesional.registro}`
+
+                            let firmaProfesional = document.getElementById('firmaProfesional')
+                            let url = $('#Ruta').data("ruta")
+                            firmaProfesional.src = url + "/images/firmasProfesionales/" + data.profesional.firma
+
+                        } else {
+                            document.getElementById("defaulProfesional").style.display = "none"
+                            document.getElementById("divProfesional").style.display = "initial"
+
+                        }
+
+                    })
+                    .catch(error => console.error('Error:', error))
+            }
+
+            function mapearDesarrolloPsicomotor(antecedentesPrenatales) {
+                antecedentesPrenatales.forEach(item => {
+                    const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
+
+                    if (element) {
+                        if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                            element.value = item.detalle // Asignar el valor al input o textarea
+                        } else if (element.tagName === "SELECT") {
+                            element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                            $('#' + item.tipo).val(item.detalle).trigger('change')
+                        } else {
+                            console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                        }
+                    } else {
+                        console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+                    }
+                })
+            }
+
+            function mapearAntecedentesPosnatales(antecedentesPrenatales) {
+                antecedentesPrenatales.forEach(item => {
+                    const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
+                    if (element) {
+                        if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                            element.value = item.detalle // Asignar el valor al input o textarea
+                        } else if (element.tagName === "SELECT") {
+                            element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                            $('#' + item.tipo).val(item.detalle).trigger('change')
+                        } else {
+                            console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                        }
+                    } else {
+                        console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+                    }
+                })
+            }
+
+            function mapearAntecedentesPrenatales(antecedentesPrenatales) {
+                antecedentesPrenatales.forEach(item => {
+                    const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
+
+                    if (element) {
+                        if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                            element.value = item.detalle // Asignar el valor al input o textarea
+                        } else if (element.tagName === "SELECT") {
+                            element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                            $('#' + item.tipo).val(item.detalle).trigger('change')
+                        } else {
+                            console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                        }
+                    } else {
+                        console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+                    }
+                })
+            }
+
+            function mapearAntecedentesNatales(antecedentesPrenatales) {
+                antecedentesPrenatales.forEach(item => {
+                    const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
+
+                    if (element) {
+                        if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                            element.value = item.detalle // Asignar el valor al input o textarea
+                        } else if (element.tagName === "SELECT") {
+                            element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                            $('#' + item.tipo).val(item.detalle).trigger('change')
+                        } else {
+                            console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                        }
+                    } else {
+                        console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+                    }
+                })
+            }
+
+            function hasPermission(permission) {
+                return window.userPermissions && window.userPermissions.includes(permission);
+            }
+
+            function cerrarHistoria(element) {
+                let idHist = element.getAttribute("data-id")
+                let estado = element.getAttribute("data-estado")
+
+                if (hasPermission('editarHistoria')) {
+                    if (estado == "abierta") {
                         swal({
-                            title: "Este paciente ya tiene una historia clínica registrada.",
-                            text: "Desea abrir la historia",
+                            title: "Cerrar historia clinica del paciente.",
+                            text: "Al cerrar la historia clicnica del paciente esta no podra ser editada, ¿Desea cerrar la historia?",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Si, cerrarla!",
+                            cancelButtonText: "Cancelar",
+                            confirmButtonClass: "btn btn-warning",
+                            cancelButtonClass: "btn btn-danger ml-1",
+                            buttonsStyling: false
+                        }, function(isConfirm) {
+                            if (isConfirm) {
+                                let url = "{{ route('historia.cerrarHistoriaNeuro') }}"
+                                fetch(url, {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                                .getAttribute(
+                                                    'content')
+                                        },
+                                        body: JSON.stringify({
+                                            idHist: idHist,
+                                            estado: estado
+                                        })
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.success) {
+                                            swal("¡Buen trabajo!",
+                                                data.message,
+                                                "success");
+                                            cargarHistorias(1);
+                                        } else {
+                                            swal("¡Alerta!",
+                                                "La operación fue realizada exitosamente",
+                                                data.message,
+                                                "success");
+                                        }
+                                    })
+                            }
+                        })
+                    } else {
+                        swal({
+                            title: "Abrir historia clinica del paciente.",
+                            text: "Al abrir la historia clicnica del paciente esta podra ser editada, ¿Desea abrir la historia?",
                             type: "warning",
                             showCancelButton: true,
                             confirmButtonColor: "#3085d6",
@@ -2721,818 +3712,178 @@
                             buttonsStyling: false
                         }, function(isConfirm) {
                             if (isConfirm) {
-                                mapearInfPaciente(data.paciente)
-                                document.getElementById('listado').style.display = 'none'
-                                document.getElementById('historia').style.display = 'block'
-                                verHistoria(data.historia.id)
+                                let url = "{{ route('historia.cerrarHistoriaNeuro') }}";
+                                fetch(url, {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                                .getAttribute(
+                                                    'content')
+                                        },
+                                        body: JSON.stringify({
+                                            idHist: idHist,
+                                            estado: estado
+                                        })
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.success) {
+                                            swal("¡Buen trabajo!",
+                                                data.message,
+                                                "success")
+                                            cargarHistorias(1)
+                                        } else {
+                                            swal("¡Alerta!",
+                                                "La operación fue realizada exitosamente",
+                                                data.message,
+                                                "success")
+                                        }
+                                    })
                             }
-                        });
-                    } else {
-                        mapearInfPaciente(data.paciente)
-                        document.getElementById('listado').style.display = 'none'
-                        document.getElementById('historia').style.display = 'block'
+                        })
                     }
-                })
-                .catch(error => console.error('Error:', error));
-        }
-
-        function mapearInfPaciente(paciente) {
-            var foto = paciente.foto;
-            const previewImage = document.getElementById('imgPaciente');
-            let url = $('#Ruta').data("ruta");
-            previewImage.src = url + "/images/FotosPacientes/" + foto;
-
-            document.getElementById("nombrePaciente").innerHTML =
-                `${paciente.primer_nombre} ${paciente.primer_apellido} `
-            document.getElementById("edadPaciente").innerHTML = paciente.edadTexto
-
-            document.getElementById("identificacionPacienteHist").innerHTML =
-                `${paciente.tipo_identificacion} - ${paciente.identificacion}`
-            document.getElementById("nombreCompletoPacienteHist").innerHTML =
-                `${paciente.primer_nombre} ${paciente.segundo_nombre} ${paciente.primer_apellido} ${paciente.segundo_apellido} `
-
-
-            var fechForm = convertirFecha(paciente.fecha_nacimiento);
-            document.getElementById("fechaNacimeintoPacienteHist").innerHTML =
-                `${fechForm} (${paciente.edadTexto})`
-            document.getElementById("tipoUsuarioPacienteHist").innerHTML = tipoUsuario(paciente
-                .tipo_usuario)
-
-            let sexo =
-                (paciente.sexo === "H") ? "Hombre" :
-                (paciente.sexo === "M") ? "Mujer" :
-                "Indeterminado o Intersexual";
-
-            document.getElementById("sexoPacienteHist").innerHTML = sexo
-            document.getElementById("emailPacienteHist").innerHTML = paciente.email
-            document.getElementById("telefonoPacienteHist").innerHTML = paciente.telefono
-            document.getElementById("direccionPacienteHist").innerHTML = paciente.direccion
-            let zona = (paciente.zona_residencial === "01") ? "Rural" : "Urbano";
-            document.getElementById("zonaResidencialPacienteHist").innerHTML = zona
-            document.getElementById("accHistoria").value = 'guardar'
-        }
-
-        function tipoUsuario(tipUsuario) {
-            let usuario =
-                (tipUsuario === "01") ? "Contributivo cotizante" :
-                (tipUsuario === "02") ? "Contributivo beneficiario" :
-                (tipUsuario === "03") ? "Contributivo adicional" :
-                (tipUsuario === "04") ? "Subsidiado" :
-                (tipUsuario === "05") ? "No afiliado" :
-                (tipUsuario === "06") ? "Especial o Excepcion cotizante" :
-                (tipUsuario === "07") ? "Especial o Excepcion beneficiario" :
-                (tipUsuario === "08") ? "Personas privadas de la libertad a cargo del Fondo Nacional de Salud" :
-                (tipUsuario === "09") ? "Tomador / Amparado ARL" :
-                (tipUsuario === "10") ? "Tomador / Amparado SOAT" :
-                "Sin Especificar"
-
-            return usuario
-        }
-
-        function convertirFecha(fecha) {
-            const [año, mes, dia] = fecha.split('-');
-            const fechaFormateada = `${dia.padStart(2, '0')}/${mes.padStart(2, '0')}/${año}`;
-            return fechaFormateada;
-        }
-
-        function toggleOtro(selectElement) {
-            const inputId = selectElement.id + "_otro";
-            const inputField = document.getElementById(inputId);
-
-            // Obtener el atributo data-nombre del elemento seleccionado
-            const selectedOption = selectElement.options[selectElement.selectedIndex];
-            const dataNombre = selectedOption ? selectedOption.getAttribute('data-nombre') : null;
-
-            if (dataNombre === "otro") {
-                inputField.classList.remove("d-none");
-                inputField.focus();
-            } else {
-                inputField.classList.add("d-none");
+                } else {
+                    swal("¡Alerta!",
+                        "No tiene el permiso necesario para realizar esta acción",
+                        "warning")
+                }
             }
-        }
 
-        function cancelarHistoria() {
-            document.getElementById('listado').style.display = 'block';
-            document.getElementById('historia').style.display = 'none';
-        }
 
-        function guardarHistoria() {
-            if ($("#formHistoria").valid()) {
+            function nuevoRegistroConsulta() {
+                document.getElementById("listadoConsultas").style.display = "none"
+                document.getElementById("fomrConsultas").style.display = "initial"
+                document.getElementById("titConsulta").innerHTML = "Agregar consulta"
+                document.getElementById("accHistoriaConsulta").value = "guardar"
+                limpiarConsulta();
+            }
 
-                for (var instanceName in CKEDITOR.instances) {
-                    CKEDITOR.instances[instanceName].updateElement();
+            function guardarConsulta() {
+                if ($("#formConsulta").valid()) {
+                    for (var instanceName in CKEDITOR.instances) {
+                        CKEDITOR.instances[instanceName].updateElement()
+                    }
+                    const formConsulta = document.getElementById('formConsulta')
+                    const formData = new FormData(formConsulta)
+                    formData.append('idHist', document.getElementById("idHistoria").value)
+
+                    const url = "{{ route('form.guardarConsultaNeuroPsicologica') }}"
+                    var error = validarFormularioConsultaEnvio();
+
+                    if (!error) {
+                        fetch(url, {
+                                method: 'POST',
+                                body: formData,
+                                headers: {
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                        'content')
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log(data)
+                                if (data.success = 'success') {
+
+                                    swal(data.title, data.message, data.success)
+                                    cargarConsultas(1)
+                                    document.getElementById("listadoConsultas").style.display = "initial"
+                                    document.getElementById("fomrConsultas").style.display = "none"
+
+                                } else {
+                                    swal(data.title, data.message, data.success)
+                                }
+                            })
+                            .catch(error => {
+                                console.error("Error al enviar los datos:", error)
+                            })
+                    }
+                }
+            }
+
+            function validarFormularioConsultaEnvio() {
+                var error = false
+                var mensaje = ""
+                if (document.getElementById("fechaEvolucion").value == "") {
+                    error = true
+                    mensaje += "Debe seleccionar la fecha de la evolución. \n"
+                }
+                if (document.getElementById("horaSeleccionada").value == "") {
+                    error = true
+                    mensaje += "Debe seleccionar la hora de la evolución.  \n"
+                }
+                if (document.getElementById("evolucion_plan").value == "") {
+                    error = true
+                    mensaje += "Debe ingresar la evolución y plan de trabajo"
                 }
 
-                const formHistoria = document.getElementById('formHistoria');
-                const formData = new FormData(formHistoria);
+                if (error) {
+                    swal("¡Alerta!", mensaje, "warning");
+                }
 
-                const url = "{{ route('form.guardarHistoriaNeuroPsicologica') }}";
+                return error;
+            }
 
 
-                var error = validarFormularioEnvio();
+            function editarConsulta(idConsulta) {
+                if (hasPermission('editarEvoluciones')) {
 
-                if (error == 1) {
+                    document.getElementById("listadoConsultas").style.display = "none"
+                    document.getElementById("fomrConsultas").style.display = "initial"
+
+                    document.getElementById("idHistoriaConsulta").value = idConsulta
+                    document.getElementById("accHistoriaConsulta").value = "editar"
+
+                    let url = "{{ route('historia.buscaConsultaNeuroPsicologica') }}"
+
                     fetch(url, {
                             method: 'POST',
-                            body: formData,
                             headers: {
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                                    'content')
-                            }
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                idConsulta: idConsulta
+                            })
                         })
                         .then(response => response.json())
                         .then(data => {
-                            console.log(data);
-                            if (data.success == 'success') {
-                                document.getElementById("idHistoria").value = data.id;
-                                document.getElementById("btn-guardarHistoria").disabled = true;
-                                cargarHistorias(1);
-                                swal(data.title, data.message, data.success);
-                            } else {
-                                swal(data.tittle, data.message, 'error');
-                            }
+                            cargarSelConsulta(data.consulta.codigo_consulta, 'codConsultaConsulta')
+
+                            cargarImpresion(data.consulta.impresion_diagnostica, 'codImpresionDiagnosticoConsulta')
+
+                            CKEDITOR.instances['evolucion_plan'].setData(data.consulta.evolucion_y_o_plantrabajo)
+
+                            document.getElementById("fechaEvolucion").value = data.consulta.fecha_consulta.split(' ')[0];
+                            document.getElementById("horaSeleccionada").value = data.consulta.fecha_consulta.split(' ')[1];
                         })
-                        .catch(error => {
-                            console.error("Error al enviar los datos:", error);
-                        });
-                }
-            }
-        }
-
-        function validarFormularioEnvio() {
-            var tipo = document.getElementById("tipoPsicologia");
-            var campos = [];
-
-            if (tipoPsicologia != "Pediatría") {
-                campos = [
-                    'remision', 'codDiagnostico', 'codConsulta', 'motivoConsultaTexto',
-                    'enfermedadActual',
-                    'quirurgicos', 'toxicos', 'hospitalizaciones', 'traumaticos', 'paraclinicos',
-                    'patologia', 'medicacion', 'depresion', 'ansiedad', 'demencia', 'alcoholismo',
-                    'drogadiccion', 'discapacidad_intelectual', 'patologicos', 'otros',
-                    'historia_educativa', 'historia_laboral', 'historia_familiar', 'historia_social',
-                    'historia_socio_afectiva', 'intervencion_psiquiatria', 'intervencion_neurologia',
-                    'intervencion_neuropsicologia', 'edad', 'desarrollo',
-                    'aseo', 'salud', 'facies', 'biotipo', 'actitud', 'consciencia',
-                    'orientacion', 'memoria', 'atencion', 'concentracion', 'lenguaje',
-                    'pensamiento', 'afecto', 'sensopercepcion',
-                    'psicomotricidad', 'juicio', 'inteligencia', 'conciencia_enfermedad',
-                    'sufrimiento_psicologico', 'motivacion_tratamiento',
-                    'ciclos_del_sueno', 'apetito', 'autocuidado',
-                    'codImpresionDiagnostico', 'establecidoPrimeraVez', 'plan_intervencion',
-                    'objetivo_general', 'objetivos_especificos', 'sugerencia_interconsultas',
-                    'observaciones_recomendaciones', 'idProfesional'
-                ];
-            } else {
-                campos = [
-                    'remision', 'codDiagnostico', 'codConsulta', 'motivoConsultaTexto',
-                    'enfermedadActual',
-                    'quirurgicos', 'toxicos', 'hospitalizaciones', 'traumaticos', 'paraclinicos',
-                    'patologia', 'medicacion', 'edad_madre', 'enfermedades_madre', 'numero_embarazo',
-                    'enbarazo_controlado', 'planificacion', 'estado_madre', 'tipo_nacimiento', 'causa_cesarea',
-                    'reanimacion', 'peso_nacer', 'talla_nacer', 'llanto_nacer', 'hospitalizaciones_postnatales',
-                    'desarrollo_psicomotor',
-                    'control_cefalico', 'rolado', 'sedente_solo', 'gateo', 'bipedo', 'marcha', 'lenguaje_verbal',
-                    'lenguaje_verbal_fluido', 'depresion', 'ansiedad', 'demencia', 'alcoholismo',
-                    'drogadiccion', 'discapacidad_intelectual', 'patologicos', 'otros',
-                    'historia_educativa', 'historia_laboral', 'historia_familiar', 'historia_social',
-                    'historia_socio_afectiva', 'intervencion_psiquiatria', 'intervencion_neurologia',
-                    'intervencion_neuropsicologia', 'edad', 'desarrollo',
-                    'aseo', 'salud', 'facies', 'biotipo', 'actitud', 'consciencia',
-                    'orientacion', 'memoria', 'atencion', 'concentracion', 'lenguaje', 'pensamiento', 'afecto',
-                    'sensopercepcion',
-                    'psicomotricidad', 'juicio', 'inteligencia', 'conciencia_enfermedad',
-                    'sufrimiento_psicologico', 'motivacion_tratamiento', 'ciclos_del_sueno', 'apetito', 'autocuidado',
-                    'codImpresionDiagnostico', 'establecidoPrimeraVez', 'plan_intervencion',
-                    'objetivo_general', 'objetivos_especificos', 'sugerencia_interconsultas',
-                    'observaciones_recomendaciones', 'idProfesional'
-                ];
-            }
-
-            let camposFaltantes = []; // Array para almacenar los campos incompletos
-
-            for (let campo of campos) {
-                const elemento = document.getElementById(campo);
-                if (!elemento) {
-                    console.error(`Campo ${campo} no encontrado`);
-                    continue;
-                }
-
-                let valor = '';
-
-                // Verificar si es un select
-                if (elemento.tagName === 'SELECT') {
-                    if (elemento.selectedIndex !== -1) {
-                        valor = elemento.options[elemento.selectedIndex].value;
-
-                        // Si el valor seleccionado es "otro", verificar el campo de texto asociado
-                        if (valor === 'otro') {
-                            const campoOtro = document.getElementById(`${campo}_otro`);
-                            if (campoOtro && !campoOtro.value.trim()) {
-                                const label = document.querySelector(`label[for="${campo}"]`);
-                                const nombreCampo = label ? label.textContent.trim() : campo;
-                                camposFaltantes.push(`${nombreCampo} - Especifique Otro`);
-                            }
-                        }
-                    }
+                        .catch(error => console.error('Error:', error))
                 } else {
-                    // Para inputs de texto y otros tipos
-                    valor = elemento.value.trim();
-                }
-
-                if (!valor) {
-                    // Buscar el label asociado al campo
-                    const label = document.querySelector(`label[for="${campo}"]`);
-                    const nombreCampo = label ? label.textContent.trim() : campo;
-                    camposFaltantes.push(nombreCampo);
+                    swal("¡Alerta!",
+                        "No tiene el permiso necesario para realizar esta acción",
+                        "warning")
                 }
             }
 
-            // Si hay campos faltantes, mostrar swal
-            if (camposFaltantes.length > 0) {
-                swal(
-                    'Campos Incompletos',
-                    'Por favor complete los siguientes campos:\n\n' + camposFaltantes.join('\n'),
-                    'warning'
-                );
-                // Enfocar el primer campo faltante (excluyendo los campos "otro")
-                const primerCampo = camposFaltantes[0].split(' - ')[0];
-                const elementoEnfocar = document.querySelector(`[for="${primerCampo}"]`) ||
-                    document.getElementById(primerCampo);
-                if (elementoEnfocar) {
-                    elementoEnfocar.focus();
-                }
-                return false;
-            }
-            return true;
-        }
 
-        function cargarHistorias(page, searchTerm = '') {
-            let url = "{{ route('HistoriasClinicas.listaHistoriasNeuroPsicologica') }}"; // Definir la URL
 
-            var oldPageInput = document.getElementById('page');
-            var oldSearchTermInput = document.getElementById('searchTerm');
-            if (oldPageInput) oldPageInput.remove();
-            if (oldSearchTermInput) oldSearchTermInput.remove();
-
-            var data = {
-                page: page,
-                search: searchTerm
-            };
-
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then(responseData => {
-                    // Rellenar la tabla con las filas generadas
-                    document.getElementById('hisoriasListado').innerHTML = responseData.historias;
-                    feather.replace();
-                    // Colxocar los enlaces de paginación
-                    document.getElementById('pagination-links').innerHTML = responseData.links;
-                    loadNow(0);
-                })
-                .catch(error => console.error('Error:', error));
-        }
-
-        function verHistoria(idHist) {
-
-            idHistoriaImprimir = idHist;
-
-            // var btnGuardar = document.getElementById("btn-guardarHistoria")
-            // btnGuardar.disabled = true
-
-            document.getElementById('listado').style.display = 'none'
-            document.getElementById('historia').style.display = 'block'
-            document.getElementById("btn-imprimirHistoria").style.display = "initial"
-
-            let url = "{{ route('historia.buscaHistoriaNeuroPsicologica') }}";
-
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        idHist: idHist
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    mapearInfPaciente(data.paciente)
-                    mapearHisoria(data.historia)
-                    mapearAntedentesPersonales(data.antecedentesPersonales)
-                    mapearAntedentesFamiliares(data.antecedentesFamiliares)
-                    mapearAreaDesempeno(data.areaAjuste)
-                    mapearInterconsulta(data.interconuslta)
-                    mapearAparienciaPersonal(data.aparienciaPersonal)
-                    mapearFuncionesCognitivas(data.funcionesCognitiva)
-                    mapearFuncionesSomaticas(data.funcionesSomaticas)
-
-                    mapearHistorialConsultas(data.historialConsultas)
-
-                    if (data.historia.tipologia == "Pediatría") {
-                        document.getElementById("infPediatria").style.display = "initial"
-                        mapearAntecedentesPrenatales(data.antecedentesPrenatales)
-                        mapearAntecedentesNatales(data.antecedentesNatales)
-                        mapearAntecedentesPosnatales(data.antecedentesPosnatales)
-                        mapearDesarrolloPsicomotor(data.desarrolloPsicomotor)
-                    } else {
-                        document.getElementById("infPediatria").style.display = "none"
-                    }
-
-                    //   deshabilitarInputsBotones();
-                })
-                .catch(error => console.error('Error:', error));
-        }
-
-        function deshabilitarInputsBotones() {
-            var formulario = document.getElementById("formHistoria");
-            var elementos = formulario.querySelectorAll("input, select, button, textarea");
-            elementos.forEach(function(elemento) {
-                elemento.disabled = true;
-            });
-
-            document.getElementById("cke_remision").style.pointerEvents = 'none';
-            document.getElementById("cke_motivoConsultaTexto").style.pointerEvents = 'none';
-            document.getElementById("cke_enfermedadActual").style.pointerEvents = 'none';
-            document.getElementById("cke_medicacion").style.pointerEvents = 'none';
-            document.getElementById("cke_objetivo_general").style.pointerEvents = 'none';
-            document.getElementById("cke_objetivos_especificos").style.pointerEvents = 'none';
-            document.getElementById("cke_sugerencia_interconsultas").style.pointerEvents = 'none';
-            document.getElementById("cke_observaciones_recomendaciones").style.pointerEvents = 'none';
-            document.getElementById("btn-imprimirHistoria").disabled = false;
-            document.getElementById("btnCancelar").disabled = false;
-        }
-
-        function editarHistoria(element) {
-            document.getElementById('listado').style.display = 'none'
-            document.getElementById('historia').style.display = 'block'
-
-            let idHist = element.getAttribute("data-id")
-            let tipoHis = element.getAttribute("data-tipo")
-            idHistoriaImprimir = idHist;
-
-            var btnGuardar = document.getElementById("btn-guardarHistoria")
-            btnGuardar.disabled = false
-
-            let url = "{{ route('historia.buscaHistoriaNeuroPsicologica') }}";
-
-            let params = new URLSearchParams({
-                idHist: idHist
-            });
-
-            url += '?' + params.toString();
-
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                })
-                .then(response => response.json())
-                .then(data => {
-                    mapearInfPaciente(data.paciente)
-                    mapearHisoria(data.historia)
-                    mapearAntedentesPersonales(data.antecedentesPersonales)
-                    mapearAntedentesFamiliares(data.antecedentesFamiliares)
-                    mapearAreaDesempeno(data.areaAjuste)
-                    mapearInterconsulta(data.interconuslta)
-                    mapearAparienciaPersonal(data.aparienciaPersonal)
-                    mapearFuncionesCognitivas(data.funcionesCognitiva)
-                    mapearFuncionesSomaticas(data.funcionesSomaticas)
-
-                    mapearHistorialConsultas(data.historialConsultas)
-
-                    if (data.historia.tipologia == "Pediatría") {
-                        document.getElementById("infPediatria").style.display = "initial"
-                        mapearAntecedentesPrenatales(data.antecedentesPrenatales)
-                        mapearAntecedentesNatales(data.antecedentesNatales)
-                        mapearAntecedentesPosnatales(data.antecedentesPosnatales)
-                        mapearDesarrolloPsicomotor(data.desarrolloPsicomotor)
-                    } else {
-                        document.getElementById("infPediatria").style.display = "none"
-                    }
-
-                })
-                .catch(error => console.error('Error:', error));
-        }
-
-        function mapearHisoria(historia) {
-            document.getElementById("accHistoria").value = "editar"
-            document.getElementById("idHistoria").value = historia.id
-            document.getElementById("idPaciente").value = historia.id_paciente
-            document.getElementById("estadoHistoria").value = historia.estado_hitoria
-
-            CKEDITOR.instances['remision'].setData(historia.remision)
-            CKEDITOR.instances['motivoConsultaTexto'].setData(historia.motivo_consulta_texto)
-
-            cargarSelConsulta(historia.codigo_consulta, 'codConsulta')
-
-            const valoresConsulta = historia.motivo_consulta.split(',')
-
-            const motivoConsulta = document.getElementById('motivoConsulta')
-
-            // Restablecer las selecciones actuales (solo en este select)
-            Array.from(motivoConsulta.options).forEach(option => {
-                option.selected = false
-            })
-
-            // Marcar las opciones como seleccionadas (solo las especificadas)
-            valoresConsulta.forEach(value => {
-                const option = motivoConsulta.querySelector(`option[value="${value}"]`)
-                if (option) {
-                    option.selected = true
-                }
-            })
-
-            // Actualizar Select2 para reflejar los cambios
-            if ($(motivoConsulta).hasClass('select2')) {
-                $(motivoConsulta).val(valoresConsulta).trigger('change') // Cambiar el valor y disparar el evento 'change'
-            }
-
-            if (historia.estado_hitoria == "cerrada") {
-                var btnGuardar = document.getElementById("btn-guardarHistoria")
-                btnGuardar.disabled = true
-            } else {
-                var btnGuardar = document.getElementById("btn-guardarHistoria")
-                btnGuardar.disabled = false
-            }
-
-            cargarDxPrincipa(historia.dx_principal)
-
-            document.getElementById('establecidoPrimeraVez').value = historia.diagnostico_primera_vez
-            $('#establecidoPrimeraVez').trigger('change')
-
-            document.getElementById("otroMotivo").value = historia.otro_motivo_consulta
-            cargarImpresion(historia.codigo_diagnostico, 'codImpresionDiagnostico')
-
-            CKEDITOR.instances['enfermedadActual'].setData(historia.enfermedad_actual)
-            CKEDITOR.instances['objetivo_general'].setData(historia.objetivo_general)
-            CKEDITOR.instances['objetivos_especificos'].setData(historia.objetivos_especificos)
-            CKEDITOR.instances['sugerencia_interconsultas'].setData(historia.sugerencias_interconsultas)
-            CKEDITOR.instances['observaciones_recomendaciones'].setData(historia.observaciones_recomendaciones)
-            document.getElementById("tipoPsicologia").value = historia.tipologia
-
-            document.getElementById('plan_intervencion').value = historia.plan_intervension
-            $('#plan_intervencion').trigger('change')
-
-            mapearDatosProfesional(historia.id_profesional)
-        }
-
-        function mapearAntedentesPersonales(antecedentesPersonales) {
-            antecedentesPersonales.forEach(item => {
-                const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
-
-                if (element) {
-                    if (item.tipo == "medicacion") {
-                        CKEDITOR.instances['medicacion'].setData(item.detalle)
-                    } else {
-                        if (element.dataset.role === "tagsinput") {
-                            $(element).tagsinput('add', item.detalle);
-                        } else if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-                            if (element.style.visibility == "hidden") {
-                                CKEDITOR.instances[item.tipo].setData(item.detalle);
-                            } else {
-                                element.value = item.detalle;
-                            }
-                        } else if (element.tagName === "SELECT") {
-                            element.value = item.detalle.toLowerCase() // Asignar el valor a un select
-                            $('#' + item.tipo).val(item.detalle).trigger('change')
-
-                        } else {
-                            console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
-                        }
-                    }
-
-                } else {
-                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
-                }
-            })
-        }
-
-        function mapearAntedentesFamiliares(antecedentesFamiliares) {
-            antecedentesFamiliares.forEach(item => {
-                const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
-                if (element) {
-                    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-                        element.value = item.detalle // Asignar el valor al input o textarea
-                    } else if (element.tagName === "SELECT") {
-                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
-                        $('#' + item.tipo).val(item.detalle).trigger('change')
-                    } else {
-                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
-                    }
-                } else {
-                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
-                }
-            })
-        }
-
-        function mapearAreaDesempeno(antecedentesAreaAjuste) {
-            antecedentesAreaAjuste.forEach(item => {
-                const element = document.getElementById(item.area)
-                if (element) {
-                    element.value = item.detalle
-                } else {
-                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
-                }
-            })
-        }
-
-        function mapearInterconsulta(interconuslta) {
-            interconuslta.forEach(item => {
-
-                const element = document.getElementById(item.tipo)
-                if (element) {
-                    element.value = item.detalle
-                } else {
-                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
-                }
-            })
-        }
-
-        function mapearAparienciaPersonal(apariencia) {
-            apariencia.forEach(item => {
-                const element = document.getElementById(item.caracteristica)
-                if (element) {
-                    if (element.tagName === "INPUT") {
-                        element.value = item.detalle // Asignar el valor al input o textarea
-                    } else if (element.tagName === "SELECT") {
-                        const valores = item.detalle ? item.detalle.split(',') : []
-
-                        // Asignar el valor en Select2 correctamente
-                        $('#' + item.caracteristica).val(valores).trigger('change')
-                    } else {
-                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
-                    }
-                } else {
-                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
-                }
-            })
-        }
-
-        function mapearFuncionesCognitivas(cognitivas) {
-            cognitivas.forEach(item => {
-                const element = document.getElementById(item.caracteristica)
-                if (element) {
-                    if (element.tagName === "INPUT") {
-                        element.value = item.detalle // Asignar el valor al input o textarea
-                    } else if (element.tagName === "SELECT") {
-                        const valores = item.detalle ? item.detalle.split(',') : []
-                        $('#' + item.caracteristica).val(valores).trigger('change')
-                    } else {
-                        console.warn(`El elemento con ID "${item.caracteristica}" no es compatible.`)
-                    }
-                } else {
-                    console.error(`No se encontró un elemento con el ID "${item.caracteristica}".`)
-                }
-            })
-        }
-
-        function mapearFuncionesSomaticas(somaticas) {
-            if (somaticas) {
-                document.getElementById("ciclos_del_sueno").value = somaticas.ciclos_del_sueno
-                document.getElementById("apetito").value = somaticas.apetito
-                document.getElementById("autocuidado").value = somaticas.actividades_autocuidado
-            }
-        }
-
-        function cargarSelConsulta(codigo_consulta, id) {
-            let rtotal = $("#RutaTotal").data("ruta")
-
-            if (codigo_consulta) {
-                // Hacer una petición para buscar el texto correspondiente al ID
-                fetch(`${rtotal}historia/buscaCUPS?id=${codigo_consulta}`, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Error al obtener el valor para codConsulta')
-                        }
-                        return response.json()
-                    })
-                    .then(data => {
-                        if (data && data.id && data.text) {
-                            // Agregar opción al select si no está ya presente
-                            const newOption = new Option(data.text, data.id, true, true)
-                            $('#' + id).append(newOption).trigger('change')
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error al cargar codConsulta:', error)
-                    })
-            }
-        }
-
-        function cargarDxPrincipa(codigo_dx) {
-            let rtotal = $("#RutaTotal").data("ruta")
-
-            if (codigo_dx) {
-                // Hacer una petición para buscar el texto correspondiente al ID
-                fetch(`${rtotal}historia/buscaCIE?id=${codigo_dx}`, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Error al obtener el valor para codConsulta')
-                        }
-                        return response.json()
-                    })
-                    .then(data => {
-                        if (data && data.id && data.text) {
-                            // Agregar opción al select si no está ya presente
-                            const newOption = new Option(data.text, data.id, true, true)
-                            $('#codDiagnostico').append(newOption).trigger('change')
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error al cargar codDiagnostico:', error)
-                    })
-            }
-        }
-
-        function cargarImpresion(codigo_dx, id) {
-            let rtotal = $("#RutaTotal").data("ruta")
-
-            if (codigo_dx) {
-                // Hacer una petición para buscar el texto correspondiente al ID
-                fetch(`${rtotal}historia/buscaCIE?id=${codigo_dx}`, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Error al obtener el valor para codConsulta')
-                        }
-                        return response.json()
-                    })
-                    .then(data => {
-                        if (data && data.id && data.text) {
-                            // Agregar opción al select si no está ya presente
-                            const newOption = new Option(data.text, data.id, true, true)
-                            $('#' + id).append(newOption).trigger('change')
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error al cargar codDiagnostico:', error)
-                    })
-            }
-        }
-
-        function mapearDatosProfesional(idProf) {
-            
-            let url = "{{ route('historia.buscaProfesionalHistoria') }}"
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        idProf: idProf
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-
-                    if (data.profesional) {
-                        document.getElementById("defaulProfesional").style.display = "initial"
-                        document.getElementById("divProfesional").style.display = "none"
-                        document.getElementById("idProfesional").value = data.profesional.usuario
-                        document.getElementById("nombreProfesional").innerHTML = data.profesional.nombre
-                        document.getElementById("registroProfesional").innerHTML =
-                            `<strong>Tarjeta Profesional:</strong> ${data.profesional.registro}`
-
-                        let firmaProfesional = document.getElementById('firmaProfesional')
-                        let url = $('#Ruta').data("ruta")
-                        firmaProfesional.src = url + "/images/firmasProfesionales/" + data.profesional.firma
-
-                    } else {
-                        document.getElementById("defaulProfesional").style.display = "none"
-                        document.getElementById("divProfesional").style.display = "initial"
-
-                    }
-
-                })
-                .catch(error => console.error('Error:', error))
-        }
-
-        function mapearDesarrolloPsicomotor(antecedentesPrenatales) {
-            antecedentesPrenatales.forEach(item => {
-                const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
-
-                if (element) {
-                    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-                        element.value = item.detalle // Asignar el valor al input o textarea
-                    } else if (element.tagName === "SELECT") {
-                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
-                        $('#' + item.tipo).val(item.detalle).trigger('change')
-                    } else {
-                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
-                    }
-                } else {
-                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
-                }
-            })
-        }
-
-        function mapearAntecedentesPosnatales(antecedentesPrenatales) {
-            antecedentesPrenatales.forEach(item => {
-                const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
-                if (element) {
-                    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-                        element.value = item.detalle // Asignar el valor al input o textarea
-                    } else if (element.tagName === "SELECT") {
-                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
-                        $('#' + item.tipo).val(item.detalle).trigger('change')
-                    } else {
-                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
-                    }
-                } else {
-                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
-                }
-            })
-        }
-
-        function mapearAntecedentesPrenatales(antecedentesPrenatales) {
-            antecedentesPrenatales.forEach(item => {
-                const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
-
-                if (element) {
-                    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-                        element.value = item.detalle // Asignar el valor al input o textarea
-                    } else if (element.tagName === "SELECT") {
-                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
-                        $('#' + item.tipo).val(item.detalle).trigger('change')
-                    } else {
-                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
-                    }
-                } else {
-                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
-                }
-            })
-        }
-
-        function mapearAntecedentesNatales(antecedentesPrenatales) {
-            antecedentesPrenatales.forEach(item => {
-                const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
-
-                if (element) {
-                    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-                        element.value = item.detalle // Asignar el valor al input o textarea
-                    } else if (element.tagName === "SELECT") {
-                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
-                        $('#' + item.tipo).val(item.detalle).trigger('change')
-                    } else {
-                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
-                    }
-                } else {
-                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
-                }
-            })
-        }
-
-        function hasPermission(permission) {
-            return window.userPermissions && window.userPermissions.includes(permission);
-        }
-
-        function cerrarHistoria(element) {
-            let idHist = element.getAttribute("data-id")
-            let estado = element.getAttribute("data-estado")
-
-            if (hasPermission('editarHistoria')) {
-                if (estado == "abierta") {
+            function eliminarConsulta(idCons) {
+                if (hasPermission('editarEvoluciones')) {
                     swal({
-                        title: "Cerrar historia clinica del paciente.",
-                        text: "Al cerrar la historia clicnica del paciente esta no podra ser editada, ¿Desea cerrar la historia?",
+                        title: "Esta seguro de eliminar esta consulta ?",
+                        text: "¡No podrás revertir esto!",
                         type: "warning",
                         showCancelButton: true,
                         confirmButtonColor: "#3085d6",
                         cancelButtonColor: "#d33",
-                        confirmButtonText: "Si, cerrarla!",
+                        confirmButtonText: "Si, eliminar!",
                         cancelButtonText: "Cancelar",
                         confirmButtonClass: "btn btn-warning",
                         cancelButtonClass: "btn btn-danger ml-1",
                         buttonsStyling: false
                     }, function(isConfirm) {
                         if (isConfirm) {
-                            let url = "{{ route('historia.cerrarHistoriaNeuro') }}"
+                            let url = "{{ route('historia.eliminarConsultaNeuro') }}";
                             fetch(url, {
                                     method: 'POST',
                                     headers: {
@@ -3542,8 +3893,7 @@
                                                 'content')
                                     },
                                     body: JSON.stringify({
-                                        idHist: idHist,
-                                        estado: estado
+                                        idConsulta: idCons
                                     })
                                 })
                                 .then(response => response.json())
@@ -3552,7 +3902,7 @@
                                         swal("¡Buen trabajo!",
                                             data.message,
                                             "success");
-                                        cargarHistorias(1);
+                                        cargarConsultas(1);
                                     } else {
                                         swal("¡Alerta!",
                                             "La operación fue realizada exitosamente",
@@ -3560,24 +3910,109 @@
                                             "success");
                                     }
                                 })
+
+                        } else {
+                            swal("Cancelado", "Tu registro esta salvo :)", "error");
                         }
-                    })
+                    });
                 } else {
+                    swal("¡Alerta!",
+                        "No tiene el permiso necesario para realizar esta acción",
+                        "warning")
+                }
+            }
+
+            function cargarConsultas(page, searchTerm = '') {
+
+                let url = "{{ route('historia.listaConsultasModalNeuro') }}" // Definir la URL
+                // Eliminar los campos ocultos anteriores
+                var oldPageInput = document.getElementById('pageConsulta')
+                var oldSearchTermInput = document.getElementById('busquedaConsulta')
+                if (oldPageInput) oldPageInput.remove()
+                if (oldSearchTermInput) oldSearchTermInput.remove()
+
+                var data = {
+                    page: page,
+                    search: searchTerm,
+                    idHist: document.getElementById("idHistoria").value
+                }
+
+                // Limpiar la tabla antes de cargar nuevos datos
+                fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(response => response.json())
+                    .then(responseData => {
+                        // Rellenar la tabla con las filas generadas
+                        document.getElementById("historialConsulta").innerHTML = responseData.historialConsultas
+                        document.getElementById('trRegistrosConsultas').innerHTML = responseData.consultas
+                        feather.replace()
+                        // Colocar los enlaces de paginación
+                        document.getElementById('pagination-links-consulta').innerHTML = responseData.links
+                        loadNow(0)
+                    })
+                    .catch(error => console.error('Error:', error))
+            }
+
+            function evolucionHistoria(element) {
+                let idHist = element.getAttribute("data-id")
+                let estadoHis = element.getAttribute("data-estado")
+                document.getElementById("idHistoria").value = idHist
+                document.getElementById("estadoHistoria").value = estadoHis
+                abrirConsultas(1)
+            }
+
+            function abrirConsultas(op) {
+                if (document.getElementById("idHistoria").value != "") {
+                    if (document.getElementById("estadoHistoria").value == "cerrada") {
+                        var modal = new bootstrap.Modal(document.getElementById("modalConsulta"), {
+                            backdrop: 'static',
+                            keyboard: false
+                        })
+
+                        modal.show()
+                        if (op == 1) {
+                            document.getElementById("listadoConsultas").style.display = "initial"
+                            document.getElementById("fomrConsultas").style.display = "none"
+                        }
+
+                        cargarConsultas(1)
+                    } else {
+                        swal("¡Atención!",
+                            "Para gestionar las consultas la historia clinica debe estar cerrada.",
+                            "warning");
+                    }
+
+                } else {
+                    swal("¡Atención!",
+                        "El paciente no tiene una historia clínica abierta en el sistema.",
+                        "warning");
+                }
+
+            }
+
+            function eliminarHistoria(idHistoria) {
+                if (hasPermission('editarHistoria')) {
                     swal({
-                        title: "Abrir historia clinica del paciente.",
-                        text: "Al abrir la historia clicnica del paciente esta podra ser editada, ¿Desea abrir la historia?",
+                        title: "Esta seguro de eliminar esta historia ?",
+                        text: "¡No podrás revertir esto!",
                         type: "warning",
                         showCancelButton: true,
                         confirmButtonColor: "#3085d6",
                         cancelButtonColor: "#d33",
-                        confirmButtonText: "Si, abrirla!",
+                        confirmButtonText: "Si, eliminar!",
                         cancelButtonText: "Cancelar",
                         confirmButtonClass: "btn btn-warning",
                         cancelButtonClass: "btn btn-danger ml-1",
                         buttonsStyling: false
                     }, function(isConfirm) {
                         if (isConfirm) {
-                            let url = "{{ route('historia.cerrarHistoriaNeuro') }}";
+                            let url = "{{ route('historia.eliminarHistoriaNeuro') }}";
                             fetch(url, {
                                     method: 'POST',
                                     headers: {
@@ -3587,8 +4022,7 @@
                                                 'content')
                                     },
                                     body: JSON.stringify({
-                                        idHist: idHist,
-                                        estado: estado
+                                        idHistoria: idHistoria
                                     })
                                 })
                                 .then(response => response.json())
@@ -3607,42 +4041,162 @@
                                 })
                         }
                     })
+                } else {
+                    swal("¡Alerta!",
+                        "No tiene el permiso necesario para realizar esta acción",
+                        "warning")
                 }
-            } else {
-                swal("¡Alerta!",
-                    "No tiene el permiso necesario para realizar esta acción",
-                    "warning")
             }
-        }
+
+            function mapearHistorialConsultas(historialConsultas) {
+                document.getElementById("historialConsulta").innerHTML = historialConsultas
+            }
+
+            function cancelarConsulta() {
+                document.getElementById('listadoConsultas').style.display = 'block'
+                document.getElementById('fomrConsultas').style.display = 'none'
+                document.getElementById("titConsulta").innerHTML = "Gestionar consulta"
+            }
+
+            function limpiarConsulta() {
+                let formHistoria = document.getElementById("formConsulta")
+                formHistoria.reset()
+                CKEDITOR.instances['evolucion_plan'].setData('')
+            }
+
+            function imprimirHistoria(id) {
+                let url = "{{ route('historia.imprimirHistoriaNeuro') }}";
+
+                let idHisto = id || idHistoriaImprimir;
+
+                let params = new URLSearchParams({
+                    idHist: idHisto
+                });
+
+                url += '?' + params.toString();
 
 
-        function nuevoRegistroConsulta() {
-            document.getElementById("listadoConsultas").style.display = "none"
-            document.getElementById("fomrConsultas").style.display = "initial"
-            document.getElementById("titConsulta").innerHTML = "Agregar consulta"
-            document.getElementById("accHistoriaConsulta").value = "guardar"
-            limpiarConsulta();
-        }
+                swal({
+                    title: 'Cargando...',
+                    text: 'Espere mientras se genera el PDF, gracias.',
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                });
 
-        function guardarConsulta() {
-            if ($("#formConsulta").valid()) {
-                for (var instanceName in CKEDITOR.instances) {
-                    CKEDITOR.instances[instanceName].updateElement()
-                }
-                const formConsulta = document.getElementById('formConsulta')
-                const formData = new FormData(formConsulta)
-                formData.append('idHist', document.getElementById("idHistoria").value)
+                fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.url) {
+                            swal({
+                                title: "Se genero el PDF correctamente.",
+                                type: "success",
+                                showConfirmButton: true,
+                                confirmButtonText: "Visualizar",
+                                allowOutsideClick: false,
+                            }, function(isConfirm) {
+                                if (isConfirm) {
+                                    window.open(data.url, '_blank');
+                                }
+                            })
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
 
-                const url = "{{ route('form.guardarConsultaNeuroPsicologica') }}"
-                var error = validarFormularioConsultaEnvio();
+            function cargarProfesionales() {
+                let urlProfesionales = "{{ route('profesionales.cargarListaProf') }}" // Definir la URL
 
-                if (!error) {
+                fetch(urlProfesionales)
+                    .then(response => response.json())
+                    .then(data => {
+                        const selectProfesional = document.getElementById('profesionalSelect')
+                        llenarSelect(selectProfesional, data)
+                    })
+                    .catch(error => console.error('Error al cargar profesionales:', error))
+            }
+
+            function llenarSelect(selectElement, data) {
+                selectElement.innerHTML = '<option value="">Seleccione una opción</option>'
+                data.forEach(item => {
+                    const option = document.createElement('option')
+                    option.value = item.id
+                    option.textContent = item.nombre
+                    option.setAttribute('data-id', item.usuario)
+                    selectElement.appendChild(option)
+                });
+            }
+
+            function mostrarModalErrores(mensajesError) {
+                var errores = mensajesError.join(' ')
+                $('#modalErrores').modal('show')
+                document.getElementById("body_errores").innerHTML = ""
+                document.getElementById("body_errores").innerHTML = errores
+            }
+
+            function PlanIntervencionHistoria(element) {
+                let idHist = element.getAttribute("data-id")
+                document.getElementById("idHistoriaPlan").value = idHist
+
+                var modal = new bootstrap.Modal(document.getElementById("modalPlanIntervencion"), {
+                    backdrop: 'static',
+                    keyboard: false
+                })
+
+                modal.show()
+                let url = "{{ route('historia.buscaPlanIntervencionNeuro') }}"
+                fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            idHist: idHist
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+
+                        CKEDITOR.instances['sugerenciasModal'].setData(data.planIntervencion.sugerencias_interconsultas)
+                        CKEDITOR.instances['observacionesModal'].setData(data.planIntervencion
+                            .observaciones_recomendaciones)
+                        CKEDITOR.instances['objetivoGeneralModal'].setData(data.planIntervencion.objetivo_general)
+                        CKEDITOR.instances['objetivoEspecificoModal'].setData(data.planIntervencion.objetivos_especificos)
+                    })
+                    .catch(error => console.error('Error:', error))
+
+            }
+
+            function cancelarPlan() {
+                document.getElementById("formPlanIntervencion").reset()
+                CKEDITOR.instances['sugerenciasModal'].setData("")
+                const modal = document.getElementById('modalPlanIntervencion')
+                const modalInstance = bootstrap.Modal.getInstance(modal)
+                modalInstance.hide()
+
+            }
+
+            function guardarPlan() {
+                if ($("#formPlanIntervencion").valid()) {
+                    for (var instanceName in CKEDITOR.instances) {
+                        CKEDITOR.instances[instanceName].updateElement()
+                    }
+                    const formPlanIntervencion = document.getElementById('formPlanIntervencion')
+                    const formData = new FormData(formPlanIntervencion)
+
+                    const url = "{{ route('form.guardarPlanIntervencionNeuro') }}"
+
                     fetch(url, {
                             method: 'POST',
                             body: formData,
                             headers: {
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                                    'content')
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                             }
                         })
                         .then(response => response.json())
@@ -3651,9 +4205,126 @@
                             if (data.success = 'success') {
 
                                 swal(data.title, data.message, data.success)
-                                cargarConsultas(1)
-                                document.getElementById("listadoConsultas").style.display = "initial"
-                                document.getElementById("fomrConsultas").style.display = "none"
+                                const modal = document.getElementById('modalPlanIntervencion')
+                                const modalInstance = bootstrap.Modal.getInstance(modal)
+                                modalInstance.hide()
+
+                            } else {
+                                swal(data.title, data.message, data.success)
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error al enviar los datos:", error)
+                        })
+
+                }
+            }
+
+            function ventaConsulta(element) {
+
+                let idHist = element.getAttribute("data-id")
+                let idpaciente = element.getAttribute("data-paciente")
+                document.getElementById("idHistoriaVenta").value = idHist
+                document.getElementById("idPacienteVenta").value = idpaciente
+                var modal = new bootstrap.Modal(document.getElementById("modalVentaConsulta"), {
+                    backdrop: 'static',
+                    keyboard: false
+                })
+                modal.show()
+                //cargar informacion si ya fue guardada la venta
+                let url = "{{ route('historiaNeuro.buscaVentaConsultaNeuro') }}"
+
+                fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            idHist: idHist
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data.servicioConsulta.estadoVentaConsulta)
+                        if (data.servicioConsulta.estadoVentaConsulta == 'PENDIENTE') {
+                            document.getElementById("ConsultaVenta").value = data.servicioConsulta.descripcion.nombre
+                            document.getElementById("estadoServicio").value = data.servicioConsulta.estadoVentaConsulta
+                            document.getElementById("valorServConsultaVis").value = ""
+                            document.getElementById("valorServConsulta").value = "0"
+                            document.getElementById("accHistoriaVenta").value = "guardar"
+                            document.getElementById("saveRegistroVentaConsulta").removeAttribute('disabled')
+                        } else {
+                            document.getElementById("idConsultaVenta").value = data.servicioConsulta.id
+                            document.getElementById("ConsultaVenta").value = data.servicioConsulta.descripcion
+                            document.getElementById("estadoServicio").value = data.servicioConsulta.estadoVentaConsulta
+                            document.getElementById("valorServConsultaVis").value = formatCurrency(data.servicioConsulta
+                                .precio, 'es-CO', 'COP')
+                            document.getElementById("valorServConsulta").value = data.servicioConsulta.precio
+                            let parFecha = data.servicioConsulta.fecha.split(' ')
+                            document.getElementById("fechaVentaConsulta").value = parFecha[0]
+                            document.getElementById("horaSeleccionadaVentaConsulta").value = parFecha[1]
+                            document.getElementById("accHistoriaVenta").value = "editar"
+
+                            if (data.servicioConsulta.estadoVentaConsulta == 'PAGADO') {
+                                document.getElementById("saveRegistroVentaConsulta").setAttribute('disabled', 'disabled')
+                            }
+
+                        }
+                    })
+                    .catch(error => console.error('Error:', error))
+
+            }
+
+            function cambioFormato(id) {
+                let numero = document.getElementById(id)
+                //elimina ultimos 3 caracateres de id de numero 
+                let idPrecio = numero.id.slice(0, -3)
+                document.getElementById(idPrecio).value = numero.value
+                let formatoMoneda = formatCurrency(numero.value, 'es-CO', 'COP')
+                numero.value = formatoMoneda
+
+            }
+
+            function formatCurrency(number, locale, currencySymbol) {
+                return new Intl.NumberFormat(locale, {
+                    style: 'currency',
+                    currency: currencySymbol,
+                    minimumFractionDigits: 2
+                }).format(number)
+            }
+
+            function validartxtnum(e) {
+                tecla = e.which || e.keyCode
+                patron = /[0-9]+$/
+                te = String.fromCharCode(tecla)
+                return (patron.test(te) || tecla == 9 || tecla == 8 || tecla == 37 || tecla == 39 || tecla == 44)
+            }
+
+            function guardarVentaConsulta() {
+                if ($("#formVentaConsulta").valid()) {
+
+                    const formVentaConsulta = document.getElementById('formVentaConsulta')
+                    const formData = new FormData(formVentaConsulta)
+
+                    const url = "{{ route('form.guardarVentaConsulta') }}"
+
+                    fetch(url, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data)
+                            if (data.success = 'success') {
+
+                                swal("¡Buen trabajo!", data.message, data.success)
+                                const modal = document.getElementById('modalVentaConsulta')
+                                const modalInstance = bootstrap.Modal.getInstance(modal)
+                                modalInstance.hide()
 
                             } else {
                                 swal(data.title, data.message, data.success)
@@ -3664,42 +4335,116 @@
                         })
                 }
             }
-        }
 
-        function validarFormularioConsultaEnvio() {
-            var error = false
-            var mensaje = ""
-            if (document.getElementById("fechaEvolucion").value == "") {
-                error = true
-                mensaje += "Debe seleccionar la fecha de la evolución. \n"
+            function guardarVentaSesion() {
+                if ($("#formVentaSesion").valid()) {
+
+                    const formVentaSesion = document.getElementById('formVentaSesion')
+                    const formData = new FormData(formVentaSesion)
+
+                    const url = "{{ route('form.guardarVentaSesion') }}"
+
+                    fetch(url, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data)
+                            if (data.success = 'success') {
+
+                                swal("¡Buen trabajo!", data.message, data.success)
+                                document.getElementById("formVentaSesion").style.display = "none"
+                                document.getElementById("listVentaSesion").style.display = "initial"
+                                cargarSesionesVentas()
+
+                            } else {
+                                swal(data.title, data.message, data.success)
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error al enviar los datos:", error)
+                        })
+                }
             }
-            if (document.getElementById("horaSeleccionada").value == "") {
-                error = true
-                mensaje += "Debe seleccionar la hora de la evolución.  \n"
+
+            function ventaSesion(element) {
+                let idHist = element.getAttribute("data-id")
+                let idPaciente = element.getAttribute("data-paciente")
+                document.getElementById("idHistoriaVentaSesion").value = idHist
+                document.getElementById("idPacienteVentaSesion").value = idPaciente
+                var modal = new bootstrap.Modal(document.getElementById("modalVentaSesion"), {
+                    backdrop: 'static',
+                    keyboard: false
+                })
+                modal.show()
+                cargarSesionesVentas()
             }
-            if (document.getElementById("evolucion_plan").value == "") {
-                error = true
-                mensaje += "Debe ingresar la evolución y plan de trabajo"
+
+            function cargarSesionesVentas() {
+                let url = "{{ route('historia.buscaVentaSesion') }}"
+                fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            idHist: document.getElementById("idHistoriaVentaSesion").value,
+                            tipoHistoria: "NEUROPSICOLOGIA"
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById("trRegistrosVentaSesion").innerHTML = data.ventasSesiones
+                        feather.replace()
+                    })
+                    .catch(error => console.error('Error:', error))
             }
 
-            if (error) {
-                swal("¡Alerta!", mensaje, "warning");
+            function nuevaVentaSesion() {
+                document.getElementById("formVentaSesion").reset()
+                document.getElementById("accHistoriaVentaSesion").value = "guardar"
+                document.getElementById("saveRegistroVentaSesion").removeAttribute('disabled')
+                document.getElementById("tituloVentaSesion").innerHTML = "Nueva Venta de Sesión"
+                document.getElementById("listVentaSesion").style.display = "none"
+                document.getElementById("formVentaSesion").style.display = "initial"
             }
 
-            return error;
-        }
+            function cancelarVentaConsulta() {
+                let formVentaSesion = document.getElementById("formVentaConsulta")
+                formVentaConsulta.reset()
+                const modal = document.getElementById('modalVentaConsulta')
+                const modalInstance = bootstrap.Modal.getInstance(modal)
+                modalInstance.hide()
+            }
 
+            function cancelarVentaSesion() {
+                let formVentaSesion = document.getElementById("formVentaSesion")
+                formVentaSesion.reset()
+                document.getElementById("formVentaSesion").style.display = "none"
+                document.getElementById("listVentaSesion").style.display = "initial"
+            }
 
-        function editarConsulta(idConsulta) {
-            if (hasPermission('editarEvoluciones')) {
+            function editarVentaSesion(element) {
+                let idVenta = element.getAttribute("data-id")
+                let estado = element.getAttribute("data-estado")
 
-                document.getElementById("listadoConsultas").style.display = "none"
-                document.getElementById("fomrConsultas").style.display = "initial"
+                if (estado == "PAGADO") {
+                    swal("¡Alerta!", "No puede editar una sesión que ya ha sido pagada", "warning")
+                    return
+                }
 
-                document.getElementById("idHistoriaConsulta").value = idConsulta
-                document.getElementById("accHistoriaConsulta").value = "editar"
+                document.getElementById("listVentaSesion").style.display = "none"
+                document.getElementById("formVentaSesion").style.display = "initial"
 
-                let url = "{{ route('historia.buscaConsultaNeuroPsicologica') }}"
+                document.getElementById("idVentaSesion").value = idVenta
+                document.getElementById("accHistoriaVentaSesion").value = "editar"
+
+                let url = "{{ route('historia.buscaSesionVenta') }}"
 
                 fetch(url, {
                         method: 'POST',
@@ -3708,34 +4453,39 @@
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                         },
                         body: JSON.stringify({
-                            idConsulta: idConsulta
+                            idVenta: idVenta
                         })
                     })
                     .then(response => response.json())
                     .then(data => {
-                        cargarSelConsulta(data.consulta.codigo_consulta, 'codConsultaConsulta')
+                        document.getElementById("tituloVentaSesion").innerHTML = "Editar sesión"
+                        document.getElementById("idVentaSesion").value = data.servicioSesion.id
+                        document.getElementById("descripcionVentaSesion").value = data.servicioSesion.descripcion
+                        let parFecha = data.servicioSesion.fecha.split(" ")
+                        document.getElementById("fechaVentaSesion").value = parFecha[0]
+                        document.getElementById("horaSeleccionadaVentaSesion").value = parFecha[1]
+                        document.getElementById("valorServSesionVis").value = formatCurrency(data.servicioSesion.precio,
+                            'es-CO',
+                            'COP')
+                        document.getElementById("valorServSesion").value = data.servicioSesion.precio
 
-                        cargarImpresion(data.consulta.impresion_diagnostica, 'codImpresionDiagnosticoConsulta')
-
-                        CKEDITOR.instances['evolucion_plan'].setData(data.consulta.evolucion_y_o_plantrabajo)
-
-                        document.getElementById("fechaEvolucion").value = data.consulta.fecha_consulta.split(' ')[0];
-                        document.getElementById("horaSeleccionada").value = data.consulta.fecha_consulta.split(' ')[1];
+                        document.getElementById("saveRegistroVentaSesion").removeAttribute('disabled')
                     })
                     .catch(error => console.error('Error:', error))
-            } else {
-                swal("¡Alerta!",
-                    "No tiene el permiso necesario para realizar esta acción",
-                    "warning")
             }
-        }
 
 
+            function eliminarVentaSesion(element) {
+                let idVenta = element.getAttribute("data-id")
+                let estado = element.getAttribute("data-estado")
 
-        function eliminarConsulta(idCons) {
-            if (hasPermission('editarEvoluciones')) {
+                if (estado == "PAGADO") {
+                    swal("¡Alerta!", "No puede eliminar una sesión que ya ha sido pagada", "warning")
+                    return
+                }
+
                 swal({
-                    title: "Esta seguro de eliminar esta consulta ?",
+                    title: "Esta seguro de eliminar esta sesión ?",
                     text: "¡No podrás revertir esto!",
                     type: "warning",
                     showCancelButton: true,
@@ -3748,7 +4498,7 @@
                     buttonsStyling: false
                 }, function(isConfirm) {
                     if (isConfirm) {
-                        let url = "{{ route('historia.eliminarConsultaNeuro') }}";
+                        let url = "{{ route('historia.eliminarSesionVenta') }}";
                         fetch(url, {
                                 method: 'POST',
                                 headers: {
@@ -3758,7 +4508,7 @@
                                             'content')
                                 },
                                 body: JSON.stringify({
-                                    idConsulta: idCons
+                                    idVenta: idVenta
                                 })
                             })
                             .then(response => response.json())
@@ -3767,7 +4517,7 @@
                                     swal("¡Buen trabajo!",
                                         data.message,
                                         "success");
-                                    cargarConsultas(1);
+                                    cargarSesionesVentas(1);
                                 } else {
                                     swal("¡Alerta!",
                                         "La operación fue realizada exitosamente",
@@ -3780,91 +4530,349 @@
                         swal("Cancelado", "Tu registro esta salvo :)", "error");
                     }
                 });
-            } else {
-                swal("¡Alerta!",
-                    "No tiene el permiso necesario para realizar esta acción",
-                    "warning")
-            }
-        }
 
-        function cargarConsultas(page, searchTerm = '') {
-
-            let url = "{{ route('historia.listaConsultasModalNeuro') }}" // Definir la URL
-            // Eliminar los campos ocultos anteriores
-            var oldPageInput = document.getElementById('pageConsulta')
-            var oldSearchTermInput = document.getElementById('busquedaConsulta')
-            if (oldPageInput) oldPageInput.remove()
-            if (oldSearchTermInput) oldSearchTermInput.remove()
-
-            var data = {
-                page: page,
-                search: searchTerm,
-                idHist: document.getElementById("idHistoria").value
             }
 
-            // Limpiar la tabla antes de cargar nuevos datos
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then(responseData => {
-                    // Rellenar la tabla con las filas generadas
-                    document.getElementById("historialConsulta").innerHTML = responseData.historialConsultas
-                    document.getElementById('trRegistrosConsultas').innerHTML = responseData.consultas
-                    feather.replace()
-                    // Colocar los enlaces de paginación
-                    document.getElementById('pagination-links-consulta').innerHTML = responseData.links
-                    loadNow(0)
-                })
-                .catch(error => console.error('Error:', error))
-        }
 
-        function evolucionHistoria(element) {
-            let idHist = element.getAttribute("data-id")
-            let estadoHis = element.getAttribute("data-estado")
-            document.getElementById("idHistoria").value = idHist
-            document.getElementById("estadoHistoria").value = estadoHis
-            abrirConsultas(1)
-        }
+            function ComprarPaquete(element) {
+                // obtener data-id de element 
+                let id = element.getAttribute("data-id")
+                let idPaciente = element.getAttribute("data-paciente")
+                document.getElementById("idHistoria").value = id
+                document.getElementById("idPacienteVentaPaquete").value = idPaciente
 
-        function abrirConsultas(op) {
-            if (document.getElementById("idHistoria").value != "") {
-                if (document.getElementById("estadoHistoria").value == "cerrada") {
-                    var modal = new bootstrap.Modal(document.getElementById("modalConsulta"), {
-                        backdrop: 'static',
-                        keyboard: false
-                    })
+                var modal = new bootstrap.Modal(document.getElementById("modalPaquete"), {
+                    backdrop: 'static',
+                    keyboard: false
+                });
+                modal.show()
 
-                    modal.show()
-                    if (op == 1) {
-                        document.getElementById("listadoConsultas").style.display = "initial"
-                        document.getElementById("fomrConsultas").style.display = "none"
-                    }
+                cargarPaquetes(1)
+                cargarSelectPaquetes()
 
-                    cargarConsultas(1)
-                } else {
-                    swal("¡Atención!",
-                        "Para gestionar las consultas la historia clinica debe estar cerrada.",
-                        "warning");
+            }
+
+            function cargarSelectPaquetes() {
+                return new Promise((resolve, reject) => {
+                    let select = document.getElementById("selPaquete");
+                    let url = "{{ route('paquetes.listaPaquetesSel') }}";
+
+                    // Limpia el select antes de agregar nuevas opciones
+                    select.innerHTML = "";
+
+                    // Crear la opción por defecto
+                    let defaultOption = document.createElement("option");
+                    defaultOption.value = ""; // Valor en blanco
+                    defaultOption.text = "Selecciona una opción"; // Texto que se mostrará
+                    defaultOption.selected = true; // Que aparezca seleccionada por defecto
+                    select.appendChild(defaultOption);
+
+                    // Fetch para obtener los datos y cargar las opciones
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            data.forEach(paquete => {
+                                let option = document.createElement("option");
+                                option.value = paquete.id;
+                                option.setAttribute('data-valor', paquete.precio_por_sesion);
+                                option.setAttribute('data-descripcion', paquete.descripcion);
+                                option.text = paquete.descripcion;
+                                select.appendChild(option);
+                            });
+                            resolve(); // Resuelve la promesa cuando los datos han sido cargados
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            reject(error); // Rechaza la promesa si ocurre un error
+                        });
+                });
+            }
+
+            function calValorMonto() {
+
+                let valor = document.getElementById("precioSesion").value
+                let nsesiones = document.getElementById("numSesiones").value
+                let total = valor * nsesiones
+                document.getElementById("montoFinal").value = total
+                let formatoMoneda = formatCurrency(total, 'es-CO', 'COP')
+                document.getElementById("montoFinalVis").value = formatoMoneda
+
+            }
+
+            function seleccionarPaquete(element) {
+                let precio = element.options[element.selectedIndex].getAttribute('data-valor')
+                var formatoMoneda = formatCurrency(precio, 'es-CO', 'COP')
+                document.getElementById("precioSesion").value = precio
+                document.getElementById("precioSesionVis").value = formatoMoneda
+                let descripcion = element.options[element.selectedIndex].getAttribute('data-descripcion')
+                document.getElementById("descripcionVentaPaquete").value = descripcion
+                calValorMonto()
+            }
+
+            function cargarPaquetes(page, searchTerm = '') {
+                let url = "{{ route('paquetes.listaPaquetesModal') }}" // Definir la URL
+                // Eliminar los campos ocultos anteriores
+                var oldPageInput = document.getElementById('pagePaquetes')
+                var oldSearchTermInput = document.getElementById('busquedaPaq')
+                if (oldPageInput) oldPageInput.remove()
+                if (oldSearchTermInput) oldSearchTermInput.remove()
+
+                var data = {
+                    page: page,
+                    search: searchTerm,
+                    idHist: document.getElementById("idHistoria").value,
+                    tipoHist: "NEUROPSICOLOGIA"
+
                 }
 
-            } else {
-                swal("¡Atención!",
-                    "El paciente no tiene una historia clínica abierta en el sistema.",
-                    "warning");
+                // Limpiar la tabla antes de cargar nuevos datos
+                fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(response => response.json())
+                    .then(responseData => {
+                        // Rellenar la tabla con las filas generadas
+                        document.getElementById("trRegistrosPaquetes").innerHTML = responseData.paquetes
+                        feather.replace()
+                        // Colocar los enlaces de paginación
+                        document.getElementById('pagination-links-paquetes').innerHTML = responseData.links
+                        loadNow(0)
+                    })
+                    .catch(error => console.error('Error:', error))
             }
 
-        }
+            function nuevoPaquete() {
+                //recorrer en la tabla html y verificar si existem paqueter sin terminar
+                let table = document.getElementById("tblPaquetes")
+                let rows = table.getElementsByTagName("tr")
 
-        function eliminarHistoria(idHistoria) {
-            if (hasPermission('editarHistoria')) {
+                for (let i = 0; i < rows.length; i++) {
+                    let cells = rows[i].getElementsByTagName("td")
+                    if (cells.length > 0) {
+                        let estado = cells[5].innerHTML
+                        if (estado == "PENDIENTE") {
+                            swal("¡Alerta!", "No puede crear un nuevo paquete, mientras tenga uno Pendiente", "warning")
+                            document.getElementById("listPaquetes").style.display = "initial"
+                            document.getElementById("formPaquetes").style.display = "none"
+                            return
+                        }
+                    }
+                }
+
+                let formPaquete = document.getElementById("formPaquetes")
+                formPaquete.reset()
+                document.getElementById("accVentaPaquete").value = "guardar"
+                document.getElementById("idVentaPaquete").value = ""
+                document.getElementById('saveRegistroPaq').removeAttribute('disabled')
+                document.getElementById("tituloPaquete").innerHTML = "Nuevo Paquete"
+                formPaquete.style.display = "initial"
+                document.getElementById("listPaquetes").style.display = "none"
+
+            }
+
+            function nuevaPrueba() {
+                //recorrer en la tabla html y verificar si existem paqueter sin terminar
+                let table = document.getElementById("tblPruebas")
+                let rows = table.getElementsByTagName("tr")
+
+                // for (let i = 0; i < rows.length; i++) {
+                //     let cells = rows[i].getElementsByTagName("td")
+                //     if (cells.length > 0) {
+                //         let estado = cells[3].innerHTML
+                //         if (estado == "PENDIENTE") {
+                //             swal("¡Alerta!", "No puede crear un nuevo , mientras tenga uno Pendiente", "warning")
+                //             document.getElementById("listPruebas").style.display = "initial"
+                //             document.getElementById("formPruebas").style.display = "none"
+                //             return
+                //         }
+                //     }
+                // }
+
+                let formPruebas = document.getElementById("formPruebas")
+                formPruebas.reset()
+                $('#selPrueba').val("").trigger('change.select2')
+
+                document.getElementById("accVentaPrueba").value = "guardar"
+                document.getElementById("idVentaPrueba").value = ""
+                document.getElementById('saveRegistroPrueba').removeAttribute('disabled')
+                document.getElementById("tituloPrueba").innerHTML = "Nueva venta de prueba"
+                formPruebas.style.display = "initial"
+                document.getElementById("listPruebas").style.display = "none"
+
+            }
+
+
+            function guardarPaquetes() {
+                if ($("#formPaquetes").valid()) {
+
+                    const formPaquetes = document.getElementById('formPaquetes')
+                    const formData = new FormData(formPaquetes)
+                    formData.append('idHist', document.getElementById("idHistoria").value)
+
+                    const url = "{{ route('form.guardarPaqueteVenta') }}"
+
+                    fetch(url, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+
+                            if (data.success = 'success') {
+
+                                swal(data.title, data.message, data.success)
+                                cargarPaquetes(1)
+                                document.getElementById("listPaquetes").style.display = "initial"
+                                document.getElementById("formPaquetes").style.display = "none"
+
+                            } else {
+                                swal(data.title, data.message, data.success)
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error al enviar los datos:", error)
+                        })
+
+                }
+            }
+
+            function editarPrueba(idPrueba) {
+
+                document.getElementById("listPruebas").style.display = "none"
+                document.getElementById("formPruebas").style.display = "initial"
+
+                document.getElementById("idVentaPrueba").value = idPrueba
+                document.getElementById("accVentaPrueba").value = "editar"
+
+                let url = "{{ route('pruebas.buscaPruebaVenta') }}"
+
+                fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            idPrueba: idPrueba
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById("tituloPrueba").innerHTML = "Editar venta de prueba"
+                        document.getElementById("precioPrueba").value = data.prueba.valorServConsultaVis
+                   
+                        let paraFecha = data.prueba.fecha.split(" ")
+                        document.getElementById("fechaPrueba").value = paraFecha[0]
+                        $('#selPrueba').val(data.prueba.id_paquete).trigger('change.select2')
+                 
+
+                        document.getElementById("descripcionPrueba").value = data.prueba.descripcion
+                        document.getElementById("saveRegistroPrueba").removeAttribute('disabled')
+                    })
+                    .catch(error => console.error('Error:', error))
+            }
+
+            function guardarPruebas() {
+                if ($("#formPruebas").valid()) {
+
+                    const formPaquetes = document.getElementById('formPruebas')
+                    const formData = new FormData(formPaquetes)
+                    formData.append('idHist', document.getElementById("idHistoria").value)
+
+                    const url = "{{ route('form.guardarPruebaVenta') }}"
+
+                    fetch(url, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+
+                            if (data.success = 'success') {
+
+                                swal(data.title, data.message, data.success)
+                                cargarPruebas(1)
+                                document.getElementById("listPruebas").style.display = "initial"
+                                document.getElementById("formPruebas").style.display = "none"
+
+                            } else {
+                                swal(data.title, data.message, data.success)
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error al enviar los datos:", error)
+                        })
+
+                }
+            }
+
+            function seleccionarProfesional(element) {
+                let selectedOption = element.options[element.selectedIndex];
+                // Obtener el valor del data-id
+                let idProfesional = selectedOption.getAttribute("data-id");
+
+                document.getElementById("idProfesional").value = idProfesional
+
+            }
+
+            function editarPaquete(idPaquete) {
+
+                document.getElementById("listPaquetes").style.display = "none"
+                document.getElementById("formPaquetes").style.display = "initial"
+
+                document.getElementById("idVentaPaquete").value = idPaquete
+                document.getElementById("accVentaPaquete").value = "editar"
+
+                let url = "{{ route('paquetes.buscaPaqueteVenta') }}"
+
+                fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            idPaquete: idPaquete
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById("tituloPaquete").innerHTML = "Editar venta paquete"
+                        document.getElementById("precioSesion").value = data.paquete.valor
+                        document.getElementById("numSesiones").value = data.paquete.cantidad
+                        document.getElementById("montoFinal").value = data.paquete.precio
+                        document.getElementById("montoFinalVis").value = formatCurrency(data.paquete.precio, 'es-CO',
+                            'COP')
+                        let paraFecha = data.paquete.fecha.split(" ")
+                        document.getElementById("fechaPaquete").value = paraFecha[0]
+                        $('#selPaquete').val(data.paquete.id_paquete).trigger('change.select2')
+                        document.getElementById("precioSesionVis").value = formatCurrency(data.paquete.valor,
+                            'es-CO', 'COP')
+
+                        document.getElementById("descripcionVentaPaquete").value = data.paquete.descripion_paquete
+                            .descripcion
+                        document.getElementById("saveRegistroPaq").removeAttribute('disabled')
+                    })
+                    .catch(error => console.error('Error:', error))
+            }
+
+            
+
+            function eliminarPaquete(idPaquete) {
+
                 swal({
-                    title: "Esta seguro de eliminar esta historia ?",
+                    title: "Esta seguro de eliminar esta venta de paquete ?",
                     text: "¡No podrás revertir esto!",
                     type: "warning",
                     showCancelButton: true,
@@ -3877,7 +4885,7 @@
                     buttonsStyling: false
                 }, function(isConfirm) {
                     if (isConfirm) {
-                        let url = "{{ route('historia.eliminarHistoriaNeuro') }}";
+                        let url = "{{ route('paquetes.eliminarPaquete') }}";
                         fetch(url, {
                                 method: 'POST',
                                 headers: {
@@ -3887,7 +4895,7 @@
                                             'content')
                                 },
                                 body: JSON.stringify({
-                                    idHistoria: idHistoria
+                                    idPaquete: idPaquete
                                 })
                             })
                             .then(response => response.json())
@@ -3895,789 +4903,182 @@
                                 if (data.success) {
                                     swal("¡Buen trabajo!",
                                         data.message,
-                                        "success")
-                                    cargarHistorias(1)
+                                        "success");
+                                    cargarPaquetes(1);
                                 } else {
                                     swal("¡Alerta!",
                                         "La operación fue realizada exitosamente",
                                         data.message,
-                                        "success")
+                                        "success");
                                 }
                             })
-                    }
-                })
-            } else {
-                swal("¡Alerta!",
-                    "No tiene el permiso necesario para realizar esta acción",
-                    "warning")
-            }
-        }
 
-        function mapearHistorialConsultas(historialConsultas) {
-            document.getElementById("historialConsulta").innerHTML = historialConsultas
-        }
-
-        function cancelarConsulta() {
-            document.getElementById('listadoConsultas').style.display = 'block'
-            document.getElementById('fomrConsultas').style.display = 'none'
-            document.getElementById("titConsulta").innerHTML = "Gestionar consulta"
-        }
-
-        function limpiarConsulta() {
-            let formHistoria = document.getElementById("formConsulta")
-            formHistoria.reset()
-            CKEDITOR.instances['evolucion_plan'].setData('')
-        }
-
-        function imprimirHistoria(id) {
-            let url = "{{ route('historia.imprimirHistoriaNeuro') }}";
-
-            let idHisto = id || idHistoriaImprimir;
-
-            let params = new URLSearchParams({
-                idHist: idHisto
-            });
-
-            url += '?' + params.toString();
-
-
-            swal({
-                title: 'Cargando...',
-                text: 'Espere mientras se genera el PDF, gracias.',
-                allowOutsideClick: false,
-                showConfirmButton: false,
-            });
-
-            fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.url) {
-                        swal({
-                            title: "Se genero el PDF correctamente.",
-                            type: "success",
-                            showConfirmButton: true,
-                            confirmButtonText: "Visualizar",
-                            allowOutsideClick: false,
-                        }, function(isConfirm) {
-                            if (isConfirm) {
-                                window.open(data.url, '_blank');
-                            }
-                        })
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-        }
-
-        function cargarProfesionales() {
-            let urlProfesionales = "{{ route('profesionales.cargarListaProf') }}" // Definir la URL
-
-            fetch(urlProfesionales)
-                .then(response => response.json())
-                .then(data => {
-                    const selectProfesional = document.getElementById('profesionalSelect')
-                    llenarSelect(selectProfesional, data)
-                })
-                .catch(error => console.error('Error al cargar profesionales:', error))
-        }
-
-        function llenarSelect(selectElement, data) {
-            selectElement.innerHTML = '<option value="">Seleccione una opción</option>'
-            data.forEach(item => {
-                const option = document.createElement('option')
-                option.value = item.id
-                option.textContent = item.nombre
-                option.setAttribute('data-id', item.usuario)
-                selectElement.appendChild(option)
-            });
-        }
-
-        function mostrarModalErrores(mensajesError) {
-            var errores = mensajesError.join(' ')
-            $('#modalErrores').modal('show')
-            document.getElementById("body_errores").innerHTML = ""
-            document.getElementById("body_errores").innerHTML = errores
-        }
-
-        function PlanIntervencionHistoria(element) {
-            let idHist = element.getAttribute("data-id")
-            document.getElementById("idHistoriaPlan").value = idHist
-
-            var modal = new bootstrap.Modal(document.getElementById("modalPlanIntervencion"), {
-                backdrop: 'static',
-                keyboard: false
-            })
-
-            modal.show()
-            let url = "{{ route('historia.buscaPlanIntervencionNeuro') }}"
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        idHist: idHist
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-
-                    CKEDITOR.instances['sugerenciasModal'].setData(data.planIntervencion.sugerencias_interconsultas)
-                    CKEDITOR.instances['observacionesModal'].setData(data.planIntervencion
-                        .observaciones_recomendaciones)
-                    CKEDITOR.instances['objetivoGeneralModal'].setData(data.planIntervencion.objetivo_general)
-                    CKEDITOR.instances['objetivoEspecificoModal'].setData(data.planIntervencion.objetivos_especificos)
-                })
-                .catch(error => console.error('Error:', error))
-
-        }
-
-        function cancelarPlan() {
-            document.getElementById("formPlanIntervencion").reset()
-            CKEDITOR.instances['sugerenciasModal'].setData("")
-            const modal = document.getElementById('modalPlanIntervencion')
-            const modalInstance = bootstrap.Modal.getInstance(modal)
-            modalInstance.hide()
-
-        }
-
-        function guardarPlan() {
-            if ($("#formPlanIntervencion").valid()) {
-                for (var instanceName in CKEDITOR.instances) {
-                    CKEDITOR.instances[instanceName].updateElement()
-                }
-                const formPlanIntervencion = document.getElementById('formPlanIntervencion')
-                const formData = new FormData(formPlanIntervencion)
-
-                const url = "{{ route('form.guardarPlanIntervencionNeuro') }}"
-
-                fetch(url, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data)
-                        if (data.success = 'success') {
-
-                            swal(data.title, data.message, data.success)
-                            const modal = document.getElementById('modalPlanIntervencion')
-                            const modalInstance = bootstrap.Modal.getInstance(modal)
-                            modalInstance.hide()
-
-                        } else {
-                            swal(data.title, data.message, data.success)
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error al enviar los datos:", error)
-                    })
-
-            }
-        }
-
-        function ventaConsulta(element) {
-
-            let idHist = element.getAttribute("data-id")
-            let idpaciente = element.getAttribute("data-paciente")
-            document.getElementById("idHistoriaVenta").value = idHist
-            document.getElementById("idPacienteVenta").value = idpaciente
-            var modal = new bootstrap.Modal(document.getElementById("modalVentaConsulta"), {
-                backdrop: 'static',
-                keyboard: false
-            })
-            modal.show()
-            //cargar informacion si ya fue guardada la venta
-            let url = "{{ route('historiaNeuro.buscaVentaConsultaNeuro') }}"
-
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        idHist: idHist
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data.servicioConsulta.estadoVentaConsulta)
-                    if (data.servicioConsulta.estadoVentaConsulta == 'PENDIENTE') {
-                        document.getElementById("ConsultaVenta").value = data.servicioConsulta.descripcion.nombre
-                        document.getElementById("estadoServicio").value = data.servicioConsulta.estadoVentaConsulta
-                        document.getElementById("valorServConsultaVis").value = ""
-                        document.getElementById("valorServConsulta").value = "0"
-                        document.getElementById("accHistoriaVenta").value = "guardar"
-                        document.getElementById("saveRegistroVentaConsulta").removeAttribute('disabled')
                     } else {
-                        document.getElementById("idConsultaVenta").value = data.servicioConsulta.id
-                        document.getElementById("ConsultaVenta").value = data.servicioConsulta.descripcion
-                        document.getElementById("estadoServicio").value = data.servicioConsulta.estadoVentaConsulta
-                        document.getElementById("valorServConsultaVis").value = formatCurrency(data.servicioConsulta
-                            .precio, 'es-CO', 'COP')
-                        document.getElementById("valorServConsulta").value = data.servicioConsulta.precio
-                        let parFecha = data.servicioConsulta.fecha.split(' ')
-                        document.getElementById("fechaVentaConsulta").value = parFecha[0]
-                        document.getElementById("horaSeleccionadaVentaConsulta").value = parFecha[1]
-                        document.getElementById("accHistoriaVenta").value = "editar"
-
-                        if (data.servicioConsulta.estadoVentaConsulta == 'PAGADO') {
-                            document.getElementById("saveRegistroVentaConsulta").setAttribute('disabled', 'disabled')
-                        }
-
+                        swal("Cancelado", "Tu registro esta salvo :)", "error");
                     }
-                })
-                .catch(error => console.error('Error:', error))
+                });
 
-        }
-
-        function cambioFormato(id) {
-            let numero = document.getElementById(id)
-            //elimina ultimos 3 caracateres de id de numero 
-            let idPrecio = numero.id.slice(0, -3)
-            document.getElementById(idPrecio).value = numero.value
-            let formatoMoneda = formatCurrency(numero.value, 'es-CO', 'COP')
-            numero.value = formatoMoneda
-
-        }
-
-        function formatCurrency(number, locale, currencySymbol) {
-            return new Intl.NumberFormat(locale, {
-                style: 'currency',
-                currency: currencySymbol,
-                minimumFractionDigits: 2
-            }).format(number)
-        }
-
-        function validartxtnum(e) {
-            tecla = e.which || e.keyCode
-            patron = /[0-9]+$/
-            te = String.fromCharCode(tecla)
-            return (patron.test(te) || tecla == 9 || tecla == 8 || tecla == 37 || tecla == 39 || tecla == 44)
-        }
-
-        function guardarVentaConsulta() {
-            if ($("#formVentaConsulta").valid()) {
-
-                const formVentaConsulta = document.getElementById('formVentaConsulta')
-                const formData = new FormData(formVentaConsulta)
-
-                const url = "{{ route('form.guardarVentaConsulta') }}"
-
-                fetch(url, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data)
-                        if (data.success = 'success') {
-
-                            swal("¡Buen trabajo!", data.message, data.success)
-                            const modal = document.getElementById('modalVentaConsulta')
-                            const modalInstance = bootstrap.Modal.getInstance(modal)
-                            modalInstance.hide()
-
-                        } else {
-                            swal(data.title, data.message, data.success)
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error al enviar los datos:", error)
-                    })
             }
-        }
+            function eliminarPrueba(idPrueba) {
 
-        function guardarVentaSesion() {
-            if ($("#formVentaSesion").valid()) {
-
-                const formVentaSesion = document.getElementById('formVentaSesion')
-                const formData = new FormData(formVentaSesion)
-
-                const url = "{{ route('form.guardarVentaSesion') }}"
-
-                fetch(url, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data)
-                        if (data.success = 'success') {
-
-                            swal("¡Buen trabajo!", data.message, data.success)
-                            document.getElementById("formVentaSesion").style.display = "none"
-                            document.getElementById("listVentaSesion").style.display = "initial"
-                            cargarSesionesVentas()
-
-                        } else {
-                            swal(data.title, data.message, data.success)
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error al enviar los datos:", error)
-                    })
-            }
-        }
-
-        function ventaSesion(element) {
-            let idHist = element.getAttribute("data-id")
-            let idPaciente = element.getAttribute("data-paciente")
-            document.getElementById("idHistoriaVentaSesion").value = idHist
-            document.getElementById("idPacienteVentaSesion").value = idPaciente
-            var modal = new bootstrap.Modal(document.getElementById("modalVentaSesion"), {
-                backdrop: 'static',
-                keyboard: false
-            })
-            modal.show()
-            cargarSesionesVentas()
-        }
-
-        function cargarSesionesVentas() {
-            let url = "{{ route('historia.buscaVentaSesion') }}"
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        idHist: document.getElementById("idHistoriaVentaSesion").value,
-                        tipoHistoria: "NEUROPSICOLOGIA"
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("trRegistrosVentaSesion").innerHTML = data.ventasSesiones
-                    feather.replace()
-                })
-                .catch(error => console.error('Error:', error))
-        }
-
-        function nuevaVentaSesion() {
-            document.getElementById("formVentaSesion").reset()
-            document.getElementById("accHistoriaVentaSesion").value = "guardar"
-            document.getElementById("saveRegistroVentaSesion").removeAttribute('disabled')
-            document.getElementById("tituloVentaSesion").innerHTML = "Nueva Venta de Sesión"
-            document.getElementById("listVentaSesion").style.display = "none"
-            document.getElementById("formVentaSesion").style.display = "initial"
-        }
-
-        function cancelarVentaConsulta() {
-            let formVentaSesion = document.getElementById("formVentaConsulta")
-            formVentaConsulta.reset()
-            const modal = document.getElementById('modalVentaConsulta')
-            const modalInstance = bootstrap.Modal.getInstance(modal)
-            modalInstance.hide()
-        }
-
-        function cancelarVentaSesion() {
-            let formVentaSesion = document.getElementById("formVentaSesion")
-            formVentaSesion.reset()
-            document.getElementById("formVentaSesion").style.display = "none"
-            document.getElementById("listVentaSesion").style.display = "initial"
-        }
-
-        function editarVentaSesion(element) {
-            let idVenta = element.getAttribute("data-id")
-            let estado = element.getAttribute("data-estado")
-
-            if (estado == "PAGADO") {
-                swal("¡Alerta!", "No puede editar una sesión que ya ha sido pagada", "warning")
-                return
-            }
-
-            document.getElementById("listVentaSesion").style.display = "none"
-            document.getElementById("formVentaSesion").style.display = "initial"
-
-            document.getElementById("idVentaSesion").value = idVenta
-            document.getElementById("accHistoriaVentaSesion").value = "editar"
-
-            let url = "{{ route('historia.buscaSesionVenta') }}"
-
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        idVenta: idVenta
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("tituloVentaSesion").innerHTML = "Editar sesión"
-                    document.getElementById("idVentaSesion").value = data.servicioSesion.id
-                    document.getElementById("descripcionVentaSesion").value = data.servicioSesion.descripcion
-                    let parFecha = data.servicioSesion.fecha.split(" ")
-                    document.getElementById("fechaVentaSesion").value = parFecha[0]
-                    document.getElementById("horaSeleccionadaVentaSesion").value = parFecha[1]
-                    document.getElementById("valorServSesionVis").value = formatCurrency(data.servicioSesion.precio,
-                        'es-CO',
-                        'COP')
-                    document.getElementById("valorServSesion").value = data.servicioSesion.precio
-
-                    document.getElementById("saveRegistroVentaSesion").removeAttribute('disabled')
-                })
-                .catch(error => console.error('Error:', error))
-        }
-
-
-        function eliminarVentaSesion(element) {
-            let idVenta = element.getAttribute("data-id")
-            let estado = element.getAttribute("data-estado")
-
-            if (estado == "PAGADO") {
-                swal("¡Alerta!", "No puede eliminar una sesión que ya ha sido pagada", "warning")
-                return
-            }
-
-            swal({
-                title: "Esta seguro de eliminar esta sesión ?",
-                text: "¡No podrás revertir esto!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Si, eliminar!",
-                cancelButtonText: "Cancelar",
-                confirmButtonClass: "btn btn-warning",
-                cancelButtonClass: "btn btn-danger ml-1",
-                buttonsStyling: false
-            }, function(isConfirm) {
-                if (isConfirm) {
-                    let url = "{{ route('historia.eliminarSesionVenta') }}";
-                    fetch(url, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                    .getAttribute(
-                                        'content')
-                            },
-                            body: JSON.stringify({
-                                idVenta: idVenta
+                swal({
+                    title: "Esta seguro de eliminar esta venta de prueba ?",
+                    text: "¡No podrás revertir esto!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Si, eliminar!",
+                    cancelButtonText: "Cancelar",
+                    confirmButtonClass: "btn btn-warning",
+                    cancelButtonClass: "btn btn-danger ml-1",
+                    buttonsStyling: false
+                }, function(isConfirm) {
+                    if (isConfirm) {
+                        let url = "{{ route('pruebas.eliminarPrueba') }}";
+                        fetch(url, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                        .getAttribute(
+                                            'content')
+                                },
+                                body: JSON.stringify({
+                                    idPrueba: idPrueba
+                                })
                             })
-                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    swal("¡Buen trabajo!",
+                                        data.message,
+                                        "success");
+                                    cargarPruebas(1);
+                                } else {
+                                    swal("¡Alerta!",
+                                        "La operación fue realizada exitosamente",
+                                        data.message,
+                                        "success");
+                                }
+                            })
+
+                    } else {
+                        swal("Cancelado", "Tu registro esta salvo :)", "error");
+                    }
+                });
+
+            }
+
+            function ComprarPrueba(element) {
+                let id = element.getAttribute("data-id")
+                let idPaciente = element.getAttribute("data-paciente")
+                document.getElementById("idHistoria").value = id
+                document.getElementById("idPacienteVentaPrueba").value = idPaciente
+
+                var modal = new bootstrap.Modal(document.getElementById("modalPrueba"), {
+                    backdrop: 'static',
+                    keyboard: false
+                });
+                modal.show()
+
+                cargarPruebas(1)
+                cargarSelectPruebas()
+
+            }
+
+            function cargarPruebas(page, searchTerm = '') {
+                let url = "{{ route('pruebas.listaPruebasModal') }}" // Definir la URL
+                // Eliminar los campos ocultos anteriores
+                var oldPageInput = document.getElementById('pagePruebas')
+                var oldSearchTermInput = document.getElementById('busquedaPruebas')
+                if (oldPageInput) oldPageInput.remove()
+                if (oldSearchTermInput) oldSearchTermInput.remove()
+
+                var data = {
+                    page: page,
+                    search: searchTerm,
+                    idHist: document.getElementById("idHistoria").value,
+                    tipoHist: "NEUROPSICOLOGIA"
+                }
+
+                // Limpiar la tabla antes de cargar nuevos datos
+                fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(response => response.json())
+                    .then(responseData => {
+                        // Rellenar la tabla con las filas generadas
+                        document.getElementById("trRegistrosPruebas").innerHTML = responseData.pruebas
+                        feather.replace()
+                        // Colocar los enlaces de paginación
+                        document.getElementById('pagination-links-pruebas').innerHTML = responseData.links
+                        loadNow(0)
+                    })
+                    .catch(error => console.error('Error:', error))
+            }
+
+            function cargarSelectPruebas() {
+                return new Promise((resolve, reject) => {
+                    let select = document.getElementById("selPrueba")
+                    let url = "{{ route('pruebas.listaPruebasSel') }}"
+
+                    // Limpia el select antes de agregar nuevas opciones
+                    select.innerHTML = "";
+
+                    // Crear la opción por defecto
+                    let defaultOption = document.createElement("option");
+                    defaultOption.value = ""; // Valor en blanco
+                    defaultOption.text = "Selecciona una opción"; // Texto que se mostrará
+                    defaultOption.selected = true; // Que aparezca seleccionada por defecto
+                    select.appendChild(defaultOption);
+
+                    // Fetch para obtener los datos y cargar las opciones
+                    fetch(url)
                         .then(response => response.json())
                         .then(data => {
-                            if (data.success) {
-                                swal("¡Buen trabajo!",
-                                    data.message,
-                                    "success");
-                                cargarSesionesVentas(1);
-                            } else {
-                                swal("¡Alerta!",
-                                    "La operación fue realizada exitosamente",
-                                    data.message,
-                                    "success");
-                            }
+
+                            data.forEach(prueba => {
+
+                                let option = document.createElement("option");
+                                option.value = prueba.id;
+                                option.text = prueba.descripcion;
+                                option.setAttribute('data-valor', prueba.precio);
+                                option.setAttribute('data-descripcion', prueba.descripcion);
+                                select.appendChild(option);
+                            });
+                            resolve(); // Resuelve la promesa cuando los datos han sido cargados
                         })
-
-                } else {
-                    swal("Cancelado", "Tu registro esta salvo :)", "error");
-                }
-            });
-
-        }
-
-
-        function ComprarPaquete(element) {
-            // obtener data-id de element 
-            let id = element.getAttribute("data-id")
-            let idPaciente = element.getAttribute("data-paciente")
-            document.getElementById("idHistoria").value = id
-            document.getElementById("idPacienteVentaPaquete").value = idPaciente
-
-            var modal = new bootstrap.Modal(document.getElementById("modalPaquete"), {
-                backdrop: 'static',
-                keyboard: false
-            });
-            modal.show()
-
-            cargarPaquetes(1)
-            cargarSelectPaquetes()
-
-        }
-
-        function cargarSelectPaquetes() {
-            return new Promise((resolve, reject) => {
-                let select = document.getElementById("selPaquete");
-                let url = "{{ route('paquetes.listaPaquetesSel') }}";
-
-                // Limpia el select antes de agregar nuevas opciones
-                select.innerHTML = "";
-
-                // Crear la opción por defecto
-                let defaultOption = document.createElement("option");
-                defaultOption.value = ""; // Valor en blanco
-                defaultOption.text = "Selecciona una opción"; // Texto que se mostrará
-                defaultOption.selected = true; // Que aparezca seleccionada por defecto
-                select.appendChild(defaultOption);
-
-                // Fetch para obtener los datos y cargar las opciones
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        data.forEach(paquete => {
-                            let option = document.createElement("option");
-                            option.value = paquete.id;
-                            option.setAttribute('data-valor', paquete.precio_por_sesion);
-                            option.setAttribute('data-descripcion', paquete.descripcion);
-                            option.text = paquete.descripcion;
-                            select.appendChild(option);
+                        .catch(error => {
+                            console.error('Error:', error);
+                            reject(error); // Rechaza la promesa si ocurre un error
                         });
-                        resolve(); // Resuelve la promesa cuando los datos han sido cargados
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        reject(error); // Rechaza la promesa si ocurre un error
-                    });
-            });
-        }
-
-        function calValorMonto() {
-
-            let valor = document.getElementById("precioSesion").value
-            let nsesiones = document.getElementById("numSesiones").value
-            let total = valor * nsesiones
-            document.getElementById("montoFinal").value = total
-            let formatoMoneda = formatCurrency(total, 'es-CO', 'COP')
-            document.getElementById("montoFinalVis").value = formatoMoneda
-
-        }
-
-        function seleccionarPaquete(element) {
-            let precio = element.options[element.selectedIndex].getAttribute('data-valor')
-            var formatoMoneda = formatCurrency(precio, 'es-CO', 'COP')
-            document.getElementById("precioSesion").value = precio
-            document.getElementById("precioSesionVis").value = formatoMoneda
-            let descripcion = element.options[element.selectedIndex].getAttribute('data-descripcion')
-            document.getElementById("descripcionVentaPaquete").value = descripcion
-            calValorMonto()
-        }
-
-        function cargarPaquetes(page, searchTerm = '') {
-            let url = "{{ route('paquetes.listaPaquetesModal') }}" // Definir la URL
-            // Eliminar los campos ocultos anteriores
-            var oldPageInput = document.getElementById('pagePaquetes')
-            var oldSearchTermInput = document.getElementById('busquedaPaq')
-            if (oldPageInput) oldPageInput.remove()
-            if (oldSearchTermInput) oldSearchTermInput.remove()
-
-            var data = {
-                page: page,
-                search: searchTerm,
-                idHist: document.getElementById("idHistoria").value,
-                tipoHist: "NEUROPSICOLOGIA"
-
+                });
             }
 
-            // Limpiar la tabla antes de cargar nuevos datos
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then(responseData => {
-                    // Rellenar la tabla con las filas generadas
-                    document.getElementById("trRegistrosPaquetes").innerHTML = responseData.paquetes
-                    feather.replace()
-                    // Colocar los enlaces de paginación
-                    document.getElementById('pagination-links-paquetes').innerHTML = responseData.links
-                    loadNow(0)
-                })
-                .catch(error => console.error('Error:', error))
-        }
-
-        function nuevoPaquete() {
-            //recorrer en la tabla html y verificar si existem paqueter sin terminar
-            let table = document.getElementById("tblPaquetes")
-            let rows = table.getElementsByTagName("tr")
-
-            for (let i = 0; i < rows.length; i++) {
-                let cells = rows[i].getElementsByTagName("td")
-                if (cells.length > 0) {
-                    let estado = cells[5].innerHTML
-                    if (estado == "PENDIENTE") {
-                        swal("¡Alerta!", "No puede crear un nuevo paquete, mientras tenga uno Pendiente", "warning")
-                        document.getElementById("listPaquetes").style.display = "initial"
-                        document.getElementById("formPaquetes").style.display = "none"
-                        return
-                    }
-                }
+            function seleccionarPrueba(element) {
+                let selectedOption = element.options[element.selectedIndex];
+                let valor = selectedOption.getAttribute("data-valor");
+                let descripcion = selectedOption.getAttribute("data-descripcion");
+                document.getElementById("descripcionPrueba").value = descripcion
+                document.getElementById("precioPrueba").value = valor
+                document.getElementById("precioPruebaVis").value = formatCurrency(valor, 'es-CO', 'COP')
             }
 
-            let formPaquete = document.getElementById("formPaquetes")
-            formPaquete.reset()
-            document.getElementById("accVentaPaquete").value = "guardar"
-            document.getElementById("idVentaPaquete").value = ""
-            document.getElementById('saveRegistroPaq').removeAttribute('disabled')
-            document.getElementById("tituloPaquete").innerHTML = "Nuevo Paquete"
-            formPaquete.style.display = "initial"
-            document.getElementById("listPaquetes").style.display = "none"
-
-        }
-
-
-        function guardarPaquetes() {
-            if ($("#formPaquetes").valid()) {
-
-                const formPaquetes = document.getElementById('formPaquetes')
-                const formData = new FormData(formPaquetes)
-                formData.append('idHist', document.getElementById("idHistoria").value)
-
-                const url = "{{ route('form.guardarPaqueteVenta') }}"
-
-                fetch(url, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-
-                        if (data.success = 'success') {
-
-                            swal(data.title, data.message, data.success)
-                            cargarPaquetes(1)
-                            document.getElementById("listPaquetes").style.display = "initial"
-                            document.getElementById("formPaquetes").style.display = "none"
-
-                        } else {
-                            swal(data.title, data.message, data.success)
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error al enviar los datos:", error)
-                    })
-
+            function cancelarPaquetes() {
+                document.getElementById("listPaquetes").style.display = "initial"
+                document.getElementById("formPaquetes").style.display = "none"
             }
-        }
 
-        function seleccionarProfesional(element) {
-            let selectedOption = element.options[element.selectedIndex];
-            // Obtener el valor del data-id
-            let idProfesional = selectedOption.getAttribute("data-id");
+            function cancelarPrueba() {
+                document.getElementById("listPruebas").style.display = "initial"
+                document.getElementById("formPruebas").style.display = "none"
+            }
+        </script>
 
-            document.getElementById("idProfesional").value = idProfesional
-
-        }
-
-        function editarPaquete(idPaquete) {
-
-            document.getElementById("listPaquetes").style.display = "none"
-            document.getElementById("formPaquetes").style.display = "initial"
-
-            document.getElementById("idVentaPaquete").value = idPaquete
-            document.getElementById("accVentaPaquete").value = "editar"
-
-            let url = "{{ route('paquetes.buscaPaqueteVenta') }}"
-
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        idPaquete: idPaquete
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("tituloPaquete").innerHTML = "Editar venta paquete"
-                    document.getElementById("precioSesion").value = data.paquete.valor
-                    document.getElementById("numSesiones").value = data.paquete.cantidad
-                    document.getElementById("montoFinal").value = data.paquete.precio
-                    document.getElementById("montoFinalVis").value = formatCurrency(data.paquete.precio, 'es-CO',
-                        'COP')
-                    let paraFecha = data.paquete.fecha.split(" ")
-                    document.getElementById("fechaPaquete").value = paraFecha[0]
-                    $('#selPaquete').val(data.paquete.id_paquete).trigger('change.select2')
-                    document.getElementById("precioSesionVis").value = formatCurrency(data.paquete.valor,
-                        'es-CO', 'COP')
-
-                    document.getElementById("descripcionVentaPaquete").value = data.paquete.descripion_paquete
-                        .descripcion
-                    document.getElementById("saveRegistroPaq").removeAttribute('disabled')
-                })
-                .catch(error => console.error('Error:', error))
-        }
-
-        function eliminarPaquete(idPaquete) {
-
-            swal({
-                title: "Esta seguro de eliminar esta venta de paquete ?",
-                text: "¡No podrás revertir esto!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Si, eliminar!",
-                cancelButtonText: "Cancelar",
-                confirmButtonClass: "btn btn-warning",
-                cancelButtonClass: "btn btn-danger ml-1",
-                buttonsStyling: false
-            }, function(isConfirm) {
-                if (isConfirm) {
-                    let url = "{{ route('paquetes.eliminarPaquete') }}";
-                    fetch(url, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                    .getAttribute(
-                                        'content')
-                            },
-                            body: JSON.stringify({
-                                idPaquete: idPaquete
-                            })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                swal("¡Buen trabajo!",
-                                    data.message,
-                                    "success");
-                                cargarPaquetes(1);
-                            } else {
-                                swal("¡Alerta!",
-                                    "La operación fue realizada exitosamente",
-                                    data.message,
-                                    "success");
-                            }
-                        })
-
-                } else {
-                    swal("Cancelado", "Tu registro esta salvo :)", "error");
-                }
-            });
-
-        }
-    </script>
-
-@endsection
+    @endsection

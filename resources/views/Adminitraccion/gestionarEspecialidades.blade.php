@@ -46,7 +46,8 @@
                             <thead>
                                 <tr>
                                     <th style="width:10%;">#</th>
-                                    <th style="width:80%;">Descripción</th>
+                                    <th style="width:60%;">Descripción</th>
+                                    <th style="width:20%;">Valor</th>
                                     <th style="width:10%;">Acción</th>
                                 </tr>
                             </thead>
@@ -77,12 +78,22 @@
                         <input type="hidden" name="accRegistro" id="accRegistro" value="guardar" />
                         <input type="hidden" name="idRegistro" id="idRegistro" value="" />
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-9">
                                 <div class="form-group">
                                     <label for="nombre" class="form-label">Descripción :</label>
                                     <input type="text" class="form-control" id="nombre" name="nombre">
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="valor" class="form-label">Valor :</label>
+                                    <input type="text" class="form-control" id="valorVis" name="valorVis"
+                                    onchange="cambioFormato(this.id);"
+                                    onkeypress="return validartxtnum(event)"
+                                    onclick="this.select();">
+                                    <input type="hidden" class="form-control"  id="valor" name="valor">
+                                </div>
+                            </div>   
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="observaciones" class="form-label">Observaciones :</label>
@@ -130,11 +141,17 @@
 
                     nombre: {
                         required: true
+                    },
+                    valorVis: {
+                        required: true
                     }
                 },
                 messages: {
                     nombre: {
                         required: "Por favor, ingrese la descrición de la consulta."
+                    },
+                    valorVis: {
+                        required: "Por favor, ingrese el valor de la consulta."
                     }
                 },
                 submitHandler: function(form) {
@@ -209,6 +226,29 @@
             }
         }
 
+        function cambioFormato(id){
+            let numero = document.getElementById(id)
+            document.getElementById("valor").value = numero.value
+            let formatoMoneda = formatCurrency(numero.value, 'es-CO', 'COP')
+            numero.value = formatoMoneda
+
+        }
+
+        function formatCurrency(number, locale, currencySymbol) {
+            return new Intl.NumberFormat(locale, {
+                style: 'currency',
+                currency: currencySymbol,
+                minimumFractionDigits: 2
+            }).format(number)
+        }
+
+        function validartxtnum(e) {
+            tecla = e.which || e.keyCode
+            patron = /[0-9]+$/
+            te = String.fromCharCode(tecla)
+            return (patron.test(te) || tecla == 9 || tecla == 8 || tecla == 37 || tecla == 39 || tecla == 44)
+        }
+
         function editarRegistro(idRegistro) {
             var modal = new bootstrap.Modal(document.getElementById("modalEspecialidad"), {
                 backdrop: 'static',
@@ -216,6 +256,7 @@
             });
             document.getElementById("accRegistro").value = 'editar'
             document.getElementById("idRegistro").value = idRegistro
+            document.getElementById('saveRegistro').removeAttribute('disabled')
 
             document.getElementById("tituloAccion").innerHTML  = "Editar motivo de consulta"
 
@@ -237,6 +278,10 @@
                 .then(data => {
 
                     document.getElementById("nombre").value = data.nombre
+                    var numero = data.precio
+                    var formatoMoneda = formatCurrency(numero, 'es-CO', 'COP')
+                    document.getElementById("valorVis").value = formatoMoneda
+                    document.getElementById("valor").value = numero
                     document.getElementById("observaciones").value = data.observacion
 
                 })

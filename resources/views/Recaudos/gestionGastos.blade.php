@@ -327,9 +327,7 @@
             });
 
             // Evento input para el campo de búsqueda por fecha
-            document.getElementById('fechafiltro').addEventListener('input', function() {
-                cargar(1) // Cargar la primera página con el término de búsqueda
-            });
+        
 
         });
 

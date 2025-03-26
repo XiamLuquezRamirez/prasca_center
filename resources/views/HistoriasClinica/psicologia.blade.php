@@ -2098,6 +2098,7 @@
         window.userPermissions = @json(Auth::user()->permissions);
 
         var idHistoriaImprimir = "";
+        var isProfesional = false
         document.addEventListener("DOMContentLoaded", function() {
             let menuP = document.getElementById("principalHistoriClinica")
             let menuS = document.getElementById("principalHistoriClinicaPsicologia")
@@ -2237,7 +2238,6 @@
                 }
             });
             ////
-
             $('#codConsulta').select2({
                 dropdownAutoWidth: true,
                 width: '100%',
@@ -2347,7 +2347,6 @@
                     return markup // Evita inyección de HTML
                 }
             })
-
             $('#codDiagnostico').select2({
                 dropdownAutoWidth: true,
                 width: '100%',
@@ -2401,7 +2400,6 @@
                     return markup // Evita inyección de HTML
                 }
             })
-
             $('#codImpresionDiagnostico').select2({
                 dropdownAutoWidth: true,
                 width: '100%',
@@ -2455,7 +2453,6 @@
                     return markup // Evita inyección de HTML
                 }
             })
-
             $('#codImpresionDiagnosticoConsulta').select2({
                 dropdownAutoWidth: true,
                 width: '100%',
@@ -2915,6 +2912,7 @@
             modalInstance.hide()
 
             mostrarInformacionHistoria(idPaciente)
+
         }
 
         function toggleOtro(selectElement) {
@@ -2922,7 +2920,7 @@
             const inputField = document.getElementById(inputId)
 
             // Obtener el atributo data-nombre del elemento seleccionado
-            
+
             const selectedOption = selectElement.options[selectElement.selectedIndex]
             const dataNombre = selectedOption ? selectedOption.getAttribute('data-nombre') : null
 
@@ -3105,6 +3103,17 @@
                 .then(response => response.json())
                 .then(data => {
                     //DATOS DEL PACIENTE
+
+                    if (!data.profesional) {
+                        isProfesional = false
+                        document.getElementById('defaulProfesional').style.display = 'none'
+                        document.getElementById('divProfesional').style.display = 'initial'
+                    } else {
+                        isProfesional = true
+                        document.getElementById('defaulProfesional').style.display = 'initial'
+                        document.getElementById('divProfesional').style.display = 'none'
+                    }
+
                     if (data.historia) {
                         swal({
                             title: "Este paciente ya tiene una historia clínica registrada.",
@@ -3131,6 +3140,7 @@
                         mapearInfPaciente(data.paciente)
                         document.getElementById('listado').style.display = 'none'
                         document.getElementById('historia').style.display = 'block'
+
                     }
                 })
                 .catch(error => console.error('Error:', error))
@@ -3342,12 +3352,12 @@
                 error = true;
                 mensaje += "Debe seleccionar un código de diagnóstico. \n";
             }
-          
+
             if (document.getElementById("enfermedadActual").value == "") {
                 error = true;
                 mensaje += "Debe ingresar la enfermedad actual. \n";
             }
-                                  
+
             if (document.getElementById("medicacion").value == "") {
                 error = true;
                 mensaje += "Debe ingresar la medicación. \n";
@@ -3373,178 +3383,178 @@
                 mensaje += "Debe seleccionar un profesional. \n";
             }
 
-            if(document.getElementById("edad").value == ""){
+            if (document.getElementById("edad").value == "") {
                 error = true;
                 mensaje += "Debe ingresar en apariencia personal la edad. \n";
             }
 
-            if(document.getElementById("desarrollo").value == ""){
+            if (document.getElementById("desarrollo").value == "") {
                 error = true;
                 mensaje += "Debe ingresar en apariencia personal el pondoestatural. \n";
             }
 
-            if(document.getElementById("aseo").value == ""){
+            if (document.getElementById("aseo").value == "") {
                 error = true;
                 mensaje += "Debe ingresar en apariencia personal el aseo. \n";
             }
 
-            if(document.getElementById("salud").value == ""){
+            if (document.getElementById("salud").value == "") {
                 error = true;
                 mensaje += "Debe ingresar en apariencia personal la salud. \n";
             }
 
-            if(document.getElementById("facies").value == ""){
+            if (document.getElementById("facies").value == "") {
                 error = true;
                 mensaje += "Debe ingresar en apariencia personal la facies. \n";
             }
 
-            if(document.getElementById("biotipo").value == ""){
+            if (document.getElementById("biotipo").value == "") {
                 error = true;
                 mensaje += "Debe ingresar en apariencia personal el biotipo. \n";
             }
 
-            if(document.getElementById("actitud").value == ""){
+            if (document.getElementById("actitud").value == "") {
                 error = true;
                 mensaje += "Debe ingresar en apariencia personal la actitud. \n";
             }
 
-            if(document.getElementById("consciencia").value == ""){
+            if (document.getElementById("consciencia").value == "") {
                 error = true;
                 mensaje += "Debe ingresar en funciones cognitivas la consciencia. \n";
             }
 
-            if(document.getElementById("orientacion").value == ""){
+            if (document.getElementById("orientacion").value == "") {
                 error = true;
                 mensaje += "Debe ingresar en apariencia personal la orientacion. \n";
             }
 
-            if(document.getElementById("memoria").value == ""){
+            if (document.getElementById("memoria").value == "") {
                 error = true;
                 mensaje += "Debe ingresar en funciones cognitivas la memoria. \n";
             }
 
-            if(document.getElementById("atencion").value == ""){
+            if (document.getElementById("atencion").value == "") {
                 error = true;
                 mensaje += "Debe ingresar en funciones cognitivas la atención. \n";
             }
 
-            if(document.getElementById("concentracion").value == ""){
+            if (document.getElementById("concentracion").value == "") {
                 error = true;
                 mensaje += "Debe ingresar en funciones cognitivas la concentración. \n";
             }
 
-            if(document.getElementById("lenguaje").value == ""){
+            if (document.getElementById("lenguaje").value == "") {
                 error = true;
                 mensaje += "Debe ingresar en funciones cognitivas el lenguaje. \n";
             }
 
-            if(document.getElementById("pensamiento").value == ""){
+            if (document.getElementById("pensamiento").value == "") {
                 error = true;
                 mensaje += "Debe ingresar en funciones cognitivas el pensamiento. \n";
             }
 
-            if(document.getElementById("afecto").value == ""){
+            if (document.getElementById("afecto").value == "") {
                 error = true;
                 mensaje += "Debe ingresar en funciones cognitivas el afecto. \n";
             }
 
-            if(document.getElementById("sensopercepcion").value == ""){
+            if (document.getElementById("sensopercepcion").value == "") {
                 error = true;
                 mensaje += "Debe ingresar en funciones cognitivas la sensopercepción. \n";
             }
-            
-            if(document.getElementById("psicomotricidad").value == ""){
+
+            if (document.getElementById("psicomotricidad").value == "") {
                 error = true;
                 mensaje += "Debe ingresar en funciones cognitivas la psicomotricidad. \n";
             }
 
-            if(document.getElementById("juicio").value == ""){
+            if (document.getElementById("juicio").value == "") {
                 error = true;
                 mensaje += "Debe ingresar en funciones cognitivas el juicio. \n";
             }
 
-            if(document.getElementById("inteligencia").value == ""){
+            if (document.getElementById("inteligencia").value == "") {
                 error = true;
                 mensaje += "Debe ingresar en funciones cognitivas la inteligencia. \n";
             }
 
-            if(document.getElementById("conciencia_enfermedad").value == ""){
+            if (document.getElementById("conciencia_enfermedad").value == "") {
                 error = true;
                 mensaje += "Debe ingresar en funciones cognitivas la conciencia de la enfermedad. \n";
             }
 
-            if(document.getElementById("sufrimiento_psicologico").value == ""){
+            if (document.getElementById("sufrimiento_psicologico").value == "") {
                 error = true;
                 mensaje += "Debe ingresar en funciones cognitivas el sufrimiento psicológico. \n";
             }
 
-            if(document.getElementById("motivacion_tratamiento").value == ""){
+            if (document.getElementById("motivacion_tratamiento").value == "") {
                 error = true;
                 mensaje += "Debe ingresar en funciones cognitivas la motivación del tratamiento. \n";
             }
 
-          
 
-            if(document.getElementById("tipoPsicologia").value == "Pediatría"){
-                if(document.getElementById("edad_madre").value == ""){
+
+            if (document.getElementById("tipoPsicologia").value == "Pediatría") {
+                if (document.getElementById("edad_madre").value == "") {
                     error = true;
                     mensaje += "Debe ingresar la edad de la madre en el embarazo. \n";
                 }
 
-                if(document.getElementById("enfermedades_madre").value == ""){
+                if (document.getElementById("enfermedades_madre").value == "") {
                     error = true;
                     mensaje += "Debe ingresar las enfermedades de la madre en el embarazo. \n";
                 }
 
-                if(document.getElementById("numero_embarazo").value == ""){
+                if (document.getElementById("numero_embarazo").value == "") {
                     error = true;
                     mensaje += "Debe ingresar el número de embarazo. \n";
                 }
 
-                if(document.getElementById("enbarazo_controlado").value == ""){
+                if (document.getElementById("enbarazo_controlado").value == "") {
                     error = true;
                     mensaje += "Debe ingresar si el embarazo fue controlado. \n";
                 }
 
-                if(document.getElementById("planificacion").value == ""){
+                if (document.getElementById("planificacion").value == "") {
                     error = true;
                     mensaje += "Debe ingresar si hubo planificacion. \n";
                 }
 
-                if(document.getElementById("estado_madre").value == ""){
+                if (document.getElementById("estado_madre").value == "") {
                     error = true;
                     mensaje += "Debe ingresar el estado de la madre en el embarazo. \n";
                 }
 
-                if(document.getElementById("tipo_nacimiento").value == ""){
+                if (document.getElementById("tipo_nacimiento").value == "") {
                     error = true;
                     mensaje += "Debe ingresar el tipo de nacimiento. \n";
                 }
 
-                if(document.getElementById("causa_cesarea").value == ""){
+                if (document.getElementById("causa_cesarea").value == "") {
                     error = true;
                     mensaje += "Debe ingresar la causa de la cesarea. \n";
                 }
 
-                if(document.getElementById("reanimacion").value == ""){
+                if (document.getElementById("reanimacion").value == "") {
                     error = true;
                     mensaje += "Debe ingresar si se realizo reanimacion. \n";
                 }
 
-                if(document.getElementById("peso_nacer").value == ""){
+                if (document.getElementById("peso_nacer").value == "") {
                     error = true;
                     mensaje += "Debe ingresar el peso al nacer. \n";
                 }
-                
-                if(document.getElementById("talla_nacer").value == ""){
+
+                if (document.getElementById("talla_nacer").value == "") {
                     error = true;
                     mensaje += "Debe ingresar la talla al nacer. \n";
                 }
 
-                if(document.getElementById("llanto_nacer").value == ""){
+                if (document.getElementById("llanto_nacer").value == "") {
                     error = true;
                     mensaje += "Debe ingresar el llanto al nacer. \n";
-                }   
+                }
 
             }
 
@@ -3797,7 +3807,7 @@
         function mapearAntecedentesPrenatales(antecedentesPrenatales) {
             antecedentesPrenatales.forEach(item => {
                 const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
-                
+
                 if (element) {
                     if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
                         element.value = item.detalle // Asignar el valor al input o textarea
@@ -3834,9 +3844,9 @@
 
         function mapearFuncionesSomaticas(somaticas) {
             if (somaticas) {
-                document.getElementById("ciclos_sueno").vlaue = somaticas.ciclos_del_sueno
-                document.getElementById("apetito").vlaue = somaticas.apetito
-                document.getElementById("autocuidado").vlaue = somaticas.actividades_autocuidado
+                document.getElementById("ciclos_sueno").value = somaticas.ciclos_del_sueno
+                document.getElementById("apetito").value = somaticas.apetito
+                document.getElementById("autocuidado").value = somaticas.actividades_autocuidado
             }
         }
 
@@ -3955,7 +3965,7 @@
         }
 
         function mapearHistoria(historia) {
-            
+
             document.getElementById("accHistoria").value = "editar"
             document.getElementById("estadoHistoria").value = historia.estado_hitoria
             document.getElementById("idHistoria").value = historia.id
@@ -3999,18 +4009,18 @@
                     $(motivoConsulta).val(valoresConsulta).trigger(
                         'change') // Cambiar el valor y disparar el evento 'change'
                 }
-               
+
 
             }
 
-            
-            if(historia.estado_hitoria == "cerrada"){
-                    var btnGuardar = document.getElementById("btn-guardarHistoria")
-                    btnGuardar.disabled = true
-                }else{
-                    var btnGuardar = document.getElementById("btn-guardarHistoria")
-                    btnGuardar.disabled = false
-                }
+
+            if (historia.estado_hitoria == "cerrada") {
+                var btnGuardar = document.getElementById("btn-guardarHistoria")
+                btnGuardar.disabled = true
+            } else {
+                var btnGuardar = document.getElementById("btn-guardarHistoria")
+                btnGuardar.disabled = false
+            }
 
             cargarDxPrincipa(historia.dx_principal)
 
@@ -4044,23 +4054,36 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    if (data.profesional) {
+
+                    if (isProfesional) {
                         document.getElementById("defaulProfesional").style.display = "initial"
                         document.getElementById("divProfesional").style.display = "none"
-                        document.getElementById("idProfesional").value = data.profesional.usuario
-                        document.getElementById("nombreProfesional").innerHTML = data.profesional.nombre
-                        document.getElementById("registroProfesional").innerHTML =
-                            `<strong>Tarjeta Profesional:</strong> ${data.profesional.registro}`
+                        if (data.profesional) {
+                            document.getElementById("idProfesional").value = data.profesional.usuario
+                            document.getElementById("nombreProfesional").innerHTML = data.profesional.nombre
+                            document.getElementById("registroProfesional").innerHTML =
+                                `<strong>Tarjeta Profesional:</strong> ${data.profesional.registro}`
 
-                        let firmaProfesional = document.getElementById('firmaProfesional')
-                        let url = $('#Ruta').data("ruta")
-                        firmaProfesional.src = url + "/images/firmasProfesionales/" + data.profesional.firma
+                            let firmaProfesional = document.getElementById('firmaProfesional')
+                            let url = $('#Ruta').data("ruta")
+                            firmaProfesional.src = url + "/images/firmasProfesionales/" + data.profesional.firma
 
+                        }
                     } else {
+                        
                         document.getElementById("defaulProfesional").style.display = "none"
                         document.getElementById("divProfesional").style.display = "initial"
+                        document.getElementById("profesionalSelect").value = data.profesional.id
+                        $('#profesionalSelect').val(data.profesional.id).trigger('change.select2')
+                        document.getElementById("idProfesional").value = idProf
 
                     }
+
+
+                    document.getElementById("defaulProfesional").style.display = "none"
+                    document.getElementById("divProfesional").style.display = "initial"
+
+
 
                 })
                 .catch(error => console.error('Error:', error))

@@ -155,6 +155,20 @@
                                                     <label class="form-check-label"
                                                         for="permisos_AdminPaquetes">Paquetes de sesiones</label>
                                                 </div>
+                                                <div class="form-check ms-3">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="permisos_AdminPruebas" name="permisos[]"
+                                                        value="AdminPruebas">
+                                                    <label class="form-check-label"
+                                                        for="permisos_AdminPruebas">Pruebas</label>
+                                                </div>
+                                                <div class="form-check ms-3">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="permisos_AdminSesiones" name="permisos[]"
+                                                        value="AdminSesiones">
+                                                    <label class="form-check-label"
+                                                        for="permisos_AdminSesiones">Sesiones</label>
+                                                </div>
 
                                                 <!-- informes -->
                                                 <div class="form-check">

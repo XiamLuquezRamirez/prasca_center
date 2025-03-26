@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+
 use Exception;
 
 class Pacientes extends Model
@@ -23,20 +24,51 @@ class Pacientes extends Model
             ->get();
     }
 
-    public static function recaudoCaja($fecIni){
-         // Convierte la fecha de inicio a un objeto DateTime
-         $fechaInicio = new \DateTime($fecIni);
+    public static function recaudoCaja($fecIni)
+    {
+        // Convierte la fecha de inicio a un objeto DateTime
+        $fechaInicio = new \DateTime($fecIni);
 
-         // Utiliza la fecha y hora actual como el último momento
-         $fechaFin = new \DateTime();
- 
-         $recaudo = DB::connection('mysql')
-             ->table('pagos')
-             ->whereBetween('fecha_pago', [$fechaInicio->format('Y-m-d'), $fechaFin->format('Y-m-d')])
-             ->where("estado", "ACTIVO")
-             ->sum('pago_realizado');
- 
-         return $recaudo;
+        // Utiliza la fecha y hora actual como el último momento
+        $fechaFin = new \DateTime();
+
+        $recaudo = DB::connection('mysql')
+            ->table('pagos')
+            ->whereBetween('fecha_pago', [$fechaInicio->format('Y-m-d'), $fechaFin->format('Y-m-d')])
+            ->where("estado", "ACTIVO")
+            ->sum('pago_realizado');
+
+        return $recaudo;
+    }
+
+    public static function listConsultas()
+    {
+        return DB::connection('mysql')->table('especialidades')
+            ->where('estado', 'ACTIVO')
+            ->get();
+    }
+
+    public static function listSesiones()
+    {
+        return DB::connection('mysql')->table('sesiones')
+            ->where('estado', 'ACTIVO')
+            ->get();
+    }
+
+    public static function listPaquetes()
+    {
+        return DB::connection('mysql')->table('paquetes')
+            ->where('estado', 'ACTIVO')
+            ->get();
+    }
+
+    public static function busquedaProfesional()
+    {
+
+        return DB::connection('mysql')->table('profesionales')
+            ->where('usuario', Auth::user()->id)
+            ->where('estado', 'ACTIVO')
+            ->exists();
     }
 
     public static function listDepartamentos()
@@ -223,7 +255,7 @@ class Pacientes extends Model
             ->where("id", $idPac)
             ->where("estado", "ACTIVO")
             ->first();
-            
+
 
         if ($paciente->eps) {
             $paciente->eps_info = DB::connection('mysql')->table('eps')
@@ -250,5 +282,198 @@ class Pacientes extends Model
         $paciente->edadTexto = $edadTexto;
 
         return $paciente;
+    }
+
+    public static function guardarVentaConsulta($request)
+    {
+        try {
+
+
+            DB::beginTransaction();
+            try {
+                if ($request['accHistoriaVenta'] == "editar") {
+                    DB::table('servicios')->where('id', $request['idConsultaVenta'])->update(array_filter([
+                        'id_tipo_servicio' => $request['consultaVenta'],
+                        'precio' => $request['valorServConsulta'],
+                        'fecha' => $request['fechaVentaConsulta'] . ' ' . $request['horaSeleccionadaVentaConsulta'],
+                    ]));
+                    DB::table('ventas')->where('id_servicio', $request['idConsultaVenta'])->update(array_filter([
+                        'valor' => $request['valorServConsulta'],
+                        'total' => $request['valorServConsulta'],
+                        'saldo' => $request['valorServConsulta'],
+                    ]));
+                    DB::commit();
+                    return  $request['idConsultaVenta'];
+                } else {
+                    $idConsultaVenta = DB::table('servicios')->insertGetId(array_filter([
+                        'id_tipo_servicio' => $request['consultaVenta'],
+                        'tipo' => 'CONSULTA',
+                        'precio' => $request['valorServConsulta'],
+                        'estado' => 'ACTIVO',
+                        'id_paciente' => $request['idPaciente'],
+                        'fecha' => $request['fechaVentaConsulta'] . ' ' . $request['horaSeleccionadaVentaConsulta'],
+
+                    ]));
+
+                    $idVenta = DB::table('ventas')->insertGetId(array_filter([
+                        'id_servicio' => $idConsultaVenta,
+                        'id_paciente' => $request['idPaciente'],
+                        'usuario' => Auth::user()->id,
+                        'valor' => $request['valorServConsulta'],
+                        'cantidad' => '1',
+                        'total' => $request['valorServConsulta'],
+                        'estado_venta' => 'PENDIENTE',
+                        'saldo' => $request['valorServConsulta'],
+                    ]));
+
+                    // Confirmar transacción
+                    DB::commit();
+                    return  $idConsultaVenta;
+                }
+            } catch (\Exception $e) {
+                // Revertir transacción en caso de error
+                DB::rollBack();
+                throw $e;
+            }
+        } catch (Exception $e) {
+            // Manejo del error
+            return response()->json([
+                'success' => false,
+                'message' => 'Ocurrió un error al procesar el formulario: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public static function guardarVentaSesion($request)
+    {
+        try {
+
+            DB::beginTransaction();
+            try {
+                if ($request['accHistoriaVentaSesion'] == "editar") {
+                    DB::table('servicios')->where('id', $request['idVentaSesion'])->update(array_filter([
+                        'id_tipo_servicio' => $request['sesionVenta'],
+                        'precio' => $request['valorServSesion'],
+                        'fecha' => $request['fechaVentaSesion'] . ' ' . $request['horaSeleccionadaVentaSesion'],
+                    ]));
+                    DB::table('ventas')->where('id_servicio', $request['idVentaSesion'])->update(array_filter([
+                        'valor' => $request['valorServSesion'],
+                        'total' => $request['valorServSesion'],
+                        'saldo' => $request['valorServSesion'],
+                    ]));
+                    DB::commit();
+                    return  $request['idVentaSesion'];
+                } else {
+                    $idSesionVenta = DB::table('servicios')->insertGetId(array_filter([
+                        'id_tipo_servicio' => $request['sesionVenta'],
+                        'tipo' => 'SESION',
+                        'precio' => $request['valorServSesion'],
+                        'estado' => 'ACTIVO',
+                        'id_paciente' => $request['idPaciente'],
+                        'fecha' => $request['fechaVentaSesion'] . ' ' . $request['horaSeleccionadaVentaSesion'],
+                    ]));
+
+                    $idVenta = DB::table('ventas')->insertGetId(array_filter([
+                        'id_servicio' => $idSesionVenta,
+                        'id_paciente' => $request['idPaciente'],
+                        'usuario' => Auth::user()->id,
+                        'valor' => $request['valorServSesion'],
+                        'cantidad' => '1',
+                        'total' => $request['valorServSesion'],
+                        'estado_venta' => 'PENDIENTE',
+                        'saldo' => $request['valorServSesion'],
+                    ]));
+
+                    // Confirmar transacción
+                    DB::commit();
+                    return  $idSesionVenta;
+                }
+            } catch (\Exception $e) {
+                // Revertir transacción en caso de error
+                DB::rollBack();
+                throw $e;
+            }
+        } catch (Exception $e) {
+            // Manejo del error
+            return response()->json([
+                'success' => false,
+                'message' => 'Ocurrió un error al procesar el formulario: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public static function guardarPaqueteVenta($request)
+    {
+        try {
+            $idPaquete = $request['idVentaPaquete'];
+            if ($request['accVentaPaquete'] == 'guardar') {
+                DB::beginTransaction();
+                try {
+                    $idPaqueteVenta = DB::table('servicios')->insertGetId(array_filter([
+                        'tipo' => 'PAQUETE',
+                        'precio' => $request['montoFinal'],
+                        'estado' => 'ACTIVO',
+                        'fecha' => $request['fechaPaquete'] ,
+                        'id_tipo_servicio' => $request['selPaquete'],
+                        'id_paciente' => $request['idPaciente'],
+                    ]));
+
+                    $idVenta = DB::table('ventas')->insertGetId(array_filter([
+                        'id_servicio' => $idPaqueteVenta,
+                        'id_paciente' => $request['idPaciente'],
+                        'usuario' => Auth::user()->id,
+                        'valor' => $request['precioSesion'],
+                        'cantidad' => $request['numSesiones'],
+                        'total' => $request['montoFinal'],
+                        'estado_venta' => 'PENDIENTE',
+                        'saldo' => $request['montoFinal']
+                    ]));
+
+                    // Confirmar transacción
+                    DB::commit();
+                    return  $idPaqueteVenta;
+                } catch (\Exception $e) {
+                    // Revertir transacción en caso de error
+                    DB::rollBack();
+                    throw $e;
+                }
+            } else {
+                DB::beginTransaction();
+
+                try {
+
+                    DB::table('servicios')->where('id', $request['idVentaPaquete'])->update(array_filter([
+                        'id_tipo_servicio' => $request['selPaquete'],
+                        'precio' => $request['montoFinal'],
+                        'fecha' => $request['fechaPaquete'],
+                    ]));
+
+                    DB::table('ventas')->where('id_servicio', $request['idVentaPaquete'])->update(array_filter([
+                        'valor' => $request['precioSesion'],
+                        'total' => $request['montoFinal'],
+                        'cantidad' => $request['numSesiones'],
+                        'saldo' => $request['montoFinal'],
+                    ]));
+                    DB::commit();
+
+                    // Confirmar transacción
+                    DB::commit();
+                    return  $idPaquete;
+                } catch (\Exception $e) {
+                    Log::error('Error al actualizar el informe: ' . $e->getMessage(), [
+                        'idPaquete' => $idPaquete,
+                        'data' => $request->all()
+                    ]);
+                    DB::rollBack();
+                    throw $e;
+                }
+            }
+        } catch (Exception $e) {
+            // Manejo del error
+            return response()->json([
+                'success' => false,
+                'message' => 'Ocurrió un error al procesar el formulario: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 }

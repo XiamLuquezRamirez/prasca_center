@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Pacientes;
+use App\Models\Servicios;
 
 class PacientesController extends Controller
 {
@@ -19,6 +20,21 @@ class PacientesController extends Controller
         } else {
             return redirect("/")->with("error", "Su Sesión ha Terminado");
         }
+    }
+
+    public function consultas(){
+        $consultas = Pacientes::listConsultas();
+        return response()->json($consultas);
+    }
+
+    public function sesiones(){
+        $sesiones = Pacientes::listSesiones();
+        return response()->json($sesiones);
+    }
+
+    public function paquetes(){
+        $paquetes = Pacientes::listPaquetes();
+        return response()->json($paquetes);
     }
 
     public function historiaPsicologica(){
@@ -36,6 +52,126 @@ class PacientesController extends Controller
         } else {
             return redirect("/")->with("error", "Su Sesión ha Terminado");
         }
+    }
+
+    public function buscaServicioVenta(Request $request){
+        $idServicio = $request->input('idServicio');
+        $servicio = Servicios::buscaServicioVenta($idServicio);
+        return response()->json($servicio);
+    }
+
+    public function listaVentaServiciosPacientes(Request $request){
+        
+        if (Auth::check()) {
+            $perPage = 10; // Número de posts por página
+            $page = request()->get('page', 1);
+            $search = request()->get('search');
+            $idPaciente = request()->get('idPaciente');
+            if (!is_numeric($page)) {
+                $page = 1; // Establecer un valor predeterminado si no es numérico
+            }
+
+
+            $paquetes = DB::connection('mysql')
+            ->table('servicios')        
+            ->leftJoin("ventas", "servicios.id", "ventas.id_servicio")
+            ->leftJoin('sesiones_paquete_uso', 'ventas.id',  'sesiones_paquete_uso.venta_id')
+            ->where('servicios.estado', 'ACTIVO')
+            ->where('servicios.id_paciente', $idPaciente)
+            ->groupBy([
+                'servicios.id',
+                'servicios.id_tipo_servicio',
+                'servicios.tipo',
+                'servicios.id_paciente',
+                'servicios.fecha',
+                'servicios.precio',
+                'ventas.cantidad',
+                'ventas.estado_venta'
+            ])
+            ->select(
+                'servicios.id_tipo_servicio',
+                'servicios.tipo',
+                'servicios.id_paciente',
+                'servicios.fecha',
+                'servicios.precio',
+                'servicios.id',
+                'ventas.cantidad',
+                'ventas.estado_venta',
+                DB::raw('ventas.cantidad - COUNT(DISTINCT sesiones_paquete_uso.id) as sesiones_disponibles'),
+                DB::raw("(SELECT nombre FROM especialidades WHERE especialidades.id = servicios.id_tipo_servicio AND servicios.tipo = 'CONSULTA' LIMIT 1) AS descripcion_consulta"),
+                DB::raw("(SELECT descripcion FROM sesiones WHERE sesiones.id = servicios.id_tipo_servicio AND servicios.tipo = 'SESION' LIMIT 1) AS descripcion_sesion"),
+                DB::raw("(SELECT descripcion FROM paquetes WHERE paquetes.id = servicios.id_tipo_servicio AND servicios.tipo = 'PAQUETE' LIMIT 1) AS descripcion_paquete"),
+                DB::raw("(SELECT descripcion FROM pruebas WHERE pruebas.id = servicios.id_tipo_servicio AND servicios.tipo = 'PRUEBA' LIMIT 1) AS descripcion_prueba"),
+                DB::raw("
+                    COALESCE(
+                        (SELECT nombre FROM especialidades WHERE especialidades.id = servicios.id_tipo_servicio AND servicios.tipo = 'CONSULTA' LIMIT 1),
+                        (SELECT descripcion FROM sesiones WHERE sesiones.id = servicios.id_tipo_servicio AND servicios.tipo = 'SESION' LIMIT 1),
+                        (SELECT descripcion FROM paquetes WHERE paquetes.id = servicios.id_tipo_servicio AND servicios.tipo = 'PAQUETE' LIMIT 1),
+                        (SELECT descripcion FROM pruebas WHERE pruebas.id = servicios.id_tipo_servicio AND servicios.tipo = 'PRUEBA' LIMIT 1),
+                        'Sin descripción'
+                    ) AS descripcion
+                ")
+            );
+        
+        if ($search) {
+            $paquetes->whereRaw("
+                COALESCE(
+                    (SELECT nombre FROM especialidades WHERE especialidades.id = servicios.id_tipo_servicio AND servicios.tipo = 'CONSULTA' LIMIT 1),
+                    (SELECT descripcion FROM sesiones WHERE sesiones.id = servicios.id_tipo_servicio AND servicios.tipo = 'SESION' LIMIT 1),
+                    (SELECT descripcion FROM paquetes WHERE paquetes.id = servicios.id_tipo_servicio AND servicios.tipo = 'PAQUETE' LIMIT 1),
+                    (SELECT descripcion FROM pruebas WHERE pruebas.id = servicios.id_tipo_servicio AND servicios.tipo = 'PRUEBA' LIMIT 1)
+                ) LIKE ?", ["%$search%"]);
+        }
+        
+            $ListPaquetes = $paquetes->paginate($perPage, ['*'], 'page', $page);
+
+            $tdTable = '';
+            $x = ($page - 1) * $perPage + 1;
+            $const = 1;
+            foreach ($ListPaquetes as $i => $item) {
+                if (!is_null($item)) {
+                    $valor = number_format($item->precio, 2, ',', '.');
+                    $fecha = date('d/m/Y H:i:s' , strtotime($item->fecha));
+                    $sesiones = "1 / 1";
+                    if ($item->tipo == 'PAQUETE') {
+                        $color = 'badge-warning';
+                        $sesiones = $item->sesiones_disponibles. ' Disponibles de ' . $item->cantidad;
+                    } else if ($item->tipo == 'SESION') {
+                        $color = 'badge-success';
+                    } else if ($item->tipo == 'CONSULTA') {
+                        $color = 'badge-warning';
+                    } else if ($item->tipo == 'PRUEBA') {
+                        $color = 'badge-info';
+                    }
+
+                    $tdTable .= '<tr>
+                                    <td>' . $item->descripcion . '</td>
+                                    <td><span class="badge ' . $color . '">' . $item->tipo . '</span></td>
+                                    <td>' . $sesiones . '</td>
+                                    <td>' . $fecha. '</td>
+                                    <td>$ ' . $valor . '</td>
+                                    <td>' . $item->estado_venta . '</td>
+                                    <td class="table-action min-w-100">
+                                        <a onclick="editarRegistro(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
+                                                data-feather="edit-2"></i></a>
+                                        <a onclick="eliminarRegistro(' . $item->id . ');" style="cursor: pointer;" title="Eliminar" class="text-fade hover-warning"><i class="align-middle"
+                                                data-feather="trash"></i></a>
+                                    </td>
+                                </tr>';
+                    $x++;
+                    $const++;
+                }
+            }
+            $pagination = $ListPaquetes->links('Pacientes.PaginacionVentaServicios')->render();
+
+            return response()->json([
+                'servicios' => $tdTable,
+                'links' => $pagination
+            ]);
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+           
     }
 
     public function eliminarPaciente()
@@ -83,6 +219,57 @@ class PacientesController extends Controller
                 [
                     'success' => false,
                     'message' => 'Ocurrió un error al intentar eliminar el paciente',
+                    'error' => $e->getMessage()
+                ],
+                500
+            );
+        }
+    }
+    public function eliminarServicioVenta()
+    {
+        try {
+            $idServicio = request()->input('idServicio');
+
+            if (!$idServicio) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'ID del servicio no proporcionado'
+                    ],
+                    400
+                );
+            }
+
+            $paciente = DB::connection('mysql')
+                ->table('servicios')
+                ->where('id', $idServicio)
+                ->update([
+                    'estado' => 'ELIMINADO',
+                ]);
+
+
+            if ($paciente) {
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => 'Servicio eliminado correctamente'
+                    ]
+                );
+            } else {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'No se encontró el servicio o no se pudo eliminar'
+                    ],
+                    404
+                );
+            }
+        } catch (\Exception $e) {
+            // Manejar cualquier error o excepción
+            return response()->json(
+                [
+                    'success' => false,
+                        'message' => 'Ocurrió un error al intentar eliminar el servicio',
                     'error' => $e->getMessage()
                 ],
                 500
@@ -157,10 +344,11 @@ class PacientesController extends Controller
         $idPaciente = $request->input('idPaciente');
         $paciente = Pacientes::busquedaPaciente($idPaciente);
         $historia = HistoriaPsicologica::busquedaHistoriaPaciente($idPaciente);
-
+        $profesional = Pacientes::busquedaProfesional();
         return response()->json([
             'paciente' => $paciente,
-            'historia' => $historia
+            'historia' => $historia,
+            'profesional' => $profesional
         ]);
     }
 
@@ -343,6 +531,8 @@ class PacientesController extends Controller
                                     <td>' . $item->telefono . '</td>
                                     <td><span class="badge ' . $clases . '">' . $item->estado . '</span></td>
                                     <td class="table-action min-w-100">
+                                    <a href="javascript:void(0)" onclick="verServiciosVenta(' . $item->id . ');" style="cursor: pointer;" title="Venta de servicios" class="text-fade hover-info"><i class="align-middle"
+                                    data-feather="shopping-cart"></i></a>
                                     <a  style="cursor: pointer;" data-bs-toggle="dropdown" title="Historia clinica" class="text-fade hover-info"><i class="align-middle"
                                     data-feather="file-text"></i></a>
                                         <div class="dropdown-menu">

@@ -154,14 +154,7 @@
                                         </a>
                                     </li>
                                 @endif
-                                @if (in_array('AdminMotivoConsulta', session('permisos', [])))
-                                    <li id="principalParametrosEspecialidades">
-                                        <a href="{{ url('/Administracion/Especialidades') }}">
-                                            <i class="icon-Commit"><span class="path1"></span><span
-                                                class="path2"></span></i> Motivo de consulta
-                                        </a>
-                                    </li>
-                                @endif
+                           
                                 @if (in_array('Admineps', session('permisos', [])))
                                     <li id="principalParametrosEPS">
                                         <a href="{{ url('/Administracion/Entidades') }}">
@@ -170,11 +163,35 @@
                                         </a>
                                     </li>
                                 @endif
+                                @if (in_array('AdminMotivoConsulta', session('permisos', [])))
+                                <li id="principalParametrosEspecialidades">
+                                    <a href="{{ url('/Administracion/Especialidades') }}">
+                                        <i class="icon-Commit"><span class="path1"></span><span
+                                            class="path2"></span></i> Motivo de consulta
+                                    </a>
+                                </li>
+                            @endif
                                 @if (in_array('AdminPaquetes', session('permisos', [])))
                                     <li id="principalParametrosPaquetes">
                                         <a href="{{ url('/Administracion/Paquetes') }}">
                                             <i class="icon-Commit"><span class="path1"></span><span
                                                 class="path2"></span></i> Paquetes
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (in_array('AdminPruebas', session('permisos', [])))
+                                    <li id="principalParametrosPruebas">
+                                        <a href="{{ url('/Administracion/Pruebas') }}">
+                                            <i class="icon-Commit"><span class="path1"></span><span
+                                                class="path2"></span></i> Pruebas
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (in_array('AdminSesiones', session('permisos', [])))
+                                    <li id="principalParametrosSesiones">
+                                        <a href="{{ url('/Administracion/Sesiones') }}">
+                                            <i class="icon-Commit"><span class="path1"></span><span
+                                                class="path2"></span></i> Sesiones
                                         </a>
                                     </li>
                                 @endif

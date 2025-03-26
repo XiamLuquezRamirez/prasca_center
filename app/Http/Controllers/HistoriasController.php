@@ -185,7 +185,7 @@ class HistoriasController extends Controller
 
         // Capturar los datos del request
         $data = $request->all();
-        $respuesta = HistoriaPsicologica::guardarVentaConsulta($data);
+        $respuesta = Pacientes::guardarVentaConsulta($data);
 
         // Verificar el resultado y preparar la respuesta
         if ($respuesta) {
@@ -213,7 +213,7 @@ class HistoriasController extends Controller
 
         // Capturar los datos del request
         $data = $request->all();
-        $respuesta = HistoriaPsicologica::guardarVentaSesion($data);
+        $respuesta = Pacientes::guardarVentaSesion($data);
 
         // Verificar el resultado y preparar la respuesta
         if ($respuesta) {
@@ -1241,7 +1241,7 @@ class HistoriasController extends Controller
 
         $data = $request->all();
 
-        $respuesta = Paquetes::guardarPaqueteVenta($data);
+        $respuesta = Pacientes::guardarPaqueteVenta($data);
 
         // Verificar el resultado y preparar la respuesta
         if ($respuesta) {
@@ -1308,13 +1308,6 @@ class HistoriasController extends Controller
             foreach ($ListHistoria as $i => $item) {
                 if (!is_null($item)) {
 
-                    $paqueteActivo = Paquetes::paqueteActivo($item->id);
-
-                    $event = "initial";
-                    if ($paqueteActivo) {
-                        $event = "none";
-                    }
-
                     if ($item->estado_hitoria == "abierta") {
                         $estado = "<i  class='fa fa-unlock'></i> Abierta";
                         $class = "text-success";
@@ -1342,11 +1335,7 @@ class HistoriasController extends Controller
                                         </div>
                                         <div class="mt-10 mt-md-0">
                                     <div class="btn-group mb-5">
-								    <button type="button" class="waves-effect waves-light btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-dollar"></i> Venta de servicios</button>
 								    <div class="dropdown-menu" style="">
-									<a class="dropdown-item" data-paciente="' . $item->id_paciente . '" data-id="' . $item->id . '" data-consulta="' . $item->codigo_consulta . '" style="pointer-events: ' . $event . '; cursor: pointer;"  onclick="ventaConsulta(this)">Venta consulta</a>
-									<a class="dropdown-item" data-paciente="' . $item->id_paciente . '" data-id="' . $item->id . '" style="pointer-events: ' . $event . '; cursor: pointer;"  onclick="ventaSesion(this)">Venta sesión</a>
-									<a class="dropdown-item" data-paciente="' . $item->id_paciente . '" data-id="' . $item->id . '" style="cursor: pointer;"  onclick="ComprarPaquete(this)">Venta paquete</a>
 								    </div>
 								</div> 
                                 <button type="button" data-id="' . $item->id . '" dapta-tipo="' . $item->tipologia . '" onclick="verHistoria(this)" class="waves-effect waves-light btn btn-info mb-5"><i class="fa fa-search"></i> Ver detalle</button>

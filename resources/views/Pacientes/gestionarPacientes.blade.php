@@ -675,7 +675,6 @@
                         </form>
                         <!-- FORMULARIO DE VENTA DE SERVICIO PAQUETE -->
                         <form id="formVentaPaquete" style="display: none;">
-
                             <input type="hidden" name="accVentaPaquete" id="accVentaPaquete" value="guardar" />
                             <input type="hidden" name="idVentaPaquete" id="idVentaPaquete" value="" />
                             <div class="row">
@@ -735,8 +734,59 @@
                             </div>
                         </form>
                         <!-- FORMULARIO DE VENTA DE SERVICIO PRUEBA -->
-                        <div id="formVentaPrueba" style="display: none;">
-                        </div>
+                        <form id="formVentaPrueba" style="display: none;">
+                            <input type="hidden" id="idVentaPrueba" name="idVentaPrueba" />
+                            <input type="hidden" id="accVentaPrueba" name="accVentaPrueba" />
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <label for="selPrueba" class="form-label">Prueba :</label>
+                                        <select class="form-control select2" onchange="seleccionarPrueba(this);"
+                                            id="selPrueba" name="selPrueba" aria-invalid="false">
+    
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="fechaPrueba" class="form-label">Fecha :</label>
+                                        <input type="date" class="form-control" id="fechaPrueba" name="fechaPrueba">
+                                    </div>
+                                </div>
+                                <div class="col-md-12" style="display: none;">
+                                    <div class="form-group">
+                                        <label for="descripcion" class="form-label">Descripción :</label>
+                                        <textarea class="form-control" id="descripcionPrueba" name="descripcionPrueba"></textarea>
+                                    </div>
+    
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="precioPruebaVis" class="form-label">Valor :</label>
+                                        <input type="text" class="form-control" id="precioPruebaVis"
+                                            name="precioPruebaVis" onchange="cambioFormato(this.id);"
+                                            onkeypress="return validartxtnum(event)" onclick="this.select();">
+                                        <input type="hidden" class="form-control" id="precioPrueba"
+                                            name="precioPrueba">
+                                    </div>
+                                </div>
+    
+    
+                                <div class="box-footer text-end">
+                                    <button type="button" id="cancelRegistroPrueba" onclick="cancelarPrueba();"
+                                        class="btn btn-primary-light me-1">
+                                        <i class="ti-close"></i> Cancelar
+                                    </button>
+                                    <button type="button" id="saveRegistroPrueba" onclick="guardarPruebas();"
+                                        class="btn btn-primary">
+                                        <i class="ti-save"></i> Guardar
+                                    </button>
+                                </div>
+    
+                            </div>
+
+                        
+                        </form>
 
                     </div>
 
@@ -1056,6 +1106,37 @@
                 }
             });
 
+                //VALIDAR FORMULARIO DE PRUEBAS
+
+                $("#formVentaPrueba").validate({
+                    rules: {
+                        selPrueba: {
+                            required: true
+                        },
+                        fechaPrueba: {
+                            required: true
+                        },
+                        precioPruebaVis: {
+                            required: true
+                        }
+
+                    },
+                    messages: {
+                        selPrueba: {
+                            required: "Por favor, seleccione una prueba"
+                        },
+                        fechaPrueba: {
+                            required: "Por favor, seleccione una fecha"
+                        },
+                        precioPruebaVis: {
+                            required: "Por favor, ingrese el valor de la prueba"
+                        }
+                    },
+                    submitHandler: function(form) {
+                        guardarPruebas()
+                    }
+                });
+
             cargarPacientes(1)
             cargarDepartamento()
             cargarTipoUsuario()
@@ -1104,6 +1185,13 @@
         function hasPermission(permission) {
             return window.userPermissions && window.userPermissions.includes(permission);
         }
+
+        function seleccionarPrueba(element) {
+                let selectedOption = element.options[element.selectedIndex];
+                let valor = selectedOption.getAttribute("data-valor");
+                document.getElementById("precioPrueba").value = valor
+                document.getElementById("precioPruebaVis").value = formatCurrency(valor, 'es-CO', 'COP')
+            }
 
         function agregarArchivo() {
             // Crear un nuevo contenedor para el campo de entrada
@@ -1665,6 +1753,7 @@
             cargarConsultas()
             cargarSesiones()
             cargarPaquetes()
+            cargarPrueba()
 
         }
 
@@ -1778,7 +1867,7 @@
                     document.getElementById("formVentaSesion").style.display = "none"
                     document.getElementById("formVentaPaquete").style.display = "none"
                     document.getElementById("VentaServicio").style.display = "none"
-                    document.getElementById("accHistoriaVentaPrueba").value = "guardar"
+                    document.getElementById("accVentaPrueba").value = "guardar"
                     break
                 default:
             }
@@ -1848,6 +1937,28 @@
                         option.value = paquete.id
                         option.text = paquete.descripcion
                         option.setAttribute("data-valor", paquete.precio_por_sesion)
+                        select.appendChild(option)
+                    })
+                })
+                .catch(error => console.error('Error:', error))
+        }
+
+        function cargarPrueba() {
+            let select = document.getElementById("selPrueba")
+            select.innerHTML = ""
+            let defaultOption = document.createElement("option")
+            defaultOption.value = ""
+            defaultOption.text = "Seleccione una prueba"
+            select.appendChild(defaultOption)
+            let url = "{{ route('pacientes.pruebas') }}"
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(prueba => {
+                        let option = document.createElement("option")
+                        option.value = prueba.id
+                        option.text = prueba.descripcion
+                        option.setAttribute("data-valor", prueba.precio)
                         select.appendChild(option)
                     })
                 })
@@ -1947,6 +2058,12 @@
             document.getElementById("btnRegresar").style.display = "block"
         }
 
+        function cancelarPrueba() {
+            document.getElementById("formVentaPrueba").style.display = "none"
+            document.getElementById("VentaServicio").style.display = "block"
+            document.getElementById("btnRegresar").style.display = "block"
+        }
+
         function editarRegistro(idServicio) {
 
             let listadoVentaServicios = document.getElementById("listadoVentaServicios")
@@ -2010,7 +2127,8 @@
                         document.getElementById("formVentaConsulta").style.display = "none"
                         document.getElementById("formVentaSesion").style.display = "none"
                         document.getElementById("formVentaPrueba").style.display = "none"
-
+                        let paraFecha = data.fecha.split(" ")
+                        document.getElementById("fechaVentaPaquete").value = paraFecha[0]
                         document.getElementById("selPaquete").value = data.id_tipo_servicio
                         document.getElementById("numSesiones").value = data.cantidad
                         document.getElementById("precioSesion").value = data.precio	
@@ -2020,11 +2138,19 @@
                         document.getElementById("idVentaPaquete").value = data.id
                         document.getElementById("accVentaPaquete").value = 'editar'
                         
-                    } else if (data.tipo == 'PRUEBA') {
+                    } else if (data.tipo == 'PRUEBAS') {
                         document.getElementById("formVentaPrueba").style.display = "block"
                         document.getElementById("formVentaConsulta").style.display = "none"
                         document.getElementById("formVentaSesion").style.display = "none"
                         document.getElementById("formVentaPaquete").style.display = "none"
+
+                        document.getElementById("selPrueba").value = data.id_tipo_servicio
+                        let paraFecha = data.fecha.split(" ")
+                        document.getElementById("fechaPrueba").value = paraFecha[0]
+                        document.getElementById("idVentaPrueba").value = data.id
+                        document.getElementById("accVentaPrueba").value = 'editar'
+                        document.getElementById("precioPrueba").value = data.precio
+                        document.getElementById("precioPruebaVis").value = formatCurrency(data.precio, 'es-CO', 'COP')
                     }
                 })
                 .catch(error => console.error('Error:', error))
@@ -2179,6 +2305,49 @@
 
             }
         }
+
+
+        function guardarPruebas() {
+                if ($("#formVentaPrueba").valid()) {
+
+                    const formVentaPrueba = document.getElementById('formVentaPrueba')
+                    const formData = new FormData(formVentaPrueba)
+                    formData.append('idPaciente', document.getElementById("idPaciente").value)
+
+                    const url = "{{ route('form.guardarPruebaVenta') }}"
+
+                    fetch(url, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+
+                            if (data.success = 'success') {
+
+                                swal(data.title, data.message, data.success)
+                                document.getElementById("formVentaPrueba").style.display = "none"
+                                document.getElementById("formVentaServicio").style.display = "none"
+                                document.getElementById("VentaServicio").style.display = "none"
+                                document.getElementById("btnRegresar").style.display = "none"
+                                document.getElementById("listadoVentaServicios").style.display = "block"
+                                document.getElementById("newVentaServicio").style.display = "block"
+                                cargarVentaServiciosPacientes(1)
+
+                            } else {
+                                swal(data.title, data.message, data.success)
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error al enviar los datos:", error)
+                        })
+
+                }
+            }
+
     </script>
 
     <style>

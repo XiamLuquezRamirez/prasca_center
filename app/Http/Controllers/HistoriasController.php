@@ -866,6 +866,7 @@ class HistoriasController extends Controller
     {
         $idProf = $request->input('idProf');
         $profesional = Profesional::busquedaProfesionalHitoria($idProf);
+        
         //responder si se encontro el profesional con estado
         return response()->json([
             'profesional' => $profesional

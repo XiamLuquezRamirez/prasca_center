@@ -62,6 +62,13 @@ class Pacientes extends Model
             ->get();
     }
 
+    public static function listPruebas()
+    {
+        return DB::connection('mysql')->table('pruebas')
+            ->where('estado', 'ACTIVO')
+            ->get();
+    }
+
     public static function busquedaProfesional()
     {
 

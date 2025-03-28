@@ -55,6 +55,7 @@ Route::post('/pacientes/buscaServicioVenta', [PacientesController::class,'buscaS
 Route::post('/pacientes/eliminarServicioVenta', [PacientesController::class,'eliminarServicioVenta'])->name('pacientes.eliminarServicioVenta');
 Route::get('/pacientes/sesiones', [PacientesController::class,'sesiones'])->name('pacientes.sesiones');
 Route::get('/pacientes/paquetes', [PacientesController::class,'paquetes'])->name('pacientes.paquetes');
+Route::get('/pacientes/pruebas', [PacientesController::class,'pruebas'])->name('pacientes.pruebas');
 
 ////ADMINISTRACCION
 ///GESTIONAR ESPECIALIDADES

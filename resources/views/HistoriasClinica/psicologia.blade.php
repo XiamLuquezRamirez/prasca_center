@@ -643,63 +643,87 @@
                                                             <div class="form-group">
                                                                 <label for="depresion"
                                                                     class="form-label">Depresión:</label>
-                                                                <select class="form-control" id="depresion"
-                                                                    name="depresion">
-                                                                    <option value="">Selecciona una opción
-                                                                    </option>
-                                                                    <option value="no refiere">No refiere</option>
-                                                                    <option value="padre">Padre</option>
-                                                                    <option value="madre">Madre</option>
-                                                                    <option value="hijo">Hijo/a</option>
-                                                                    <option value="hermano">Hermano/a</option>
-                                                                    <option value="abuelo">Abuelo/a</option>
-                                                                    <option value="tio">Tío/a</option>
-                                                                    <option value="primo">Primo/a</option>
-                                                                    <option value="sobrino">Sobrino/a</option>
-                                                                    <option value="nieto">Nieto/a</option>
-                                                                    <option value="otro">Otro</option>
+                                                                <select class="form-control select2" style="width: 100%" multiple id="depresion"
+                                                                    name="depresion[]">
+                                                                    <option value="">Selecciona una opción</option>
+                                                                    <option value="No refiere">No refiere</option>
+                                                                    <option value="Padre">Padre</option>
+                                                                    <option value="Madre">Madre</option>
+                                                                    <option value="Hijo/a">Hijo/a</option>
+                                                                    <option value="Hermano/a">Hermano/a</option>
+                                                                    <option value="Abuelo paterno">Abuelo paterno</option>
+                                                                    <option value="Abuela paterna">Abuela paterna</option>
+                                                                    <option value="Abuelo materno">Abuelo materno</option>
+                                                                    <option value="Abuela materna">Abuela materna</option>
+                                                                    <option value="Tío paterno">Tío paterno</option>
+                                                                    <option value="Tía paterna">Tía paterna</option>
+                                                                    <option value="Tío materno">Tío materno</option>
+                                                                    <option value="Tía materna">Tía materna</option>
+                                                                    <option value="Primo paterno">Primo paterno</option>
+                                                                    <option value="Prima paterna">Prima paterna</option>
+                                                                    <option value="Primo materno">Primo materno</option>
+                                                                    <option value="Prima materna">Prima materna</option>
+                                                                    <option value="Sobrino/a">Sobrino/a</option>
+                                                                    <option value="Nieto/a">Nieto/a</option>
+                                                                    <option value="Otro">Otro</option>
                                                                 </select>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label for="ansiedad" class="form-label">Ansiedad:</label>
-                                                                <select class="form-control" id="ansiedad"
-                                                                    name="ansiedad">
-                                                                    <option value="">Selecciona una opción
-                                                                    </option>
-                                                                    <option value="no refiere">No refiere</option>
-                                                                    <option value="padre">Padre</option>
-                                                                    <option value="madre">Madre</option>
-                                                                    <option value="hijo">Hijo/a</option>
-                                                                    <option value="hermano">Hermano/a</option>
-                                                                    <option value="abuelo">Abuelo/a</option>
-                                                                    <option value="tio">Tío/a</option>
-                                                                    <option value="primo">Primo/a</option>
-                                                                    <option value="sobrino">Sobrino/a</option>
-                                                                    <option value="nieto">Nieto/a</option>
-                                                                    <option value="otro">Otro</option>
+                                                                <select class="form-control select2" style="width: 100%" multiple id="ansiedad"
+                                                                    name="ansiedad[]">
+                                                                    <option value="">Selecciona una opción</option>
+                                                                    <option value="No refiere">No refiere</option>
+                                                                    <option value="Padre">Padre</option>
+                                                                    <option value="Madre">Madre</option>
+                                                                    <option value="Hijo/a">Hijo/a</option>
+                                                                    <option value="Hermano/a">Hermano/a</option>
+                                                                    <option value="Abuelo paterno">Abuelo paterno</option>
+                                                                    <option value="Abuela paterna">Abuela paterna</option>
+                                                                    <option value="Abuelo materno">Abuelo materno</option>
+                                                                    <option value="Abuela materna">Abuela materna</option>
+                                                                    <option value="Tío paterno">Tío paterno</option>
+                                                                    <option value="Tía paterna">Tía paterna</option>
+                                                                    <option value="Tío materno">Tío materno</option>
+                                                                    <option value="Tía materna">Tía materna</option>
+                                                                    <option value="Primo paterno">Primo paterno</option>
+                                                                    <option value="Prima paterna">Prima paterna</option>
+                                                                    <option value="Primo materno">Primo materno</option>
+                                                                    <option value="Prima materna">Prima materna</option>
+                                                                    <option value="Sobrino/a">Sobrino/a</option>
+                                                                    <option value="Nieto/a">Nieto/a</option>
+                                                                    <option value="Otro">Otro</option>
                                                                 </select>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label for="demencia" class="form-label">Demencia:</label>
-                                                                <select class="form-control" id="demencia"
-                                                                    name="demencia">
-                                                                    <option value="">Selecciona una opción
-                                                                    </option>
-                                                                    <option value="no refiere">No refiere</option>
-                                                                    <option value="padre">Padre</option>
-                                                                    <option value="madre">Madre</option>
-                                                                    <option value="hijo">Hijo/a</option>
-                                                                    <option value="hermano">Hermano/a</option>
-                                                                    <option value="abuelo">Abuelo/a</option>
-                                                                    <option value="tio">Tío/a</option>
-                                                                    <option value="primo">Primo/a</option>
-                                                                    <option value="sobrino">Sobrino/a</option>
-                                                                    <option value="nieto">Nieto/a</option>
-                                                                    <option value="otro">Otro</option>
+                                                                <select class="form-control select2" style="width: 100%" multiple id="demencia"
+                                                                    name="demencia[]">
+                                                                    <option value="">Selecciona una opción</option>
+                                                                    <option value="No refiere">No refiere</option>
+                                                                    <option value="Padre">Padre</option>
+                                                                    <option value="Madre">Madre</option>
+                                                                    <option value="Hijo/a">Hijo/a</option>
+                                                                    <option value="Hermano/a">Hermano/a</option>
+                                                                    <option value="Abuelo paterno">Abuelo paterno</option>
+                                                                    <option value="Abuela paterna">Abuela paterna</option>
+                                                                    <option value="Abuelo materno">Abuelo materno</option>
+                                                                    <option value="Abuela materna">Abuela materna</option>
+                                                                    <option value="Tío paterno">Tío paterno</option>
+                                                                    <option value="Tía paterna">Tía paterna</option>
+                                                                    <option value="Tío materno">Tío materno</option>
+                                                                    <option value="Tía materna">Tía materna</option>
+                                                                    <option value="Primo paterno">Primo paterno</option>
+                                                                    <option value="Prima paterna">Prima paterna</option>
+                                                                    <option value="Primo materno">Primo materno</option>
+                                                                    <option value="Prima materna">Prima materna</option>
+                                                                    <option value="Sobrino/a">Sobrino/a</option>
+                                                                    <option value="Nieto/a">Nieto/a</option>
+                                                                    <option value="Otro">Otro</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -707,21 +731,29 @@
                                                             <div class="form-group">
                                                                 <label for="alcoholismo"
                                                                     class="form-label">Alcoholismo:</label>
-                                                                <select class="form-control" id="alcoholismo"
-                                                                    name="alcoholismo">
-                                                                    <option value="">Selecciona una opción
-                                                                    </option>
-                                                                    <option value="no refiere">No refiere</option>
-                                                                    <option value="padre">Padre</option>
-                                                                    <option value="madre">Madre</option>
-                                                                    <option value="hijo">Hijo/a</option>
-                                                                    <option value="hermano">Hermano/a</option>
-                                                                    <option value="abuelo">Abuelo/a</option>
-                                                                    <option value="tio">Tío/a</option>
-                                                                    <option value="primo">Primo/a</option>
-                                                                    <option value="sobrino">Sobrino/a</option>
-                                                                    <option value="nieto">Nieto/a</option>
-                                                                    <option value="otro">Otro</option>
+                                                                <select class="form-control select2" style="width: 100%" multiple id="alcoholismo"
+                                                                    name="alcoholismo[]">
+                                                                    <option value="">Selecciona una opción</option>
+                                                                    <option value="No refiere">No refiere</option>
+                                                                    <option value="Padre">Padre</option>
+                                                                    <option value="Madre">Madre</option>
+                                                                    <option value="Hijo/a">Hijo/a</option>
+                                                                    <option value="Hermano/a">Hermano/a</option>
+                                                                    <option value="Abuelo paterno">Abuelo paterno</option>
+                                                                    <option value="Abuela paterna">Abuela paterna</option>
+                                                                    <option value="Abuelo materno">Abuelo materno</option>
+                                                                    <option value="Abuela materna">Abuela materna</option>
+                                                                    <option value="Tío paterno">Tío paterno</option>
+                                                                    <option value="Tía paterna">Tía paterna</option>
+                                                                    <option value="Tío materno">Tío materno</option>
+                                                                    <option value="Tía materna">Tía materna</option>
+                                                                    <option value="Primo paterno">Primo paterno</option>
+                                                                    <option value="Prima paterna">Prima paterna</option>
+                                                                    <option value="Primo materno">Primo materno</option>
+                                                                    <option value="Prima materna">Prima materna</option>
+                                                                    <option value="Sobrino/a">Sobrino/a</option>
+                                                                    <option value="Nieto/a">Nieto/a</option>
+                                                                    <option value="Otro">Otro</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -729,21 +761,29 @@
                                                             <div class="form-group">
                                                                 <label for="drogadiccion"
                                                                     class="form-label">Drogadicción:</label>
-                                                                <select class="form-control" id="drogadiccion"
-                                                                    name="drogadiccion">
-                                                                    <option value="">Selecciona una opción
-                                                                    </option>
-                                                                    <option value="no refiere">No refiere</option>
-                                                                    <option value="padre">Padre</option>
-                                                                    <option value="madre">Madre</option>
-                                                                    <option value="hijo">Hijo/a</option>
-                                                                    <option value="hermano">Hermano/a</option>
-                                                                    <option value="abuelo">Abuelo/a</option>
-                                                                    <option value="tio">Tío/a</option>
-                                                                    <option value="primo">Primo/a</option>
-                                                                    <option value="sobrino">Sobrino/a</option>
-                                                                    <option value="nieto">Nieto/a</option>
-                                                                    <option value="otro">Otro</option>
+                                                                <select class="form-control select2" style="width: 100%" multiple id="drogadiccion"
+                                                                    name="drogadiccion[]">
+                                                                    <option value="">Selecciona una opción</option>
+                                                                    <option value="No refiere">No refiere</option>
+                                                                    <option value="Padre">Padre</option>
+                                                                    <option value="Madre">Madre</option>
+                                                                    <option value="Hijo/a">Hijo/a</option>
+                                                                    <option value="Hermano/a">Hermano/a</option>
+                                                                    <option value="Abuelo paterno">Abuelo paterno</option>
+                                                                    <option value="Abuela paterna">Abuela paterna</option>
+                                                                    <option value="Abuelo materno">Abuelo materno</option>
+                                                                    <option value="Abuela materna">Abuela materna</option>
+                                                                    <option value="Tío paterno">Tío paterno</option>
+                                                                    <option value="Tía paterna">Tía paterna</option>
+                                                                    <option value="Tío materno">Tío materno</option>
+                                                                    <option value="Tía materna">Tía materna</option>
+                                                                    <option value="Primo paterno">Primo paterno</option>
+                                                                    <option value="Prima paterna">Prima paterna</option>
+                                                                    <option value="Primo materno">Primo materno</option>
+                                                                    <option value="Prima materna">Prima materna</option>
+                                                                    <option value="Sobrino/a">Sobrino/a</option>
+                                                                    <option value="Nieto/a">Nieto/a</option>
+                                                                    <option value="Otro">Otro</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -752,21 +792,29 @@
                                                                 <label for="discapacidad_intelectual"
                                                                     class="form-label">Discapacidad
                                                                     Intelectual:</label>
-                                                                <select class="form-control" id="discapacidad_intelectual"
-                                                                    name="discapacidad_intelectual">
-                                                                    <option value="">Selecciona una opción
-                                                                    </option>
-                                                                    <option value="no refiere">No refiere</option>
-                                                                    <option value="padre">Padre</option>
-                                                                    <option value="madre">Madre</option>
-                                                                    <option value="hijo">Hijo/a</option>
-                                                                    <option value="hermano">Hermano/a</option>
-                                                                    <option value="abuelo">Abuelo/a</option>
-                                                                    <option value="tio">Tío/a</option>
-                                                                    <option value="primo">Primo/a</option>
-                                                                    <option value="sobrino">Sobrino/a</option>
-                                                                    <option value="nieto">Nieto/a</option>
-                                                                    <option value="otro">Otro</option>
+                                                                <select class="form-control select2" style="width: 100%" multiple id="discapacidad_intelectual"
+                                                                    name="discapacidad_intelectual[]">
+                                                                    <option value="">Selecciona una opción</option>
+                                                                    <option value="No refiere">No refiere</option>
+                                                                    <option value="Padre">Padre</option>
+                                                                    <option value="Madre">Madre</option>
+                                                                    <option value="Hijo/a">Hijo/a</option>
+                                                                    <option value="Hermano/a">Hermano/a</option>
+                                                                    <option value="Abuelo paterno">Abuelo paterno</option>
+                                                                    <option value="Abuela paterna">Abuela paterna</option>
+                                                                    <option value="Abuelo materno">Abuelo materno</option>
+                                                                    <option value="Abuela materna">Abuela materna</option>
+                                                                    <option value="Tío paterno">Tío paterno</option>
+                                                                    <option value="Tía paterna">Tía paterna</option>
+                                                                    <option value="Tío materno">Tío materno</option>
+                                                                    <option value="Tía materna">Tía materna</option>
+                                                                    <option value="Primo paterno">Primo paterno</option>
+                                                                    <option value="Prima paterna">Prima paterna</option>
+                                                                    <option value="Primo materno">Primo materno</option>
+                                                                    <option value="Prima materna">Prima materna</option>
+                                                                    <option value="Sobrino/a">Sobrino/a</option>
+                                                                    <option value="Nieto/a">Nieto/a</option>
+                                                                    <option value="Otro">Otro</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -774,42 +822,60 @@
                                                             <div class="form-group">
                                                                 <label for="patologicos"
                                                                     class="form-label">Patológicos:</label>
-                                                                <select class="form-control" id="patologicos"
-                                                                    name="patologicos">
+                                                                <select class="form-control select2" style="width: 100%" multiple id="patologicos"
+                                                                    name="patologicos[]">
                                                                     <option value="">Selecciona una opción
                                                                     </option>
-                                                                    <option value="no refiere">No refiere</option>
-                                                                    <option value="padre">Padre</option>
-                                                                    <option value="madre">Madre</option>
-                                                                    <option value="hijo">Hijo/a</option>
-                                                                    <option value="hermano">Hermano/a</option>
-                                                                    <option value="abuelo">Abuelo/a</option>
-                                                                    <option value="tio">Tío/a</option>
-                                                                    <option value="primo">Primo/a</option>
-                                                                    <option value="sobrino">Sobrino/a</option>
-                                                                    <option value="nieto">Nieto/a</option>
-                                                                    <option value="otro">Otro</option>
+                                                                    <option value="">Selecciona una opción</option>
+                                                                    <option value="No refiere">No refiere</option>
+                                                                    <option value="Padre">Padre</option>
+                                                                    <option value="Madre">Madre</option>
+                                                                    <option value="Hijo/a">Hijo/a</option>
+                                                                    <option value="Hermano/a">Hermano/a</option>
+                                                                    <option value="Abuelo paterno">Abuelo paterno</option>
+                                                                    <option value="Abuela paterna">Abuela paterna</option>
+                                                                    <option value="Abuelo materno">Abuelo materno</option>
+                                                                    <option value="Abuela materna">Abuela materna</option>
+                                                                    <option value="Tío paterno">Tío paterno</option>
+                                                                    <option value="Tía paterna">Tía paterna</option>
+                                                                    <option value="Tío materno">Tío materno</option>
+                                                                    <option value="Tía materna">Tía materna</option>
+                                                                    <option value="Primo paterno">Primo paterno</option>
+                                                                    <option value="Prima paterna">Prima paterna</option>
+                                                                    <option value="Primo materno">Primo materno</option>
+                                                                    <option value="Prima materna">Prima materna</option>
+                                                                    <option value="Sobrino/a">Sobrino/a</option>
+                                                                    <option value="Nieto/a">Nieto/a</option>
+                                                                    <option value="Otro">Otro</option>
                                                                 </select>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label for="otros" class="form-label">Otros:</label>
-                                                                <select class="form-control" id="otros"
-                                                                    name="otros">
-                                                                    <option value="">Selecciona una opción
-                                                                    </option>
-                                                                    <option value="no refiere">No refiere</option>
-                                                                    <option value="padre">Padre</option>
-                                                                    <option value="madre">Madre</option>
-                                                                    <option value="hijo">Hijo/a</option>
-                                                                    <option value="hermano">Hermano/a</option>
-                                                                    <option value="abuelo">Abuelo/a</option>
-                                                                    <option value="tio">Tío/a</option>
-                                                                    <option value="primo">Primo/a</option>
-                                                                    <option value="sobrino">Sobrino/a</option>
-                                                                    <option value="nieto">Nieto/a</option>
-                                                                    <option value="otro">Otro</option>
+                                                                <select class="form-control select2" style="width: 100%" multiple id="otros"
+                                                                    name="otros[]">
+                                                                    <option value="">Selecciona una opción</option>
+                                                                    <option value="No refiere">No refiere</option>
+                                                                    <option value="Padre">Padre</option>
+                                                                    <option value="Madre">Madre</option>
+                                                                    <option value="Hijo/a">Hijo/a</option>
+                                                                    <option value="Hermano/a">Hermano/a</option>
+                                                                    <option value="Abuelo paterno">Abuelo paterno</option>
+                                                                    <option value="Abuela paterna">Abuela paterna</option>
+                                                                    <option value="Abuelo materno">Abuelo materno</option>
+                                                                    <option value="Abuela materna">Abuela materna</option>
+                                                                    <option value="Tío paterno">Tío paterno</option>
+                                                                    <option value="Tía paterna">Tía paterna</option>
+                                                                    <option value="Tío materno">Tío materno</option>
+                                                                    <option value="Tía materna">Tía materna</option>
+                                                                    <option value="Primo paterno">Primo paterno</option>
+                                                                    <option value="Prima paterna">Prima paterna</option>
+                                                                    <option value="Primo materno">Primo materno</option>
+                                                                    <option value="Prima materna">Prima materna</option>
+                                                                    <option value="Sobrino/a">Sobrino/a</option>
+                                                                    <option value="Nieto/a">Nieto/a</option>
+                                                                    <option value="Otro">Otro</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -1732,117 +1798,6 @@
         </div><!-- /.modal -->
     </div>
 
-    <!-- MODAL PAQUETES -->
-    <div class="modal fade" id="modalPaquete" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 70%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="tituloPaquete">Listado de preuba</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="formPaquetes" style="display: none;">
-                        <input type="hidden" name="accVentaPaquete" id="accVentaPaquete" value="guardar" />
-                        <input type="hidden" name="idVentaPaquete" id="idVentaPaquete" value="" />
-                        <input type="hidden" name="tipoHistoria" id="tipoHistoria" value="PSICOLOGIA" />
-                        <input type="hidden" id="idPacienteVentaPaquete" name="idPacienteVentaPaquete" />
-                        <input type="hidden" name="descripcionVentaPaquete" id="descripcionVentaPaquete"
-                            value="" />
-                        <div class="row">
-                            <div class="col-md-9">
-                                <div class="form-group">
-                                    <label for="descripcion" class="form-label">Paquete :</label>
-                                    <select class="form-control select2" onchange="seleccionarPaquete(this);"
-                                        id="selPaquete" name="selPaquete" aria-invalid="false">
-
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="fechaPaquete" class="form-label">Fecha :</label>
-                                    <input type="date" class="form-control" id="fechaPaquete"
-                                        name="fechaPaquete">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="precioSesionVis" class="form-label">Valor :</label>
-                                    <input type="text" class="form-control" id="precioSesionVis"
-                                        name="precioSesionVis" onchange="cambioFormato(this.id);"
-                                        onkeypress="return validartxtnum(event)" onclick="this.select();">
-                                    <input type="hidden" class="form-control" id="precioSesion"
-                                        name="precioSesion">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="numSesiones" class="form-label">Numero de sesiones :</label>
-                                    <input type="number" class="form-control" id="numSesiones" name="numSesiones"
-                                        onchange="calValorMonto()" max="20" min="1"
-                                        onkeypress="return validartxtnum(event)">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="montoFinal" class="form-label">Valor :</label>
-                                    <input type="text" readonly class="form-control" id="montoFinalVis"
-                                        name="montoFinalVis" value="$ 0,00">
-                                    <input type="hidden" class="form-control" id="montoFinal" name="montoFinal">
-                                </div>
-                            </div>
-                            <div class="box-footer text-end">
-                                <button type="button" id="cancelRegistroPaq" onclick="cancelarPaquetes();"
-                                    class="btn btn-primary-light me-1">
-                                    <i class="ti-close"></i> Cancelar
-                                </button>
-                                <button type="button" id="saveRegistroPaq" onclick="guardarPaquetes();"
-                                    class="btn btn-primary">
-                                    <i class="ti-save"></i> Guardar
-                                </button>
-                            </div>
-
-                        </div>
-                    </form>
-                    <div id="listPaquetes">
-                        <div class="box-controls pull-right">
-                            <div class="box-header-actions">
-                                <div class="input-group input-group-merge">
-                                    <input type="text" id="busquedaP" class="form-control">
-                                    <div class="input-group-text" data-password="false">
-                                        <span class="fa fa-search"></span>
-                                    </div>
-                                    <button type="button" onclick="nuevoPaquete();"
-                                        class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i> Nuevo
-                                        paquete</button>
-                                </div>
-
-                            </div>
-                        </div>
-                        <table id="tblPaquetes" class="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Descripción</th>
-                                    <th>Fecha de compra</th>
-                                    <th>Número de sesiones</th>
-                                    <th>Sesiones faltantes</th>
-                                    <th>Valor</th>
-                                    <th>Estado</th>
-                                    <th>Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody id="trRegistrosPaquetes">
-
-                            </tbody>
-                        </table>
-                        <div id="pagination-links-paquetes" class="text-center ml-1 mt-2">
-                        </div>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-    </div><!-- /.modal -->
     <!-- MODAL PLAN INTERVENCION -->
     <div class="modal fade" id="modalPlanIntervencion" tabindex="-1" role="dialog"
         aria-labelledby="myLargeModalLabel" aria-hidden="true">`
@@ -1906,188 +1861,7 @@
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
         </div><!-- /.modal -->
-    </div>
-    <div class="modal fade" id="modalVentaConsulta" tabindex="-1" role="dialog"
-        aria-labelledby="myLargeModalLabel" aria-hidden="true">`
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Venta de consulta</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="card">
-
-                        <div class="card-body">
-                            <div class="card-body">
-                                <form id="formVentaConsulta">
-                                    @csrf <!-- Directiva para el token CSRF de Laravel -->
-                                    <input type="hidden" id="idHistoriaVenta" name="idHistoriaVenta" />
-                                    <input type="hidden" id="idPacienteVenta" name="idPacienteVenta" />
-                                    <input type="hidden" id="accHistoriaVenta" name="accHistoriaVenta" />
-                                    <input type="hidden" id="idConsultaVenta" name="idConsultaVenta" />
-                                    <input type="hidden" name="tipoHistoria" id="tipoHistoria"
-                                        value="PSICOLOGIA" />
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <label for="ConsultaVenta" class="form-label">Descripción de la
-                                                    consulta:</label>
-                                                <input type="text" class="form-control" id="ConsultaVenta"
-                                                    name="ConsultaVenta">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="fechaVentaConsulta" class="form-label">Fecha:</label>
-                                            <div class="input-group">
-                                                <input type="date" class="form-control" id="fechaVentaConsulta"
-                                                    name="fechaVentaConsulta"
-                                                    placeholder="Seleccione la fecha de venta consulta" />
-                                                <input type="time" id="horaSeleccionadaVentaConsulta"
-                                                    name="horaSeleccionadaVentaConsulta" class="form-control">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-clock-o"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="valorServConsultaVis" class="form-label">Valor :</label>
-                                                <input type="text" class="form-control" id="valorServConsultaVis"
-                                                    name="valorServConsultaVis" placeholder="$ 0,00"
-                                                    onchange="cambioFormato(this.id);"
-                                                    onkeypress="return validartxtnum(event)" onclick="this.select();">
-                                                <input type="hidden" class="form-control" id="valorServConsulta"
-                                                    name="valorServConsulta">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="estadoServicio" class="form-label">Estado servicio :</label>
-                                                <input type="text" class="form-control" id="estadoServicio"
-                                                    name="estadoServicio" readonly>
-
-                                            </div>
-                                        </div>
-                                        <div class="box-footer text-end mt-3">
-                                            <button onclick="cancelarVentaConsulta()" type="button"
-                                                class="btn btn-primary-light me-1">
-                                                <i class="ti-share-alt"></i> Cancelar
-                                            </button>
-                                            <button onclick="guardarVentaConsulta()" id="saveRegistroVentaConsulta"
-                                                type="button" class="btn btn-primary">
-                                                <i class="ti-save"></i> Guardar
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-        </div><!-- /.modal -->
-    </div>
-    <div class="modal fade" id="modalVentaSesion" tabindex="-1" role="dialog"
-        aria-labelledby="myLargeModalLabel" aria-hidden="true">`
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 id="tituloVentaSesion" class="modal-title">Sesiones vendidas</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="card">
-
-                        <div class="card-body">
-                            <div class="card-body">
-                                <form style="display: none;" id="formVentaSesion">
-                                    @csrf <!-- Directiva para el token CSRF de Laravel -->
-                                    <input type="hidden" id="idHistoriaVentaSesion" name="idHistoriaVentaSesion" />
-                                    <input type="hidden" id="idPacienteVentaSesion" name="idPacienteVentaSesion" />
-                                    <input type="hidden" id="accHistoriaVentaSesion" name="accHistoriaVentaSesion" />
-                                    <input type="hidden" id="idVentaSesion" name="idVentaSesion" />
-                                    <input type="hidden" name="tipoHistoria" id="tipoHistoria"
-                                        value="PSICOLOGIA" />
-
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <label for="sugerenciasModal" class="form-label">Descripción de la
-                                                    sesión:</label>
-                                                <input type="text" class="form-control" id="descripcionVentaSesion"
-                                                    name="descripcionVentaSesion">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="fechaVentaSesion" class="form-label">Fecha:</label>
-                                            <div class="input-group">
-                                                <input type="date" class="form-control" id="fechaVentaSesion"
-                                                    name="fechaVentaSesion"
-                                                    placeholder="Seleccione la fecha de venta de la sesión" />
-                                                <input type="time" id="horaSeleccionadaVentaSesion"
-                                                    name="horaSeleccionadaVentaSesion" class="form-control">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-clock-o"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="valorServSesionVis" class="form-label">Valor :</label>
-                                                <input type="text" class="form-control" id="valorServSesionVis"
-                                                    name="valorServSesionVis" placeholder="$ 0,00" value=""
-                                                    onchange="cambioFormato(this.id);"
-                                                    onkeypress="return validartxtnum(event)" onclick="this.select();">
-                                                <input type="hidden" class="form-control" id="valorServSesion"
-                                                    name="valorServSesion">
-                                            </div>
-                                        </div>
-                                        <div class="box-footer text-end mt-3">
-                                            <button onclick="cancelarVentaSesion()" type="button"
-                                                class="btn btn-primary-light me-1">
-                                                <i class="ti-share-alt"></i> Cancelar
-                                            </button>
-                                            <button onclick="guardarVentaSesion()" type="button"
-                                                id="saveRegistroVentaSesion" class="btn btn-primary">
-                                                <i class="ti-save"></i> Guardar
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                                <div id="listVentaSesion">
-                                    <div class="box-controls pull-right">
-                                        <div class="box-header-actions">
-                                            <div class="input-group input-group-merge">
-                                                <button type="button" onclick="nuevaVentaSesion();"
-                                                    class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i>
-                                                    Nueva venta sesión</button>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <table id="tblPaquetes" class="table table-striped table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Descripción</th>
-                                                <th>Fecha de compra</th>
-                                                <th>Valor</th>
-                                                <th>Estado</th>
-                                                <th>Acción</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="trRegistrosVentaSesion">
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-        </div><!-- /.modal -->
-    </div>
+    </div>  
 
     <div id="loaderPacientes" style="display: none; text-align: center; padding: 10px;">
         <div class="spinner-border text-primary" role="status">
@@ -3951,10 +3725,13 @@
                 const element = document.getElementById(item.tipo)
                 if (element) {
                     if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-                        element.value = item.detalle
+
+                        element.value =  explitem.detalle
                     } else if (element.tagName === "SELECT") {
-                        element.value = item.detalle.toLowerCase()
-                        $('#' + item.tipo).val(item.detalle).trigger('change')
+                        const valores = item.detalle ? item.detalle.split(',') : []
+
+                        // Asignar el valor en Select2 correctamente
+                    $('#' + item.caracteristica).val(valores).trigger('change')
                     } else {
                         console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
                     }
@@ -4054,7 +3831,6 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-
                     if (isProfesional) {
                         document.getElementById("defaulProfesional").style.display = "initial"
                         document.getElementById("divProfesional").style.display = "none"
@@ -4280,82 +4056,7 @@
                 .catch(error => console.error('Error:', error));
         }
 
-        function ComprarPaquete(element) {
-            // obtener data-id de element 
-            let id = element.getAttribute("data-id")
-            let idPaciente = element.getAttribute("data-paciente")
-            document.getElementById("idHistoria").value = id
-            document.getElementById("idPacienteVentaPaquete").value = idPaciente
-
-            var modal = new bootstrap.Modal(document.getElementById("modalPaquete"), {
-                backdrop: 'static',
-                keyboard: false
-            });
-            modal.show()
-
-            cargarPaquetes(1)
-            cargarSelectPaquetes()
-
-        }
-
-        function cargarSelectPaquetes() {
-            return new Promise((resolve, reject) => {
-                let select = document.getElementById("selPaquete");
-                let url = "{{ route('paquetes.listaPaquetesSel') }}";
-
-                // Limpia el select antes de agregar nuevas opciones
-                select.innerHTML = "";
-
-                // Crear la opción por defecto
-                let defaultOption = document.createElement("option");
-                defaultOption.value = ""; // Valor en blanco
-                defaultOption.text = "Selecciona una opción"; // Texto que se mostrará
-                defaultOption.selected = true; // Que aparezca seleccionada por defecto
-                select.appendChild(defaultOption);
-
-                // Fetch para obtener los datos y cargar las opciones
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        data.forEach(paquete => {
-                            let option = document.createElement("option");
-                            option.value = paquete.id;
-                            option.setAttribute('data-valor', paquete.precio_por_sesion);
-                            option.setAttribute('data-descripcion', paquete.descripcion);
-                            option.text = paquete.descripcion;
-                            select.appendChild(option);
-                        });
-                        resolve(); // Resuelve la promesa cuando los datos han sido cargados
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        reject(error); // Rechaza la promesa si ocurre un error
-                    });
-            });
-        }
-
-        function calValorMonto() {
-
-            let valor = document.getElementById("precioSesion").value
-            let nsesiones = document.getElementById("numSesiones").value
-            let total = valor * nsesiones
-            document.getElementById("montoFinal").value = total
-            let formatoMoneda = formatCurrency(total, 'es-CO', 'COP')
-            document.getElementById("montoFinalVis").value = formatoMoneda
-
-        }
-
-        function seleccionarPaquete(element) {
-            let precio = element.options[element.selectedIndex].getAttribute('data-valor')
-            var formatoMoneda = formatCurrency(precio, 'es-CO', 'COP')
-            document.getElementById("precioSesion").value = precio
-            document.getElementById("precioSesionVis").value = formatoMoneda
-            let descripcion = element.options[element.selectedIndex].getAttribute('data-descripcion')
-            document.getElementById("descripcionVentaPaquete").value = descripcion
-            calValorMonto()
-        }
-
-
+      
         function cambioFormato(id) {
             let numero = document.getElementById(id)
             //elimina ultimos 3 caracateres de id de numero 
@@ -4381,319 +4082,7 @@
             return (patron.test(te) || tecla == 9 || tecla == 8 || tecla == 37 || tecla == 39 || tecla == 44)
         }
 
-        function cancelarVentaConsulta() {
-            let formVentaSesion = document.getElementById("formVentaConsulta")
-            formVentaConsulta.reset()
-            const modal = document.getElementById('modalVentaConsulta')
-            const modalInstance = bootstrap.Modal.getInstance(modal)
-            modalInstance.hide()
-        }
-
-        function cancelarVentaSesion() {
-            let formVentaSesion = document.getElementById("formVentaSesion")
-            formVentaSesion.reset()
-            document.getElementById("formVentaSesion").style.display = "none"
-            document.getElementById("listVentaSesion").style.display = "initial"
-        }
-
-        function cargarPaquetes(page, searchTerm = '') {
-            let url = "{{ route('paquetes.listaPaquetesModal') }}" // Definir la URL
-            // Eliminar los campos ocultos anteriores
-            var oldPageInput = document.getElementById('pagePaquetes')
-            var oldSearchTermInput = document.getElementById('busquedaPaq')
-            if (oldPageInput) oldPageInput.remove()
-            if (oldSearchTermInput) oldSearchTermInput.remove()
-
-            var data = {
-                page: page,
-                search: searchTerm,
-                idHist: document.getElementById("idHistoria").value,
-                tipoHist: "PSICOLOGIA"
-            }
-
-            // Limpiar la tabla antes de cargar nuevos datos
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then(responseData => {
-                    // Rellenar la tabla con las filas generadas
-                    document.getElementById("trRegistrosPaquetes").innerHTML = responseData.paquetes
-                    feather.replace()
-                    // Colocar los enlaces de paginación
-                    document.getElementById('pagination-links-paquetes').innerHTML = responseData.links
-                    loadNow(0)
-                })
-                .catch(error => console.error('Error:', error))
-        }
-
-        function nuevoPaquete() {
-            //recorrer en la tabla html y verificar si existem paqueter sin terminar
-            let table = document.getElementById("tblPaquetes")
-            let rows = table.getElementsByTagName("tr")
-
-            for (let i = 0; i < rows.length; i++) {
-                let cells = rows[i].getElementsByTagName("td")
-                if (cells.length > 0) {
-                    let estado = cells[5].innerHTML
-                    if (estado == "PENDIENTE") {
-                        swal("¡Alerta!", "No puede crear un nuevo paquete, mientras tenga uno Pendiente", "warning")
-                        document.getElementById("listPaquetes").style.display = "initial"
-                        document.getElementById("formPaquetes").style.display = "none"
-                        return
-                    }
-                }
-            }
-
-            let formPaquete = document.getElementById("formPaquetes")
-            formPaquete.reset()
-            document.getElementById("accVentaPaquete").value = "guardar"
-            document.getElementById("idVentaPaquete").value = ""
-            document.getElementById('saveRegistroPaq').removeAttribute('disabled')
-            document.getElementById("tituloPaquete").innerHTML = "Nuevo Paquete"
-            formPaquete.style.display = "initial"
-            document.getElementById("listPaquetes").style.display = "none"
-
-        }
-
-
-        function guardarPaquetes() {
-            if ($("#formPaquetes").valid()) {
-
-                const formPaquetes = document.getElementById('formPaquetes')
-                const formData = new FormData(formPaquetes)
-                formData.append('idHist', document.getElementById("idHistoria").value)
-
-                const url = "{{ route('form.guardarPaqueteVenta') }}"
-
-                fetch(url, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-
-                        if (data.success = 'success') {
-
-                            swal(data.title, data.message, data.success)
-                            cargarPaquetes(1)
-                            document.getElementById("listPaquetes").style.display = "initial"
-                            document.getElementById("formPaquetes").style.display = "none"
-
-                        } else {
-                            swal(data.title, data.message, data.success)
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error al enviar los datos:", error)
-                    })
-
-            }
-        }
-
-        function editarPaquete(idPaquete) {
-
-            document.getElementById("listPaquetes").style.display = "none"
-            document.getElementById("formPaquetes").style.display = "initial"
-
-            document.getElementById("idVentaPaquete").value = idPaquete
-            document.getElementById("accVentaPaquete").value = "editar"
-
-            let url = "{{ route('paquetes.buscaPaqueteVenta') }}"
-
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        idPaquete: idPaquete
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("tituloPaquete").innerHTML = "Editar venta paquete"
-                    document.getElementById("precioSesion").value = data.paquete.valor
-                    document.getElementById("numSesiones").value = data.paquete.cantidad
-                    document.getElementById("montoFinal").value = data.paquete.precio
-                    document.getElementById("montoFinalVis").value = formatCurrency(data.paquete.precio, 'es-CO',
-                        'COP')
-                    let paraFecha = data.paquete.fecha.split(" ")
-                    document.getElementById("fechaPaquete").value = paraFecha[0]
-                    $('#selPaquete').val(data.paquete.id_paquete).trigger('change.select2')
-                    document.getElementById("precioSesionVis").value = formatCurrency(data.paquete.valor,
-                        'es-CO', 'COP')
-
-                    document.getElementById("descripcionVentaPaquete").value = data.paquete.descripion_paquete
-                        .descripcion
-                    document.getElementById("saveRegistroPaq").removeAttribute('disabled')
-                })
-                .catch(error => console.error('Error:', error))
-        }
-
-        function editarVentaSesion(element) {
-            let idVenta = element.getAttribute("data-id")
-            let estado = element.getAttribute("data-estado")
-
-            if (estado == "PAGADO") {
-                swal("¡Alerta!", "No puede editar una sesión que ya ha sido pagada", "warning")
-                return
-            }
-
-            document.getElementById("listVentaSesion").style.display = "none"
-            document.getElementById("formVentaSesion").style.display = "initial"
-
-            document.getElementById("idVentaSesion").value = idVenta
-            document.getElementById("accHistoriaVentaSesion").value = "editar"
-
-            let url = "{{ route('historia.buscaSesionVenta') }}"
-
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        idVenta: idVenta
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("tituloVentaSesion").innerHTML = "Editar sesión"
-                    document.getElementById("idVentaSesion").value = data.servicioSesion.id
-                    document.getElementById("descripcionVentaSesion").value = data.servicioSesion.descripcion
-                    let parFecha = data.servicioSesion.fecha.split(" ")
-                    document.getElementById("fechaVentaSesion").value = parFecha[0]
-                    document.getElementById("horaSeleccionadaVentaSesion").value = parFecha[1]
-                    document.getElementById("valorServSesionVis").value = formatCurrency(data.servicioSesion.precio,
-                        'es-CO',
-                        'COP')
-                    document.getElementById("valorServSesion").value = data.servicioSesion.precio
-
-                    document.getElementById("saveRegistroVentaSesion").removeAttribute('disabled')
-                })
-                .catch(error => console.error('Error:', error))
-        }
-
-        function eliminarPaquete(idPaquete) {
-
-            swal({
-                title: "Esta seguro de eliminar esta venta de paquete ?",
-                text: "¡No podrás revertir esto!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Si, eliminar!",
-                cancelButtonText: "Cancelar",
-                confirmButtonClass: "btn btn-warning",
-                cancelButtonClass: "btn btn-danger ml-1",
-                buttonsStyling: false
-            }, function(isConfirm) {
-                if (isConfirm) {
-                    let url = "{{ route('paquetes.eliminarPaquete') }}";
-                    fetch(url, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                    .getAttribute(
-                                        'content')
-                            },
-                            body: JSON.stringify({
-                                idPaquete: idPaquete
-                            })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                swal("¡Buen trabajo!",
-                                    data.message,
-                                    "success");
-                                cargarPaquetes(1);
-                            } else {
-                                swal("¡Alerta!",
-                                    "La operación fue realizada exitosamente",
-                                    data.message,
-                                    "success");
-                            }
-                        })
-
-                } else {
-                    swal("Cancelado", "Tu registro esta salvo :)", "error");
-                }
-            });
-
-        }
-
-        function eliminarVentaSesion(element) {
-            let idVenta = element.getAttribute("data-id")
-            let estado = element.getAttribute("data-estado")
-
-            if (estado == "PAGADO") {
-                swal("¡Alerta!", "No puede eliminar una sesión que ya ha sido pagada", "warning")
-                return
-            }
-
-            swal({
-                title: "Esta seguro de eliminar esta sesión ?",
-                text: "¡No podrás revertir esto!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Si, eliminar!",
-                cancelButtonText: "Cancelar",
-                confirmButtonClass: "btn btn-warning",
-                cancelButtonClass: "btn btn-danger ml-1",
-                buttonsStyling: false
-            }, function(isConfirm) {
-                if (isConfirm) {
-                    let url = "{{ route('historia.eliminarSesionVenta') }}";
-                    fetch(url, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                    .getAttribute(
-                                        'content')
-                            },
-                            body: JSON.stringify({
-                                idVenta: idVenta
-                            })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                swal("¡Buen trabajo!",
-                                    data.message,
-                                    "success");
-                                cargarSesionesVentas(1);
-                            } else {
-                                swal("¡Alerta!",
-                                    "La operación fue realizada exitosamente",
-                                    data.message,
-                                    "success");
-                            }
-                        })
-
-                } else {
-                    swal("Cancelado", "Tu registro esta salvo :)", "error");
-                }
-            });
-
-        }
-
+        
         function PlanIntervencionHistoria(element) {
             let idHist = element.getAttribute("data-id")
             document.getElementById("idHistoriaPlan").value = idHist
@@ -4775,174 +4164,6 @@
             }
         }
 
-        function guardarVentaConsulta() {
-            if ($("#formVentaConsulta").valid()) {
-
-                const formVentaConsulta = document.getElementById('formVentaConsulta')
-                const formData = new FormData(formVentaConsulta)
-
-                const url = "{{ route('form.guardarVentaConsulta') }}"
-
-                fetch(url, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data)
-                        if (data.success = 'success') {
-
-                            swal("¡Buen trabajo!", data.message, data.success)
-                            const modal = document.getElementById('modalVentaConsulta')
-                            const modalInstance = bootstrap.Modal.getInstance(modal)
-                            modalInstance.hide()
-
-                        } else {
-                            swal(data.title, data.message, data.success)
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error al enviar los datos:", error)
-                    })
-            }
-        }
-
-        function guardarVentaSesion() {
-            if ($("#formVentaSesion").valid()) {
-
-                const formVentaSesion = document.getElementById('formVentaSesion')
-                const formData = new FormData(formVentaSesion)
-
-                const url = "{{ route('form.guardarVentaSesion') }}"
-
-                fetch(url, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data)
-                        if (data.success = 'success') {
-
-                            swal("¡Buen trabajo!", data.message, data.success)
-                            document.getElementById("formVentaSesion").style.display = "none"
-                            document.getElementById("listVentaSesion").style.display = "initial"
-                            cargarSesionesVentas()
-
-                        } else {
-                            swal(data.title, data.message, data.success)
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error al enviar los datos:", error)
-                    })
-            }
-        }
-
-        function ventaConsulta(element) {
-            let idHist = element.getAttribute("data-id")
-            let idpaciente = element.getAttribute("data-paciente")
-            document.getElementById("idHistoriaVenta").value = idHist
-            document.getElementById("idPacienteVenta").value = idpaciente
-            var modal = new bootstrap.Modal(document.getElementById("modalVentaConsulta"), {
-                backdrop: 'static',
-                keyboard: false
-            })
-            modal.show()
-            //cargar informacion si ya fue guardada la venta
-            let url = "{{ route('historia.buscaVentaConsulta') }}"
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        idHist: idHist
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data.servicioConsulta.estadoVentaConsulta)
-                    if (data.servicioConsulta.estadoVentaConsulta == 'PENDIENTE') {
-                        document.getElementById("ConsultaVenta").value = data.servicioConsulta.descripcion.nombre
-                        document.getElementById("estadoServicio").value = data.servicioConsulta.estadoVentaConsulta
-                        document.getElementById("valorServConsultaVis").value = ""
-                        document.getElementById("valorServConsulta").value = "0"
-                        document.getElementById("accHistoriaVenta").value = "guardar"
-                        document.getElementById("saveRegistroVentaConsulta").removeAttribute('disabled')
-                    } else {
-                        document.getElementById("idConsultaVenta").value = data.servicioConsulta.id
-                        document.getElementById("ConsultaVenta").value = data.servicioConsulta.descripcion
-                        document.getElementById("estadoServicio").value = data.servicioConsulta.estadoVentaConsulta
-                        document.getElementById("valorServConsultaVis").value = formatCurrency(data.servicioConsulta
-                            .precio, 'es-CO', 'COP')
-                        document.getElementById("valorServConsulta").value = data.servicioConsulta.precio
-                        let parFecha = data.servicioConsulta.fecha.split(' ')
-                        document.getElementById("fechaVentaConsulta").value = parFecha[0]
-                        document.getElementById("horaSeleccionadaVentaConsulta").value = parFecha[1]
-                        document.getElementById("accHistoriaVenta").value = "editar"
-
-                        if (data.servicioConsulta.estadoVentaConsulta == 'PAGADO') {
-                            document.getElementById("saveRegistroVentaConsulta").setAttribute('disabled', 'disabled')
-                        }
-
-                    }
-                })
-                .catch(error => console.error('Error:', error))
-
-        }
-
-
-        function ventaSesion(element) {
-            let idHist = element.getAttribute("data-id")
-            let idPaciente = element.getAttribute("data-paciente")
-            document.getElementById("idHistoriaVentaSesion").value = idHist
-            document.getElementById("idPacienteVentaSesion").value = idPaciente
-            var modal = new bootstrap.Modal(document.getElementById("modalVentaSesion"), {
-                backdrop: 'static',
-                keyboard: false
-            })
-            modal.show()
-            cargarSesionesVentas()
-        }
-
-        function cargarSesionesVentas() {
-            let url = "{{ route('historia.buscaVentaSesion') }}"
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        idHist: document.getElementById("idHistoriaVentaSesion").value,
-                        tipoHistoria: "PSICOLOGIA"
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("trRegistrosVentaSesion").innerHTML = data.ventasSesiones
-                    feather.replace()
-                })
-                .catch(error => console.error('Error:', error))
-        }
-
-        function nuevaVentaSesion() {
-            document.getElementById("formVentaSesion").reset()
-            document.getElementById("accHistoriaVentaSesion").value = "guardar"
-            document.getElementById("saveRegistroVentaSesion").removeAttribute('disabled')
-            document.getElementById("tituloVentaSesion").innerHTML = "Nueva Venta de Sesión"
-            document.getElementById("listVentaSesion").style.display = "none"
-            document.getElementById("formVentaSesion").style.display = "initial"
-
-        }
 
         function seleccionarProfesional(element) {
             let selectedOption = element.options[element.selectedIndex];

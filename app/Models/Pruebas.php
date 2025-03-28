@@ -87,19 +87,16 @@ class Pruebas extends Model
                 try {
                     $idPruebaVenta = DB::table('servicios')->insertGetId(array_filter([
                         'tipo' => 'PRUEBAS',
-                        'descripcion' => $request['descripcionPrueba'],
-                        'id_historia' => $request['idHist'],
                         'precio' => $request['precioPrueba'],
                         'estado' => 'ACTIVO',
-                        'tipo_historia' => $request['tipoHistoria'],
                         'fecha' => $request['fechaPrueba'] ,
-                        'id_paquete' => $request['selPrueba'],
-                        'id_paciente' => $request['idPacienteVentaPrueba'],
+                        'id_tipo_servicio' => $request['selPrueba'],
+                        'id_paciente' => $request['idPaciente'],
                     ]));
 
                     $idVenta = DB::table('ventas')->insertGetId(array_filter([
                         'id_servicio' => $idPruebaVenta,
-                        'id_historia' => $request['idHist'],
+                        'id_paciente' => $request['idPaciente'],
                         'usuario' => Auth::user()->id,
                         'valor' => $request['precioPrueba'],
                         'cantidad' => '1',

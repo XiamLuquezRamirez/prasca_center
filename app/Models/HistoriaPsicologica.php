@@ -67,13 +67,41 @@ class HistoriaPsicologica extends Model
                 'pagos.id',
                 'servicios.id_paciente',
                 'pagos.fecha_pago',
-                'servicios.descripcion',
                 'pagos.pago_realizado',
                 'ventas.saldo',
-                'servicios.precio'
+                'servicios.precio',
+                'servicios.id_tipo_servicio',
+                'servicios.tipo'
+
             )
             ->where('pagos.id', $idRecaudo)
             ->first();
+         
+
+        if ($recaudo) {
+            if ($recaudo->tipo == 'CONSULTA') {
+                $recaudo->descripcion = DB::connection('mysql')->table('especialidades')
+                    ->select('nombre as descripcion')
+                    ->where('id', $recaudo->id_tipo_servicio)
+                    ->first();
+            }else if($recaudo->tipo == 'SESION'){
+                $recaudo->descripcion = DB::connection('mysql')->table('sesiones')
+                    ->select('descripcion')
+                    ->where('id', $recaudo->id_tipo_servicio)
+                    ->first();
+            }else if($recaudo->tipo == 'PAQUETE'){
+                $recaudo->descripcion = DB::connection('mysql')->table('paquetes')
+                    ->select('descripcion')
+                    ->where('id', $recaudo->id_tipo_servicio)
+                    ->first();
+            }else if($recaudo->tipo == 'PRUEBAS'){
+                $recaudo->descripcion = DB::connection('mysql')->table('pruebas')
+                    ->select('descripcion')
+                    ->where('id', $recaudo->id_tipo_servicio)
+                    ->first();
+            }
+        }
+       
         return $recaudo;
     }
 
@@ -233,14 +261,14 @@ class HistoriaPsicologica extends Model
 
                     // Insertar antecedentes familiares
                     $antecedentesFamiliares = array_filter([
-                        ['id_historia' => $idHistoria, 'tipo' => 'depresion', 'detalle' => $request['depresion'], 'nombre' => 'Depresión'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'ansiedad', 'detalle' => $request['ansiedad'], 'nombre' => 'Ansiedad'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'demencia', 'detalle' => $request['demencia'], 'nombre' => 'Demencia'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'alcoholismo', 'detalle' => $request['alcoholismo'], 'nombre' => 'Alcoholismo'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'drogadiccion', 'detalle' => $request['drogadiccion'], 'nombre' => 'Drogadicción'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'discapacidad_intelectual', 'detalle' => $request['discapacidad_intelectual'], 'nombre' => 'Discapacidad intelectual'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'patologicos', 'detalle' => $request['patologicos'], 'nombre' => 'Patológicos'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'otros', 'detalle' => $request['otros'], 'nombre' => 'Otros'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'depresion', 'detalle' => implode(',', $request['depresion']), 'nombre' => 'Depresión'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'ansiedad', 'detalle' => implode(',', $request['ansiedad']), 'nombre' => 'Ansiedad'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'demencia', 'detalle' => implode(',', $request['demencia']), 'nombre' => 'Demencia'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'alcoholismo', 'detalle' => implode(',', $request['alcoholismo']), 'nombre' => 'Alcoholismo'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'drogadiccion', 'detalle' => implode(',', $request['drogadiccion']), 'nombre' => 'Drogadicción'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'discapacidad_intelectual', 'detalle' => implode(',', $request['discapacidad_intelectual']), 'nombre' => 'Discapacidad intelectual'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'patologicos', 'detalle' => implode(',', $request['patologicos']), 'nombre' => 'Patológicos'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'otros', 'detalle' => implode(',', $request['otros']), 'nombre' => 'Otros'],
                     ], function ($item) {
                         return !empty($item['detalle']);
                     });
@@ -455,14 +483,14 @@ class HistoriaPsicologica extends Model
                     // Insertar antecedentes familiares
                     DB::table('antecedentes_familiares')->where('id_historia', $idHistoria)->delete();
                     $antecedentesFamiliares = array_filter([
-                        ['id_historia' => $idHistoria, 'tipo' => 'depresion', 'detalle' => $request['depresion'], 'nombre' => 'Depresión'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'ansiedad', 'detalle' => $request['ansiedad'], 'nombre' => 'Ansiedad'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'demencia', 'detalle' => $request['demencia'], 'nombre' => 'Demencia'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'alcoholismo', 'detalle' => $request['alcoholismo'], 'nombre' => 'Alcoholismo'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'drogadiccion', 'detalle' => $request['drogadiccion'], 'nombre' => 'Drogadicción'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'discapacidad_intelectual', 'detalle' => $request['discapacidad_intelectual'], 'nombre' => 'Discapacidad intelectual'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'patologicos', 'detalle' => $request['patologicos'], 'nombre' => 'Patológicos'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'otros', 'detalle' => $request['otros'], 'nombre' => 'Otros'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'depresion', 'detalle' => implode(',', $request['depresion']), 'nombre' => 'Depresión'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'ansiedad', 'detalle' => implode(',', $request['ansiedad']), 'nombre' => 'Ansiedad'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'demencia', 'detalle' => implode(',', $request['demencia']), 'nombre' => 'Demencia'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'alcoholismo', 'detalle' => implode(',', $request['alcoholismo']), 'nombre' => 'Alcoholismo'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'drogadiccion', 'detalle' => implode(',', $request['drogadiccion']), 'nombre' => 'Drogadicción'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'discapacidad_intelectual', 'detalle' => implode(',', $request['discapacidad_intelectual']), 'nombre' => 'Discapacidad intelectual'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'patologicos', 'detalle' => implode(',', $request['patologicos']), 'nombre' => 'Patológicos'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'otros', 'detalle' => implode(',', $request['otros']), 'nombre' => 'Otros'],
                     ], function ($item) {
                         return !empty($item['detalle']);
                     });

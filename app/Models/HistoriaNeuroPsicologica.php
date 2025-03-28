@@ -167,14 +167,14 @@ class HistoriaNeuroPsicologica extends Model
 
                     // Insertar antecedentes familiares
                     $antecedentesFamiliares = array_filter([
-                        ['id_historia' => $idHistoria, 'tipo' => 'depresion', 'detalle' => $request['depresion'], 'nombre' => 'Depresión'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'ansiedad', 'detalle' => $request['ansiedad'], 'nombre' => 'Ansiedad'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'demencia', 'detalle' => $request['demencia'], 'nombre' => 'Demencia'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'alcoholismo', 'detalle' => $request['alcoholismo'], 'nombre' => 'Alcoholismo'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'drogadiccion', 'detalle' => $request['drogadiccion'], 'nombre' => 'Drogadicción'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'discapacidad_intelectual', 'detalle' => $request['discapacidad_intelectual'], 'nombre' => 'Discapacidad intelectual'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'patologicos', 'detalle' => $request['patologicos'], 'nombre' => 'Patológicos'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'otros', 'detalle' => $request['otros'], 'nombre' => 'Otros'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'depresion', 'detalle' => implode(',', $request['depresion']) ?? null, 'nombre' => 'Depresión'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'ansiedad', 'detalle' => implode(',', $request['ansiedad']) ?? null, 'nombre' => 'Ansiedad'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'demencia', 'detalle' => implode(',', $request['demencia']) ?? null, 'nombre' => 'Demencia'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'alcoholismo', 'detalle' => implode(',', $request['alcoholismo']) ?? null, 'nombre' => 'Alcoholismo'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'drogadiccion', 'detalle' => implode(',', $request['drogadiccion']) ?? null, 'nombre' => 'Drogadicción'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'discapacidad_intelectual', 'detalle' => implode(',', $request['discapacidad_intelectual']) ?? null, 'nombre' => 'Discapacidad intelectual'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'patologicos', 'detalle' => implode(',', $request['patologicos']) ?? null, 'nombre' => 'Patológicos'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'otros', 'detalle' => implode(',', $request['otros']) ?? null, 'nombre' => 'Otros'],
                     ], function ($item) {
                         return !empty($item['detalle']);
                     });
@@ -279,7 +279,7 @@ class HistoriaNeuroPsicologica extends Model
                     /// En el caso de que sea pediatria
                     if ($request['tipoPsicologia'] == "Pediatría") {
                         // Insertar antecedentes prenatales
-                        $antecedentesFamiliares = array_filter([
+                        $antecedentesPrenatales = array_filter([
                             ['id_historia' => $idHistoria, 'tipo' => 'edad_madre', 'detalle' => $request['edad_madre'], 'nombre' => 'Edad de la madre en el embarazo'],
                             ['id_historia' => $idHistoria, 'tipo' => 'enfermedades_madre', 'detalle' => $request['enfermedades_madre'], 'nombre' => 'Enfermedades de la madre'],
                             ['id_historia' => $idHistoria, 'tipo' => 'numero_embarazo', 'detalle' => $request['numero_embarazo'], 'nombre' => 'Único embarazo'],
@@ -289,10 +289,10 @@ class HistoriaNeuroPsicologica extends Model
                         ], function ($item) {
                             return !empty($item['detalle']);
                         });
-                        DB::table('antecedentes_prenatales_neuro')->insert($antecedentesFamiliares);
+                        DB::table('antecedentes_prenatales_neuro')->insert($antecedentesPrenatales);
 
                         // Insertar antecedentes natales
-                        $antecedentesFamiliares = array_filter([
+                        $antecedentesNatales = array_filter([
                             ['id_historia' => $idHistoria, 'tipo' => 'tipo_nacimiento', 'detalle' => $request['tipo_nacimiento'], 'nombre' => 'Tipo de nacimiento'],
                             ['id_historia' => $idHistoria, 'tipo' => 'causa_cesarea', 'detalle' => $request['causa_cesarea'], 'nombre' => 'Causa de la cesárea'],
                             ['id_historia' => $idHistoria, 'tipo' => 'reanimacion', 'detalle' => $request['reanimacion'], 'nombre' => 'Uso de maniobras de reanimación'],
@@ -302,19 +302,19 @@ class HistoriaNeuroPsicologica extends Model
                         ], function ($item) {
                             return !empty($item['detalle']);
                         });
-                        DB::table('antecedentes_natales_neuro')->insert($antecedentesFamiliares);
+                        DB::table('antecedentes_natales_neuro')->insert($antecedentesNatales);
 
                         // Insertar antecedentes posnatales
-                        $antecedentesFamiliares = array_filter([
+                        $antecedentesPosnatales = array_filter([
                             ['id_historia' => $idHistoria, 'tipo' => 'hospitalizaciones_postnatales', 'detalle' => $request['hospitalizaciones'], 'nombre' => 'Hospitalizaciones recién nacido'],
                             ['id_historia' => $idHistoria, 'tipo' => 'desarrollo_psicomotor', 'detalle' => $request['desarrollo_psicomotor'], 'nombre' => 'Desarrollo psicomotor']
                         ], function ($item) {
                             return !empty($item['detalle']);
                         });
-                        DB::table('antecedentes_posnatales_neuro')->insert($antecedentesFamiliares);
+                        DB::table('antecedentes_posnatales_neuro')->insert($antecedentesPosnatales);
 
                         // Insertar desarrollo psicomotor
-                        $antecedentesFamiliares = array_filter([
+                        $desarrolloPsicomotor = array_filter([
                             ['id_historia' => $idHistoria, 'tipo' => 'control_cefalico', 'detalle' => $request['control_cefalico'], 'nombre' => 'Control cefálico'],
                             ['id_historia' => $idHistoria, 'tipo' => 'rolado', 'detalle' => $request['rolado'], 'nombre' => 'Rolado'],
                             ['id_historia' => $idHistoria, 'tipo' => 'sedente_solo', 'detalle' => $request['sedente_solo'], 'nombre' => 'Sedente solo'],
@@ -326,7 +326,7 @@ class HistoriaNeuroPsicologica extends Model
                         ], function ($item) {
                             return !empty($item['detalle']);
                         });
-                        DB::table('desarrollo_psicomotor_neuro')->insert($antecedentesFamiliares);
+                        DB::table('desarrollo_psicomotor_neuro')->insert($desarrolloPsicomotor);
                     }
                     // Confirmar transacción
                     DB::commit();
@@ -364,7 +364,6 @@ class HistoriaNeuroPsicologica extends Model
                     ]));
 
               
-
                     // Insertar antecedentes médicos
                     DB::table('antecedentes_medicos_neuro')->where('id_historia', $idHistoria)->delete();
                     $antecedentesMedicos = array_filter([
@@ -384,14 +383,14 @@ class HistoriaNeuroPsicologica extends Model
                     // Insertar antecedentes familiares
                     DB::table('antecedentes_familiares_neuro')->where('id_historia', $idHistoria)->delete();
                     $antecedentesFamiliares = array_filter([
-                        ['id_historia' => $idHistoria, 'tipo' => 'depresion', 'detalle' => $request['depresion'], 'nombre' => 'Depresión'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'ansiedad', 'detalle' => $request['ansiedad'], 'nombre' => 'Ansiedad'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'demencia', 'detalle' => $request['demencia'], 'nombre' => 'Demencia'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'alcoholismo', 'detalle' => $request['alcoholismo'], 'nombre' => 'Alcoholismo'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'drogadiccion', 'detalle' => $request['drogadiccion'], 'nombre' => 'Drogadicción'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'discapacidad_intelectual', 'detalle' => $request['discapacidad_intelectual'], 'nombre' => 'Discapacidad intelectual'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'patologicos', 'detalle' => $request['patologicos'], 'nombre' => 'Patológicos'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'otros', 'detalle' => $request['otros'], 'nombre' => 'Otros'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'depresion', 'detalle' => implode(',', $request['depresion']) ?? null, 'nombre' => 'Depresión'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'ansiedad', 'detalle' => implode(',', $request['ansiedad']) ?? null, 'nombre' => 'Ansiedad'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'demencia', 'detalle' => implode(',', $request['demencia']) ?? null, 'nombre' => 'Demencia'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'alcoholismo', 'detalle' => implode(',', $request['alcoholismo']) ?? null, 'nombre' => 'Alcoholismo'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'drogadiccion', 'detalle' => implode(',', $request['drogadiccion']) ?? null, 'nombre' => 'Drogadicción'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'discapacidad_intelectual', 'detalle' => implode(',', $request['discapacidad_intelectual']) ?? null, 'nombre' => 'Discapacidad intelectual'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'patologicos', 'detalle' => implode(',', $request['patologicos']) ?? null, 'nombre' => 'Patológicos'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'otros', 'detalle' => implode(',', $request['otros']) ?? null, 'nombre' => 'Otros'],
                     ], function ($item) {
                         return !empty($item['detalle']);
                     });

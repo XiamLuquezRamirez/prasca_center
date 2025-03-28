@@ -823,13 +823,6 @@ class HistoriaNeuroPsicologicaController extends Controller
                 if (!is_null($item)) {
 
 
-                    $paqueteActivo = Paquetes::paqueteActivoNeuro($item->id);
-
-                    $event = "initial";
-                    if ($paqueteActivo) {
-                        $event = "none";
-                    }
-
                     if ($item->estado_hitoria == "abierta") {
                         $estado = "<i class='fa fa-unlock'></i> Abierta";
                         $class = "text-success";
@@ -856,12 +849,8 @@ class HistoriaNeuroPsicologicaController extends Controller
                             </div>
                             <div class="mt-10 mt-md-0">
                         <div class="btn-group mb-5">
-                        <button type="button" class="waves-effect waves-light btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-dollar"></i> Venta de servicios</button>
                         <div class="dropdown-menu" style="">
-                        <a class="dropdown-item" data-paciente="'.$item->id_paciente.'" data-id="' . $item->id . '" data-consulta="' . $item->codigo_consulta . '" style="pointer-events: ' . $event . '; cursor: pointer;"  onclick="ventaConsulta(this)">Venta consulta</a>
-                        <a class="dropdown-item" data-paciente="'.$item->id_paciente.'" data-id="' . $item->id . '" style="pointer-events: ' . $event . '; cursor: pointer;"  onclick="ventaSesion(this)">Venta sesión</a>
-                        <a class="dropdown-item" data-paciente="'.$item->id_paciente.'" data-id="' . $item->id . '" style="cursor: pointer;"  onclick="ComprarPaquete(this)">Venta paquete</a>
-                        <a class="dropdown-item" data-paciente="'.$item->id_paciente.'" data-id="' . $item->id . '" style="cursor: pointer;"  onclick="ComprarPrueba(this)">Venta prueba</a>
+                        
                         </div>
                     </div> 
                     <button type="button" data-id="' . $item->id . '" dapta-tipo="' . $item->tipologia . '" onclick="verHistoria(this)" class="waves-effect waves-light btn btn-info mb-5"><i class="fa fa-search"></i> Ver detalle</button>

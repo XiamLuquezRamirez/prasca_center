@@ -259,7 +259,7 @@ class AdminitraccionController extends Controller
             $idRecaudo = $request->input('idRecaudo');
             $recaudo = HistoriaPsicologica::busquedaRecaudo($idRecaudo);
             $mediosPagos = HistoriaPsicologica::listarMediosPagos($idRecaudo);
-
+           
             // Ruta del logo y conversión a base64
             $logoPath = public_path('app-assets/images/logo/logo_prasca.png');
             $logoData = base64_encode(file_get_contents($logoPath));
@@ -270,7 +270,7 @@ class AdminitraccionController extends Controller
 
             $paciente = Pacientes::busquedaPaciente($recaudo->id_paciente);
             $ncompro = self::addCeros($recaudo->id, 5);
-
+           
             $html = '<html>
         <head>
             <style>
@@ -337,7 +337,7 @@ class AdminitraccionController extends Controller
             $html .= '<h3>DETALLES DEL PAGO</h3>
         <table>
             <tr>
-                <td><strong>DESCRIPCIÓN:</strong><br>' . $recaudo->descripcion . '</td>
+                <td><strong>DESCRIPCIÓN:</strong><br>' . $recaudo->descripcion->descripcion . '</td>
                 <td><strong>VALOR:</strong><br>$ ' . number_format($recaudo->pago_realizado, 2, ',', '.') . '</td>
             </tr>
         </table>';
@@ -358,7 +358,7 @@ class AdminitraccionController extends Controller
             $html .= '<h3>DETALLES DEL SERVICIO</h3>
         <table>
             <tr>
-                <td><strong>DESCRIPCIÓN:</strong><br>' . $recaudo->descripcion . '</td>
+                <td><strong>DESCRIPCIÓN:</strong><br>' . $recaudo->descripcion->descripcion . '</td>
                 <td><strong>VALOR:</strong><br>$ ' . number_format($recaudo->precio, 2, ',', '.') . '</td>
                 <td><strong>SALDO:</strong><br>$ ' . number_format($recaudo->saldo, 2, ',', '.') . '</td>
             </tr>
@@ -801,23 +801,54 @@ class AdminitraccionController extends Controller
             }
 
             $servicios = DB::connection('mysql')
-                ->table('servicios')
-                ->leftJoin('ventas', 'servicios.id', 'ventas.id_servicio')
-                ->leftJoin('pacientes', 'servicios.id_paciente', 'pacientes.id')
-                ->where('servicios.estado', 'ACTIVO')
-                ->where('ventas.estado_venta', 'PENDIENTE')
-
-                ->select(
-                    'servicios.id',
-                    DB::raw('CASE WHEN  servicios.tipo = "SESION" THEN "SESIÓN" ELSE  servicios.tipo END AS tipo'),
-                    'servicios.descripcion',
-                    'servicios.fecha',
-                    DB::raw("CONCAT(pacientes.tipo_identificacion, ' ', pacientes.identificacion) AS identificacion_completa"),
-                    DB::raw("CONCAT(pacientes.primer_nombre,' ',pacientes.segundo_nombre,' ',pacientes.primer_apellido,' ',pacientes.segundo_apellido) AS nombre_paciente"),
-                    'servicios.precio',
-                    'ventas.saldo'
-                );
-
+            ->table('servicios')        
+            ->leftJoin("ventas", "servicios.id", "ventas.id_servicio")
+            ->leftJoin('pacientes', 'servicios.id_paciente', 'pacientes.id')
+            ->where('servicios.estado', 'ACTIVO')                     
+            ->where('ventas.estado_venta', 'PENDIENTE')
+            ->groupBy([
+                'servicios.id',
+                'servicios.id_tipo_servicio',
+                'servicios.tipo',
+                'servicios.id_paciente',
+                'servicios.fecha',
+                'servicios.precio',
+                'ventas.cantidad',
+                'ventas.estado_venta',
+                'ventas.saldo',
+                'pacientes.tipo_identificacion',
+                'pacientes.identificacion',
+                'pacientes.primer_nombre',
+                'pacientes.segundo_nombre',
+                'pacientes.primer_apellido',
+                'pacientes.segundo_apellido'
+            ])
+            ->select(
+                'servicios.id_tipo_servicio',
+                DB::raw('CASE WHEN  servicios.tipo = "SESION" THEN "SESIÓN" ELSE  servicios.tipo END AS tipo'),
+                DB::raw("CONCAT(pacientes.tipo_identificacion, ' ', pacientes.identificacion) AS identificacion_completa"),
+                DB::raw("CONCAT(pacientes.primer_nombre,' ',pacientes.segundo_nombre,' ',pacientes.primer_apellido,' ',pacientes.segundo_apellido) AS nombre_paciente"),
+                'servicios.id_paciente',
+                'servicios.fecha',
+                'servicios.precio',
+                'servicios.id',
+                'ventas.cantidad',
+                'ventas.estado_venta',
+                'ventas.saldo',
+                DB::raw("(SELECT nombre FROM especialidades WHERE especialidades.id = servicios.id_tipo_servicio AND servicios.tipo = 'CONSULTA' LIMIT 1) AS descripcion_consulta"),
+                DB::raw("(SELECT descripcion FROM sesiones WHERE sesiones.id = servicios.id_tipo_servicio AND servicios.tipo = 'SESION' LIMIT 1) AS descripcion_sesion"),
+                DB::raw("(SELECT descripcion FROM paquetes WHERE paquetes.id = servicios.id_tipo_servicio AND servicios.tipo = 'PAQUETE' LIMIT 1) AS descripcion_paquete"),
+                DB::raw("(SELECT descripcion FROM pruebas WHERE pruebas.id = servicios.id_tipo_servicio AND servicios.tipo = 'PRUEBAS' LIMIT 1) AS descripcion_pruebas"),
+                DB::raw("
+                    COALESCE(
+                        (SELECT nombre FROM especialidades WHERE especialidades.id = servicios.id_tipo_servicio AND servicios.tipo = 'CONSULTA' LIMIT 1),
+                        (SELECT descripcion FROM sesiones WHERE sesiones.id = servicios.id_tipo_servicio AND servicios.tipo = 'SESION' LIMIT 1),
+                        (SELECT descripcion FROM paquetes WHERE paquetes.id = servicios.id_tipo_servicio AND servicios.tipo = 'PAQUETE' LIMIT 1),
+                        (SELECT descripcion FROM pruebas WHERE pruebas.id = servicios.id_tipo_servicio AND servicios.tipo = 'PRUEBAS' LIMIT 1),
+                        'Sin descripción'
+                    ) AS descripcion
+                ")
+            );
 
             if ($search) {
                 $servicios->where(function ($query) use ($search) {
@@ -921,13 +952,30 @@ class AdminitraccionController extends Controller
                 ->leftJoin('pacientes', 'servicios.id_paciente', 'pacientes.id')
                 ->where('pagos.estado', 'ACTIVO')
                 ->orderBy('fecha_pago', 'desc')
+                ->groupBy([
+                    'pagos.id',
+                    'pagos.pago_realizado',
+                    'pagos.fecha_pago',
+                    'pacientes.primer_nombre',
+                    'pacientes.primer_apellido',
+                    'servicios.id_tipo_servicio',
+                    'servicios.tipo'
+                ])
                 ->select(
                     'pagos.id',
                     'pagos.pago_realizado',
                     'pagos.fecha_pago',
                     'pacientes.primer_nombre',
                     'pacientes.primer_apellido',
-                    'servicios.descripcion'
+                    DB::raw("
+                    COALESCE(
+                        (SELECT nombre FROM especialidades WHERE especialidades.id = servicios.id_tipo_servicio AND servicios.tipo = 'CONSULTA' LIMIT 1),
+                        (SELECT descripcion FROM sesiones WHERE sesiones.id = servicios.id_tipo_servicio AND servicios.tipo = 'SESION' LIMIT 1),
+                        (SELECT descripcion FROM paquetes WHERE paquetes.id = servicios.id_tipo_servicio AND servicios.tipo = 'PAQUETE' LIMIT 1),
+                        (SELECT descripcion FROM pruebas WHERE pruebas.id = servicios.id_tipo_servicio AND servicios.tipo = 'PRUEBAS' LIMIT 1),
+                        'Sin descripción'
+                    ) AS descripcion
+                ")
 
                 )
                 ->limit(5)
@@ -962,13 +1010,34 @@ class AdminitraccionController extends Controller
                 ->leftJoin('pacientes', 'servicios.id_paciente',  'pacientes.id')
                 ->leftJoin('ventas', 'servicios.id',  'ventas.id_servicio')
                 ->where('ventas.estado_venta', 'PAGADO')
+                ->groupBy([
+                    'servicios.id',
+                    'pacientes.tipo_identificacion',
+                    'pacientes.identificacion',
+                    'pacientes.primer_nombre',
+                    'pacientes.segundo_nombre',
+                    'pacientes.primer_apellido',
+                    'pacientes.segundo_apellido',
+                    'servicios.id_tipo_servicio',
+                    'servicios.tipo',
+                    'ventas.total',
+                    'ventas.id'
+                ])
                 ->select(
                     'servicios.id',
-                    'servicios.descripcion',
                     DB::raw("CONCAT(pacientes.tipo_identificacion, ' ', pacientes.identificacion) as identificacion_completa"),
                     DB::raw("CONCAT(pacientes.primer_nombre,' ',pacientes.segundo_nombre,' ',pacientes.primer_apellido,' ',pacientes.segundo_apellido) as nombre_paciente"),
                     'ventas.total',
-                    'ventas.id AS id_venta'
+                    'ventas.id AS id_venta',
+                    DB::raw("
+                    COALESCE(
+                        (SELECT nombre FROM especialidades WHERE especialidades.id = servicios.id_tipo_servicio AND servicios.tipo = 'CONSULTA' LIMIT 1),
+                        (SELECT descripcion FROM sesiones WHERE sesiones.id = servicios.id_tipo_servicio AND servicios.tipo = 'SESION' LIMIT 1),
+                        (SELECT descripcion FROM paquetes WHERE paquetes.id = servicios.id_tipo_servicio AND servicios.tipo = 'PAQUETE' LIMIT 1),
+                        (SELECT descripcion FROM pruebas WHERE pruebas.id = servicios.id_tipo_servicio AND servicios.tipo = 'PRUEBAS' LIMIT 1),
+                        'Sin descripción'
+                    ) AS descripcion
+                ")
 
                 );
 
@@ -991,7 +1060,7 @@ class AdminitraccionController extends Controller
                     $pago_realizado = number_format($item->total, 2, ',', '.');
                     $tdTable .= '<tr>
                                     <td>
-                                        <div style="cursor: pointer" onclick="verPago(' . $item->id_venta . ');"
+                                        <div style="cursor: pointer" onclick="verPago(' . $item->id . ');"
                                             class="bg-primary-light h-50 w-50 l-h-60 rounded text-center">
                                             <span class="fa fa-search fs-24"></span>
                                         </div>

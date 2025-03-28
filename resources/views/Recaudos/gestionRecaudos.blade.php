@@ -610,7 +610,7 @@
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById("idVentaServicio").value = data.PaqueteVenta.id
-                    document.getElementById("descripcionPaquete").innerText = data.PaqueteVenta.descripcion
+                    document.getElementById("descripcionPaquete").innerText = data.PaqueteVenta.descripcion.descripcion
                   
                     if(data.PaqueteVenta.tipo != "PRUEBAS"){
                          document.getElementById("sesionesPaquete").innerText =

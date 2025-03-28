@@ -74,24 +74,40 @@ class Paquetes extends Model
 
     public static function busquedaPaquetesVentas($id)
     {
-        $paquetes = DB::connection('mysql')->table('servicios')
+        $servicio = DB::connection('mysql')->table('servicios')
             ->leftJoin('ventas', 'servicios.id', 'ventas.id_servicio')
             ->where("servicios.id", $id)
             ->select('servicios.id',
-            'servicios.id_paquete',
+            'servicios.id_tipo_servicio',
             'servicios.precio',
             'servicios.fecha',
             'ventas.valor',
             'ventas.cantidad',
-            'servicios.descripcion',
             'servicios.tipo'
             )
             ->first();
-       
-        $paquetes->descripion_paquete = DB::connection('mysql')->table('paquetes')
-            ->where("id", $paquetes->id_paquete)
+        if($servicio->tipo == 'PAQUETE'){
+            $servicio->descripcion= DB::connection('mysql')->table('paquetes')
+                ->where("id", $servicio->id_tipo_servicio)
+                ->select('descripcion')
             ->first();
-        return $paquetes;
+        }else if($servicio->tipo == 'SESION'){
+            $servicio->descripcion = DB::connection('mysql')->table('sesiones')
+                ->where("id", $servicio->id_tipo_servicio)
+                ->select('descripcion')
+            ->first();
+        }else if($servicio->tipo == 'PRUEBAS'){
+            $servicio->descripcion = DB::connection('mysql')->table('pruebas')
+                ->where("id", $servicio->id_tipo_servicio)
+                ->select('descripcion as descripcion')
+            ->first();
+        }else if($servicio->tipo == 'CONSULTA'){
+            $servicio->descripcion = DB::connection('mysql')->table('especialidades')
+                ->where("id", $servicio->id_tipo_servicio)
+                ->select('nombre as descripcion')
+            ->first();
+        }
+        return $servicio;
     }
 
     public static function listarPaquetes()

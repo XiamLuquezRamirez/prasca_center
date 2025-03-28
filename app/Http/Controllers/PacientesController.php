@@ -37,6 +37,11 @@ class PacientesController extends Controller
         return response()->json($paquetes);
     }
 
+    public function pruebas(){
+        $pruebas = Pacientes::listPruebas();
+        return response()->json($pruebas);
+    }
+
     public function historiaPsicologica(){
         $bandera = "";
         if (Auth::check()) {
@@ -101,13 +106,13 @@ class PacientesController extends Controller
                 DB::raw("(SELECT nombre FROM especialidades WHERE especialidades.id = servicios.id_tipo_servicio AND servicios.tipo = 'CONSULTA' LIMIT 1) AS descripcion_consulta"),
                 DB::raw("(SELECT descripcion FROM sesiones WHERE sesiones.id = servicios.id_tipo_servicio AND servicios.tipo = 'SESION' LIMIT 1) AS descripcion_sesion"),
                 DB::raw("(SELECT descripcion FROM paquetes WHERE paquetes.id = servicios.id_tipo_servicio AND servicios.tipo = 'PAQUETE' LIMIT 1) AS descripcion_paquete"),
-                DB::raw("(SELECT descripcion FROM pruebas WHERE pruebas.id = servicios.id_tipo_servicio AND servicios.tipo = 'PRUEBA' LIMIT 1) AS descripcion_prueba"),
+                DB::raw("(SELECT descripcion FROM pruebas WHERE pruebas.id = servicios.id_tipo_servicio AND servicios.tipo = 'PRUEBAS' LIMIT 1) AS descripcion_pruebas"),
                 DB::raw("
                     COALESCE(
                         (SELECT nombre FROM especialidades WHERE especialidades.id = servicios.id_tipo_servicio AND servicios.tipo = 'CONSULTA' LIMIT 1),
                         (SELECT descripcion FROM sesiones WHERE sesiones.id = servicios.id_tipo_servicio AND servicios.tipo = 'SESION' LIMIT 1),
                         (SELECT descripcion FROM paquetes WHERE paquetes.id = servicios.id_tipo_servicio AND servicios.tipo = 'PAQUETE' LIMIT 1),
-                        (SELECT descripcion FROM pruebas WHERE pruebas.id = servicios.id_tipo_servicio AND servicios.tipo = 'PRUEBA' LIMIT 1),
+                        (SELECT descripcion FROM pruebas WHERE pruebas.id = servicios.id_tipo_servicio AND servicios.tipo = 'PRUEBAS' LIMIT 1),
                         'Sin descripción'
                     ) AS descripcion
                 ")
@@ -119,7 +124,7 @@ class PacientesController extends Controller
                     (SELECT nombre FROM especialidades WHERE especialidades.id = servicios.id_tipo_servicio AND servicios.tipo = 'CONSULTA' LIMIT 1),
                     (SELECT descripcion FROM sesiones WHERE sesiones.id = servicios.id_tipo_servicio AND servicios.tipo = 'SESION' LIMIT 1),
                     (SELECT descripcion FROM paquetes WHERE paquetes.id = servicios.id_tipo_servicio AND servicios.tipo = 'PAQUETE' LIMIT 1),
-                    (SELECT descripcion FROM pruebas WHERE pruebas.id = servicios.id_tipo_servicio AND servicios.tipo = 'PRUEBA' LIMIT 1)
+                    (SELECT descripcion FROM pruebas WHERE pruebas.id = servicios.id_tipo_servicio AND servicios.tipo = 'PRUEBAS' LIMIT 1)
                 ) LIKE ?", ["%$search%"]);
         }
         
@@ -137,10 +142,10 @@ class PacientesController extends Controller
                         $color = 'badge-warning';
                         $sesiones = $item->sesiones_disponibles. ' Disponibles de ' . $item->cantidad;
                     } else if ($item->tipo == 'SESION') {
-                        $color = 'badge-success';
+                        $color = 'badge-primary';
                     } else if ($item->tipo == 'CONSULTA') {
                         $color = 'badge-warning';
-                    } else if ($item->tipo == 'PRUEBA') {
+                    } else if ($item->tipo == 'PRUEBAS') {
                         $color = 'badge-info';
                     }
 

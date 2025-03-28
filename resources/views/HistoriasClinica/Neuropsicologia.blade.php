@@ -646,20 +646,29 @@
                                                             <div class="form-group">
                                                                 <label for="depresion"
                                                                     class="form-label">Depresión:</label>
-                                                                <select class="form-control" id="depresion"
-                                                                    name="depresion">
+                                                                <select class="form-control select2" multiple style="width: 100%;" id="depresion"
+                                                                    name="depresion[]">
                                                                     <option value="">Selecciona una opción</option>
-                                                                    <option value="no refiere">No refiere</option>
-                                                                    <option value="padre">Padre</option>
-                                                                    <option value="madre">Madre</option>
-                                                                    <option value="hijo">Hijo/a</option>
-                                                                    <option value="hermano">Hermano/a</option>
-                                                                    <option value="abuelo">Abuelo/a</option>
-                                                                    <option value="tio">Tío/a</option>
-                                                                    <option value="primo">Primo/a</option>
-                                                                    <option value="sobrino">Sobrino/a</option>
-                                                                    <option value="nieto">Nieto/a</option>
-                                                                    <option value="otro">Otro</option>
+                                                                    <option value="No refiere">No refiere</option>
+                                                                    <option value="Padre">Padre</option>
+                                                                    <option value="Madre">Madre</option>
+                                                                    <option value="Hijo/a">Hijo/a</option>
+                                                                    <option value="Hermano/a">Hermano/a</option>
+                                                                    <option value="Abuelo paterno">Abuelo paterno</option>
+                                                                    <option value="Abuela paterna">Abuela paterna</option>
+                                                                    <option value="Abuelo materno">Abuelo materno</option>
+                                                                    <option value="Abuela materna">Abuela materna</option>
+                                                                    <option value="Tío paterno">Tío paterno</option>
+                                                                    <option value="Tía paterna">Tía paterna</option>
+                                                                    <option value="Tío materno">Tío materno</option>
+                                                                    <option value="Tía materna">Tía materna</option>
+                                                                    <option value="Primo paterno">Primo paterno</option>
+                                                                    <option value="Prima paterna">Prima paterna</option>
+                                                                    <option value="Primo materno">Primo materno</option>
+                                                                    <option value="Prima materna">Prima materna</option>
+                                                                    <option value="Sobrino/a">Sobrino/a</option>
+                                                                    <option value="Nieto/a">Nieto/a</option>
+                                                                    <option value="Otro">Otro</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -667,20 +676,29 @@
                                                         <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label for="ansiedad" class="form-label">Ansiedad:</label>
-                                                                <select class="form-control" id="ansiedad"
-                                                                    name="ansiedad">
+                                                                <select class="form-control select2" multiple style="width: 100%;" id="ansiedad"
+                                                                    name="ansiedad[]">
                                                                     <option value="">Selecciona una opción</option>
-                                                                    <option value="no refiere">No refiere</option>
-                                                                    <option value="padre">Padre</option>
-                                                                    <option value="madre">Madre</option>
-                                                                    <option value="hijo">Hijo/a</option>
-                                                                    <option value="hermano">Hermano/a</option>
-                                                                    <option value="abuelo">Abuelo/a</option>
-                                                                    <option value="tio">Tío/a</option>
-                                                                    <option value="primo">Primo/a</option>
-                                                                    <option value="sobrino">Sobrino/a</option>
-                                                                    <option value="nieto">Nieto/a</option>
-                                                                    <option value="otro">Otro</option>
+                                                                    <option value="No refiere">No refiere</option>
+                                                                    <option value="Padre">Padre</option>
+                                                                    <option value="Madre">Madre</option>
+                                                                    <option value="Hijo/a">Hijo/a</option>
+                                                                    <option value="Hermano/a">Hermano/a</option>
+                                                                    <option value="Abuelo paterno">Abuelo paterno</option>
+                                                                    <option value="Abuela paterna">Abuela paterna</option>
+                                                                    <option value="Abuelo materno">Abuelo materno</option>
+                                                                    <option value="Abuela materna">Abuela materna</option>
+                                                                    <option value="Tío paterno">Tío paterno</option>
+                                                                    <option value="Tía paterna">Tía paterna</option>
+                                                                    <option value="Tío materno">Tío materno</option>
+                                                                    <option value="Tía materna">Tía materna</option>
+                                                                    <option value="Primo paterno">Primo paterno</option>
+                                                                    <option value="Prima paterna">Prima paterna</option>
+                                                                    <option value="Primo materno">Primo materno</option>
+                                                                    <option value="Prima materna">Prima materna</option>
+                                                                    <option value="Sobrino/a">Sobrino/a</option>
+                                                                    <option value="Nieto/a">Nieto/a</option>
+                                                                    <option value="Otro">Otro</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -688,20 +706,29 @@
                                                         <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label for="demencia" class="form-label">Demencia:</label>
-                                                                <select class="form-control" id="demencia"
-                                                                    name="demencia">
+                                                                <select class="form-control select2" multiple style="width: 100%;" id="demencia"
+                                                                    name="demencia[]">
                                                                     <option value="">Selecciona una opción</option>
-                                                                    <option value="no refiere">No refiere</option>
-                                                                    <option value="padre">Padre</option>
-                                                                    <option value="madre">Madre</option>
-                                                                    <option value="hijo">Hijo/a</option>
-                                                                    <option value="hermano">Hermano/a</option>
-                                                                    <option value="abuelo">Abuelo/a</option>
-                                                                    <option value="tio">Tío/a</option>
-                                                                    <option value="primo">Primo/a</option>
-                                                                    <option value="sobrino">Sobrino/a</option>
-                                                                    <option value="nieto">Nieto/a</option>
-                                                                    <option value="otro">Otro</option>
+                                                                    <option value="No refiere">No refiere</option>
+                                                                    <option value="Padre">Padre</option>
+                                                                    <option value="Madre">Madre</option>
+                                                                    <option value="Hijo/a">Hijo/a</option>
+                                                                    <option value="Hermano/a">Hermano/a</option>
+                                                                    <option value="Abuelo paterno">Abuelo paterno</option>
+                                                                    <option value="Abuela paterna">Abuela paterna</option>
+                                                                    <option value="Abuelo materno">Abuelo materno</option>
+                                                                    <option value="Abuela materna">Abuela materna</option>
+                                                                    <option value="Tío paterno">Tío paterno</option>
+                                                                    <option value="Tía paterna">Tía paterna</option>
+                                                                    <option value="Tío materno">Tío materno</option>
+                                                                    <option value="Tía materna">Tía materna</option>
+                                                                    <option value="Primo paterno">Primo paterno</option>
+                                                                    <option value="Prima paterna">Prima paterna</option>
+                                                                    <option value="Primo materno">Primo materno</option>
+                                                                    <option value="Prima materna">Prima materna</option>
+                                                                    <option value="Sobrino/a">Sobrino/a</option>
+                                                                    <option value="Nieto/a">Nieto/a</option>
+                                                                    <option value="Otro">Otro</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -710,20 +737,29 @@
                                                             <div class="form-group">
                                                                 <label for="alcoholismo"
                                                                     class="form-label">Alcoholismo:</label>
-                                                                <select class="form-control" id="alcoholismo"
-                                                                    name="alcoholismo">
+                                                                <select class="form-control select2" multiple style="width: 100%;" id="alcoholismo"
+                                                                    name="alcoholismo[]">
                                                                     <option value="">Selecciona una opción</option>
-                                                                    <option value="no refiere">No refiere</option>
-                                                                    <option value="padre">Padre</option>
-                                                                    <option value="madre">Madre</option>
-                                                                    <option value="hijo">Hijo/a</option>
-                                                                    <option value="hermano">Hermano/a</option>
-                                                                    <option value="abuelo">Abuelo/a</option>
-                                                                    <option value="tio">Tío/a</option>
-                                                                    <option value="primo">Primo/a</option>
-                                                                    <option value="sobrino">Sobrino/a</option>
-                                                                    <option value="nieto">Nieto/a</option>
-                                                                    <option value="otro">Otro</option>
+                                                                    <option value="No refiere">No refiere</option>
+                                                                    <option value="Padre">Padre</option>
+                                                                    <option value="Madre">Madre</option>
+                                                                    <option value="Hijo/a">Hijo/a</option>
+                                                                    <option value="Hermano/a">Hermano/a</option>
+                                                                    <option value="Abuelo paterno">Abuelo paterno</option>
+                                                                    <option value="Abuela paterna">Abuela paterna</option>
+                                                                    <option value="Abuelo materno">Abuelo materno</option>
+                                                                    <option value="Abuela materna">Abuela materna</option>
+                                                                    <option value="Tío paterno">Tío paterno</option>
+                                                                    <option value="Tía paterna">Tía paterna</option>
+                                                                    <option value="Tío materno">Tío materno</option>
+                                                                    <option value="Tía materna">Tía materna</option>
+                                                                    <option value="Primo paterno">Primo paterno</option>
+                                                                    <option value="Prima paterna">Prima paterna</option>
+                                                                    <option value="Primo materno">Primo materno</option>
+                                                                    <option value="Prima materna">Prima materna</option>
+                                                                    <option value="Sobrino/a">Sobrino/a</option>
+                                                                    <option value="Nieto/a">Nieto/a</option>
+                                                                    <option value="Otro">Otro</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -732,20 +768,29 @@
                                                             <div class="form-group">
                                                                 <label for="drogadiccion"
                                                                     class="form-label">Drogadicción:</label>
-                                                                <select class="form-control" id="drogadiccion"
-                                                                    name="drogadiccion">
+                                                                <select class="form-control select2" multiple style="width: 100%;" id="drogadiccion"
+                                                                    name="drogadiccion[]">
                                                                     <option value="">Selecciona una opción</option>
-                                                                    <option value="no refiere">No refiere</option>
-                                                                    <option value="padre">Padre</option>
-                                                                    <option value="madre">Madre</option>
-                                                                    <option value="hijo">Hijo/a</option>
-                                                                    <option value="hermano">Hermano/a</option>
-                                                                    <option value="abuelo">Abuelo/a</option>
-                                                                    <option value="tio">Tío/a</option>
-                                                                    <option value="primo">Primo/a</option>
-                                                                    <option value="sobrino">Sobrino/a</option>
-                                                                    <option value="nieto">Nieto/a</option>
-                                                                    <option value="otro">Otro</option>
+                                                                    <option value="No refiere">No refiere</option>
+                                                                    <option value="Padre">Padre</option>
+                                                                    <option value="Madre">Madre</option>
+                                                                    <option value="Hijo/a">Hijo/a</option>
+                                                                    <option value="Hermano/a">Hermano/a</option>
+                                                                    <option value="Abuelo paterno">Abuelo paterno</option>
+                                                                    <option value="Abuela paterna">Abuela paterna</option>
+                                                                    <option value="Abuelo materno">Abuelo materno</option>
+                                                                    <option value="Abuela materna">Abuela materna</option>
+                                                                    <option value="Tío paterno">Tío paterno</option>
+                                                                    <option value="Tía paterna">Tía paterna</option>
+                                                                    <option value="Tío materno">Tío materno</option>
+                                                                    <option value="Tía materna">Tía materna</option>
+                                                                    <option value="Primo paterno">Primo paterno</option>
+                                                                    <option value="Prima paterna">Prima paterna</option>
+                                                                    <option value="Primo materno">Primo materno</option>
+                                                                    <option value="Prima materna">Prima materna</option>
+                                                                    <option value="Sobrino/a">Sobrino/a</option>
+                                                                    <option value="Nieto/a">Nieto/a</option>
+                                                                    <option value="Otro">Otro</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -754,20 +799,29 @@
                                                             <div class="form-group">
                                                                 <label for="discapacidad_intelectual"
                                                                     class="form-label">Discapacidad Intelectual:</label>
-                                                                <select class="form-control" id="discapacidad_intelectual"
-                                                                    name="discapacidad_intelectual">
+                                                                <select class="form-control select2" multiple style="width: 100%;" id="discapacidad_intelectual"
+                                                                    name="discapacidad_intelectual[]">
                                                                     <option value="">Selecciona una opción</option>
-                                                                    <option value="no refiere">No refiere</option>
-                                                                    <option value="padre">Padre</option>
-                                                                    <option value="madre">Madre</option>
-                                                                    <option value="hijo">Hijo/a</option>
-                                                                    <option value="hermano">Hermano/a</option>
-                                                                    <option value="abuelo">Abuelo/a</option>
-                                                                    <option value="tio">Tío/a</option>
-                                                                    <option value="primo">Primo/a</option>
-                                                                    <option value="sobrino">Sobrino/a</option>
-                                                                    <option value="nieto">Nieto/a</option>
-                                                                    <option value="otro">Otro</option>
+                                                                    <option value="No refiere">No refiere</option>
+                                                                    <option value="Padre">Padre</option>
+                                                                    <option value="Madre">Madre</option>
+                                                                    <option value="Hijo/a">Hijo/a</option>
+                                                                    <option value="Hermano/a">Hermano/a</option>
+                                                                    <option value="Abuelo paterno">Abuelo paterno</option>
+                                                                    <option value="Abuela paterna">Abuela paterna</option>
+                                                                    <option value="Abuelo materno">Abuelo materno</option>
+                                                                    <option value="Abuela materna">Abuela materna</option>
+                                                                    <option value="Tío paterno">Tío paterno</option>
+                                                                    <option value="Tía paterna">Tía paterna</option>
+                                                                    <option value="Tío materno">Tío materno</option>
+                                                                    <option value="Tía materna">Tía materna</option>
+                                                                    <option value="Primo paterno">Primo paterno</option>
+                                                                    <option value="Prima paterna">Prima paterna</option>
+                                                                    <option value="Primo materno">Primo materno</option>
+                                                                    <option value="Prima materna">Prima materna</option>
+                                                                    <option value="Sobrino/a">Sobrino/a</option>
+                                                                    <option value="Nieto/a">Nieto/a</option>
+                                                                    <option value="Otro">Otro</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -776,20 +830,29 @@
                                                             <div class="form-group">
                                                                 <label for="patologicos"
                                                                     class="form-label">Patológicos:</label>
-                                                                <select class="form-control" id="patologicos"
-                                                                    name="patologicos">
+                                                                <select class="form-control select2" multiple style="width: 100%;" id="patologicos"
+                                                                    name="patologicos[]">
                                                                     <option value="">Selecciona una opción</option>
-                                                                    <option value="no refiere">No refiere</option>
-                                                                    <option value="padre">Padre</option>
-                                                                    <option value="madre">Madre</option>
-                                                                    <option value="hijo">Hijo/a</option>
-                                                                    <option value="hermano">Hermano/a</option>
-                                                                    <option value="abuelo">Abuelo/a</option>
-                                                                    <option value="tio">Tío/a</option>
-                                                                    <option value="primo">Primo/a</option>
-                                                                    <option value="sobrino">Sobrino/a</option>
-                                                                    <option value="nieto">Nieto/a</option>
-                                                                    <option value="otro">Otro</option>
+                                                                    <option value="No refiere">No refiere</option>
+                                                                    <option value="Padre">Padre</option>
+                                                                    <option value="Madre">Madre</option>
+                                                                    <option value="Hijo/a">Hijo/a</option>
+                                                                    <option value="Hermano/a">Hermano/a</option>
+                                                                    <option value="Abuelo paterno">Abuelo paterno</option>
+                                                                    <option value="Abuela paterna">Abuela paterna</option>
+                                                                    <option value="Abuelo materno">Abuelo materno</option>
+                                                                    <option value="Abuela materna">Abuela materna</option>
+                                                                    <option value="Tío paterno">Tío paterno</option>
+                                                                    <option value="Tía paterna">Tía paterna</option>
+                                                                    <option value="Tío materno">Tío materno</option>
+                                                                    <option value="Tía materna">Tía materna</option>
+                                                                    <option value="Primo paterno">Primo paterno</option>
+                                                                    <option value="Prima paterna">Prima paterna</option>
+                                                                    <option value="Primo materno">Primo materno</option>
+                                                                    <option value="Prima materna">Prima materna</option>
+                                                                    <option value="Sobrino/a">Sobrino/a</option>
+                                                                    <option value="Nieto/a">Nieto/a</option>
+                                                                    <option value="Otro">Otro</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -797,20 +860,29 @@
                                                         <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label for="otros" class="form-label">Otros:</label>
-                                                                <select class="form-control" id="otros"
-                                                                    name="otros">
+                                                                <select class="form-control select2" multiple style="width: 100%;" id="otros"
+                                                                    name="otros[]">
                                                                     <option value="">Selecciona una opción</option>
-                                                                    <option value="no refiere">No refiere</option>
-                                                                    <option value="padre">Padre</option>
-                                                                    <option value="madre">Madre</option>
-                                                                    <option value="hijo">Hijo/a</option>
-                                                                    <option value="hermano">Hermano/a</option>
-                                                                    <option value="abuelo">Abuelo/a</option>
-                                                                    <option value="tio">Tío/a</option>
-                                                                    <option value="primo">Primo/a</option>
-                                                                    <option value="sobrino">Sobrino/a</option>
-                                                                    <option value="nieto">Nieto/a</option>
-                                                                    <option value="otro">Otro</option>
+                                                                    <option value="No refiere">No refiere</option>
+                                                                    <option value="Padre">Padre</option>
+                                                                    <option value="Madre">Madre</option>
+                                                                    <option value="Hijo/a">Hijo/a</option>
+                                                                    <option value="Hermano/a">Hermano/a</option>
+                                                                    <option value="Abuelo paterno">Abuelo paterno</option>
+                                                                    <option value="Abuela paterna">Abuela paterna</option>
+                                                                    <option value="Abuelo materno">Abuelo materno</option>
+                                                                    <option value="Abuela materna">Abuela materna</option>
+                                                                    <option value="Tío paterno">Tío paterno</option>
+                                                                    <option value="Tía paterna">Tía paterna</option>
+                                                                    <option value="Tío materno">Tío materno</option>
+                                                                    <option value="Tía materna">Tía materna</option>
+                                                                    <option value="Primo paterno">Primo paterno</option>
+                                                                    <option value="Prima paterna">Prima paterna</option>
+                                                                    <option value="Primo materno">Primo materno</option>
+                                                                    <option value="Prima materna">Prima materna</option>
+                                                                    <option value="Sobrino/a">Sobrino/a</option>
+                                                                    <option value="Nieto/a">Nieto/a</option>
+                                                                    <option value="Otro">Otro</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -1400,8 +1472,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <label for="idProfesional" style="display: none;"
-                                                class="form-label">Profesional:</label>
                                             <input type="hidden" id="idProfesional" name="idProfesional" />
                                             <div class="card-body" id="defaulProfesional">
 
@@ -1619,8 +1689,6 @@
             </div><!-- /.modal -->
         </div><!-- /.modal -->
     </div>
-
-
     <!-- MODAL PLAN INTERVENCION -->
     <div class="modal fade" id="modalPlanIntervencion" tabindex="-1" role="dialog"
         aria-labelledby="myLargeModalLabel" aria-hidden="true">`
@@ -1685,402 +1753,7 @@
         </div><!-- /.modal -->
     </div>
 
-    <div class="modal fade" id="modalVentaConsulta" tabindex="-1" role="dialog"
-        aria-labelledby="myLargeModalLabel" aria-hidden="true">`
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Venta de consulta</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="card">
-
-                        <div class="card-body">
-                            <div class="card-body">
-                                <form id="formVentaConsulta">
-                                    @csrf <!-- Directiva para el token CSRF de Laravel -->
-                                    <input type="hidden" id="idHistoriaVenta" name="idHistoriaVenta" />
-                                    <input type="hidden" id="idPacienteVenta" name="idPacienteVenta" />
-                                    <input type="hidden" id="accHistoriaVenta" name="accHistoriaVenta" />
-                                    <input type="hidden" id="idConsultaVenta" name="idConsultaVenta" />
-                                    <input type="hidden" name="tipoHistoria" id="tipoHistoria"
-                                        value="NEUROPSICOLOGIA" />
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <label for="ConsultaVenta" class="form-label">Descripción de la
-                                                    consulta:</label>
-                                                <input type="text" class="form-control" id="ConsultaVenta"
-                                                    name="ConsultaVenta">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="fechaVentaConsulta" class="form-label">Fecha:</label>
-                                            <div class="input-group">
-                                                <input type="date" class="form-control" id="fechaVentaConsulta"
-                                                    name="fechaVentaConsulta"
-                                                    placeholder="Seleccione la fecha de venta consulta" />
-                                                <input type="time" id="horaSeleccionadaVentaConsulta"
-                                                    name="horaSeleccionadaVentaConsulta" class="form-control">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-clock-o"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="valorServConsultaVis" class="form-label">Valor :</label>
-                                                <input type="text" class="form-control" id="valorServConsultaVis"
-                                                    name="valorServConsultaVis" placeholder="$ 0,00"
-                                                    onchange="cambioFormato(this.id);"
-                                                    onkeypress="return validartxtnum(event)" onclick="this.select();">
-                                                <input type="hidden" class="form-control" id="valorServConsulta"
-                                                    name="valorServConsulta">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="estadoServicio" class="form-label">Estado servicio :</label>
-                                                <input type="text" class="form-control" id="estadoServicio"
-                                                    name="estadoServicio" readonly>
-
-                                            </div>
-                                        </div>
-                                        <div class="box-footer text-end mt-3">
-                                            <button onclick="cancelarVentaConsulta()" type="button"
-                                                class="btn btn-primary-light me-1">
-                                                <i class="ti-share-alt"></i> Cancelar
-                                            </button>
-                                            <button onclick="guardarVentaConsulta()" id="saveRegistroVentaConsulta"
-                                                type="button" class="btn btn-primary">
-                                                <i class="ti-save"></i> Guardar
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-        </div><!-- /.modal -->
-    </div>
-    <div class="modal fade" id="modalVentaSesion" tabindex="-1" role="dialog"
-        aria-labelledby="myLargeModalLabel" aria-hidden="true">`
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 id="tituloVentaSesion" class="modal-title">Sesiones vendidas</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="card">
-
-                        <div class="card-body">
-                            <div class="card-body">
-                                <form style="display: none;" id="formVentaSesion">
-                                    @csrf <!-- Directiva para el token CSRF de Laravel -->
-                                    <input type="hidden" id="idHistoriaVentaSesion" name="idHistoriaVentaSesion" />
-                                    <input type="hidden" id="idPacienteVentaSesion" name="idPacienteVentaSesion" />
-                                    <input type="hidden" id="accHistoriaVentaSesion" name="accHistoriaVentaSesion" />
-                                    <input type="hidden" id="idVentaSesion" name="idVentaSesion" />
-                                    <input type="hidden" name="tipoHistoria" id="tipoHistoria"
-                                        value="NEUROPSICOLOGIA" />
-
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <label for="sugerenciasModal" class="form-label">Descripción de la
-                                                    sesión:</label>
-                                                <input type="text" class="form-control" id="descripcionVentaSesion"
-                                                    name="descripcionVentaSesion">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="fechaVentaSesion" class="form-label">Fecha:</label>
-                                            <div class="input-group">
-                                                <input type="date" class="form-control" id="fechaVentaSesion"
-                                                    name="fechaVentaSesion"
-                                                    placeholder="Seleccione la fecha de venta de la sesión" />
-                                                <input type="time" id="horaSeleccionadaVentaSesion"
-                                                    name="horaSeleccionadaVentaSesion" class="form-control">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-clock-o"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="valorServSesionVis" class="form-label">Valor :</label>
-                                                <input type="text" class="form-control" id="valorServSesionVis"
-                                                    name="valorServSesionVis" placeholder="$ 0,00" value=""
-                                                    onchange="cambioFormato(this.id);"
-                                                    onkeypress="return validartxtnum(event)" onclick="this.select();">
-                                                <input type="hidden" class="form-control" id="valorServSesion"
-                                                    name="valorServSesion">
-                                            </div>
-                                        </div>
-                                        <div class="box-footer text-end mt-3">
-                                            <button onclick="cancelarVentaSesion()" type="button"
-                                                class="btn btn-primary-light me-1">
-                                                <i class="ti-share-alt"></i> Cancelar
-                                            </button>
-                                            <button onclick="guardarVentaSesion()" type="button"
-                                                id="saveRegistroVentaSesion" class="btn btn-primary">
-                                                <i class="ti-save"></i> Guardar
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                                <div id="listVentaSesion">
-                                    <div class="box-controls pull-right">
-                                        <div class="box-header-actions">
-                                            <div class="input-group input-group-merge">
-                                                <button type="button" onclick="nuevaVentaSesion();"
-                                                    class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i>
-                                                    Nueva venta sesión</button>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <table id="tblPaquetes" class="table table-striped table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Descripción</th>
-                                                <th>Fecha de compra</th>
-                                                <th>Valor</th>
-                                                <th>Estado</th>
-                                                <th>Acción</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="trRegistrosVentaSesion">
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-        </div><!-- /.modal -->
-    </div>
-
-    <!-- MODAL PAQUETES -->
-    <div class="modal fade" id="modalPaquete" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 70%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="tituloPaquete">Listado de paquetes</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="formPaquetes" style="display: none;">
-                        <input type="hidden" name="accVentaPaquete" id="accVentaPaquete" value="guardar" />
-                        <input type="hidden" name="idVentaPaquete" id="idVentaPaquete" value="" />
-                        <input type="hidden" id="idPacienteVentaPaquete" name="idPacienteVentaPaquete" />
-                        <input type="hidden" name="tipoHistoria" id="tipoHistoria" value="NEUROPSICOLOGIA" />
-                        <input type="hidden" name="descripcionVentaPaquete" id="descripcionVentaPaquete"
-                            value="" />
-                        <div class="row">
-                            <div class="col-md-9">
-                                <div class="form-group">
-                                    <label for="descripcion" class="form-label">Paquete :</label>
-                                    <select class="form-control select2" onchange="seleccionarPaquete(this);"
-                                        id="selPaquete" name="selPaquete" aria-invalid="false">
-
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="fechaPaquete" class="form-label">Fecha :</label>
-                                    <input type="date" class="form-control" id="fechaPaquete"
-                                        name="fechaPaquete">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="precioSesionVis" class="form-label">Valor :</label>
-                                    <input type="text" class="form-control" id="precioSesionVis"
-                                        name="precioSesionVis" onchange="cambioFormato(this.id);"
-                                        onkeypress="return validartxtnum(event)" onclick="this.select();">
-                                    <input type="hidden" class="form-control" id="precioSesion"
-                                        name="precioSesion">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="numSesiones" class="form-label">Numero de sesiones :</label>
-                                    <input type="number" class="form-control" id="numSesiones" name="numSesiones"
-                                        onchange="calValorMonto()" max="20" min="1"
-                                        onkeypress="return validartxtnum(event)">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="montoFinal" class="form-label">Valor :</label>
-                                    <input type="text" readonly class="form-control" id="montoFinalVis"
-                                        name="montoFinalVis" value="$ 0,00">
-                                    <input type="hidden" class="form-control" id="montoFinal" name="montoFinal">
-
-
-                                </div>
-                            </div>
-                            <div class="box-footer text-end">
-                                <button type="button" id="cancelRegistroPaq" onclick="cancelarPaquetes();"
-                                    class="btn btn-primary-light me-1">
-                                    <i class="ti-close"></i> Cancelar
-                                </button>
-                                <button type="button" id="saveRegistroPaq" onclick="guardarPaquetes();"
-                                    class="btn btn-primary">
-                                    <i class="ti-save"></i> Guardar
-                                </button>
-                            </div>
-
-                        </div>
-                    </form>
-                    <div id="listPaquetes">
-                        <div class="box-controls pull-right">
-                            <div class="box-header-actions">
-                                <div class="input-group input-group-merge">
-                                    <input type="text" id="busquedaP" class="form-control">
-                                    <div class="input-group-text" data-password="false">
-                                        <span class="fa fa-search"></span>
-                                    </div>
-                                    <button type="button" onclick="nuevoPaquete();"
-                                        class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i> Nuevo
-                                        paquete</button>
-                                </div>
-
-                            </div>
-                        </div>
-                        <table id="tblPaquetes" class="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Descripción</th>
-                                    <th>Fecha de compra</th>
-                                    <th>Número de sesiones</th>
-                                    <th>Sesiones faltantes</th>
-                                    <th>Valor</th>
-                                    <th>Estado</th>
-                                    <th>Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody id="trRegistrosPaquetes">
-
-                            </tbody>
-                        </table>
-                        <div id="pagination-links-paquetes" class="text-center ml-1 mt-2">
-                        </div>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-    </div><!-- /.modal -->
-
-    <!-- MODAL PRUEBAS -->
-    <div class="modal fade" id="modalPrueba" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 70%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="tituloPrueba">Listado de pruebas vendidas</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="formPruebas" style="display: none;">
-                        <input type="hidden" name="accVentaPrueba" id="accVentaPrueba" value="guardar" />
-                        <input type="hidden" name="idVentaPrueba" id="idVentaPrueba" value="" />
-                        <input type="hidden" id="idPacienteVentaPrueba" name="idPacienteVentaPrueba" />
-                        <input type="hidden" name="tipoHistoria" id="tipoHistoria" value="NEUROPSICOLOGIA" />
-                        <input type="hidden" name="descripcionVentaPrueba" id="descripcionVentaPrueba"
-                            value="" />
-                        <div class="row">
-                            <div class="col-md-9">
-                                <div class="form-group">
-                                    <label for="descripcion" class="form-label">Prueba :</label>
-                                    <select class="form-control select2" onchange="seleccionarPrueba(this);"
-                                        id="selPrueba" name="selPrueba" aria-invalid="false">
-
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="fechaPrueba" class="form-label">Fecha :</label>
-                                    <input type="date" class="form-control" id="fechaPrueba" name="fechaPrueba">
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="descripcion" class="form-label">Descripción :</label>
-                                    <textarea class="form-control" id="descripcionPrueba" name="descripcionPrueba"></textarea>
-                                </div>
-
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="precioPruebaVis" class="form-label">Valor :</label>
-                                    <input type="text" class="form-control" id="precioPruebaVis"
-                                        name="precioPruebaVis" onchange="cambioFormato(this.id);"
-                                        onkeypress="return validartxtnum(event)" onclick="this.select();">
-                                    <input type="hidden" class="form-control" id="precioPrueba"
-                                        name="precioPrueba">
-                                </div>
-                            </div>
-
-
-                            <div class="box-footer text-end">
-                                <button type="button" id="cancelRegistroPrueba" onclick="cancelarPrueba();"
-                                    class="btn btn-primary-light me-1">
-                                    <i class="ti-close"></i> Cancelar
-                                </button>
-                                <button type="button" id="saveRegistroPrueba" onclick="guardarPruebas();"
-                                    class="btn btn-primary">
-                                    <i class="ti-save"></i> Guardar
-                                </button>
-                            </div>
-
-                        </div>
-                    </form>
-                    <div id="listPruebas">
-                        <div class="box-controls pull-right">
-                            <div class="box-header-actions">
-                                <div class="input-group input-group-merge">
-                                    <input type="text" id="busquedaP" class="form-control">
-                                    <div class="input-group-text" data-password="false">
-                                        <span class="fa fa-search"></span>
-                                    </div>
-                                    <button type="button" onclick="nuevaPrueba();"
-                                        class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i> Nueva
-                                        prueba</button>
-                                </div>
-                            </div>
-                        </div>
-                        <table id="tblPruebas" class="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Descripción</th>
-                                    <th>Fecha de compra</th>
-                                    <th>Valor</th>
-                                    <th>Estado</th>
-                                    <th>Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody id="trRegistrosPruebas">
-
-                            </tbody>
-                        </table>
-                        <div id="pagination-links-pruebas" class="text-center ml-1 mt-2">
-                        </div>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-    </div>
+    
     < <div class="modal fade" id="modalErrores" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
@@ -2099,6 +1772,7 @@
         <script>
             window.userPermissions = @json(Auth::user()->permissions);
             var idHistoriaImprimir = "";
+            var isProfesional = false
             document.addEventListener("DOMContentLoaded", function() {
 
                 let menuP = document.getElementById("principalHistoriClinica");
@@ -2841,6 +2515,16 @@
                     .then(data => {
                         //DATOS DEL PACIENTE
 
+                        if (!data.profesional) {
+                        isProfesional = false
+                        document.getElementById('defaulProfesional').style.display = 'none'
+                        document.getElementById('divProfesional').style.display = 'initial'
+                    } else {
+                        isProfesional = true
+                        document.getElementById('defaulProfesional').style.display = 'initial'
+                        document.getElementById('divProfesional').style.display = 'none'
+                    }
+
                         if (data.historia) {
                             swal({
                                 title: "Este paciente ya tiene una historia clínica registrada.",
@@ -3318,7 +3002,7 @@
 
                 document.getElementById('plan_intervencion').value = historia.plan_intervension
                 $('#plan_intervencion').trigger('change')
-
+        
                 mapearDatosProfesional(historia.id_profesional)
             }
 
@@ -3360,8 +3044,8 @@
                         if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
                             element.value = item.detalle // Asignar el valor al input o textarea
                         } else if (element.tagName === "SELECT") {
-                            element.value = item.detalle.toLowerCase() // Asignar el valor a un select
-                            $('#' + item.tipo).val(item.detalle).trigger('change')
+                            const valores = item.detalle ? item.detalle.split(',') : []
+                            $('#' + item.tipo).val(valores).trigger('change')
                         } else {
                             console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
                         }
@@ -3546,9 +3230,10 @@
                     .then(response => response.json())
                     .then(data => {
 
+                        if (isProfesional) {
+                        document.getElementById("defaulProfesional").style.display = "initial"
+                        document.getElementById("divProfesional").style.display = "none"
                         if (data.profesional) {
-                            document.getElementById("defaulProfesional").style.display = "initial"
-                            document.getElementById("divProfesional").style.display = "none"
                             document.getElementById("idProfesional").value = data.profesional.usuario
                             document.getElementById("nombreProfesional").innerHTML = data.profesional.nombre
                             document.getElementById("registroProfesional").innerHTML =
@@ -3558,11 +3243,20 @@
                             let url = $('#Ruta').data("ruta")
                             firmaProfesional.src = url + "/images/firmasProfesionales/" + data.profesional.firma
 
-                        } else {
-                            document.getElementById("defaulProfesional").style.display = "none"
-                            document.getElementById("divProfesional").style.display = "initial"
-
                         }
+                    } else {
+                        
+                        document.getElementById("defaulProfesional").style.display = "none"
+                        document.getElementById("divProfesional").style.display = "initial"
+                        document.getElementById("profesionalSelect").value = data.profesional.id
+                        $('#profesionalSelect').val(data.profesional.id).trigger('change.select2')
+                        document.getElementById("idProfesional").value = idProf
+
+                    }
+
+
+                    document.getElementById("defaulProfesional").style.display = "none"
+                    document.getElementById("divProfesional").style.display = "initial"
 
                     })
                     .catch(error => console.error('Error:', error))

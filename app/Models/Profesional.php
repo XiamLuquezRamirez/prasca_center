@@ -101,7 +101,7 @@ class Profesional extends Model
     {
         $profesional =  DB::connection('mysql')->table('profesionales')
             ->join("users", "users.id", "profesionales.usuario")
-            ->where("profesionales.usuario", $usu)
+            ->where("profesionales.id", $usu)
             ->select("profesionales.*", "users.login_usuario", "users.estado_usuario", "users.id as idUsuario")
             ->first();
 

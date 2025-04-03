@@ -478,7 +478,7 @@
                             <thead>
                                 <tr>
                                     <th>Descripción</th>
-                                    <th>Tipo</th>
+                                    <th>Tipo de Servicio</th>
                                     <th>Sesiones</th>
                                     <th>Fecha</th>
                                     <th>Valor</th>
@@ -608,7 +608,16 @@
                                             name="valorServConsulta">
                                     </div>
                                 </div>
-
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="tipoServicioConsulta" class="form-label">Servicio vendido para:</label>
+                                        <select class="form-control" id="tipoServicioConsulta" name="tipoServicioConsulta">
+                                            <option value="">Seleccione el tipo de servicio</option>
+                                            <option value="PSICOLOGÍA">PSICOLOGÍA</option>
+                                            <option value="NEUROPSICOLOGÍA">NEUROPSICOLOGÍA</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="box-footer text-end mt-3">
                                     <button onclick="cancelarVentaConsulta()" type="button"
                                         class="btn btn-primary-light me-1">
@@ -659,6 +668,16 @@
                                             onclick="this.select();">
                                         <input type="hidden" class="form-control" id="valorServSesion"
                                             name="valorServSesion">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="tipoServicioSesion" class="form-label">Servicio vendido para:</label>
+                                        <select class="form-control" id="tipoServicioSesion" name="tipoServicioSesion">
+                                            <option value="">Seleccione el tipo de servicio</option>
+                                            <option value="PSICOLOGÍA">PSICOLOGÍA</option>
+                                            <option value="NEUROPSICOLOGÍA">NEUROPSICOLOGÍA</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="box-footer text-end mt-3">
@@ -720,6 +739,16 @@
                                         <input type="hidden" class="form-control" id="montoFinal" name="montoFinal">
                                     </div>
                                 </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="tipoServicioPaquete" class="form-label">Servicio vendido para:</label>
+                                        <select class="form-control" id="tipoServicioPaquete" name="tipoServicioPaquete">
+                                            <option value="">Seleccione el tipo de servicio</option>
+                                            <option value="PSICOLOGÍA">PSICOLOGÍA</option>
+                                            <option value="NEUROPSICOLOGÍA">NEUROPSICOLOGÍA</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="box-footer text-end">
                                     <button type="button" id="cancelRegistroPaq" onclick="cancelarVentaPaquete();"
                                         class="btn btn-primary-light me-1">
@@ -760,6 +789,7 @@
                                     </div>
     
                                 </div>
+                             
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="precioPruebaVis" class="form-label">Valor :</label>
@@ -768,6 +798,16 @@
                                             onkeypress="return validartxtnum(event)" onclick="this.select();">
                                         <input type="hidden" class="form-control" id="precioPrueba"
                                             name="precioPrueba">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="tipoServicioPrueba" class="form-label">Servicio vendido para:</label>
+                                        <select class="form-control" id="tipoServicioPrueba" name="tipoServicioPrueba">
+                                            <option value="">Seleccione el tipo de servicio</option>
+                                            <option value="PSICOLOGÍA">PSICOLOGÍA</option>
+                                            <option value="NEUROPSICOLOGÍA">NEUROPSICOLOGÍA</option>
+                                        </select>
                                     </div>
                                 </div>
     
@@ -1266,9 +1306,23 @@
 
             if ($("#formPaciente").valid()) {
 
+                //verificar si existe un campos sin llenar menos fotoPaciente
+
+                const campos = document.getElementById('formPaciente').querySelectorAll('input, select, textarea')
+                let camposVacios = 1
+                let camposVaciosArray = []
+                campos.forEach(campo => {
+                    if (campo.value === '' && campo.name !== 'fotoPaciente' && campo.name !== 'archivos[]' && campo.name !== 'segundoNombre' && campo.name !== 'segundoApellido' && campo.name !== 'eps') {
+                        camposVacios = 0                     
+                    }
+                })
+         
+
+              
 
                 const formPaciente = document.getElementById('formPaciente')
                 const formData = new FormData(formPaciente)
+                formData.append('camposVacios', camposVacios)
 
                 const url = "{{ route('form.guardarPaciente') }}"
 
@@ -1355,7 +1409,7 @@
                     document.getElementById("segundoApellido").value = data.paciente.segundo_apellido
                     document.getElementById("sexo").value = data.paciente.sexo
                     document.getElementById("estadocivil").value = data.paciente.estado_civil
-                    $('#ocupacion').value = data.paciente.ocupacion
+                    document.getElementById("ocupacion").value = data.paciente.ocupacion
                     document.getElementById("tipoUsuario").value = data.paciente.tipo_usuario
                     document.getElementById("lateralidad").value = data.paciente.lateralidad
                     document.getElementById("religion").value = data.paciente.religion
@@ -2103,6 +2157,8 @@
                         document.getElementById("fechaVentaConsulta").value = paraFecha[0]
                         document.getElementById("horaSeleccionadaVentaConsulta").value = paraFecha[1]
                         document.getElementById("idConsultaVenta").value = data.id
+                        document.getElementById("tipoServicioConsulta").value = data.tipo_servicio
+                        
                         document.getElementById("accHistoriaVenta").value = 'editar'
 
                     } else if (data.tipo == 'SESION') {
@@ -2120,6 +2176,7 @@
                         document.getElementById("fechaVentaSesion").value = paraFecha[0]
                         document.getElementById("horaSeleccionadaVentaSesion").value = paraFecha[1]
                         document.getElementById("idVentaSesion").value = data.id
+                        document.getElementById("tipoServicioSesion").value = data.tipo_servicio
 
                         document.getElementById("accHistoriaVentaSesion").value = 'editar'
                     } else if (data.tipo == 'PAQUETE') {
@@ -2128,7 +2185,7 @@
                         document.getElementById("formVentaSesion").style.display = "none"
                         document.getElementById("formVentaPrueba").style.display = "none"
                         let paraFecha = data.fecha.split(" ")
-                        document.getElementById("fechaVentaPaquete").value = paraFecha[0]
+                        document.getElementById("fechaPaquete").value = paraFecha[0]
                         document.getElementById("selPaquete").value = data.id_tipo_servicio
                         document.getElementById("numSesiones").value = data.cantidad
                         document.getElementById("precioSesion").value = data.precio	
@@ -2136,6 +2193,7 @@
                         document.getElementById("montoFinal").value = data.precio * data.cantidad
                         document.getElementById("montoFinalVis").value = formatCurrency(data.precio	* data.cantidad, 'es-CO', 'COP')
                         document.getElementById("idVentaPaquete").value = data.id
+                        document.getElementById("tipoServicioPaquete").value = data.tipo_servicio
                         document.getElementById("accVentaPaquete").value = 'editar'
                         
                     } else if (data.tipo == 'PRUEBAS') {
@@ -2148,6 +2206,7 @@
                         let paraFecha = data.fecha.split(" ")
                         document.getElementById("fechaPrueba").value = paraFecha[0]
                         document.getElementById("idVentaPrueba").value = data.id
+                        document.getElementById("tipoServicioPrueba").value = data.tipo_servicio
                         document.getElementById("accVentaPrueba").value = 'editar'
                         document.getElementById("precioPrueba").value = data.precio
                         document.getElementById("precioPruebaVis").value = formatCurrency(data.precio, 'es-CO', 'COP')

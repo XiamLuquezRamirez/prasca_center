@@ -169,6 +169,20 @@
                                                     <label class="form-check-label"
                                                         for="permisos_AdminSesiones">Sesiones</label>
                                                 </div>
+                                                <div class="form-check ms-3">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="permisos_AdminCUPS" name="permisos[]"
+                                                        value="AdminCUPS">
+                                                    <label class="form-check-label"
+                                                        for="permisos_AdminCUPS">CUPS</label>
+                                                </div>
+                                                <div class="form-check ms-3">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="permisos_AdminCIE10" name="permisos[]"
+                                                        value="AdminCIE10">
+                                                    <label class="form-check-label"
+                                                        for="permisos_AdminCIE10">CIE10</label>
+                                                </div>
 
                                                 <!-- informes -->
                                                 <div class="form-check">

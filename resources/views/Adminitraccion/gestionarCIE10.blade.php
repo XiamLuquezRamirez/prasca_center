@@ -1,16 +1,16 @@
 @extends('Plantilla.Principal')
-@section('title', 'Gestionar Entidades Promotoras de Salud (EPS)')
+@section('title', 'Gestionar CIE10')
 @section('Contenido')
     <div class="content-header">
         <div class="d-flex align-items-center">
             <div class="me-auto">
-                <h4 class="page-title">Gestionar Entidades Promotoras de Salud (EPS) </h4>
+                <h4 class="page-title">Gestionar CIE10 </h4>
                 <div class="d-inline-block align-items-center">
                     <nav>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
                             <li class="breadcrumb-item" aria-current="page">Inicio</li>
-                            <li class="breadcrumb-item active" aria-current="page">Gestionar entidades Promotoras de Salud</li>
+                            <li class="breadcrumb-item active" aria-current="page">Gestionar CIE10</li>
                         </ol>
                     </nav>
                 </div>
@@ -25,7 +25,7 @@
             <div id="listado" class="col-12 col-xl-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title">Listado de Entidades Promotoras de Salud (EPS) </h5>
+                        <h5 class="card-title">Listado de CIE10 </h5>
                     </div>
                     <div class="card-body">
                         <div class="box-controls pull-right">
@@ -36,8 +36,8 @@
                                         <span class="fa fa-search"></span>
                                     </div>
                                     <button type="button" onclick="nuevoRegistro(1);"
-                                        class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i> Nueva
-                                        EPS</button>
+                                        class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i> Nuevo
+                                        CIE10</button>
                                 </div>
 
                             </div>
@@ -46,7 +46,8 @@
                             <thead>
                                 <tr>
                                     <th style="width:10%;">Código</th>
-                                    <th style="width:80%;">Entidad</th>
+                                    <th style="width:70%;">Nombre</th>
+                                    <th style="width:10%;">Estado</th>
                                     <th style="width:10%;">Acción</th>
                                 </tr>
                             </thead>
@@ -64,16 +65,16 @@
         </div>
     </section>
     <!-- MODAL ENTIDADES -->
-    <div class="modal fade" id="modalEPS" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    <div class="modal fade" id="modalCIE10" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" style="max-width: 40%;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="tituloAccion">Agregar entidad</h4>
+                    <h4 class="modal-title" id="tituloAccion">Agregar CIE10</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="formEntidades">
+                    <form id="formCIE10">
                         <input type="hidden" name="accRegistro" id="accRegistro" value="guardar" />
                         <input type="hidden" name="idRegistro" id="idRegistro" value="" />
                         <input type="hidden" name="codigoOriginal" id="codigoOriginal" value="" />
@@ -84,13 +85,7 @@
                                     <input type="text" class="form-control" id="codigo" name="codigo">
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="nit" class="form-label">NIT :</label>
-                                    <input type="text" class="form-control" id="nit" name="nit">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
+                            <div class="col-md-9">
                                 <div class="form-group">
                                     <label for="nombre" class="form-label">Nombre :</label>
                                     <input type="text" class="form-control" id="nombre" name="nombre">
@@ -98,10 +93,20 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="observaciones" class="form-label">Observaciones :</label>
-                                    <textarea class="form-control" id="observaciones" name="observaciones" rows="3"></textarea>
+                                    <label for="descripcion" class="form-label">Descripción :</label>
+                                    <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="habilitado" class="form-label">Habilitado :</label>
+                                    <select class="form-control" id="habilitado" name="habilitado">
+                                        <option value="SI">SI</option>
+                                        <option value="NO">NO</option>
+                                    </select>
+                                </div>
+                            </div>
+                           
 
                             <div class="box-footer text-end">
                                 <button type="button" onclick="nuevoRegistro(2);" style="display: none;" id="newRegistro"
@@ -128,7 +133,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             let menuP = document.getElementById("principalParametros");
-            let menuS = document.getElementById("principalParametrosEPS");
+            let menuS = document.getElementById("principalParametrosCIE10");
 
             menuP.classList.add("active", "menu-open");
             menuS.classList.add("active");
@@ -136,20 +141,20 @@
             loader = document.getElementById('loader');
             loadNow(1);
 
-            $("#formEntidades").validate({
+            $("#formCIE10").validate({
                 rules: {
 
                     codigo: {
                         required: true,
                         remote: {
-                            url: "/verificar-codigo-entidad", // URL para verificar
+                            url: "/verificar-codigo-cie10", // URL para verificar
                             type: "post",
                             data: {
                                 codigo: function() {
                                     return $("#codigo").val()
                                 },
-                                id: function() {
-                                    return $("#idRegistro").val() || null // Enviar id si es edición
+                                idRegistro: function() {
+                                    return $("#idRegistro").val()
                                 },
                                 _token: function() {
                                     return "{{ csrf_token() }}" // Token CSRF para seguridad
@@ -163,10 +168,10 @@
                 },
                 messages: {
                     nombre: {
-                        required: "Por favor, ingrese el nombre de la entidad."
+                        required: "Por favor, ingrese el nombre de la CIE10."
                     },
                     codigo: {
-                        required: "Por favor, ingrese el código de la entidad.",
+                        required: "Por favor, ingrese el código de la CIE10.",
                         remote: "Esta código ya está registrado."
                     }
                 },
@@ -174,8 +179,6 @@
                     guardarRegistro();
                 }
             });
-
-
 
             cargar(1);
 
@@ -203,12 +206,12 @@
 
         function guardarRegistro() {
 
-            if ($("#formEntidades").valid()) {
+            if ($("#formCIE10").valid()) {
 
-                const formEntidades = document.getElementById('formEntidades');
-                const formData = new FormData(formEntidades);
+                const formCIE10 = document.getElementById('formCIE10');
+                const formData = new FormData(formCIE10);
 
-                const url = "{{ route('form.guardarEntidades') }}";
+                const url = "{{ route('form.guardarCIE10') }}";
 
                 fetch(url, {
                         method: 'POST',
@@ -243,7 +246,7 @@
         }
 
         function editarRegistro(idRegistro) {
-            var modal = new bootstrap.Modal(document.getElementById("modalEPS"), {
+            var modal = new bootstrap.Modal(document.getElementById("modalCIE10" ), {
                 backdrop: 'static',
                 keyboard: false
             });
@@ -251,11 +254,11 @@
             document.getElementById("idRegistro").value = idRegistro
             document.getElementById('saveRegistro').removeAttribute('disabled')
 
-            document.getElementById("tituloAccion").innerHTML  = "Editar entidad promotora de salud"
+            document.getElementById("tituloAccion").innerHTML  = "Editar CIE10"
 
             modal.show();
 
-            let url = "{{ route('entidades.buscaEntidad') }}";
+            let url = "{{ route('cie10.buscaCIE10') }}";
 
             fetch(url, {
                     method: 'POST',
@@ -269,27 +272,25 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById("nombre").value = data.entidad
+                    document.getElementById("nombre").value = data.nombre
                     document.getElementById("codigo").value = data.codigo
-                    document.getElementById("nit").value = data.nit
-                    document.getElementById("observaciones").value = data.observaciones
+                    document.getElementById("descripcion").value = data.descripcion
+                    document.getElementById("habilitado").value = data.habilitado
 
                 })
                 .catch(error => console.error('Error:', error));
 
         }
 
-
-
         function cancelarRegistro() {
-            const formEntidades = document.getElementById('formEntidades');
-            formEntidades.reset();
+            const formCIE10 = document.getElementById('formCIE10');
+            formCIE10.reset();
         }
 
         function nuevoRegistro(opc) {
 
             if (opc == 1) {
-                var modal = new bootstrap.Modal(document.getElementById("modalEPS"), {
+                var modal = new bootstrap.Modal(document.getElementById("modalCIE10"), {
                     backdrop: 'static',
                     keyboard: false
                 });
@@ -303,7 +304,7 @@
             document.getElementById("accRegistro").value = "guardar"
 
             
-            document.getElementById("tituloAccion").innerHTML  = "Agregar entidad promotora de salud"
+            document.getElementById("tituloAccion").innerHTML  = "Agregar CUPS"
 
         }
 
@@ -320,7 +321,7 @@
                 closeOnCancel: false
             }, function(isConfirm) {
                 if (isConfirm) {
-                    let url = "{{ route('entidades.eliminarEntidad') }}";
+                    let url = "{{ route('cie10.eliminarCIE10') }}";
                     fetch(url, {
                             method: 'POST',
                             headers: {
@@ -355,7 +356,7 @@
 
         function cargar(page, searchTerm = '') {
 
-            let url = "{{ route('entidades.listaEntidades') }}"; // Definir la URL
+            let url = "{{ route('cie10.listaCIE10') }}"; // Definir la URL
 
             // Eliminar los campos ocultos anteriores
             var oldPageInput = document.getElementById('page');
@@ -382,7 +383,7 @@
                 .then(response => response.json())
                 .then(responseData => {
                     // Rellenar la tabla con las filas generadas
-                    document.getElementById('trRegistros').innerHTML = responseData.entidades;
+                    document.getElementById('trRegistros').innerHTML = responseData.cie10;
                     feather.replace();
                     // Colocar los enlaces de paginación
                     document.getElementById('pagination-links').innerHTML = responseData.links;

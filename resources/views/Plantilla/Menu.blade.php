@@ -195,6 +195,22 @@
                                         </a>
                                     </li>
                                 @endif
+                                @if (in_array('AdminCUPS', session('permisos', [])))
+                                    <li id="principalParametrosCUPS">
+                                        <a href="{{ url('/Administracion/CUPS') }}">
+                                            <i class="icon-Commit"><span class="path1"></span><span
+                                                class="path2"></span></i> CUPS
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (in_array('AdminCIE10', session('permisos', [])))
+                                    <li id="principalParametrosCIE10">
+                                        <a href="{{ url('/Administracion/CIE10') }}">
+                                            <i class="icon-Commit"><span class="path1"></span><span
+                                                class="path2"></span></i> CIE10
+                                        </a>
+                                    </li>
+                                @endif
                             </ul>
                         </li>
                     @endif

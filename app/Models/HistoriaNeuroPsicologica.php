@@ -47,6 +47,17 @@ class HistoriaNeuroPsicologica extends Model
         return $venta;
     }
 
+    
+    public static function busquedaConsultaImprimir($idConsulta)
+    {
+        $consulta = DB::connection('mysql')->table('consultas_psicologica_neuro')
+            ->where("id", $idConsulta)
+            ->first();       
+
+        return $consulta;
+            
+    }
+
     public static function busquedaConsultaHistoria($idHistoria)
     {
         $consulta = DB::table('historia_clinica_neuro')
@@ -173,8 +184,8 @@ class HistoriaNeuroPsicologica extends Model
                         ['id_historia' => $idHistoria, 'tipo' => 'alcoholismo', 'detalle' => implode(',', $request['alcoholismo']) ?? null, 'nombre' => 'Alcoholismo'],
                         ['id_historia' => $idHistoria, 'tipo' => 'drogadiccion', 'detalle' => implode(',', $request['drogadiccion']) ?? null, 'nombre' => 'Drogadicción'],
                         ['id_historia' => $idHistoria, 'tipo' => 'discapacidad_intelectual', 'detalle' => implode(',', $request['discapacidad_intelectual']) ?? null, 'nombre' => 'Discapacidad intelectual'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'patologicos', 'detalle' => implode(',', $request['patologicos']) ?? null, 'nombre' => 'Patológicos'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'otros', 'detalle' => implode(',', $request['otros']) ?? null, 'nombre' => 'Otros'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'patologicos', 'detalle' => $request['patologicos'] ?? null, 'nombre' => 'Patológicos'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'otros', 'detalle' => $request['otros'] ?? null, 'nombre' => 'Otros'],
                     ], function ($item) {
                         return !empty($item['detalle']);
                     });
@@ -389,8 +400,8 @@ class HistoriaNeuroPsicologica extends Model
                         ['id_historia' => $idHistoria, 'tipo' => 'alcoholismo', 'detalle' => implode(',', $request['alcoholismo']) ?? null, 'nombre' => 'Alcoholismo'],
                         ['id_historia' => $idHistoria, 'tipo' => 'drogadiccion', 'detalle' => implode(',', $request['drogadiccion']) ?? null, 'nombre' => 'Drogadicción'],
                         ['id_historia' => $idHistoria, 'tipo' => 'discapacidad_intelectual', 'detalle' => implode(',', $request['discapacidad_intelectual']) ?? null, 'nombre' => 'Discapacidad intelectual'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'patologicos', 'detalle' => implode(',', $request['patologicos']) ?? null, 'nombre' => 'Patológicos'],
-                        ['id_historia' => $idHistoria, 'tipo' => 'otros', 'detalle' => implode(',', $request['otros']) ?? null, 'nombre' => 'Otros'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'patologicos', 'detalle' => $request['patologicos'] ?? null, 'nombre' => 'Patológicos'],
+                        ['id_historia' => $idHistoria, 'tipo' => 'otros', 'detalle' =>   $request['otros'] ?? null, 'nombre' => 'Otros'],
                     ], function ($item) {
                         return !empty($item['detalle']);
                     });
@@ -574,21 +585,29 @@ class HistoriaNeuroPsicologica extends Model
                     // Insertar en `historia_clinica`
                     $idConsulta = DB::table('consultas_psicologica_neuro')->insertGetId(array_filter([
                         'id_historia' => $request['idHist'] ?? null,
-                        'id_profesional' => Auth::user()->id,
+                        'id_profesional' => $request['profesionalConsulta'] ?? null,
                         'fecha_consulta' => $request['fechaEvolucion'] . ' ' . $request['horaSeleccionada'] ?? null,
                         'evolucion_y_o_plantrabajo' => $request['evolucion_plan']  ?? null,
                         'estado' => 'ACTIVO'
                     ]));
+
+                 
+
+                    $Paciente = DB::table('historia_clinica_neuro')
+                    ->where('id', $request['idHist'])
+                    ->select('id_paciente')
+                    ->first();
+
 
                     //ACTUALIZAR NUMERO DE PAQUETES DISPONIBLES
                     $paquete = DB::connection('mysql')
                         ->table('servicios')
                         ->leftJoin("ventas", "servicios.id", "ventas.id_servicio")
                         ->leftJoin('sesiones_paquete_uso', 'ventas.id',  'sesiones_paquete_uso.venta_id')
-                        ->where('servicios.id_historia', $request['idHist'])
+                        ->where('servicios.id_paciente', $Paciente->id_paciente)
                         ->where('servicios.tipo', 'PAQUETE')
                         ->where('ventas.estado_venta', 'PENDIENTE')
-                        ->where('servicios.tipo_historia', 'NEUROPSICOLOGIA')
+                        ->where('servicios.tipo_servicio', 'NEUROPSICOLOGÍA')
                         ->where('servicios.estado', 'ACTIVO')
                         ->select(
                             'ventas.id',
@@ -599,9 +618,10 @@ class HistoriaNeuroPsicologica extends Model
                         ->first();
 
                     //VALIAR SI EL sesiones_disponibles ES 1 PARA CAMBIAR EL ESTADO A TERMIANDO
+                    if ($paquete) {
                     if ($paquete->sesiones_disponibles == 1) {
                         $paqueteUpdate = DB::table('ventas')
-                            ->where('id_historia', $request['idHist'])
+                            ->where('id_paciente', $Paciente->id_paciente)
                             ->where('estado_venta', 'PENDIENTE')
                             ->update(array_filter([
                                 'estado_venta' => 'TERMINADO'
@@ -609,17 +629,17 @@ class HistoriaNeuroPsicologica extends Model
 
                         $sesiones = DB::table('sesiones_paquete_uso')->insert(array_filter([
                             'venta_id' => $paquete->id,
-                            'id_historia' => $request['idHist'],
+                            'id_paciente' => $Paciente->id_paciente,
                             'fecha_usada' => $request['fechaEvolucion']
                         ]));
                     } else {
                         $sesiones = DB::table('sesiones_paquete_uso')->insert(array_filter([
                             'venta_id' => $paquete->id,
-                            'id_historia' => $request['idHist'],
+                            'id_paciente' => $Paciente->id_paciente,
                             'fecha_usada' => $request['fechaEvolucion']
                         ]));
                     }
-
+                  }
 
 
                     // Confirmar transacción
@@ -638,6 +658,7 @@ class HistoriaNeuroPsicologica extends Model
                     DB::table('consultas_psicologica_neuro')->where('id', $idConsulta)->update(array_filter([
                         'fecha_consulta' => $request['fechaEvolucion'] . ' ' . $request['horaSeleccionada'] ?? null,
                         'evolucion_y_o_plantrabajo' => $request['evolucion_plan']  ?? null,
+                        'id_profesional' => $request['profesionalConsulta'] ?? null,
                     ]));
 
                     // Confirmar transacción

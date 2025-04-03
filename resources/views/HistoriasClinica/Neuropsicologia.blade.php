@@ -646,7 +646,8 @@
                                                             <div class="form-group">
                                                                 <label for="depresion"
                                                                     class="form-label">Depresión:</label>
-                                                                <select class="form-control select2" multiple style="width: 100%;" id="depresion"
+                                                                <select class="form-control select2" multiple
+                                                                    style="width: 100%;" id="depresion"
                                                                     name="depresion[]">
                                                                     <option value="">Selecciona una opción</option>
                                                                     <option value="No refiere">No refiere</option>
@@ -676,7 +677,8 @@
                                                         <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label for="ansiedad" class="form-label">Ansiedad:</label>
-                                                                <select class="form-control select2" multiple style="width: 100%;" id="ansiedad"
+                                                                <select class="form-control select2" multiple
+                                                                    style="width: 100%;" id="ansiedad"
                                                                     name="ansiedad[]">
                                                                     <option value="">Selecciona una opción</option>
                                                                     <option value="No refiere">No refiere</option>
@@ -706,7 +708,8 @@
                                                         <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label for="demencia" class="form-label">Demencia:</label>
-                                                                <select class="form-control select2" multiple style="width: 100%;" id="demencia"
+                                                                <select class="form-control select2" multiple
+                                                                    style="width: 100%;" id="demencia"
                                                                     name="demencia[]">
                                                                     <option value="">Selecciona una opción</option>
                                                                     <option value="No refiere">No refiere</option>
@@ -737,7 +740,8 @@
                                                             <div class="form-group">
                                                                 <label for="alcoholismo"
                                                                     class="form-label">Alcoholismo:</label>
-                                                                <select class="form-control select2" multiple style="width: 100%;" id="alcoholismo"
+                                                                <select class="form-control select2" multiple
+                                                                    style="width: 100%;" id="alcoholismo"
                                                                     name="alcoholismo[]">
                                                                     <option value="">Selecciona una opción</option>
                                                                     <option value="No refiere">No refiere</option>
@@ -768,7 +772,8 @@
                                                             <div class="form-group">
                                                                 <label for="drogadiccion"
                                                                     class="form-label">Drogadicción:</label>
-                                                                <select class="form-control select2" multiple style="width: 100%;" id="drogadiccion"
+                                                                <select class="form-control select2" multiple
+                                                                    style="width: 100%;" id="drogadiccion"
                                                                     name="drogadiccion[]">
                                                                     <option value="">Selecciona una opción</option>
                                                                     <option value="No refiere">No refiere</option>
@@ -799,7 +804,8 @@
                                                             <div class="form-group">
                                                                 <label for="discapacidad_intelectual"
                                                                     class="form-label">Discapacidad Intelectual:</label>
-                                                                <select class="form-control select2" multiple style="width: 100%;" id="discapacidad_intelectual"
+                                                                <select class="form-control select2" multiple
+                                                                    style="width: 100%;" id="discapacidad_intelectual"
                                                                     name="discapacidad_intelectual[]">
                                                                     <option value="">Selecciona una opción</option>
                                                                     <option value="No refiere">No refiere</option>
@@ -830,60 +836,16 @@
                                                             <div class="form-group">
                                                                 <label for="patologicos"
                                                                     class="form-label">Patológicos:</label>
-                                                                <select class="form-control select2" multiple style="width: 100%;" id="patologicos"
-                                                                    name="patologicos[]">
-                                                                    <option value="">Selecciona una opción</option>
-                                                                    <option value="No refiere">No refiere</option>
-                                                                    <option value="Padre">Padre</option>
-                                                                    <option value="Madre">Madre</option>
-                                                                    <option value="Hijo/a">Hijo/a</option>
-                                                                    <option value="Hermano/a">Hermano/a</option>
-                                                                    <option value="Abuelo paterno">Abuelo paterno</option>
-                                                                    <option value="Abuela paterna">Abuela paterna</option>
-                                                                    <option value="Abuelo materno">Abuelo materno</option>
-                                                                    <option value="Abuela materna">Abuela materna</option>
-                                                                    <option value="Tío paterno">Tío paterno</option>
-                                                                    <option value="Tía paterna">Tía paterna</option>
-                                                                    <option value="Tío materno">Tío materno</option>
-                                                                    <option value="Tía materna">Tía materna</option>
-                                                                    <option value="Primo paterno">Primo paterno</option>
-                                                                    <option value="Prima paterna">Prima paterna</option>
-                                                                    <option value="Primo materno">Primo materno</option>
-                                                                    <option value="Prima materna">Prima materna</option>
-                                                                    <option value="Sobrino/a">Sobrino/a</option>
-                                                                    <option value="Nieto/a">Nieto/a</option>
-                                                                    <option value="Otro">Otro</option>
-                                                                </select>
+                                                                <input type="text" class="form-control"
+                                                                    id="patologicos" name="patologicos" placeholder="">
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label for="otros" class="form-label">Otros:</label>
-                                                                <select class="form-control select2" multiple style="width: 100%;" id="otros"
-                                                                    name="otros[]">
-                                                                    <option value="">Selecciona una opción</option>
-                                                                    <option value="No refiere">No refiere</option>
-                                                                    <option value="Padre">Padre</option>
-                                                                    <option value="Madre">Madre</option>
-                                                                    <option value="Hijo/a">Hijo/a</option>
-                                                                    <option value="Hermano/a">Hermano/a</option>
-                                                                    <option value="Abuelo paterno">Abuelo paterno</option>
-                                                                    <option value="Abuela paterna">Abuela paterna</option>
-                                                                    <option value="Abuelo materno">Abuelo materno</option>
-                                                                    <option value="Abuela materna">Abuela materna</option>
-                                                                    <option value="Tío paterno">Tío paterno</option>
-                                                                    <option value="Tía paterna">Tía paterna</option>
-                                                                    <option value="Tío materno">Tío materno</option>
-                                                                    <option value="Tía materna">Tía materna</option>
-                                                                    <option value="Primo paterno">Primo paterno</option>
-                                                                    <option value="Prima paterna">Prima paterna</option>
-                                                                    <option value="Primo materno">Primo materno</option>
-                                                                    <option value="Prima materna">Prima materna</option>
-                                                                    <option value="Sobrino/a">Sobrino/a</option>
-                                                                    <option value="Nieto/a">Nieto/a</option>
-                                                                    <option value="Otro">Otro</option>
-                                                                </select>
+                                                                <input type="text" class="form-control" id="otros"
+                                                                    name="otros" placeholder="">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1145,8 +1107,8 @@
                                                         <div class="col-md-6">
                                                             <label for="atencion" class="form-label">Atención:</label>
                                                             <select class="form-select select2 examen" id="atencion"
-                                                                name="atencion[]" multiple="multiple" style="width: 100%"
-                                                                onchange="toggleOtro(this)">
+                                                                name="atencion[]" multiple="multiple"
+                                                                style="width: 100%" onchange="toggleOtro(this)">
                                                                 <option value="">Seleccione...</option>
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
@@ -1158,9 +1120,10 @@
                                                         <div class="col-md-6">
                                                             <label for="concentracion"
                                                                 class="form-label">Concentración:</label>
-                                                            <select class="form-select select2 examen" id="concentracion"
-                                                                name="concentracion[]" multiple="multiple"
-                                                                style="width: 100%" onchange="toggleOtro(this)">
+                                                            <select class="form-select select2 examen"
+                                                                id="concentracion" name="concentracion[]"
+                                                                multiple="multiple" style="width: 100%"
+                                                                onchange="toggleOtro(this)">
                                                                 <option value="">Seleccione...</option>
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
@@ -1172,8 +1135,8 @@
                                                         <div class="col-md-6">
                                                             <label for="lenguaje" class="form-label">Lenguaje:</label>
                                                             <select class="form-select select2 examen" id="lenguaje"
-                                                                name="lenguaje[]" multiple="multiple" style="width: 100%"
-                                                                onchange="toggleOtro(this)">
+                                                                name="lenguaje[]" multiple="multiple"
+                                                                style="width: 100%" onchange="toggleOtro(this)">
                                                                 <option value="">Seleccione...</option>
                                                             </select>
                                                             <input type="text" class="form-control mt-2 d-none"
@@ -1615,17 +1578,7 @@
                                     <div class="tab-content">
                                         <div class="tab-pane show active" id="justified-tabs-preview">
                                             <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
-                                                <!--
-                                                                        <li class="nav-item">
-                                                                            <a href="#datos_iniciales" data-bs-toggle="tab"
-                                                                                aria-expanded="false" class="nav-link rounded-0 active">
-                                                                                <span class="d-none d-md-block">
-                                                                                    <i class="fa fa-user-circle"></i>
-                                                                                    Datos Iniciales
-                                                                                </span>
-                                                                            </a>
-                                                                        </li>
-                                                                        -->
+
                                                 <li class="nav-item">
                                                     <a href="#resumenEval" data-bs-toggle="tab" aria-expanded="true"
                                                         class="nav-link rounded-0">
@@ -1662,6 +1615,17 @@
                                                                 Plan de manejo:</label>
                                                             <textarea class="form-control" id="evolucion_plan" name="evolucion_plan" rows="3"
                                                                 placeholder="Evolución del tratamiento psicolólogico actual"></textarea>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="otra_ImpresionDiagnosticaConsulta"
+                                                                class="form-label">
+                                                                Profesional:</label>
+                                                            <select class="form-control select2" style="width: 100%;"
+                                                                id="profesionalConsulta"
+                                                                name="profesionalConsulta"></select>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1753,8 +1717,40 @@
         </div><!-- /.modal -->
     </div>
 
-    
-    < <div class="modal fade" id="modalErrores" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    <!-- SELECCIONAR ENCIAR CONSULTA O IMPRIMIR -->
+    <div class="modal fade" id="modalEnviarImprimir" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">`
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 20%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Enviar Consulta o Imprimir</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button onclick="enviarConsulta()" class="btn btn-success"> <i
+                                                class="ti-email"></i> Enviar Consulta</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button onclick="imprimirConsultapdf()" class="btn btn-primary"> <i
+                                                class="ti-printer"></i> Imprimir Consulta</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+            </div><!-- /.modal -->
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modalErrores" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
             <div class="modal-content">
@@ -1767,7 +1763,19 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div id="loader-pdf" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.7); z-index: 999999;">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: white; padding: 20px; border-radius: 10px;">
+            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+            <h4 class="mt-2" style="color: #333;" id="titulo_loader_pdf">Generando PDF</h4>
+            <p style="margin: 0;">Por favor espere...</p>
         </div>
+    </div>
+
+
 
         <script>
             window.userPermissions = @json(Auth::user()->permissions);
@@ -1795,6 +1803,11 @@
                 });
                 $('#selPrueba').select2({
                     dropdownParent: $('#modalPrueba'),
+                    width: '100%'
+                });
+
+                $('#profesionalConsulta').select2({
+                    dropdownParent: $('#modalConsulta'),
                     width: '100%'
                 });
 
@@ -2516,14 +2529,14 @@
                         //DATOS DEL PACIENTE
 
                         if (!data.profesional) {
-                        isProfesional = false
-                        document.getElementById('defaulProfesional').style.display = 'none'
-                        document.getElementById('divProfesional').style.display = 'initial'
-                    } else {
-                        isProfesional = true
-                        document.getElementById('defaulProfesional').style.display = 'initial'
-                        document.getElementById('divProfesional').style.display = 'none'
-                    }
+                            isProfesional = false
+                            document.getElementById('defaulProfesional').style.display = 'none'
+                            document.getElementById('divProfesional').style.display = 'initial'
+                        } else {
+                            isProfesional = true
+                            document.getElementById('defaulProfesional').style.display = 'initial'
+                            document.getElementById('divProfesional').style.display = 'none'
+                        }
 
                         if (data.historia) {
                             swal({
@@ -3002,7 +3015,7 @@
 
                 document.getElementById('plan_intervencion').value = historia.plan_intervension
                 $('#plan_intervencion').trigger('change')
-        
+
                 mapearDatosProfesional(historia.id_profesional)
             }
 
@@ -3231,32 +3244,32 @@
                     .then(data => {
 
                         if (isProfesional) {
-                        document.getElementById("defaulProfesional").style.display = "initial"
-                        document.getElementById("divProfesional").style.display = "none"
-                        if (data.profesional) {
-                            document.getElementById("idProfesional").value = data.profesional.usuario
-                            document.getElementById("nombreProfesional").innerHTML = data.profesional.nombre
-                            document.getElementById("registroProfesional").innerHTML =
-                                `<strong>Tarjeta Profesional:</strong> ${data.profesional.registro}`
+                            document.getElementById("defaulProfesional").style.display = "initial"
+                            document.getElementById("divProfesional").style.display = "none"
+                            if (data.profesional) {
+                                document.getElementById("idProfesional").value = data.profesional.usuario
+                                document.getElementById("nombreProfesional").innerHTML = data.profesional.nombre
+                                document.getElementById("registroProfesional").innerHTML =
+                                    `<strong>Tarjeta Profesional:</strong> ${data.profesional.registro}`
 
-                            let firmaProfesional = document.getElementById('firmaProfesional')
-                            let url = $('#Ruta').data("ruta")
-                            firmaProfesional.src = url + "/images/firmasProfesionales/" + data.profesional.firma
+                                let firmaProfesional = document.getElementById('firmaProfesional')
+                                let url = $('#Ruta').data("ruta")
+                                firmaProfesional.src = url + "/images/firmasProfesionales/" + data.profesional.firma
+
+                            }
+                        } else {
+
+                            document.getElementById("defaulProfesional").style.display = "none"
+                            document.getElementById("divProfesional").style.display = "initial"
+                            document.getElementById("profesionalSelect").value = data.profesional.id
+                            $('#profesionalSelect').val(data.profesional.id).trigger('change.select2')
+                            document.getElementById("idProfesional").value = idProf
 
                         }
-                    } else {
-                        
+
+
                         document.getElementById("defaulProfesional").style.display = "none"
                         document.getElementById("divProfesional").style.display = "initial"
-                        document.getElementById("profesionalSelect").value = data.profesional.id
-                        $('#profesionalSelect').val(data.profesional.id).trigger('change.select2')
-                        document.getElementById("idProfesional").value = idProf
-
-                    }
-
-
-                    document.getElementById("defaulProfesional").style.display = "none"
-                    document.getElementById("divProfesional").style.display = "initial"
 
                     })
                     .catch(error => console.error('Error:', error))
@@ -3546,6 +3559,9 @@
 
                             cargarImpresion(data.consulta.impresion_diagnostica, 'codImpresionDiagnosticoConsulta')
 
+                            document.getElementById('profesionalConsulta').value = data.consulta.id_profesional
+                            $('#profesionalConsulta').val(data.consulta.id_profesional).trigger('change');
+
                             CKEDITOR.instances['evolucion_plan'].setData(data.consulta.evolucion_y_o_plantrabajo)
 
                             document.getElementById("fechaEvolucion").value = data.consulta.fecha_consulta.split(' ')[0];
@@ -3810,7 +3826,9 @@
                     .then(response => response.json())
                     .then(data => {
                         const selectProfesional = document.getElementById('profesionalSelect')
+                        const selectProfesionalConsulta = document.getElementById('profesionalConsulta')
                         llenarSelect(selectProfesional, data)
+                        llenarSelect(selectProfesionalConsulta, data)
                     })
                     .catch(error => console.error('Error al cargar profesionales:', error))
             }
@@ -4462,11 +4480,11 @@
                     .then(data => {
                         document.getElementById("tituloPrueba").innerHTML = "Editar venta de prueba"
                         document.getElementById("precioPrueba").value = data.prueba.valorServConsultaVis
-                   
+
                         let paraFecha = data.prueba.fecha.split(" ")
                         document.getElementById("fechaPrueba").value = paraFecha[0]
                         $('#selPrueba').val(data.prueba.id_paquete).trigger('change.select2')
-                 
+
 
                         document.getElementById("descripcionPrueba").value = data.prueba.descripcion
                         document.getElementById("saveRegistroPrueba").removeAttribute('disabled')
@@ -4561,7 +4579,7 @@
                     .catch(error => console.error('Error:', error))
             }
 
-            
+
 
             function eliminarPaquete(idPaquete) {
 
@@ -4613,6 +4631,7 @@
                 });
 
             }
+
             function eliminarPrueba(idPrueba) {
 
                 swal({
@@ -4772,6 +4791,76 @@
             function cancelarPrueba() {
                 document.getElementById("listPruebas").style.display = "initial"
                 document.getElementById("formPruebas").style.display = "none"
+            }
+
+            function imprimirConsulta(idConsulta) {
+                document.getElementById("idHistoriaConsulta").value = idConsulta
+                var modal = new bootstrap.Modal(document.getElementById("modalEnviarImprimir"), {
+                    backdrop: 'static',
+                    keyboard: false
+                })
+
+                modal.show()
+
+                //
+            }
+
+
+            function enviarConsulta() {
+                $("#loader-pdf").show();
+                $("#titulo_loader_pdf").text("Enviando consulta");
+                fetch("{{ route('informes.enviarConsultaNeuro') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    idConsulta: document.getElementById("idHistoriaConsulta").value
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.response == 'noCorreo') {
+                    swal("¡Alerta!", "No se encontró un correo electrónico para enviar la consulta", "warning")
+                }else{
+                    swal("¡Buen trabajo!", "La consulta se ha enviado correctamente", "success")
+                }
+                $("#loader-pdf").hide();
+            })
+            .catch(error => console.error('Error:', error));
+            }
+
+            function imprimirConsultapdf() {
+            // Mostrar loader antes de iniciar
+            $("#loader-pdf").show();
+            $("#titulo_loader_pdf").text("Generando PDF");
+            fetch("{{ route('informes.imprimirConsultaNeuro') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    idConsulta: document.getElementById("idHistoriaConsulta").value
+                })
+            })
+            .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al generar el informe.');
+                    }
+                    return response.blob(); // Cambiar a blob
+                })
+                .then(blob => {
+                    var a = document.createElement('a');
+                    var url = window.URL.createObjectURL(blob);
+                    a.href = url;
+                    a.download = 'resultadoConsultaNeuro.pdf';
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    $("#loader-pdf").hide();
+                })
+                .catch(error => console.error('Error:', error));
             }
         </script>
 

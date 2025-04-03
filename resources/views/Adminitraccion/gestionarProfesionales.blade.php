@@ -326,7 +326,7 @@
                     }
                 },
                 submitHandler: function(form) {
-                    guardar();
+                    guardarRegistro();
                 }
             });
 

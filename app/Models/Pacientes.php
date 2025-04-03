@@ -103,7 +103,7 @@ class Pacientes extends Model
             ->first();
     }
 
-    public static function Guardar($request)
+    public static function guardar($request)
     {
         try {
             if ($request['accPacientes'] == 'guardar') {
@@ -136,7 +136,7 @@ class Pacientes extends Model
                     'telefono_acompanate' =>  $request['telefonoAcompanante'] ?? '',
                     'eps' =>  $request['eps'] ?? '',
                     'estado' => 'ACTIVO',
-                    'completo' => true
+                    'completo' => $request['camposVacios']
                 ]);
 
                 if (isset($request['archivo']) && is_array($request['archivo'])) {
@@ -151,6 +151,7 @@ class Pacientes extends Model
                         ]);
                     }
                 }
+                
             } else {
 
                 $respuesta = DB::connection('mysql')->table('pacientes')
@@ -183,7 +184,8 @@ class Pacientes extends Model
                         'parentesco' =>  $request['parentesco'] ?? '',
                         'telefono_acompanate' =>  $request['telefonoAcompanante'] ?? '',
                         'eps' =>  $request['eps'] ?? '',
-                        'estado' => 'ACTIVO'
+                        'estado' => 'ACTIVO',
+                        'completo' => $request['camposVacios']
                     ]);
 
                 $idpaciente = $request['idPaciente'];
@@ -210,7 +212,7 @@ class Pacientes extends Model
         }
         return  $idpaciente;
     }
-    public static function guardarPend($request)
+    public static function guardarPendiente($request)
     {
         try {
             $fechaFormateada = date("Y-m-d", strtotime(str_replace('/', '-', $request['fechaNacimiento'])));
@@ -303,6 +305,7 @@ class Pacientes extends Model
                         'id_tipo_servicio' => $request['consultaVenta'],
                         'precio' => $request['valorServConsulta'],
                         'fecha' => $request['fechaVentaConsulta'] . ' ' . $request['horaSeleccionadaVentaConsulta'],
+                        'tipo_servicio' => $request['tipoServicioConsulta']
                     ]));
                     DB::table('ventas')->where('id_servicio', $request['idConsultaVenta'])->update(array_filter([
                         'valor' => $request['valorServConsulta'],
@@ -319,7 +322,7 @@ class Pacientes extends Model
                         'estado' => 'ACTIVO',
                         'id_paciente' => $request['idPaciente'],
                         'fecha' => $request['fechaVentaConsulta'] . ' ' . $request['horaSeleccionadaVentaConsulta'],
-
+                        'tipo_servicio' => $request['tipoServicioConsulta']
                     ]));
 
                     $idVenta = DB::table('ventas')->insertGetId(array_filter([
@@ -362,6 +365,7 @@ class Pacientes extends Model
                         'id_tipo_servicio' => $request['sesionVenta'],
                         'precio' => $request['valorServSesion'],
                         'fecha' => $request['fechaVentaSesion'] . ' ' . $request['horaSeleccionadaVentaSesion'],
+                        'tipo_servicio' => $request['tipoServicioSesion']
                     ]));
                     DB::table('ventas')->where('id_servicio', $request['idVentaSesion'])->update(array_filter([
                         'valor' => $request['valorServSesion'],
@@ -378,6 +382,7 @@ class Pacientes extends Model
                         'estado' => 'ACTIVO',
                         'id_paciente' => $request['idPaciente'],
                         'fecha' => $request['fechaVentaSesion'] . ' ' . $request['horaSeleccionadaVentaSesion'],
+                        'tipo_servicio' => $request['tipoServicioSesion']
                     ]));
 
                     $idVenta = DB::table('ventas')->insertGetId(array_filter([
@@ -423,6 +428,7 @@ class Pacientes extends Model
                         'fecha' => $request['fechaPaquete'] ,
                         'id_tipo_servicio' => $request['selPaquete'],
                         'id_paciente' => $request['idPaciente'],
+                        'tipo_servicio' => $request['tipoServicioPaquete']
                     ]));
 
                     $idVenta = DB::table('ventas')->insertGetId(array_filter([
@@ -453,6 +459,7 @@ class Pacientes extends Model
                         'id_tipo_servicio' => $request['selPaquete'],
                         'precio' => $request['montoFinal'],
                         'fecha' => $request['fechaPaquete'],
+                        'tipo_servicio' => $request['tipoServicioPaquete']
                     ]));
 
                     DB::table('ventas')->where('id_servicio', $request['idVentaPaquete'])->update(array_filter([

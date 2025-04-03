@@ -1032,7 +1032,7 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.PaqueteVenta.tipo == "PAQUETE") {
-                        document.getElementById("descripcionPaquete").innerText = data.PaqueteVenta.descripion_paquete
+                        document.getElementById("descripcionPaquete").innerText = data.PaqueteVenta.descripcion.descripcion
                             .descripcion
                     } else {
                         document.getElementById("descripcionPaquete").innerText = data.PaqueteVenta.descripcion

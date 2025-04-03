@@ -91,7 +91,8 @@ class PacientesController extends Controller
                 'servicios.fecha',
                 'servicios.precio',
                 'ventas.cantidad',
-                'ventas.estado_venta'
+                'ventas.estado_venta',
+                'servicios.tipo_servicio'
             ])
             ->select(
                 'servicios.id_tipo_servicio',
@@ -102,6 +103,7 @@ class PacientesController extends Controller
                 'servicios.id',
                 'ventas.cantidad',
                 'ventas.estado_venta',
+                'servicios.tipo_servicio',
                 DB::raw('ventas.cantidad - COUNT(DISTINCT sesiones_paquete_uso.id) as sesiones_disponibles'),
                 DB::raw("(SELECT nombre FROM especialidades WHERE especialidades.id = servicios.id_tipo_servicio AND servicios.tipo = 'CONSULTA' LIMIT 1) AS descripcion_consulta"),
                 DB::raw("(SELECT descripcion FROM sesiones WHERE sesiones.id = servicios.id_tipo_servicio AND servicios.tipo = 'SESION' LIMIT 1) AS descripcion_sesion"),
@@ -142,16 +144,16 @@ class PacientesController extends Controller
                         $color = 'badge-warning';
                         $sesiones = $item->sesiones_disponibles. ' Disponibles de ' . $item->cantidad;
                     } else if ($item->tipo == 'SESION') {
-                        $color = 'badge-primary';
+                        $color = 'badge-success';
                     } else if ($item->tipo == 'CONSULTA') {
-                        $color = 'badge-warning';
+                        $color = 'badge-primary';
                     } else if ($item->tipo == 'PRUEBAS') {
                         $color = 'badge-info';
                     }
 
                     $tdTable .= '<tr>
                                     <td>' . $item->descripcion . '</td>
-                                    <td><span class="badge ' . $color . '">' . $item->tipo . '</span></td>
+                                    <td><span class="badge ' . $color . '">' . $item->tipo . ' - ' . $item->tipo_servicio . '</span></td>
                                     <td>' . $sesiones . '</td>
                                     <td>' . $fecha. '</td>
                                     <td>$ ' . $valor . '</td>
@@ -504,7 +506,7 @@ class PacientesController extends Controller
                 CASE 
                     WHEN completo = 1 THEN 'COMPLETO'
                     ELSE 'IMCOMPLETO'
-                END as estado
+                END as estadoCompleto
             "),
                 );
 
@@ -525,7 +527,7 @@ class PacientesController extends Controller
 
             foreach ($ListPacientes as $i => $item) {
                 if (!is_null($item)) {
-                    $clases = ($item->estado == "IMCOMPLETO") ? "badge-danger" : "badge-success";
+                    $clases = ($item->estadoCompleto == "IMCOMPLETO") ? "badge-danger" : "badge-success";
 
                     $tdTable .= '<tr>
                                     <td>' . $item->identificacion_completa . '</td>
@@ -534,7 +536,7 @@ class PacientesController extends Controller
                                     <td>' . $item->sexo . '</td>
                                     <td>' . $item->edad . ' Años</td>
                                     <td>' . $item->telefono . '</td>
-                                    <td><span class="badge ' . $clases . '">' . $item->estado . '</span></td>
+                                    <td><span class="badge ' . $clases . '">' . $item->estadoCompleto . '</span></td>
                                     <td class="table-action min-w-100">
                                     <a href="javascript:void(0)" onclick="verServiciosVenta(' . $item->id . ');" style="cursor: pointer;" title="Venta de servicios" class="text-fade hover-info"><i class="align-middle"
                                     data-feather="shopping-cart"></i></a>

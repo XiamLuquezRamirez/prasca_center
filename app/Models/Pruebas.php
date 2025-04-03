@@ -92,6 +92,7 @@ class Pruebas extends Model
                         'fecha' => $request['fechaPrueba'] ,
                         'id_tipo_servicio' => $request['selPrueba'],
                         'id_paciente' => $request['idPaciente'],
+                        'tipo_servicio' => $request['tipoServicioPrueba']
                     ]));
 
                     $idVenta = DB::table('ventas')->insertGetId(array_filter([
@@ -120,9 +121,10 @@ class Pruebas extends Model
 
                     DB::table('servicios')->where('id', $request['idVentaPrueba'])->update(array_filter([
                         'descripcion' => $request['descripcionPrueba'],
-                        'id_paquete' => $request['selPrueba'],
+                        'id_tipo_servicio' => $request['selPrueba'],
                         'precio' => $request['precioPrueba'],
-                        'fecha' => $request['fechaPrueba']
+                        'fecha' => $request['fechaPrueba'],
+                        'tipo_servicio' => $request['tipoServicioPrueba']
                     ]));
 
                     DB::table('ventas')->where('id_servicio', $request['idVentaPrueba'])->update(array_filter([

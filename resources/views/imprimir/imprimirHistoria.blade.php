@@ -167,16 +167,16 @@
             </tr>
             <tr>
                 <td><strong>Nombre: </strong></td>
-                <td>{{ $paciente->primer_nombre }} {{ $paciente->segundo_nombre }} {{ $paciente->primer_apellido }}
-                    {{ $paciente->segundo_apellido }}</td>
+                <td>{{ isset($paciente->primer_nombre) ? $paciente->primer_nombre : '' }} {{ isset($paciente->segundo_nombre) ? $paciente->segundo_nombre : '' }} {{ isset($paciente->primer_apellido) ? $paciente->primer_apellido : '' }}
+                    {{ isset($paciente->segundo_apellido) ? $paciente->segundo_apellido : '' }}</td>
                 <td><strong>Sexo biológ.:</strong></td>
-                <td>{{ $paciente->sexo }}</td>
+                <td>{{ isset($paciente->sexo) ? $paciente->sexo : '' }}</td>
                 <td><strong>F. Nacimiento: </strong></td>
-                <td>{{ $paciente->fecha_nacimiento }}</td>
+                <td>{{ isset($paciente->fecha_nacimiento) ? $paciente->fecha_nacimiento : '' }}</td>
                 <td><strong>Edad</strong></td>
                 <td>
                     @php
-                        $fechaNacimiento = $paciente->fecha_nacimiento;
+                        $fechaNacimiento = isset($paciente->fecha_nacimiento) ? $paciente->fecha_nacimiento : null;
                         if ($fechaNacimiento) {
                             // Parsear la fecha de nacimiento
                             $fechaNacimiento = \Carbon\Carbon::parse($fechaNacimiento);
@@ -200,25 +200,25 @@
             </tr>
             <tr>
                 <td><strong>Identificación: </strong></td>
-                <td>{{ $paciente->tipo_identificacion }} - {{ $paciente->identificacion }}</td>
+                <td>{{ isset($paciente->tipo_identificacion) ? $paciente->tipo_identificacion : '' }} - {{ isset($paciente->identificacion) ? $paciente->identificacion : '' }}</td>
                 <td><strong>lateralidad: </strong></td>
-                <td>{{ $paciente->lateralidad }}</td>
+                <td>{{ isset($paciente->lateralidad) ? $paciente->lateralidad : '' }}</td>
                 <td><strong>Estado civil:</strong></td>
-                <td>{{ $paciente->estado_civil }}</td>
+                <td>{{ isset($paciente->estado_civil) ? $paciente->estado_civil : '' }}</td>
                 <td><strong>Ocupación: </strong></td>
-                <td>{{ $paciente->ocupacion }}</td>
+                <td>{{ isset($paciente->ocupacion) ? $paciente->ocupacion : '' }}</td>
             </tr>
             <tr>
                 <td><strong>Correo electrónico: </strong></td>
-                <td colspan="3">{{ $paciente->email }} - {{ $paciente->identificacion }}</td>
+                <td colspan="3">{{ isset($paciente->email) ? $paciente->email : '' }} - {{ isset($paciente->identificacion) ? $paciente->identificacion : '' }}</td>
                 <td><strong>Dirección:</strong></td>
-                <td colspan="3">{{ $paciente->direccion }}</td>
+                <td colspan="3">{{ isset($paciente->direccion) ? $paciente->direccion : '' }}</td>
             </tr>
             <tr>
                 <td><strong>Departamento: </strong></td>
-                <td colspan="2">{{ $paciente->departamento_info->nombre }}</td>
+                <td colspan="2">{{ isset($paciente->departamento_info->nombre) ? $paciente->departamento_info->nombre : '' }}</td>
                 <td><strong>Municipio: </strong></td>
-                <td colspan="2">{{ $paciente->municipio_info->nombre }}</td>
+                <td colspan="2">{{ isset($paciente->municipio_info->nombre) ? $paciente->municipio_info->nombre : '' }}</td>
                 <td><strong>Zona: </strong></td>
                 <td>{{ $paciente->zona_residencial == '01' ? 'Rural' : 'Urbana' }}</td>
             </tr>
@@ -228,15 +228,15 @@
                 @if ($paciente->eps_info == "Sin EPS")
                     <td colspan="7">Particular</td>
                 @else
-                    <td colspan="7">{{ $paciente->eps_info->codigo }} - ({{ $paciente->eps_info->entidad }})</td>
+                    <td colspan="7">{{ isset($paciente->eps_info->codigo) ? $paciente->eps_info->codigo : '' }} - ({{ isset($paciente->eps_info->entidad) ? $paciente->eps_info->entidad : '' }})</td>
                 @endif
             </tr>
 
-            @if ($paciente->acompanante != '')
+            @if (isset($paciente->acompanante) && $paciente->acompanante != '')
                 <tr>
                     <td colspan="2"><strong>En caso de emergencia llamar a: </strong></td>
-                    <td colspan="6">{{ $paciente->acompanante }} - Parentesco ({{ $paciente->parentesco }}) -
-                        Teléfono ({{ $paciente->telefono_acompanate }})</td>
+                    <td colspan="6">{{ isset($paciente->acompanante) ? $paciente->acompanante : '' }} - Parentesco ({{ isset($paciente->parentesco) ? $paciente->parentesco : '' }}) -
+                        Teléfono ({{ isset($paciente->telefono_acompanate) ? $paciente->telefono_acompanate : '' }})</td>
                 </tr>
             @endif
         </table>
@@ -253,11 +253,18 @@
                         <p>{!! $historia->remision !!}</p>
                     </div>
                     <div class="seccion">
-                        <p><strong>DX principal</strong></p>
-                        <p>{{ $historia->dx_principal_detalle->nombre }}</p>
-                        @if ($historia->otro_dx_principal != null)
-                        <p><strong>Otro tipo de diagnóstico</strong></p>
-                        <p>{{ $historia->otro_dx_principal }}</p>
+                        @if (isset($historia->dx_principal_detalle) && $historia->dx_principal_detalle)
+                            <p><strong>DX principal</strong></p>
+                            <p>{{ $historia->dx_principal_detalle->nombre }}</p>
+                        @endif
+
+                        @if (isset($historia->dx_principal1_detalle) && $historia->dx_principal1_detalle)
+                            <p><strong>DX Relacionado 1</strong></p>
+                            <p>{{ $historia->dx_principal1_detalle->nombre }}</p>
+                        @endif
+                        @if (isset($historia->dx_principal2_detalle) && $historia->dx_principal2_detalle)
+                            <p><strong>DX Relacionado 2</strong></p>
+                            <p>{{ $historia->dx_principal2_detalle->nombre }}</p>
                         @endif
                     </div>
                     <div class="seccion">
@@ -265,22 +272,12 @@
                         <p>{{ $historia->codigo_consulta_detalle->nombre }}</p>
                     </div>
                     <div class="seccion">
-                        <p><strong>Motivo de consulta</strong></p>
-                        <p>{{ $historia->motivo_consulta }}</p>
-                        @if ($historia->motivo_consulta_detalle != null)
-                            <p><strong> Otros motivos relacionados </strong></p>
-                            <p>{{ $historia->motivo_consulta_detalle->opcion }}</p>
-                        @endif
+                        <p><strong>Motivo de Consulta</strong></p>
+                        <p>{!! isset($historia->motivo_consulta) ? $historia->motivo_consulta : '' !!}</p>
                     </div>
-                    @if ($historia->otro_motivo_consulta != null)
-                        <div class="seccion">
-                            <p><strong>Otro motivo de consulta</strong></p>
-                            <p>{{ $historia->otro_motivo_consulta }}</p>
-                        </div>
-                    @endif
                     <div class="seccion">
-                        <p><strong>Enfermedad actual</strong></p>
-                        <p>{!! $historia->enfermedad_actual !!}</p>
+                        <p><strong>Enfermedad Actual</strong></p>
+                        <p>{!! isset($historia->enfermedad_actual) ? $historia->enfermedad_actual : '' !!}</p>
                     </div>
                 </div>
             </div>
@@ -498,80 +495,30 @@
             </div>
         </div>
         <div style="margin: 3px 0;"></div>
-        <div class="antecedentes-section">
-            <div class="seccion" style="background-color:rgb(243, 243, 243);">
-                <h3 class="antecedentes-title"><strong>Apariencia personal</strong></h3>
-                <table style="border: none; width: 100%; table-layout: fixed; margin-bottom: 3px;">
-                    <tr style="border: none;">
-                        <td style="border: none; width: 50%; vertical-align: top; padding-right: 5px;">
-                            @foreach ($aparienciaPersonal as $index => $item)
-                                @if ($index % 2 == 0)
-                                    <div class="seccion">
-                                        <p><strong>{{ $item->nombre }}</strong></p>
-                                        <p>{!! $item->apariencia_detalle !!}</p>
-                                    </div>
-                                @endif
-                            @endforeach
-                        </td>
-                        <td style="border: none; width: 50%; vertical-align: top; padding-left: 5px;">
-                            @foreach ($aparienciaPersonal as $index => $item)
-                                @if ($index % 2 != 0)
-                                    <div class="seccion">
-                                        <p><strong>{{ $item->nombre }}</strong></p>
-                                        <p>{!! $item->apariencia_detalle !!}</p>
-                                    </div>
-                                @endif
-                            @endforeach
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+      
+        <div style="margin: 3px 0;"></div>
+    
         <div style="margin: 3px 0;"></div>
         <div class="antecedentes-section">
             <div class="seccion" style="background-color:rgb(243, 243, 243);">
-                <h3 class="antecedentes-title"><strong>Funciones Cognitivas</strong></h3>
-                <table style="border: none; width: 100%; table-layout: fixed; margin-bottom: 3px;">
-                    <tr style="border: none;">
-                        <td style="border: none; width: 50%; vertical-align: top; padding-right: 5px;">
-                            @foreach ($funcionesCognitiva as $index => $item)
-                                @if ($index % 2 == 0)
-                                    <div class="seccion">
-                                        <p><strong>{{ $item->nombre }}</strong></p>
-                                        <p>{!! $item->funciones_detalle !!}</p>
-                                    </div>
-                                @endif
-                            @endforeach
-                        </td>
-                        <td style="border: none; width: 50%; vertical-align: top; padding-left: 5px;">
-                            @foreach ($funcionesCognitiva as $index => $item)
-                                @if ($index % 2 != 0)
-                                    <div class="seccion">
-                                        <p><strong>{{ $item->nombre }}</strong></p>
-                                        <p>{!! $item->funciones_detalle !!}</p>
-                                    </div>
-                                @endif
-                            @endforeach
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <div style="margin: 3px 0;"></div>
-        <div class="antecedentes-section">
-            <div class="seccion" style="background-color:rgb(243, 243, 243);">
-                <h3 class="antecedentes-title"><strong>Funciones Somáticas</strong></h3>
+                <h3 class="antecedentes-title"><strong>EXAMEN MENTAL</strong></h3>
+                
+                <div class="seccion">
+                    <p><strong>Examen Mental</strong></p>
+                    <p>{!! isset($examenMental->examen_mental) ? $examenMental->examen_mental : '' !!}</p>
+                </div>
+
                 <div class="seccion">
                     <p><strong>Ciclos del Sueño</strong></p>
-                    <p>{!! $funcionesSomaticas->ciclos_del_sueno !!}</p>
+                    <p>{!! isset($examenMental->ciclos_del_sueno) ? $examenMental->ciclos_del_sueno : '' !!}</p>
                 </div>
                 <div class="seccion">
                     <p><strong>Apetito</strong></p>
-                    <p>{!! $funcionesSomaticas->apetito !!}</p>
+                    <p>{!! isset($examenMental->apetito) ? $examenMental->apetito : '' !!}</p>
                 </div>
                 <div class="seccion">
                     <p><strong>Actividades de Autocuidado</strong></p>
-                    <p>{!! $funcionesSomaticas->actividades_autocuidado !!}</p>
+                    <p>{!! isset($examenMental->actividades_autocuidado) ? $examenMental->actividades_autocuidado : '' !!}</p>
                 </div>
             </div>
         </div>
@@ -580,16 +527,22 @@
             <div class="seccion" style="background-color:rgb(243, 243, 243); margin-top: 15px;">
                 <h3 class="antecedentes-title"><strong>IMPRESIÓN DIAGNOSTICA</strong></h3>
                 <div class="seccion">
-                    <p><strong>Impresión Diagnóstica (CIE 10 - DSM-V):</strong></p>
-                    <p>{!! $historia->impresion_diagnostica_detalle->nombre !!}</p>
-                    @if ($historia->otro_cod_diagnostico != null)
-                        <p><strong>Otro tipo de impresion diagnóstico</strong></p>
-                        <p>{{ $historia->otro_cod_diagnostico }}</p>
+                    @if (isset($historia->impresion_diagnostica_detalle) && $historia->impresion_diagnostica_detalle)
+                        <p><strong>Impresión Diagnóstica (CIE 10 - DSM-V):</strong></p>
+                        <p>{!! $historia->impresion_diagnostica_detalle->nombre !!}</p>
+                    @endif
+                    @if (isset($historia->codigo_diagnostico1_detalle) && $historia->codigo_diagnostico1_detalle)
+                        <p><strong>Impresión Diagnóstica Relacionada 1</strong></p>
+                        <p>{{ $historia->codigo_diagnostico1_detalle->nombre }}</p>
+                    @endif
+                    @if (isset($historia->codigo_diagnostico2_detalle) && $historia->codigo_diagnostico2_detalle)
+                        <p><strong>Impresión Diagnóstica Relacionada 2</strong></p>
+                        <p>{{ $historia->codigo_diagnostico2_detalle->nombre }}</p>
                     @endif
                 </div>
                 <div class="seccion">
                     <p><strong>Establecido por primera vez</strong></p>
-                    <p>{!! $historia->diagnostico_primera_vez !!}</p>
+                    <p>{!! isset($historia->diagnostico_primera_vez) ? $historia->diagnostico_primera_vez : '' !!}</p>
                 </div>
             </div>
         </div>
@@ -598,24 +551,24 @@
             <div class="seccion" style="background-color:rgb(243, 243, 243);">
                 <h3 class="antecedentes-title"><strong>PLAN DE INTERVENCIÓN</strong></h3>
                 <div class="seccion">
-                    <p><strong>Plan de intervención</strong></p>
-                    <p>{!! $historia->plan_intervension_detalle->opcion !!}</p>
+                    <p><strong>Plan de Intervención</strong></p>
+                    <p>{!! isset($historia->plan_intervension_detalle) ? $historia->plan_intervension_detalle : '' !!}</p>
                 </div>
                 <div class="seccion">
                     <p><strong>Objetivo General</strong></p>
-                    <p>{!! $historia->objetivo_general !!}</p>
+                    <p>{!! isset($historia->objetivo_general) ? $historia->objetivo_general : '' !!}</p>
                 </div>
                 <div class="seccion">
                     <p><strong>Objetivos Específicos</strong></p>
-                    <p>{!! $historia->objetivos_especificos !!}</p>
+                    <p>{!! isset($historia->objetivos_especificos) ? $historia->objetivos_especificos : '' !!}</p>
                 </div>
                 <div class="seccion">
-                    <p><strong>Sugerencia para Interconsultas</strong></p>
-                    <p>{!! $historia->sugerencias_interconsultas !!}</p>
+                    <p><strong>Sugerencias e Interconsultas</strong></p>
+                    <p>{!! isset($historia->sugerencias_interconsultas) ? $historia->sugerencias_interconsultas : '' !!}</p>
                 </div>
                 <div class="seccion">
                     <p><strong>Observaciones y Recomendaciones</strong></p>
-                    <p>{!! $historia->observaciones_recomendaciones !!}</p>
+                    <p>{!! isset($historia->observaciones_recomendaciones) ? $historia->observaciones_recomendaciones : '' !!}</p>
                 </div>
             </div>
         </div>

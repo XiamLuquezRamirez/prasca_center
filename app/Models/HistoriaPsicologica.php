@@ -208,6 +208,8 @@ class HistoriaPsicologica extends Model
     public static function Guardar($request)
     {
         try {
+
+         
             if ($request['accHistoria'] == 'guardar') {
                 DB::beginTransaction();
                 try {
@@ -231,8 +233,12 @@ class HistoriaPsicologica extends Model
                         'observaciones_recomendaciones' => 'observaciones_recomendaciones',
                         'tipoPsicologia' => 'tipologia',
                         'resumen_evaluacion_inicial' => 'eval_inicial',
-                        'otro_CodDiagnostico' => 'otro_dx_principal',
-                        'otra_ImpresionDiagnostica' => 'otro_cod_diagnostico'
+                        'codDiagnosticoRelacionado1' => 'dx_principal1',
+                        'codDiagnosticoRelacionado2' => 'dx_principal2',
+                        'codImpresionDiagnosticoRelacionado1' => 'codigo_diagnostico1',
+                        'codImpresionDiagnosticoRelacionado2' => 'codigo_diagnostico2',
+                        'completa' => 'completa'
+
 
                     ];
 
@@ -254,7 +260,11 @@ class HistoriaPsicologica extends Model
                     }
 
                     $datosInsertar['fecha_historia'] = now();
-                    $datosInsertar['estado_hitoria'] = 'cerrada';
+                    if($request['completa'] == '0'){
+                        $datosInsertar['estado_hitoria'] = 'abierta';
+                    }else{
+                        $datosInsertar['estado_hitoria'] = 'cerrada';
+                    }
                     $datosInsertar['estado_registro'] = 'ACTIVO';
 
                     if (!empty($datosInsertar)) {
@@ -363,108 +373,12 @@ class HistoriaPsicologica extends Model
                         }
                     }
 
-                    // Definir las características de apariencia personal
-                    $tiposAparienciaPersonal = [
-                        'edad' => 'Edad',
-                        'edad_otro' => 'Edad (otro)',
-                        'desarrollo' => 'Desarrollo pondoestatural',
-                        'desarrollo_otro' => 'Desarrollo pondoestatural (otro)',
-                        'aseo' => 'Aseo y Arreglo',
-                        'aseo_otro' => 'Aseo y arreglo (otro)',
-                        'salud' => 'Salud somática',
-                        'salud_otro' => 'Salud somática (otro)',
-                        'facies' => 'Facies',
-                        'facies_otro' => 'Facies (otro)',
-                        'biotipo' => 'Biotipo',
-                        'biotipo_otro' => 'Biotipo (otro)',
-                        'actitud' => 'Actitud',
-                        'actitud_otro' => 'Actitud (otro)'
-                    ];
-
-
-
-                    // Recorrer y actualizar/insertar cada característica
-                    foreach ($tiposAparienciaPersonal as $campo => $nombre) {
-                        if (!empty($request[$campo])) {
-                            // Si el campo es un array, convertirlo a cadena separada por comas
-                            $detalle = is_array($request[$campo]) ? implode(',', $request[$campo]) : $request[$campo];
-
-                            DB::table('apariencia_personal')
-                                ->updateOrInsert(
-                                    [
-                                        'id_historia' => $idHistoria,
-                                        'caracteristica' => $campo
-                                    ],
-                                    [
-                                        'detalle' => $detalle,
-                                        'nombre' => $nombre
-                                    ]
-                                );
-                        }
-                    }
-
-
-                    // Definir funciones cognitivas
-                    $tiposFuncionesCognitivas = [
-                        'consciencia' => 'Consciencia',
-                        'consciencia_otro' => 'Consciencia (otro)',
-                        'orientacion' => 'Orientación',
-                        'orientacion_otro' => 'Orientación (otro)',
-                        'memoria' => 'Memoria',
-                        'memoria_otro' => 'Memoria (otro)',
-                        'atencion' => 'Atención',
-                        'atencion_otro' => 'Atención (otro)',
-                        'concentracion' => 'Concentración',
-                        'concentracion_otro' => 'Concentración (otro)',
-                        'lenguaje' => 'Lenguaje',
-                        'lenguaje_otro' => 'Lenguaje (otro)',
-                        'pensamiento' => 'Pensamiento',
-                        'pensamiento_otro' => 'Pensamiento (otro)',
-                        'afecto' => 'Afecto',
-                        'afecto_otro' => 'Afecto (otro)',
-                        'sensopercepcion' => 'Sensopercepción',
-                        'sensopercepcion_otro' => 'Sensopercepción (otro)',
-                        'psicomotricidad' => 'Psicomotricidad',
-                        'psicomotricidad_otro' => 'Psicomotricidad (otro)',
-                        'juicio' => 'Juicio',
-                        'juicio_otro' => 'Juicio (otro)',
-                        'inteligencia' => 'Inteligencia',
-                        'inteligencia_otro' => 'Inteligencia (otro)',
-                        'conciencia_enfermedad' => 'Conciencia de enfermedad',
-                        'conciencia_enfermedad_otro' => 'Conciencia de enfermedad (otro)',
-                        'sufrimiento_psicologico' => 'Sufrimiento psicológico',
-                        'sufrimiento_psicologico_otro' => 'Sufrimiento psicológico (otro)',
-                        'motivacion_tratamiento' => 'Motivación al tratamiento',
-                        'motivacion_tratamiento_otro' => 'Motivación al tratamiento (otro)'
-                    ];
-
-
-                    // Recorrer y actualizar/insertar cada característica
-                    foreach ($tiposFuncionesCognitivas as $campo => $nombre) {
-                        if (!empty($request[$campo])) {
-                            // Si el campo es un array, convertirlo a cadena separada por comas
-                            $detalle = is_array($request[$campo]) ? implode(',', $request[$campo]) : $request[$campo];
-
-                            DB::table('funciones_cognitivas')
-                                ->updateOrInsert(
-                                    [
-                                        'id_historia' => $idHistoria,
-                                        'caracteristica' => $campo
-                                    ],
-                                    [
-                                        'detalle' => $detalle,
-                                        'nombre' => $nombre
-                                    ]
-                                );
-                        }
-                    }
-
-
                     // Insertar Funciones Somáticas
 
                     // Filtrar los valores no vacíos
                     $examenMental = array_filter([
                         'id_historia' => $idHistoria,
+                        'examen_mental' => $request['examen_mental'] ?? null,
                         'ciclos_del_sueno' => $request['ciclos_sueno'] ?? null,
                         'apetito' => $request['apetito'] ?? null,
                         'actividades_autocuidado' => $request['autocuidado'] ?? null,
@@ -472,7 +386,7 @@ class HistoriaPsicologica extends Model
 
                     // Insertar solo si hay datos válidos
                     if (!empty($examenMental)) {
-                        DB::table('funciones_somaticas')->insert($examenMental);
+                        DB::table('examen_mental')->insert($examenMental);
                     }
 
 
@@ -638,9 +552,12 @@ class HistoriaPsicologica extends Model
                         'sugerencia_interconsultas' => 'sugerencias_interconsultas',
                         'observaciones_recomendaciones' => 'observaciones_recomendaciones',
                         'tipoPsicologia' => 'tipologia',
-                        'resumen_evaluacion_inicial' => 'eval_inicial',
-                        'otro_CodDiagnostico' => 'otro_dx_principal',
-                        'otra_ImpresionDiagnostica' => 'otro_cod_diagnostico'
+                       'resumen_evaluacion_inicial' => 'eval_inicial',
+                        'codDiagnosticoRelacionado1' => 'dx_principal1',
+                        'codDiagnosticoRelacionado2' => 'dx_principal2',
+                        'codImpresionDiagnosticoRelacionado1' => 'codigo_diagnostico1',
+                        'codImpresionDiagnosticoRelacionado2' => 'codigo_diagnostico2',
+                        'completa' => 'completa'
                     ];
 
                     $datosActualizar = [];
@@ -783,112 +700,14 @@ class HistoriaPsicologica extends Model
                     }
 
 
-                    // Definir las características de apariencia personal
-                    $tiposAparienciaPersonal = [
-                        'edad' => 'Edad',
-                        'edad_otro' => 'Edad (otro)',
-                        'desarrollo' => 'Desarrollo pondoestatural',
-                        'desarrollo_otro' => 'Desarrollo pondoestatural (otro)',
-                        'aseo' => 'Aseo y Arreglo',
-                        'aseo_otro' => 'Aseo y arreglo (otro)',
-                        'salud' => 'Salud somática',
-                        'salud_otro' => 'Salud somática (otro)',
-                        'facies' => 'Facies',
-                        'facies_otro' => 'Facies (otro)',
-                        'biotipo' => 'Biotipo',
-                        'biotipo_otro' => 'Biotipo (otro)',
-                        'actitud' => 'Actitud',
-                        'actitud_otro' => 'Actitud (otro)'
-                    ];
-
-                    // Eliminar registros anteriores
-                    DB::table('apariencia_personal')->where('id_historia', $idHistoria)->delete();
-
-                    // Recorrer y actualizar/insertar cada característica
-                    foreach ($tiposAparienciaPersonal as $campo => $nombre) {
-                        if (!empty($request[$campo])) {
-                            // Si el campo es un array, convertirlo a cadena separada por comas
-                            $detalle = is_array($request[$campo]) ? implode(',', $request[$campo]) : $request[$campo];
-
-                            DB::table('apariencia_personal')
-                                ->updateOrInsert(
-                                    [
-                                        'id_historia' => $idHistoria,
-                                        'caracteristica' => $campo
-                                    ],
-                                    [
-                                        'detalle' => $detalle,
-                                        'nombre' => $nombre
-                                    ]
-                                );
-                        }
-                    }
-
-
-                    // Definir funciones cognitivas
-                    $tiposFuncionesCognitivas = [
-                        'consciencia' => 'Consciencia',
-                        'consciencia_otro' => 'Consciencia (otro)',
-                        'orientacion' => 'Orientación',
-                        'orientacion_otro' => 'Orientación (otro)',
-                        'memoria' => 'Memoria',
-                        'memoria_otro' => 'Memoria (otro)',
-                        'atencion' => 'Atención',
-                        'atencion_otro' => 'Atención (otro)',
-                        'concentracion' => 'Concentración',
-                        'concentracion_otro' => 'Concentración (otro)',
-                        'lenguaje' => 'Lenguaje',
-                        'lenguaje_otro' => 'Lenguaje (otro)',
-                        'pensamiento' => 'Pensamiento',
-                        'pensamiento_otro' => 'Pensamiento (otro)',
-                        'afecto' => 'Afecto',
-                        'afecto_otro' => 'Afecto (otro)',
-                        'sensopercepcion' => 'Sensopercepción',
-                        'sensopercepcion_otro' => 'Sensopercepción (otro)',
-                        'psicomotricidad' => 'Psicomotricidad',
-                        'psicomotricidad_otro' => 'Psicomotricidad (otro)',
-                        'juicio' => 'Juicio',
-                        'juicio_otro' => 'Juicio (otro)',
-                        'inteligencia' => 'Inteligencia',
-                        'inteligencia_otro' => 'Inteligencia (otro)',
-                        'conciencia_enfermedad' => 'Conciencia de enfermedad',
-                        'conciencia_enfermedad_otro' => 'Conciencia de enfermedad (otro)',
-                        'sufrimiento_psicologico' => 'Sufrimiento psicológico',
-                        'sufrimiento_psicologico_otro' => 'Sufrimiento psicológico (otro)',
-                        'motivacion_tratamiento' => 'Motivación al tratamiento',
-                        'motivacion_tratamiento_otro' => 'Motivación al tratamiento (otro)'
-                    ];
-
-                    // Eliminar registros anteriores
-                    DB::table('funciones_cognitivas')->where('id_historia', $idHistoria)->delete();
-
-                    // Recorrer y actualizar/insertar cada característica
-                    foreach ($tiposFuncionesCognitivas as $campo => $nombre) {
-                        if (!empty($request[$campo])) {
-                            // Si el campo es un array, convertirlo a cadena separada por comas
-                            $detalle = is_array($request[$campo]) ? implode(',', $request[$campo]) : $request[$campo];
-
-                            DB::table('funciones_cognitivas')
-                                ->updateOrInsert(
-                                    [
-                                        'id_historia' => $idHistoria,
-                                        'caracteristica' => $campo
-                                    ],
-                                    [
-                                        'detalle' => $detalle,
-                                        'nombre' => $nombre
-                                    ]
-                                );
-                        }
-                    }
-
                     // Insertar Funciones Somáticas
                     // Eliminar registros anteriores
-                    DB::table('funciones_somaticas')->where('id_historia', $idHistoria)->delete();
+                    DB::table('examen_mental')->where('id_historia', $idHistoria)->delete();
 
                     // Filtrar los valores no vacíos
                     $examenMental = array_filter([
                         'id_historia' => $idHistoria,
+                        'examen_mental' => $request['examen_mental'] ?? null,
                         'ciclos_del_sueno' => $request['ciclos_sueno'] ?? null,
                         'apetito' => $request['apetito'] ?? null,
                         'actividades_autocuidado' => $request['autocuidado'] ?? null,
@@ -896,7 +715,7 @@ class HistoriaPsicologica extends Model
 
                     // Insertar solo si hay datos válidos
                     if (!empty($examenMental)) {
-                        DB::table('funciones_somaticas')->insert($examenMental);
+                        DB::table('examen_mental')->insert($examenMental);
                     }
 
 
@@ -959,7 +778,6 @@ class HistoriaPsicologica extends Model
                                 );
                             }
                         }
-
 
                         // Definir los tipos de antecedentes posnatales
                         $tiposAntecedentesPosnatales = [
@@ -1266,38 +1084,78 @@ class HistoriaPsicologica extends Model
         $historia = DB::connection('mysql')->table('historia_clinica')
             ->where("id", $idHisto)
             ->first();
+           
 
+        if ($historia->dx_principal != null) {
+            $historia->dx_principal_detalle = DB::connection('mysql')
+                ->table('referencia_cie10')
+                ->where('id', $historia->dx_principal)
+                ->first() ?? (object) [];
+        }
 
-        $historia->dx_principal_detalle = DB::connection('mysql')
-            ->table('referencia_cie10')
-            ->where('id', $historia->dx_principal)
-            ->first();
+        if ($historia->dx_principal1 != null) {
+            $historia->dx_principal1_detalle = DB::connection('mysql')
+                ->table('referencia_cie10')
+                ->where('id', $historia->dx_principal1)
+                ->first() ?? (object) [];
+        }
 
-        $historia->codigo_consulta_detalle = DB::connection('mysql')
-            ->table('referencia_cups')
-            ->where('id', $historia->codigo_consulta)
-            ->first();
+        if ($historia->dx_principal2 != null) {
+            $historia->dx_principal2_detalle = DB::connection('mysql')
+                ->table('referencia_cie10')
+                ->where('id', $historia->dx_principal2)
+                ->first() ?? (object) [];
+        }
 
-        $historia->motivo_consulta_detalle = DB::connection('mysql')
-            ->table('opciones_hc_psicologia')
-            ->where('id', $historia->otro_motivo_consulta)
-            ->first();
+        if ($historia->codigo_consulta != null) {
+            $historia->codigo_consulta_detalle = DB::connection('mysql')
+                ->table('referencia_cups')
+                ->where('id', $historia->codigo_consulta)
+                ->first();
+        }
 
-        $historia->impresion_diagnostica_detalle = DB::connection('mysql')
-            ->table('referencia_cie10')
-            ->where('id', $historia->codigo_diagnostico)
-            ->first() ?? (object) [];
+        if ($historia->otro_motivo_consulta != null) {
+            $historia->motivo_consulta_detalle = DB::connection('mysql')
+                ->table('opciones_hc_psicologia')
+                ->where('id', $historia->otro_motivo_consulta)
+                ->first();
+        }
 
-        $historia->plan_intervension_detalle = DB::connection('mysql')
-            ->table('opciones_hc_psicologia')
-            ->where('id', $historia->plan_intervencion)
-            ->first();
+        if ($historia->codigo_diagnostico != null) {
+            $historia->impresion_diagnostica_detalle = DB::connection('mysql')
+                ->table('referencia_cie10')
+                ->where('id', $historia->codigo_diagnostico)
+                ->first() ?? (object) [];
+        }
 
-        $historia->profesional_detalle = DB::connection('mysql')->table('profesionales')
-            ->join("users", "users.id", "profesionales.usuario")
-            ->where("profesionales.id", $historia->id_profesional)
-            ->select("profesionales.*", "users.login_usuario", "users.estado_usuario", "users.id as idUsuario")
-            ->first();
+        if ($historia->codigo_diagnostico1 != null) {
+            $historia->codigo_diagnostico1_detalle = DB::connection('mysql')
+                ->table('referencia_cie10')
+                ->where('id', $historia->codigo_diagnostico1)
+                ->first() ?? (object) [];
+        }
+
+        if ($historia->codigo_diagnostico2 != null) {
+            $historia->codigo_diagnostico2_detalle = DB::connection('mysql')
+                ->table('referencia_cie10')
+                ->where('id', $historia->codigo_diagnostico2)
+                ->first() ?? (object) [];
+        }
+
+        if ($historia->plan_intervension != null) {
+            $historia->plan_intervension_detalle = DB::connection('mysql')
+                ->table('opciones_hc_psicologia')
+                ->where('id', $historia->plan_intervencion)
+                ->first();
+        }
+
+        if ($historia->id_profesional != null) {
+            $historia->profesional_detalle = DB::connection('mysql')->table('profesionales')
+                ->join("users", "users.id", "profesionales.usuario")
+                ->where("profesionales.id", $historia->id_profesional)
+                ->select("profesionales.*", "users.login_usuario", "users.estado_usuario", "users.id as idUsuario")
+                ->first();
+        }
 
         return $historia;
     }
@@ -1518,9 +1376,10 @@ class HistoriaPsicologica extends Model
 
         return $funciones;
     }
-    public static function busquedaFuncionesSomaticas($idHisto)
+   
+    public static function busquedaExamenMental($idHisto)
     {
-        return DB::connection('mysql')->table('funciones_somaticas')
+        return DB::connection('mysql')->table('examen_mental')
             ->where("id_historia", $idHisto)
             ->first();
     }

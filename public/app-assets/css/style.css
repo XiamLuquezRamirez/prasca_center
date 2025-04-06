@@ -46637,3 +46637,16 @@ img.online {
   font-weight: bold;
 }
 
+.notification-badge {
+  background-color: red;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: bold;
+  position: absolute;
+  right: -5px;
+  z-index: 1000;
+}
+
+

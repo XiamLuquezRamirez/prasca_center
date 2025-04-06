@@ -423,9 +423,7 @@ class HistoriasController extends Controller
             $antecedentesFamiliares = HistoriaPsicologica::busquedaAntFamiliares($historia->id);
             $areaAjuste = HistoriaPsicologica::busquedaAreaAjuste($historia->id);
             $interconuslta = HistoriaPsicologica::busquedaInterconsulta($historia->id);
-            $aparienciaPersonal = HistoriaPsicologica::busquedaAparienciaPersonal($historia->id);
-            $funcionesCognitiva = HistoriaPsicologica::busquedaFuncionesCognitivas($historia->id);
-            $funcionesSomaticas = HistoriaPsicologica::busquedaFuncionesSomaticas($historia->id);
+            $examenMental = HistoriaPsicologica::busquedaExamenMental($historia->id);
 
             $antecedentesPrenatales = HistoriaPsicologica::busquedaAntPrenatales($historia->id);
             $antecedentesNatales = HistoriaPsicologica::busquedaAntNatales($historia->id);
@@ -441,9 +439,7 @@ class HistoriasController extends Controller
                 'antecedentesFamiliares' => $antecedentesFamiliares,
                 'areaAjuste' => $areaAjuste,
                 'interconuslta' => $interconuslta,
-                'aparienciaPersonal' => $aparienciaPersonal,
-                'funcionesCognitiva' => $funcionesCognitiva,
-                'funcionesSomaticas' => $funcionesSomaticas,
+                'examenMental' => $examenMental,
                 'antecedentesPrenatales' => $antecedentesPrenatales,
                 'antecedentesNatales' => $antecedentesNatales,
                 'antecedentesPosnatales' => $antecedentesPosnatales,
@@ -1724,20 +1720,19 @@ class HistoriasController extends Controller
         $idHist = $request->input('idHist');
 
         $historia = HistoriaPsicologica::busquedaHistoria($idHist);
+
         
         $pacientes = Pacientes::busquedaPaciente($historia->id_paciente);
         $antecedentesPersonales = HistoriaPsicologica::busquedaAntecedentes($historia->id);
         $antecedentesFamiliares = HistoriaPsicologica::busquedaAntFamiliares($historia->id);
         $areaAjuste = HistoriaPsicologica::busquedaAreaAjuste($historia->id);
         $interconuslta = HistoriaPsicologica::busquedaInterconsulta($historia->id);
-        $aparienciaPersonal = HistoriaPsicologica::busquedaAparienciaPersonal($historia->id);
-        $funcionesCognitiva = HistoriaPsicologica::busquedaFuncionesCognitivas($historia->id);
-        $funcionesSomaticas = HistoriaPsicologica::busquedaFuncionesSomaticas($historia->id);
+        $examenMental = HistoriaPsicologica::busquedaExamenMental($historia->id);        
+   
         $antecedentesPrenatales = HistoriaPsicologica::busquedaAntPrenatales($historia->id);
         $antecedentesNatales = HistoriaPsicologica::busquedaAntNatales($historia->id);
         $antecedentesPosnatales = HistoriaPsicologica::busquedaAntPosnatales($historia->id);
         $desarrolloPsicomotor = HistoriaPsicologica::desarrolloPsicomotor($historia->id);
-         
 
         $data = [
             'historia' => $historia,
@@ -1746,9 +1741,7 @@ class HistoriasController extends Controller
             'antecedentesFamiliares' => $antecedentesFamiliares,
             'areaAjuste' => $areaAjuste,
             'interconuslta' => $interconuslta,
-            'aparienciaPersonal' => $aparienciaPersonal,
-            'funcionesCognitiva' => $funcionesCognitiva,
-            'funcionesSomaticas' => $funcionesSomaticas,
+            'examenMental' => $examenMental,
             'antecedentesPrenatales' => $antecedentesPrenatales,
             'antecedentesNatales' => $antecedentesNatales,
             'antecedentesPosnatales' => $antecedentesPosnatales,

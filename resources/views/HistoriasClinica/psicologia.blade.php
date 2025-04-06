@@ -217,11 +217,20 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label for="otro_CodDiagnostico" class="form-label">
-                                                            Otro tipo de diagnóstico:</label>
-                                                        <input type="text" class="form-control"
-                                                            id="otro_CodDiagnostico" name="otro_CodDiagnostico"
-                                                            placeholder="Ingrese el diagnóstico">
+                                                        <label for="codDiagnosticoRelacionado1" class="form-label">DX Relacionado 1
+                                                            :</label>
+                                                        <select class="form-control select2" id="codDiagnosticoRelacionado1"
+                                                            name="codDiagnosticoRelacionado1" aria-invalid="false">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="codDiagnosticoRelacionado2" class="form-label">DX Relacionado 2
+                                                            :</label>
+                                                        <select class="form-control select2" id="codDiagnosticoRelacionado2"
+                                                            name="codDiagnosticoRelacionado2" aria-invalid="false">
+                                                        </select>
                                                     </div>
                                                 </div>
 
@@ -968,339 +977,23 @@
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <div class="form-group">
-                                                                <h5 class="text-uppercase mt-4"><i
-                                                                        class="fa fa-user me-1"></i> Apariencia
-                                                                    personal
-                                                                </h5>
-                                                            </div>
+                                                                <textarea class="form-control" id="examen_mental" name="examen_mental" rows="5"
+                                                                    placeholder="Describa el examen mental..."></textarea>
+                                                            </div>                                                        
                                                         </div>
-                                                        <div class="col-md-6">
-                                                            <label for="edad" class="form-label">Edad:</label>
-                                                            <select id="edad" name="edad[]"
-                                                                class="form-select select2 examen" multiple="multiple"
-                                                                style="width: 100%" onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="edad_otro" name="edad_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-                                                        <!-- Desarrollo pondoestatural -->
-                                                        <div class="col-md-6">
-                                                            <label for="desarrollo" class="form-label">Desarrollo
-                                                                pondoestatural:</label>
-                                                            <select class="form-select select2 examen" multiple="multiple"
-                                                                id="desarrollo" name="desarrollo[]" style="width: 100%"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="desarrollo_otro" name="desarrollo_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-                                                        <!-- Aseo y arreglo -->
-                                                        <div class="col-md-6">
-                                                            <label for="aseo" class="form-label">Aseo y
-                                                                arreglo:</label>
-                                                            <select class="form-select select2 examen" multiple="multiple"
-                                                                id="aseo" name="aseo[]" style="width: 100%"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="aseo_otro" name="aseo_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-                                                        <!-- Salud somática -->
-                                                        <div class="col-md-6">
-                                                            <label for="salud" class="form-label">Salud
-                                                                somática:</label>
-                                                            <select class="form-select select2 examen" multiple="multiple"
-                                                                id="salud" name="salud[]" style="width: 100%"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="salud_otro" name="salud_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-                                                        <!-- Facies -->
-                                                        <div class="col-md-6">
-                                                            <label for="facies" class="form-label">Facies:</label>
-                                                            <select class="form-select select2 examen" multiple="multiple"
-                                                                id="facies" name="facies[]" style="width: 100%"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="facies_otro" name="facies_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-                                                        <!-- Biotipo -->
-                                                        <div class="col-md-6">
-                                                            <label for="biotipo" class="form-label">Biotipo:</label>
-                                                            <select class="form-select select2 examen" multiple="multiple"
-                                                                id="biotipo" name="biotipo[]" style="width: 100%"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="biotipo_otro" name="biotipo_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-                                                        <!-- Actitud -->
-                                                        <div class="col-md-6">
-                                                            <label for="actitud" class="form-label">Actitud:</label>
-                                                            <select class="form-select select2 examen" multiple="multiple"
-                                                                id="actitud" name="actitud[]" style="width: 100%"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="actitud_otro" name="actitud_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-                                                    </div>
-                                                    <div class="box-header pb-1">
-                                                        <h5 class="text-uppercase mt-4"><i class="fa fa-cogs me-1"></i>
-                                                            Funciones
-                                                            Cognitivas</h5>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-6">
-                                                            <label for="consciencia"
-                                                                class="form-label">Consciencia:</label>
-                                                            <select class="form-select select2 examen" multiple="multiple"
-                                                                id="consciencia" name="consciencia[]" style="width: 100%"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="consciencia_otro" name="consciencia_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-                                                        <!-- Orientación -->
-                                                        <div class="col-md-6">
-                                                            <label for="orientacion"
-                                                                class="form-label">Orientación:</label>
-                                                            <select class="form-select select2 examen" multiple="multiple"
-                                                                id="orientacion" name="orientacion[]" style="width: 100%"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="orientacion_otro" name="orientacion_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Memoria -->
-                                                        <div class="col-md-6">
-                                                            <label for="memoria" class="form-label">Memoria:</label>
-                                                            <select class="form-select select2 examen"
-                                                                multiple="multiple" id="memoria" name="memoria[]"
-                                                                style="width: 100%" onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="memoria_otro" name="memoria_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Atención -->
-                                                        <div class="col-md-6">
-                                                            <label for="atencion" class="form-label">Atención:</label>
-                                                            <select class="form-select select2 examen"
-                                                                multiple="multiple" id="atencion" name="atencion[]"
-                                                                style="width: 100%" onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="atencion_otro" name="atencion_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Concentración -->
-                                                        <div class="col-md-6">
-                                                            <label for="concentracion"
-                                                                class="form-label">Concentración:</label>
-                                                            <select class="form-select select2 examen"
-                                                                multiple="multiple" id="concentracion"
-                                                                name="concentracion[]" style="width: 100%"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="concentracion_otro" name="concentracion_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Lenguaje -->
-                                                        <div class="col-md-6">
-                                                            <label for="lenguaje" class="form-label">Lenguaje:</label>
-                                                            <select class="form-select select2 examen"
-                                                                multiple="multiple" id="lenguaje" name="lenguaje[]"
-                                                                style="width: 100%" onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="lenguaje_otro" name="lenguaje_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Pensamiento -->
-                                                        <div class="col-md-6">
-                                                            <label for="pensamiento"
-                                                                class="form-label">Pensamiento:</label>
-                                                            <select class="form-select select2 examen"
-                                                                multiple="multiple" id="pensamiento"
-                                                                name="pensamiento[]" style="width: 100%"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="pensamiento_otro" name="pensamiento_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Afecto -->
-                                                        <div class="col-md-6">
-                                                            <label for="afecto" class="form-label">Afecto:</label>
-                                                            <select class="form-select select2 examen"
-                                                                multiple="multiple" id="afecto" name="afecto[]"
-                                                                style="width: 100%" onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="afecto_otro" name="afecto_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Sensopercepción -->
-                                                        <div class="col-md-6">
-                                                            <label for="sensopercepcion"
-                                                                class="form-label">Sensopercepción:</label>
-                                                            <select class="form-select select2 examen"
-                                                                multiple="multiple" id="sensopercepcion"
-                                                                name="sensopercepcion[]" style="width: 100%"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="sensopercepcion_otro" name="sensopercepcion_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Psicomotricidad -->
-                                                        <div class="col-md-6">
-                                                            <label for="psicomotricidad"
-                                                                class="form-label">Psicomotricidad:</label>
-                                                            <select class="form-select select2 examen"
-                                                                multiple="multiple" id="psicomotricidad"
-                                                                name="psicomotricidad[]" style="width: 100%"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="psicomotricidad_otro" name="psicomotricidad_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Juicio -->
-                                                        <div class="col-md-6">
-                                                            <label for="juicio" class="form-label">Juicio:</label>
-                                                            <select class="form-select select2 examen"
-                                                                multiple="multiple" id="juicio" name="juicio[]"
-                                                                style="width: 100%" onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="juicio_otro" name="juicio_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Inteligencia -->
-                                                        <div class="col-md-6">
-                                                            <label for="inteligencia"
-                                                                class="form-label">Inteligencia:</label>
-                                                            <select class="form-select select2 examen"
-                                                                multiple="multiple" id="inteligencia"
-                                                                name="inteligencia[]" name="inteligencia[]"
-                                                                style="width: 100%" onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="inteligencia_otro" name="inteligencia_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Conciencia de enfermedad -->
-                                                        <div class="col-md-6">
-                                                            <label for="conciencia_enfermedad"
-                                                                class="form-label">Conciencia
-                                                                de enfermedad:</label>
-                                                            <select class="form-select select2 examen"
-                                                                multiple="multiple" id="conciencia_enfermedad"
-                                                                name="conciencia_enfermedad[]" style="width: 100%"
-                                                                onchange="toggleOtro(this)">
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="conciencia_enfermedad_otro"
-                                                                name="conciencia_enfermedad_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Sufrimiento psicológico -->
-                                                        <div class="col-md-6">
-                                                            <label for="sufrimiento_psicologico"
-                                                                class="form-label">Sufrimiento psicológico:</label>
-                                                            <select class="form-select select2 examen"
-                                                                multiple="multiple" id="sufrimiento_psicologico"
-                                                                name="sufrimiento_psicologico[]" style="width: 100%"
-                                                                onchange="toggleOtro(this)">
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="sufrimiento_psicologico_otro"
-                                                                name="sufrimiento_psicologico_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Motivación al tratamiento -->
-                                                        <div class="col-md-6">
-                                                            <label for="motivacion_tratamiento"
-                                                                class="form-label">Motivación al tratamiento:</label>
-                                                            <select class="form-select select2 examen"
-                                                                multiple="multiple" id="motivacion_tratamiento"
-                                                                name="motivacion_tratamiento[]" style="width: 100%"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="motivacion_tratamiento_otro"
-                                                                name="motivacion_tratamiento_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-                                                    </div>
-                                                    <div class="box-header pb-1">
-                                                        <h5 class="text-uppercase mt-4"><i
-                                                                class="fa fa-heartbeat me-1"></i>
-                                                            Funciones Somáticas</h5>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-12">
                                                             <div class="form-group">
-                                                                <label for="ciclos_sueno" class="form-label">Ciclos
+                                                                <label for="ciclos_del_sueno" class="form-label">Ciclos
                                                                     del
                                                                     Sueño:</label>
-                                                                <textarea class="form-control" id="ciclos_sueno" name="ciclos_sueno" rows="3"></textarea>
+                                                                <textarea class="form-control" id="ciclos_del_sueno" name="ciclos_sueno" rows="3"></textarea>
                                                             </div>
                                                         </div>
 
                                                         <!-- Apetito -->
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label for="apetito"
                                                                     class="form-label">Apetito:</label>
@@ -1309,7 +1002,7 @@
                                                         </div>
 
                                                         <!-- Actividades de Autocuidado -->
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label for="autocuidado" class="form-label">Actividades
                                                                     de
@@ -1318,6 +1011,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                  
                                                 </div>
                                                 <!-- Impresion Diagnostica -->
                                                 <div class="tab-pane" id="impresion">
@@ -1341,13 +1035,24 @@
                                                         </div>
                                                         <div class="col-md-12">
                                                             <div class="form-group">
-                                                                <label for="otra_ImpresionDiagnostica"
-                                                                    class="form-label">
-                                                                    Otro tipo de impresión diagnóstica:</label>
-                                                                <input type="text" class="form-control"
-                                                                    id="otra_ImpresionDiagnostica"
-                                                                    name="otra_ImpresionDiagnostica"
-                                                                    placeholder="Ingrese el diagnóstico">
+                                                                <label for="impresion_diagnostica"
+                                                                    class="form-label">Impresión Diagnóstica Relacionada 1 (CIE 10 –
+                                                                    DSM-V):</label>
+                                                                <select class="form-control select2"
+                                                                    id="codImpresionDiagnosticoRelacionado1"
+                                                                    name="codImpresionDiagnosticoRelacionado1" aria-invalid="false">
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="impresion_diagnostica"
+                                                                    class="form-label">Impresión Diagnóstica Relacionada 2 (CIE 10 –
+                                                                    DSM-V):</label>
+                                                                <select class="form-control select2"
+                                                                    id="codImpresionDiagnosticoRelacionado2"
+                                                                    name="codImpresionDiagnosticoRelacionado2" aria-invalid="false">
+                                                                </select>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-12">
@@ -2196,6 +1901,114 @@
                         return markup // Evita inyección de HTML
                     }
                 })
+                $('#codDiagnosticoRelacionado1').select2({
+                    dropdownAutoWidth: true,
+                    width: '100%',
+                    placeholder: 'Buscar diagnóstico  por código o nombre...',
+                    language: {
+                        inputTooShort: function() {
+                            return 'Por favor, ingresa al menos un carácter'
+                        },
+                        noResults: function() {
+                            return 'No se encontraron resultados.'
+                        },
+                        searching: function() {
+                            return 'Buscando...'
+                        }
+                    },
+                    minimumInputLength: 1, // Requiere al menos 1 carácter
+                    ajax: {
+                        transport: function(params, success, failure) {
+                            const query = params.data.q || '' // Término de búsqueda
+                            const page = params.data.page || 1 // Número de página
+
+                            fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
+                                    method: 'GET',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    cache: 'no-cache'
+                                })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Error en la solicitud')
+                                    }
+                                    return response.json()
+                                })
+                                .then(data => {
+                                    const results = {
+                                        results: data.data,
+                                        pagination: {
+                                            more: (page * 30) < data.total_count
+                                        }
+                                    }
+                                    success(results) // Envía los resultados a Select2
+                                })
+                                .catch(error => {
+                                    console.error('Error al buscar:', error)
+                                    failure(error) // Maneja errores en Select2
+                                })
+                        }
+                    },
+                    escapeMarkup: function(markup) {
+                        return markup // Evita inyección de HTML
+                    }
+                })
+                $('#codDiagnosticoRelacionado2').select2({
+                    dropdownAutoWidth: true,
+                    width: '100%',
+                    placeholder: 'Buscar diagnóstico  por código o nombre...',
+                    language: {
+                        inputTooShort: function() {
+                            return 'Por favor, ingresa al menos un carácter'
+                        },
+                        noResults: function() {
+                            return 'No se encontraron resultados.'
+                        },
+                        searching: function() {
+                            return 'Buscando...'
+                        }
+                    },
+                    minimumInputLength: 1, // Requiere al menos 1 carácter
+                    ajax: {
+                        transport: function(params, success, failure) {
+                            const query = params.data.q || '' // Término de búsqueda
+                            const page = params.data.page || 1 // Número de página
+
+                            fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
+                                    method: 'GET',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    cache: 'no-cache'
+                                })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Error en la solicitud')
+                                    }
+                                    return response.json()
+                                })
+                                .then(data => {
+                                    const results = {
+                                        results: data.data,
+                                        pagination: {
+                                            more: (page * 30) < data.total_count
+                                        }
+                                    }
+                                    success(results) // Envía los resultados a Select2
+                                })
+                                .catch(error => {
+                                    console.error('Error al buscar:', error)
+                                    failure(error) // Maneja errores en Select2
+                                })
+                        }
+                    },
+                    escapeMarkup: function(markup) {
+                        return markup // Evita inyección de HTML
+                    }
+                })
+
+
                 $('#codImpresionDiagnostico').select2({
                     dropdownAutoWidth: true,
                     width: '100%',
@@ -2249,6 +2062,113 @@
                         return markup // Evita inyección de HTML
                     }
                 })
+                $('#codImpresionDiagnosticoRelacionado1').select2({
+                    dropdownAutoWidth: true,
+                    width: '100%',
+                    placeholder: 'Buscar diagnóstico  por código o nombre...',
+                    language: {
+                        inputTooShort: function() {
+                            return 'Por favor, ingresa al menos un carácter'
+                        },
+                        noResults: function() {
+                            return 'No se encontraron resultados.'
+                        },
+                        searching: function() {
+                            return 'Buscando...'
+                        }
+                    },
+                    minimumInputLength: 1, // Requiere al menos 1 carácter
+                    ajax: {
+                        transport: function(params, success, failure) {
+                            const query = params.data.q || '' // Término de búsqueda
+                            const page = params.data.page || 1 // Número de página
+
+                            fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
+                                    method: 'GET',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    cache: 'no-cache'
+                                })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Error en la solicitud')
+                                    }
+                                    return response.json()
+                                })
+                                .then(data => {
+                                    const results = {
+                                        results: data.data,
+                                        pagination: {
+                                            more: (page * 30) < data.total_count
+                                        }
+                                    }
+                                    success(results) // Envía los resultados a Select2
+                                })
+                                .catch(error => {
+                                    console.error('Error al buscar:', error)
+                                    failure(error) // Maneja errores en Select2
+                                })
+                        }
+                    },
+                    escapeMarkup: function(markup) {
+                        return markup // Evita inyección de HTML
+                    }
+                })
+                $('#codImpresionDiagnosticoRelacionado2').select2({
+                    dropdownAutoWidth: true,
+                    width: '100%',
+                    placeholder: 'Buscar diagnóstico  por código o nombre...',
+                    language: {
+                        inputTooShort: function() {
+                            return 'Por favor, ingresa al menos un carácter'
+                        },
+                        noResults: function() {
+                            return 'No se encontraron resultados.'
+                        },
+                        searching: function() {
+                            return 'Buscando...'
+                        }
+                    },
+                    minimumInputLength: 1, // Requiere al menos 1 carácter
+                    ajax: {
+                        transport: function(params, success, failure) {
+                            const query = params.data.q || '' // Término de búsqueda
+                            const page = params.data.page || 1 // Número de página
+
+                            fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
+                                    method: 'GET',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    cache: 'no-cache'
+                                })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Error en la solicitud')
+                                    }
+                                    return response.json()
+                                })
+                                .then(data => {
+                                    const results = {
+                                        results: data.data,
+                                        pagination: {
+                                            more: (page * 30) < data.total_count
+                                        }
+                                    }
+                                    success(results) // Envía los resultados a Select2
+                                })
+                                .catch(error => {
+                                    console.error('Error al buscar:', error)
+                                    failure(error) // Maneja errores en Select2
+                                })
+                        }
+                    },
+                    escapeMarkup: function(markup) {
+                        return markup // Evita inyección de HTML
+                    }
+                })
+
                 $('#codImpresionDiagnosticoConsulta').select2({
                     dropdownAutoWidth: true,
                     width: '100%',
@@ -2325,8 +2245,11 @@
                     'sugerenciasModal',
                     'observacionesModal',
                     'objetivoGeneralModal',
-                    'objetivoEspecificoModal'
-
+                    'objetivoEspecificoModal',
+                    'examen_mental',
+                    'ciclos_del_sueno',
+                    'apetito',
+                    'autocuidado'
                 ]
 
                 $(function() {
@@ -2354,7 +2277,8 @@
                             removePlugins: 'elementspath,mediaembed,flash,image', // Eliminar plugins innecesarios
                             language: 'es', // Idioma en español
                             height: 100, // Altura del editor ajustada
-                            resize_enabled: false, // Deshabilitar redimensionamiento del editor
+                            resize_enabled: true, // Deshabilitar redimensionamiento del editor
+                        
                         })
                     })
                 })
@@ -2529,29 +2453,7 @@
                     let url = "{{ route('hitoriaPsicologica.categorias') }}"
                     const categoriaMap = {
                         motivoConsultaOtro: 'MOTIVO DE CONSULTA',
-                        edad: 'APARIENCIA PERSONAL: Edad',
-                        desarrollo: 'APARIENCIA PERSONAL: Desarrollo pondoestatural',
-                        aseo: 'APARIENCIA PERSONAL: Aseo y arreglo',
-                        salud: 'APARIENCIA PERSONAL: Salud somática',
-                        facies: 'APARIENCIA PERSONAL: Facies',
-                        biotipo: 'APARIENCIA PERSONAL: Biotipo',
-                        actitud: 'APARIENCIA PERSONAL: Actitud',
-                        consciencia: 'FUNCIONES COGNITIVAS: Consciencia',
-                        orientacion: 'FUNCIONES COGNITIVAS: Orientación',
-                        memoria: 'FUNCIONES COGNITIVAS: Memoria',
-                        atencion: 'FUNCIONES COGNITIVAS: Atencion',
-                        concentracion: 'FUNCIONES COGNITIVAS: Concentración',
-                        lenguaje: 'FUNCIONES COGNITIVAS: Lenguaje',
-                        pensamiento: 'FUNCIONES COGNITIVAS: Pensamiento',
-                        afecto: 'FUNCIONES COGNITIVAS: Afecto',
-                        sensopercepcion: 'FUNCIONES COGNITIVAS: Sensopercepcion',
-                        psicomotricidad: 'FUNCIONES COGNITIVAS: Psicomotricidad',
-                        juicio: 'FUNCIONES COGNITIVAS: Juicio',
-                        inteligencia: 'FUNCIONES COGNITIVAS: Inteligencia',
-                        conciencia_enfermedad: 'FUNCIONES COGNITIVAS: Conciencia de enfermedad',
-                        sufrimiento_psicologico: 'FUNCIONES COGNITIVAS: Sufrimiento psicológico',
-                        motivacion_tratamiento: 'FUNCIONES COGNITIVAS: Motivación al tratamiento',
-                        plan_intervencion: 'PLAN DE INTERVENCIÓN',
+                        plan_intervencion: 'PLAN DE INTERVENCIÓN'
                     }
 
                     fetch(url)
@@ -3101,7 +3003,9 @@
                     const url = "{{ route('form.guardarHistoriaPsicologica') }}";
 
                     var error = validarFormularioEnvio();
-                    if (!error) {
+
+                    formData.append('completa', error ? '0' : '1');
+               
                         fetch(url, {
                                 method: 'POST',
                                 body: formData,
@@ -3129,264 +3033,133 @@
                             .catch(error => {
                                 console.error("Error al enviar los datos:", error);
                             });
-                    }
+                    
                 }
             }
 
             function validarFormularioEnvio() {
 
                 var error = false;
-                var mensaje = "";
                 if (document.getElementById("codConsulta").value == "") {
                     error = true;
-                    mensaje += "Debe seleccionar un código de consulta. \n";
                 }
 
                 if (document.getElementById("codDiagnostico").value == "") {
                     error = true;
-                    mensaje += "Debe seleccionar un código de diagnóstico. \n";
                 }
 
                 if (document.getElementById("enfermedadActual").value == "") {
                     error = true;
-                    mensaje += "Debe ingresar la enfermedad actual. \n";
                 }
 
                 if (document.getElementById("medicacion").value == "") {
                     error = true;
-                    mensaje += "Debe ingresar la medicación. \n";
                 }
                 if (document.getElementById("remision").value == "") {
                     error = true;
-                    mensaje += "Debe ingresar la remisión. \n";
                 }
                 if (document.getElementById("motivoConsulta").value == "") {
                     error = true;
-                    mensaje += "Debe ingresar el motivo de la consulta. \n";
                 }
                 if (document.getElementById("resumen_evaluacion_inicial").value == "") {
                     error = true;
-                    mensaje += "Debe ingresar el resumen de la evaluación inicial. \n";
                 }
                 if (document.getElementById("plan_intervencion").value == "") {
                     error = true;
-                    mensaje += "Debe ingresar el plan de intervención. \n";
                 }
                 if (document.getElementById("idProfesional").value == "") {
                     error = true;
-                    mensaje += "Debe seleccionar un profesional. \n";
                 }
 
-                if (document.getElementById("edad").value == "") {
+               
+                
+                if (document.getElementById("examen_mental").value == "") {
                     error = true;
-                    mensaje += "Debe ingresar en apariencia personal la edad. \n";
                 }
 
-                if (document.getElementById("desarrollo").value == "") {
+                if (document.getElementById("ciclos_del_sueno").value == "") {
                     error = true;
-                    mensaje += "Debe ingresar en apariencia personal el pondoestatural. \n";
                 }
 
-                if (document.getElementById("aseo").value == "") {
+                if (document.getElementById("apetito").value == "") {
                     error = true;
-                    mensaje += "Debe ingresar en apariencia personal el aseo. \n";
                 }
 
-                if (document.getElementById("salud").value == "") {
+                if (document.getElementById("autocuidado").value == "") {
                     error = true;
-                    mensaje += "Debe ingresar en apariencia personal la salud. \n";
                 }
-
-                if (document.getElementById("facies").value == "") {
-                    error = true;
-                    mensaje += "Debe ingresar en apariencia personal la facies. \n";
-                }
-
-                if (document.getElementById("biotipo").value == "") {
-                    error = true;
-                    mensaje += "Debe ingresar en apariencia personal el biotipo. \n";
-                }
-
-                if (document.getElementById("actitud").value == "") {
-                    error = true;
-                    mensaje += "Debe ingresar en apariencia personal la actitud. \n";
-                }
-
-                if (document.getElementById("consciencia").value == "") {
-                    error = true;
-                    mensaje += "Debe ingresar en funciones cognitivas la consciencia. \n";
-                }
-
-                if (document.getElementById("orientacion").value == "") {
-                    error = true;
-                    mensaje += "Debe ingresar en apariencia personal la orientacion. \n";
-                }
-
-                if (document.getElementById("memoria").value == "") {
-                    error = true;
-                    mensaje += "Debe ingresar en funciones cognitivas la memoria. \n";
-                }
-
-                if (document.getElementById("atencion").value == "") {
-                    error = true;
-                    mensaje += "Debe ingresar en funciones cognitivas la atención. \n";
-                }
-
-                if (document.getElementById("concentracion").value == "") {
-                    error = true;
-                    mensaje += "Debe ingresar en funciones cognitivas la concentración. \n";
-                }
-
-                if (document.getElementById("lenguaje").value == "") {
-                    error = true;
-                    mensaje += "Debe ingresar en funciones cognitivas el lenguaje. \n";
-                }
-
-                if (document.getElementById("pensamiento").value == "") {
-                    error = true;
-                    mensaje += "Debe ingresar en funciones cognitivas el pensamiento. \n";
-                }
-
-                if (document.getElementById("afecto").value == "") {
-                    error = true;
-                    mensaje += "Debe ingresar en funciones cognitivas el afecto. \n";
-                }
-
-                if (document.getElementById("sensopercepcion").value == "") {
-                    error = true;
-                    mensaje += "Debe ingresar en funciones cognitivas la sensopercepción. \n";
-                }
-
-                if (document.getElementById("psicomotricidad").value == "") {
-                    error = true;
-                    mensaje += "Debe ingresar en funciones cognitivas la psicomotricidad. \n";
-                }
-
-                if (document.getElementById("juicio").value == "") {
-                    error = true;
-                    mensaje += "Debe ingresar en funciones cognitivas el juicio. \n";
-                }
-
-                if (document.getElementById("inteligencia").value == "") {
-                    error = true;
-                    mensaje += "Debe ingresar en funciones cognitivas la inteligencia. \n";
-                }
-
-                if (document.getElementById("conciencia_enfermedad").value == "") {
-                    error = true;
-                    mensaje += "Debe ingresar en funciones cognitivas la conciencia de la enfermedad. \n";
-                }
-
-                if (document.getElementById("sufrimiento_psicologico").value == "") {
-                    error = true;
-                    mensaje += "Debe ingresar en funciones cognitivas el sufrimiento psicológico. \n";
-                }
-
-                if (document.getElementById("motivacion_tratamiento").value == "") {
-                    error = true;
-                    mensaje += "Debe ingresar en funciones cognitivas la motivación del tratamiento. \n";
-                }
-
 
 
                 if (document.getElementById("tipoPsicologia").value == "Pediatría") {
                     if (document.getElementById("edad_madre").value == "") {
                         error = true;
-                        mensaje += "Debe ingresar la edad de la madre en el embarazo. \n";
                     }
 
                     if (document.getElementById("enfermedades_madre").value == "") {
                         error = true;
-                        mensaje += "Debe ingresar las enfermedades de la madre en el embarazo. \n";
                     }
 
                     if (document.getElementById("numero_embarazo").value == "") {
                         error = true;
-                        mensaje += "Debe ingresar el número de embarazo. \n";
                     }
 
                     if (document.getElementById("enbarazo_controlado").value == "") {
                         error = true;
-                        mensaje += "Debe ingresar si el embarazo fue controlado. \n";
                     }
 
                     if (document.getElementById("planificacion").value == "") {
                         error = true;
-                        mensaje += "Debe ingresar si hubo planificacion. \n";
                     }
 
                     if (document.getElementById("estado_madre").value == "") {
                         error = true;
-                        mensaje += "Debe ingresar el estado de la madre en el embarazo. \n";
                     }
 
                     if (document.getElementById("tipo_nacimiento").value == "") {
                         error = true;
-                        mensaje += "Debe ingresar el tipo de nacimiento. \n";
                     }
-
 
                     if (document.getElementById("reanimacion").value == "") {
                         error = true;
-                        mensaje += "Debe ingresar si se realizo reanimacion. \n";
                     }
 
                     if (document.getElementById("peso_nacer").value == "") {
                         error = true;
-                        mensaje += "Debe ingresar el peso al nacer. \n";
                     }
 
                     if (document.getElementById("talla_nacer").value == "") {
                         error = true;
-                        mensaje += "Debe ingresar la talla al nacer. \n";
                     }
 
                     if (document.getElementById("llanto_nacer").value == "") {
                         error = true;
-                        mensaje += "Debe ingresar el llanto al nacer. \n";
                     }
 
                     if (document.getElementById("depresion").value == "") {
                         error = true;
-                        mensaje += "Debe ingresar la depresión. \n";
                     }
 
                     if (document.getElementById("ansiedad").value == "") {
                         error = true;
-                        mensaje += "Debe ingresar la ansiedad. \n";
                     }
 
                     if (document.getElementById("demencia").value == "") {
                         error = true;
-                        mensaje += "Debe ingresar la demencia. \n";
                     }
 
                     if (document.getElementById("alcoholismo").value == "") {
                         error = true;
-                        mensaje += "Debe ingresar el alcoholismo. \n";
                     }
 
                     if (document.getElementById("drogadiccion").value == "") {
                         error = true;
-                        mensaje += "Debe ingresar la drogadicción. \n";
                     }
 
                     if (document.getElementById("discapacidad_intelectual").value == "") {
                         error = true;
-                        mensaje += "Debe ingresar discacidad intelectual. \n";
                     }
 
 
-                }
-
-                if (error) {
-                    swal({
-                        title: "¡Alerta!",
-                        text: mensaje,
-                        icon: "warning",
-                        closeOnClickOutside: true, // Permite cerrar al hacer clic fuera del alert
-                        buttons: true, // Puedes habilitar el botón de "Aceptar" si lo prefieres
-                    });
                 }
 
                 return error;
@@ -3517,9 +3290,7 @@
                         mapearAntedentesFamiliares(data.antecedentesFamiliares)
                         mapearAreaDesempeno(data.areaAjuste)
                         mapearInterconsulta(data.interconuslta)
-                        mapearAparienciaPersonal(data.aparienciaPersonal)
-                        mapearFuncionesCognitivas(data.funcionesCognitiva)
-                        mapearFuncionesSomaticas(data.funcionesSomaticas)
+                        mapearExamenMental(data.examenMental)
 
                         mapearHistorialConsultas(data.historialConsultas)
 
@@ -3686,11 +3457,12 @@
                 })
             }
 
-            function mapearFuncionesSomaticas(somaticas) {
-                if (somaticas) {
-                    document.getElementById("ciclos_sueno").value = somaticas.ciclos_del_sueno
-                    document.getElementById("apetito").value = somaticas.apetito
-                    document.getElementById("autocuidado").value = somaticas.actividades_autocuidado
+            function mapearExamenMental(examenMental) {
+                if (examenMental) {
+                    CKEDITOR.instances['ciclos_del_sueno'].setData(examenMental.ciclos_del_sueno)
+                    CKEDITOR.instances['apetito'].setData(examenMental.apetito)
+                    CKEDITOR.instances['autocuidado'].setData(examenMental.actividades_autocuidado)
+                    CKEDITOR.instances['examen_mental'].setData(examenMental.examen_mental)
                 }
             }
 
@@ -3776,8 +3548,10 @@
                                     element.value = item.detalle;
                                 }
                             } else if (element.tagName === "SELECT") {
-                                element.value = item.detalle.toLowerCase();
-                                $('#' + item.tipo).val(item.detalle).trigger('change')
+                                if(item.detalle != null){
+                                    const valores = item.detalle ? item.detalle.split(',') : []
+                                    $('#' + item.tipo).val(valores).trigger('change')
+                                }
                             } else {
                                 console.warn(`El elemento con ID "${item.tipo}" no es compatible.`);
                             }
@@ -3826,10 +3600,9 @@
                 CKEDITOR.instances['remision'].setData(historia.remision)
                 CKEDITOR.instances['motivoConsulta'].setData(historia.motivo_consulta)
                 CKEDITOR.instances['resumen_evaluacion_inicial'].setData(historia.eval_inicial)
-
+                
+                //
                 cargarSelConsulta(historia.codigo_consulta, 'codConsulta')
-                document.getElementById('otro_CodDiagnostico').value = historia.otro_dx_principal
-                document.getElementById('otra_ImpresionDiagnostica').value = historia.otro_cod_diagnostico
 
                 document.getElementById('plan_intervencion').value = historia.plan_intervencion
                 $('#plan_intervencion').trigger('change')
@@ -3866,15 +3639,34 @@
                 } else {
                     var btnGuardar = document.getElementById("btn-guardarHistoria")
                     btnGuardar.disabled = false
+                }   
+
+                if(historia.dx_principal != null){
+                    cargarCodigoCIE10(historia.dx_principal, 'codDiagnostico')
+                }
+                if(historia.dx_principal1 != null){
+                    cargarCodigoCIE10(historia.dx_principal1, 'codDiagnosticoRelacionado1')
                 }
 
-                cargarDxPrincipa(historia.dx_principal)
+                if(historia.dx_principal2 != null){
+                    cargarCodigoCIE10(historia.dx_principal2, 'codDiagnosticoRelacionado2')
+                }
 
 
                 document.getElementById('establecidoPrimeraVez').value = historia.diagnostico_primera_vez
                 $('#establecidoPrimeraVez').trigger('change')
 
-                cargarImpresion(historia.codigo_diagnostico, 'codImpresionDiagnostico')
+                if(historia.codigo_diagnostico != null){
+                    cargarImpresion(historia.codigo_diagnostico, 'codImpresionDiagnostico')
+                }
+
+                if(historia.codigo_diagnostico1 != null){
+                    cargarImpresion(historia.codigo_diagnostico1, 'codImpresionDiagnosticoRelacionado1')
+                }
+
+                if(historia.codigo_diagnostico2 != null){
+                    cargarImpresion(historia.codigo_diagnostico2, 'codImpresionDiagnosticoRelacionado2')
+                }
 
                 CKEDITOR.instances['enfermedadActual'].setData(historia.enfermedad_actual)
                 CKEDITOR.instances['objetivo_general'].setData(historia.objetivo_general)
@@ -3940,7 +3732,7 @@
                 }
             }
 
-            function cargarDxPrincipa(codigo_dx) {
+            function cargarCodigoCIE10(codigo_dx, id) {
                 let rtotal = $("#RutaTotal").data("ruta")
 
                 if (codigo_dx) {
@@ -3961,7 +3753,7 @@
                             if (data && data.id && data.text) {
                                 // Agregar opción al select si no está ya presente
                                 const newOption = new Option(data.text, data.id, true, true)
-                                $('#codDiagnostico').append(newOption).trigger('change')
+                                $('#' + id).append(newOption).trigger('change')
                             }
                         })
                         .catch(error => {

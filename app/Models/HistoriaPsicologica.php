@@ -209,7 +209,6 @@ class HistoriaPsicologica extends Model
     {
         try {
 
-         
             if ($request['accHistoria'] == 'guardar') {
                 DB::beginTransaction();
                 try {
@@ -238,8 +237,6 @@ class HistoriaPsicologica extends Model
                         'codImpresionDiagnosticoRelacionado1' => 'codigo_diagnostico1',
                         'codImpresionDiagnosticoRelacionado2' => 'codigo_diagnostico2',
                         'completa' => 'completa'
-
-
                     ];
 
                     $datosInsertar = [];
@@ -266,6 +263,7 @@ class HistoriaPsicologica extends Model
                         $datosInsertar['estado_hitoria'] = 'cerrada';
                     }
                     $datosInsertar['estado_registro'] = 'ACTIVO';
+                    $datosInsertar['fecha_historia'] = now();
 
                     if (!empty($datosInsertar)) {
                         $idHistoria = DB::table('historia_clinica')->insertGetId($datosInsertar);
@@ -290,6 +288,13 @@ class HistoriaPsicologica extends Model
                                 'detalle' => $request[$tipo],
                                 'nombre' => $nombre
                             ]);
+                        }else{
+                            DB::table('antecedentes_medicos')->insert([
+                                'id_historia' => $idHistoria,
+                                'tipo' => $tipo,
+                                'detalle' => '',
+                                'nombre' => ''
+                            ]);
                         }
                     }
 
@@ -307,20 +312,26 @@ class HistoriaPsicologica extends Model
 
                     foreach ($tiposAntecedentesFamiliares as $tipo => $config) {
                         if (array_key_exists($tipo, $request)) {
-                            // Verificar si es un array y procesar el detalle correctamente
                             $detalle = $config['esArray'] ?
                                 (is_array($request[$tipo]) ? implode(',', $request[$tipo]) : $request[$tipo]) :
                                 $request[$tipo];
-
-                            // Insertar el antecedente familiar
-                            DB::table('antecedentes_familiares')->insert([
-                                'id_historia' => $idHistoria,
-                                'tipo' => $tipo,
-                                'detalle' => $detalle,
-                                'nombre' => $config['nombre']
-                            ]);
+                        } else {
+                            $detalle = "";
                         }
+
+                        DB::table('antecedentes_familiares')
+                            ->updateOrInsert(
+                                [
+                                    'id_historia' => $idHistoria,
+                                    'tipo' => $tipo
+                                ],
+                                [
+                                    'detalle' => $detalle,
+                                    'nombre' => $config['nombre']
+                                ]
+                            );
                     }
+
 
 
                     // Definir las áreas de ajuste y/o desempeño
@@ -346,7 +357,19 @@ class HistoriaPsicologica extends Model
                                         'nombre' => $nombre
                                     ]
                                 );
-                        }
+                        }else{
+                            DB::table('historia_ajuste_desempeno')
+                                ->updateOrInsert(
+                                    [
+                                        'id_historia' => $idHistoria,
+                                        'area' => $campo
+                                    ],
+                                    [
+                                        'detalle' => '',
+                                        'nombre' => ''
+                                    ]
+                                );
+                        }   
                     }
 
                     // Definir los tipos de interconsultas
@@ -370,10 +393,20 @@ class HistoriaPsicologica extends Model
                                         'nombre' => $nombre
                                     ]
                                 );
+                        }else{
+                            DB::table('interconsultas')
+                                ->updateOrInsert(
+                                    [
+                                        'id_historia' => $idHistoria,
+                                        'tipo' => $campo
+                                    ],
+                                    [
+                                        'detalle' => '',
+                                        'nombre' => ''
+                                    ]
+                                );
                         }
                     }
-
-                    // Insertar Funciones Somáticas
 
                     // Filtrar los valores no vacíos
                     $examenMental = array_filter([
@@ -415,6 +448,17 @@ class HistoriaPsicologica extends Model
                                     [
                                         'detalle' => $request[$campo],
                                         'nombre' => $nombre
+                                    ]
+                                );
+                            }else{
+                                DB::table('antecedentes_prenatales')->updateOrInsert(
+                                    [
+                                        'id_historia' => $idHistoria,
+                                        'tipo' => $campo
+                                    ],
+                                    [
+                                        'detalle' => '',
+                                        'nombre' => ''
                                     ]
                                 );
                             }
@@ -552,7 +596,7 @@ class HistoriaPsicologica extends Model
                         'sugerencia_interconsultas' => 'sugerencias_interconsultas',
                         'observaciones_recomendaciones' => 'observaciones_recomendaciones',
                         'tipoPsicologia' => 'tipologia',
-                       'resumen_evaluacion_inicial' => 'eval_inicial',
+                        'resumen_evaluacion_inicial' => 'eval_inicial',
                         'codDiagnosticoRelacionado1' => 'dx_principal1',
                         'codDiagnosticoRelacionado2' => 'dx_principal2',
                         'codImpresionDiagnosticoRelacionado1' => 'codigo_diagnostico1',
@@ -606,7 +650,19 @@ class HistoriaPsicologica extends Model
                                         'nombre' => $nombre
                                     ]
                                 );
-                        }
+                        }else{
+                            DB::table('antecedentes_medicos')
+                                ->updateOrInsert(
+                                    [
+                                        'id_historia' => $idHistoria,
+                                        'tipo' => $tipo
+                                    ],
+                                    [
+                                        'detalle' => '',
+                                        'nombre' => ''
+                                    ]
+                                );
+                        }   
                     }
 
                     // Insertar antecedentes familiares
@@ -621,26 +677,31 @@ class HistoriaPsicologica extends Model
                         'otros' => ['nombre' => 'Otros', 'esArray' => false]
                     ];
 
-                    $antecedentesFamiliares = [];
-                    // Para edición:
+                    
+                    // Para edición
                     foreach ($tiposAntecedentesFamiliares as $tipo => $config) {
+                        // Verificar si el tipo existe en el request
                         if (array_key_exists($tipo, $request)) {
                             $detalle = $config['esArray'] ?
                                 (is_array($request[$tipo]) ? implode(',', $request[$tipo]) : $request[$tipo]) :
                                 $request[$tipo];
-
-                            DB::table('antecedentes_familiares')
-                                ->updateOrInsert(
-                                    [
-                                        'id_historia' => $idHistoria,
-                                        'tipo' => $tipo
-                                    ],
-                                    [
-                                        'detalle' => $detalle,
-                                        'nombre' => $config['nombre']
-                                    ]
-                                );
+                        } else {
+                            // Si no existe en el request, asignar un valor vacío en español
+                            $detalle = "";
                         }
+
+                        // Actualizar o insertar el registro independientemente de si existe en el request
+                        DB::table('antecedentes_familiares')
+                            ->updateOrInsert(
+                                [
+                                    'id_historia' => $idHistoria,
+                                    'tipo' => $tipo
+                                ],
+                                [
+                                    'detalle' => $detalle,
+                                    'nombre' => $config['nombre']
+                                ]
+                            );
                     }
 
                     // Definir las áreas de ajuste y/o desempeño
@@ -1083,6 +1144,7 @@ class HistoriaPsicologica extends Model
     {
         $historia = DB::connection('mysql')->table('historia_clinica')
             ->where("id", $idHisto)
+            ->where("estado_registro", "ACTIVO")
             ->first();
            
 

@@ -1306,23 +1306,9 @@
 
             if ($("#formPaciente").valid()) {
 
-                //verificar si existe un campos sin llenar menos fotoPaciente
-
-                const campos = document.getElementById('formPaciente').querySelectorAll('input, select, textarea')
-                let camposVacios = 1
-                let camposVaciosArray = []
-                campos.forEach(campo => {
-                    if (campo.value === '' && campo.name !== 'fotoPaciente' && campo.name !== 'archivos[]' && campo.name !== 'segundoNombre' && campo.name !== 'segundoApellido' && campo.name !== 'eps') {
-                        camposVacios = 0                     
-                    }
-                })
-         
-
-              
-
+                
                 const formPaciente = document.getElementById('formPaciente')
                 const formData = new FormData(formPaciente)
-                formData.append('camposVacios', camposVacios)
 
                 const url = "{{ route('form.guardarPaciente') }}"
 
@@ -1645,7 +1631,7 @@
             return new Promise((resolve, reject) => {
                 let select = document.getElementById("eps")
                 select.innerHTML = ""
-                let url = "{{ route('pacientes.eps') }}"
+                let url = "{{ route('pacientes.eps') }}"        
 
                 let defaultOption = document.createElement("option")
                 defaultOption.value = "" // Valor en blanco

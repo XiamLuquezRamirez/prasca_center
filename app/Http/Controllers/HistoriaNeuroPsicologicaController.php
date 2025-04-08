@@ -14,7 +14,7 @@ use Dompdf\Dompdf;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use App\Models\Profesional;
-
+use Illuminate\Support\Facades\Log;
 
 
 
@@ -604,26 +604,25 @@ class HistoriaNeuroPsicologicaController extends Controller
             ], 401);
         }
 
-        $data = $request->all();
-        $respuesta = HistoriaNeuroPsicologica::guardar($data);
-
-        if ($respuesta) {
-            $estado = 'success';
-            $message = 'La operación fue realizada exitosamente.';
-            $title = '¡Buen trabajo!';
-        } else {
-            $message = 'No se pudo realizada la operación.';
-            $estado = 'warning';
-            $title = '¡Opps salio algo mal!';
+        try {
+            $data = $request->all();
+            $respuesta = HistoriaNeuroPsicologica::Guardar($data);
+            
+            return response()->json($respuesta);
+            
+        } catch (\Exception $e) {
+            Log::error('Error en guardarHistoriaNeuroPsicologica: ' . $e->getMessage(), [
+                'data' => $request->all(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ]);
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al procesar la solicitud',
+                'error' => $e->getMessage()
+            ], 500);
         }
-
-        // Retornar la respuesta en formato JSON
-        return response()->json([
-            'success' => $estado,
-            'id' => $respuesta['idHistoria'],
-            'message' =>  $message,
-            'title' =>  $title
-        ]);
     }
 
     public function eliminarConsultaNeuro()
@@ -800,17 +799,20 @@ class HistoriaNeuroPsicologicaController extends Controller
             $historias = DB::connection('mysql')
                 ->table('historia_clinica_neuro')
                 ->leftJoin('pacientes', 'historia_clinica_neuro.id_paciente', 'pacientes.id')
+                ->leftJoin('profesionales', 'historia_clinica_neuro.id_profesional', 'profesionales.id')
                 ->where('estado_registro', 'ACTIVO')
+                ->orderBy('historia_clinica_neuro.fecha_historia', 'desc')
                 ->select(
                     "historia_clinica_neuro.id",
-                    DB::raw("CONCAT(tipo_identificacion, ' ', identificacion) as identificacion_completa"),
+                    DB::raw("CONCAT(pacientes.tipo_identificacion, ' ', pacientes.identificacion) as identificacion_completa"),
                     DB::raw("CONCAT(primer_nombre,' ',segundo_nombre,' ',primer_apellido,' ', segundo_apellido) as nombre_completo"),
                     "historia_clinica_neuro.fecha_historia",
                     "historia_clinica_neuro.tipologia",
                     "historia_clinica_neuro.estado_hitoria",
                     "pacientes.fecha_nacimiento",
                     'historia_clinica_neuro.codigo_consulta',
-                    'pacientes.id as id_paciente'
+                    'pacientes.id as id_paciente',
+                    'profesionales.nombre as profesional'
                 );
 
             if ($search) {
@@ -852,8 +854,11 @@ class HistoriaNeuroPsicologicaController extends Controller
                     <div class="box-body">
                         <div class="d-md-flex justify-content-between align-items-center">
                             <div>
-                                <p><span class="text-primary">Historia Clínica</span> | <span
-                                        class="text-fade">Tipo: Psicológica - ' . $item->tipologia . '</span></p>
+                                <p><span class="text-primary">Historia Clínica</span> | 
+                                <span class="text-fade">Tipo: Neuropsicológica - ' . $item->tipologia . '</span> 
+                                | <span class="text-primary">Profesional:</span> 
+                                <span class="text-fade" style="text-transform: capitalize;">' . $item->profesional . '</span>
+                                </p>
                                 <h3 class="mb-0 fw-500">Paciente: ' . $item->identificacion_completa . ' - ' . $item->nombre_completo . '</h3>
                             </div>
                             <div class="mt-10 mt-md-0">
@@ -928,9 +933,7 @@ class HistoriaNeuroPsicologicaController extends Controller
         $antecedentesFamiliares = HistoriaNeuroPsicologica::busquedaAntFamiliares($historia->id);
         $areaAjuste = HistoriaNeuroPsicologica::busquedaAreaAjuste($historia->id);
         $interconuslta = HistoriaNeuroPsicologica::busquedaInterconsulta($historia->id);
-        $aparienciaPersonal = HistoriaNeuroPsicologica::busquedaAparienciaPersonal($historia->id);
-        $funcionesCognitiva = HistoriaNeuroPsicologica::busquedaFuncionesCognitivas($historia->id);
-        $funcionesSomaticas = HistoriaNeuroPsicologica::busquedaFuncionesSomaticas($historia->id);
+        $examenMental = HistoriaNeuroPsicologica::busquedaExamenMental($historia->id);
         $antecedentesPrenatales = HistoriaNeuroPsicologica::busquedaAntPrenatales($historia->id);
         $antecedentesNatales = HistoriaNeuroPsicologica::busquedaAntNatales($historia->id);
         $antecedentesPosnatales = HistoriaNeuroPsicologica::busquedaAntPosnatales($historia->id);
@@ -944,9 +947,7 @@ class HistoriaNeuroPsicologicaController extends Controller
             'antecedentesFamiliares' => $antecedentesFamiliares,
             'areaAjuste' => $areaAjuste,
             'interconuslta' => $interconuslta,
-            'aparienciaPersonal' => $aparienciaPersonal,
-            'funcionesCognitiva' => $funcionesCognitiva,
-            'funcionesSomaticas' => $funcionesSomaticas,
+            'examenMental' => $examenMental,
             'antecedentesPrenatales' => $antecedentesPrenatales,
             'antecedentesNatales' => $antecedentesNatales,
             'antecedentesPosnatales' => $antecedentesPosnatales,
@@ -1015,9 +1016,7 @@ class HistoriaNeuroPsicologicaController extends Controller
         $antecedentesFamiliares = HistoriaNeuroPsicologica::busquedaAntFamiliares($historia->id);
         $areaAjuste = HistoriaNeuroPsicologica::busquedaAreaAjuste($historia->id);
         $interconuslta = HistoriaNeuroPsicologica::busquedaInterconsulta($historia->id);
-        $aparienciaPersonal = HistoriaNeuroPsicologica::busquedaAparienciaPersonal($historia->id);
-        $funcionesCognitiva = HistoriaNeuroPsicologica::busquedaFuncionesCognitivas($historia->id);
-        $funcionesSomaticas = HistoriaNeuroPsicologica::busquedaFuncionesSomaticas($historia->id);
+        $examenMental = HistoriaNeuroPsicologica::busquedaExamenMental($historia->id); 
         $antecedentesPrenatales = HistoriaNeuroPsicologica::busquedaAntPrenatales($historia->id);
         $antecedentesNatales = HistoriaNeuroPsicologica::busquedaAntNatales($historia->id);
         $antecedentesPosnatales = HistoriaNeuroPsicologica::busquedaAntPosnatales($historia->id);
@@ -1029,9 +1028,7 @@ class HistoriaNeuroPsicologicaController extends Controller
             'antecedentesFamiliares' => $antecedentesFamiliares,
             'areaAjuste' => $areaAjuste,
             'interconuslta' => $interconuslta,
-            'aparienciaPersonal' => $aparienciaPersonal,
-            'funcionesCognitiva' => $funcionesCognitiva,
-            'funcionesSomaticas' => $funcionesSomaticas,
+            'examenMental' => $examenMental,
             'antecedentesPrenatales' => $antecedentesPrenatales,
             'antecedentesNatales' => $antecedentesNatales,
             'antecedentesPosnatales' => $antecedentesPosnatales,

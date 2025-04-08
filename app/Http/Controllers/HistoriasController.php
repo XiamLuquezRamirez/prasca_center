@@ -1004,6 +1004,15 @@ class HistoriasController extends Controller
 
     public function guardarHistoriaPsicologica(Request $request)
     {
+
+
+        if (!Auth::check()) {
+            return response()->json([
+                'estado' => 'error',
+                'mensaje' => 'Su sesión ha terminado.',
+            ], 401);
+        }
+
         try {
             $data = $request->all();
             $respuesta = HistoriaPsicologica::Guardar($data);
@@ -1269,18 +1278,21 @@ class HistoriasController extends Controller
             $historias = DB::connection('mysql')
                 ->table('historia_clinica')
                 ->leftJoin('pacientes', 'historia_clinica.id_paciente', '=', 'pacientes.id')
+                ->leftJoin('profesionales', 'historia_clinica.id_profesional', 'profesionales.id')
+
                 ->where('estado_registro', 'ACTIVO')
                 ->orderBy('historia_clinica.fecha_historia', 'desc')
                 ->select(
                     "historia_clinica.id",
-                    DB::raw("CONCAT(tipo_identificacion, ' ', identificacion) as identificacion_completa"),
+                    DB::raw("CONCAT(pacientes.tipo_identificacion, ' ', pacientes.identificacion) as identificacion_completa"),
                     DB::raw("CONCAT(primer_nombre,' ',segundo_nombre,' ',primer_apellido,' ', segundo_apellido) as nombre_completo"),
                     "historia_clinica.fecha_historia",
                     "historia_clinica.tipologia",
                     "historia_clinica.estado_hitoria",
                     "pacientes.fecha_nacimiento",
                     'historia_clinica.codigo_consulta',
-                    'pacientes.id as id_paciente'
+                    'pacientes.id as id_paciente',
+                    'profesionales.nombre as profesional'
                 );
 
             if ($search) {
@@ -1322,10 +1334,13 @@ class HistoriasController extends Controller
                                 <div class="box-body">
                                     <div class="d-md-flex justify-content-between align-items-center">
                                         <div>
-                                            <p><span class="text-primary">Historia Clínica</span> | <span
-                                                    class="text-fade">Tipo: Psicológica - ' . $item->tipologia . '</span></p>
+                                            <p><span class="text-primary">Historia Clínica</span> | 
+                                            <span class="text-fade">Tipo: Neuropsicológica - ' . $item->tipologia . '</span> 
+                                            | <span class="text-primary">Profesional:</span> 
+                                            <span class="text-fade" style="text-transform: capitalize;">' . $item->profesional . '</span>
+                                            </p>
                                             <h3 class="mb-0 fw-500">Paciente: ' . $item->identificacion_completa . ' - ' . $item->nombre_completo . '</h3>
-                                        </div>
+                                        </div> 
                                         <div class="mt-10 mt-md-0">
                                     <div class="btn-group mb-5">
 								    <div class="dropdown-menu" style="">

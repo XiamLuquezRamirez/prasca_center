@@ -494,9 +494,7 @@
                 </div>
             </div>
         </div>
-        <div style="margin: 3px 0;"></div>
       
-        <div style="margin: 3px 0;"></div>
     
         <div style="margin: 3px 0;"></div>
         <div class="antecedentes-section">

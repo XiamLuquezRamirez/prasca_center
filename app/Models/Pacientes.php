@@ -91,15 +91,19 @@ class Pacientes extends Model
     }
     public static function listEps()
     {
-        return DB::connection('mysql')->table('eps')
-            ->get();
+        return DB::connection('mysql')
+        ->table('eps')
+        ->where('estado', 'ACTIVO')
+        ->orderBy('entidad', 'asc')
+        
+        ->get();
     }
 
 
     public static function BuscarPaciente($id)
     {
         return DB::connection('mysql')->table('pacientes')
-            ->where('id', $id)
+            ->where('id', $id)            
             ->first();
     }
 
@@ -136,7 +140,7 @@ class Pacientes extends Model
                     'telefono_acompanate' =>  $request['telefonoAcompanante'] ?? '',
                     'eps' =>  $request['eps'] ?? '',
                     'estado' => 'ACTIVO',
-                    'completo' => $request['camposVacios']
+                    'completo' => '1'
                 ]);
 
                 if (isset($request['archivo']) && is_array($request['archivo'])) {
@@ -185,7 +189,7 @@ class Pacientes extends Model
                         'telefono_acompanate' =>  $request['telefonoAcompanante'] ?? '',
                         'eps' =>  $request['eps'] ?? '',
                         'estado' => 'ACTIVO',
-                        'completo' => $request['camposVacios']
+                        'completo' => '1'
                     ]);
 
                 $idpaciente = $request['idPaciente'];

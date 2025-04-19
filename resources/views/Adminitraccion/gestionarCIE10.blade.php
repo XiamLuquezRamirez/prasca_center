@@ -4,13 +4,13 @@
     <div class="content-header">
         <div class="d-flex align-items-center">
             <div class="me-auto">
-                <h4 class="page-title">Gestionar CIE10 </h4>
+                <h4 class="page-title">Gestionar CIE10 - DSM5 </h4>
                 <div class="d-inline-block align-items-center">
                     <nav>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
                             <li class="breadcrumb-item" aria-current="page">Inicio</li>
-                            <li class="breadcrumb-item active" aria-current="page">Gestionar CIE10</li>
+                            <li class="breadcrumb-item active" aria-current="page">Gestionar CIE10 - DSM5</li>
                         </ol>
                     </nav>
                 </div>
@@ -25,7 +25,7 @@
             <div id="listado" class="col-12 col-xl-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title">Listado de CIE10 </h5>
+                        <h5 class="card-title">Listado de CIE10 - DSM5 </h5>
                     </div>
                     <div class="card-body">
                         <div class="box-controls pull-right">
@@ -37,7 +37,7 @@
                                     </div>
                                     <button type="button" onclick="nuevoRegistro(1);"
                                         class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i> Nuevo
-                                        CIE10</button>
+                                        CIE10 - DSM5</button>
                                 </div>
 
                             </div>
@@ -46,7 +46,8 @@
                             <thead>
                                 <tr>
                                     <th style="width:10%;">Código</th>
-                                    <th style="width:70%;">Nombre</th>
+                                    <th style="width:60%;">Nombre</th>
+                                    <th style="width:10%;">Clasificación</th>
                                     <th style="width:10%;">Estado</th>
                                     <th style="width:10%;">Acción</th>
                                 </tr>
@@ -70,7 +71,7 @@
         <div class="modal-dialog modal-dialog-centered" style="max-width: 40%;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="tituloAccion">Agregar CIE10</h4>
+                    <h4 class="modal-title" id="tituloAccion">Agregar CIE10 - DSM5</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                 </div>
                 <div class="modal-body">
@@ -97,7 +98,18 @@
                                     <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="clasificacion" class="form-label">Tipo de clasificacíon :</label>
+                                    <select class="form-control" id="clasificacion" name="clasificacion">
+                                            <option value="CIE10">CIE10</option>
+                                            <option value="DSM5">DSM5</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="habilitado" class="form-label">Habilitado :</label>
                                     <select class="form-control" id="habilitado" name="habilitado">
@@ -164,15 +176,21 @@
                     },
                     nombre: {
                         required: true
+                    },
+                    clasificacion: {
+                        required: true
                     }
                 },
                 messages: {
                     nombre: {
-                        required: "Por favor, ingrese el nombre de la CIE10."
+                        required: "Por favor, ingrese el nombre de la CIE10 o DSM5."
                     },
                     codigo: {
-                        required: "Por favor, ingrese el código de la CIE10.",
+                        required: "Por favor, ingrese el código de la CIE10 o DSM5.",
                         remote: "Esta código ya está registrado."
+                    },
+                    clasificacion: {
+                        required: "Por favor, seleccione el tipo de clasificación."
                     }
                 },
                 submitHandler: function(form) {
@@ -276,7 +294,7 @@
                     document.getElementById("codigo").value = data.codigo
                     document.getElementById("descripcion").value = data.descripcion
                     document.getElementById("habilitado").value = data.habilitado
-
+                    document.getElementById("clasificacion").value = data.clasificacion
                 })
                 .catch(error => console.error('Error:', error));
 

@@ -151,6 +151,25 @@
                                             <h5 class="text-uppercase"><i class="fa fa-h-square me-1"></i>
                                                 Evaluación clínica psicológica</h5>
                                             <div>
+                                            <div onclick="mostrarPorcentajeCompletitud()" id="mostrarPorcentajeCompletitud" style="margin-right: 20px; cursor: pointer;display: none;">
+                                        <div>
+                                            <p class="text-fade m-0">Completada</p>
+                                                <div> <label
+                                                    id="PorcentajeCompletitud">0%</label>
+                                                <div
+                                                    class="progress progress-lg">
+                                                        <div id="BarraPorcentajeCompletitud"
+                                                        class="progress-bar bg-danger"
+                                                        role="progressbar"
+                                                        style="width: 0%"
+                                                        aria-valuenow="75"
+                                                        aria-valuemin="0"
+                                                        aria-valuemax="100">
+                                                </div>
+                                                </div>
+                                                </div>
+                                            </div>
+								    </div>
                                                 <button onclick="cancelarHistoria()" type="button"
                                                     class="btn btn-primary-light me-1">
                                                     <i class="ti-back-left"></i> Atras
@@ -1597,6 +1616,218 @@
 
     var idHistoriaImprimir = "";
 
+    var nombreCampos = [
+           {
+            "nombre": "codConsulta",
+            "label": "Código de consulta"
+           },
+           {
+            "nombre": "codDiagnostico",
+            "label": "Código de diagnóstico"
+           },
+           {
+            "nombre": "enfermedadActual",
+            "label": "Enfermedad actual"
+           },
+           {
+            "nombre": "medicacion",
+            "label": "Medicación"
+           },
+           {
+            "nombre": "remision",
+            "label": "Remisión"
+           },
+           {
+            "nombre": "motivoConsulta",
+            "label": "Motivo de consulta"
+           },
+           {
+            "nombre": "resumen_evaluacion_inicial",
+            "label": "Resumen de evaluación inicial"
+           },
+           {
+            "nombre": "plan_intervencion",
+            "label": "Plan de intervención"
+           },
+           {
+            "nombre": "idProfesional",
+            "label": "Profesional"
+           },
+           {
+            "nombre": "examen_mental",
+            "label": "Examen mental"
+           },
+           {
+            "nombre": "ciclos_del_sueno",
+            "label": "Ciclos del sueño"
+           },
+           {
+            "nombre": "apetito",
+            "label": "Apetito"
+           },
+           {
+            "nombre": "autocuidado",
+            "label": "Autocuidado"
+           },
+           {
+            "nombre": "edad_madre",
+            "label": "Edad de la madre"
+           },
+           {
+            "nombre": "enfermedades_madre",
+            "label": "Enfermedades de la madre"
+           },
+           {
+            "nombre": "enfermedades_padre",
+            "label": "Enfermedades del padre"
+           },
+           {
+            "nombre": "numero_embarazo",
+            "label": "Número de embarazo"
+           },
+           {
+            "nombre": "enbarazo_controlado",
+            "label": "Enbarazo controlado"
+           },
+           {
+            "nombre": "planificacion",
+            "label": "Planificación"
+           },
+           {
+            "nombre": "estado_madre",
+            "label": "Estado de la madre"
+           },
+           {
+            "nombre": "tipo_nacimiento",
+            "label": "Tipo de nacimiento"
+           },
+           {
+            "nombre": "reanimacion",
+            "label": "Reanimación"
+           },
+           {
+            "nombre": "peso_nacer",
+            "label": "Peso al nacer"
+           },
+           {
+            "nombre": "talla_nacer",
+            "label": "Talla al nacer"
+           },
+           {
+            "nombre": "llanto_nacer",
+            "label": "Llanto al nacer"
+           },
+           {
+            "nombre": "depresion",
+            "label": "Depresión"
+           },
+           {
+            "nombre": "ansiedad",
+            "label": "Ansiedad"
+           },
+           {
+            "nombre": "demencia",
+            "label": "Demencia"
+           },
+           {
+            "nombre": "alcoholismo",
+            "label": "Alcoholismo"
+           },
+           {
+            "nombre": "drogadiccion",
+            "label": "Drogadicción"
+           },
+           {
+            "nombre": "discapacidad_intelectual",
+            "label": "Discapacidad intelectual"
+           },
+           {
+            "nombre": "patologicos",
+            "label": "Patologicos"
+           },
+           {
+            "nombre": "historia_educativa",
+            "label": "Historia educativa"
+           },
+           {
+            "nombre": "historia_laboral",
+            "label": "Historia laboral"
+           },
+           {
+            "nombre": "historia_familiar",
+            "label": "Historia familiar"
+           },
+           {
+            "nombre": "historia_socio_afectiva",
+            "label": "Historia socio afectiva"
+           },          
+           {
+            "nombre": "intervencion_psiquiatria",
+            "label": "Intervención psiquiatría"
+           },
+           {
+            "nombre": "intervencion_neurologia",
+            "label": "Intervención neurología"
+           },
+           {
+            "nombre": "intervencion_neuropsicologia",
+            "label": "Intervención neuropsicología"
+           },
+           {
+            "nombre": "codImpresionDiagnostico",
+            "label": "Código de impresión diagnóstico"
+           },
+           {
+            "nombre": "establecidoPrimeraVez",
+            "label": "Establecido por primera vez"
+           },
+           {
+            "nombre": "plan_intervencion",
+            "label": "Plan de intervención"
+           },
+           {
+            "nombre": "objetivos_especificos",
+            "label": "Objetivos específicos"
+           },
+           {
+            "nombre": "sugerencia_interconsultas",
+            "label": "Sugerencias de interconsultas"
+           },
+           {
+            "nombre": "observaciones_recomendaciones",
+            "label": "Observaciones y recomendaciones"
+           },
+           {
+            "nombre": "idProfesional",
+            "label": "Profesional"
+           },
+           {
+            "nombre": "objetivo_general",
+            "label": "Objetivo general"
+           },
+           {
+            "nombre": "quirurgicos",
+            "label": "Quirúrgicos"
+           },
+           {
+            "nombre": "toxicos",
+            "label": "Toxicos"
+           },
+           {
+            "nombre": "hospitalizaciones",
+            "label": "Hospitalizaciones"
+           },
+           {
+            "nombre": "traumaticos",
+            "label": "Traumáticos"
+           },
+           {
+            "nombre": "paraclinicos",
+            "label": "Paraclinicos"
+           }
+        
+        ]
+
     document.addEventListener("DOMContentLoaded", function() {
         let menuP = document.getElementById("principalHistoriClinica")
         let menuS = document.getElementById("principalHistoriClinicaPsicologia")
@@ -3001,167 +3232,221 @@
             const url = "{{ route('form.guardarHistoriaPsicologica') }}";
 
             var error = validarFormularioEnvio();
+            var porcentaje = window.porcentajeCompletitud;
 
-            formData.append('completa', error ? '0' : '1');
+            // Mostrar SweetAlert de confirmación
+            swal({
+                title: "Confirmar guardado",
+                text: `Has completado el ${porcentaje}% de los campos requeridos. ¿Deseas guardar de todas formas?`,
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, guardar!",
+                cancelButtonText: "Cancelar",
+                confirmButtonClass: "btn btn-warning",
+                cancelButtonClass: "btn btn-danger ml-1",
+                buttonsStyling: false
+            }, function(isConfirm) {
+                if (isConfirm) {
 
-            fetch(url, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                            'content')
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) { // Comparación estricta
-                        document.getElementById("idHistoria").value = data.id;
-                        cargarHistorias(1);
-                        var btnGuardar = document.getElementById("btn-guardarHistoria");
-                        btnGuardar.disabled = true;
+                    formData.append('porcentaje_completitud', porcentaje);
+                    formData.append('completa', error ? '0' : '1');
 
-                        swal("Historia Psicologica", data.message, "success");
+                    fetch(url, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content')
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) { // Comparación estricta
+                                document.getElementById("idHistoria").value = data.id;
+                                cargarHistorias(1);
+                                var btnGuardar = document.getElementById("btn-guardarHistoria");
+                                btnGuardar.disabled = true;
 
+                                swal("Historia Psicologica", data.message, "success");
+                            } else {
+                                swal(data.title, data.message, "error");
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error al enviar los datos:", error);
+                        });
 
-
-                    } else {
-                        swal(data.title, data.message, "error");
-                    }
-                })
-                .catch(error => {
-                    console.error("Error al enviar los datos:", error);
-                });
-
+                } else {
+                    swal("Cancelado", "Tu registro esta salvo :)", "error");
+                }
+            });
         }
     }
 
     function validarFormularioEnvio() {
-
         var error = false;
-        if (document.getElementById("codConsulta").value == "") {
-            error = true;
+        var camposCompletados = 0;
+        var totalCampos = 0;
+        var camposIncompletos = [];
+
+        
+
+        var camposRequeridos = [
+            "remision",
+            "codConsulta",
+            "motivoConsulta",
+            "codDiagnostico",
+            "enfermedadActual",
+            "quirurgicos",
+            "toxicos",
+            "hospitalizaciones",
+            "traumaticos",
+            "paraclinicos",
+            "patologia",
+            "medicacion",
+            "depresion",
+            "ansiedad",
+            "demencia",
+            "alcoholismo",
+            "drogadiccion",
+            "discapacidad_intelectual",
+            "patologicos",
+            "historia_educativa",
+            "historia_laboral",
+            "historia_familiar",
+            "historia_socio_afectiva",
+            "resumen_evaluacion_inicial",
+            "intervencion_psiquiatria",
+            "intervencion_neurologia",
+            "intervencion_neuropsicologia",
+            "examen_mental",
+            "ciclos_del_sueno",
+            "apetito",
+            "autocuidado",
+            "codImpresionDiagnostico",
+            "establecidoPrimeraVez",
+            "plan_intervencion",
+            "objetivo_general",
+            "objetivos_especificos",
+            "sugerencia_interconsultas",
+            "observaciones_recomendaciones",
+            "idProfesional"         
+        ];
+
+        // Campos adicionales para Pediatría
+        var camposPediatria = [
+            "edad_madre",
+            "enfermedades_madre",
+            "numero_embarazo",
+            "enbarazo_controlado",
+            "planificacion",
+            "estado_madre",
+            "tipo_nacimiento",
+            "reanimacion",
+            "peso_nacer",
+            "talla_nacer",
+            "llanto_nacer",
+            "depresion",
+            "ansiedad",
+            "demencia",
+            "alcoholismo",
+            "drogadiccion",
+            "discapacidad_intelectual"
+        ];
+
+        // Verificar campos básicos
+        camposRequeridos.forEach(function(campo) {
+            totalCampos++;
+            let campoElement = document.getElementById(campo);
+            const tag = campoElement.tagName.toLowerCase();
+            //validado para textarea y input
+            if (tag === "textarea") {
+                if (CKEDITOR.instances[campoElement.id]) {
+                    const contenido = CKEDITOR.instances[campoElement.id].getData().trim();
+                
+                    if (contenido !== "") {
+                        camposCompletados++;
+                    } else {
+                        error = true;
+                        camposIncompletos.push(campo);
+                    }
+                }else{
+                    if (document.getElementById(campo).value !== "") {
+                        camposCompletados++;
+                    } else {
+                        error = true;
+                        camposIncompletos.push(campo);
+                    }
+                }
+            }
+
+            //validado para select
+            
+            if (tag === "select") {
+               
+                if (campoElement.value !== "") {
+                    camposCompletados++;
+                } else {
+                    error = true;
+                    camposIncompletos.push(campo);
+                }
+            }
+
+            //validado para input
+            if (tag === "input") {
+                if (document.getElementById(campo).value !== "") {
+                    camposCompletados++;
+                }
+            }
+
+            //validado para tagsinpu
+
+            if (tag === "input") {
+               if(document.getElementById(campo).getAttribute('data-role') === 'tagsinput'){
+                console.log(document.getElementById(campo).value)
+                let tagsInput = document.getElementById(campo).value;
+                if (tagsInput !== "") {
+                    camposCompletados++;
+                }else{
+                    error = true;
+                    camposIncompletos.push(campo);
+                }
+               }
+            }
+
+            
+        });
+
+        // Verificar campos adicionales si es Pediatría
+        if (document.getElementById("tipoPsicologia").value === "Pediatría") {
+            camposPediatria.forEach(function(campo) {
+                totalCampos++;
+                let campoElement = document.getElementById(campo);
+             
+                if (document.getElementById(campo).value !== "") {
+                    camposCompletados++;
+                } else {
+                    error = true;
+                    camposIncompletos.push(campo);
+                }
+            });
         }
 
-        if (document.getElementById("codDiagnostico").value == "") {
-            error = true;
-        }
+        debugger
 
-        if (document.getElementById("enfermedadActual").value == "") {
-            error = true;
-        }
+        // Calcular porcentaje
+        var porcentaje = Math.round((camposCompletados / totalCampos) * 100);
 
-        if (document.getElementById("medicacion").value == "") {
-            error = true;
-        }
-        if (document.getElementById("remision").value == "") {
-            error = true;
-        }
-        if (document.getElementById("motivoConsulta").value == "") {
-            error = true;
-        }
-        if (document.getElementById("resumen_evaluacion_inicial").value == "") {
-            error = true;
-        }
-        if (document.getElementById("plan_intervencion").value == "") {
-            error = true;
-        }
-        if (document.getElementById("idProfesional").value == "") {
-            error = true;
-        }
+        // Guardar el porcentaje y los campos incompletos en variables globales
+        window.porcentajeCompletitud = porcentaje;
+        window.camposIncompletos = camposIncompletos;
 
-
-
-        if (document.getElementById("examen_mental").value == "") {
-            error = true;
-        }
-
-        if (document.getElementById("ciclos_del_sueno").value == "") {
-            error = true;
-        }
-
-        if (document.getElementById("apetito").value == "") {
-            error = true;
-        }
-
-        if (document.getElementById("autocuidado").value == "") {
-            error = true;
-        }
-
-
-        if (document.getElementById("tipoPsicologia").value == "Pediatría") {
-            if (document.getElementById("edad_madre").value == "") {
-                error = true;
-            }
-
-            if (document.getElementById("enfermedades_madre").value == "") {
-                error = true;
-            }
-
-            if (document.getElementById("numero_embarazo").value == "") {
-                error = true;
-            }
-
-            if (document.getElementById("enbarazo_controlado").value == "") {
-                error = true;
-            }
-
-            if (document.getElementById("planificacion").value == "") {
-                error = true;
-            }
-
-            if (document.getElementById("estado_madre").value == "") {
-                error = true;
-            }
-
-            if (document.getElementById("tipo_nacimiento").value == "") {
-                error = true;
-            }
-
-            if (document.getElementById("reanimacion").value == "") {
-                error = true;
-            }
-
-            if (document.getElementById("peso_nacer").value == "") {
-                error = true;
-            }
-
-            if (document.getElementById("talla_nacer").value == "") {
-                error = true;
-            }
-
-            if (document.getElementById("llanto_nacer").value == "") {
-                error = true;
-            }
-
-            if (document.getElementById("depresion").value == "") {
-                error = true;
-            }
-
-            if (document.getElementById("ansiedad").value == "") {
-                error = true;
-            }
-
-            if (document.getElementById("demencia").value == "") {
-                error = true;
-            }
-
-            if (document.getElementById("alcoholismo").value == "") {
-                error = true;
-            }
-
-            if (document.getElementById("drogadiccion").value == "") {
-                error = true;
-            }
-
-            if (document.getElementById("discapacidad_intelectual").value == "") {
-                error = true;
-            }
-
-
-        }
+        // Mostrar mensaje con el porcentaje
+    
 
         return error;
-
     }
 
     function guardarConsulta() {
@@ -3210,6 +3495,17 @@
     function validarFormularioConsultaEnvio() {
         var error = false;
         var mensaje = "";
+
+        if (document.getElementById("fechaEvolucion").value == "") {
+            error = true;
+            mensaje += "Debe seleccionar una fecha de evolución. \n";
+        }
+
+        if (document.getElementById("horaSeleccionadad").value == "") {
+            error = true;
+            mensaje += "Debe seleccionar una hora de evolución. \n";
+        }
+
         if (document.getElementById("codConsultaConsulta").value == "") {
             error = true;
             mensaje += "Debe seleccionar un código de evolución. \n";
@@ -3217,6 +3513,11 @@
         if (document.getElementById("codImpresionDiagnosticoConsulta").value == "") {
             error = true;
             mensaje += "Debe seleccionar un código de impresión diagnóstica. \n";
+        }
+
+        if (document.getElementById("profesionalConsulta").value == "") {
+            error = true;
+            mensaje += "Debe seleccionar un profesional. \n";
         }
 
         if (document.getElementById("objetivo_sesion").value == "") {
@@ -3671,6 +3972,24 @@
         CKEDITOR.instances['observaciones_recomendaciones'].setData(historia.observaciones_recomendaciones)
         document.getElementById("tipoPsicologia").value = historia.tipologia
 
+        let bgColor = "bg-danger"
+        if (historia.porcentaje_completitud >= 90) {
+            bgColor = 'bg-success'; // Verde intenso
+        } else if (historia.porcentaje_completitud >= 70) {
+            bgColor = 'bg-primary'; // Azul
+        } else if (historia.porcentaje_completitud >= 50) {
+            bgColor = 'bg-info'; // Celeste
+        } else if (historia.porcentaje_completitud >= 20) {
+            bgColor = 'bg-warning'; // Amarillo/naranja
+        } else {
+            bgColor = 'bg-danger'; // Rojo
+        }
+
+        document.getElementById("BarraPorcentajeCompletitud").classList.add(bgColor)
+
+        document.getElementById("PorcentajeCompletitud").innerHTML = historia.porcentaje_completitud + "%"
+        document.getElementById("BarraPorcentajeCompletitud").style.width = historia.porcentaje_completitud + "%"
+        document.getElementById("mostrarPorcentajeCompletitud").style.display = "block"
         mapearDatosProfesional(historia.id_profesional)
     }
 
@@ -4063,6 +4382,33 @@
                 $("#loader-pdf").hide();
             })
             .catch(error => console.error('Error:', error));
+    }
+
+    function mostrarPorcentajeCompletitud() {
+            //mosrtar camspo incompletos
+            validarFormularioEnvio();
+            //mostrar campos incompletos
+            var porcentaje = window.porcentajeCompletitud;
+            var camposIncompletos = window.camposIncompletos;
+            console.log(window.camposIncompletos);
+            var mensaje = "";
+
+            debugger;
+            
+                if (camposIncompletos.length > 0) {
+                // Obtener los nombres de los campos faltantes
+                var labelsIncompletos = camposIncompletos.map(campo => {
+                    // Buscar el objeto cuyo nombre coincida
+                    var campoEncontrado = nombreCampos.find(item => item.nombre === campo);
+                    return campoEncontrado ? campoEncontrado.label : campo;
+                });
+
+                mensaje = "Los campos incompletos son: " + labelsIncompletos.join(", ");
+            }
+            swal("Progreso del formulario", 
+             `Has completado el ${porcentaje}% de los campos requeridos. ${mensaje}`, 
+             "info");
+            
     }
 </script>
 

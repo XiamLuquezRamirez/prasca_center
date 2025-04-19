@@ -138,7 +138,8 @@ class HistoriasController extends Controller
             return redirect("/")->with("error", "Su Sesión ha Terminado");
         }
     }
-    public function otrosInformes(){
+    public function otrosInformes()
+    {
         if (Auth::check()) {
             $fecha1 = request()->get('fecha1');
             $fecha2 = request()->get('fecha2');
@@ -147,33 +148,30 @@ class HistoriasController extends Controller
             $fechaFin = \Carbon\Carbon::createFromFormat('d/m/Y', $fecha2)->format('Y-m-d') . 'T23:59:59';
 
             $recaudo = DB::connection('mysql')
-            ->table('pagos')
-            ->selectRaw('DATE(fecha_pago) as fecha, SUM(pago_realizado) as total_recaudo')
-            ->where('estado', 'ACTIVO')
-            ->whereBetween('fecha_pago', [$fechaInicio, $fechaFin])
-            ->groupBy('fecha')
-            ->orderBy('fecha', 'asc')
-            ->get();
+                ->table('pagos')
+                ->selectRaw('DATE(fecha_pago) as fecha, SUM(pago_realizado) as total_recaudo')
+                ->where('estado', 'ACTIVO')
+                ->whereBetween('fecha_pago', [$fechaInicio, $fechaFin])
+                ->groupBy('fecha')
+                ->orderBy('fecha', 'asc')
+                ->get();
 
             $citas = DB::connection('mysql')
-            ->table('citas')
-            ->selectRaw('DATE(inicio) as fecha, COUNT(id) as cant')
-            ->where('estado', 'Atendida')
-            ->whereBetween('inicio', [$fechaInicio, $fechaFin])
-            ->groupBy(DB::raw('DATE(inicio)'))
-            ->orderBy('fecha', 'asc')
-            ->get();
+                ->table('citas')
+                ->selectRaw('DATE(inicio) as fecha, COUNT(id) as cant')
+                ->where('estado', 'Atendida')
+                ->whereBetween('inicio', [$fechaInicio, $fechaFin])
+                ->groupBy(DB::raw('DATE(inicio)'))
+                ->orderBy('fecha', 'asc')
+                ->get();
 
-                return response()->json([
-                    'recaudo' => $recaudo,
-                    'citas' => $citas
-    
-                ]);
+            return response()->json([
+                'recaudo' => $recaudo,
+                'citas' => $citas
 
-
-        }else{
+            ]);
+        } else {
             return redirect("/")->with("error", "Su Sesión ha Terminado");
-
         }
     }
 
@@ -865,7 +863,7 @@ class HistoriasController extends Controller
     {
         $idProf = $request->input('idProf');
         $profesional = Profesional::busquedaProfesionalHitoria($idProf);
-        
+
         //responder si se encontro el profesional con estado
         return response()->json([
             'profesional' => $profesional
@@ -1016,16 +1014,15 @@ class HistoriasController extends Controller
         try {
             $data = $request->all();
             $respuesta = HistoriaPsicologica::Guardar($data);
-            
+
             return response()->json($respuesta);
-            
         } catch (\Exception $e) {
             Log::error('Error en guardarHistoriaPsicologica: ' . $e->getMessage(), [
                 'data' => $request->all(),
                 'file' => $e->getFile(),
                 'line' => $e->getLine()
             ]);
-            
+
             return response()->json([
                 'success' => false,
                 'message' => 'Error al procesar la solicitud',
@@ -1108,7 +1105,7 @@ class HistoriasController extends Controller
         }
     }
 
-    
+
     public function informePsicologiaList(Request $request)
     {
         if (Auth::check()) {
@@ -1292,7 +1289,8 @@ class HistoriasController extends Controller
                     "pacientes.fecha_nacimiento",
                     'historia_clinica.codigo_consulta',
                     'pacientes.id as id_paciente',
-                    'profesionales.nombre as profesional'
+                    'profesionales.nombre as profesional',
+                    'historia_clinica.porcentaje_completitud'
                 );
 
             if ($search) {
@@ -1329,7 +1327,19 @@ class HistoriasController extends Controller
                     $diferencia = $fechaActual->diff($fechaNacimiento);
                     $edadTexto = "{$diferencia->y} años, {$diferencia->m} meses, y {$diferencia->d} días";
 
-
+                    $porcentajeCompletitud = $item->porcentaje_completitud;
+                    if ($porcentajeCompletitud >= 90) {
+                        $bgColor = 'bg-success'; // Verde intenso
+                    } elseif ($porcentajeCompletitud >= 70) {
+                        $bgColor = 'bg-primary'; // Azul
+                    } elseif ($porcentajeCompletitud >= 50) {
+                        $bgColor = 'bg-info'; // Celeste
+                    } elseif ($porcentajeCompletitud >= 20) {
+                        $bgColor = 'bg-warning'; // Amarillo/naranja
+                    } else {
+                        $bgColor = 'bg-danger'; // Rojo
+                    }
+                    
                     $tdTable .= ' <div class="box pull-up">
                                 <div class="box-body">
                                     <div class="d-md-flex justify-content-between align-items-center">
@@ -1342,8 +1352,25 @@ class HistoriasController extends Controller
                                             <h3 class="mb-0 fw-500">Paciente: ' . $item->identificacion_completa . ' - ' . $item->nombre_completo . '</h3>
                                         </div> 
                                         <div class="mt-10 mt-md-0">
-                                    <div class="btn-group mb-5">
-								    <div class="dropdown-menu" style="">
+                                    <div class="btn-group mb-5 mr-10">
+								    <div style="margin-right: 20px;">
+                                        <div>
+                                            <p class="text-fade m-0">Completada</p>
+                                                <div> <label
+                                                    id="tasaPorcentaje">' . $porcentajeCompletitud. '%</label>
+                                                <div
+                                                    class="progress progress-lg">
+                                                        <div id="tasaBarraPorcentaje"
+                                                        class="progress-bar ' . $bgColor . '"
+                                                        role="progressbar"
+                                                            style="width: ' . $porcentajeCompletitud . '%"
+                                                        aria-valuenow="75"
+                                                        aria-valuemin="0"
+                                                        aria-valuemax="100">
+                                                </div>
+                                                </div>
+                                                </div>
+                                            </div>
 								    </div>
 								</div> 
                                 <button type="button" data-id="' . $item->id . '" dapta-tipo="' . $item->tipologia . '" onclick="verHistoria(this)" class="waves-effect waves-light btn btn-info mb-5"><i class="fa fa-search"></i> Ver detalle</button>
@@ -1603,40 +1630,40 @@ class HistoriasController extends Controller
                     <tr>
                         <td colspan="3" style="border: none; padding: 8px 4px 4px 4px;">
                             <span style="font-weight: bold; width: 120px; display: inline-block;">NOMBRE:</span>
-                            <span style="border-bottom: 1px solid #ccc; padding-bottom: 2px;">' . 
-                                $paciente->primer_nombre . ' ' . 
-                                $paciente->segundo_nombre . ' ' . 
-                                $paciente->primer_apellido . ' ' . 
-                                $paciente->segundo_apellido . 
-                            '</span>
+                            <span style="border-bottom: 1px solid #ccc; padding-bottom: 2px;">' .
+                $paciente->primer_nombre . ' ' .
+                $paciente->segundo_nombre . ' ' .
+                $paciente->primer_apellido . ' ' .
+                $paciente->segundo_apellido .
+                '</span>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="3" style="border: none; padding: 8px 4px 4px 4px;">
                             <span style="font-weight: bold; width: 120px; display: inline-block;">NACIMIENTO:</span>
-                            <span style="border-bottom: 1px solid #ccc; padding-bottom: 2px;">' . 
-                                $fechaNacimiento . ' - ' . $paciente->lugar_nacimiento . 
-                            '</span>
+                            <span style="border-bottom: 1px solid #ccc; padding-bottom: 2px;">' .
+                $fechaNacimiento . ' - ' . $paciente->lugar_nacimiento .
+                '</span>
                                     </td>
                                 </tr>
                     <tr>
                         <td style="border: none; padding: 8px 4px 4px 4px; width: 40%;">
                             <span style="font-weight: bold; width: 120px; display: inline-block;">IDENTIFICACIÓN:</span>
-                            <span style="border-bottom: 1px solid #ccc; padding-bottom: 2px;">' . 
-                                $paciente->tipo_identificacion . ' ' . $paciente->identificacion . 
-                            '</span>
+                            <span style="border-bottom: 1px solid #ccc; padding-bottom: 2px;">' .
+                $paciente->tipo_identificacion . ' ' . $paciente->identificacion .
+                '</span>
                                     </td>
                         <td style="border: none; padding: 8px 4px 4px 4px; width: 30%;">
                             <span style="font-weight: bold; width: 60px; display: inline-block;">EDAD:</span>
-                            <span style="border-bottom: 1px solid #ccc; padding-bottom: 2px;">' . 
-                                $paciente->edad . 
-                            '</span>
+                            <span style="border-bottom: 1px solid #ccc; padding-bottom: 2px;">' .
+                $paciente->edad .
+                '</span>
                                     </td>
                         <td style="border: none; padding: 8px 4px 4px 4px; width: 30%;">
                             <span style="font-weight: bold; width: 60px; display: inline-block;">SEXO:</span>
-                            <span style="border-bottom: 1px solid #ccc; padding-bottom: 2px;">' . 
-                                (($paciente->sexo === "M") ? "Mujer" : "Hombre") . 
-                            '</span>
+                            <span style="border-bottom: 1px solid #ccc; padding-bottom: 2px;">' .
+                (($paciente->sexo === "M") ? "Mujer" : "Hombre") .
+                '</span>
                         </td>
                     </tr>                   
                 </table>
@@ -1736,14 +1763,14 @@ class HistoriasController extends Controller
 
         $historia = HistoriaPsicologica::busquedaHistoria($idHist);
 
-        
+
         $pacientes = Pacientes::busquedaPaciente($historia->id_paciente);
         $antecedentesPersonales = HistoriaPsicologica::busquedaAntecedentes($historia->id);
         $antecedentesFamiliares = HistoriaPsicologica::busquedaAntFamiliares($historia->id);
         $areaAjuste = HistoriaPsicologica::busquedaAreaAjuste($historia->id);
         $interconuslta = HistoriaPsicologica::busquedaInterconsulta($historia->id);
-        $examenMental = HistoriaPsicologica::busquedaExamenMental($historia->id);        
-   
+        $examenMental = HistoriaPsicologica::busquedaExamenMental($historia->id);
+
         $antecedentesPrenatales = HistoriaPsicologica::busquedaAntPrenatales($historia->id);
         $antecedentesNatales = HistoriaPsicologica::busquedaAntNatales($historia->id);
         $antecedentesPosnatales = HistoriaPsicologica::busquedaAntPosnatales($historia->id);
@@ -1775,14 +1802,14 @@ class HistoriasController extends Controller
 
     public function imprimirConsulta(Request $request)
     {
-       
+
         $idConsulta = $request->input('idConsulta');
-        
+
         if (Auth::check()) {
             $pdf = new Dompdf();
-            
+
             $consulta = HistoriaPsicologica::busquedaConsultaImprimir($idConsulta);
-         
+
 
             $idPaciente = DB::connection('mysql')->table('historia_clinica')
                 ->where('id', $consulta->id_historia)
@@ -1874,40 +1901,40 @@ class HistoriasController extends Controller
                     <tr>
                         <td colspan="3" style="border: none; padding: 8px 4px 4px 4px;">
                             <span style="font-weight: bold; width: 120px; display: inline-block;">NOMBRE:</span>
-                            <span style="border-bottom: 1px solid #ccc;">' . 
-                                $paciente->primer_nombre . ' ' . 
-                                $paciente->segundo_nombre . ' ' . 
-                                $paciente->primer_apellido . ' ' . 
-                                $paciente->segundo_apellido . 
-                            '</span>
+                            <span style="border-bottom: 1px solid #ccc;">' .
+                $paciente->primer_nombre . ' ' .
+                $paciente->segundo_nombre . ' ' .
+                $paciente->primer_apellido . ' ' .
+                $paciente->segundo_apellido .
+                '</span>
                                     </td>
                                 </tr>
                     <tr>
                         <td colspan="3" style="border: none; padding: 8px 4px 4px 4px;">
                             <span style="font-weight: bold; width: 120px; display: inline-block;">NACIMIENTO:</span>
-                            <span style="border-bottom: 1px solid #ccc; ">' . 
-                                $fechaNacimiento . ' - ' . $paciente->lugar_nacimiento . 
-                            '</span>
+                            <span style="border-bottom: 1px solid #ccc; ">' .
+                $fechaNacimiento . ' - ' . $paciente->lugar_nacimiento .
+                '</span>
                         </td>
                     </tr>
                     <tr>
                         <td style="border: none; padding: 8px 4px 4px 4px; width: 40%;">
                             <span style="font-weight: bold; width: 150px; display: inline-block;">IDENTIFICACIÓN:</span>
-                            <span style="border-bottom: 1px solid #ccc; ">' . 
-                                $paciente->tipo_identificacion . ' ' . $paciente->identificacion . 
-                            '</span>
+                            <span style="border-bottom: 1px solid #ccc; ">' .
+                $paciente->tipo_identificacion . ' ' . $paciente->identificacion .
+                '</span>
                                     </td>
                         <td style="border: none; padding: 8px 4px 4px 4px; width: 40%;">
                             <span style="font-weight: bold; width: 60px; display: inline-block;">EDAD:</span>
-                            <span style="border-bottom: 1px solid #ccc; ">' . 
-                                $paciente->edad . 
-                            '</span>
+                            <span style="border-bottom: 1px solid #ccc; ">' .
+                $paciente->edad .
+                '</span>
                                     </td>
                         <td style="border: none; padding: 8px 4px 4px 4px; width: 20%;">
                             <span style="font-weight: bold; width: 60px; display: inline-block;">SEXO:</span>
-                            <span style="border-bottom: 1px solid #ccc; ">' . 
-                                (($paciente->sexo === "M") ? "Mujer" : "Hombre") . 
-                            '</span>
+                            <span style="border-bottom: 1px solid #ccc; ">' .
+                (($paciente->sexo === "M") ? "Mujer" : "Hombre") .
+                '</span>
                                     </td>
                                 </tr>
                             </table>
@@ -1932,12 +1959,12 @@ class HistoriasController extends Controller
                     ' . $consulta->impresion_diagnostica->diagnostico . '
                 </div>';
 
-                if($consulta->otra_impresion_diagnostica) {
-                    $html .= '<div class="section">
+            if ($consulta->otra_impresion_diagnostica) {
+                $html .= '<div class="section">
                         <h4>OTRO TIPO DE IMPRESIÓN DIAGNÓSTICA:</h4>
                     ' . $consulta->otra_impresion_diagnostica . '
                 </div>';
-                }
+            }
 
             $html .= '<div class="section">
                     <h4>OBJETIVO DE LA SESSIÓN</h4>
@@ -1976,7 +2003,7 @@ class HistoriasController extends Controller
                 </div></div>
             </body>
             </html>';
-           
+
             $pdf->loadHtml($html);
             $pdf->setPaper('A4', 'portrait');
             $pdf->render();
@@ -1988,12 +2015,11 @@ class HistoriasController extends Controller
                 'Content-Type' => 'application/pdf',
                 'Content-Disposition' => 'attachment; filename="resultado_consulta_psicologica.pdf"',
             ];
-           
-           
+
+
             $pdfContent = $pdf->output();
 
-        return response($pdfContent, 200, $headers);
-
+            return response($pdfContent, 200, $headers);
         } else {
             return redirect("/")->with("error", "Su Sesión ha Terminado");
         }
@@ -2003,12 +2029,12 @@ class HistoriasController extends Controller
     {
         $idConsulta = $request->input('idConsulta');
 
-       
+
         if (Auth::check()) {
             $pdf = new Dompdf();
-            
+
             $consulta = HistoriaPsicologica::busquedaConsultaImprimir($idConsulta);
-         
+
 
             $idPaciente = DB::connection('mysql')->table('historia_clinica')
                 ->where('id', $consulta->id_historia)
@@ -2100,40 +2126,40 @@ class HistoriasController extends Controller
                     <tr>
                         <td colspan="3" style="border: none; padding: 8px 4px 4px 4px;">
                             <span style="font-weight: bold; width: 120px; display: inline-block;">NOMBRE:</span>
-                            <span style="border-bottom: 1px solid #ccc;">' . 
-                                $paciente->primer_nombre . ' ' . 
-                                $paciente->segundo_nombre . ' ' . 
-                                $paciente->primer_apellido . ' ' . 
-                                $paciente->segundo_apellido . 
-                            '</span>
+                            <span style="border-bottom: 1px solid #ccc;">' .
+                $paciente->primer_nombre . ' ' .
+                $paciente->segundo_nombre . ' ' .
+                $paciente->primer_apellido . ' ' .
+                $paciente->segundo_apellido .
+                '</span>
                         </td>
                     </tr>
                     <tr>                 
                         <td colspan="3" style="border: none; padding: 8px 4px 4px 4px;">
                             <span style="font-weight: bold; width: 120px; display: inline-block;">NACIMIENTO:</span>
-                            <span style="border-bottom: 1px solid #ccc; ">' . 
-                                $fechaNacimiento . ' - ' . $paciente->lugar_nacimiento . 
-                            '</span>
+                            <span style="border-bottom: 1px solid #ccc; ">' .
+                $fechaNacimiento . ' - ' . $paciente->lugar_nacimiento .
+                '</span>
                         </td>
                     </tr>
                     <tr>
                         <td style="border: none; padding: 8px 4px 4px 4px; width: 40%;">
                             <span style="font-weight: bold; width: 150px; display: inline-block;">IDENTIFICACIÓN:</span>
-                            <span style="border-bottom: 1px solid #ccc; ">' . 
-                                $paciente->tipo_identificacion . ' ' . $paciente->identificacion . 
-                            '</span>
+                            <span style="border-bottom: 1px solid #ccc; ">' .
+                $paciente->tipo_identificacion . ' ' . $paciente->identificacion .
+                '</span>
                         </td>
                         <td style="border: none; padding: 8px 4px 4px 4px; width: 40%;">
                             <span style="font-weight: bold; width: 60px; display: inline-block;">EDAD:</span>
-                            <span style="border-bottom: 1px solid #ccc; ">' . 
-                                $paciente->edad . 
-                            '</span>
+                            <span style="border-bottom: 1px solid #ccc; ">' .
+                $paciente->edad .
+                '</span>
                         </td>
                         <td style="border: none; padding: 8px 4px 4px 4px; width: 20%;">
                             <span style="font-weight: bold; width: 60px; display: inline-block;">SEXO:</span>
-                            <span style="border-bottom: 1px solid #ccc; ">' . 
-                                (($paciente->sexo === "M") ? "Mujer" : "Hombre") . 
-                            '</span>
+                            <span style="border-bottom: 1px solid #ccc; ">' .
+                (($paciente->sexo === "M") ? "Mujer" : "Hombre") .
+                '</span>
                         </td>
                     </tr>
                 </table>
@@ -2158,12 +2184,12 @@ class HistoriasController extends Controller
                     ' . $consulta->impresion_diagnostica->diagnostico . '
                 </div>';
 
-                if($consulta->otra_impresion_diagnostica) {
-                    $html .= '<div class="section">
+            if ($consulta->otra_impresion_diagnostica) {
+                $html .= '<div class="section">
                         <h4>OTRO TIPO DE IMPRESIÓN DIAGNÓSTICA:</h4>
                     ' . $consulta->otra_impresion_diagnostica . '
                 </div>';
-                }
+            }
 
             $html .= '<div class="section">
                     <h4>OBJETIVO DE LA SESSIÓN</h4>
@@ -2214,20 +2240,20 @@ class HistoriasController extends Controller
                 'Content-Type' => 'application/pdf',
                 'Content-Disposition' => 'attachment; filename="resultado_consulta_psicologica.pdf"',
             ];
-           
-           
+
+
             $pdfContent = $pdf->output();
 
-            
-            if($paciente->email == "" || $paciente->email == null) {
-                return response()->json(['resultado' => "noCorreo"]);
-        } else {
-                    //enviar al correo del paciente el pdf
-                    $mail = new PHPMailer(true);
-                    $mensaje = 'Se ha enviado un archivo adjunto con el resultado de la consulta psicologica';
-                    $asunto = 'Resultado de Consulta Psicologica - Prasca Center';
 
-                    $contenido = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+            if ($paciente->email == "" || $paciente->email == null) {
+                return response()->json(['resultado' => "noCorreo"]);
+            } else {
+                //enviar al correo del paciente el pdf
+                $mail = new PHPMailer(true);
+                $mensaje = 'Se ha enviado un archivo adjunto con el resultado de la consulta psicologica';
+                $asunto = 'Resultado de Consulta Psicologica - Prasca Center';
+
+                $contenido = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
                     <html xmlns='http://www.w3.org/1999/xhtml'>
                     <head>
                     <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
@@ -2493,48 +2519,43 @@ class HistoriasController extends Controller
                     </body>
                     </html>";
 
-                    try {
-                        require base_path("vendor/autoload.php");
-                        $mail->isSMTP();
-                        $mail->Host = 'mail.prascacenter.com';  // Servidor SMTP de tu hosting
-                        $mail->SMTPAuth = true;
-                        $mail->Username = 'notificaciones@prascacenter.com'; // Tu correo completo
-                        $mail->Password = 'isabel_2025*'; // Tu contraseña
-                        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // O ENCRYPTION_SMTPS si usas SSL
-                        $mail->Port = 587; // 465 si usas SSL, 587 para TLS
-            
-                        $mail->CharSet = 'UTF-8';
-                        $mail->Encoding = 'base64';
-                        // Opcional: Si hay problemas con el certificado SSL
-                        $mail->SMTPOptions = [
-                            'ssl' => [
-                                'verify_peer' => false,
-                                'verify_peer_name' => false,
-                                'allow_self_signed' => true
-                            ]
-                        ];
-            
-                        // Configuración del correo
-                        $mail->setFrom('notificaciones@prascacenter.com', 'Prasca Center');
-                        $mail->addAddress($paciente->email, $paciente->primer_nombre . ' ' . $paciente->segundo_nombre . ' ' . $paciente->primer_apellido . ' ' . $paciente->segundo_apellido); // Correo y nombre del destinatario
-                        $mail->isHTML(true);
-                        $mail->Subject = $asunto;
-                        $mail->Body = $contenido;
-                        $mail->addStringAttachment($pdfContent, 'resultado_consulta_psicologica.pdf');
-                        // Enviar el correo
-                        $mail->send();
-                        return response()->json(['resultado' => "enviado"]);
-                        
-                    }catch (Exception $e) {
-                        return response()->json(['resultado' => "error"]);
-                    }
+                try {
+                    require base_path("vendor/autoload.php");
+                    $mail->isSMTP();
+                    $mail->Host = 'mail.prascacenter.com';  // Servidor SMTP de tu hosting
+                    $mail->SMTPAuth = true;
+                    $mail->Username = 'notificaciones@prascacenter.com'; // Tu correo completo
+                    $mail->Password = 'isabel_2025*'; // Tu contraseña
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // O ENCRYPTION_SMTPS si usas SSL
+                    $mail->Port = 587; // 465 si usas SSL, 587 para TLS
 
-               }
+                    $mail->CharSet = 'UTF-8';
+                    $mail->Encoding = 'base64';
+                    // Opcional: Si hay problemas con el certificado SSL
+                    $mail->SMTPOptions = [
+                        'ssl' => [
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                            'allow_self_signed' => true
+                        ]
+                    ];
 
+                    // Configuración del correo
+                    $mail->setFrom('notificaciones@prascacenter.com', 'Prasca Center');
+                    $mail->addAddress($paciente->email, $paciente->primer_nombre . ' ' . $paciente->segundo_nombre . ' ' . $paciente->primer_apellido . ' ' . $paciente->segundo_apellido); // Correo y nombre del destinatario
+                    $mail->isHTML(true);
+                    $mail->Subject = $asunto;
+                    $mail->Body = $contenido;
+                    $mail->addStringAttachment($pdfContent, 'resultado_consulta_psicologica.pdf');
+                    // Enviar el correo
+                    $mail->send();
+                    return response()->json(['resultado' => "enviado"]);
+                } catch (Exception $e) {
+                    return response()->json(['resultado' => "error"]);
+                }
+            }
         } else {
             return redirect("/")->with("error", "Su Sesión ha Terminado");
         }
-        
     }
-
 }

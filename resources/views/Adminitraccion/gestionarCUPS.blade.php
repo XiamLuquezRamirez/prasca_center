@@ -1,16 +1,16 @@
 @extends('Plantilla.Principal')
-@section('title', 'Gestionar CUPS')
+@section('title', 'Gestionar Códigos (CUPS)')
 @section('Contenido')
     <div class="content-header">
         <div class="d-flex align-items-center">
             <div class="me-auto">
-                <h4 class="page-title">Gestionar CUPS </h4>
+                <h4 class="page-title">Gestionar Códigos (CUPS) </h4>
                 <div class="d-inline-block align-items-center">
                     <nav>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
                             <li class="breadcrumb-item" aria-current="page">Inicio</li>
-                            <li class="breadcrumb-item active" aria-current="page">Gestionar CUPS</li>
+                            <li class="breadcrumb-item active" aria-current="page">Gestionar Códigos (CUPS)</li>
                         </ol>
                     </nav>
                 </div>
@@ -25,7 +25,7 @@
             <div id="listado" class="col-12 col-xl-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title">Listado de CUPS </h5>
+                        <h5 class="card-title">Listado de Códigos (CUPS) </h5>
                     </div>
                     <div class="card-body">
                         <div class="box-controls pull-right">
@@ -37,7 +37,7 @@
                                     </div>
                                     <button type="button" onclick="nuevoRegistro(1);"
                                         class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i> Nuevo
-                                        CUPS</button>
+                                        Códigos (CUPS)</button>
                                 </div>
 
                             </div>
@@ -70,7 +70,7 @@
         <div class="modal-dialog modal-dialog-centered" style="max-width: 40%;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="tituloAccion">Agregar CUPS</h4>
+                    <h4 class="modal-title" id="tituloAccion">Agregar Códigos (CUPS)</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                 </div>
                 <div class="modal-body">

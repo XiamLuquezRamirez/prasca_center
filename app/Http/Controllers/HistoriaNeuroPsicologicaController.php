@@ -86,6 +86,254 @@ class HistoriaNeuroPsicologicaController extends Controller
         }
     }
 
+    public function imprimirInformeNeuropsicologia(Request $request)
+    {
+
+        if (Auth::check()) {
+
+            $pdf = new Dompdf();
+            $idInforme = $request->input('idInforme');
+            $informe = HistoriaNeuroPsicologica::busquedaInforme($idInforme);
+
+            // Ruta absoluta al logo
+            $logoPath = public_path('app-assets/images/logo/logo_prasca.png');
+
+            // Convertir la imagen a base64
+            $logoData = base64_encode(file_get_contents($logoPath));
+            $logo = 'data:image/png;base64,' . $logoData;
+
+            $fechaElaboracion = now()->format('d-m-Y');
+            $horaElaboracion = now()->format('H:i:s A');
+
+            $paciente = Pacientes::busquedaPaciente($informe->id_paciente);
+
+            $profesional = Profesional::busquedaProfesional($informe->id_profesional);
+            $firmaPath = public_path('app-assets/images/firmasProfesionales/' . $profesional->firma);
+            $firmaData = base64_encode(file_get_contents($firmaPath));
+            $firma = 'data:image/png;base64,' . $firmaData;
+
+
+            $fechaNacimiento = \Carbon\Carbon::parse($paciente->fecha_nacimiento)->format('d/m/Y h:i A');
+
+
+            $html = '<head>
+                <style>
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        border-width: 0.1px;
+                    }
+                    th, td {
+                        border: 0.1px solid black;
+                        padding: 4px;
+                    }
+                    th {
+                        background-color: #EAEBF4;
+                    }
+                    tr:nth-child(even) {
+                        background-color: #f2f2f2;
+                    }
+                    .no-border {
+                        border: none;
+                        text-align: center;
+                    }
+                    hr {
+                        border-width: 0.1px;
+                        border-color: #333;
+                        border-style: solid;
+                    }
+                    .section {
+                    
+                    }
+                    .section h4 {
+                        background-color: #EAEBF4;
+                        padding: 6px;
+                        margin-bottom: 10px;
+                    }
+                </style>
+            </head>';
+
+            $html .= '<div style="page-break-after: always;">';
+            $html .= '<table style="width:100%; border-collapse: collapse; background-color: transparent;">';
+            $html .= '<tr>';
+            $html .= '<td class="no-border" style="padding: 0;"><img src="' . $logo . '" style="width: 200px; height: auto;"></td>';
+            $html .= '<td class="no-border" style="padding: 0; vertical-align: top;">';
+            $html .= '<p style="margin: 0;">DRA. MARIA ISABEL PUMAREJO</p>';
+            $html .= '<p style="margin: 0;">PSICÒLOGA - T.P. No. 259542</p>';
+            $html .= '<p style="margin: 0;">Calle 11 # 11 - 07 San Joaquin</p>';
+            $html .= '<p style="margin: 0;">Teléfono: 312 5678078</p>';
+            $html .= '</td>';
+            $html .= '</tr>';
+            $html .= '<tr>';
+            $html .= '<td class="no-border" colspan="2" style="text-align: center; padding: 1px;background-color: transparent;"> <h3>INFORME DE NEUROPSICOLOGÍA</h3></td>';
+            $html .= '</tr>';
+            $html .= '</table>';
+
+            $html .= '<table>
+                    <tr>
+                        <td ><b>FECHA DE EVALUACIÓN:</b> ' . $fechaElaboracion . '</td>
+                        <td ><b>HORA:</b> ' . $horaElaboracion . '</td>
+                    </tr>
+                </table>';
+
+            $html .= '<div class="section" >
+                <h4 style="background-color: #EAEBF4; padding: 6px;">1. DATOS DE IDENTIFICACIÓN DEL PACIENTE</h4>
+                <table style="width: 100%; border-collapse: collapse; border: none;">
+                    <tr>
+                        <td colspan="3" style="border: none; padding: 8px 4px 4px 4px;">
+                            <span style="font-weight: bold; width: 90px; display: inline-block;">NOMBRE:</span>
+                            <span style="border-bottom: 1px solid #ccc; display: inline-block;"">' .
+                $paciente->primer_nombre . ' ' .
+                $paciente->segundo_nombre . ' ' .
+                $paciente->primer_apellido . ' ' .
+                $paciente->segundo_apellido .
+                '</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="border: none; padding: 8px 4px 4px 4px;">
+                            <span style="font-weight: bold; width: 200px; display: inline-block;">FECHA DE NACIMIENTO:</span>
+                            <span style="border-bottom: 1px solid #ccc; display: inline-block;"">' .
+                $fechaNacimiento . ' - ' . $paciente->lugar_nacimiento .
+                '</span>
+                                    </td>
+                                </tr>
+                    <tr>
+                        <td style="border: none; padding: 8px 4px 4px 4px; width: 40%;">
+                            <span style="font-weight: bold; width: 150px; display: inline-block;">IDENTIFICACIÓN:</span>
+                            <span style="border-bottom: 1px solid #ccc; display: inline-block;"">' .
+                $paciente->tipo_identificacion . ' ' . $paciente->identificacion .
+                '</span>
+                                    </td>
+                        <td style="border: none; padding: 8px 4px 4px 4px; width: 40%;">
+                            <span style="font-weight: bold; width: 60px; display: inline-block;">EDAD:</span>
+                            <span style="border-bottom: 1px solid #ccc; display: inline-block;"">' .
+                $paciente->edad .
+                '</span>
+                                    </td>
+                        <td style="border: none; padding: 8px 4px 4px 4px; width: 20%;">
+                            <span style="font-weight: bold; width: 60px; display: inline-block;">SEXO:</span>
+                            <span style="border-bottom: 1px solid #ccc; display: inline-block;"">' .
+                (($paciente->sexo === "M") ? "Mujer" : "Hombre") .
+                '</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="border: none; padding: 8px 4px 4px 4px;">
+                            <span style="font-weight: bold; width: 130px; display: inline-block;">ACOMPAÑANTE:</span>
+                            <span style="border-bottom: 1px solid #ccc; display: inline-block;"">' .
+                $paciente->acompanante .
+                '</span>
+                        </td>
+                        <td style="border: none; padding: 8px 4px 4px 4px;">
+                            <span style="font-weight: bold; width: 120px; display: inline-block;">TELÉFONO:</span>
+                            <span style="border-bottom: 1px solid #ccc; display: inline-block;"">' .
+                $paciente->telefono_acompanate .
+                '</span>
+                        </td>
+                    </tr>                   
+                </table>
+            </div>';
+
+            $html .= '<div class="section">
+                    <h4>2. MOTIVO DE CONSULTA:</h4>
+                    <p>' . $informe->motivo_consulta . '</p>
+                </div>
+
+                <div class="section">
+                    <h4>3. ESTADO ACTUAL:</h4>
+                     ' . $informe->estado_actual . '
+                </div>
+
+                <div class="section">
+                    <h4>4. HISTORIA PERSONAL</h4>
+                    ' . $informe->historia_personal . '
+                </div>
+
+                <div class="section">
+                    <h4>5. DESARROLLO PSICOMOTOR</h4>
+                    ' . $informe->desarrollo_psicomotor . '
+                </div>';
+
+            $html .= '<div class="section">
+                    <h4>6. DESARROLLO LENGUAJE</h4>
+                        ' . $informe->desarrollo_lenguaje . '
+                </div>';
+
+            $html .= '<div class="section">
+                        <h4>7. EVALUACIÒN ACTUAL</h4>
+                        ' . $informe->abc . '
+                </div>';
+
+            $html .= '<div class="section">
+                        <h4>8. ANTECEDENTES MÉDICOS Y FAMILIARES</h4>
+                        ' . $informe->antecedentes_medicos_familiares . '
+                </div>';
+
+            $html .= '<div class="section"></div>
+                        <h4>9. ANTECEDENTES PERSONALES</h4>
+                        ' . $informe->antecedentes_personales . '
+                </div>';
+
+
+            $html .= '<div class="section"> 
+                        <h4>10. HISTORIA DE DESARROLLO</h4>
+                        ' . $informe->historia_desarrollo . '
+                </div>';
+
+            $html .= '<div class="section"> 
+                        <h4>11. HISTORIA ESCOLAR</h4>
+                        ' . $informe->historia_escolar . '
+                </div>';
+
+            $html .= '<div class="section"> 
+                        <h4>12. HISTORIA SOCIOAFECTIVA</h4>
+                        ' . $informe->historia_socio_afectiva . '
+                </div>';
+
+            $html .= '<div class="section"> 
+                        <h4>13. CONDICIÓN DEL PACIENTE EN LA CONSULTA</h4>
+                        ' . $informe->condicion_paciente . '
+                </div>';
+
+            $html .= '<div class="section">
+                        <h4>14. RESULTADO DE LA EVALUACIÓN</h4>
+                        ' . $informe->resultados_evaluacion . '
+                </div>';
+
+            $html .= '<div class="section">
+                        <h4>15. IMPRESIÓN DIAGNÓSTICA</h4>
+                        ' . $informe->impresion_diagnostica . '
+                </div>';
+
+            $html .= '<div class="section">
+                    <table style="width:100%; margin-top: 20px; border-collapse: collapse; background-color: transparent;">
+                        <tr><td class="no-border" style="text-align: left;"><b>' . $profesional->nombre . '</b></td></tr>
+                        <tr><td class="no-border" style="text-align: left;"><img width="100" src="' . $firma . '" /></td></tr>
+                        <tr><td class="no-border" style="text-align: left;"><b>TARJETA PROFESIONAL: ' . $profesional->registro . '</b></td></tr>
+                    </table>
+                </div></div>
+            </body>
+            </html>';
+
+            $pdf->loadHtml($html);
+            $pdf->setPaper('A4', 'portrait');
+            $pdf->render();
+
+            $pdfContent = $pdf->output();
+
+            // Encabezados de respuesta para el archivo PDF
+            $headers = [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'attachment; filename="InformeNeuropsicologico.pdf"',
+            ];
+
+            return response($pdfContent, 200, $headers);
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+
     public function buscaPruebaVenta(Request $request)
     {
         $idPrueba = $request->input('idPrueba');
@@ -285,47 +533,7 @@ class HistoriaNeuroPsicologicaController extends Controller
         }
 
         $data = $request->all();
-
-        if ($request->hasFile('archivos')) {
-            $archivos = $request->file('archivos'); // Obtiene todos los archivos con el name "archivos[]"
-
-            $arc = [];
-            $tip = [];
-            $nom = [];
-            $siz = [];
-
-            foreach ($archivos as $archivo) {
-                $nombreOriginal = $archivo->getClientOriginalName();
-                $tipoMime = $archivo->getClientMimeType();
-                $peso = $archivo->getSize();
-                // Generar un nombre único para el archivo
-                $prefijo = substr(md5(uniqid(rand())), 0, 6);
-                $nombreArchivo = self::sanear_string($prefijo . '_' . $nombreOriginal);
-
-                // Mover el archivo a la carpeta deseada
-                $archivo->move(public_path('anexosPacientes'), $nombreArchivo);
-
-                // Almacenar la información del archivo en arrays
-                $arc[] = $nombreArchivo;
-                $tip[] = $tipoMime;
-                $nom[] = $nombreOriginal;
-                $siz[] = $peso;
-            }
-
-            // Preparar los datos para trabajar con ellos o almacenarlos
-
-            $data['archivo'] = $arc;
-            $data['tipoArc'] = $tip;
-            $data['nombre'] = $nom;
-            $data['peso'] = $siz;
-
-            // Aquí puedes guardar la información en la base de datos si lo necesitas
-            // Ejemplo: Archivo::createMany($data);
-        }
-
         $respuesta = HistoriaNeuroPsicologica::guardarInforme($data);
-
-
 
         // Verificar el resultado y preparar la respuesta
         if ($respuesta) {
@@ -456,19 +664,19 @@ class HistoriaNeuroPsicologicaController extends Controller
             }
 
             $pacientesEvol = DB::connection('mysql')
-                ->table('consultas_psicologica_neuro')
-                ->leftJoin('historia_clinica_neuro', 'historia_clinica_neuro.id', '=', 'consultas_psicologica_neuro.id_historia')
-                ->leftJoin('profesionales', 'profesionales.usuario', 'consultas_psicologica_neuro.id_profesional')
-                ->leftJoin('pacientes', 'pacientes.id', '=', 'historia_clinica_neuro.id_paciente')
-                ->where('consultas_psicologica_neuro.estado', 'ACTIVO')
+                ->table('informe_evolucion_neuropsicologia')
+                ->leftJoin('profesionales', 'profesionales.id', 'informe_evolucion_neuropsicologia.id_profesional')
+                ->leftJoin('pacientes', 'pacientes.id', '=', 'informe_evolucion_neuropsicologia.id_paciente')
+                ->where('informe_evolucion_neuropsicologia.estado', 'ACTIVO')
+                ->orderBy('informe_evolucion_neuropsicologia.fecha_creacion', 'desc')
                 ->select(
-                    'pacientes.id',
+                    'informe_evolucion_neuropsicologia.id',
                     'profesionales.nombre as profesional',
+                    'informe_evolucion_neuropsicologia.fecha_creacion',
                     DB::raw("CONCAT(pacientes.tipo_identificacion, ' ', pacientes.identificacion) as identificacion"),
                     DB::raw("CONCAT(primer_nombre, ' ', segundo_nombre, ' ', primer_apellido, ' ', segundo_apellido) as nombre"),
-                    DB::raw('MAX(consultas_psicologica_neuro.fecha_consulta) as ultima_fecha_consulta')
                 )
-                ->groupBy('pacientes.id', 'tipo_identificacion', 'identificacion', 'primer_nombre', 'segundo_nombre', 'primer_apellido', 'segundo_apellido', 'profesionales.nombre');
+                ->groupBy('informe_evolucion_neuropsicologia.id', 'tipo_identificacion', 'identificacion', 'primer_nombre', 'segundo_nombre', 'primer_apellido', 'segundo_apellido', 'profesionales.nombre', 'informe_evolucion_neuropsicologia.fecha_creacion');
 
 
 
@@ -491,13 +699,17 @@ class HistoriaNeuroPsicologicaController extends Controller
             foreach ($ListPacientesEvol as $i => $item) {
                 if (!is_null($item)) {
                     $tdTable .= '<tr>
-                                    <td>' . $item->identificacion . ' - ' . $item->nombre . '</td>
-                                    <td>' . date('d/m/Y g:i:s A', strtotime($item->ultima_fecha_consulta)) . '</td>
-                                    <td>' . $item->profesional . '</td>
-                                    <td class="table-action min-w-100">
-                                        <a onclick="imprimirInforme(' . $item->id . ');" style="cursor: pointer;" title="Imprimir informe" class="text-fade hover-warning"><i class="align-middle"
+                                    <td style="text-transform: capitalize;">' . $item->identificacion . ' - ' . $item->nombre . '</td>
+                                    <td>' . date('d/m/Y g:i:s A', strtotime($item->fecha_creacion)) . '</td>
+                                    <td style="text-transform: capitalize;">' . $item->profesional . '</td>
+                                    <td>
+                                        <a onclick="generarPDF(' . $item->id . ');" style="cursor: pointer;" title="Imprimir informe" class="text-fade hover-warning"><i class="align-middle"
                                                 data-feather="file-text"></i></a>
-                                    </td>
+                                        <a onclick="editarInforme(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
+                                                data-feather="edit-2"></i></a>
+                                        <a onclick="eliminarInforme(' . $item->id . ');" style="cursor: pointer;" title="Eliminar" class="text-fade hover-warning"><i class="align-middle"
+                                                data-feather="trash"></i></a>
+                                    </td>                               
                                 </tr>';
                     $x++;
                 }
@@ -576,13 +788,12 @@ class HistoriaNeuroPsicologicaController extends Controller
     {
         $idInforme = $request->input('idInforme');
         $informe = HistoriaNeuroPsicologica::busquedaInforme($idInforme);
-        $anexos = HistoriaNeuroPsicologica::busquedaAnexosInformes($idInforme);
 
         return response()->json([
-            'informe' => $informe,
-            'anexos'  => $anexos
+            'informe' => $informe
         ]);
     }
+
     public function buscarAnexosInforme(Request $request)
     {
         $idInforme = $request->input('idInforme');
@@ -607,16 +818,15 @@ class HistoriaNeuroPsicologicaController extends Controller
         try {
             $data = $request->all();
             $respuesta = HistoriaNeuroPsicologica::Guardar($data);
-            
+
             return response()->json($respuesta);
-            
         } catch (\Exception $e) {
             Log::error('Error en guardarHistoriaNeuroPsicologica: ' . $e->getMessage(), [
                 'data' => $request->all(),
                 'file' => $e->getFile(),
                 'line' => $e->getLine()
             ]);
-            
+
             return response()->json([
                 'success' => false,
                 'message' => 'Error al procesar la solicitud',
@@ -812,7 +1022,9 @@ class HistoriaNeuroPsicologicaController extends Controller
                     "pacientes.fecha_nacimiento",
                     'historia_clinica_neuro.codigo_consulta',
                     'pacientes.id as id_paciente',
-                    'profesionales.nombre as profesional'
+                    'profesionales.nombre as profesional',
+                    'historia_clinica_neuro.porcentaje_completitud'
+
                 );
 
             if ($search) {
@@ -850,6 +1062,20 @@ class HistoriaNeuroPsicologicaController extends Controller
                     $diferencia = $fechaActual->diff($fechaNacimiento);
                     $edadTexto = "{$diferencia->y} años, {$diferencia->m} meses, y {$diferencia->d} días";
 
+
+                    $porcentajeCompletitud = $item->porcentaje_completitud;
+                    if ($porcentajeCompletitud >= 90) {
+                        $bgColor = 'bg-success'; // Verde intenso
+                    } elseif ($porcentajeCompletitud >= 70) {
+                        $bgColor = 'bg-primary'; // Azul
+                    } elseif ($porcentajeCompletitud >= 50) {
+                        $bgColor = 'bg-info'; // Celeste
+                    } elseif ($porcentajeCompletitud >= 20) {
+                        $bgColor = 'bg-warning'; // Amarillo/naranja
+                    } else {
+                        $bgColor = 'bg-danger'; // Rojo
+                    }
+
                     $tdTable .= ' <div class="box pull-up">
                     <div class="box-body">
                         <div class="d-md-flex justify-content-between align-items-center">
@@ -863,9 +1089,25 @@ class HistoriaNeuroPsicologicaController extends Controller
                             </div>
                             <div class="mt-10 mt-md-0">
                         <div class="btn-group mb-5">
-                        <div class="dropdown-menu" style="">
-                        
-                        </div>
+                        <div style="margin-right: 20px;">
+                                        <div>
+                                            <p class="text-fade m-0">Completada</p>
+                                                <div> <label
+                                                    id="tasaPorcentaje">' . $porcentajeCompletitud. '%</label>
+                                                <div
+                                                    class="progress progress-lg">
+                                                        <div id="tasaBarraPorcentaje"
+                                                        class="progress-bar ' . $bgColor . '"
+                                                        role="progressbar"
+                                                            style="width: ' . $porcentajeCompletitud . '%"
+                                                        aria-valuenow="75"
+                                                        aria-valuemin="0"
+                                                        aria-valuemax="100">
+                                                </div>
+                                                </div>
+                                                </div>
+                                            </div>
+								    </div>
                     </div> 
                     <button type="button" data-id="' . $item->id . '" dapta-tipo="' . $item->tipologia . '" onclick="verHistoria(this)" class="waves-effect waves-light btn btn-info mb-5"><i class="fa fa-search"></i> Ver detalle</button>
                     </div>
@@ -1016,7 +1258,7 @@ class HistoriaNeuroPsicologicaController extends Controller
         $antecedentesFamiliares = HistoriaNeuroPsicologica::busquedaAntFamiliares($historia->id);
         $areaAjuste = HistoriaNeuroPsicologica::busquedaAreaAjuste($historia->id);
         $interconuslta = HistoriaNeuroPsicologica::busquedaInterconsulta($historia->id);
-        $examenMental = HistoriaNeuroPsicologica::busquedaExamenMental($historia->id); 
+        $examenMental = HistoriaNeuroPsicologica::busquedaExamenMental($historia->id);
         $antecedentesPrenatales = HistoriaNeuroPsicologica::busquedaAntPrenatales($historia->id);
         $antecedentesNatales = HistoriaNeuroPsicologica::busquedaAntNatales($historia->id);
         $antecedentesPosnatales = HistoriaNeuroPsicologica::busquedaAntPosnatales($historia->id);
@@ -1104,12 +1346,12 @@ class HistoriaNeuroPsicologicaController extends Controller
         if (Auth::check()) {
             $pdf = new Dompdf();
 
-            $consulta = HistoriaNeuroPsicologica::busquedaConsultaImprimir($idConsulta);          
+            $consulta = HistoriaNeuroPsicologica::busquedaConsultaImprimir($idConsulta);
 
             $idPaciente = DB::connection('mysql')->table('historia_clinica_neuro')
                 ->where('id', $consulta->id_historia)
                 ->value('id_paciente');
-              
+
             // Ruta absoluta al logo
             $logoPath = public_path('app-assets/images/logo/logo_prasca.png');
 
@@ -1122,13 +1364,13 @@ class HistoriaNeuroPsicologicaController extends Controller
             $paciente = Pacientes::busquedaPaciente($idPaciente);
 
             $profesional = Profesional::busquedaProfesional($consulta->id_profesional);
-           
+
             $firmaPath = public_path('app-assets/images/firmasProfesionales/' . $profesional->firma);
             $firmaData = base64_encode(file_get_contents($firmaPath));
             $firma = 'data:image/png;base64,' . $firmaData;
 
             $fechaNacimiento = \Carbon\Carbon::parse($paciente->fecha_nacimiento)->format('d/m/Y h:i A');
-           
+
             $html = '<head>
                 <style>
                     table {
@@ -1256,7 +1498,7 @@ class HistoriaNeuroPsicologicaController extends Controller
             $pdf->loadHtml($html);
             $pdf->setPaper('A4', 'portrait');
             $pdf->render();
-            
+
             // Obtener el contenido del PDF
             $pdfContent = $pdf->output();
 
@@ -1265,10 +1507,9 @@ class HistoriaNeuroPsicologicaController extends Controller
                 'Content-Type' => 'application/pdf',
                 'Content-Disposition' => 'attachment; filename="resultado_consulta_psicologica.pdf"',
             ];
-           
+
             $pdfContent = $pdf->output();
             return response($pdfContent, 200, $headers);
-
         } else {
             return redirect("/")->with("error", "Su Sesión ha Terminado");
         }
@@ -1282,12 +1523,12 @@ class HistoriaNeuroPsicologicaController extends Controller
         if (Auth::check()) {
             $pdf = new Dompdf();
 
-            $consulta = HistoriaNeuroPsicologica::busquedaConsultaImprimir($idConsulta);          
+            $consulta = HistoriaNeuroPsicologica::busquedaConsultaImprimir($idConsulta);
 
             $idPaciente = DB::connection('mysql')->table('historia_clinica_neuro')
                 ->where('id', $consulta->id_historia)
                 ->value('id_paciente');
-              
+
             // Ruta absoluta al logo
             $logoPath = public_path('app-assets/images/logo/logo_prasca.png');
 
@@ -1300,13 +1541,13 @@ class HistoriaNeuroPsicologicaController extends Controller
             $paciente = Pacientes::busquedaPaciente($idPaciente);
 
             $profesional = Profesional::busquedaProfesional($consulta->id_profesional);
-           
+
             $firmaPath = public_path('app-assets/images/firmasProfesionales/' . $profesional->firma);
             $firmaData = base64_encode(file_get_contents($firmaPath));
             $firma = 'data:image/png;base64,' . $firmaData;
 
             $fechaNacimiento = \Carbon\Carbon::parse($paciente->fecha_nacimiento)->format('d/m/Y h:i A');
-           
+
             $html = '<head>
                 <style>
                     table {
@@ -1434,7 +1675,7 @@ class HistoriaNeuroPsicologicaController extends Controller
             $pdf->loadHtml($html);
             $pdf->setPaper('A4', 'portrait');
             $pdf->render();
-            
+
             // Obtener el contenido del PDF
             $pdfContent = $pdf->output();
 
@@ -1443,10 +1684,10 @@ class HistoriaNeuroPsicologicaController extends Controller
                 'Content-Type' => 'application/pdf',
                 'Content-Disposition' => 'attachment; filename="resultado_consulta_psicologica.pdf"',
             ];
-           
+
             $pdfContent = $pdf->output();
 
-            
+
             if ($paciente->email == "" || $paciente->email == null) {
                 return response()->json(['resultado' => "noCorreo"]);
             } else {
@@ -1756,7 +1997,6 @@ class HistoriaNeuroPsicologicaController extends Controller
                     return response()->json(['resultado' => "error"]);
                 }
             }
-
         } else {
             return redirect("/")->with("error", "Su Sesión ha Terminado");
         }

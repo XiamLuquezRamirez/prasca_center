@@ -87,11 +87,17 @@
                                                                     <option value="20">20 minutos</option>
                                                                     <option value="40">40 minutos</option>
                                                                     <option value="60">1 hora</option>
-                                                                    <option value="90">1 hora y 30 min.</option>
+                                                                    <option value="80">1 hora y 20 min.</option>
+                                                                    <option value="100">1 hora y 40 min.</option>
                                                                     <option value="120">2 horas</option>
-                                                                    <option value="150">2 horas y 30 min.</option>
+                                                                    <option value="140">2 horas y 20 min.</option>
+                                                                    <option value="160">2 horas y 40 min.</option>
                                                                     <option value="180">3 horas</option>
+                                                                    <option value="200">3 horas y 20 min.</option>
+                                                                    <option value="220">3 horas y 40 min.</option>
                                                                     <option value="240">4 horas</option>
+                                                                    <option value="260">4 horas y 20 min.</option>
+                                                                    <option value="280">4 horas y 40 min.</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -535,6 +541,7 @@
                                                             </option>
                                                             <option value="No Confirmada" class="no-confirmada">No
                                                                 Confirmada</option>
+                                                            <option value="No Asistio" class="no-asistio">No Asistio</option>
                                                             <option value="Anulada" class="anulada">Anulada</option>
                                                         </select>
 
@@ -684,6 +691,59 @@
                                 </div>
 
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        {{--  Modal bloquear  --}}
+        <div class="modal fade text-left" id="modalBloquear" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1"
+            aria-hidden="true">
+            <input type="hidden" id="idBloqueo" name="idBloqueo" value="">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title">Selecciona la opción que quiere realizar </h4>
+
+                    </div>
+                    <div class="modal-body">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <label for="observacionBloqueo" class="form-label "><strong>Observación:</strong></label>
+                                    <div id="observacionBloqueo">
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-12 text-center mb-4">
+                                    <label for="fechaBloqueo" class="form-label"><strong>Fecha de bloqueo:</strong></label>
+                                    <div  id="fechaBloqueo">
+
+                                    </div>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <button type="button" id="btnGuardar" onclick="confirmarCita()"
+                                        class="btn btn-success">
+                                        <i class="fa fa-check"></i> Confirmar cita
+                                    </button>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <button type="button" id="btnGuardar" onclick="eliminarBloqueo()"
+                                        class="btn btn-danger">
+                                        <i class="fa fa-trash"></i> Eliminar bloqueo
+                                    </button>
+                                </div>
+                                <div class="col-12 mt-4" style="text-align: right;">
+                                    <div class="form-actions right">
+                                        <button type="button" onclick="salirBloq2();" class="btn btn-warning mr-1">
+                                            <i class="fa fa-reply"></i> Salir
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

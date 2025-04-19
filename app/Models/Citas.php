@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
 
 class Citas extends Model
 {
@@ -18,6 +20,22 @@ class Citas extends Model
             ->get();
     }
 
+    public static function AllBloqueos()
+    {
+        return DB::connection('mysql')->table('bloqueos')
+            ->where('estado', 'Pendiente')
+            ->selectRaw("bloqueos.*, 'BLOQUEO' AS tblo")
+            ->get();
+    }
+
+    public static function AllBloqueosDisponibles($idBloqueo)
+    {
+        return DB::connection('mysql')->table('bloqueos')
+            ->where('id', '!=', $idBloqueo)
+            ->where('estado', 'Pendiente')
+            ->get();
+    }
+
     public static function buscarCitas($fec1, $fec2){
         
         return DB::connection('mysql')->table('citas')
@@ -26,6 +44,25 @@ class Citas extends Model
             ->selectRaw('citas.*, pacientes.primer_nombre, pacientes.primer_apellido, profesionales.id AS idprof, profesionales.nombre AS nomprof, "CITAS" AS tblo')
             ->whereBetween('citas.inicio', [$fec1, $fec2])
             ->get();
+    }
+
+    public static function EditarBlo($idBloqueo)
+    {
+        return DB::connection('mysql')->table('bloqueos')->where('id', $idBloqueo)->update([
+            'estado' => 'Asignadad',
+        ]);
+    }
+
+    public static function obtenerFechaInicioFinBloqueo($idBloqueo)
+    {
+        return DB::connection('mysql')->table('bloqueos')
+            ->where('id', $idBloqueo)
+            ->first();
+    }
+
+    public static function EliminarBloqueo($idBloqueo)
+    {
+        return DB::connection('mysql')->table('bloqueos')->where('id', $idBloqueo)->delete();
     }
 
     public static function infcitasEmail($idcita)
@@ -43,6 +80,26 @@ class Citas extends Model
             'pacientes.primer_apellido AS apaciente', 
             'pacientes.email')
             ->first();
+    }
+
+    public static function GuardarBloquear($data)
+    {
+
+        $fechaInicio = \Carbon\Carbon::parse($data['fechaInicio']);
+        $fechaFin = \Carbon\Carbon::parse($data['fechaFin']);
+        $duracion = $fechaFin->diffInMinutes($fechaInicio);
+
+        $fechaInicio = new \DateTime($data['fechaInicio']);
+        $fechaFin = new \DateTime($data['fechaFin']);
+        //calcular la duracion en minutos
+       
+        return DB::connection('mysql')->table('bloqueos')->insert([
+            'inicio' => $data['fechaInicio'],
+            'final' => $data['fechaFin'],
+            'comentario' => $data['observaciones'],
+            'duracion' => $duracion,
+            'estado' => 'Pendiente',
+        ]);
     }
 
     public static function CitasProfesional($idProf, $idCita)

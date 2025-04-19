@@ -16,18 +16,20 @@ class AgendaController extends Controller
     {
         if (Auth::check()) {
             $citas = Citas::AllCitas();
-
+              //Hirarios bloqueados
+              $bloqueados = Citas::AllBloqueos();
+              $disponibilidad = $citas->concat($bloqueados);
             // Verificar si hay resultados
             if (request()->ajax()) {
                 return response()->json([
-                    'disponibilidad' => $citas
+                    'disponibilidad' => $disponibilidad
                 ], 200);
             }
 
             // Verificamos si es una solicitud AJAX
             if (request()->ajax()) {
                 return response()->json([
-                    'disponibilidad' => $citas
+                    'disponibilidad' => $disponibilidad
                 ], 200);
             }
 
@@ -41,6 +43,21 @@ class AgendaController extends Controller
         return response()->json([
             'error' => 'Su sesión ha terminado. Por favor, inicie sesión nuevamente.'
         ], 401);
+    }
+
+    public function obtenerFechaInicioFinBloqueo()
+    {
+        $idBloqueo = request()->get('idBloqueo');
+        $bloqueo = Citas::obtenerFechaInicioFinBloqueo($idBloqueo);
+
+        return response()->json([
+            'fechaInicio' => \Carbon\Carbon::parse($bloqueo->inicio)->format('d/m/Y H:i:s'),
+            'fechaFin' => \Carbon\Carbon::parse($bloqueo->final)->format('d/m/Y H:i:s'),
+            'inicio' => $bloqueo->inicio,
+            'final' => $bloqueo->final,
+            'observacion' => $bloqueo->comentario,
+            'duracion' => $bloqueo->duracion
+        ]);
     }
 
     public function notificaccionCita()
@@ -63,6 +80,33 @@ class AgendaController extends Controller
                     'title' =>  $title
                 ]);
             }
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+
+    public function guardarBloquear()
+    {
+        if (Auth::check()) {
+            $data = request()->all();
+            
+            $cita = Citas::GuardarBloquear($data);
+            return response()->json($cita);
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+
+    public function eliminarBloqueo()
+    {
+        if (Auth::check()) {
+            $idBloqueo = request()->get('idBloqueo');
+            $cita = Citas::EliminarBloqueo($idBloqueo);
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Bloqueo eliminado correctamente'
+            ]);
         } else {
             return redirect("/")->with("error", "Su Sesión ha Terminado");
         }
@@ -705,7 +749,11 @@ class AgendaController extends Controller
 
         $idProf = request()->get('idProf');
         $idCita = request()->get('idCita');
-        $disponibilidad = Citas::CitasProfesional($idProf, $idCita);
+        $idBloqueo = request()->get('idBloqueo');
+        $disponibilidad = Citas::CitasProfesional($idProf, $idCita, $idBloqueo);
+        $bloqueos = Citas::AllBloqueosDisponibles($idBloqueo);
+
+        $disponibilidad = $disponibilidad->concat($bloqueos);
 
         if ($disponibilidad->isEmpty()) {
             return response()->json(['disponibilidad' => []], 200);
@@ -753,6 +801,12 @@ class AgendaController extends Controller
             if ($data['notCliente'] == "si") {
             self::envioCambioEstadoCita($data['idCita'], 'recordatorio');
         }
+        }
+
+        if (isset($data['idBloqueo'])) {
+            if($data['idBloqueo'] !== null || $data['idBloqueo'] !== ''){
+                $bloq = Citas::EditarBlo($data['idBloqueo']);
+            }
         }
 
         // Verificar el resultado y preparar la respuesta

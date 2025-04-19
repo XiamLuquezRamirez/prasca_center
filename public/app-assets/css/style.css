@@ -46649,4 +46649,54 @@ img.online {
   z-index: 1000;
 }
 
+.notifications-list{
+  height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-top: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #000000 #f0f3f6;
+}
+
+
+.notification-item{
+  padding: 10px;
+  border-bottom: 1px solid #f0f3f6;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.notification-item:hover{
+  background-color: #f0f3f6;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.notification-content{
+  font-size: 14px;
+  font-weight: 500;
+  color: #000000;
+}
+
+.notification-content label{
+  font-weight: 600;
+  color: #000000;
+}
+
+.notification-info{
+  font-size: 12px;
+  font-weight: 400;
+  
+  color: #000000;
+}
+
+.notification-info p{
+  margin: 0;
+}
+
+
+
+
+
 

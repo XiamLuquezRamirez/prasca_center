@@ -30,14 +30,6 @@
         </div>
         <div class="navbar-custom-menu r-side">
             <ul class="nav navbar-nav">
-               
-                <li class="btn-group nav-item">
-                    <a href="#" class="waves-effect waves-light nav-link btn-primary-light svg-bt-icon" data-bs-toggle="modal" data-bs-target="#notificationModal">
-                        <i data-feather="bell"></i>
-                    </a>
-                    <span class="notification-badge">1</span>
-                </li>
-
                 <li class="btn-group nav-item d-xl-inline-flex d-none">
                     <a href="#" data-provide="fullscreen"
                         class="waves-effect waves-light nav-link btn-primary-light svg-bt-icon" title="Full Screen">
@@ -60,36 +52,7 @@
     </nav>
 </header>
 
-<div class="modal modal-right fade" id="notificationModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content slim-scroll3">
-            <div class="modal-body p-30 bg-white">
-                <h4 class="m-0">Notificaciones</h4>
-                <div class="notification-section">
-                    <div class="notification-icon">
-                        <i data-feather="bell"></i>
-                    </div>
-                    <div class="notification-badge">
-                        1
-                    </div>
-                </div>
 
-                <div class="notifications-list">
-                    <div class="notification-item">
-                        <div class="notification-icon">
-                            <i data-feather="bell"></i>
-                        </div>
-                        <div class="notification-content">
-                            <h5>Notificación</h5>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</p>
-                            <p>2024-01-01</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 <div class="modal modal-right fade" id="quick_user_toggle" tabindex="-1">

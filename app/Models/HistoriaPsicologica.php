@@ -236,7 +236,8 @@ class HistoriaPsicologica extends Model
                         'codDiagnosticoRelacionado2' => 'dx_principal2',
                         'codImpresionDiagnosticoRelacionado1' => 'codigo_diagnostico1',
                         'codImpresionDiagnosticoRelacionado2' => 'codigo_diagnostico2',
-                        'completa' => 'completa'
+                        'completa' => 'completa',
+                        'porcentaje_completitud' => 'porcentaje_completitud'
                     ];
 
                     $datosInsertar = [];
@@ -331,8 +332,6 @@ class HistoriaPsicologica extends Model
                                 ]
                             );
                     }
-
-
 
                     // Definir las áreas de ajuste y/o desempeño
                     $areasAjusteDesempeno = [
@@ -601,7 +600,8 @@ class HistoriaPsicologica extends Model
                         'codDiagnosticoRelacionado2' => 'dx_principal2',
                         'codImpresionDiagnosticoRelacionado1' => 'codigo_diagnostico1',
                         'codImpresionDiagnosticoRelacionado2' => 'codigo_diagnostico2',
-                        'completa' => 'completa'
+                        'completa' => 'completa',
+                        'porcentaje_completitud' => 'porcentaje_completitud'
                     ];
 
                     $datosActualizar = [];
@@ -618,6 +618,12 @@ class HistoriaPsicologica extends Model
                             // Si no existe el campo en la solicitud, asignamos un valor vacío (o null si prefieres)
                             $datosActualizar[$campoDB] = null;
                         }
+                    }
+
+                    if($request['completa'] == '0'){
+                        $datosActualizar['estado_hitoria'] = 'abierta';
+                    }else{
+                        $datosActualizar['estado_hitoria'] = 'cerrada';
                     }
 
                     if (!empty($datosActualizar)) {

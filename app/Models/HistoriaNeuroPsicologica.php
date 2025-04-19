@@ -155,6 +155,7 @@ class HistoriaNeuroPsicologica extends Model
                         'tipoPsicologia' => 'tipologia',
                         'plan_intervension' => 'plan_intervension',
                         'completa' => 'completa',
+                        'porcentaje_completitud' => 'porcentaje_completitud',
                         'codDiagnosticoRelacionado1' => 'dx_principal1',
                         'codDiagnosticoRelacionado2' => 'dx_principal2',
                         'codImpresionDiagnosticoRelacionado1' => 'codigo_diagnostico1',
@@ -543,6 +544,7 @@ class HistoriaNeuroPsicologica extends Model
                         'tipoPsicologia' => 'tipologia',
                         'plan_intervension' => 'plan_intervension',
                         'completa' => 'completa',
+                        'porcentaje_completitud' => 'porcentaje_completitud',
                         'codDiagnosticoRelacionado1' => 'dx_principal1',
                         'codDiagnosticoRelacionado2' => 'dx_principal2',
                         'codImpresionDiagnosticoRelacionado1' => 'codigo_diagnostico1',
@@ -564,6 +566,12 @@ class HistoriaNeuroPsicologica extends Model
                             // Si no existe el campo en la solicitud, asignamos un valor vacío (o null si prefieres)
                             $datosActualizar[$campoDB] = null;
                         }
+                    }
+
+                    if($request['completa'] == '0'){
+                        $datosActualizar['estado_hitoria'] = 'abierta';
+                    }else{
+                        $datosActualizar['estado_hitoria'] = 'cerrada';
                     }
 
                     if (!empty($datosActualizar)) {
@@ -1299,21 +1307,25 @@ class HistoriaNeuroPsicologica extends Model
                         'id_paciente' => $request['idPaciente'] ?? null,
                         'id_profesional' => $request['profesionalInforme'] ?? null,
                         'fecha_creacion' => $request['fechaEvolucion'] . ' ' . $request['horaSeleccionada'],
-                        'observacion' => $request['observaciones'] ?? null,
-                        'estado' => 'ACTIVO'
+                        'estado' => 'ACTIVO',
+                        'motivo_consulta' => $request['motivoConsulta'] ?? null,
+                        'estado_actual' => $request['estadoActual'] ?? null,
+                        'historia_personal' => $request['historiaPersonal'] ?? null,
+                        'desarrollo_psicomotor' => $request['desarrolloPsicomotor'] ?? null,
+                        'desarrollo_lenguaje' => $request['desarrolloLenguaje'] ?? null,
+                        'abc' => $request['abc'] ?? null,
+                        'antecedentes_medicos_familiares' => $request['antecedentesMedicosFamiliares'] ?? null,
+                        'antecedentes_personales' => $request['antecedentesPersonales'] ?? null,
+                        'historia_desarrollo' => $request['historiaDesarrollo'] ?? null,
+                        'historia_escolar' => $request['historiaEscolar'] ?? null,
+                        'historia_socio_afectiva' => $request['historiaSocioAfectiva'] ?? null,
+                        'condicion_paciente' => $request['condicionPaciente'] ?? null,
+                        'resultados_evaluacion' => $request['resultadosEvaluacion'] ?? null,
+                        'impresion_diagnostica' => $request['impresionDiagnostica'] ?? null
+                        
                     ]));
 
-                    if (isset($request['archivo']) && is_array($request['archivo'])) {
-                        foreach ($request['archivo'] as $key => $archivo) {
-                            DB::connection('mysql')->table('anexos_informe_neuropsicologia')->insert([
-                                'id_informe' => $idInforme,
-                                'url' => $archivo,
-                                'tipo_archivo' => $request['tipoArc'][$key] ?? null,
-                                'nombre_archivo' => $request['nombre'][$key] ?? null,
-                                'peso' => $request['peso'][$key] ?? null,
-                            ]);
-                        }
-                    }
+                 
 
                     // Confirmar transacción
                     DB::commit();
@@ -1329,23 +1341,24 @@ class HistoriaNeuroPsicologica extends Model
                 try {
                     // Insertar en informe_evolucion`
                     DB::table('informe_evolucion_neuropsicologia')->where('id', $idInforme)->update(array_filter([
-                        'id_paciente' => $request['idPaciente'] ?? null,
-                        'id_profesional' => $request['profesionalInforme'] ?? null,
+                    'id_profesional' => $request['profesionalInforme'] ?? null,
                         'fecha_creacion' => $request['fechaEvolucion'] . ' ' . $request['horaSeleccionada'],
-                        'observacion' => $request['observaciones'] ?? null,
+                        'estado' => 'ACTIVO',
+                        'motivo_consulta' => $request['motivoConsulta'] ?? null,
+                        'estado_actual' => $request['estadoActual'] ?? null,
+                        'historia_personal' => $request['historiaPersonal'] ?? null,
+                        'desarrollo_psicomotor' => $request['desarrolloPsicomotor'] ?? null,
+                        'desarrollo_lenguaje' => $request['desarrolloLenguaje'] ?? null,
+                        'abc' => $request['abc'] ?? null,
+                        'antecedentes_medicos_familiares' => $request['antecedentesMedicosFamiliares'] ?? null,
+                        'antecedentes_personales' => $request['antecedentesPersonales'] ?? null,
+                        'historia_desarrollo' => $request['historiaDesarrollo'] ?? null,
+                        'historia_escolar' => $request['historiaEscolar'] ?? null,
+                        'historia_socio_afectiva' => $request['historiaSocioAfectiva'] ?? null,
+                        'condicion_paciente' => $request['condicionPaciente'] ?? null,
+                        'resultados_evaluacion' => $request['resultadosEvaluacion'] ?? null,
+                        'impresion_diagnostica' => $request['impresionDiagnostica'] ?? null
                     ]));
-
-                    if (isset($request['archivo']) && is_array($request['archivo'])) {
-                        foreach ($request['archivo'] as $key => $archivo) {
-                            DB::connection('mysql')->table('anexos_informe_neuropsicologia')->insert([
-                                'id_informe' => $idInforme,
-                                'url' => $archivo,
-                                'tipo_archivo' => $request['tipoArc'][$key] ?? null,
-                                'nombre_archivo' => $request['nombre'][$key] ?? null,
-                                'peso' => $request['peso'][$key] ?? null,
-                            ]);
-                        }
-                    }
 
                     // Confirmar transacción
                     DB::commit();

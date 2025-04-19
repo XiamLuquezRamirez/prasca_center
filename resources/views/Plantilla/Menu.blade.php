@@ -197,17 +197,17 @@
                                 @endif
                                 @if (in_array('AdminCUPS', session('permisos', [])))
                                     <li id="principalParametrosCUPS">
-                                        <a href="{{ url('/Administracion/CUPS') }}">
+                                        <a href="{{ url('/Administracion/CodigosConsultas') }}">
                                             <i class="icon-Commit"><span class="path1"></span><span
-                                                class="path2"></span></i> CUPS
+                                                class="path2"></span></i>  Códigos (CUPS)
                                         </a>
                                     </li>
                                 @endif
                                 @if (in_array('AdminCIE10', session('permisos', [])))
                                     <li id="principalParametrosCIE10">
-                                        <a href="{{ url('/Administracion/CIE10') }}">
+                                        <a href="{{ url('/Administracion/CodigosDiagnosticos') }}">
                                             <i class="icon-Commit"><span class="path1"></span><span
-                                                class="path2"></span></i> CIE10
+                                                class="path2"></span></i> Códigos (CIE10 -  DSM5)
                                         </a>
                                     </li>
                                 @endif

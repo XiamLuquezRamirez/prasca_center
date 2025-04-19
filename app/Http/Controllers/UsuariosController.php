@@ -18,7 +18,6 @@ class UsuariosController extends Controller
         $respuesta = Usuario::login(request()->all());
 
         if ($respuesta) {
-
             $profesional = Profesional::busquedaProfesionalUsu(Auth::id());
 
             if ($profesional) {
@@ -27,10 +26,13 @@ class UsuariosController extends Controller
                 Session::put('registroProfesional', $profesional->registro);
                 Session::put('firmaProfesional', $profesional->firma);
             }
-          
+            
+            // Regenerar el ID de sesión para prevenir session fixation
+            Session::regenerate();
+            
             return redirect('Administracion');
         } else {
-            $error = "Usuario ó Contraseña Inconrrecta";
+            $error = "Usuario ó Contraseña Incorrecta";
             return redirect('/')->with('error', $error);
         }
     }

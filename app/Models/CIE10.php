@@ -19,7 +19,8 @@ class CIE10 extends Model
                     'nombre' => $request['nombre'],
                     'descripcion' => $request['descripcion'] ?? '',
                     'habilitado' => $request['habilitado'],
-                    'estado' => 'ACTIVO'
+                    'estado' => 'ACTIVO',
+                    'clasificacion' => $request['clasificacion']
                 ]);
             } else {
                 $respuesta = DB::connection('mysql')->table('referencia_cie10')
@@ -29,6 +30,7 @@ class CIE10 extends Model
                         'nombre' => $request['nombre'],
                         'descripcion' => $request['descripcion'] ?? '',
                         'habilitado' => $request['habilitado'],
+                        'clasificacion' => $request['clasificacion']
                     ]);
 
 

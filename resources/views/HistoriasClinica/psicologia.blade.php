@@ -1590,14 +1590,6 @@
         </div><!-- /.modal -->
     </div>
 </div>
-
-
-
-<div id="loaderPacientes" style="display: none; text-align: center; padding: 10px;">
-    <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Cargando...</span>
-    </div>
-</div>
 <!-- Agregar este HTML justo después del body -->
 <div id="loader-pdf"
     style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.7); z-index: 999999;">
@@ -1610,6 +1602,14 @@
         <p style="margin: 0;">Por favor espere...</p>
     </div>
 </div>
+
+
+<div id="loaderPacientes" style="display: none; text-align: center; padding: 10px;">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+    </div>
+</div>
+
 
 <script>
     window.userPermissions = @json(Auth::user()->permissions);
@@ -3675,9 +3675,6 @@
         })
 
         modal.show()
-
-        //
-
     }
 
     function mapearDesarrolloPsicomotor(antecedentesPrenatales) {

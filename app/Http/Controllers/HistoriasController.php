@@ -1141,7 +1141,7 @@ class HistoriasController extends Controller
                                     <td>' . $item->profesional . '</td>
                                     <td>' . date('d/m/Y g:i:s A', strtotime($item->fecha_creacion)) . '</td>
                                     <td class="table-action min-w-100">
-                                        <a onclick="generarPDF(' . $item->id . ');" style="cursor: pointer;" title="Imprimir" class="text-fade hover-primary"><i class="align-middle"
+                                        <a onclick="imprimirInforme(' . $item->id . ');" style="cursor: pointer;" title="Imprimir" class="text-fade hover-primary"><i class="align-middle"
                                                 data-feather="file-text"></i></a>
                                         <a onclick="editarInforme(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
                                                 data-feather="edit-2"></i></a>
@@ -1339,7 +1339,7 @@ class HistoriasController extends Controller
                     } else {
                         $bgColor = 'bg-danger'; // Rojo
                     }
-                    
+
                     $tdTable .= ' <div class="box pull-up">
                                 <div class="box-body">
                                     <div class="d-md-flex justify-content-between align-items-center">
@@ -1357,7 +1357,7 @@ class HistoriasController extends Controller
                                         <div>
                                             <p class="text-fade m-0">Completada</p>
                                                 <div> <label
-                                                    id="tasaPorcentaje">' . $porcentajeCompletitud. '%</label>
+                                                    id="tasaPorcentaje">' . $porcentajeCompletitud . '%</label>
                                                 <div
                                                     class="progress progress-lg">
                                                         <div id="tasaBarraPorcentaje"
@@ -1480,7 +1480,7 @@ class HistoriasController extends Controller
                                     <td class="table-action min-w-100">
                                         <a onclick="verHistorial(' . $item->id . ');" style="cursor: pointer;" title="Ver historial" class="text-fade hover-primary"><i class="align-middle"
                                                 data-feather="eye"></i></a>
-                                        <a onclick="imprimirInforme(' . $item->id . ');" style="cursor: pointer;" title="Imprimir informe" class="text-fade hover-warning"><i class="align-middle"
+                                        <a onclick="generarInforme(' . $item->id . ');" style="cursor: pointer;" title="Imprimir informe" class="text-fade hover-warning"><i class="align-middle"
                                                 data-feather="file-text"></i></a>
                                     </td>
                                 </tr>';
@@ -1728,12 +1728,11 @@ class HistoriasController extends Controller
                     ' . $informe->observaciones_recomendaciones . '
                 </div>
 
-                <div class="section">
+              <div class="section" style="text-align: left; margin-top: 20px;">
                     <table style="width:100%; border-collapse: collapse; background-color: transparent;">
-                        <tr><td class="no-border"><b>' . $profesional->nombre . '</b></td></tr>
-                        <tr><td class="no-border"><img width="200" src="' . $firma . '" /></td></tr>
-                       
-                        <tr><td class="no-border"><b>TARJETA PROFESIONAL: ' . $profesional->registro . '</b></td></tr>
+                        <tr><td class="no-border" style="text-align: left;"><b>' . $profesional->nombre . '</b></td></tr>
+                        <tr><td class="no-border" style="text-align: left;"><img width="100" src="' . $firma . '" /></td></tr>                       
+                        <tr><td class="no-border" style="text-align: left; font-size: 10px;"><b>TARJETA PROFESIONAL: ' . $profesional->registro . '</b></td></tr>
                     </table>
                 </div></div>
             </body>
@@ -2547,6 +2546,523 @@ class HistoriasController extends Controller
                     $mail->Subject = $asunto;
                     $mail->Body = $contenido;
                     $mail->addStringAttachment($pdfContent, 'resultado_consulta_psicologica.pdf');
+                    // Enviar el correo
+                    $mail->send();
+                    return response()->json(['resultado' => "enviado"]);
+                } catch (Exception $e) {
+                    return response()->json(['resultado' => "error"]);
+                }
+            }
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+
+    public function enviarInforme(Request $request)
+    {
+
+        if (Auth::check()) {
+
+            $pdf = new Dompdf();
+            $idInforme = $request->input('idInforme');
+            $informe = HistoriaPsicologica::busquedaInforme($idInforme);
+
+            // Ruta absoluta al logo
+            $logoPath = public_path('app-assets/images/logo/logo_prasca.png');
+
+            // Convertir la imagen a base64
+            $logoData = base64_encode(file_get_contents($logoPath));
+            $logo = 'data:image/png;base64,' . $logoData;
+
+            $fechaElaboracion = now()->format('d-m-Y');
+            $horaElaboracion = now()->format('H:i:s A');
+
+            $paciente = Pacientes::busquedaPaciente($informe->id_paciente);
+
+            $profesional = Profesional::busquedaProfesional($informe->id_profesional);
+            $firmaPath = public_path('app-assets/images/firmasProfesionales/' . $profesional->firma);
+            $firmaData = base64_encode(file_get_contents($firmaPath));
+            $firma = 'data:image/png;base64,' . $firmaData;
+
+
+            $fechaNacimiento = \Carbon\Carbon::parse($paciente->fecha_nacimiento)->format('d/m/Y h:i A');
+
+            $html = '<head>
+                <style>
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        border-width: 0.1px;
+                    }
+                    th, td {
+                        border: 0.1px solid black;
+                        padding: 4px;
+                    }
+                    th {
+                        background-color: #EAEBF4;
+                    }
+                    tr:nth-child(even) {
+                        background-color: #f2f2f2;
+                    }
+                    .no-border {
+                        border: none;
+                        text-align: center;
+                    }
+                    hr {
+                        border-width: 0.1px;
+                        border-color: #333;
+                        border-style: solid;
+                    }
+                        
+                </style>
+            </head>';
+
+            $html .= '<div style="page-break-after: always;">';
+            $html .= '<table style="width:100%; border-collapse: collapse; background-color: transparent;">';
+            $html .= '<tr>';
+            $html .= '<td class="no-border" style="padding: 0;"><img src="' . $logo . '" style="width: 200px; height: auto;"></td>';
+            $html .= '<td class="no-border" style="padding: 0; vertical-align: top;">';
+            $html .= '<p style="margin: 0;">DRA. MARIA ISABEL PUMAREJO</p>';
+            $html .= '<p style="margin: 0;">PSICÒLOGA - T.P. No. 259542</p>';
+            $html .= '<p style="margin: 0;">Calle 11 # 11 - 07 San Joaquin</p>';
+            $html .= '<p style="margin: 0;">Teléfono: 312 5678078</p>';
+            $html .= '</td>';
+            $html .= '</tr>';
+            $html .= '<tr>';
+            $html .= '<td class="no-border" colspan="2" style="text-align: center; padding: 1px;background-color: transparent;"> <h3>INFORME DE EVOLUCIÓN PSICOLÓGICA</h3></td>';
+            $html .= '</tr>';
+            $html .= '</table>';
+
+            $html .= '<table>
+                    <tr>
+                        <td ><b>FECHA DE ELABORACIÓN:</b> ' . $fechaElaboracion . '</td>
+                        <td ><b>HORA:</b> ' . $horaElaboracion . '</td>
+                    </tr>
+                </table>';
+
+            $html .= '<div class="section" >
+                <h4 style="background-color: #EAEBF4; padding: 6px; margin-bottom: 10px;">1. DATOS DE IDENTIFICACIÓN DEL PACIENTE</h4>
+                <table style="width: 100%; border-collapse: collapse; border: none;">
+                    <tr>
+                        <td colspan="3" style="border: none; padding: 8px 4px 4px 4px;">
+                            <span style="font-weight: bold; width: 120px; display: inline-block;">NOMBRE:</span>
+                            <span style="border-bottom: 1px solid #ccc; padding-bottom: 2px;">' .
+                $paciente->primer_nombre . ' ' .
+                $paciente->segundo_nombre . ' ' .
+                $paciente->primer_apellido . ' ' .
+                $paciente->segundo_apellido .
+                '</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="border: none; padding: 8px 4px 4px 4px;">
+                            <span style="font-weight: bold; width: 120px; display: inline-block;">NACIMIENTO:</span>
+                            <span style="border-bottom: 1px solid #ccc; padding-bottom: 2px;">' .
+                $fechaNacimiento . ' - ' . $paciente->lugar_nacimiento .
+                '</span>
+                                    </td>
+                                </tr>
+                    <tr>
+                        <td style="border: none; padding: 8px 4px 4px 4px; width: 40%;">
+                            <span style="font-weight: bold; width: 120px; display: inline-block;">IDENTIFICACIÓN:</span>
+                            <span style="border-bottom: 1px solid #ccc; padding-bottom: 2px;">' .
+                $paciente->tipo_identificacion . ' ' . $paciente->identificacion .
+                '</span>
+                                    </td>
+                        <td style="border: none; padding: 8px 4px 4px 4px; width: 30%;">
+                            <span style="font-weight: bold; width: 60px; display: inline-block;">EDAD:</span>
+                            <span style="border-bottom: 1px solid #ccc; padding-bottom: 2px;">' .
+                $paciente->edad .
+                '</span>
+                                    </td>
+                        <td style="border: none; padding: 8px 4px 4px 4px; width: 30%;">
+                            <span style="font-weight: bold; width: 60px; display: inline-block;">SEXO:</span>
+                            <span style="border-bottom: 1px solid #ccc; padding-bottom: 2px;">' .
+                (($paciente->sexo === "M") ? "Mujer" : "Hombre") .
+                '</span>
+                        </td>
+                    </tr>                   
+                </table>
+            </div>';
+
+            $html .= '<div class="section">
+                    <h4>2. IMPRESIÓN DIAGNÓSTICA:</h4>
+                    <p>' . $informe->impresion_diagnostica->diagnostico . '</p>
+                </div>
+
+                <div class="section">
+                    <h4>3. REMISIÓN:</h4>
+                     ' . $informe->remision . '
+                </div>
+
+                <div class="section">
+                    <h4>4. RESUMEN DE LA EVALUACIÓN PSICOLÓGICA INICIAL</h4>
+                    ' . $informe->resumen_evaluacion_psicologica . '
+                </div>
+
+                <div class="section">
+                    <h4>5. OBJETIVOS TERAPÈUTICOS INICIALES</h4>
+                    ' . $informe->resumen_evaluacion_psicologica . '
+                </div>';
+
+            $html .= '<div class="section">
+                    <h4>6. EVOLUCIÓN DEL TRATAMIENTO PSICOLÓGICO - ACTUAL</h4>
+                        ' . $informe->objetivos_terapeuticos_iniciales . '
+                </div>';
+
+            $html .= '<div class="section">
+                    <h4>7. EVALUACIÒN ACTUAL</h4>
+                        ' . $informe->evaluacion_actual . '
+                </div>';
+
+            $html .= '
+
+                <div class="section">
+                    <h4>8. PLAN DE TRATAMIENTO DE CONTINUIDAD</h4>
+                     ' . $informe->plan_tratamiento_continuidad . '
+                </div>
+
+                <div class="section">
+                    <h4>9. INTERVENCIÓN INTERDISCIPLINARIA Y MULTIDISCIPLINARIA</h4>
+                    <table>
+                        <tr><td>9.1. INTERVENCIÓN POR PSIQUIATRÍA (MEDICACIÓN)</td></tr>
+                        <tr><td>' . $informe->intervencion_psiquiatria . '</td></tr>
+                        <tr><td>9.2. INTERVENCIÓN POR NEUROLOGÍA (MEDICACIÓN)</td></tr>
+                        <tr><td>' . $informe->intervencion_neurologia . '</td></tr>
+                        <tr><td>9.3. INTERVENCIÓN POR NEUROPSICOLOGÍA (INFORME)</td></tr>
+                        <tr><td>' . $informe->intervencion_neuropsicologia . '</td></tr>
+                    </table>
+                </div>
+
+                <div class="section">
+                    <h4>10. SUGERENCIA PARA INTERCONSULTAS</h4>
+                    ' . $informe->sugerencias_interconsultas . '
+                </div>
+
+                <div class="section">
+                    <h4>11. OBSERVACIONES Y RECOMENDACIONES</h4>
+                    ' . $informe->observaciones_recomendaciones . '
+                </div>
+
+                 <div class="section" style="text-align: left; margin-top: 20px;">
+                    <table style="width:100%; border-collapse: collapse; background-color: transparent;">
+                        <tr><td class="no-border" style="text-align: left;"><b>' . $profesional->nombre . '</b></td></tr>
+                        <tr><td class="no-border" style="text-align: left;"><img width="100" src="' . $firma . '" /></td></tr>                       
+                        <tr><td class="no-border" style="text-align: left; font-size: 10px;"><b>TARJETA PROFESIONAL: ' . $profesional->registro . '</b></td></tr>
+                    </table>
+                </div></div>
+            </body>
+            </html>';
+
+            $pdf->loadHtml($html);
+            $pdf->setPaper('A4', 'portrait');
+            $pdf->render();
+
+            $pdfContent = $pdf->output();
+
+
+            if ($paciente->email == "" || $paciente->email == null) {
+                return response()->json(['resultado' => "noCorreo"]);
+            } else {
+                //enviar al correo del paciente el pdf
+                $mail = new PHPMailer(true);
+                $mensaje = 'Se ha enviado un archivo adjunto con el informe psicologico';
+                $asunto = 'Resultado de Informe Psicologico - Prasca Center';
+
+                $contenido = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+                    <html xmlns='http://www.w3.org/1999/xhtml'>
+                    <head>
+                    <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+                    <meta name='viewport' content='width=device-width, initial-scale=1' />
+                    <title>Narrative Invitation Email</title>
+                    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'>
+                    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+                    <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js'></script>
+                    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js'></script>
+                    <style type='text/css'>
+            
+                    /* Take care of image borders and formatting */
+            
+                    img {
+                        max-width: 600px;
+                        outline: none;
+                        text-decoration: none;
+                        -ms-interpolation-mode: bicubic;
+                    }
+            
+                    a {
+                        border: 0;
+                        outline: none;
+                    }
+            
+                    a img {
+                        border: none;
+                    }
+            
+                    /* General styling */
+            
+                    td, h1, h2, h3  {
+                        font-family: Helvetica, Arial, sans-serif;
+                        font-weight: 400;
+                    }
+            
+                    td {
+                        font-size: 13px;
+                        line-height: 19px;
+                        text-align: left;
+                    }
+            
+                    body {
+                        -webkit-font-smoothing:antialiased;
+                        -webkit-text-size-adjust:none;
+                        width: 100%;
+                        height: 100%;
+                        color: #37302d;
+                        background: #ffffff;
+                    }
+            
+                    table {
+                        border-collapse: collapse !important;
+                    }
+            
+            
+                    h1, h2, h3, h4 {
+                        padding: 0;
+                        margin: 0;
+                        color: #444444;
+                        font-weight: 400;
+                        line-height: 110%;
+                    }
+            
+                    h1 {
+                        font-size: 35px;
+                    }
+            
+                    h2 {
+                        font-size: 30px;
+                    }
+            
+                    h3 {
+                        font-size: 24px;
+                    }
+            
+                    h4 {
+                        font-size: 18px;
+                        font-weight: normal;
+                    }
+            
+                    .important-font {
+                        color: #21BEB4;
+                        font-weight: bold;
+                    }
+            
+                    .hide {
+                        display: none !important;
+                    }
+            
+                    .force-full-width {
+                        width: 100% !important;
+                    }
+            
+                    .rps_16ec table#x_main-wrapper {
+                        border-collapse: collapse;
+                        border-spacing: 0;
+                        border: none;
+                        margin: 0 auto;
+                        width: 100%;
+                      }
+            
+                      .rps_16ec #x_greeting {
+                        text-align: center;
+                      }
+            
+                      .rps_16ec table.x_appt-data {
+                        width: auto;
+                        margin: 0 auto;
+                      }
+            
+                      .rps_16ec .x_data-row {
+                        margin: 0 auto;
+                        width: auto;
+                      }
+            
+                      .rps_16ec .x_appt-data tr:first-child td {
+                        padding-top: 12px;
+                      }
+            
+                      .rps_16ec .x_data-row .x_label {
+                        width: 25%;
+                        font-weight: bold;
+                        color: #0097cc;
+                        text-align: right;
+                      }
+            
+                      .rps_16ec .x_header td {
+                        background: #0097cc;
+                        padding: 3px;
+                        color: #fafafa;
+                        text-align: center;
+                      }
+            
+                      .rps_16ec #x_initial-text {
+                        padding: 18px 0;
+                        line-height: 1.4em;
+                      }
+            
+                      .rps_16ec .x_appt-data tr:first-child td {
+                        padding-top: 12px;
+                      }
+                      .rps_16ec .x_data-row .x_label, .rps_16ec .x_data-row .x_data {
+                        padding: 4px;
+                          padding-top: 4px;
+                      }
+            
+                    </style>
+            
+                    <style type='text/css' media='screen'>
+                        @media screen {
+                            @import url(http://fonts.googleapis.com/css?family=Open+Sans:400);
+            
+                            /* Thanks Outlook 2013! */
+                            td, h1, h2, h3 {
+                            font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif !important;
+                            }
+                        }
+                    </style>
+            
+                    <style type='text/css' media='only screen and (max-width: 600px)'>
+                        /* Mobile styles */
+                        @media only screen and (max-width: 600px) {
+            
+                        table[class='w320'] {
+                            width: 320px !important;
+                        }
+            
+                        table[class='w300'] {
+                            width: 300px !important;
+                        }
+            
+                        table[class='w290'] {
+                            width: 290px !important;
+                        }
+            
+                        td[class='w320'] {
+                            width: 320px !important;
+                        }
+            
+                        td[class~='mobile-padding'] {
+                            padding-left: 14px !important;
+                            padding-right: 14px !important;
+                        }
+            
+                        td[class*='mobile-padding-left'] {
+                            padding-left: 14px !important;
+                        }
+            
+                        td[class*='mobile-padding-right'] {
+                            padding-right: 14px !important;
+                        }
+            
+                        td[class*='mobile-padding-left-only'] {
+                            padding-left: 14px !important;
+                            padding-right: 0 !important;
+                        }
+            
+                        td[class*='mobile-padding-right-only'] {
+                            padding-right: 14px !important;
+                            padding-left: 0 !important;
+                        }
+            
+                        td[class*='mobile-block'] {
+                            display: block !important;
+                            width: 100% !important;
+                            text-align: left !important;
+                            padding-left: 0 !important;
+                            padding-right: 0 !important;
+                            padding-bottom: 15px !important;
+                        }
+            
+                        td[class*='mobile-no-padding-bottom'] {
+                            padding-bottom: 0 !important;
+                        }
+            
+                        td[class~='mobile-center'] {
+                            text-align: center !important;
+                        }
+            
+                        table[class*='mobile-center-block'] {
+                            float: none !important;
+                            margin: 0 auto !important;
+                        }
+            
+                        *[class*='mobile-hide'] {
+                            display: none !important;
+                            width: 0 !important;
+                            height: 0 !important;
+                            line-height: 0 !important;
+                            font-size: 0 !important;
+                        }
+            
+                        td[class*='mobile-border'] {
+                            border: 0 !important;
+                        }
+                        }
+                    </style>
+                    </head>
+                    <body class='body' style='padding:0; margin:0; display:block; background:#ffffff; -webkit-text-size-adjust:none' bgcolor='#ffffff'>
+                    <div class='rps_16ec'>
+                    <div>
+                    <table id='x_main-wrapper'>
+                    <thead id='x_logo'>
+                    <tr>
+                    <th>
+                    <img data-imagetype='External' src='" . $logo . "' width = '200px'  alt='PERFECTA' class='x_responsive'> 
+                    </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                    <td id='x_greeting'>
+                    Estimad@  <strong style='text-transform: capitalize;'> " . $paciente->primer_nombre . " " . $paciente->segundo_nombre . " " . $paciente->primer_apellido . " " . $paciente->segundo_apellido . ",</strong>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td  id='x_initial-text'>
+                    " . $mensaje . "
+                    </td>
+                    </tr>
+                    <div>
+                    </body>
+                    </html>";
+
+                try {
+                    require base_path("vendor/autoload.php");
+                    $mail->isSMTP();
+                    $mail->Host = 'mail.prascacenter.com';  // Servidor SMTP de tu hosting
+                    $mail->SMTPAuth = true;
+                    $mail->Username = 'notificaciones@prascacenter.com'; // Tu correo completo
+                    $mail->Password = 'isabel_2025*'; // Tu contraseña
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // O ENCRYPTION_SMTPS si usas SSL
+                    $mail->Port = 587; // 465 si usas SSL, 587 para TLS
+
+                    $mail->CharSet = 'UTF-8';
+                    $mail->Encoding = 'base64';
+                    // Opcional: Si hay problemas con el certificado SSL
+                    $mail->SMTPOptions = [
+                        'ssl' => [
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                            'allow_self_signed' => true
+                        ]
+                    ];
+
+                    // Configuración del correo
+                    $mail->setFrom('notificaciones@prascacenter.com', 'Prasca Center');
+                    $mail->addAddress($paciente->email, $paciente->primer_nombre . ' ' . $paciente->segundo_nombre . ' ' . $paciente->primer_apellido . ' ' . $paciente->segundo_apellido); // Correo y nombre del destinatario
+                    $mail->isHTML(true);
+                    $mail->Subject = $asunto;
+                    $mail->Body = $contenido;
+                    $mail->addStringAttachment($pdfContent, 'resultado_informe_psicologico.pdf');
                     // Enviar el correo
                     $mail->send();
                     return response()->json(['resultado' => "enviado"]);

@@ -264,6 +264,7 @@ Route::post('/informes/guardarInformePsicologica', [HistoriasController::class, 
 Route::post('/informes/informePsicologia', [HistoriasController::class, 'informePsicologiaList'])->name('informes.informePsicologia');
 Route::post('/informes/buscaInformePsicologica', [HistoriasController::class, 'buscaInformePsicologica'])->name('informes.buscaInformePsicologica');
 Route::post('/informes/eliminarInforme', [HistoriasController::class, 'eliminarInforme'])->name('informes.eliminarInforme');
+Route::post('/informes/enviarInforme', [HistoriasController::class, 'enviarInforme'])->name('informes.enviarInforme');
 
 // INFORMES NEUROPSICOLOGIA
 Route::middleware(['auth', 'permission:informeNeuro'])->group(function () {
@@ -277,7 +278,7 @@ Route::post('/informes/guardarInformeNeuropsicologica', [HistoriaNeuroPsicologic
 Route::post('/informes/buscarAnexosInforme', [HistoriaNeuroPsicologicaController::class, 'buscarAnexosInforme'])->name('informes.buscarAnexosInforme');
 Route::post('/informes/eliminarAnexoInforme', [HistoriaNeuroPsicologicaController::class, 'eliminarAnexoInforme'])->name('informes.eliminarAnexoInforme');
 Route::post('/informes/imprimirInformeNeuropsicologia', [HistoriaNeuroPsicologicaController::class, 'imprimirInformeNeuropsicologia'])->name('informes.imprimirInformeNeuropsicologia');
-
+Route::post('/informes/enviarInformeNeuropsicologia', [HistoriaNeuroPsicologicaController::class, 'enviarInformeNeuropsicologia'])->name('informes.enviarInformeNeuropsicologia');
 
 // INFORMES GENERALES
 Route::get('/HistoriasClinicas/informes', [HistoriasController::class, 'informes'])->name('gestionar.informes');

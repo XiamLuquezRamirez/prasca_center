@@ -331,6 +331,51 @@
         </div><!-- /.modal -->
     </div>
 
+    
+<!-- SELECCIONAR ENCIAR CONSULTA O IMPRIMIR -->
+<div class="modal fade" id="modalEnviarImprimir" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">`
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 20%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Enviar Informe o Imprimir</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+
+                    <div class="card-body">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button onclick="enviarInforme()" class="btn btn-success"> <i
+                                            class="ti-email"></i> Enviar Informe</button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button onclick="generarPDF()" class="btn btn-primary"> <i
+                                            class="ti-printer"></i> Imprimir Informe</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </div><!-- /.modal -->
+    </div>
+</div>
+<!-- Agregar este HTML justo después del body -->
+<div id="loader-pdf"
+    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.7); z-index: 999999;">
+    <div
+        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: white; padding: 20px; border-radius: 10px;">
+        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+        <h4 class="mt-2" style="color: #333;" id="titulo_loader_pdf">Generando PDF</h4>
+        <p style="margin: 0;">Por favor espere...</p>
+    </div>
+</div>
+
     <!-- /.modal -->
 
     <script>
@@ -730,7 +775,7 @@
                 .catch(error => console.error('Error:', error))
         }
 
-        function imprimirInforme(idPaciente) {
+        function generarInforme(idPaciente) {
             var modal = new bootstrap.Modal(document.getElementById("modalInformeEvoluciones"), {
                 backdrop: 'static',
                 keyboard: false
@@ -739,6 +784,16 @@
 
             document.getElementById('idPaciente').value = idPaciente
             cargarInformes()
+        }
+
+        function imprimirInforme(idInforme) {
+            document.getElementById("idInforme").value = idInforme
+            var modal = new bootstrap.Modal(document.getElementById("modalEnviarImprimir"   ), {
+                backdrop: 'static',
+                keyboard: false
+            })
+
+            modal.show()
         }
 
         function salirInformeEvolucion() {
@@ -767,7 +822,12 @@
             document.querySelector('#salirInfo').style.display = 'none'
             document.getElementById('tituloInforme').innerHTML = 'Crear nuevo informe'
             feather.replace();
-             document.getElementById("accInforme").value = "guardar"
+
+            //limpiar los campos
+            let formInformeEvolucion = document.getElementById('formInformeEvolucion')
+            formInformeEvolucion.reset()
+
+            document.getElementById("accInforme").value = "guardar"
 
             cargarinformacionHistoria()
         }
@@ -831,6 +891,31 @@
             for (var instanceName in CKEDITOR.instances) {
                 CKEDITOR.instances[instanceName].updateElement()
             }
+
+            //validar que el profesional esté seleccionado
+            if (document.getElementById('profesionalInforme').value === '') {
+                swal('Alerta', 'Debe seleccionar un profesional.', 'warning')
+                return;
+            }
+
+            //validar que la fecha esté seleccionada
+            if (document.getElementById('fechaEvolucion').value === '') {
+                swal('Alerta', 'Debe seleccionar una fecha.', 'warning')
+                return;
+            }
+
+            //validar hora
+            if (document.getElementById('horaSeleccionada').value === '') {
+                swal('Alerta', 'Debe seleccionar una hora.', 'warning')
+                return;
+            }
+            
+            //validar que el numero de sesiones esté seleccionado
+            if (document.getElementById('numeroSesiones').value === '') {
+                swal('Alerta', 'Debe seleccionar un numero de sesiones.', 'warning')
+                return;
+            }         
+            
             const formInformeEvolucion = document.getElementById('formInformeEvolucion')
             const formData = new FormData(formInformeEvolucion)
 
@@ -918,7 +1003,10 @@
         }
 
 
-        function generarPDF(idInforme) {
+        function generarPDF() {
+            $("#loader-pdf").show();
+            $("#titulo_loader_pdf").text("Generando PDF");
+            let idInforme = document.getElementById('idInforme').value
             fetch("{{ route('informes.imprimirInformePsicologia') }}", {
                     method: 'POST',
                     headers: {
@@ -942,9 +1030,35 @@
                     a.download = 'InformeEvolucion.pdf';
                     a.click();
                     window.URL.revokeObjectURL(url);
+                    $("#loader-pdf").hide();
                 })
                 .catch(error => console.error('Error:', error));
         }
+
+        function enviarInforme() {
+        $("#loader-pdf").show();
+        $("#titulo_loader_pdf").text("Enviando informe");
+        fetch("{{ route('informes.enviarInforme') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    idInforme: document.getElementById("idInforme").value
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.response == 'noCorreo') {
+                    swal("¡Alerta!", "No se encontró un correo electrónico para enviar la consulta", "warning")
+                } else {
+                    swal("¡Buen trabajo!", "La consulta se ha enviado correctamente", "success")
+                }
+                $("#loader-pdf").hide();
+            })
+            .catch(error => console.error('Error:', error));
+    }
 
 
 

@@ -324,6 +324,50 @@
     </div><!-- /.modal -->
 </div>
 
+<!-- SELECCIONAR ENCIAR CONSULTA O IMPRIMIR -->
+<div class="modal fade" id="modalEnviarImprimir" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">`
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 20%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Enviar Informe o Imprimir</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+
+                    <div class="card-body">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button onclick="enviarInforme()" class="btn btn-success"> <i
+                                            class="ti-email"></i> Enviar Informe</button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button onclick="generarPDF()" class="btn btn-primary"> <i
+                                            class="ti-printer"></i> Imprimir Informe</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </div><!-- /.modal -->
+    </div>
+</div>
+<!-- Agregar este HTML justo después del body -->
+<div id="loader-pdf"
+    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.7); z-index: 999999;">
+    <div
+        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: white; padding: 20px; border-radius: 10px;">
+        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+        <h4 class="mt-2" style="color: #333;" id="titulo_loader_pdf">Generando PDF</h4>
+        <p style="margin: 0;">Por favor espere...</p>
+    </div>
+</div>
+
 <!-- /.modal -->
 
 <script>
@@ -488,18 +532,22 @@
 
     }
 
-    function generarPDF(idInforme) {
-        // Mostrar el loader
-        swal({
-            title: 'Generando PDF...',
-            text: 'Por favor espere mientras se genera el informe',
-            allowOutsideClick: false,
-            showConfirmButton: false,
-            didOpen: () => {
-                swal.showLoading();
-            }
-        });
 
+    function imprimirInforme(idInforme) {
+        
+        document.getElementById('idInforme').value = idInforme
+        var modal = new bootstrap.Modal(document.getElementById("modalEnviarImprimir"), {
+            backdrop: 'static',
+            keyboard: false
+        });
+        modal.show();
+    }
+
+    function generarPDF() {
+
+        var idInforme = document.getElementById('idInforme').value
+        $("#loader-pdf").show();
+        $("#titulo_loader_pdf").text("Generando PDF");
         fetch("{{ route('informes.imprimirInformeNeuropsicologia') }}", {
                 method: 'POST',
                 headers: {
@@ -518,14 +566,13 @@
             })
             .then(blob => {
                 // Cerrar el loader
-                swal.close();
-
                 var a = document.createElement('a');
                 var url = window.URL.createObjectURL(blob);
                 a.href = url;
                 a.download = 'InformeEvolucion.pdf';
                 a.click();
                 window.URL.revokeObjectURL(url);
+                $("#loader-pdf").hide();
             })
             .catch(error => {
                 // Cerrar el loader y mostrar error
@@ -540,16 +587,30 @@
             });
     }
 
-    function imprimirInforme(idPaciente) {
-        var modal = new bootstrap.Modal(document.getElementById("modalInformeEvoluciones"), {
-            backdrop: 'static',
-            keyboard: false
-        });
-        modal.show();
-        document.getElementById('fileList').innerHTML = ""
 
-        document.getElementById('idPaciente').value = idPaciente
-        cargarInformes()
+    function enviarInforme() {
+        $("#loader-pdf").show();
+        $("#titulo_loader_pdf").text("Enviando informe");
+        fetch("{{ route('informes.enviarInformeNeuropsicologia') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    idInforme: document.getElementById("idInforme").value
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.response == 'noCorreo') {
+                    swal("¡Alerta!", "No se encontró un correo electrónico para enviar la consulta", "warning")
+                } else {
+                    swal("¡Buen trabajo!", "La consulta se ha enviado correctamente", "success")
+                }
+                $("#loader-pdf").hide();
+            })
+            .catch(error => console.error('Error:', error));
     }
 
     function nuevoRegistro() {
@@ -802,12 +863,9 @@
 
             //validar hora
             if (document.getElementById('horaSeleccionada').value === '') {
-                swal('Alerta', 'Debe seleccionar una hora.', 'warning')
-              
+                swal('Alerta', 'Debe seleccionar una hora.', 'warning')              
                 return;
             }
-
-
 
 
             const url = "{{ route('form.guardarInformeNeuropsicologica') }}"

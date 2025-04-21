@@ -450,7 +450,7 @@
 
         // Evento click para la paginación
         document.addEventListener('click', function(event) {
-            if (event.target.matches('.pagination a')) {
+            if (event.target.matches('#pagination a')) {
                 event.preventDefault()
                 var href = event.target.getAttribute('href')
                 var page = href.split('page=')[1]
@@ -461,6 +461,20 @@
                 }
             }
         });
+
+        document.addEventListener('click', function(event) {
+            if (event.target.matches('#paginationPac a')) {
+                event.preventDefault()
+                var href = event.target.getAttribute('href')
+                var page = href.split('page=')[1]
+
+                // Asegurarse de que 'page' sea un número antes de hacer la solicitud
+                if (!isNaN(page)) {
+                    cargarPacientes(page);
+                }
+            }
+        });
+
         // Evento input para el campo de búsqueda
         document.getElementById('busqueda').addEventListener('input', function() {
             var searchTerm = this.value;
@@ -515,8 +529,6 @@
         let idPaciente = element.getAttribute("data-id")
         let edadPaciente = parseInt(element.getAttribute("data-edad"), 10)
 
-
-
         document.getElementById('idPaciente').value = idPaciente
         const modal = document.getElementById('modalPacientes')
         const modalInstance = bootstrap.Modal.getInstance(modal)
@@ -528,8 +540,6 @@
             keyboard: false
         });
         modalInforme.show();
-
-
     }
 
 
@@ -794,10 +804,10 @@
     }
 
     function salirInformeEvolucion() {
-        modalControl = false
         const modal = document.getElementById('modalInformeEvoluciones')
         const modalInstance = bootstrap.Modal.getInstance(modal)
         modalInstance.hide()
+
     }
 
     function astrasInformeEvolucion() {

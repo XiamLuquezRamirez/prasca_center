@@ -1355,7 +1355,7 @@ class HistoriaPsicologica extends Model
         return DB::connection('mysql')->table('consultas_psicologica')
             ->leftJoin("referencia_cups", "referencia_cups.id", "consultas_psicologica.codigo_consulta")
             ->leftJoin("referencia_cie10", "referencia_cie10.id", "consultas_psicologica.impresion_diagnostica")
-            ->leftJoin("profesionales", "profesionales.usuario", "consultas_psicologica.id_profesional")
+            ->leftJoin("profesionales", "profesionales.id", "consultas_psicologica.id_profesional")
             ->where("consultas_psicologica.id_historia", $idHisto)
             ->orderBy('consultas_psicologica.fecha_consulta', 'desc')
             ->where("consultas_psicologica.estado", "ACTIVO")
@@ -1375,7 +1375,7 @@ class HistoriaPsicologica extends Model
         return DB::connection('mysql')->table('consultas_psicologica')
             ->leftJoin("referencia_cups", "referencia_cups.id", "consultas_psicologica.codigo_consulta")
             ->leftJoin("referencia_cie10", "referencia_cie10.id", "consultas_psicologica.impresion_diagnostica")
-            ->leftJoin("profesionales", "profesionales.usuario", "consultas_psicologica.id_profesional")
+            ->leftJoin("profesionales", "profesionales.id", "consultas_psicologica.id_profesional")
             ->where("consultas_psicologica.id", $idEvolucion)
             ->select(
                 'consultas_psicologica.id',

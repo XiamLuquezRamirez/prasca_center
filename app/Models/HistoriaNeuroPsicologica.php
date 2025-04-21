@@ -1070,7 +1070,7 @@ class HistoriaNeuroPsicologica extends Model
     public static function historialConsultas($idHisto)
     {
         return DB::connection('mysql')->table('consultas_psicologica_neuro')
-            ->leftJoin("profesionales", "profesionales.usuario", "consultas_psicologica_neuro.id_profesional")
+            ->leftJoin("profesionales", "profesionales.id", "consultas_psicologica_neuro.id_profesional")
             ->where("consultas_psicologica_neuro.id_historia", $idHisto)
             ->orderBy('consultas_psicologica_neuro.fecha_consulta', 'desc')
             ->where("consultas_psicologica_neuro.estado", "ACTIVO")
@@ -1088,7 +1088,7 @@ class HistoriaNeuroPsicologica extends Model
         $historia = DB::connection('mysql')->table('historia_clinica_neuro')
             ->where("id", $idHisto)
             ->first();
-            
+           
        
             if ($historia->dx_principal != null) {
                 $historia->dx_principal_detalle = DB::connection('mysql')

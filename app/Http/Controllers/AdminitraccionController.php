@@ -180,6 +180,7 @@ class AdminitraccionController extends Controller
                     'nombre',
                     'id',
                     'codigo',
+                    'clasificacion',
                     'habilitado'
                 );
 
@@ -204,6 +205,7 @@ class AdminitraccionController extends Controller
                     $tdTable .= '<tr>
                                     <td>' . $item->codigo . '</td>
                                     <td>' . $item->nombre . '</td>
+                                    <td>' . $item->clasificacion . '</td>
                                     <td>' . $habilitado . '</td>
                                     <td class="table-action min-w-100">
                                         <a onclick="editarRegistro(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"

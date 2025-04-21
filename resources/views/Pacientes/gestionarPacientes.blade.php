@@ -1194,7 +1194,7 @@
 
             // Evento click para la paginación
             document.addEventListener('click', function(event) {
-                if (event.target.matches('.pagination a')) {
+                if (event.target.matches('#paginationPacientes a')) {
                     event.preventDefault()
                     var href = event.target.getAttribute('href')
                     var page = href.split('page=')[1]
@@ -1205,6 +1205,21 @@
                     }
                 }
             })
+            document.addEventListener('click', function(event) {
+                if (event.target.matches('#paginationVentaServicios a')) {
+                    event.preventDefault()
+                    var href = event.target.getAttribute('href')
+                    var page = href.split('page=')[1]
+
+                    // Asegurarse de que 'page' sea un número antes de hacer la solicitud
+                    if (!isNaN(page)) {
+                        cargarVentaServiciosPacientes(1)
+                    }
+                }
+            })
+
+
+
             // Evento input para el campo de búsqueda
             document.getElementById('busqueda').addEventListener('input', function() {
                 var searchTerm = this.value
@@ -1636,7 +1651,6 @@
                 let defaultOption = document.createElement("option")
                 defaultOption.value = "" // Valor en blanco
                 defaultOption.text = "Selecciona una opción" // Texto que se mostrará
-                defaultOption.disabled = true // Deshabilitar para que no pueda ser seleccionada
                 defaultOption.selected = true // Que aparezca seleccionada por defecto
                 select.appendChild(defaultOption)
 

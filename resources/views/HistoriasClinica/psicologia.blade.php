@@ -159,7 +159,7 @@
                                                 <div
                                                     class="progress progress-lg">
                                                         <div id="BarraPorcentajeCompletitud"
-                                                        class="progress-bar bg-danger"
+                                                        class="progress-bar"
                                                         role="progressbar"
                                                         style="width: 0%"
                                                         aria-valuenow="75"
@@ -2526,7 +2526,8 @@
 
         // Evento click para la paginación
         document.addEventListener('click', function(event) {
-            if (event.target.matches('.pagination a')) {
+            if (event.target.matches('#pagination a')) {
+                
                 event.preventDefault()
                 var href = event.target.getAttribute('href')
                 var page = href.split('page=')[1]
@@ -2557,15 +2558,28 @@
         })
 
 
-        document.addEventListener('click', function(event) {
-            if (event.target.matches('.pagPac a')) {
-                event.preventDefault()
+        document.addEventListener('click', function(event) {         
+            if (event.target.matches('#paginationPac a')) {
+                 event.preventDefault()
                 var href = event.target.getAttribute('href')
                 var page = href.split('page=')[1]
 
                 // Asegurarse de que 'page' sea un número antes de hacer la solicitud
                 if (!isNaN(page)) {
                     cargarPacientes(page)
+                }
+            }
+        })
+
+        document.addEventListener('click', function(event) {         
+            if (event.target.matches('#paginationConsulta a')) {
+                 event.preventDefault()
+                var href = event.target.getAttribute('href')
+                var page = href.split('page=')[1]
+
+                // Asegurarse de que 'page' sea un número antes de hacer la solicitud
+                if (!isNaN(page)) {
+                    cargarConsultas(page)
                 }
             }
         })
@@ -2840,6 +2854,11 @@
 
         let tipoText = document.getElementById("tipoPsicologia")
         tipoText.value = tipoPsicologia
+
+        //limpiar porcentaje
+        window.porcentajeCompletitud = 0
+        document.getElementById('BarraPorcentajeCompletitud').style.width = "0%"
+        document.getElementById('PorcentajeCompletitud').innerHTML = "0%"
 
         document.getElementById('idPaciente').value = idPaciente
         const modal = document.getElementById('modalHistoria')
@@ -3300,10 +3319,6 @@
             "codDiagnostico",
             "enfermedadActual",
             "quirurgicos",
-            "toxicos",
-            "hospitalizaciones",
-            "traumaticos",
-            "paraclinicos",
             "patologia",
             "medicacion",
             "depresion",
@@ -3332,7 +3347,8 @@
             "objetivos_especificos",
             "sugerencia_interconsultas",
             "observaciones_recomendaciones",
-            "idProfesional"         
+            "idProfesional" 
+        
         ];
 
         // Campos adicionales para Pediatría
@@ -3356,6 +3372,12 @@
             "discapacidad_intelectual"
         ];
 
+        let totalCamp = 0;
+        if(document.getElementById("tipoPsicologia").value === "Pediatría"){
+           totalCamp =  camposPediatria.length + camposRequeridos.length;
+        }else{
+            totalCamp = camposRequeridos.length;
+        }
         // Verificar campos básicos
         camposRequeridos.forEach(function(campo) {
             totalCampos++;
@@ -3382,10 +3404,8 @@
                 }
             }
 
-            //validado para select
-            
-            if (tag === "select") {
-               
+            //validado para select            
+            if (tag === "select") {               
                 if (campoElement.value !== "") {
                     camposCompletados++;
                 } else {
@@ -3396,16 +3416,8 @@
 
             //validado para input
             if (tag === "input") {
-                if (document.getElementById(campo).value !== "") {
-                    camposCompletados++;
-                }
-            }
 
-            //validado para tagsinpu
-
-            if (tag === "input") {
-               if(document.getElementById(campo).getAttribute('data-role') === 'tagsinput'){
-                console.log(document.getElementById(campo).value)
+                if(document.getElementById(campo).getAttribute('data-role') === 'tagsinput'){
                 let tagsInput = document.getElementById(campo).value;
                 if (tagsInput !== "") {
                     camposCompletados++;
@@ -3413,10 +3425,13 @@
                     error = true;
                     camposIncompletos.push(campo);
                 }
-               }
-            }
+               }else{
+                if (document.getElementById(campo).value !== "") {
+                    camposCompletados++;
+                }
+               }               
+            }        
 
-            
         });
 
         // Verificar campos adicionales si es Pediatría
@@ -3434,10 +3449,10 @@
             });
         }
 
-        debugger
+     
 
         // Calcular porcentaje
-        var porcentaje = Math.round((camposCompletados / totalCampos) * 100);
+        var porcentaje = Math.round((camposCompletados / totalCamp) * 100);
 
         // Guardar el porcentaje y los campos incompletos en variables globales
         window.porcentajeCompletitud = porcentaje;
@@ -3969,6 +3984,7 @@
         CKEDITOR.instances['observaciones_recomendaciones'].setData(historia.observaciones_recomendaciones)
         document.getElementById("tipoPsicologia").value = historia.tipologia
 
+        
         let bgColor = "bg-danger"
         if (historia.porcentaje_completitud >= 90) {
             bgColor = 'bg-success'; // Verde intenso
@@ -4390,8 +4406,6 @@
             console.log(window.camposIncompletos);
             var mensaje = "";
 
-            debugger;
-            
                 if (camposIncompletos.length > 0) {
                 // Obtener los nombres de los campos faltantes
                 var labelsIncompletos = camposIncompletos.map(campo => {

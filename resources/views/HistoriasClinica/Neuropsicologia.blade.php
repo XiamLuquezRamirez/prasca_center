@@ -159,7 +159,7 @@
                                                 <div
                                                     class="progress progress-lg">
                                                         <div id="BarraPorcentajeCompletitud"
-                                                        class="progress-bar bg-danger"
+                                                        class="progress-bar"
                                                         role="progressbar"
                                                         style="width: 0%"
                                                         aria-valuenow="75"
@@ -2421,7 +2421,7 @@
 
         // Evento click para la paginación
         document.addEventListener('click', function(event) {
-            if (event.target.matches('.pagination a')) {
+            if (event.target.matches('#pagination a')) {
                 event.preventDefault()
                 var href = event.target.getAttribute('href')
                 var page = href.split('page=')[1]
@@ -2452,7 +2452,7 @@
         })
 
         document.addEventListener('click', function(event) {
-            if (event.target.matches('.pagPac a')) {
+            if (event.target.matches('#paginationPac a')) {
                 event.preventDefault()
                 var href = event.target.getAttribute('href')
                 var page = href.split('page=')[1]
@@ -2460,6 +2460,19 @@
                 // Asegurarse de que 'page' sea un número antes de hacer la solicitud
                 if (!isNaN(page)) {
                     cargarPacientes(page)
+                }
+            }
+        })
+
+        document.addEventListener('click', function(event) {         
+            if (event.target.matches('#paginationConsulta a')) {
+                 event.preventDefault()
+                var href = event.target.getAttribute('href')
+                var page = href.split('page=')[1]
+
+                // Asegurarse de que 'page' sea un número antes de hacer la solicitud
+                if (!isNaN(page)) {
+                    cargarConsultas(page)
                 }
             }
         })
@@ -2632,6 +2645,12 @@
             document.getElementById("infPediatria").style.display = "none"
 
         }
+
+        //limpiar porcentaje
+        window.porcentajeCompletitud = 0
+        document.getElementById('BarraPorcentajeCompletitud').style.width = "0%"
+        document.getElementById('PorcentajeCompletitud').innerHTML = "0%"
+        
 
         let tipoText = document.getElementById("tipoPsicologia")
         tipoText.value = tipoPsicologia
@@ -2907,6 +2926,13 @@
             "discapacidad_intelectual"
         ];
 
+        let totalCamp = 0;
+        if(document.getElementById("tipoPsicologia").value === "Pediatría"){
+           totalCamp =  camposPediatria.length + camposRequeridos.length;
+        }else{
+            totalCamp = camposRequeridos.length;
+        }
+
         // Verificar campos básicos
         camposRequeridos.forEach(function(campo) {
             totalCampos++;
@@ -2945,13 +2971,7 @@
                 }
             }
 
-            //validado para input
-            if (tag === "input") {
-                if (document.getElementById(campo).value !== "") {
-                    camposCompletados++;
-                }
-            }
-
+        
             //validado para tagsinpu
 
             if (tag === "input") {
@@ -2964,6 +2984,10 @@
                     error = true;
                     camposIncompletos.push(campo);
                 }
+               }else{
+                if (document.getElementById(campo).value !== "") {
+                    camposCompletados++;
+                }
                }
             }            
         });
@@ -2971,7 +2995,6 @@
         // Verificar campos adicionales si es Pediatría
         if (document.getElementById("tipoPsicologia").value === "Pediatría") {
             camposPediatria.forEach(function(campo) {
-                totalCampos++;
                 let campoElement = document.getElementById(campo);
              
                 if (document.getElementById(campo).value !== "") {
@@ -2984,7 +3007,7 @@
         }
 
         // Calcular porcentaje
-        var porcentaje = Math.round((camposCompletados / totalCampos) * 100);
+        var porcentaje = Math.round((camposCompletados / totalCamp) * 100);
 
         // Guardar el porcentaje y los campos incompletos en variables globales
         window.porcentajeCompletitud = porcentaje;
@@ -3031,7 +3054,7 @@
 
     function verHistoria(idHist) {
 
-        idHistoriaImprimir = idHist;
+        idHistoriaImprimir = idHist.getAttribute('data-id');
 
         // var btnGuardar = document.getElementById("btn-guardarHistoria")
         // btnGuardar.disabled = true
@@ -3041,7 +3064,7 @@
         document.getElementById("btn-imprimirHistoria").style.display = "initial"
 
         let url = "{{ route('historia.buscaHistoriaNeuroPsicologica') }}";
-
+   
         fetch(url, {
                 method: 'POST',
                 headers: {
@@ -3049,7 +3072,7 @@
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 },
                 body: JSON.stringify({
-                    idHist: idHist
+                    idHist: idHist.getAttribute('data-id')
                 })
             })
             .then(response => response.json())
@@ -3684,8 +3707,6 @@
                 .then(response => response.json())
                 .then(data => {
                     cargarSelConsulta(data.consulta.codigo_consulta, 'codConsultaConsulta')
-
-                    cargarImpresion(data.consulta.impresion_diagnostica, 'codImpresionDiagnosticoConsulta')
 
                     document.getElementById('profesionalConsulta').value = data.consulta.id_profesional
                     $('#profesionalConsulta').val(data.consulta.id_profesional).trigger('change');

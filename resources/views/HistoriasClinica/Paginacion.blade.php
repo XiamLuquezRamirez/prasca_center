@@ -1,5 +1,5 @@
 @if ($paginator->hasPages())
-    <ul class="pagination">
+    <ul class="pagination" id="pagination">
         {{-- Previous Page Link --}}
         @if ($paginator->onFirstPage())
             <li class="paginate_button page-item previous disabled" id="example1_previous">

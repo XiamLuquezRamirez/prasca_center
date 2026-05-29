@@ -11,6 +11,7 @@ use App\Http\Controllers\CumpleanosController;
 use App\Http\Controllers\ProfesionalController;
 use App\Http\Controllers\CatalogoController;
 use App\Http\Controllers\ServicioController;
+use App\Http\Controllers\CajaController;
 use App\Models\HistoriaNeuroPsicologica;
 
 /*
@@ -322,23 +323,23 @@ Route::post('/Administracion/obtenerDatosPago', [AdminitraccionController::class
 Route::post('/Administracion/actualizarPagoRecaudo', [AdminitraccionController::class, 'actualizarPagoRecaudo'])->name('Administracion.actualizarPagoRecaudo');
 
 //GESTIONAR GASTOS
-Route::get('/Administracion/Gastos', [AdminitraccionController::class, 'Gastos']);
-Route::post('/gastos/listaGastos', [AdminitraccionController::class, 'listaGastos'])->name('gastos.listaGastos');
-Route::get('/gastos/listaCategorias', [AdminitraccionController::class, 'listaCategorias'])->name('gastos.listaCategorias');
-Route::post('/gastos/guardarGastos', [AdminitraccionController::class, 'guardarGastos'])->name('form.guardarGastos');
-Route::post('/gastos/guardarCategoria', [AdminitraccionController::class, 'guardarCategoria'])->name('gastos.guardarCategoria');
-Route::post('/gastos/eliminarCategoria', [AdminitraccionController::class, 'eliminarCategoria'])->name('gastos.eliminarCategoria');
-Route::post('/gastos/eliminarGasto', [AdminitraccionController::class, 'eliminarGasto'])->name('gastos.eliminarGasto');
-Route::post('/gastos/buscarGasto', [AdminitraccionController::class, 'buscarGasto'])->name('gastos.buscarGasto');
+Route::get('/Administracion/Gastos', [CajaController::class, 'Gastos']);
+Route::post('/gastos/listaGastos', [CajaController::class, 'listaGastos'])->name('gastos.listaGastos');
+Route::get('/gastos/listaCategorias', [CajaController::class, 'listaCategorias'])->name('gastos.listaCategorias');
+Route::post('/gastos/guardarGastos', [CajaController::class, 'guardarGastos'])->name('form.guardarGastos');
+Route::post('/gastos/guardarCategoria', [CajaController::class, 'guardarCategoria'])->name('gastos.guardarCategoria');
+Route::post('/gastos/eliminarCategoria', [CajaController::class, 'eliminarCategoria'])->name('gastos.eliminarCategoria');
+Route::post('/gastos/eliminarGasto', [CajaController::class, 'eliminarGasto'])->name('gastos.eliminarGasto');
+Route::post('/gastos/buscarGasto', [CajaController::class, 'buscarGasto'])->name('gastos.buscarGasto');
 
 //GESTIONAR CAJAS
-Route::get('/Administracion/Cajas', [AdminitraccionController::class, 'Cajas']);
-Route::post('/cajas/listaCajas', [AdminitraccionController::class, 'listaCajas'])->name('cajas.listaCajas');
-Route::post('/cajas/guardarCaja', [AdminitraccionController::class, 'guardarCaja'])->name('cajas.guardarCaja');
-Route::post('/cajas/detalleCaja', [AdminitraccionController::class, 'detalleCaja'])->name('cajas.detalleCaja');
-Route::post('/cajas/cerrarCaja', [AdminitraccionController::class, 'cerrarCaja'])->name('cajas.cerrarCaja');
-Route::post('/cajas/eliminarCaja', [AdminitraccionController::class, 'eliminarCaja'])->name('cajas.eliminarCaja');
-Route::post('/cajas/consultarMontoCierre', [AdminitraccionController::class, 'consultarMontoCierre'])->name('cajas.consultarMontoCierre');
+Route::get('/Administracion/Cajas', [CajaController::class, 'Cajas']);
+Route::post('/cajas/listaCajas', [CajaController::class, 'listaCajas'])->name('cajas.listaCajas');
+Route::post('/cajas/guardarCaja', [CajaController::class, 'guardarCaja'])->name('cajas.guardarCaja');
+Route::post('/cajas/detalleCaja', [CajaController::class, 'detalleCaja'])->name('cajas.detalleCaja');
+Route::post('/cajas/cerrarCaja', [CajaController::class, 'cerrarCaja'])->name('cajas.cerrarCaja');
+Route::post('/cajas/eliminarCaja', [CajaController::class, 'eliminarCaja'])->name('cajas.eliminarCaja');
+Route::post('/cajas/consultarMontoCierre', [CajaController::class, 'consultarMontoCierre'])->name('cajas.consultarMontoCierre');
 Route::post('/asesorias/buscaVentaAsesoria', [ServicioController::class, 'buscaVentaAsesoria'])->name('asesorias.buscaVentaAsesoria');
 
 //

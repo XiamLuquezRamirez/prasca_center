@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\PacientesController;
-use App\Http\Controllers\AdminitraccionController;
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\HistoriasController;
 use App\Http\Controllers\HistoriaNeuroPsicologicaController;
@@ -13,6 +12,7 @@ use App\Http\Controllers\CatalogoController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\CajaController;
 use App\Http\Controllers\RecaudosController;
+use App\Http\Controllers\SistemaController;
 use App\Models\HistoriaNeuroPsicologica;
 
 /*
@@ -108,10 +108,10 @@ Route::post('/cie10/listaCIE10', [CatalogoController::class, 'listaCIE10'])->nam
 
 ///GESTIONAR BACKUP DE FORMULARIOS
 Route::middleware(['auth', 'permission:AdminBackup'])->group(function () {
-    Route::get('/Administracion/Backup', [AdminitraccionController::class, 'Backup']);
+    Route::get('/Administracion/Backup', [SistemaController::class, 'Backup']);
 });
-Route::post('/backup/listaBackup', [AdminitraccionController::class, 'listaBackup'])->name('Adminitraccion.listaBackup');
-Route::post('/backup/verDetalleBackup', [AdminitraccionController::class, 'verDetalleBackup'])->name('Adminitraccion.verDetalleBackup');
+Route::post('/backup/listaBackup', [SistemaController::class, 'listaBackup'])->name('Adminitraccion.listaBackup');
+Route::post('/backup/verDetalleBackup', [SistemaController::class, 'verDetalleBackup'])->name('Adminitraccion.verDetalleBackup');
 
 ///GESTIONAR ASESORIAS
 Route::middleware(['auth', 'permission:AdminAsesorias'])->group(function () {
@@ -251,7 +251,7 @@ Route::post('/informes/enviarConsultaNeuro', [HistoriaNeuroPsicologicaController
 
 /// GESTIONAR USUARIOS
 Route::middleware(['auth', 'permission:gestionUsuarios'])->group(function () {
-    Route::get('/Administracion/Usuarios', [AdminitraccionController::class, 'Usuarios']);
+    Route::get('/Administracion/Usuarios', [SistemaController::class, 'Usuarios']);
 });
 
 Route::post('/AdminUsuario/listaUsuarios', [UsuariosController::class, 'listaUsuarios'])->name('usuarios.listaUsuarios');
@@ -263,13 +263,13 @@ Route::post('/AdminUsuario/buscaPerfil', [UsuariosController::class, 'buscaPerfi
 Route::post('/AdminUsuario/eliminarUsuario', [UsuariosController::class, 'eliminarUsuario'])->name('usuario.eliminarUsuario');
 Route::post('/AdminUsuario/eliminarPerfil', [UsuariosController::class, 'eliminarPerfil'])->name('usuario.eliminarPerfil');
 Route::middleware(['auth', 'permission:gestionPerfiles'])->group(function () {
-    Route::get('/Administracion/Perfiles', [AdminitraccionController::class, 'Perfiles']);
+    Route::get('/Administracion/Perfiles', [SistemaController::class, 'Perfiles']);
 });
 Route::post('/AdminUsuario/listaPerfiles', [UsuariosController::class, 'listaPerfiles'])->name('usuario.listaPerfiles');
 Route::get('/Administracion/buscaListPerfiles', [UsuariosController::class, 'buscaListPerfiles'])->name('usuario.buscaListPerfiles');
 
 Route::middleware(['auth', 'permission:gestionLog'])->group(function () {
-    Route::get('/Administracion/Logs', [AdminitraccionController::class, 'Logs']);
+    Route::get('/Administracion/Logs', [SistemaController::class, 'Logs']);
 });
 
 Route::post('/AdminUsuario/listaLogs', [UsuariosController::class, 'listaLogs'])->name('AdminUsuario.listaLogs');

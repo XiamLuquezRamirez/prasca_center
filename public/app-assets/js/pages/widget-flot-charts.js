@@ -240,7 +240,7 @@ $(function () {
 
     var donutData = [
       { label: 'Jan-Apr', data: 85, color: '#51ce8a' },
-      { label: 'May-Aug', data: 68, color: '#733aeb' },
+      { label: 'May-Aug', data: 68, color: '#835ad9' },
       { label: 'Sep-Dec', data: 42, color: '#f2426d' }
     ]
     $.plot('#donut-chart', donutData, {

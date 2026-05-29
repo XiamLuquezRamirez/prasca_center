@@ -244,11 +244,13 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            let menuP = document.getElementById("informePsicologia")
+            let menuP = document.getElementById("principalInformes")
+            let menuS = document.getElementById("informeNeuropsicolologico")
+            menuP.classList.add("active", "menu-open")
+            menuS.classList.add("active")
             let rtotal = $("#RutaTotal").data("ruta")
-            menuP.classList.add("active")
+            
             let modalControl;
-
             loader = document.getElementById('loader')
 
             $("#formInformeEvolucion").validate({

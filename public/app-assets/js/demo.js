@@ -272,7 +272,7 @@ $(function () {
 
   var $themeInfo =
         $('<li />', { style: 'padding: 5px;' })
-          .append('<a href="javascript:void(0)" data-theme="theme-info" style="background: #733aeb; display: block;vertical-align: middle;" class="clearfix rounded w-p100 h-30 mb-5" title="Theme info">'
+          .append('<a href="javascript:void(0)" data-theme="theme-info" style="background: #835ad9; display: block;vertical-align: middle;" class="clearfix rounded w-p100 h-30 mb-5" title="Theme info">'
             + '</a>')
   $skinsList.append($themeInfo)
 

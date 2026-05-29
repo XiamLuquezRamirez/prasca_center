@@ -109,8 +109,8 @@ let fechaHoraFinal
                 title: motivo,
                 start: nuevaCitaStart,
                 end: nuevaCitaEnd,
-                backgroundColor: "#733AEB", // Color verde de fondo (puedes personalizarlo)
-                borderColor: "#733AEB",    // Color del borde (opcional)
+                backgroundColor: "#835ad9", // Color verde de fondo (puedes personalizarlo)
+                borderColor: "#835ad9",    // Color del borde (opcional)
                 textColor: "#ffffff"
             };
 
@@ -1250,17 +1250,12 @@ function procederCambiarEstado(estado) {
             estadoCita: estado
         })
     })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Error HTTP: ${response.status}`);
-            }
-            return response.json();
-        })
+    .then(response => response.json())
         .then(data => {
-            if (data.estado == "ok") {
+            if (data.estado == "success") {
                 swal({
                     type: "success",
-                    title: "",
+                    title: "¡Buen trabajo!",
                     text: "El estado de la cita fue cambiada a " +
                         estado + " exitosamente",
                     confirmButtonClass: "btn btn-primary",
@@ -1268,6 +1263,15 @@ function procederCambiarEstado(estado) {
                     buttonsStyling: false
                 });
                 cargarCitas();
+            }else{
+                swal({
+                    type: "error",
+                    title: "¡Error!",
+                    text: "Error al cambiar el estado de la cita",
+                    confirmButtonClass: "btn btn-primary",
+                    timer: 2000,
+                    buttonsStyling: false
+                });
             }
         })
         .catch(error => console.error('Error al cargar disponibilidad:', error));
@@ -1318,6 +1322,47 @@ function addComentario() {
         })
         .catch(error => console.error('Error al cargar disponibilidad:', error));
 
+}
+
+function notifCPaciente(){
+    var idCita = $("#idCita").val();
+    const url = $('#urlBase').data("ruta")
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    fetch(`${url}citas/notificarPaciente`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken,
+            'X-Requested-With': 'XMLHttpRequest' // Esta cabecera adicional
+        },
+        body: JSON.stringify({
+            idCita: idCita
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (data.estado == "success") {
+                swal({
+                    type: "success",
+                    title: "¡Buen trabajo!",
+                    text: "Notificación enviada exitosamente",
+                    confirmButtonClass: "btn btn-primary",
+                    timer: 2000,
+                    buttonsStyling: false
+                });
+            }else{
+                swal({
+                    type: "error",
+                    title: "¡Error!",
+                    text: "Error al enviar notificación",
+                    confirmButtonClass: "btn btn-primary",
+                    timer: 2000,
+                    buttonsStyling: false
+                });
+            }
+        })
+        .catch(error => console.error('Error al cargar disponibilidad:', error));
 }
 
 

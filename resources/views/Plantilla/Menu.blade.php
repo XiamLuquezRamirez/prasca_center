@@ -108,7 +108,7 @@
                                     </li>
                                 @endif
                                 @if (in_array('informeNeuro', session('permisos', [])))
-                                    <li id="informeNeuro">
+                                    <li id="informeNeuropsicolologico">
                                         <a href="{{ url('/HistoriasClinicas/InformeNeuropsicologico') }}">
                                             <i class="icon-Commit"><span class="path1"></span><span
                                                     class="path2"></span></i>Informe neuropsicológico
@@ -200,6 +200,14 @@
                                         <a href="{{ url('/Administracion/Perfiles') }}">
                                             <i class="icon-Commit"><span class="path1"></span><span
                                                 class="path2"></span></i> Perfiles
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (in_array('gestionLog', session('permisos', [])))
+                                    <li id="logs">
+                                        <a href="{{ url('/Administracion/Logs') }}">
+                                            <i class="icon-Commit"><span class="path1"></span><span
+                                                class="path2"></span></i> Historial de acciones
                                         </a>
                                     </li>
                                 @endif

@@ -32,6 +32,42 @@ class HistoriaNeuroPsicologica extends Model
         return $anexos;
     }
 
+    public static function guardarPlanIntervencion($request)
+    {
+        try {
+            DB::beginTransaction();
+            try {
+                $idHistoria = $request['idHistoriaPlan'];
+
+                DB::table('historia_clinica_neuro')->where('id', $idHistoria)->update(array_filter([
+                    // 'plan_intervencion' => $request['plan_intervencion'] ?? null,
+                    'objetivo_general' => $request['objetivoGeneralModal'] ?? null,
+                    'objetivos_especificos' => $request['objetivoEspecificoModal'] ?? null,
+                    'sugerencias_interconsultas' => $request['sugerenciasModal'] ?? null,
+                    'observaciones_recomendaciones' => $request['observacionesModal'] ?? null
+                ]));
+                DB::commit();
+                return ['idHistoria' => $idHistoria];
+            } catch (\Exception $e) {
+                DB::rollBack();
+                throw $e;
+            }
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return ['error' => 'Error al guardar el plan de intervención'];
+        }
+    }
+
+    public static function busquedaPlanIntervencion($idHistoria)
+    {
+        $plan = DB::table('historia_clinica_neuro')
+            ->select('objetivo_general', 'objetivos_especificos', 'sugerencias_interconsultas', 'observaciones_recomendaciones')
+            ->where('id', $idHistoria)
+            ->first();
+
+        return $plan;
+    }
+
     public static function Guardar($request)
     {
 

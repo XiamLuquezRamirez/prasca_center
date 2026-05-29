@@ -1488,16 +1488,16 @@
                                         <div class="tab-pane show active" id="justified-tabs-preview">
                                             <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
                                                 <!--
-                                                    <li class="nav-item">
-                                                        <a href="#datos_iniciales" data-bs-toggle="tab"
-                                                            aria-expanded="false" class="nav-link rounded-0 active">
-                                                            <span class="d-none d-md-block">
-                                                                <i class="fa fa-user-circle"></i>
-                                                                Datos Iniciales
-                                                            </span>
-                                                        </a>
-                                                    </li>
-                                                    -->
+                                                        <li class="nav-item">
+                                                            <a href="#datos_iniciales" data-bs-toggle="tab"
+                                                                aria-expanded="false" class="nav-link rounded-0 active">
+                                                                <span class="d-none d-md-block">
+                                                                    <i class="fa fa-user-circle"></i>
+                                                                    Datos Iniciales
+                                                                </span>
+                                                            </a>
+                                                        </li>
+                                                        -->
                                                 <li class="nav-item">
                                                     <a href="#resumenEval" data-bs-toggle="tab" aria-expanded="true"
                                                         class="nav-link rounded-0">
@@ -1553,6 +1553,71 @@
                                         </div>
                                     </div>
 
+                                </form>
+                            </div>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </div><!-- /.modal -->
+    </div>
+
+
+    <!-- MODAL PLAN INTERVENCION -->
+    <div class="modal fade" id="modalPlanIntervencion" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">`
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Plan de intervención</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-body">
+                                <form id="formPlanIntervencion">
+                                    @csrf <!-- Directiva para el token CSRF de Laravel -->
+                                    <input type="hidden" id="idHistoriaPlan" name="idHistoriaPlan" />
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="objetivoGeneralModal" class="form-label">Objetivo
+                                                    General:</label>
+                                                <textarea class="form-control" id="objetivoGeneralModal" name="objetivoGeneralModal" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="objetivoEspecificoModal" class="form-label">Objetivos
+                                                    Específicos:</label>
+                                                <textarea class="form-control" id="objetivoEspecificoModal" name="objetivoEspecificoModal" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="sugerenciasModal" class="form-label">Sugerencia para
+                                                    Interconsultas:</label>
+                                                <textarea class="form-control" id="sugerenciasModal" name="sugerenciasModal" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="observacionesModal" class="form-label">Observaciones y
+                                                    Recomendaciones:</label>
+                                                <textarea class="form-control" id="observacionesModal" name="observacionesModal" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="box-footer text-end mt-3">
+                                            <button onclick="cancelarPlan()" type="button"
+                                                class="btn btn-primary-light me-1">
+                                                <i class="ti-share-alt"></i> Cancelar
+                                            </button>
+                                            <button onclick="guardarPlan()" type="button" class="btn btn-primary">
+                                                <i class="ti-save"></i> Guardar
+                                            </button>
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -1878,6 +1943,10 @@
                 'observaciones_recomendaciones',
                 'sugerencia_interconsultas',
                 'evolucion_plan',
+                'sugerenciasModal',
+                'observacionesModal',
+                'objetivoGeneralModal',
+                'objetivoEspecificoModal'
             ];
 
             $(function() {
@@ -1961,11 +2030,6 @@
                         cargarPacientes(page)
                     }
                 }
-            })
-
-            $('#inline-comments').editable({
-                showbuttons: 'bottom',
-                mode: 'inline'
             })
 
             var ultimaParteURLAnterior = document.referrer.split('/').filter(Boolean).pop()
@@ -3372,7 +3436,7 @@
                         }
                         mensajesError.push(
                             `<h4><i class="fa fa-exclamation-circle"></i> El campo '${nombreCampo}' es obligatorio. <br></h4>`
-                            );
+                        );
                     }
                 } else {
 
@@ -3387,7 +3451,7 @@
                             var nombreCampo = labelAnterior.textContent.trim().replace(":", "");
                             mensajesError.push(
                                 `<h4><i class="fa fa-exclamation-circle"></i> El campo '${nombreCampo}' es obligatorio. <br></h4>`
-                                );
+                            );
                         }
                     }
                 }
@@ -3406,6 +3470,87 @@
             $('#modalErrores').modal('show');
             document.getElementById("body_errores").innerHTML = "";
             document.getElementById("body_errores").innerHTML = errores;
+        }
+
+        function PlanIntervencionHistoria(element) {
+            let idHist = element.getAttribute("data-id")
+            document.getElementById("idHistoriaPlan").value = idHist
+
+            var modal = new bootstrap.Modal(document.getElementById("modalPlanIntervencion"), {
+                backdrop: 'static',
+                keyboard: false
+            })
+
+            modal.show()
+            let url = "{{ route('historia.buscaPlanIntervencionNeuro') }}"
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        idHist: idHist
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // document.getElementById("idPlanIntervencion").value = data.historia.id_plan_intervencion
+                    CKEDITOR.instances['sugerenciasModal'].setData(data.planIntervencion.sugerencias_interconsultas)
+                    CKEDITOR.instances['observacionesModal'].setData(data.planIntervencion
+                        .observaciones_recomendaciones)
+                    CKEDITOR.instances['objetivoGeneralModal'].setData(data.planIntervencion.objetivo_general)
+                    CKEDITOR.instances['objetivoEspecificoModal'].setData(data.planIntervencion.objetivos_especificos)
+                })
+                .catch(error => console.error('Error:', error))
+
+        }
+
+        function cancelarPlan() {
+            document.getElementById("formPlanIntervencion").reset()
+            CKEDITOR.instances['sugerenciasModal'].setData("")
+            const modal = document.getElementById('modalPlanIntervencion')
+            const modalInstance = bootstrap.Modal.getInstance(modal)
+            modalInstance.hide()
+
+        }
+
+        function guardarPlan() {
+            if ($("#formPlanIntervencion").valid()) {
+                for (var instanceName in CKEDITOR.instances) {
+                    CKEDITOR.instances[instanceName].updateElement()
+                }
+                const formPlanIntervencion = document.getElementById('formPlanIntervencion')
+                const formData = new FormData(formPlanIntervencion)
+
+                const url = "{{ route('form.guardarPlanIntervencionNeuro') }}"
+
+                fetch(url, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        if (data.success = 'success') {
+
+                            swal(data.title, data.message, data.success)
+                            const modal = document.getElementById('modalPlanIntervencion')
+                            const modalInstance = bootstrap.Modal.getInstance(modal)
+                            modalInstance.hide()
+
+                        } else {
+                            swal(data.title, data.message, data.success)
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error al enviar los datos:", error)
+                    })
+
+            }
         }
     </script>
 

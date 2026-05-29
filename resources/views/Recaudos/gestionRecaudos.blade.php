@@ -23,8 +23,7 @@
                     <div class="box box-body pull-up Sales_Profit ">
                         <div class="row">
                             <div class="col-12">
-                                <h4 class="hover-success"><i class="fa fa-fw fa-gg-circle text-primary"></i> Ventas con
-                                    saldo: </h4>
+                                <h4 class="hover-success"><i class="fa fa-fw fa-gg-circle text-primary"></i> Pagos completados: </h4>
                                 <div class="d-flex" style="justify-content: flex-end">
                                     <p class="fs-35 fw-600 mb-0" id="pagosSaldoVis"> </p>
                                 </div>
@@ -87,7 +86,7 @@
                                                     <!-- Campo de búsqueda -->
                                                     <div class="mb-3">
                                                         <input type="text" id="buscarVentas" class="form-control"
-                                                            placeholder="Buscar por paciente o paquete">
+                                                            placeholder="Buscar por paciente">
                                                     </div>
 
                                                     <!-- Tabla de ventas pendientes -->
@@ -104,7 +103,7 @@
                                                                         <h3>Fecha venta</h3>
                                                                     </th>
                                                                     <th class="p-5 px-15" style="min-width: 150px">
-                                                                        <h3>Sesiones disponibles</h3>
+                                                                        <h3>Valor</h3>
                                                                     </th>
                                                                     <th class="p-5 px-15" style="min-width: 150px">
                                                                         <h3>Saldo</h3>
@@ -204,9 +203,9 @@
                     </ul>
                     <div class="tab-content px-1 pt-1">
                         <div class="tab-pane active" id="infPago" aria-labelledby="homeIcon-tab" role="tabpanel">
-                            <h5 class="mb-1"><i class="feather icon-info"></i> Información del la venta de paquete </h5>
+                            <h5 class="mb-1"><i class="feather icon-info"></i> Información del la venta del servicio </h5>
                             <form id="formVenta">
-                                <input type="hidden" id="idVentaPaquete" name="idVentaPaquete">
+                                <input type="hidden" id="idVentaServicio" name="idVentaServicio">
                                 <input type="hidden" id="idPago" name="idPago">
                                 <input type="hidden" id="accPago" name="accPago">
                                 <div class="border p-3 mt-4 mt-lg-0 rounded">
@@ -448,7 +447,7 @@
                 .then(response => response.json())
                 .then(responseData => {
                     document.getElementById("pagosPendientesVis").innerText = responseData.pagosPendientes
-                    document.getElementById("pagosSaldoVis").innerText = responseData.ventasConSaldo
+                    document.getElementById("pagosSaldoVis").innerText = responseData.ventasPagadas
                     document.getElementById("recaudoMes").innerText = formatCurrency(responseData.recaudoMes, 'es-CO',
                         'COP')
                     document.getElementById("recaudodia").innerText = formatCurrency(responseData.recaudoDia, 'es-CO',
@@ -587,7 +586,7 @@
             document.getElementById("fechaPago").value = ""
 
 
-            let url = "{{ route('Administracion.detalleVentaPaquetePaciente') }}";
+            let url = "{{ route('Administracion.detalleVentaServicioPaciente') }}";
 
             fetch(url, {
                     method: 'POST',
@@ -602,20 +601,19 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById("idVentaPaquete").value = data.PaqueteVenta.id
-                    document.getElementById("descripcionPaquete").innerText = data.PaqueteVenta.descripion_paquete
-                        .descripcion
+                    document.getElementById("idVentaServicio").value = data.PaqueteVenta.id
+                    document.getElementById("descripcionPaquete").innerText = data.PaqueteVenta.descripcion
                     document.getElementById("sesionesPaquete").innerText =
-                        `${data.PaqueteVenta.sesiones_disponibles} sesión disponible de ${data.PaqueteVenta.sesiones_compradas}`
-                    document.getElementById("valorPaquete").innerText = formatCurrency(data.PaqueteVenta.monto_total,
+                        `Cantidad de sesiones: ${data.PaqueteVenta.cantidad}`
+                    document.getElementById("valorPaquete").innerText = formatCurrency(data.PaqueteVenta.total,
                         'es-CO', 'COP')
 
-                    document.getElementById("valorAbonoPrevioVis").innerText = formatCurrency(data.PaqueteVenta.abonos,
+                    document.getElementById("valorAbonoPrevioVis").innerText = formatCurrency(data.totalAbonos,
                         'es-CO',
                         'COP')
-                    document.getElementById("valorAbonoPrevio").value = data.PaqueteVenta.abonos
+                    document.getElementById("valorAbonoPrevio").value = data.totalAbonos
 
-                    let valorPagar = parseFloat(data.PaqueteVenta.monto_total) - parseFloat(data.PaqueteVenta.abonos)
+                    let valorPagar = parseFloat(data.PaqueteVenta.total) - parseFloat(data.totalAbonos)
 
                     document.getElementById("valorTotalPaquete").innerText = formatCurrency(valorPagar, 'es-CO',
                         'COP')
@@ -634,9 +632,9 @@
                                 <td>${formatCurrency(pago.pago_realizado, 'es-CO', 'COP')}</td>
                                 <td>${pago.nombreMedioPago}</td>
                                 <td>
-                                        <a onclick="imprimirPagoRecaudo();" style="cursor: pointer;" title="Imprimir Comprobante" class="text-fade hover-primary"><i class="align-middle"
+                                        <a onclick="imprimirPagoRecaudo(${pago.id});" style="cursor: pointer;" title="Imprimir Comprobante" class="text-fade hover-primary"><i class="align-middle"
                                                 data-feather="printer"></i></a>
-                                        <a onclick="eliminarPagoRecaudo();" style="cursor: pointer;" title="Eliminar" class="text-fade hover-warning"><i class="align-middle"
+                                        <a onclick="eliminarPagoRecaudo(${pago.id});" style="cursor: pointer;" title="Eliminar" class="text-fade hover-warning"><i class="align-middle"
                                                 data-feather="trash"></i></a>
                                 </td>
                             </tr>`
@@ -646,6 +644,79 @@
 
                 })
                 .catch(error => console.error('Error:', error))
+        }
+
+        function imprimirPagoRecaudo(idRecaudo){
+            fetch("{{ route('Administracion.imprimirRecaudo') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        idRecaudo: idRecaudo
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al generar el informe.');
+                    }
+                    return response.blob(); // Cambiar a blob
+                })
+                .then(blob => {
+                    var a = document.createElement('a');
+                    var url = window.URL.createObjectURL(blob);
+                    a.href = url;
+                    a.download = 'InformeEvolucion.pdf';
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(error => console.error('Error:', error));
+
+
+        }
+
+        function eliminarPagoRecaudo(idPago){
+            swal({
+                title: "Esta seguro?",
+                text: "No podrás recuperar este registrto!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#fec801",
+                confirmButtonText: "Si, eliminar!",
+                cancelButtonText: "No, cancelar!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function(isConfirm) {
+                if (isConfirm) {
+                    let url = "{{ route('Administracion.eliminarPagoRecaudo') }}";
+
+                    fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                idPago: idPago
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                swal("¡Buen trabajo!", "El pago fue eliminado exitosamente.", "success")
+                                cargarTablaRecaudos(1)
+                                cargarTablaRecaudosPagos(1)
+                                cargarOtraInformacion()
+                                realizarPago(data.idServicio)
+
+                            } else {
+                                console.error('Error en el procesamiento:', data.message)
+                            }
+                        })
+                        .catch(error => console.error('Error:', error))
+                }
+            });
         }
 
         function cargarMedioPago() {
@@ -808,6 +879,7 @@
                         cargarTablaRecaudos(1)
                         cargarTablaRecaudosPagos(1)
                         cargarOtraInformacion()
+                        realizarPago(document.getElementById("idVentaServicio").value)
 
                         document.getElementById("accPago").value = "guardar"
 

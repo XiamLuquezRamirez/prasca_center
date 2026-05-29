@@ -228,6 +228,13 @@
                                                 <label class="form-check-label"
                                                     for="permisos_gestionPerfiles">Perfiles</label>
                                             </div>
+                                            <div class="form-check  ms-3">
+                                                <input class="form-check-input" type="checkbox"
+                                                    id="permisos_gestionLog" name="permisos[]"
+                                                    value="gestionLog">
+                                                <label class="form-check-label"
+                                                    for="permisos_gestionLog">Historial de acciones</label>
+                                            </div>
 
                                             <div class="form-check">
                                                 <label class="form-check-label" for="permisoUsuarios"><strong>Otros permisos</strong></label>

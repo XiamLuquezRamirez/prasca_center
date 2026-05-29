@@ -458,7 +458,7 @@ $( document ).ready(function() {
 		  },
 
 		  series: [67],
-			colors: ["#733aeb"],
+			colors: ["#835ad9"],
 		  plotOptions: {
 			radialBar: {
 			  hollow: {
@@ -559,7 +559,7 @@ $( document ).ready(function() {
           height: 325,
           type: 'radialBar',
         },
-		colors: ["#733aeb", "#f2426d", "#51ce8a", "#46bc5c"],	 
+		colors: ["#835ad9", "#f2426d", "#51ce8a", "#46bc5c"],	 
         stroke: {
 			lineCap: "round",
 		  },

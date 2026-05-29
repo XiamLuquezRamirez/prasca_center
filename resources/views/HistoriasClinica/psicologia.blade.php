@@ -1681,8 +1681,9 @@
                 </div>
                 <div class="modal-body">
                     <form id="formPaquetes" style="display: none;">
-                        <input type="hidden" name="accPaquete" id="accPaquete" value="guardar" />
-                        <input type="hidden" name="idPaquete" id="idPaquete" value="" />
+                        <input type="hidden" name="accVentaPaquete" id="accVentaPaquete" value="guardar" />
+                        <input type="hidden" name="idVentaPaquete" id="idVentaPaquete" value="" />
+                        <input type="hidden" name="descripcionVentaPaquete" id="descripcionVentaPaquete" value="" />
                         <div class="row">
                             <div class="col-md-9">
                                 <div class="form-group">
@@ -2448,7 +2449,8 @@
                 'sugerenciasModal',
                 'observacionesModal',
                 'objetivoGeneralModal',
-                'objetivoEspecificoModal'
+                'objetivoEspecificoModal'          
+           
             ]
 
             $(function() {
@@ -4038,6 +4040,7 @@
                             let option = document.createElement("option");
                             option.value = paquete.id;
                             option.setAttribute('data-valor', paquete.precio_por_sesion);
+                            option.setAttribute('data-descripcion', paquete.descripcion);
                             option.text = paquete.descripcion;
                             select.appendChild(option);
                         });
@@ -4066,6 +4069,8 @@
             var formatoMoneda = formatCurrency(precio, 'es-CO', 'COP')
             document.getElementById("precioSesion").value = precio
             document.getElementById("precioSesionVis").value = formatoMoneda
+            let descripcion = element.options[element.selectedIndex].getAttribute('data-descripcion')
+            document.getElementById("descripcionVentaPaquete").value = descripcion
             calValorMonto()
         }
 
@@ -4148,7 +4153,7 @@
             //recorrer en la tabla html y verificar si existem paqueter sin terminar
             let table = document.getElementById("tblPaquetes")
             let rows = table.getElementsByTagName("tr")
-            debugger
+          
             for (let i = 0; i < rows.length; i++) {
                 let cells = rows[i].getElementsByTagName("td")
                 if (cells.length > 0) {
@@ -4164,8 +4169,8 @@
 
             let formPaquete = document.getElementById("formPaquetes")
             formPaquete.reset()
-            document.getElementById("accPaquete").value = "guardar"
-            document.getElementById("idPaquete").value = ""
+            document.getElementById("accVentaPaquete").value = "guardar"
+            document.getElementById("idVentaPaquete").value = ""
             document.getElementById('saveRegistroPaq').removeAttribute('disabled')
             document.getElementById("tituloPaquete").innerHTML = "Nuevo Paquete"
             formPaquete.style.display = "initial"
@@ -4192,7 +4197,7 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data)
+                        
                         if (data.success = 'success') {
 
                             swal(data.title, data.message, data.success)
@@ -4216,8 +4221,8 @@
             document.getElementById("listPaquetes").style.display = "none"
             document.getElementById("formPaquetes").style.display = "initial"
 
-            document.getElementById("idPaquete").value = idPaquete
-            document.getElementById("accPaquete").value = "editar"
+            document.getElementById("idVentaPaquete").value = idPaquete
+            document.getElementById("accVentaPaquete").value = "editar"
 
             let url = "{{ route('paquetes.buscaPaqueteVenta') }}"
 
@@ -4233,16 +4238,19 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById("tituloPaquete").innerHTML = "Editar Paquete"
-                    document.getElementById("precioSesion").value = data.paquete.valor_sesion
-                    document.getElementById("numSesiones").value = data.paquete.sesiones_compradas
-                    document.getElementById("montoFinal").value = data.paquete.monto_total
-                    document.getElementById("montoFinalVis").value = formatCurrency(data.paquete.monto_total, 'es-CO',
+                    document.getElementById("tituloPaquete").innerHTML = "Editar venta paquete"
+                    document.getElementById("precioSesion").value = data.paquete.valor
+                    document.getElementById("numSesiones").value = data.paquete.cantidad
+                    document.getElementById("montoFinal").value = data.paquete.precio
+                    document.getElementById("montoFinalVis").value = formatCurrency(data.paquete.precio, 'es-CO',
                         'COP')
-                    document.getElementById("fechaPaquete").value = data.paquete.fecha_compra
-                    $('#selPaquete').val(data.paquete.paquete_id).trigger('change.select2')
-                    document.getElementById("precioSesionVis").value = formatCurrency(data.paquete.valor_sesion,
+                    let paraFecha = data.paquete.fecha.split(" ")    
+                    document.getElementById("fechaPaquete").value = paraFecha[0]
+                    $('#selPaquete').val(data.paquete.id_paquete).trigger('change.select2')
+                    document.getElementById("precioSesionVis").value = formatCurrency(data.paquete.valor,
                         'es-CO', 'COP')
+
+                    document.getElementById("descripcionVentaPaquete").value = data.paquete.descripion_paquete.descripcion
                     document.getElementById("saveRegistroPaq").removeAttribute('disabled')
                 })
                 .catch(error => console.error('Error:', error))
@@ -4294,10 +4302,8 @@
 
         function eliminarPaquete(idPaquete) {
 
-          
-
             swal({
-                title: "Esta seguro de eliminar este paquete ?",
+                title: "Esta seguro de eliminar esta venta de paquete ?",
                 text: "¡No podrás revertir esto!",
                 type: "warning",
                 showCancelButton: true,
@@ -4431,7 +4437,7 @@
                     CKEDITOR.instances['observacionesModal'].setData(data.planIntervencion
                         .observaciones_recomendaciones)
                     CKEDITOR.instances['objetivoGeneralModal'].setData(data.planIntervencion.objetivo_general)
-                    CKEDITOR.instances['objetivosEspecificosModal'].setData(data.planIntervencion.objetivos_especificos)
+                    CKEDITOR.instances['objetivoEspecificoModal'].setData(data.planIntervencion.objetivos_especificos)
                 })
                 .catch(error => console.error('Error:', error))
 

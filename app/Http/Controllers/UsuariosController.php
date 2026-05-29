@@ -435,6 +435,59 @@ class UsuariosController extends Controller
             return redirect("/")->with("error", "Su Sesión ha Terminado");
         }
     }
+    public function listaLogs(Request $request)
+    {
+
+        if (Auth::check()) {
+            $perPage = 10; // Número de posts por página
+            $page = request()->get('page', 1);
+            $search = request()->get('search');
+            if (!is_numeric($page)) {
+                $page = 1; // Establecer un valor predeterminado si no es numérico
+            }
+
+            $losg = DB::connection('mysql')
+            ->table('logs')
+            ->leftJoin('users', 'users.id', 'logs.user_id')
+            ->where(function($query) {
+                $query->where('logs.detalles', '!=', '[]')  // Excluir el arreglo vacío
+                      ->orWhereNull('logs.detalles');  // Incluir registros sin detalles
+            });
+
+            if ($search) {
+                $losg->where(function ($query) use ($search) {
+                    $query->where('users.nombre_usuario', 'LIKE', '%' . $search . '%');
+                });
+            }
+
+            $ListLogs= $losg->paginate($perPage, ['*'], 'page', $page);
+
+            $tdTable = '';
+            $x = ($page - 1) * $perPage + 1;
+
+            foreach ($ListLogs as $i => $item) {
+                if (!is_null($item)) {
+
+                    $tdTable .= '<tr>
+                                    <td>' . $item->nombre_usuario . '</td>                                   
+                                    <td>' . $item->accion . '</td>                                   
+                                    <td>' . $item->ip . '</td>                                   
+                                    <td>' . $item->detalles. '</td>                                   
+                                </tr>';
+                    $x++;
+                }
+            }
+
+            $pagination = $ListLogs->links('Usuario.paginacionUsuarios')->render();
+
+            return response()->json([
+                'logs' => $tdTable,
+                'links' => $pagination,
+            ]);
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
 
 
     public function Logout()

@@ -393,7 +393,7 @@ $(function () {
             enabled: true
           }
         },
-		colors:['#46bc5c','#51ce8a','#733aeb','#f2426d'],
+		colors:['#46bc5c','#51ce8a','#835ad9','#f2426d'],
         stroke: {
           width: 1
         },
@@ -486,7 +486,7 @@ $(function () {
         fill: {
           opacity: 1,
         },
-        colors: ['#733aeb'],
+        colors: ['#835ad9'],
         };
 
         var chart = new ApexCharts(document.querySelector("#spark2"), options);
@@ -527,7 +527,7 @@ $(function () {
             enabled: true
           }
         },
-		colors: ['#fec801', '#733aeb'],
+		colors: ['#fec801', '#835ad9'],
         dataLabels: {
           enabled: false
         },
@@ -779,7 +779,7 @@ $(function () {
 		  },
 
 		  series: [67],
-			colors: ["#733aeb"],
+			colors: ["#835ad9"],
 		  plotOptions: {
 			radialBar: {
 			  hollow: {
@@ -880,7 +880,7 @@ $(function () {
           height: 325,
           type: 'radialBar',
         },
-		colors: ["#733aeb", "#f2426d", "#51ce8a", "#46bc5c"],	 
+		colors: ["#835ad9", "#f2426d", "#51ce8a", "#46bc5c"],	 
         stroke: {
 			lineCap: "round",
 		  },

@@ -320,8 +320,8 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="eps" class="form-label">EPS:</label>
-                                    <select class="form-control select2" 
-                                        id="eps" name="eps" aria-invalid="false">
+                                    <select class="form-control select2" id="eps" name="eps"
+                                        aria-invalid="false">
 
                                     </select>
                                 </div>
@@ -469,6 +469,11 @@
                 dropdownParent: $('#modalPacientes'),
                 width: '100%'
             });
+
+            $("#departamento").on("change", function() {
+                $(this).valid(); // Dispara la validación cuando cambie el valor
+            });
+
             $('#eps').select2({
                 dropdownParent: $('#modalPacientes'),
                 width: '100%'
@@ -476,7 +481,8 @@
 
             $('#municipio').select2({
                 dropdownParent: $('#modalPacientes'),
-                width: '100%'
+                width: '100%',
+                placeholder: "Selecciona una opción"
             });
 
             localStorage.clear()
@@ -520,6 +526,15 @@
                 return false
             }, "La fecha no puede ser mayor a hoy.")
 
+            $.validator.setDefaults({
+                ignore: []
+            });
+
+            $.validator.addMethod("select2Required", function(value, element) {
+                
+                return value && value !== "";
+                
+            }, "Este campo es obligatorio.");
 
             $("#formPaciente").validate({
                 rules: {
@@ -557,7 +572,7 @@
                         required: true
                     },
                     tipoUsuario: {
-                        required: true
+                        select2Required: true
                     },
                     sexo: {
                         required: true
@@ -566,10 +581,10 @@
                         required: true
                     },
                     departamento: {
-                        required: true
+                        select2Required: true
                     },
                     municipio: {
-                        required: true
+                        select2Required: true
                     },
                     email: {
                         required: true,
@@ -603,7 +618,7 @@
                         required: "Por favor, ingresa el primer apellido."
                     },
                     tipoUsuario: {
-                        required: "Por favor, seleccione el tipo de usuario."
+                        select2Required: "Por favor, seleccione el tipo de usuario."
                     },
                     sexo: {
                         required: "Por favor, seleccione el sexo."
@@ -612,10 +627,10 @@
                         required: "Por favor, seleccione la zona de residencia ."
                     },
                     departamento: {
-                        required: "Por favor, seleccione el departamento de residencia ."
+                        select2Required: "Por favor, seleccione el departamento de residencia ."
                     },
                     municipio: {
-                        required: "Por favor, seleccione el municipio de residencia ."
+                        select2Required: "Por favor, seleccione el municipio de residencia ."
                     },
                     email: {
                         required: "Por favor, ingresa un email.",
@@ -752,8 +767,9 @@
 
 
         function guardarPacientes() {
-
+           
             if ($("#formPaciente").valid()) {
+
 
                 const formPaciente = document.getElementById('formPaciente')
                 const formData = new FormData(formPaciente)
@@ -769,7 +785,7 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data)
+
                         if (data.success = 'success') {
 
                             swal(data.title, data.message, data.success)
@@ -1018,19 +1034,18 @@
         function cargarDepartamento() {
             return new Promise((resolve, reject) => {
                 let select = document.getElementById("departamento")
+                let selectMun = document.getElementById("municipio")
                 let url = "{{ route('pacientes.departamentos') }}"
 
                 let defaultOption = document.createElement("option")
                 defaultOption.value = "" // Valor en blanco
                 defaultOption.text = "Selecciona una opción" // Texto que se mostrará
-                defaultOption.disabled = true // Deshabilitar para que no pueda ser seleccionada
                 defaultOption.selected = true // Que aparezca seleccionada por defecto
                 select.appendChild(defaultOption)
 
                 fetch(url)
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data)
                         data.forEach(departamento => {
                             let option = document.createElement("option")
                             option.value = departamento.codigo
@@ -1055,14 +1070,12 @@
                 let defaultOption = document.createElement("option")
                 defaultOption.value = "" // Valor en blanco
                 defaultOption.text = "Selecciona una opción" // Texto que se mostrará
-                defaultOption.disabled = true // Deshabilitar para que no pueda ser seleccionada
                 defaultOption.selected = true // Que aparezca seleccionada por defecto
                 select.appendChild(defaultOption)
 
                 fetch(url)
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data)
                         data.forEach(tipo => {
                             let option = document.createElement("option")
                             option.value = tipo.id
@@ -1094,11 +1107,10 @@
                 fetch(url)
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data)
                         data.forEach(eps => {
                             let option = document.createElement("option")
                             option.value = eps.id
-                            option.text = `${eps.codigo} - ${eps.entidad}` 
+                            option.text = `${eps.codigo} - ${eps.entidad}`
                             select.appendChild(option)
                         })
                         resolve() // Resuelve la promesa cuando los datos han sido cargados

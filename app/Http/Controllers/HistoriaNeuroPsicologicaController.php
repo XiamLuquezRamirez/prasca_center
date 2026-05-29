@@ -22,6 +22,37 @@ class HistoriaNeuroPsicologicaController extends Controller
         }
     }
 
+    public function guardarPlanIntervencionNeuro()
+    {
+        try {
+            $data = request()->all();
+            $respuesta = HistoriaNeuroPsicologica::guardarPlanIntervencion($data);
+
+            if ($respuesta) {
+                return response()->json([
+                    'success' => true,
+                    'title' => '¡Buen trabajo!',
+                    'message' => 'Plan de intervención guardado correctamente',
+                    'id' => $respuesta
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'title' => '¡Opps salio algo mal!',
+                    'message' => 'No se pudo guardar el plan de intervención'
+                ]);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'title' => '¡Opps salio algo mal!',
+                'message' => 'Ocurrió un error al intentar guardar el plan de intervención',
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+
     public function informePsicologia()
     {
         if (Auth::check()) {
@@ -29,6 +60,16 @@ class HistoriaNeuroPsicologicaController extends Controller
         } else {
             return redirect("/")->with("error", "Su Sesión ha Terminado");
         }
+    }
+
+    public function buscaPlanIntervencionNeuro(request $request)
+    {
+        $idHist = $request->input('idHist');
+        $planIntervencion = HistoriaNeuroPsicologica::busquedaPlanIntervencion($idHist);
+
+        return response()->json([
+            'planIntervencion' => $planIntervencion
+        ]);
     }
 
     public function  guardarInformeNeuropsicologica(Request $request)
@@ -637,7 +678,10 @@ class HistoriaNeuroPsicologicaController extends Controller
                                             <button type="button" data-id="' . $item->id . '" data-estado="' . $item->estado_hitoria . '" onclick="evolucionHistoria(this);"
                                                 class="waves-effect waves-light btn btn-secondary btn-flat"><i
                                                     class="fa fa-arrow-right me-10"></i>Evolución</button>
-                                                <button type="button" onclick="imprimirHistoria(' . $item->id . ');"
+                                              <button type="button" data-id="' . $item->id . '"  onclick="PlanIntervencionHistoria(this);"
+                                                class="waves-effect waves-light btn btn-warning btn-flat"><i
+                                                    class="fa fa-list me-10"></i>Plan de intervención</button>
+                                                    <button type="button" onclick="imprimirHistoria(' . $item->id . ');"
                                                 class="waves-effect waves-light btn btn-info btn-flat"><i
                                                     class="fa fa-print me-10"></i>Imprimir</button>
                                             <button type="button" onclick="eliminarHistoria(' . $item->id . ');"

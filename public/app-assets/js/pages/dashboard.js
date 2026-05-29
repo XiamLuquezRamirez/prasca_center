@@ -15,7 +15,7 @@ $(function () {
           type: 'donut',
         width: 180,
         },
-    colors: ['#46bc5c', '#733aeb', '#51ce8a'],
+    colors: ['#46bc5c', '#835ad9', '#51ce8a'],
     legend: {
       show: false,
     },

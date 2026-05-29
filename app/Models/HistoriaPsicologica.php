@@ -52,6 +52,33 @@ class HistoriaPsicologica extends Model
         }
         return $venta;
     }
+
+    public static function busquedaRecaudo($idRecaudo)
+    {
+        $recaudo = DB::table('pagos')
+        ->leftJoin('servicios', 'pagos.id_servicio', 'servicios.id')
+        ->leftJoin('ventas', 'servicios.id', 'ventas.id_servicio')
+        ->leftJoin('medio_pagos', 'pagos.id', 'medio_pagos.id_pago')
+        ->leftJoin('historia_clinica', 'servicios.id_historia', 'historia_clinica.id')
+        ->select('pagos.id',
+        'historia_clinica.id_paciente',
+        'pagos.fecha_pago',
+        'servicios.descripcion',
+        'pagos.pago_realizado',
+        'ventas.saldo',
+        'servicios.precio',
+        DB::raw("CASE
+        WHEN medio_pagos.medio_pago = 'e' THEN 'Efectivo'
+        WHEN medio_pagos.medio_pago = 't' THEN 'Transferencia'
+        WHEN medio_pagos.medio_pago = 'tc' THEN 'Tarjeta de débito'
+        ELSE 'Tarjeta de crédito' END as nombreMedioPago"),
+        'medio_pagos.referencia'
+        )    
+        ->where('pagos.id', $idRecaudo)
+            ->first();
+        return $recaudo;
+    }
+
     public static function busquedaVentaSesiom($idServi)
     {
         $venta = DB::table('servicios')

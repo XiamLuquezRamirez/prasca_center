@@ -18,6 +18,23 @@ class Citas extends Model
             ->get();
     }
 
+    public static function infcitasEmail($idcita)
+    {
+        return DB::connection('mysql')->table('citas')
+            ->leftJoin("especialidades", "especialidades.id", "citas.motivo")
+            ->leftJoin('profesionales', 'citas.profesional', 'profesionales.id')
+            ->leftJoin('pacientes', 'citas.paciente', 'pacientes.id')
+            ->where('citas.id', $idcita)
+            ->where('citas.estado', '!=', 'Anulada')
+            ->select("citas.*", 
+            "especialidades.nombre", 
+            'profesionales.nombre AS nomprof',
+            'pacientes.primer_nombre AS npaciente', 
+            'pacientes.primer_apellido AS apaciente', 
+            'pacientes.email')
+            ->first();
+    }
+
     public static function CitasProfesional($idProf, $idCita)
     {
 

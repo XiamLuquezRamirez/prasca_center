@@ -1360,7 +1360,7 @@ code {
 }
 
 .border-info {
-  border-color: #733aeb !important;
+  border-color: #835ad9 !important;
 }
 
 .border-success {
@@ -45691,7 +45691,7 @@ button.btn.dropdown-toggle:after {
 }
 
 .calculator .numberPad {
-  background-color: #733aeb;
+  background-color: #835ad9;
   display: -webkit-flex;
   display: -webkit-box;
   display: -moz-flex;
@@ -46168,7 +46168,7 @@ button.btn.dropdown-toggle:after {
 }
 
 .c-progress-steps li.done {
-  color: #733aeb;
+  color: #835ad9;
 }
 
 .c-progress-steps li.done span {
@@ -46176,14 +46176,14 @@ button.btn.dropdown-toggle:after {
 }
 
 .c-progress-steps li.done:before {
-  color: #733aeb;
+  color: #835ad9;
   content: "\f058";
   width: 30px;
   height: 30px;
   display: inline-block;
   text-align: center;
   border-radius: 50%;
-  border: 2px solid #733aeb;
+  border: 2px solid #835ad9;
 }
 
 .c-progress-steps li.current {
@@ -46249,7 +46249,7 @@ button.btn.dropdown-toggle:after {
   }
 
   .c-progress-steps li.done {
-    border-bottom-color: #733aeb;
+    border-bottom-color: #835ad9;
   }
 
   .c-progress-steps li.current {

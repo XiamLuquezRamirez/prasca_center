@@ -51,12 +51,12 @@ $(function () {
         labels: ['Data 1', 'Data 2', 'Data 3'],
         pointSize: 3,
         fillOpacity: 0,
-        pointStrokeColors:['#46bc5c', '#51ce8a', '#733aeb'],
+        pointStrokeColors:['#46bc5c', '#51ce8a', '#835ad9'],
         behaveLikeLine: true,
         gridLineColor: '#e0e0e0',
         lineWidth: 3,
         hideHover: 'auto',
-        lineColors: ['#46bc5c', '#51ce8a', '#733aeb'],
+        lineColors: ['#46bc5c', '#51ce8a', '#835ad9'],
         resize: true
         
     });

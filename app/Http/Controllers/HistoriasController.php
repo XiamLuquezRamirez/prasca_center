@@ -106,24 +106,36 @@ class HistoriasController extends Controller
             }
 
             $idHist = $request->input('idHist');
+
             $paquetes = DB::connection('mysql')
-                ->table('ventas_paquetes')
-                ->leftJoin("paquetes", "paquetes.id", "ventas_paquetes.paquete_id")
-                ->where('ventas_paquetes.estado', 'ACTIVO')
-                ->where('ventas_paquetes.historia_clinica_id', $idHist)
-                ->select(
-                    "ventas_paquetes.id",
-                    "ventas_paquetes.fecha_compra",
-                    "ventas_paquetes.monto_total",
-                    "ventas_paquetes.estado_control",
-                    "ventas_paquetes.sesiones_compradas",
-                    "ventas_paquetes.sesiones_disponibles",
-                    "paquetes.descripcion"
-                );
+            ->table('servicios')
+            ->leftJoin("ventas", "servicios.id", "ventas.id_servicio")
+            ->leftJoin('sesiones_paquete_uso', 'ventas.id',  'sesiones_paquete_uso.venta_id')
+            ->leftJoin("paquetes", "paquetes.id", "servicios.id_paquete")
+            ->where('servicios.estado', 'ACTIVO')
+            ->where('servicios.tipo', 'PAQUETE')
+            ->where('servicios.id_historia', $idHist)
+            ->select(
+                'servicios.id',
+                'servicios.fecha AS fecha_compra',
+                'ventas.total AS monto_total',
+                'ventas.estado_venta AS estado_control',
+                'ventas.cantidad as sesiones_compradas',
+                'paquetes.descripcion',
+                DB::raw('ventas.cantidad - COUNT(sesiones_paquete_uso.id) as sesiones_disponibles')
+            )
+            ->groupBy(
+                'servicios.id',
+                'servicios.fecha',
+                'ventas.total',
+                'ventas.estado_venta',
+                'ventas.cantidad',
+                'paquetes.descripcion'
+            );
 
             if ($search) {
                 $paquetes->where(function ($query) use ($search) {
-                    $query->where('identificacion', 'LIKE', '%' . $search . '%');
+                    $query->where('paquetes.descripcion', 'LIKE', '%' . $search . '%');
                 });
             }
 
@@ -135,6 +147,7 @@ class HistoriasController extends Controller
             foreach ($ListPaquetes as $i => $item) {
                 if (!is_null($item)) {
                     $valorTotal = number_format($item->monto_total, 2, ',', '.');
+                    
                     $tdTable .= '<tr style="cursor: pointer;">
                                     <td>' . $item->descripcion . '</td>
                                     <td>' . $item->fecha_compra . '</td>
@@ -436,12 +449,11 @@ class HistoriasController extends Controller
             }
 
             $consulta = DB::connection('mysql')
-                ->table('ventas_paquetes')
+                ->table('servicios')
                 ->where('id', $idPaquete)
                 ->update([
                     'estado' => 'ELIMINADO',
                 ]);
-
 
 
             if ($consulta) {
@@ -1232,7 +1244,7 @@ class HistoriasController extends Controller
 									<a class="dropdown-item" data-id="' . $item->id . '" style="cursor: pointer;"  onclick="ComprarPaquete(this)">Venta paquete</a>
 								    </div>
 								</div> 
-                                <button type="button" data-id="' . $item->id . '" dapta-tipo="' . $item->tipologia . '" onclick="verHistoria(this)" class="waves-effect waves-light btn btn-info mb-5">Ver detalle</button>
+                                <button type="button" data-id="' . $item->id . '" dapta-tipo="' . $item->tipologia . '" onclick="verHistoria(this)" class="waves-effect waves-light btn btn-info mb-5"><i class="fa fa-search"></i> Ver detalle</button>
                                 </div>
                                     </div>
                                     <hr>
@@ -1409,7 +1421,7 @@ class HistoriasController extends Controller
             $pdf = new Dompdf();
             $idInforme = $request->input('idInforme');
             $informe = HistoriaPsicologica::busquedaInforme($idInforme);
-
+           
             // Ruta absoluta al logo
             $logoPath = public_path('app-assets/images/logo/logo_prasca.png');
 
@@ -1426,6 +1438,11 @@ class HistoriasController extends Controller
             $firmaPath = public_path('app-assets/images/firmasProfesionales/' . $profesional->firma);
             $firmaData = base64_encode(file_get_contents($firmaPath));
             $firma = 'data:image/png;base64,' . $firmaData;
+
+
+            $fechaNacimiento = \Carbon\Carbon::parse($paciente->fecha_nacimiento)->format('d/m/Y h:i A');
+                    
+
             $html = '<head>
                 <style>
                     table {
@@ -1507,7 +1524,7 @@ class HistoriasController extends Controller
                             </table>
                         </td>
                     </tr>
-                    <tr><td><strong>FECHA Y LUGAR DE NACIMIENTO:</strong></td><td>' . $paciente->fecha_nacimiento . ' - ' . $paciente->lugar_nacimiento . '</td></tr>
+                    <tr><td><strong>FECHA Y LUGAR DE NACIMIENTO:</strong></td><td>' . $fechaNacimiento. ' - ' . $paciente->lugar_nacimiento . '</td></tr>
                     <tr>
                         <td colspan="3" style="border-right: none;">
                             <table style="width: 100%; border-collapse: collapse; ">

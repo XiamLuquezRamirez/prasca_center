@@ -13,7 +13,7 @@ $(function () {
           chart: {
 			  type: 'donut',
 			},
-		colors: ['#733aeb', '#46bc5c', '#f2426d', '#ffa800', '#51ce8a'],
+		colors: ['#835ad9', '#46bc5c', '#f2426d', '#ffa800', '#51ce8a'],
 		legend: {
 		  position: 'bottom'
 		},

@@ -9,6 +9,7 @@ use App\Http\Controllers\HistoriasController;
 use App\Http\Controllers\HistoriaNeuroPsicologicaController;
 use App\Http\Controllers\CumpleanosController;
 use App\Http\Controllers\ProfesionalController;
+use App\Http\Controllers\CatalogoController;
 use App\Models\HistoriaNeuroPsicologica;
 
 /*
@@ -63,12 +64,12 @@ Route::post('/pacientes/eliminarAnexo', [PacientesController::class,'eliminarAne
 ////ADMINISTRACCION
 ///GESTIONAR ESPECIALIDADES
 Route::middleware(['auth', 'permission:AdminMotivoConsulta'])->group(function () {
-    Route::get('/Administracion/Especialidades', [AdminitraccionController::class, 'Especialidades']);
+    Route::get('/Administracion/Especialidades', [CatalogoController::class, 'Especialidades']);
 });
-Route::post('/especialidad/guardar', [AdminitraccionController::class, 'guardarEspecialidad'])->name('form.guardarEspecialidad');
-Route::post('/especialidad/listaEspecialidades', [AdminitraccionController::class, 'listaEspecialidades'])->name('especialidades.listaEspecialidades');
-Route::post('/especialidad/buscaEspecialidad', [AdminitraccionController::class, 'busquedaEspecialidad'])->name('especialidades.buscaEspecialidad');
-Route::post('/especialidad/eliminarEspecialidad', [AdminitraccionController::class, 'eliminarEspecialidad'])->name('especialidades.eliminarEspecialidad');
+Route::post('/especialidad/guardar', [CatalogoController::class, 'guardarEspecialidad'])->name('form.guardarEspecialidad');
+Route::post('/especialidad/listaEspecialidades', [CatalogoController::class, 'listaEspecialidades'])->name('especialidades.listaEspecialidades');
+Route::post('/especialidad/buscaEspecialidad', [CatalogoController::class, 'busquedaEspecialidad'])->name('especialidades.buscaEspecialidad');
+Route::post('/especialidad/eliminarEspecialidad', [CatalogoController::class, 'eliminarEspecialidad'])->name('especialidades.eliminarEspecialidad');
 
 ///GESTIONAR PROFESIONALES
 Route::middleware(['auth', 'permission:adminProfesionales'])->group(function () {
@@ -84,23 +85,23 @@ Route::post('/profesional/eliminarProf', [ProfesionalController::class, 'elimina
 
 ///GESTIONAR CUPS
 Route::middleware(['auth', 'permission:AdminCUPS'])->group(function () {
-    Route::get('/Administracion/CodigosConsultas', [AdminitraccionController::class, 'CUPS']);
+    Route::get('/Administracion/CodigosConsultas', [CatalogoController::class, 'CUPS']);
 });
-Route::post('/verificar-codigo-cups', [AdminitraccionController::class, 'verificarCodigoCUPS']);
-Route::post('/cups/guardar', [AdminitraccionController::class, 'guardarCUPS'])->name('form.guardarCUPS');
-Route::post('/cups/buscaCUPS', [AdminitraccionController::class, 'buscaCUPS'])->name('cups.buscaCUPS');
-Route::post('/cups/eliminarCUPS', [AdminitraccionController::class, 'eliminarCUPS'])->name('cups.eliminarCUPS');
-Route::post('/cups/listaCUPS', [AdminitraccionController::class, 'listaCUPS'])->name('cups.listaCUPS');
+Route::post('/verificar-codigo-cups', [CatalogoController::class, 'verificarCodigoCUPS']);
+Route::post('/cups/guardar', [CatalogoController::class, 'guardarCUPS'])->name('form.guardarCUPS');
+Route::post('/cups/buscaCUPS', [CatalogoController::class, 'buscaCUPS'])->name('cups.buscaCUPS');
+Route::post('/cups/eliminarCUPS', [CatalogoController::class, 'eliminarCUPS'])->name('cups.eliminarCUPS');
+Route::post('/cups/listaCUPS', [CatalogoController::class, 'listaCUPS'])->name('cups.listaCUPS');
 
 ///GESTIONAR CIE10
 Route::middleware(['auth', 'permission:AdminCIE10'])->group(function () {
-    Route::get('/Administracion/CodigosDiagnosticos', [AdminitraccionController::class, 'CIE10']);
+    Route::get('/Administracion/CodigosDiagnosticos', [CatalogoController::class, 'CIE10']);
 });
-Route::post('/verificar-codigo-cie10', [AdminitraccionController::class, 'verificarCodigoCIE10']);
-Route::post('/cie10/guardar', [AdminitraccionController::class, 'guardarCIE10'])->name('form.guardarCIE10');
-Route::post('/cie10/buscaCIE10', [AdminitraccionController::class, 'buscaCIE10'])->name('cie10.buscaCIE10');
-Route::post('/cie10/eliminarCIE10', [AdminitraccionController::class, 'eliminarCIE10'])->name('cie10.eliminarCIE10');
-Route::post('/cie10/listaCIE10', [AdminitraccionController::class, 'listaCIE10'])->name('cie10.listaCIE10');
+Route::post('/verificar-codigo-cie10', [CatalogoController::class, 'verificarCodigoCIE10']);
+Route::post('/cie10/guardar', [CatalogoController::class, 'guardarCIE10'])->name('form.guardarCIE10');
+Route::post('/cie10/buscaCIE10', [CatalogoController::class, 'buscaCIE10'])->name('cie10.buscaCIE10');
+Route::post('/cie10/eliminarCIE10', [CatalogoController::class, 'eliminarCIE10'])->name('cie10.eliminarCIE10');
+Route::post('/cie10/listaCIE10', [CatalogoController::class, 'listaCIE10'])->name('cie10.listaCIE10');
 
 ///GESTIONAR BACKUP DE FORMULARIOS
 Route::middleware(['auth', 'permission:AdminBackup'])->group(function () {
@@ -124,13 +125,13 @@ Route::post('/asesorias/eliminarVentaAsesoria', [AdminitraccionController::class
 
 ///GESTIONAR ENTIDADES
 Route::middleware(['auth', 'permission:Admineps'])->group(function () {
-    Route::get('/Administracion/Entidades', [AdminitraccionController::class, 'Entidades']);
+    Route::get('/Administracion/Entidades', [CatalogoController::class, 'Entidades']);
 });
-Route::post('/entidades/guardar', [AdminitraccionController::class, 'guardarEntidades'])->name('form.guardarEntidades');
-Route::post('/entidades/listaEntidades', [AdminitraccionController::class, 'listaEntidades'])->name('entidades.listaEntidades');
-Route::post('/entidades/buscaEntidad', [AdminitraccionController::class, 'buscaEntidad'])->name('entidades.buscaEntidad');
-Route::post('/entidades/eliminarEntidad', [AdminitraccionController::class, 'eliminarEntidad'])->name('entidades.eliminarEntidad');
-Route::post('/verificar-codigo-entidad', [AdminitraccionController::class, 'verificarCodigoEntidad']);
+Route::post('/entidades/guardar', [CatalogoController::class, 'guardarEntidades'])->name('form.guardarEntidades');
+Route::post('/entidades/listaEntidades', [CatalogoController::class, 'listaEntidades'])->name('entidades.listaEntidades');
+Route::post('/entidades/buscaEntidad', [CatalogoController::class, 'buscaEntidad'])->name('entidades.buscaEntidad');
+Route::post('/entidades/eliminarEntidad', [CatalogoController::class, 'eliminarEntidad'])->name('entidades.eliminarEntidad');
+Route::post('/verificar-codigo-entidad', [CatalogoController::class, 'verificarCodigoEntidad']);
 
 ///GESTIONAR PAQUETES
 Route::middleware(['auth', 'permission:Admineps'])->group(function () {
@@ -163,7 +164,7 @@ Route::post('/sesiones/eliminarSesion', [AdminitraccionController::class, 'elimi
 /// AGENDA
 Route::post('/citas/agenda', [AgendaController::class, 'agenda'])->name('citas.agenda');
 Route::get('profesionales/cargarListaProf', [ProfesionalController::class, 'cargarListaProf'])->name('profesionales.cargarListaProf');
-Route::get('/especialidad/cargarListaEsp', [AdminitraccionController::class, 'cargarListaEsp'])->name('especialidad.cargarListaEsp');
+Route::get('/especialidad/cargarListaEsp', [CatalogoController::class, 'cargarListaEsp'])->name('especialidad.cargarListaEsp');
 Route::post('/citas/disponibilidad', [AgendaController::class, 'disponibilidad'])->name('citas.disponibilidad');
 Route::get('/pacientes/cargarListaPacientes', [AgendaController::class, 'cargarListaPacientes'])->name('pacientes.cargarListaEsp');
 Route::post('/citas/guardar', [AgendaController::class, 'guardarCitas'])->name('form.guardarCita');
@@ -367,12 +368,12 @@ Route::post('/Administracion/listaVentasEpsPagos', [AdminitraccionController::cl
 Route::post('/Administracion/listaVentasPacientesPagosEps', [AdminitraccionController::class, 'listaVentasPacientesPagosEps'])->name('Administracion.listaVentasPacientesPagosEps');
 
 //GESTIONAR COMPONENTES
-Route::get('/Administracion/Componentes', [AdminitraccionController::class, 'Componentes']);
-Route::post('/componentes/listaComponentes', [AdminitraccionController::class, 'listaComponentes'])->name('componentes.listaComponentes');
-Route::post('/componentes/guardarComponente', [AdminitraccionController::class, 'guardarComponente'])->name('form.guardarComponente');
-Route::post('/componentes/eliminarComponente', [AdminitraccionController::class, 'eliminarComponente'])->name('componentes.eliminarComponente');
-Route::post('/componentes/buscarComponente', [AdminitraccionController::class, 'buscarComponente'])->name('componentes.buscarComponente');
-Route::get('/componentes/listaCategoriasSelect', [AdminitraccionController::class, 'listaCategoriasSelect'])->name('componentes.listaCategoriasSelect');
+Route::get('/Administracion/Componentes', [CatalogoController::class, 'Componentes']);
+Route::post('/componentes/listaComponentes', [CatalogoController::class, 'listaComponentes'])->name('componentes.listaComponentes');
+Route::post('/componentes/guardarComponente', [CatalogoController::class, 'guardarComponente'])->name('form.guardarComponente');
+Route::post('/componentes/eliminarComponente', [CatalogoController::class, 'eliminarComponente'])->name('componentes.eliminarComponente');
+Route::post('/componentes/buscarComponente', [CatalogoController::class, 'buscarComponente'])->name('componentes.buscarComponente');
+Route::get('/componentes/listaCategoriasSelect', [CatalogoController::class, 'listaCategoriasSelect'])->name('componentes.listaCategoriasSelect');
 
 // GESTIONAR CUMPLEAÑOS
 Route::get('/cumpleanos/panel', [CumpleanosController::class, 'panelCumpleanos'])->name('cumpleanos.panel');

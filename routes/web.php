@@ -12,6 +12,7 @@ use App\Http\Controllers\ProfesionalController;
 use App\Http\Controllers\CatalogoController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\CajaController;
+use App\Http\Controllers\RecaudosController;
 use App\Models\HistoriaNeuroPsicologica;
 
 /*
@@ -309,18 +310,18 @@ Route::post('/informes/informeGeneral', [HistoriasController::class, 'informeGen
 Route::post('/informes/otrosInformes', [HistoriasController::class, 'otrosInformes'])->name('informes.otrosInformes');
 Route::post('/informes/informeGeneralList', [HistoriasController::class, 'informeGeneralList'])->name('informes.informeGeneralList');
 //GESTIONNAR RECAUDOS
-Route::get('/Administracion/Recaudos', [AdminitraccionController::class, 'Recaudos']);
-Route::post('/Administracion/listaVentasPacientes', [AdminitraccionController::class, 'listaVentasPacientes'])->name('Administracion.listaVentasPacientes');
-Route::post('/Administracion/otraInformacionRecaudos', [AdminitraccionController::class, 'otraInformacionRecaudos'])->name('Administracion.otraInformacionRecaudos');
-Route::post('/Administracion/listaVentasPacientesPagos', [AdminitraccionController::class, 'listaVentasPacientesPagos'])->name('Administracion.listaVentasPacientesPagos');
-Route::post('/Administracion/detalleVentaServicioPaciente', [AdminitraccionController::class, 'detalleVentaServicioPaciente'])->name('Administracion.detalleVentaServicioPaciente');
-Route::post('/Administracion/detalleVentaPagosPaciente', [AdminitraccionController::class, 'detalleVentaPagosPaciente'])->name('Administracion.detalleVentaPagosPaciente');
-Route::post('/Administracion/guardar', [AdminitraccionController::class, 'guardarPagoVenta'])->name('form.guardarPagoVenta');
-Route::post('/Administracion/eliminarPagoRecaudo', [AdminitraccionController::class, 'eliminarPagoRecaudo'])->name('Administracion.eliminarPagoRecaudo');
-Route::post('/Administracion/imprimirRecaudo', [AdminitraccionController::class, 'imprimirRecaudo'])->name('Administracion.imprimirRecaudo');
-Route::post('/Administracion/listaPagos', [AdminitraccionController::class, 'listaPagos'])->name('Administracion.listaPagos');
-Route::post('/Administracion/obtenerDatosPago', [AdminitraccionController::class, 'obtenerDatosPago'])->name('Administracion.obtenerDatosPago');
-Route::post('/Administracion/actualizarPagoRecaudo', [AdminitraccionController::class, 'actualizarPagoRecaudo'])->name('Administracion.actualizarPagoRecaudo');
+Route::get('/Administracion/Recaudos', [RecaudosController::class, 'Recaudos']);
+Route::post('/Administracion/listaVentasPacientes', [RecaudosController::class, 'listaVentasPacientes'])->name('Administracion.listaVentasPacientes');
+Route::post('/Administracion/otraInformacionRecaudos', [RecaudosController::class, 'otraInformacionRecaudos'])->name('Administracion.otraInformacionRecaudos');
+Route::post('/Administracion/listaVentasPacientesPagos', [RecaudosController::class, 'listaVentasPacientesPagos'])->name('Administracion.listaVentasPacientesPagos');
+Route::post('/Administracion/detalleVentaServicioPaciente', [RecaudosController::class, 'detalleVentaServicioPaciente'])->name('Administracion.detalleVentaServicioPaciente');
+Route::post('/Administracion/detalleVentaPagosPaciente', [RecaudosController::class, 'detalleVentaPagosPaciente'])->name('Administracion.detalleVentaPagosPaciente');
+Route::post('/Administracion/guardar', [RecaudosController::class, 'guardarPagoVenta'])->name('form.guardarPagoVenta');
+Route::post('/Administracion/eliminarPagoRecaudo', [RecaudosController::class, 'eliminarPagoRecaudo'])->name('Administracion.eliminarPagoRecaudo');
+Route::post('/Administracion/imprimirRecaudo', [RecaudosController::class, 'imprimirRecaudo'])->name('Administracion.imprimirRecaudo');
+Route::post('/Administracion/listaPagos', [RecaudosController::class, 'listaPagos'])->name('Administracion.listaPagos');
+Route::post('/Administracion/obtenerDatosPago', [RecaudosController::class, 'obtenerDatosPago'])->name('Administracion.obtenerDatosPago');
+Route::post('/Administracion/actualizarPagoRecaudo', [RecaudosController::class, 'actualizarPagoRecaudo'])->name('Administracion.actualizarPagoRecaudo');
 
 //GESTIONAR GASTOS
 Route::get('/Administracion/Gastos', [CajaController::class, 'Gastos']);
@@ -365,9 +366,9 @@ Route::post('/informes/imprimirCotizacion', [PacientesController::class, 'imprim
 Route::post('/informes/enviarCotizacion', [PacientesController::class, 'enviarCotizacion'])->name('informes.enviarCotizacion');
 
 //GESTIONAR VENTAS EPS
-Route::post('/Administracion/listaVentasEps', [AdminitraccionController::class, 'listaVentasEps'])->name('Administracion.listaVentasEps');
-Route::post('/Administracion/listaVentasEpsPagos', [AdminitraccionController::class, 'listaVentasEpsPagos'])->name('Administracion.listaVentasEpsPagos');
-Route::post('/Administracion/listaVentasPacientesPagosEps', [AdminitraccionController::class, 'listaVentasPacientesPagosEps'])->name('Administracion.listaVentasPacientesPagosEps');
+Route::post('/Administracion/listaVentasEps', [RecaudosController::class, 'listaVentasEps'])->name('Administracion.listaVentasEps');
+Route::post('/Administracion/listaVentasEpsPagos', [RecaudosController::class, 'listaVentasEpsPagos'])->name('Administracion.listaVentasEpsPagos');
+Route::post('/Administracion/listaVentasPacientesPagosEps', [RecaudosController::class, 'listaVentasPacientesPagosEps'])->name('Administracion.listaVentasPacientesPagosEps');
 
 //GESTIONAR COMPONENTES
 Route::get('/Administracion/Componentes', [CatalogoController::class, 'Componentes']);

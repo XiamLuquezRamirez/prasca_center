@@ -9,7 +9,6 @@ use App\Models\Pacientes;
 use App\Models\Paquetes;
 use App\Models\HistoriaPsicologica;
 use Dompdf\Dompdf;
-use \PDF;
 
 class RecaudosController extends Controller
 {

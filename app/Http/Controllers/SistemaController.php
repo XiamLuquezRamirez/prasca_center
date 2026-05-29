@@ -85,6 +85,9 @@ class SistemaController extends Controller
 
     public function verDetalleBackup(Request $request)
     {
+        if (!Auth::check()) {
+            return response()->json(['success' => false, 'message' => 'No autorizado'], 401);
+        }
         $id = $request->input('id');
         $backup = DB::connection('mysql')
             ->table('respaldo_formularios')

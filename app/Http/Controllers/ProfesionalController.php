@@ -146,6 +146,9 @@ class ProfesionalController extends Controller
 
     public function eliminarProfesional()
     {
+        if (!Auth::check()) {
+            return response()->json(['success' => false, 'message' => 'No autorizado'], 401);
+        }
         try {
             $idReg = request()->input('idReg');
             if (!$idReg) {

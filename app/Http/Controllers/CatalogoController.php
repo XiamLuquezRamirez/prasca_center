@@ -298,6 +298,9 @@ class CatalogoController extends Controller
 
     public function eliminarCUPS(Request $request)
     {
+        if (!Auth::check()) {
+            return response()->json(['success' => false, 'message' => 'No autorizado'], 401);
+        }
         $idReg = $request->input('idReg');
         $cups = DB::connection('mysql')
             ->table('referencia_cups')
@@ -446,6 +449,9 @@ class CatalogoController extends Controller
 
     public function eliminarCIE10(Request $request)
     {
+        if (!Auth::check()) {
+            return response()->json(['success' => false, 'message' => 'No autorizado'], 401);
+        }
         $idReg = $request->input('idReg');
         $cie10 = DB::connection('mysql')
             ->table('referencia_cie10')

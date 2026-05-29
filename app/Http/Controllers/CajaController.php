@@ -12,6 +12,9 @@ class CajaController extends Controller
 {
     public function consultarMontoCierre(Request $request)
     {
+        if (!Auth::check()) {
+            return response()->json(['success' => false, 'message' => 'No autorizado'], 401);
+        }
         $fechaCierre = $request->input('fechaCierre');
         $idCaja = $request->input('idCaja');
 

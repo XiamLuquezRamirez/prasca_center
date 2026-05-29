@@ -202,7 +202,7 @@ class ProfesionalController extends Controller
         }
     }
 
-    public function sanear_string($string)
+    private function sanear_string($string)
     {
         $string = trim($string);
 

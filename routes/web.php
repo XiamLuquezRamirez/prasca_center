@@ -10,6 +10,7 @@ use App\Http\Controllers\HistoriaNeuroPsicologicaController;
 use App\Http\Controllers\CumpleanosController;
 use App\Http\Controllers\ProfesionalController;
 use App\Http\Controllers\CatalogoController;
+use App\Http\Controllers\ServicioController;
 use App\Models\HistoriaNeuroPsicologica;
 
 /*
@@ -112,16 +113,16 @@ Route::post('/backup/verDetalleBackup', [AdminitraccionController::class, 'verDe
 
 ///GESTIONAR ASESORIAS
 Route::middleware(['auth', 'permission:AdminAsesorias'])->group(function () {
-    Route::get('/Administracion/Asesorias', [AdminitraccionController::class, 'Asesorias']);
+    Route::get('/Administracion/Asesorias', [ServicioController::class, 'Asesorias']);
 });
 
-Route::post('/asesorias/listaAsesorias', [AdminitraccionController::class, 'listaAsesorias'])->name('asesorias.listaAsesorias');
-Route::post('/asesorias/guardarAsesoria', [AdminitraccionController::class, 'guardarAsesoria'])->name('form.guardarAsesoria');
-Route::post('/asesorias/buscarAsesoria', [AdminitraccionController::class, 'buscarAsesoria'])->name('asesorias.buscarAsesoria');
-Route::post('/asesorias/eliminarAsesoriaLista', [AdminitraccionController::class, 'eliminarAsesoria'])->name('asesorias.eliminarAsesoriaLista');
-Route::post('/asesorias/listaAsesoriasSelect', [AdminitraccionController::class, 'AsesoriasList'])->name('asesorias.listaAsesoriasSelect');
-Route::post('/asesorias/guardarVentaAsesoria', [AdminitraccionController::class, 'guardarVentaAsesoria'])->name('asesorias.guardarVentaAsesoria');
-Route::post('/asesorias/eliminarVentaAsesoria', [AdminitraccionController::class, 'eliminarVentaAsesoria'])->name('asesorias.eliminarVentaAsesoria');
+Route::post('/asesorias/listaAsesorias', [ServicioController::class, 'listaAsesorias'])->name('asesorias.listaAsesorias');
+Route::post('/asesorias/guardarAsesoria', [ServicioController::class, 'guardarAsesoria'])->name('form.guardarAsesoria');
+Route::post('/asesorias/buscarAsesoria', [ServicioController::class, 'buscarAsesoria'])->name('asesorias.buscarAsesoria');
+Route::post('/asesorias/eliminarAsesoriaLista', [ServicioController::class, 'eliminarAsesoria'])->name('asesorias.eliminarAsesoriaLista');
+Route::post('/asesorias/listaAsesoriasSelect', [ServicioController::class, 'AsesoriasList'])->name('asesorias.listaAsesoriasSelect');
+Route::post('/asesorias/guardarVentaAsesoria', [ServicioController::class, 'guardarVentaAsesoria'])->name('asesorias.guardarVentaAsesoria');
+Route::post('/asesorias/eliminarVentaAsesoria', [ServicioController::class, 'eliminarVentaAsesoria'])->name('asesorias.eliminarVentaAsesoria');
 
 ///GESTIONAR ENTIDADES
 Route::middleware(['auth', 'permission:Admineps'])->group(function () {
@@ -135,31 +136,31 @@ Route::post('/verificar-codigo-entidad', [CatalogoController::class, 'verificarC
 
 ///GESTIONAR PAQUETES
 Route::middleware(['auth', 'permission:Admineps'])->group(function () {
-    Route::get('/Administracion/Paquetes', [AdminitraccionController::class, 'Paquetes']);
+    Route::get('/Administracion/Paquetes', [ServicioController::class, 'Paquetes']);
 });
-Route::post('/paquetes/listaPaquetes', [AdminitraccionController::class, 'listaPaquetes'])->name('paquetes.listaPaquetes');
-Route::post('/paquetes/guardar', [AdminitraccionController::class, 'guardarPaquete'])->name('form.guardarPaquete');
-Route::post('/paquetes/buscarPaquete', [AdminitraccionController::class, 'buscarPaquete'])->name('paquetes.buscarPaquete');
-Route::post('/paquetes/eliminarPaqueteLista', [AdminitraccionController::class, 'eliminarPaquete'])->name('paquetes.eliminarPaqueteLista');
+Route::post('/paquetes/listaPaquetes', [ServicioController::class, 'listaPaquetes'])->name('paquetes.listaPaquetes');
+Route::post('/paquetes/guardar', [ServicioController::class, 'guardarPaquete'])->name('form.guardarPaquete');
+Route::post('/paquetes/buscarPaquete', [ServicioController::class, 'buscarPaquete'])->name('paquetes.buscarPaquete');
+Route::post('/paquetes/eliminarPaqueteLista', [ServicioController::class, 'eliminarPaquete'])->name('paquetes.eliminarPaqueteLista');
 
 ///GESTIONAR PRUEBAS
 Route::middleware(['auth', 'permission:AdminPruebas'])->group(function () {
-    Route::get('/Administracion/Pruebas', [AdminitraccionController::class, 'Pruebas']);
+    Route::get('/Administracion/Pruebas', [ServicioController::class, 'Pruebas']);
 });
-Route::post('/pruebas/listaPruebas', [AdminitraccionController::class, 'listaPruebas'])->name('pruebas.listaPruebas');
-Route::post('/pruebas/guardar', [AdminitraccionController::class, 'guardarPrueba'])->name('form.guardarPrueba');
-Route::post('/pruebas/buscarPrueba', [AdminitraccionController::class, 'buscarPrueba'])->name('pruebas.buscarPrueba');
-Route::post('/pruebas/eliminarPruebaLista', [AdminitraccionController::class, 'eliminarPrueba'])->name('pruebas.eliminarPruebaLista');
-Route::post('/asesorias/listaServiciosVenta', [AdminitraccionController::class, 'listaServiciosVenta'])->name('asesorias.listaServiciosVenta');
+Route::post('/pruebas/listaPruebas', [ServicioController::class, 'listaPruebas'])->name('pruebas.listaPruebas');
+Route::post('/pruebas/guardar', [ServicioController::class, 'guardarPrueba'])->name('form.guardarPrueba');
+Route::post('/pruebas/buscarPrueba', [ServicioController::class, 'buscarPrueba'])->name('pruebas.buscarPrueba');
+Route::post('/pruebas/eliminarPruebaLista', [ServicioController::class, 'eliminarPrueba'])->name('pruebas.eliminarPruebaLista');
+Route::post('/asesorias/listaServiciosVenta', [ServicioController::class, 'listaServiciosVenta'])->name('asesorias.listaServiciosVenta');
 
 ///GESTIONAR SESIONES
 Route::middleware(['auth', 'permission:AdminSesiones'])->group(function () {
-    Route::get('/Administracion/Sesiones', [AdminitraccionController::class, 'Sesiones']);
+    Route::get('/Administracion/Sesiones', [ServicioController::class, 'Sesiones']);
 });
-Route::post('/sesiones/listaSesiones', [AdminitraccionController::class, 'listaSesiones'])->name('sesiones.listaSesiones');
-Route::post('/sesiones/guardarSesion', [AdminitraccionController::class, 'guardarSesion'])->name('sesiones.guardarSesion');
-Route::post('/sesiones/buscarSesion', [AdminitraccionController::class, 'buscarSesion'])->name('sesiones.buscarSesion');
-Route::post('/sesiones/eliminarSesion', [AdminitraccionController::class, 'eliminarSesion'])->name('sesiones.eliminarSesion');
+Route::post('/sesiones/listaSesiones', [ServicioController::class, 'listaSesiones'])->name('sesiones.listaSesiones');
+Route::post('/sesiones/guardarSesion', [ServicioController::class, 'guardarSesion'])->name('sesiones.guardarSesion');
+Route::post('/sesiones/buscarSesion', [ServicioController::class, 'buscarSesion'])->name('sesiones.buscarSesion');
+Route::post('/sesiones/eliminarSesion', [ServicioController::class, 'eliminarSesion'])->name('sesiones.eliminarSesion');
 
 /// AGENDA
 Route::post('/citas/agenda', [AgendaController::class, 'agenda'])->name('citas.agenda');
@@ -338,7 +339,7 @@ Route::post('/cajas/detalleCaja', [AdminitraccionController::class, 'detalleCaja
 Route::post('/cajas/cerrarCaja', [AdminitraccionController::class, 'cerrarCaja'])->name('cajas.cerrarCaja');
 Route::post('/cajas/eliminarCaja', [AdminitraccionController::class, 'eliminarCaja'])->name('cajas.eliminarCaja');
 Route::post('/cajas/consultarMontoCierre', [AdminitraccionController::class, 'consultarMontoCierre'])->name('cajas.consultarMontoCierre');
-Route::post('/asesorias/buscaVentaAsesoria', [AdminitraccionController::class, 'buscaVentaAsesoria'])->name('asesorias.buscaVentaAsesoria');
+Route::post('/asesorias/buscaVentaAsesoria', [ServicioController::class, 'buscaVentaAsesoria'])->name('asesorias.buscaVentaAsesoria');
 
 //
 Route::post('/historia/buscaVentaConsulta', [HistoriasController::class, 'buscaVentaConsulta'])->name('historia.buscaVentaConsulta');

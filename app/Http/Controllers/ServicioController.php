@@ -401,7 +401,7 @@ class ServicioController extends Controller
         // Capturar los datos del request
         $data = $request->all();
         // Guardar la información del paciente
-        $respuesta = Paquetes::guardar($data);
+        $respuesta = Paquetes::Guardar($data);
 
         // Verificar el resultado y preparar la respuesta
         if ($respuesta) {
@@ -562,7 +562,7 @@ class ServicioController extends Controller
         // Capturar los datos del request
         $data = $request->all();
         // Guardar la información del paciente
-        $respuesta = Asesorias::guardar($data);
+        $respuesta = Asesorias::Guardar($data);
 
         // Verificar el resultado y preparar la respuesta
         if ($respuesta) {

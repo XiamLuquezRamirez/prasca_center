@@ -344,10 +344,21 @@ class CajaController extends Controller
             return response()->json([
                 'estado' => 'error',
                 'mensaje' => 'Su sesión ha terminado.',
-            ], 401); // Código de error 401: No autorizado
+            ], 401);
         }
 
-        // Capturar los datos del request
+        try {
+            $request->validate([
+                'accRegistro' => 'required|in:guardar,actualizar',
+                'descripcion' => 'required|string|max:255',
+                'fecha'       => 'required|date',
+                'categoria'   => 'required',
+                'valor'       => 'required|numeric|min:0',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['success' => false, 'errors' => $e->errors()], 422);
+        }
+
         $data = $request->all();
         // Guardar la información del paciente
         $respuesta = Gastos::guardar($data);
@@ -373,10 +384,19 @@ class CajaController extends Controller
             return response()->json([
                 'estado' => 'error',
                 'mensaje' => 'Su sesión ha terminado.',
-            ], 401); // Código de error 401: No autorizado
+            ], 401);
         }
 
-        // Capturar los datos del request
+        try {
+            $request->validate([
+                'saldoAnte'     => 'required|numeric|min:0',
+                'abono'         => 'required|numeric|min:0',
+                'fechaApertura' => 'required|date',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['success' => false, 'errors' => $e->errors()], 422);
+        }
+
         $data = $request->all();
         // Guardar la información del paciente
         $respuesta = Gastos::guardarCaja($data);
@@ -433,10 +453,18 @@ class CajaController extends Controller
             return response()->json([
                 'estado' => 'error',
                 'mensaje' => 'Su sesión ha terminado.',
-            ], 401); // Código de error 401: No autorizado
+            ], 401);
         }
 
-        // Capturar los datos del request
+        try {
+            $request->validate([
+                'accionCate'  => 'required|in:guardar,actualizar',
+                'descripcion' => 'required|string|max:255',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['success' => false, 'errors' => $e->errors()], 422);
+        }
+
         $data = $request->all();
         // Guardar la información del paciente
         $respuesta = Gastos::guardarCat($data);

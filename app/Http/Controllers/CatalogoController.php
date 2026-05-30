@@ -90,10 +90,19 @@ class CatalogoController extends Controller
             return response()->json([
                 'estado' => 'error',
                 'mensaje' => 'Su sesión ha terminado.',
-            ], 401); // Código de error 401: No autorizado
+            ], 401);
         }
 
-        // Capturar los datos del request
+        try {
+            $request->validate([
+                'accRegistro' => 'required|in:guardar,actualizar',
+                'nombre'      => 'required|string|max:255',
+                'valor'       => 'required|numeric|min:0',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['success' => false, 'errors' => $e->errors()], 422);
+        }
+
         $data = $request->all();
         // Guardar la información del paciente
         $respuesta = Especialidades::guardar($data);
@@ -256,16 +265,24 @@ class CatalogoController extends Controller
 
     public function guardarCUPS(Request $request)
     {
-
-
         if (!Auth::check()) {
             return response()->json([
                 'estado' => 'error',
                 'mensaje' => 'Su sesión ha terminado.',
-            ], 401); // Código de error 401: No autorizado
+            ], 401);
         }
 
-        // Capturar los datos del request
+        try {
+            $request->validate([
+                'accRegistro' => 'required|in:guardar,actualizar',
+                'codigo'      => 'required|string|max:20',
+                'nombre'      => 'required|string|max:255',
+                'habilitado'  => 'required',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['success' => false, 'errors' => $e->errors()], 422);
+        }
+
         $data = $request->all();
         // Guardar la información del paciente
         $respuesta = CUPS::guardar($data);
@@ -407,16 +424,25 @@ class CatalogoController extends Controller
 
     public function guardarCIE10(Request $request)
     {
-
-
         if (!Auth::check()) {
             return response()->json([
                 'estado' => 'error',
                 'mensaje' => 'Su sesión ha terminado.',
-            ], 401); // Código de error 401: No autorizado
+            ], 401);
         }
 
-        // Capturar los datos del request
+        try {
+            $request->validate([
+                'accRegistro'   => 'required|in:guardar,actualizar',
+                'codigo'        => 'required|string|max:20',
+                'nombre'        => 'required|string|max:255',
+                'habilitado'    => 'required',
+                'clasificacion' => 'required|string|max:10',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['success' => false, 'errors' => $e->errors()], 422);
+        }
+
         $data = $request->all();
         // Guardar la información del paciente
         $respuesta = CIE10::guardar($data);
@@ -554,10 +580,22 @@ class CatalogoController extends Controller
             return response()->json([
                 'estado' => 'error',
                 'mensaje' => 'Su sesión ha terminado.',
-            ], 401); // Código de error 401: No autorizado
+            ], 401);
         }
 
-        // Capturar los datos del request
+        try {
+            $request->validate([
+                'accRegistro' => 'required|in:guardar,actualizar',
+                'nit'         => 'required|string|max:20',
+                'codigo'      => 'required|string|max:20',
+                'nombre'      => 'required|string|max:255',
+                'email'       => 'required|email|max:255',
+                'telefono'    => 'required|string|max:20',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['success' => false, 'errors' => $e->errors()], 422);
+        }
+
         $data = $request->all();
         // Guardar la información del paciente
         $respuesta = Entidades::guardar($data);
@@ -729,10 +767,19 @@ class CatalogoController extends Controller
             return response()->json([
                 'estado' => 'error',
                 'mensaje' => 'Su sesión ha terminado.',
-            ], 401); // Código de error 401: No autorizado
+            ], 401);
         }
 
-        // Capturar los datos del request
+        try {
+            $request->validate([
+                'accRegistro' => 'required|in:guardar,actualizar',
+                'componente'  => 'required|string|max:255',
+                'categoria'   => 'required|integer',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['success' => false, 'errors' => $e->errors()], 422);
+        }
+
         $data = $request->all();
         // Guardar la información del paciente
         $respuesta = Componentes::guardar($data);

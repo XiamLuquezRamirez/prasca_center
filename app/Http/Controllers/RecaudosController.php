@@ -1037,10 +1037,23 @@ class RecaudosController extends Controller
             return response()->json([
                 'estado' => 'error',
                 'mensaje' => 'Su sesión ha terminado.',
-            ], 401); // Código de error 401: No autorizado
+            ], 401);
         }
 
-        // Capturar los datos del request
+        try {
+            $request->validate([
+                'accPago'           => 'required|in:guardar,actualizar',
+                'idVentaServicio'   => 'required|integer',
+                'valotTotalVentPaq' => 'required|numeric|min:0',
+                'abono'             => 'required|numeric|min:0',
+                'fechaPago'         => 'required|date',
+                'selMedioPago'      => 'required|array|min:1',
+                'valorPago'         => 'required|array|min:1',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['success' => false, 'errors' => $e->errors()], 422);
+        }
+
         $data = $request->all();
         $respuesta = Paquetes::GuardarPagoPaquete($data);
 

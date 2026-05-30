@@ -84,6 +84,19 @@ class ProfesionalController extends Controller
             ], 401);
         }
 
+        try {
+            $request->validate([
+                'accRegistro'    => 'required|in:guardar,actualizar',
+                'nombre'         => 'required|string|max:255',
+                'identificacion' => 'required|string|max:20',
+                'email'          => 'required|email|max:255',
+                'tipo'           => 'required|string',
+                'estado'         => 'required|string',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['success' => false, 'errors' => $e->errors()], 422);
+        }
+
         $data = $request->all();
 
         if (isset($data['firmaProf'])) {

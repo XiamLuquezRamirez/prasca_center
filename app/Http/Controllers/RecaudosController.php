@@ -399,11 +399,11 @@ class RecaudosController extends Controller
 
                     $tdTable .= '<tr onclick="realizarPago(' . $item->id . ');" class="hover-opagos">
                                     <td style="width: 40%;">
-                                        <h6 class="text-dark fw-600 hover-primary m-0">' . $item->identificacion_completa . ' - ' . $item->nombre_paciente . '</h6>
+                                        <h6 class="text-dark fw-600 hover-primary m-0">' . e($item->identificacion_completa) . ' - ' . e($item->nombre_paciente) . '</h6>
                                         <span class="text-fade d-block fs-14">
-                                        <strong>Servicio: </strong> ' . $item->tipo . '</span>
+                                        <strong>Servicio: </strong> ' . e($item->tipo) . '</span>
                                         <span class="text-fade d-block fs-14">
-                                        <strong>Descripción: </strong> ' . $item->descripcion . '</span>
+                                        <strong>Descripción: </strong> ' . e($item->descripcion) . '</span>
                                     </td>
                                     <td style="width: 20%;">
                                         <h5>' . $fecha . '</h5>
@@ -519,9 +519,9 @@ class RecaudosController extends Controller
 
                     $tdTable .= '<tr onclick="realizarPago(' . $item->id . ');" class="hover-opagos">
                                     <td style="width: 40%;">
-                                        <h6 class="text-dark fw-600 hover-primary m-0">' . $item->entidad . '</h6>
+                                        <h6 class="text-dark fw-600 hover-primary m-0">' . e($item->entidad) . '</h6>
                                         <span class="text-fade d-block fs-14">
-                                        <strong style="font-size: 12px;">Descripción del servicio: </strong> ' . $item->descripcion . '</span>
+                                        <strong style="font-size: 12px;">Descripción del servicio: </strong> ' . e($item->descripcion) . '</span>
                                     </td>
                                     <td style="width: 20%;">
                                         <h5>' . $fecha . '</h5>
@@ -896,8 +896,8 @@ class RecaudosController extends Controller
                     $fecha_pago = \Carbon\Carbon::parse($item->fecha_pago)->format('d/m/Y');
                     $tdTable .= '<tr class="hover-opagos" onclick="verPago(' . $item->id . ');">
                                     <td>
-                                        <h6 class="text-dark fw-600 hover-primary m-0">' . $item->identificacion_completa . ' - ' . $item->nombre_paciente . '</h6>
-                                        <span class="text-fade d-block fs-14"><strong>Paquete: </strong> ' . $item->descripcion . '</span>
+                                        <h6 class="text-dark fw-600 hover-primary m-0">' . e($item->identificacion_completa) . ' - ' . e($item->nombre_paciente) . '</h6>
+                                        <span class="text-fade d-block fs-14"><strong>Paquete: </strong> ' . e($item->descripcion) . '</span>
                                     </td>
                                     <td>
                                         <h5>' . $fecha_pago . '</h5>
@@ -1006,8 +1006,8 @@ class RecaudosController extends Controller
                     $fecha_pago = \Carbon\Carbon::parse($item->fecha_pago)->format('d/m/Y');
                     $tdTable .= '<tr class="hover-opagos" onclick="verPago(' . $item->id . ');">
                                     <td>
-                                        <h6 class="text-dark fw-600 hover-primary m-0">' . $item->entidad . '</h6>
-                                        <span class="text-fade d-block fs-14"><strong>Descripción del servicio: </strong> ' . $item->descripcion . '</span>
+                                        <h6 class="text-dark fw-600 hover-primary m-0">' . e($item->entidad) . '</h6>
+                                        <span class="text-fade d-block fs-14"><strong>Descripción del servicio: </strong> ' . e($item->descripcion) . '</span>
                                     </td>
                                     <td>
                                         <h5>' . $fecha_pago . '</h5>

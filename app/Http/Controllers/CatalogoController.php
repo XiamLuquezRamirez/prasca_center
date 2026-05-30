@@ -60,7 +60,7 @@ class CatalogoController extends Controller
                     $valor = number_format($item->precio, 2, ',', '.');
                     $tdTable .= '<tr>
                                     <td>' . $const . '</td>
-                                    <td>' . $item->nombre . '</td>
+                                    <td>' . e($item->nombre) . '</td>
                                     <td>$' .  $valor . '</td>
                                     <td class="table-action min-w-100">
                                         <a onclick="editarRegistro(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
@@ -238,8 +238,8 @@ class CatalogoController extends Controller
                         $habilitado = '<span class="badge bg-danger">Deshabilitado</span>';
                     }
                     $tdTable .= '<tr>
-                                    <td>' . $item->codigo . '</td>
-                                    <td>' . $item->nombre . '</td>
+                                    <td>' . e($item->codigo) . '</td>
+                                    <td>' . e($item->nombre) . '</td>
                                     <td>' . $habilitado . '</td>
                                     <td class="table-action min-w-100">
                                         <a onclick="editarRegistro(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
@@ -396,9 +396,9 @@ class CatalogoController extends Controller
                         $habilitado = '<span class="badge bg-danger">Deshabilitado</span>';
                     }
                     $tdTable .= '<tr>
-                                    <td>' . $item->codigo . '</td>
-                                    <td>' . $item->nombre . '</td>
-                                    <td>' . $item->clasificacion . '</td>
+                                    <td>' . e($item->codigo) . '</td>
+                                    <td>' . e($item->nombre) . '</td>
+                                    <td>' . e($item->clasificacion) . '</td>
                                     <td>' . $habilitado . '</td>
                                     <td class="table-action min-w-100">
                                         <a onclick="editarRegistro(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
@@ -548,8 +548,8 @@ class CatalogoController extends Controller
             foreach ($ListEntidades as $i => $item) {
                 if (!is_null($item)) {
                     $tdTable .= '<tr>
-                                    <td>' . $item->codigo . '</td>
-                                    <td>' . $item->entidad . '</td>
+                                    <td>' . e($item->codigo) . '</td>
+                                    <td>' . e($item->entidad) . '</td>
                                     <td class="table-action min-w-100">
                                      <a href="javascript:void(0)" onclick="verServiciosVenta(' . $item->id . ');" style="cursor: pointer;" title="Venta de servicios" class="text-fade hover-info"><i class="align-middle"
                                     data-feather="shopping-cart"></i></a>
@@ -737,8 +737,8 @@ class CatalogoController extends Controller
                 if (!is_null($item)) {
 
                     $tdTable .= '<tr>
-                                    <td>' . $item->nombre . '</td>
-                                    <td>' . $item->opcion . '</td>
+                                    <td>' . e($item->nombre) . '</td>
+                                    <td>' . e($item->opcion) . '</td>
                                     <td class="table-action min-w-100">
                                         <a onclick="editarRegistro(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
                                                 data-feather="edit-2"></i></a>

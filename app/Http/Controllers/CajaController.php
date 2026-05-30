@@ -192,11 +192,11 @@ class CajaController extends Controller
                     $fecha = \Carbon\Carbon::parse($item->fecha_gasto)->format('d/m/Y');
 
                     $tdTable .= '<tr>
-                                    <td>' . $item->descripcion . '</td>
-                                    <td>' . $item->categoria . '</td>
+                                    <td>' . e($item->descripcion) . '</td>
+                                    <td>' . e($item->categoria) . '</td>
                                     <td>' . $fecha . '</td>
                                     <td>$ ' . $valor . '</td>
-                                    <td>' . $item->origen_recurso . '</td>
+                                    <td>' . e($item->origen_recurso) . '</td>
                                     <td class="table-action min-w-100">
                                         <a onclick="editarRegistro(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
                                                 data-feather="edit-2"></i></a>
@@ -298,14 +298,14 @@ class CajaController extends Controller
                     $tdTable .= '<tr>
                 <td><span class="invoice-date">' . str_pad($j, 5, '0', STR_PAD_LEFT) . '</span></td>
                 <td><span class="invoice-date">' . $fechaApertura . '</span></td>
-                <td><span class="invoice-date">' . $item->fecha_cierre . '</span></td>
+                <td><span class="invoice-date">' . e($item->fecha_cierre) . '</span></td>
                 <td><span class="invoice-date">$ ' . number_format($item->saldo_inicial, 2, ',', '.') . '</span></td>
                 <td><span class="invoice-date">$ ' . number_format($saldo_acomulado, 2, ',', '.') . '</span></td>
                 <td><span class="invoice-date">$ ' . number_format($gastos, 2, ',', '.') . '</span></td>';
                     if ($item->estado_caja == "Abierta") {
-                        $tdTable .= '<td><span class="invoice-date"><span class="badge badge-success"> ' . $item->estado_caja . '</span></span></td>';
+                        $tdTable .= '<td><span class="invoice-date"><span class="badge badge-success"> ' . e($item->estado_caja) . '</span></span></td>';
                     } else {
-                        $tdTable .= '<td><span class="invoice-date"><span class="badge badge-warning"> ' . $item->estado_caja . '</span></span></td>';
+                        $tdTable .= '<td><span class="invoice-date"><span class="badge badge-warning"> ' . e($item->estado_caja) . '</span></span></td>';
                     }
 
                     $tdTable .= '<td>

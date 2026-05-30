@@ -56,7 +56,7 @@ class ServicioController extends Controller
                 if (!is_null($item)) {
                     $valor = number_format($item->precio, 2, ',', '.');
                     $tdTable .= '<tr>
-                                    <td>' . $item->descripcion . '</td>
+                                    <td>' . e($item->descripcion) . '</td>
                                     <td>$ ' . $valor . '</td>
                                     <td class="table-action min-w-100">
                                         <a onclick="editarRegistro(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
@@ -219,7 +219,7 @@ class ServicioController extends Controller
                 if (!is_null($item)) {
                     $valor = number_format($item->precio, 2, ',', '.');
                     $tdTable .= '<tr>
-                                    <td>' . $item->descripcion . '</td>
+                                    <td>' . e($item->descripcion) . '</td>
                                     <td>$ ' . $valor . '</td>
                                     <td class="table-action min-w-100">
                                         <a onclick="editarRegistro(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
@@ -383,7 +383,7 @@ class ServicioController extends Controller
                 if (!is_null($item)) {
                     $valor = number_format($item->precio_por_sesion, 2, ',', '.');
                     $tdTable .= '<tr>
-                                    <td>' . $item->descripcion . '</td>
+                                    <td>' . e($item->descripcion) . '</td>
                                     <td>$ ' . $valor . '</td>
                                     <td class="table-action min-w-100">
                                         <a onclick="editarRegistro(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
@@ -554,7 +554,7 @@ class ServicioController extends Controller
                     $tdTable .= '<tr>
                                     <td>' . $item->descripcion . '</td>
                                     <td>$ ' . $valor . '</td>
-                                    <td>' . $item->tiempo . '</td>
+                                    <td>' . e($item->tiempo) . '</td>
                                     <td class="table-action min-w-100">
                                         <a onclick="editarRegistro(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
                                                 data-feather="edit-2"></i></a>

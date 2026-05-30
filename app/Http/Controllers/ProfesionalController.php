@@ -49,9 +49,9 @@ class ProfesionalController extends Controller
                 if (!is_null($item)) {
                     $tdTable .= '<tr>
                                     <td>' . $const . '</td>
-                                    <td>' . $item->identificacion . '</td>
-                                    <td>' . $item->nombre . '</td>
-                                    <td>' . $item->correo . '</td>
+                                    <td>' . e($item->identificacion) . '</td>
+                                    <td>' . e($item->nombre) . '</td>
+                                    <td>' . e($item->correo) . '</td>
                                     <td class="table-action min-w-100">
                                         <a onclick="editarRegistro(' . $item->id . ');" style="cursor: pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle"
                                                 data-feather="edit-2"></i></a>

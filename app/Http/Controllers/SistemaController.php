@@ -62,9 +62,9 @@ class SistemaController extends Controller
                 if (!is_null($item)) {
                     // Obtener el paciente de datos
                     $tdTable .= '<tr>
-                                    <td style="text-transform: capitalize;">' . $item->paciente . '</td>
-                                    <td>' . $item->nombre_usuario . '</td>
-                                    <td>' . $item->formulario . '</td>
+                                    <td style="text-transform: capitalize;">' . e($item->paciente) . '</td>
+                                    <td>' . e($item->nombre_usuario) . '</td>
+                                    <td>' . e($item->formulario) . '</td>
                                     <td>' . date('d/m/Y H:i:s', strtotime($item->created_at)) . '</td>
                                     <td><a href="javascript:void(0)" onclick="verDetalleBackup(' . $item->id . ');" class="btn btn-primary"><i class="align-middle" data-feather="eye"></i></a></td>
                                 </tr>';

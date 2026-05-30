@@ -24,6 +24,15 @@ class RecaudosController extends Controller
 
     public function imprimirRecaudo(Request $request)
     {
+        if (!Auth::check()) {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+
+        $permisos = session('permisos', []);
+        if (in_array('paciente', $permisos) || empty($permisos)) {
+            abort(403);
+        }
+
         if (Auth::check()) {
             $pdf = new Dompdf();
             $idRecaudo = $request->input('idRecaudo');
@@ -283,7 +292,6 @@ class RecaudosController extends Controller
                 [
                     'success' => false,
                     'message' => 'Ocurrió un error al intentar eliminar el pago',
-                    'error' => $e->getMessage()
                 ],
                 500
             );
@@ -1137,6 +1145,15 @@ class RecaudosController extends Controller
 
     public function obtenerDatosPago(Request $request)
     {
+        if (!Auth::check()) {
+            return response()->json(['success' => false, 'message' => 'No autorizado'], 401);
+        }
+
+        $permisos = session('permisos', []);
+        if (in_array('paciente', $permisos) || empty($permisos)) {
+            return response()->json(['success' => false, 'message' => 'No autorizado'], 403);
+        }
+
         try {
             $idPago = $request->input('idPago');
 
@@ -1202,7 +1219,6 @@ class RecaudosController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Error al obtener los datos del pago',
-                'error' => $e->getMessage()
             ], 500);
         }
     }
@@ -1262,7 +1278,6 @@ class RecaudosController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Error al actualizar el pago',
-                'error' => $e->getMessage()
             ], 500);
         }
     }

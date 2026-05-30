@@ -501,26 +501,18 @@ class AgendaController extends Controller
             // Configuración del servidor SMTP
             require base_path("vendor/autoload.php");
             $mail->isSMTP();
-            $mail->Host = 'mail.prascacenter.com';  // Servidor SMTP de tu hosting
+            $mail->Host = env('MAIL_HOST');
             $mail->SMTPAuth = true;
-            $mail->Username = 'notificaciones@prascacenter.com'; // Tu correo completo
-            $mail->Password = 'isabel_2025*'; // Tu contraseña
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // O ENCRYPTION_SMTPS si usas SSL
-            $mail->Port = 587; // 465 si usas SSL, 587 para TLS
+            $mail->Username = env('MAIL_USERNAME');
+            $mail->Password = env('MAIL_PASSWORD');
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = env('MAIL_PORT', 587);
 
             $mail->CharSet = 'UTF-8';
             $mail->Encoding = 'base64';
-            // Opcional: Si hay problemas con el certificado SSL
-            $mail->SMTPOptions = [
-                'ssl' => [
-                    'verify_peer' => false,
-                    'verify_peer_name' => false,
-                    'allow_self_signed' => true
-                ]
-            ];
 
             // Configuración del correo
-            $mail->setFrom('notificaciones@prascacenter.com', 'Prasca Center');
+            $mail->setFrom(env('MAIL_FROM_ADDRESS'), 'Prasca Center');
             $mail->addAddress($datosCita->email, $datosCita->npaciente . ' ' . $datosCita->apaciente); // Correo y nombre del destinatario
             $mail->isHTML(true);
             $mail->Subject = $asunto;

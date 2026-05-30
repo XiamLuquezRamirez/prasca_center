@@ -698,7 +698,6 @@ class HistoriasController extends Controller
                 [
                     'success' => false,
                     'message' => 'Ocurrió un error al intentar eliminar la consulta',
-                    'error' => $e->getMessage()
                 ],
                 500
             );
@@ -748,7 +747,6 @@ class HistoriasController extends Controller
                 [
                     'success' => false,
                     'message' => 'Ocurrió un error al intentar eliminar el paquete',
-                    'error' => $e->getMessage()
                 ],
                 500
             );
@@ -799,7 +797,6 @@ class HistoriasController extends Controller
                 [
                     'success' => false,
                     'message' => 'Ocurrió un error al intentar eliminar la Sesión )',
-                    'error' => $e->getMessage()
                 ],
                 500
             );
@@ -850,7 +847,6 @@ class HistoriasController extends Controller
                 [
                     'success' => false,
                     'message' => 'Ocurrió un error al intentar eliminar la hisotria',
-                    'error' => $e->getMessage()
                 ],
                 500
             );
@@ -900,7 +896,6 @@ class HistoriasController extends Controller
                 [
                     'success' => false,
                     'message' => 'Ocurrió un error al intentar eliminar la consulta',
-                    'error' => $e->getMessage()
                 ],
                 500
             );
@@ -952,7 +947,6 @@ class HistoriasController extends Controller
                 [
                     'success' => false,
                     'message' => 'Ocurrió un error al intentar cambiar el estado de la historia',
-                    'error' => $e->getMessage()
                 ],
                 500
             );
@@ -1127,7 +1121,6 @@ class HistoriasController extends Controller
                 'success' => false,
                 'title' => '¡Opps salio algo mal!',
                 'message' => 'Ocurrió un error al intentar guardar el plan de intervención',
-                'error' => $e->getMessage()
             ]);
         }
     }
@@ -1159,7 +1152,6 @@ class HistoriasController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Error al procesar la solicitud',
-                'error' => $e->getMessage()
             ], 500);
         }
     }
@@ -1264,6 +1256,21 @@ class HistoriasController extends Controller
 
             $consulta = HistoriaPsicologica::busquedaConsultaImprimir($idConsulta);
 
+            if (!$consulta) {
+                abort(404);
+            }
+
+            $miProfesionalId = DB::connection('mysql')
+                ->table('profesionales')
+                ->where('usuario', Auth::id())
+                ->value('id');
+
+            $esProfesionalTratante = $miProfesionalId && ($consulta->id_profesional == $miProfesionalId);
+            $esAdmin = in_array('gestionUsuarios', session('permisos', []));
+
+            if (!$esProfesionalTratante && !$esAdmin) {
+                abort(403);
+            }
 
             $idPaciente = DB::connection('mysql')->table('historia_clinica')
                 ->where('id', $consulta->id_historia)

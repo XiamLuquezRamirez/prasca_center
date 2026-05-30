@@ -2,31 +2,32 @@
 	padding: 50px 70px 40px 0px;
 }
 .index-one{
-	background-image: url(../../../../images/box-svg.png);
+	background-image: url(../images/box-svg.png);
 	width: auto;
 	height: auto;
 	background-position: left bottom;
 	background-size: cover;
-	background-color: #EBF3F5;
+	background-color: #9ceaff;
 }
 .index-two{
-	background-image: url(../../../../images/box-svg-2.png);
+	background-image: url(../images/box-svg-2.png);
 	width: auto;
 	height: auto;
 	background-position: left bottom;
 	background-size: cover;
-	background-color: #FEFCE3;
+	background-color: #9ceaff;
 }
 .index-three{
-	background-image: url(../../../../images/box-svg-3.png);
+	background-image: url(../images/box-svg-3.png);
 	width: auto;
 	height: auto;
 	background-position: left bottom;
 	background-size: cover;
-	background-color: #F2ECF6;
+	background-color: #ddbbf0;
+	font-size: 50px !important;
 }
 .index-four{
-	background-image: url(../../../../images/box-svg-4.png);
+	background-image: url(../images/box-svg-4.png);
 	width: auto;
 	height: auto;
 	background-position: left bottom;
@@ -72,6 +73,7 @@
 }
 @media only screen and (max-width: 768px) {
   	.index-section{
+
 		padding: 50px 0px 40px 0px;
 	}
 	.nav-tabs .nav-link{

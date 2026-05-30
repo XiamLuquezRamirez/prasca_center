@@ -155,6 +155,54 @@
                                                     <label class="form-check-label"
                                                         for="permisos_AdminPaquetes">Paquetes de sesiones</label>
                                                 </div>
+                                                <div class="form-check ms-3">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="permisos_AdminPruebas" name="permisos[]"
+                                                        value="AdminPruebas">
+                                                    <label class="form-check-label"
+                                                        for="permisos_AdminPruebas">Pruebas</label>
+                                                </div>
+                                                <div class="form-check ms-3">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="permisos_AdminSesiones" name="permisos[]"
+                                                        value="AdminSesiones">
+                                                    <label class="form-check-label"
+                                                        for="permisos_AdminSesiones">Sesiones</label>
+                                                </div>
+                                                <div class="form-check ms-3">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="permisos_AdminAsesorias" name="permisos[]"
+                                                        value="AdminAsesorias">
+                                                    <label class="form-check-label"
+                                                        for="permisos_AdminAsesorias">Asesoría</label>
+                                                </div>
+                                                <div class="form-check ms-3">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="permisos_AdminCUPS" name="permisos[]"
+                                                        value="AdminCUPS">
+                                                    <label class="form-check-label"
+                                                        for="permisos_AdminCUPS">CUPS</label>
+                                                </div>
+                                                <div class="form-check ms-3">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="permisos_AdminCIE10" name="permisos[]"
+                                                        value="AdminCIE10">
+                                                    <label class="form-check-label"
+                                                        for="permisos_AdminCIE10">CIE10</label>
+                                                </div>
+                                                <div class="form-check ms-3">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="permisos_AdminComponentes" name="permisos[]"
+                                                        value="AdminComponentes">
+                                                    <label class="form-check-label"
+                                                        for="permisos_AdminComponentes">Componentes de la historia</label>
+                                                </div>
+                                                <div class="form-check ms-3">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="permisos_AdminBackup" name="permisos[]" value="AdminBackup">
+                                                    <label class="form-check-label" for="permisos_AdminBackup">Backup de
+                                                        formularios</label>
+                                                </div>
 
                                                 <!-- informes -->
                                                 <div class="form-check">
@@ -182,6 +230,7 @@
                                                     <label class="form-check-label" for="permisos_reportes">Reportes
                                                         estadisticos</label>
                                                 </div>
+                                          
 
 
                                             </div>
@@ -201,6 +250,13 @@
                                                     value="gestionRecaudo">
                                                 <label class="form-check-label"
                                                     for="permisos_gestionRecaudo">Recaudo</label>
+                                            </div>
+                                            <div class="form-check  ms-3">
+                                                <input class="form-check-input" type="checkbox"
+                                                    id="permisos_gestionGastos" name="permisos[]"
+                                                    value="gestionGastos">
+                                                <label class="form-check-label"
+                                                    for="permisos_gestionGastos">Gastos</label>
                                             </div>
                                             <div class="form-check  ms-3">
                                                 <input class="form-check-input" type="checkbox"

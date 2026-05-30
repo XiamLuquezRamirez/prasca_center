@@ -45,7 +45,8 @@
                                     <th style="width:10%;">Usuario</th>
                                     <th style="width:15%;">Accion</th>
                                     <th style="width:10%;">IP</th>
-                                    <th style="width:65%;">Destalles</th>
+                                    <th style="width:55%;">Destalles</th>
+                                    <th style="width:10%;">Fecha</th>
                                 </tr>
                             </thead>
                             <tbody id="trRegistros">
@@ -82,10 +83,11 @@
                     event.preventDefault();
                     var href = event.target.getAttribute('href');
                     var page = href.split('page=')[1];
+                    var searchTerm = document.getElementById('busqueda').value;
 
                     // Asegurarse de que 'page' sea un número antes de hacer la solicitud
                     if (!isNaN(page)) {
-                        cargarListaLogs(page);
+                        cargarListaLogs(page, searchTerm);
                     }
                 }
             });

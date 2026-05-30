@@ -16,18 +16,20 @@ class AgendaController extends Controller
     {
         if (Auth::check()) {
             $citas = Citas::AllCitas();
-
+              //Hirarios bloqueados
+            $bloqueados = Citas::AllBloqueos();
+            $disponibilidad = $citas->concat($bloqueados);
             // Verificar si hay resultados
             if (request()->ajax()) {
                 return response()->json([
-                    'disponibilidad' => $citas
+                    'disponibilidad' => $disponibilidad
                 ], 200);
             }
 
             // Verificamos si es una solicitud AJAX
             if (request()->ajax()) {
                 return response()->json([
-                    'disponibilidad' => $citas
+                    'disponibilidad' => $disponibilidad
                 ], 200);
             }
 
@@ -41,6 +43,23 @@ class AgendaController extends Controller
         return response()->json([
             'error' => 'Su sesión ha terminado. Por favor, inicie sesión nuevamente.'
         ], 401);
+    }
+
+    public function obtenerFechaInicioFinBloqueo()
+    {
+        $idBloqueo = request()->get('idBloqueo');
+        $bloqueo = Citas::obtenerFechaInicioFinBloqueo($idBloqueo);
+
+        return response()->json([
+            'fechaInicio' => \Carbon\Carbon::parse($bloqueo->inicio)->format('d/m/Y H:i:s'),
+            'fechaFin' => \Carbon\Carbon::parse($bloqueo->final)->format('d/m/Y H:i:s'),
+            'inicio' => $bloqueo->inicio,
+            'final' => $bloqueo->final,
+            'observacion' => $bloqueo->comentario,
+            'duracion' => $bloqueo->duracion,
+            'profesional' => $bloqueo->nomprof,
+            'idProf' => $bloqueo->idprof
+        ]);
     }
 
     public function notificaccionCita()
@@ -66,6 +85,45 @@ class AgendaController extends Controller
         } else {
             return redirect("/")->with("error", "Su Sesión ha Terminado");
         }
+    }
+
+    public function guardarBloquear()
+    {
+        if (Auth::check()) {
+            $data = request()->all();
+            
+            $cita = Citas::GuardarBloquear($data);
+            return response()->json($cita);
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+
+    public function eliminarBloqueo()
+    {
+        if (Auth::check()) {
+            $idBloqueo = request()->get('idBloqueo');
+            $cita = Citas::EliminarBloqueo($idBloqueo);
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Bloqueo eliminado correctamente'
+            ]);
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+
+    public function listarCitasPaciente(Request $request)
+    {
+        $paciente = $request->input('paciente');
+        $fechaInicio = $request->input('fechaInicio');
+        $fechaFin = $request->input('fechaFin');        
+        $estado = $request->input('estado');
+        $profesional = $request->input('profesional');
+        $citas = Citas::listarCitasPaciente($paciente, $fechaInicio, $fechaFin, $estado, $profesional);
+
+        return response()->json($citas);
     }
 
     public function envioCambioEstadoCita($idCita, $tipo)
@@ -545,7 +603,139 @@ class AgendaController extends Controller
             return redirect("/")->with("error", "Su Sesión ha Terminado");
         }
     }
+    
+    public function eliminarcita()
+    {
+        if (Auth::check()) {
+            $idCita = request()->get('idCita');
 
+            try {
+
+                if (!$idCita) {
+                    return response()->json(
+                        [
+                            'success' => false,
+                            'message' => 'ID de la cita no proporcionado'
+                        ],
+                        400
+                    );
+                }
+
+                $consulta = DB::connection('mysql')
+                    ->table('citas')
+                    ->where('id', $idCita)
+                    ->delete();
+
+                if ($consulta) {
+                    return response()->json(
+                        [
+                            'success' => true,
+                            'message' => 'Anexo eliminado correctamente'
+                        ]
+                    );
+                } else {
+                    return response()->json(
+                        [
+                            'success' => false,
+                            'message' => 'No se encontró el anexo o no se pudo eliminar'
+                        ],
+                        404
+                    );
+                }
+            } catch (\Exception $e) {
+                // Manejar cualquier error o excepción
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'Ocurrió un error al intentar eliminar el anexo',
+                        'error' => $e->getMessage()
+                    ],
+                    500
+                );
+            }
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+
+    public function listaCitasEstado()
+    {
+        if (Auth::check()) {
+            $fecha1 = request()->get('fecha1');
+            $fecha2 = request()->get('fecha2');
+            $tipo = request()->get('tipo');
+            $fechaInicio = \Carbon\Carbon::createFromFormat('d/m/Y', $fecha1)->format('Y-m-d') . 'T00:00:00';
+            $fechaFin = \Carbon\Carbon::createFromFormat('d/m/Y', $fecha2)->format('Y-m-d') . 'T23:59:59';
+            $citas = Citas::buscarCitas($fechaInicio, $fechaFin);
+
+            if ($tipo == "no-confir") {
+                $citas = $citas->whereIn('estado', ['Por atender', 'no-confirmada', 'por-atender', 'Confirmada']);
+            } else if ($tipo == "atendidas") {
+                $citas = $citas->where('estado', 'Atendida');
+            } else if ($tipo == "canceladas") {
+                $citas = $citas->where('estado', 'Anulada');
+            }
+
+            $listCitas = '';
+            $x = 1;
+            foreach ($citas as $i => $item) {
+                if (!is_null($item)) {
+                    $fecha = \Carbon\Carbon::parse($item->inicio)->format('d/m/Y h:i A');
+                    $listCitas .= '<tr>
+                      <td>' . ($x) . '</td>
+                                <td>' . $item->primer_nombre . ' ' . $item->primer_apellido . '</td>
+                                <td>' . $item->nomprof . '</td>
+                                <td>' . $fecha . '</td>
+                            </tr>';
+                    $x++;
+                }
+            }
+
+
+            return response()->json([
+                'citas' => $listCitas
+            ]);
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
+
+    public function listaCitasProfesional()
+    {
+        if (Auth::check()) {
+            $fecha1 = request()->get('fecha1');
+            $fecha2 = request()->get('fecha2');
+            $idProf = request()->get('idProf');
+
+            $fechaInicio = \Carbon\Carbon::createFromFormat('d/m/Y', $fecha1)->format('Y-m-d') . 'T00:00:00';
+            $fechaFin = \Carbon\Carbon::createFromFormat('d/m/Y', $fecha2)->format('Y-m-d') . 'T23:59:59';
+            $citas = Citas::buscarCitas($fechaInicio, $fechaFin);
+
+            $citas = $citas->where('idprof', $idProf);
+
+            $listCitas = '';
+            $x = 1;
+            foreach ($citas as $i => $item) {
+                if (!is_null($item)) {
+                    $fecha = \Carbon\Carbon::parse($item->inicio)->format('d/m/Y h:i A');
+                    $listCitas .= '<tr>
+                                <td>' . ($x) . '</td>
+                                <td>' . $item->primer_nombre . ' ' . $item->primer_apellido . '</td>
+                                <td>' . $item->nomprof . '</td>
+                                <td>' . $fecha . '</td>
+                            </tr>';
+                }
+                $x++;
+            }
+
+
+            return response()->json([
+                'citas' => $listCitas
+            ]);
+        } else {
+            return redirect("/")->with("error", "Su Sesión ha Terminado");
+        }
+    }
 
     public function informacionCita()
     {
@@ -574,7 +764,11 @@ class AgendaController extends Controller
 
         $idProf = request()->get('idProf');
         $idCita = request()->get('idCita');
-        $disponibilidad = Citas::CitasProfesional($idProf, $idCita);
+        $idBloqueo = request()->get('idBloqueo');
+        $disponibilidad = Citas::CitasProfesional($idProf, $idCita, $idBloqueo);
+        $bloqueos = Citas::AllBloqueosDisponibles($idBloqueo, $idProf);
+
+        $disponibilidad = $disponibilidad->concat($bloqueos);
 
         if ($disponibilidad->isEmpty()) {
             return response()->json(['disponibilidad' => []], 200);
@@ -608,16 +802,26 @@ class AgendaController extends Controller
 
         //Guardar la información del paciente
         if ($data["opc"] == "1") {
-            $respuesta = Pacientes::guardarPend($data);
+            $respuesta = Pacientes::guardarPendiente($data);
             $data['idPaciente'] = $respuesta;
         }
 
         if ($data['accionCita'] == "agregar") {
             $cita = Citas::GuardarCitas($data);
-            // self::envioCambioEstadoCita($cita, 'recordatorio');
+            if ($data['notCliente'] == "si") {
+                self::envioCambioEstadoCita($cita, 'recordatorio');
+            }
         } else {
             $cita = Citas::EditarCitas($data);
-            //   self::envioCambioEstadoCita($data['idCitaPac'], 'recordatorio');
+            if ($data['notCliente'] == "si") {
+            self::envioCambioEstadoCita($data['idCita'], 'recordatorio');
+        }
+        }
+
+        if (isset($data['idBloqueo'])) {
+            if($data['idBloqueo'] !== null || $data['idBloqueo'] !== ''){
+                $bloq = Citas::EditarBlo($data['idBloqueo']);
+            }
         }
 
         // Verificar el resultado y preparar la respuesta

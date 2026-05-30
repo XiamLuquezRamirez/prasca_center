@@ -17,6 +17,7 @@ class Especialidades extends Model
                 $respuesta = DB::connection('mysql')->table('especialidades')->insertGetId([
                     'nombre' => $request['nombre'],
                     'observacion' => $request['observaciones'] ?? '',
+                    'precio' => $request['valor'],
                     'estado' => 'ACTIVO'
                 ]);
             } else {
@@ -25,7 +26,7 @@ class Especialidades extends Model
                     ->update([
                         'nombre' => $request['nombre'],
                         'observacion' => $request['observaciones'] ?? '',
-
+                        'precio' => $request['valor'],
                     ]);
 
 

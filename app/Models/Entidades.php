@@ -18,7 +18,9 @@ class Entidades extends Model
                     'codigo' => $request['codigo'],
                     'entidad' => $request['nombre'],
                     'observaciones' => $request['observaciones'] ?? '',
-                    'estado' => 'ACTIVO'
+                    'estado' => 'ACTIVO',
+                    'email' => $request['email'],
+                    'telefono' => $request['telefono']
                 ]);
             } else {
                 $respuesta = DB::connection('mysql')->table('eps')
@@ -28,7 +30,8 @@ class Entidades extends Model
                         'codigo' => $request['codigo'],
                         'entidad' => $request['nombre'],
                         'observaciones' => $request['observaciones'] ?? '',
-
+                        'email' => $request['email'],
+                        'telefono' => $request['telefono']
                     ]);
 
 

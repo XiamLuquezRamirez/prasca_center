@@ -5,17 +5,88 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
 
 class Citas extends Model
 {
     public static function AllCitas()
     {
         return DB::connection('mysql')->table('citas')
-            ->join('pacientes', 'citas.paciente', '=', 'pacientes.id')
+            ->join('pacientes', 'citas.paciente', 'pacientes.id')
             ->join('profesionales', 'citas.profesional', 'profesionales.id')
             ->selectRaw('citas.*, pacientes.primer_nombre, pacientes.primer_apellido, profesionales.nombre AS nomprof, "CITAS" AS tblo')
             ->where('citas.estado', '!=', 'Anulada')
             ->get();
+    }
+
+    public static function AllBloqueos()
+    {
+        return DB::connection('mysql')->table('bloqueos')
+            ->join('profesionales', 'bloqueos.profesional', 'profesionales.id')
+            ->where('bloqueos.estado', 'Pendiente')
+            ->selectRaw("bloqueos.*, profesionales.nombre AS nomprof, 'BLOQUEO' AS tblo")
+            ->get();
+    }
+
+    public static function listarCitasPaciente($paciente, $fechaInicio, $fechaFin, $estado, $profesional)
+    {
+        $citas = DB::connection('mysql')->table('citas')
+            ->join('profesionales', 'citas.profesional', '=', 'profesionales.id')
+            ->where('citas.paciente', $paciente)
+            ->whereBetween(DB::raw('DATE(inicio)'), [$fechaInicio, $fechaFin]);
+    
+        if (!empty($estado)) {
+            $citas->where('citas.estado', $estado);
+        }
+
+        if (!empty($profesional)) {
+            $citas->where('citas.profesional', $profesional);
+        }
+    
+        return $citas->select('citas.*', 'profesionales.nombre AS nomprof')
+        ->get();
+    }
+    
+
+    public static function AllBloqueosDisponibles($idBloqueo, $idProf)
+    {
+        return DB::connection('mysql')->table('bloqueos')
+            ->where('profesional', $idProf)
+            ->where('id', '!=', $idBloqueo)
+            ->where('estado', 'Pendiente')
+            ->get();
+    }
+
+    public static function buscarCitas($fec1, $fec2){
+        
+        return DB::connection('mysql')->table('citas')
+            ->join('pacientes', 'citas.paciente', 'pacientes.id')
+            ->join('profesionales', 'citas.profesional', 'profesionales.id')
+            ->selectRaw('citas.*, pacientes.primer_nombre, pacientes.primer_apellido, profesionales.id AS idprof, profesionales.nombre AS nomprof, "CITAS" AS tblo')
+            ->whereBetween('citas.inicio', [$fec1, $fec2])
+            ->get();
+    }
+
+    public static function EditarBlo($idBloqueo)
+    {
+        return DB::connection('mysql')->table('bloqueos')->where('id', $idBloqueo)->update([
+            'estado' => 'Asignadad',
+        ]);
+    }
+
+    public static function obtenerFechaInicioFinBloqueo($idBloqueo)
+    {
+        return DB::connection('mysql')->table('bloqueos')
+            ->join('profesionales', 'bloqueos.profesional', 'profesionales.id')
+            ->select('bloqueos.*', 'profesionales.nombre AS nomprof', 'profesionales.id AS idprof')
+            ->where('bloqueos.id', $idBloqueo)
+            ->first();
+    }
+
+    public static function EliminarBloqueo($idBloqueo)
+    {
+        return DB::connection('mysql')->table('bloqueos')->where('id', $idBloqueo)->delete();
     }
 
     public static function infcitasEmail($idcita)
@@ -35,11 +106,30 @@ class Citas extends Model
             ->first();
     }
 
-    public static function CitasProfesional($idProf, $idCita)
+    public static function GuardarBloquear($data)
     {
 
+        $fechaInicio = \Carbon\Carbon::parse($data['fechaInicio']);
+        $fechaFin = \Carbon\Carbon::parse($data['fechaFin']);
+        $duracion = $fechaFin->diffInMinutes($fechaInicio);
+
+        $fechaInicio = new \DateTime($data['fechaInicio']);
+        $fechaFin = new \DateTime($data['fechaFin']);
+        //calcular la duracion en minutos
+        return DB::connection('mysql')->table('bloqueos')->insert([
+            'inicio' => $data['fechaInicio'],
+            'final' => $data['fechaFin'],
+            'comentario' => $data['observaciones'],
+            'duracion' => $duracion,
+            'estado' => 'Pendiente',
+            'profesional' => $data['profesional'],
+        ]);
+    }
+
+    public static function CitasProfesional($idProf, $idCita)
+    {
         $citas = DB::connection('mysql')->table('citas')
-            ->join('pacientes', 'citas.paciente', '=', 'pacientes.id')
+            ->join('pacientes', 'citas.paciente', 'pacientes.id')
             ->selectRaw('citas.*, pacientes.primer_nombre, pacientes.primer_apellido, "CITAS" AS tblo')
             ->where('profesional', $idProf)
             ->where('citas.estado', '!=', 'Anulada');

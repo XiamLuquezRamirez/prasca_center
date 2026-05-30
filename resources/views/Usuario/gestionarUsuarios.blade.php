@@ -107,18 +107,19 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="usuario" class="form-label">Usuario :</label>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text"><i class="ti-user"></i></span>
-                                            <input type="text" id="usuario" name="usuario" class="form-control">
-                                        </div>
-                                    </div>
+                                   
                                     <div class="form-group">
                                         <label class="form-label">Email :</label>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text"><i class="ti-email"></i></span>
                                             <input type="email" id="email" name="email" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="usuario" class="form-label">Usuario :</label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text"><i class="ti-user"></i></span>
+                                            <input type="text" id="usuario" name="usuario" class="form-control">
                                         </div>
                                     </div>
                                     <div id="div-cambioPasw" style="display: none;" class="form-group">
@@ -218,6 +219,9 @@
                         required: true,
                         email: true
                     },
+                    tipo: {
+                        required: true
+                    },
                     pasw: {
                         required: true,
                         minlength: 4
@@ -249,6 +253,9 @@
                     confPasw: {
                         required: "Por favor, confirma la contraseña.",
                         equalTo: "Las contraseñas no coinciden."
+                    },
+                    tipo: {
+                        required: "Por favor, selecciona el tipo de usuario."
                     }
                 },
                 submitHandler: function(form) {

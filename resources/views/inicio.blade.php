@@ -39,56 +39,7 @@
                     </div>
                 </div>
 
-                <div class="modal fade" id="event-modal" tabindex="-1">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <form class="needs-validation" name="event-form" id="form-event" novalidate>
-                                <div class="modal-header py-3 px-4 border-bottom-0">
-                                    <h5 class="modal-title" id="modal-title">Event</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body px-4 pb-4 pt-0">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="mb-3">
-                                                <label class="control-label form-label">Event Name</label>
-                                                <input class="form-control" placeholder="Insert Event Name" type="text"
-                                                    name="title" id="event-title" required />
-                                                <div class="invalid-feedback">Please provide a valid event name</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="mb-3">
-                                                <label class="control-label form-label">Category</label>
-                                                <select class="form-select" name="category" id="event-category" required>
-                                                    <option value="bg-danger" selected>Danger</option>
-                                                    <option value="bg-success">Success</option>
-                                                    <option value="bg-primary">Primary</option>
-                                                    <option value="bg-info">Info</option>
-                                                    <option value="bg-dark">Dark</option>
-                                                    <option value="bg-warning">Warning</option>
-                                                </select>
-                                                <div class="invalid-feedback">Please select a valid event category</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <button type="button" class="btn btn-danger"
-                                                id="btn-delete-event">Delete</button>
-                                        </div>
-                                        <div class="col-6 text-end">
-                                            <button type="button" class="btn btn-danger-light me-1"
-                                                data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-success" id="btn-save-event">Save</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+
                 <div class="modal fade" id="event-modal-add-cita" tabindex="-1">
                     <div class="modal-dialog modal-dialog-centered" style="max-width: 85%;">
                         <div class="modal-content">
@@ -130,18 +81,8 @@
                                                     <div class="col-12">
                                                         <div class="form-group">
                                                             <div class="controls">
-                                                                <label for="account-username">Duración: </label>
-                                                                <select class="form-control" id="duracionCita"
-                                                                    name="duracionCita" aria-invalid="false">
-                                                                    <option value="20">20 minutos</option>
-                                                                    <option value="40">40 minutos</option>
-                                                                    <option value="60">1 hora</option>
-                                                                    <option value="90">1 hora y 30 min.</option>
-                                                                    <option value="120">2 horas</option>
-                                                                    <option value="150">2 horas y 30 min.</option>
-                                                                    <option value="180">3 horas</option>
-                                                                    <option value="240">4 horas</option>
-                                                                </select>
+                                                                <label for="account-username">Duración (minutos): </label>
+                                                                <input type="text" class="form-control" id="duracionCita" readonly name="duracionCita" aria-invalid="false">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -310,29 +251,7 @@
                                                                             de usuario:</label>
                                                                         <select class="form-control" id="tipoUsuario"
                                                                             name="tipoUsuario" aria-invalid="false">
-                                                                            <option value="">Selecciona una
-                                                                                opción</option>
-                                                                            <option value="01">
-                                                                                Contributivo cotizante </option>
-                                                                            <option value="02">
-                                                                                Contributivo beneficiario </option>
-                                                                            <option value="03">
-                                                                                Contributivo adicional </option>
-                                                                            <option value="04">
-                                                                                Subsidiado </option>
-                                                                            <option value="05">
-                                                                                No afiliado </option>
-                                                                            <option value="06">
-                                                                                Especial o Excepcion cotizante </option>
-                                                                            <option value="07">
-                                                                                Especial o Excepcion beneficiario </option>
-                                                                            <option value="08">
-                                                                                Personas privadas de la libertad a cargo del
-                                                                                Fondo Nacional de Salud </option>
-                                                                            <option value="09">
-                                                                                Tomador / Amparado ARL </option>
-                                                                            <option value="10">
-                                                                                Tomador / Amparado SOAT </option>
+                                                                          
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -340,16 +259,11 @@
                                                                     <div class="form-group">
                                                                         <label for="fechaNacimiento"
                                                                             class="form-label">Fecha de nacimiento:</label>
-                                                                        <div class="input-group">
-                                                                            <div class="input-group-addon">
-                                                                                <i class="fa fa-calendar"></i>
+                                                                            <div class="input-group">
+
+                                                                                <input type="date" id="fechaNacimiento" placeholder="" name="fechaNacimiento"
+                                                                                    class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'">
                                                                             </div>
-                                                                            <input type="text" id="fechaNacimiento"
-                                                                                placeholder="" name="fechaNacimiento"
-                                                                                class="form-control"
-                                                                                data-inputmask="'alias': 'dd/mm/yyyy'"
-                                                                                data-mask>
-                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-2">
@@ -539,8 +453,18 @@
 
         <div class="modal fade text-left" id="modalCitasDeta" tabindex="-1" role="dialog"
             aria-labelledby="myModalLabel1" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                <div class="modal-content">
+            <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 55%;" role="document">
+                <div class="modal-content position-relative">
+                    <!-- Loader overlay para operaciones dentro del modal de cita -->
+                    <div id="loader-cita"
+                        style="display: none; position: absolute; inset: 0; background-color: rgba(255, 255, 255, 0.9); z-index: 1056; align-items: center; justify-content: center; text-align: center;">
+                        <div>
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Procesando...</span>
+                            </div>
+                            <p class="mt-2 mb-0 text-dark">Actualizando estado de la cita...</p>
+                        </div>
+                    </div>
                     <div class="modal-header" style="padding-bottom: 0px">
                         <div class="media p-1">
                             <div class="media-left pr-1"><span class="avatar avatar-online avatar-sm rounded-circle"
@@ -565,6 +489,10 @@
                                 <li class="nav-item">
                                     <a href="#infHistoria" data-bs-toggle="tab" aria-expanded="false"
                                         class="nav-link"><i class="fa fa-street-view"></i> Historia clinica</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#infInforme" data-bs-toggle="tab" aria-expanded="false"
+                                        class="nav-link"><i class="fa fa-file-text-o"></i> Informe Clinico</a>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a href="#infDatos" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
@@ -611,21 +539,21 @@
                                                             </option>
                                                             <option value="No Confirmada" class="no-confirmada">No
                                                                 Confirmada</option>
+                                                            <option value="No Asistio" class="no-asistio">No Asistio</option>
                                                             <option value="Anulada" class="anulada">Anulada</option>
                                                         </select>
 
                                                     </td>
                                                 </tr>
                                                 <tr>
-
                                                     <td colspan="2">
                                                         <div class="form-actions right">
-
                                                             <div class="btn-group mb-5">
                                                                 <button type="button"
                                                                     class="waves-effect waves-light btn btn-warning dropdown-toggle"
                                                                     data-bs-toggle="dropdown"><i
-                                                                        class="fa fa-paper-plane-o"></i> Notificar recordatorio al
+                                                                        class="fa fa-paper-plane-o"></i> Notificar
+                                                                    recordatorio al
                                                                     cliente</button>
                                                                 <div class="dropdown-menu">
                                                                     <a class="dropdown-item" style="cursor: pointer;"
@@ -643,6 +571,10 @@
                                                             <button type="button" onclick="editCita();"
                                                                 class="btn btn-info">
                                                                 <i class="fa fa-calendar-minus-o"></i> Editar cita
+                                                            </button>
+                                                            <button type="button" onclick="eliminarCita();"
+                                                                class="btn btn-danger">
+                                                                <i class="fa fa-trash-o"></i> Eliminar cita
                                                             </button>
                                                         </div>
                                                     </td>
@@ -666,6 +598,21 @@
                                             onclick="irHistoria('neuro')"
                                             class="waves-effect waves-light btn btn-app btn-success" href="#">
                                             <i class="fa fa-user-md"></i> Neuropsicología
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="infInforme" aria-labelledby="profileIcon-tab"
+                                    role="tabpanel">
+                                    <div class="clearfix" style="display: flex; justify-content: center; ">
+                                        <a style="padding: 30px; height: 100%;font-size: 20px;"
+                                            onclick="irInformePsicologia('psicologia')"
+                                            class="waves-effect waves-light btn btn-app btn-info" href="#">
+                                            <i class="fa fa-file-text-o"></i> Informe Psicolólogia
+                                        </a>
+                                        <a style="padding: 30px; height: 100%; font-size: 20px;"
+                                            onclick="irInformeNeuro('neuro')"
+                                            class="waves-effect waves-light btn btn-app btn-success" href="#">
+                                            <i class="fa fa-file-text-o"></i> Informe Neuropsicología
                                         </a>
                                     </div>
                                 </div>
@@ -762,6 +709,65 @@
             </div>
         </div>
 
+        {{--  Modal bloquear  --}}
+        <div class="modal fade text-left" id="modalBloquear" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1"
+            aria-hidden="true">
+            <input type="hidden" id="idBloqueo" name="idBloqueo" value="">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title">Selecciona la opción que quiere realizar </h4>
+
+                    </div>
+                    <div class="modal-body">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <label for="profesionalBloqueo" class="form-label "><strong>Profesional:</strong></label>
+                                    <div id="profesionalBloqueo">
+
+                                    </div>
+                                </div>
+                                <div class="col-12 text-center">
+                                    <label for="observacionBloqueo" class="form-label "><strong>Observación:</strong></label>
+                                    <div id="observacionBloqueo">
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-12 text-center mb-4">
+                                    <label for="fechaBloqueo" class="form-label"><strong>Fecha de bloqueo:</strong></label>
+                                    <div  id="fechaBloqueo">
+
+                                    </div>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <button type="button" id="btnGuardar" onclick="confirmarCita()"
+                                        class="btn btn-success">
+                                        <i class="fa fa-check"></i> Confirmar cita
+                                    </button>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <button type="button" id="btnGuardar" onclick="eliminarBloqueo()"
+                                        class="btn btn-danger">
+                                        <i class="fa fa-trash"></i> Eliminar bloqueo
+                                    </button>
+                                </div>
+                                <div class="col-12 mt-4" style="text-align: right;">
+                                    <div class="form-actions right">
+                                        <button type="button" onclick="salirBloq2();" class="btn btn-warning mr-1">
+                                            <i class="fa fa-reply"></i> Salir
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
         <div class="modal fade none-border" id="add-new-events">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -802,7 +808,41 @@
         </div>
     </section>
 
+    <!-- Modal de Cumpleaños -->
+    <div class="modal fade" id="modalCumpleanos" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary-light">
+                    <h4 class="modal-title">
+                        <i class="fa fa-birthday-cake"></i> ¡Feliz Cumpleaños!
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <h5 class="text-primary">🎉 Hoy tenemos pacientes celebrando su cumpleaños 🎉</h5>
+                        <p class="text-muted">¡Es un día especial para celebrar la vida y la salud!</p>
+                    </div>
+                    <div id="cumpleanos-modal-content">
+                        <div class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Cargando...</span>
+                            </div>
+                            <p class="mt-2">Cargando información de cumpleaños...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fa fa-times"></i> Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        window.userPermissions = @json(Auth::user()->permissions);
         document.addEventListener("DOMContentLoaded", async function() {
             loader = document.getElementById('loader');
             loadNow(1);
@@ -826,9 +866,19 @@
                 width: '100%'
             });
 
+            // Verificar si hay cumpleaños hoy y mostrar modal
+            if (sessionStorage.getItem('noMostrarCumpleanos') !== 'true') {
+                verificarCumpleanosHoy();
+            }
+
         });
 
+        function hasPermission(permission) {
+            return window.userPermissions && window.userPermissions.includes(permission);
+        }
+
         function irHistoria(tipo) {
+
             let idPaciente = document.getElementById("idPaciente").value
             let edadPaciente = document.getElementById("edadPacienteCita").value
 
@@ -837,20 +887,35 @@
             localStorage.setItem('edadPaciente', edadPaciente);
             let prascaURL;
             if (tipo == 'psicologia') {
-                prascaURL = '{{ url('/pacientes/historiaPsicologica') }}';
-            } else {
-                prascaURL = '{{ url('/pacientes/historiaNeuropsicologica') }}';
-            }
+                if (hasPermission('histPsicologia')) {
+                    prascaURL = '{{ url('/pacientes/historiaPsicologica') }}';
+                    const nuevaPestana = window.open(prascaURL, '_blank');
+                    nuevaPestana.focus();
+                } else {
+                    swal("¡Alerta!",
+                        "No tiene el permiso necesario para realizar esta acción",
+                        "warning")
+                }
 
-            const nuevaPestana = window.open(prascaURL, '_blank');
-            nuevaPestana.focus();
+            } else {
+                if (hasPermission('histNeuro')) {
+                    prascaURL = '{{ url('/pacientes/historiaNeuropsicologica') }}';
+                    const nuevaPestana = window.open(prascaURL, '_blank');
+                    nuevaPestana.focus();
+                } else {
+                    swal("¡Alerta!",
+                        "No tiene el permiso necesario para realizar esta acción",
+                        "warning")
+                }
+            }
         }
 
         function notifCPacienteWP() {
             let parCita = document.getElementById("inicioCita").innerText.split(" ")
-            
+
             let numeroTelefono = document.getElementById("telefonoCita").innerText; // Obtén el número desde el HTML
-            let mensaje = `*Prasca Center*
+            let mensaje =
+                `*Prasca Center*
         Hola, este es un recordatorio de tu cita médica:
             
           *- Fecha:* ${parCita[0]}
@@ -860,7 +925,7 @@
         Por favor, confirma tu asistencia respondiendo este mensaje. Gracias.`; // Mensaje de prueba; reemplázalo por el mensaje real
 
             // Número de prueba; reemplázalo por el valor real en producción
-            numeroTelefono = "573164915332";
+           // numeroTelefono = "573164915332";
 
             // Codificar el mensaje y generar el enlace de WhatsApp
             const url = `https://wa.me/${numeroTelefono}?text=${encodeURIComponent(mensaje)}`;
@@ -868,5 +933,147 @@
             // Abrir el enlace en una nueva pestaña
             window.open(url, '_blank');
         }
+
+        function verificarCumpleanosHoy() {
+            $.ajax({
+                url: '{{ route("cumpleanos.datos") }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.success && response.totalHoy > 0) {
+                        mostrarModalCumpleanos(response.pacientesHoy);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al verificar cumpleaños:', error);
+                }
+            });
+        }
+
+            function calcularEdad(fechaNacimiento) {
+        const hoy = new Date();
+        const fecha = new Date(fechaNacimiento);
+        let anios = hoy.getFullYear() - fecha.getFullYear()
+        let meses = hoy.getMonth() - fecha.getMonth()
+        let dias = hoy.getDate() - fecha.getDate()
+
+           // Ajustar si los meses o días son negativos
+           if (meses < 0 || (meses === 0 && dias < 0)) {
+            anios--
+            meses += 12
+        }
+        if (dias < 0) {
+            const ultimoDiaMesAnterior = new Date(hoy.getFullYear(), hoy.getMonth(), 0).getDate();
+            dias += ultimoDiaMesAnterior
+            meses--
+        }
+
+        const edad =
+            `${anios} ${anios === 1 ? 'Año' : 'Años'}, ${meses} ${meses === 1 ? 'Mes' : 'Meses'} y ${dias} ${dias === 1 ? 'Día' : 'Días'}`;
+
+        return edad;
+    }
+
+        function mostrarModalCumpleanos(pacientes) {
+            const modalContent = $('#cumpleanos-modal-content');
+            let html = '<div class="row">';
+            
+            pacientes.forEach(function(paciente) {
+                const nombreCompleto = paciente.primer_nombre + ' ' + 
+                                     (paciente.segundo_nombre ? paciente.segundo_nombre + ' ' : '') +
+                                     paciente.primer_apellido + ' ' + 
+                                     (paciente.segundo_apellido ? paciente.segundo_apellido : '');
+                
+                html += `
+                    <div class="col-md-6 mb-3">
+                        <div class="card border-primary shadow-sm">
+                            <div class="card-body text-center">
+                                <div class="position-relative">
+                                    ${paciente.foto ? 
+                                        `<img src="{{ asset('app-assets/images/FotosPacientes/') }}/${paciente.foto}" 
+                                              class="rounded-circle mb-3" 
+                                              style="width: 60px; height: 60px; object-fit: cover;" 
+                                              alt="Foto del paciente">` :
+                                        `<div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center mb-3" 
+                                              style="width: 60px; height: 60px;">
+                                             <i class="fas fa-user text-white" style="font-size: 1.5rem;"></i>
+                                         </div>`
+                                    }
+                                    <div class="position-absolute top-0 end-0">
+                                        <span class="badge bg-primary text-dark">
+                                            <i class="fa fa-birthday-cake"></i> ¡Hoy!
+                                        </span>
+                                    </div>
+                                </div>
+                                <h6 class="card-title">${nombreCompleto}</h6>
+                                <p class="card-text text-muted">
+                                    <i class="fa fa-birthday-cake"></i> ${calcularEdad(paciente.fecha_nacimiento)}años
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            modalContent.html(html);
+            
+            // Mostrar el modal
+            $('#modalCumpleanos').modal('show');
+        }
+
+        function calcularEdad(fechaNacimiento) {
+        const hoy = new Date();
+        const fecha = new Date(fechaNacimiento);
+        let anios = hoy.getFullYear() - fecha.getFullYear()
+        let meses = hoy.getMonth() - fecha.getMonth()
+        let dias = hoy.getDate() - fecha.getDate()
+
+           // Ajustar si los meses o días son negativos
+           if (meses < 0 || (meses === 0 && dias < 0)) {
+            anios--
+            meses += 12
+        }
+        if (dias < 0) {
+            const ultimoDiaMesAnterior = new Date(hoy.getFullYear(), hoy.getMonth(), 0).getDate();
+            dias += ultimoDiaMesAnterior
+            meses--
+        }
+
+        const edad =
+            `${anios} ${anios === 1 ? 'Año' : 'Años'}, ${meses} ${meses === 1 ? 'Mes' : 'Meses'} y ${dias} ${dias === 1 ? 'Día' : 'Días'}`;
+
+        return edad;
+    }
+
+    function noMostrarCumpleanos() {
+        $('#cumpleanos').modal('hide');
+        $('#cumpleanos-badge').hide();
+        sessionStorage.setItem('noMostrarCumpleanos', 'true');
+    }
+    function irInformePsicologia() {
+        let idPaciente = document.getElementById("idPaciente").value
+       
+        localStorage.clear();
+        localStorage.setItem('idPaciente', idPaciente);
+        //agregar variables de local storage para abrir modal de informe psicologia
+        localStorage.setItem('tipoInforme', 'abrirInformepsicologia');
+        //abrir link en la misma pestaña
+        window.location.href = '{{ url('/HistoriasClinicas/InformePsicologia')}}';
+        
+    }
+
+    function irInformeNeuro() {
+        let idPaciente = document.getElementById("idPaciente").value
+        let edadPaciente = document.getElementById("edadPacienteCita").value
+        localStorage.clear();
+        localStorage.setItem('tipoInforme', 'abrirInformeneuropsicologia');
+        localStorage.setItem('idPaciente', idPaciente);
+        localStorage.setItem('edadPaciente', edadPaciente);
+        window.location.href = '{{ url('/HistoriasClinicas/InformeNeuropsicologico')}}';
+    }
+        
     </script>
 @endsection

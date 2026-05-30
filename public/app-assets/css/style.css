@@ -27675,6 +27675,7 @@ Height property
 @media (min-width: 768px) {
   .main-header .logo {
     display: flex;
+    align-items: center;
   }
 
   .sidebar-mini.sidebar-collapse .main-header {
@@ -29672,14 +29673,14 @@ body .main-header .navbar .nav>li.search-box>a:focus {
 }
 
 .treeview-menu>li>a {
-  padding: 5px 5px 5px 25px;
+  padding: 5px 5px 5px 15px;
   display: block;
   font-size: 1rem;
 }
 
 .treeview-menu>li>a>i {
   width: 20px;
-  padding-right: 20px;
+  /* padding-right: 20px; */
   padding-left: 10px;
 }
 
@@ -46617,4 +46618,52 @@ img.online {
 .fc-event:hover {
   overflow: auto; /* Muestra scroll en hover si el contenido es largo */
   background-color: rgba(0, 0, 0, 0.1); /* Efecto hover opcional */
+}
+
+.hover-opagos:hover {
+  background-color: #f0f3f6; 
+  cursor: pointer;
+  color: #000;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  transform: scale(0.99);  
+}
+
+
+.texto-orden-medica{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  text-align: left;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+}
+
+.cajaDetalles{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  border: 1px solid #835ad9;
+  border-radius: 5px;
+  background-color: #835ad9;
+  color: #fff;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  transform: scale(0.99);  
+  margin-bottom: 10px;
+}
+
+.cajaDetalles:hover{
+  background-color: #6633d2;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  transform: scale(0.99);
 }

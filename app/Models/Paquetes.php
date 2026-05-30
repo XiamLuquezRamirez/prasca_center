@@ -50,6 +50,18 @@ class Paquetes extends Model
             ->leftJoin('ventas', 'servicios.id', 'ventas.id_servicio')
             ->where("ventas.estado_venta", "PENDIENTE")
             ->where("servicios.estado", "ACTIVO")
+            ->where("servicios.tipo_historia", "PSICOLOGIA")
+            ->first();
+    }
+    public static function paqueteActivoNeuro($id)
+    {
+        return DB::connection('mysql')->table('servicios')
+            ->where("servicios.id_historia", $id)
+            ->leftJoin('ventas', 'servicios.id', 'ventas.id_servicio')
+            ->where("ventas.estado_venta", "PENDIENTE")
+            ->where("servicios.estado", "ACTIVO")
+            ->where("servicios.tipo", "PAQUETE")
+            ->where("servicios.tipo_historia", "NEUROPSICOLOGIA")
             ->first();
     }
 
@@ -59,32 +71,48 @@ class Paquetes extends Model
             ->where("id", $id)
             ->first();
     }
+
     public static function busquedaPaquetesVentas($id)
     {
-        $paquetes = DB::connection('mysql')->table('servicios')
+        $servicio = DB::connection('mysql')->table('servicios')
             ->leftJoin('ventas', 'servicios.id', 'ventas.id_servicio')
             ->where("servicios.id", $id)
             ->select('servicios.id',
-            'servicios.id_paquete',
+            'servicios.id_tipo_servicio',
             'servicios.precio',
             'servicios.fecha',
-            'ventas.total',
+            'ventas.valor',
             'ventas.cantidad',
-            'servicios.descripcion',
             'servicios.tipo'
             )
             ->first();
-       
-        $paquetes->descripion_paquete = DB::connection('mysql')->table('paquetes')
-            ->where("id", $paquetes->id_paquete)
+        if($servicio->tipo == 'PAQUETE'){
+            $servicio->descripcion= DB::connection('mysql')->table('paquetes')
+                ->where("id", $servicio->id_tipo_servicio)
+                ->select('descripcion')
             ->first();
-
-         //sumatorio de abonos realizados
-        //  $paquetes->abonos = DB::connection('mysql')->table('pagos')
-        //     ->where("venta_paquete_id", $id)
-        //     ->sum('abono');
-
-        return $paquetes;
+        }else if($servicio->tipo == 'SESION'){
+            $servicio->descripcion = DB::connection('mysql')->table('sesiones')
+                ->where("id", $servicio->id_tipo_servicio)
+                ->select('descripcion')
+            ->first();
+        }else if($servicio->tipo == 'PRUEBAS'){
+            $servicio->descripcion = DB::connection('mysql')->table('pruebas')
+                ->where("id", $servicio->id_tipo_servicio)
+                ->select('descripcion as descripcion')
+            ->first();
+        }else if($servicio->tipo == 'CONSULTA'){
+            $servicio->descripcion = DB::connection('mysql')->table('especialidades')
+                ->where("id", $servicio->id_tipo_servicio)
+                ->select('nombre as descripcion')
+            ->first();
+        }else if($servicio->tipo == 'ASESORIA'){
+            $servicio->descripcion = DB::connection('mysql')->table('asesorias')
+                ->where("id", $servicio->id_tipo_servicio)
+                ->select('descripcion as descripcion')
+            ->first();
+        }
+        return $servicio;
     }
 
     public static function listarPaquetes()
@@ -94,81 +122,7 @@ class Paquetes extends Model
             ->get();
     }
 
-    public static function guardarPaqueteVenta($request)
-    {
-        try {
-            $idPaquete = $request['idVentaPaquete'];
-            if ($request['accVentaPaquete'] == 'guardar') {
-                DB::beginTransaction();
-                try {
-                    $idPaqueteVenta = DB::table('servicios')->insertGetId(array_filter([
-                        'tipo' => 'PAQUETE',
-                        'descripcion' => $request['descripcionVentaPaquete'],
-                        'id_historia' => $request['idHist'],
-                        'precio' => $request['montoFinal'],
-                        'estado' => 'ACTIVO',
-                        'fecha' => $request['fechaPaquete'] ,
-                        'id_paquete' => $request['selPaquete']
-                    ]));
-
-                    $idVenta = DB::table('ventas')->insertGetId(array_filter([
-                        'id_servicio' => $idPaqueteVenta,
-                        'id_historia' => $request['idHist'],
-                        'usuario' => Auth::user()->id,
-                        'valor' => $request['precioSesion'],
-                        'cantidad' => $request['numSesiones'],
-                        'total' => $request['montoFinal'],
-                        'estado_venta' => 'PENDIENTE',
-                        'saldo' => $request['montoFinal']
-                    ]));
-
-                    // Confirmar transacción
-                    DB::commit();
-                    return  $idPaqueteVenta;
-                } catch (\Exception $e) {
-                    // Revertir transacción en caso de error
-                    DB::rollBack();
-                    throw $e;
-                }
-            } else {
-                DB::beginTransaction();
-
-                try {
-
-                    DB::table('servicios')->where('id', $request['idVentaPaquete'])->update(array_filter([
-                        'descripcion' => $request['descripcionVentaPaquete'],
-                        'id_paquete' => $request['selPaquete'],
-                        'precio' => $request['montoFinal'],
-                        'fecha' => $request['fechaPaquete'],
-                    ]));
-
-                    DB::table('ventas')->where('id_servicio', $request['idVentaPaquete'])->update(array_filter([
-                        'valor' => $request['precioSesion'],
-                        'total' => $request['montoFinal'],
-                        'saldo' => $request['montoFinal'],
-                    ]));
-                    DB::commit();
-
-                    // Confirmar transacción
-                    DB::commit();
-                    return  $idPaquete;
-                } catch (\Exception $e) {
-                    Log::error('Error al actualizar el informe: ' . $e->getMessage(), [
-                        'idPaquete' => $idPaquete,
-                        'data' => $request->all()
-                    ]);
-                    DB::rollBack();
-                    throw $e;
-                }
-            }
-        } catch (Exception $e) {
-            // Manejo del error
-            return response()->json([
-                'success' => false,
-                'message' => 'Ocurrió un error al procesar el formulario: ' . $e->getMessage(),
-            ], 500);
-        }
-    }
+    
     
 
     public static function GuardarPagoPaquete($request)

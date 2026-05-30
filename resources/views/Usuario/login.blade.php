@@ -13,7 +13,7 @@
 
     <!-- Vendors Style-->
     <link rel="stylesheet" href="{{ asset('app-assets/css/vendors_css.css') }}">
-
+    <link rel="icon" href="{{ asset('app-assets/images/favicon.ico') }}"> 
     <!-- Style-->
     <link rel="stylesheet" href="{{ asset('app-assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('app-assets/css/skin_color.css') }}">
@@ -21,7 +21,7 @@
 </head>
 
 <body class="hold-transition theme-primary bg-img"
-    style="background-image: url({{ asset('app-assets/images/auth-bg/bg-16.jpg') }})">
+    style="background-image: url({{ asset('app-assets/images/auth-bg/banner.jpg') }})">
 
     <div class="container h-p100">
         <div class="row align-items-center justify-content-md-center h-p100">
@@ -31,7 +31,7 @@
                     <div class="col-lg-5 col-md-5 col-12">
                         <div class="bg-white rounded10 shadow-lg">
                             <div class="content-top-agile p-20 pb-0">
-                           <img src="{{ asset('app-assets/images/login.png') }}" width="300" alt="">
+                            <img src="{{ asset('app-assets/images/login.png') }}" width="300" alt="">
                             </div>
                             <div class="p-40">
                                 <div class="row justify-content-center">
@@ -77,7 +77,7 @@
                                     <div class="row">
 
                                         <!-- /.col -->
-                                        <div class=".col-md-offset-8">
+                                        <div style="display: none;" class=".col-md-offset-8">
                                             <div class="fog-pwd text-end">
                                                 <a href="javascript:void(0)"
                                                     class="text-primary fw-500 hover-primary"><i
@@ -86,7 +86,7 @@
                                         </div>
                                         <!-- /.col -->
                                         <div class="col-12 text-center">
-                                            <button type="submit" class="btn btn-primary w-p100 mt-10">Entrar</button>
+                                            <button type="submit" class="btn btn-info w-p100 mt-10">Ingreso</button>
                                         </div>
                                         <!-- /.col -->
                                     </div>

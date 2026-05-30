@@ -25,7 +25,7 @@
             <div id="listado" class="col-12 col-xl-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title">Listado de Gestionar paquetes de Sesiones </h5>
+                        <h5 class="card-title">Listado de paquetes de Sesiones </h5>
                     </div>
                     <div class="card-body">
                         <div class="box-controls pull-right">
@@ -84,7 +84,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="valor" class="form-label">Valor :</label>
+                                    <label for="valor" class="form-label">Valor por sesión:</label>
                                     <input type="text" class="form-control" id="valorVis" name="valorVis"
                                     onchange="cambioFormato(this.id);"
                                     onkeypress="return validartxtnum(event)"
@@ -151,7 +151,7 @@
                     }
                 },
                 submitHandler: function(form) {
-                    guardar()
+                    guardarRegistro()
                 }
             });
 
@@ -159,11 +159,11 @@
 
             // Evento click para la paginación
             document.addEventListener('click', function(event) {
-                if (event.target.matches('.pagination a')) {
+                if (event.target.matches('#paginacion a')) {
                     event.preventDefault()
                     var href = event.target.getAttribute('href')
                     var page = href.split('page=')[1]
-
+                        
                     // Asegurarse de que 'page' sea un número antes de hacer la solicitud
                     if (!isNaN(page)) {
                         cargar(page)
@@ -229,7 +229,7 @@
             document.getElementById("idRegistro").value = idRegistro
             document.getElementById('saveRegistro').removeAttribute('disabled')
 
-            document.getElementById("tituloAccion").innerHTML  = "Editar entidad promotora de salud"
+            document.getElementById("tituloAccion").innerHTML  = "Editar paquete"
 
             modal.show();
 
@@ -307,7 +307,6 @@
             document.getElementById("tituloAccion").innerHTML  = "Agregar paquetes de sesiones"
         }
 
-       
         function eliminarRegistro(idReg) {
             swal({
                 title: "Esta seguro?",
@@ -321,7 +320,7 @@
                 closeOnCancel: false
             }, function(isConfirm) {
                 if (isConfirm) {
-                    let url = "{{ route('paquetes.eliminarPaquete') }}";
+                    let url = "{{ route('paquetes.eliminarPaqueteLista') }}";
                     fetch(url, {
                             method: 'POST',
                             headers: {

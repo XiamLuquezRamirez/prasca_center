@@ -1,65 +1,76 @@
 @extends('Plantilla.Principal')
 @section('title', 'Historia clínica psicológica')
 @section('Contenido')
-    <input type="hidden" id="Ruta" data-ruta="{{ asset('/app-assets/') }}" />
-    <input type="hidden" id="RutaTotal" data-ruta="{{ asset('/') }}" />
-    <input type="hidden" id="idUsuario" value="{{ Auth::user()->id }}" />
-    <input type="hidden" id="page" />
-    <input type="hidden" id="pagePac" />
+<input type="hidden" id="Ruta" data-ruta="{{ asset('/app-assets/') }}" />
+<input type="hidden" id="RutaTotal" data-ruta="{{ asset('/') }}" />
+<input type="hidden" id="idUsuario" value="{{ Auth::user()->id }}" />
+<input type="hidden" id="page" />
+<input type="hidden" id="pagePac" />
 
-    <div class="content-header">
-        <div class="d-flex align-items-center">
-            <div class="me-auto">
-                <h4 class="page-title">Gestionar historia clínica psicológica</h4>
-                <div class="d-inline-block align-items-center">
-                    <nav>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
-                            <li class="breadcrumb-item" aria-current="page">Inicio</li>
-                            <li class="breadcrumb-item active" aria-current="page">Gestionar historia clínica psicológica
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
-
+<div class="content-header">
+    <div class="d-flex align-items-center">
+        <div class="me-auto">
+            <h4 class="page-title">Gestionar historia clínica psicológica</h4>
+            <div class="d-inline-block align-items-center">
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item" aria-current="page">Inicio</li>
+                        <li class="breadcrumb-item active" aria-current="page">Gestionar historia clínica psicológica
+                        </li>
+                    </ol>
+                </nav>
             </div>
 
         </div>
+
     </div>
-    <section class="content">
-        <div class="row">
+</div>
+<section class="content">
+    <div class="row">
 
-            <div class="col-12 col-xl-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title">Gestionar historia clínica psicológica</h5>
-                    </div>
-                    <div class="card-body" id="listado">
-                        <div class="box-controls pull-right mb-4">
-                            <div class="box-header-actions">
-                                <div class="input-group input-group-merge">
-                                    <input type="text" id="busqueda" class="form-control">
-                                    <div class="input-group-text" data-password="false">
-                                        <span class="fa fa-search"></span>
-                                    </div>
-                                    <button type="button" onclick="nuevoRegistro();"
-                                        class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i> Nueva historia
-                                        clinica
-                                    </button>
+        <div class="col-12 col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Gestionar historia clínica psicológica</h5>
+                </div>
+                <div class="card-body" id="listado">
+                    <div class="box-controls pull-right mb-4">
+                        <div class="box-header-actions">
+                            <div class="input-group input-group-merge">
+                                <input type="text" id="busqueda" class="form-control">
+                                <div class="input-group-text" data-password="false">
+                                    <span class="fa fa-search"></span>
                                 </div>
-
+                                <button type="button" onclick="nuevoRegistro();"
+                                    class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i> Nueva historia
+                                    clinica
+                                </button>
                             </div>
-                        </div>
-                        <div id="hisoriasListado">
-
-                        </div>
-                        <div id="pagination-links" class="text-center ml-1 mt-2">
 
                         </div>
                     </div>
-                    <div id="historia" style="display: none;">
-                        <div class="row">
-                            <div class="col-xl-4 col-lg-5">
+                    <div id="hisoriasListado">
+
+                    </div>
+                    <div id="pagination-links" class="text-center ml-1 mt-2">
+
+                    </div>
+                </div>
+                <div id="historia" style="display: none;">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-5" id="columnaPaciente">
+                            <!-- Botón flotante para colapsar/descolapsar -->
+                            <div class="position-relative">
+                                <button type="button" class="btn btn-primary btn-sm position-absolute shadow-sm" 
+                                        onclick="togglePacienteInfo()" id="btnTogglePaciente"
+                                        style="top: 10px; right: 10px; z-index: 1000; border-radius: 50%; width: 40px; height: 40px; padding: 0; transition: all 0.3s ease;"
+                                        title="Ocultar/Mostrar información del paciente">
+                                    <i class="fa fa-chevron-up" id="iconTogglePaciente"></i>
+                                </button>
+                            </div>
+                            
+                            <div id="infoPaciente">
                                 <div class="card text-center">
                                     <div class="card-body">
                                         <img id="imgPaciente" src=""
@@ -99,11 +110,11 @@
                                                 <i class="mdi mdi-dots-vertical"></i>
                                             </a>
                                             {{-- <div class="dropdown-menu dropdown-menu-end">
-                                                <!-- item-->
-                                                <a href="javascript:void(0);" class="dropdown-item">Settings</a>
-                                                <!-- item-->
-                                                <a href="javascript:void(0);" class="dropdown-item">Action</a>
-                                            </div> --}}
+                                                    <!-- item-->
+                                                    <a href="javascript:void(0);" class="dropdown-item">Settings</a>
+                                                    <!-- item-->
+                                                    <a href="javascript:void(0);" class="dropdown-item">Action</a>
+                                                </div> --}}
                                         </div>
                                         <h4 class="header-title mb-3">Información de Contacto</h4>
                                         <div class="text-start mt-3">
@@ -137,1876 +148,1583 @@
                                         </div>
                                     </div> <!-- end card-body-->
                                 </div> <!-- end card-->
-                            </div> <!-- end col-->
-                            <div class="col-xl-8 col-lg-7">
-                                <form id="formHistoria">
-                                    <input type="hidden" id="accHistoria" name="accHistoria" />
-                                    <input type="hidden" id="idHistoria" name="idHistoria" />
-                                    <input type="hidden" id="idPaciente" name="idPaciente" />
-                                    <input type="hidden" id="tipoPsicologia" name="tipoPsicologia" />
-                                    <input type="hidden" id="estadoHistoria" name="estadoHistoria" />
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="card-header">
-                                                <h5 class="text-uppercase"><i class="fa fa-h-square me-1"></i>
-                                                    Evaluación clínica psicológica</h5>
-                                                <div>
-                                                    <button onclick="cancelarHistoria()" type="button"
-                                                        class="btn btn-primary-light me-1">
-                                                        <i class="ti-back-left"></i> Atras
-                                                    </button>
-                                                    <button type="button" style="display: none;"
-                                                        id="btn-imprimirHistoria" onclick="imprimirHistoria()"
-                                                        class="btn btn-info-light me-1"><i class="fa fa-print"></i>
-                                                        Imprimir
-                                                        historia</button>
-                                                </div>
-
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6 d-flex align-items-center">
-                                                    <label for="primeraVez" class="form-label me-2">¿Es la primera vez que
-                                                        asiste al psicólogo?:</label>
-                                                    <label class="switch switch-border switch-primary">
-                                                        <input type="checkbox" id="primeraVez" value="0"
-                                                            name="primeraVez">
-                                                        <span class="switch-indicator"></span>
-                                                        <span class="switch-description"></span>
-                                                    </label>
-                                                </div>
-
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="remision" class="form-label">Remisión :</label>
-                                                        <textarea class="form-control" id="remision" name="remision" rows="3"
-                                                            placeholder="Ingese de donde es remitido el paciente.."></textarea>
+                            </div>
+                        </div> <!-- end col-->
+                        <div class="col-xl-8 col-lg-7">
+                            <form id="formHistoria">
+                                <input type="hidden" id="accHistoria" name="accHistoria" />
+                                <input type="hidden" id="idHistoria" name="idHistoria" />
+                                <input type="hidden" id="idPaciente" name="idPaciente" />
+                                <input type="hidden" id="tipoPsicologia" name="tipoPsicologia" />
+                                <input type="hidden" id="estadoHistoria" name="estadoHistoria" />
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="card-header">
+                                            <h5 class="text-uppercase"><i class="fa fa-h-square me-1"></i>
+                                                Evaluación clínica psicológica</h5>
+                                            <div>
+                                                <div onclick="mostrarPorcentajeCompletitud()" id="mostrarPorcentajeCompletitud" style="margin-right: 20px; cursor: pointer;display: none;">
+                                                    <div>
+                                                        <p class="text-fade m-0">Completada</p>
+                                                        <div> <label
+                                                                id="PorcentajeCompletitud">0%</label>
+                                                            <div
+                                                                class="progress progress-lg">
+                                                                <div id="BarraPorcentajeCompletitud"
+                                                                    class="progress-bar"
+                                                                    role="progressbar"
+                                                                    style="width: 0%"
+                                                                    aria-valuenow="75"
+                                                                    aria-valuemin="0"
+                                                                    aria-valuemax="100">
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="codConsulta" class="form-label">Código de consulta
-                                                            :</label>
+                                                <button onclick="cancelarHistoria()" type="button"
+                                                    class="btn btn-primary-light me-1">
+                                                    <i class="ti-back-left"></i> Atras
+                                                </button>
+                                                <button type="button" style="display: none;"
+                                                    id="btn-imprimirHistoria" onclick="imprimirHistoria()"
+                                                    class="btn btn-info-light me-1"><i class="fa fa-print"></i>
+                                                    Imprimir
+                                                    historia</button>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 d-flex align-items-center">
+                                                <label for="primeraVez" class="form-label me-2">¿Es la primera vez que
+                                                    asiste al psicólogo?:</label>
+                                                <label class="switch switch-border switch-primary">
+                                                    <input type="checkbox" id="primeraVez" value="0"
+                                                        name="primeraVez">
+                                                    <span class="switch-indicator"></span>
+                                                    <span class="switch-description"></span>
+                                                </label>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="remision" class="form-label">Remisión :</label>
+                                                    <textarea class="form-control" id="remision" name="remision" rows="3"
+                                                        placeholder="Ingese de donde es remitido el paciente.."></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="codConsulta" class="form-label">Código de consulta
+                                                        :</label>
+                                                    <div class="d-flex gap-2">
                                                         <select class="form-control select2" id="codConsulta"
                                                             name="codConsulta">
                                                         </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="motivoConsulta" class="form-label">Motivo de consulta
-                                                            :</label>
-                                                        <textarea class="form-control" id="motivoConsulta" name="motivoConsulta" rows="3"
-                                                            placeholder="Describa la enfermedad actual del paciente..."></textarea>
-                                                        <label for="motivoConsultaOtro" class="form-label mt-1">Motivos
-                                                            relacionados:</label>
-                                                        <select class="form-control select2" multiple="multiple"
-                                                            id="motivoConsultaOtro" name="motivoConsultaOtro[]"
-                                                            data-placeholder="Seleccione otros motivos relacionados"
-                                                            style="width: 100%;">
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="codDiagnostico" class="form-label">DX Principal
-                                                            :</label>
-                                                        <select class="form-control select2" id="codDiagnostico"
-                                                            name="codDiagnostico" aria-invalid="false">
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="enfermedadActual" class="form-label">Enfermedad actual
-                                                            :</label>
-                                                        <textarea class="form-control" id="enfermedadActual" name="enfermedadActual" rows="3"
-                                                            placeholder="Describa la enfermedad actual del paciente..."></textarea>
+                                                        <button type="button" class="btn btn-secondary" onclick="clearSelect('codConsulta')">
+                                                            <i class="fa fa-times"></i>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
-                                                <li class="nav-item">
-                                                    <a href="#antecedentes" data-bs-toggle="tab"
-                                                        class="nav-link rounded-0 active">
-                                                        <i class="fa fa-history"></i> Antecedentes
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a href="#ajustes" data-bs-toggle="tab" class="nav-link rounded-0">
-                                                        <i class="fa fa-cogs"></i> Áreas de Ajuste
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a href="#evaluacion" data-bs-toggle="tab"
-                                                        class="nav-link rounded-0">
-                                                        <i class="fa  fa-check-square-o"></i> Eval. Psicológica
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a href="#examen" data-bs-toggle="tab" class="nav-link rounded-0">
-                                                        <i class="fa fa-user-md"></i> Examen Mental
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a href="#impresion" style="padding-left: 0;padding-right: 0;"
-                                                        data-bs-toggle="tab" class="nav-link rounded-0">
-                                                        <i class="fa fa-stethoscope"></i> Impresión Diagnóstica
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a href="#plan" data-bs-toggle="tab" class="nav-link rounded-0">
-                                                        <i class="fa fa-clipboard"></i> Plan e Intervención
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                            <div class="tab-content">
-                                                <!-- Antecedentes -->
-                                                <div class="tab-pane active" id="antecedentes">
-                                                    <div class="box-header pb-1">
-                                                        <h5 class="text-uppercase"><i class="fa fa-user me-1"></i>
-                                                            Médicos Personales</h5>
+                                            <div class="col-md-12" >
+                                                <div class="form-group">
+                                                    <label for="motivoConsulta" class="form-label">Motivo de consulta
+                                                        :</label>
+                                                    <textarea class="form-control" id="motivoConsulta" name="motivoConsulta" rows="3"
+                                                        placeholder="Describa la enfermedad actual del paciente..."></textarea>
+                                                    <label style="display: none;" for="motivoConsultaOtro" class="form-label mt-1">Motivos
+                                                        relacionados:</label>
+                                                    <select style="display: none;" class="form-control select2" multiple="multiple"
+                                                        id="motivoConsultaOtro" name="motivoConsultaOtro[]"
+                                                        data-placeholder="Seleccione otros motivos relacionados"
+                                                        style="width: 100%;">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="codDiagnostico" class="form-label">DX Principal
+                                                        :</label>
+                                                    <div class="d-flex gap-2">
+                                                        <select class="form-control select2" id="codDiagnostico"
+                                                            name="codDiagnostico" aria-invalid="false">
+                                                        </select>
+                                                        <button type="button" class="btn btn-secondary" onclick="clearSelect('codDiagnostico')">
+                                                            <i class="fa fa-times"></i>
+                                                        </button>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="quirurgicos"
-                                                                    class="form-label">Quirúrgicos:</label>
-                                                                <div class="input-group flex-nowrap">
-                                                                    <div class="tags-default">
-                                                                        <input type="text" id="quirurgicos"
-                                                                            name="quirurgicos" value=""
-                                                                            data-role="tagsinput"
-                                                                            placeholder="Agregar antedecentes">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="toxicos" class="form-label">Tóxicos:</label>
-                                                                <div class="input-group flex-nowrap">
-                                                                    <div class="tags-default">
-                                                                        <input type="text" id="toxicos"
-                                                                            name="toxicos" value=""
-                                                                            data-role="tagsinput"
-                                                                            placeholder="Agregar antedecentes">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label for="hospitalizaciones"
-                                                                    class="form-label">Hospitalizaciones:</label>
-                                                                <textarea class="form-control" id="hospitalizaciones" name="hospitalizaciones" rows="3"
-                                                                    placeholder="Describa las causas de hospitalización..."></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="traumaticos"
-                                                                    class="form-label">Traumáticos:</label>
-                                                                <select class="form-control" id="traumaticos"
-                                                                    name="traumaticos">
-                                                                    <option value="">Seleccione una
-                                                                        opción...</option>
-                                                                    <option value="fracturas óseas">Fracturas óseas
-                                                                    </option>
-                                                                    <option value="traumatismo craneoencefalico">
-                                                                        Traumatismo
-                                                                        craneoencefálico</option>
-                                                                    <option value="luxaciones y esguinces">Luxaciones y
-                                                                        esguinces
-                                                                    </option>
-                                                                    <option value="quemaduras">Quemaduras</option>
-                                                                    <option value="accidente de transito">Accidente de
-                                                                        transito
-                                                                    </option>
-                                                                    <option value="otro">Otro</option>
-                                                                    <option value="ninguno">Ninguno</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Paraclínicos -->
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="paraclinicos"
-                                                                    class="form-label">Paraclínicos:</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="codDiagnosticoRelacionado1" class="form-label">DX Relacionado 1
+                                                        :</label>
+                                                    <div class="d-flex gap-2">
+                                                        <select class="form-control select2" id="codDiagnosticoRelacionado1"
+                                                            name="codDiagnosticoRelacionado1" aria-invalid="false">
+                                                        </select>
+                                                        <button type="button" class="btn btn-secondary" onclick="clearSelect('codDiagnosticoRelacionado1')">
+                                                            <i class="fa fa-times"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="codDiagnosticoRelacionado2" class="form-label">DX Relacionado 2
+                                                        :</label>
+                                                    <div class="d-flex gap-2">
+                                                        <select class="form-control select2" id="codDiagnosticoRelacionado2"
+                                                            name="codDiagnosticoRelacionado2" aria-invalid="false">
+                                                        </select>
+                                                        <button type="button" class="btn btn-secondary" onclick="clearSelect('codDiagnosticoRelacionado2')">
+                                                            <i class="fa fa-times"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="enfermedadActual" class="form-label">Enfermedad actual
+                                                        :</label>
+                                                    <textarea class="form-control" id="enfermedadActual" name="enfermedadActual" rows="3"
+                                                        placeholder="Describa la enfermedad actual del paciente..."></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                                            <li class="nav-item">
+                                                <a href="#antecedentes" data-bs-toggle="tab"
+                                                    class="nav-link rounded-0 active">
+                                                    <i class="fa fa-history"></i> Antecedentes
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="#ajustes" data-bs-toggle="tab" class="nav-link rounded-0">
+                                                    <i class="fa fa-cogs"></i> Áreas de Ajuste
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="#evaluacion" data-bs-toggle="tab"
+                                                    class="nav-link rounded-0">
+                                                    <i class="fa  fa-check-square-o"></i> Eval. Psicológica
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="#examen" data-bs-toggle="tab" class="nav-link rounded-0">
+                                                    <i class="fa fa-user-md"></i> Examen Mental
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="#impresion" style="padding-left: 0;padding-right: 0;"
+                                                    data-bs-toggle="tab" class="nav-link rounded-0">
+                                                    <i class="fa fa-stethoscope"></i> Impresión Diagnóstica
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="#plan" data-bs-toggle="tab" class="nav-link rounded-0">
+                                                    <i class="fa fa-clipboard"></i> Plan e Intervención
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a data-bs-toggle="tab" class="nav-link rounded-0" href="#orden-medica">
+                                                    <i class="fa fa-file-text-o"></i> Orden medica
+                                                </a>
+                                            </li>
+
+
+                                        </ul>
+                                        <div class="tab-content">
+                                            <!-- Antecedentes -->
+                                            <div class="tab-pane active" id="antecedentes">
+                                                <div class="box-header pb-1">
+                                                    <h5 class="text-uppercase"><i class="fa fa-user me-1"></i>
+                                                        Médicos Personales</h5>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="quirurgicos"
+                                                                class="form-label">Quirúrgicos:</label>
+                                                            <div class="input-group flex-nowrap">
                                                                 <div class="tags-default">
-                                                                    <input type="text" id="paraclinicos"
-                                                                        name="paraclinicos" value=""
+                                                                    <input type="text" id="quirurgicos"
+                                                                        name="quirurgicos" value=""
                                                                         data-role="tagsinput"
                                                                         placeholder="Agregar antedecentes">
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <!-- patologia -->
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label for="patologia"
-                                                                    class="form-label">Patología:</label>
-                                                                <textarea class="form-control" id="patologia" name="patologia" rows="3"
-                                                                    placeholder="Describa la patología..."></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Medicación -->
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label for="medicacion"
-                                                                    class="form-label">Medicación:</label>
-                                                                <textarea class="form-control" id="medicacion" name="medicacion" rows="3"
-                                                                    placeholder="Describa la medicación actual..."></textarea>
-                                                            </div>
-                                                        </div>
                                                     </div>
-                                                    <div id="infPediatria" style="display: none;">
-                                                        <!-- Prenatales -->
-                                                        <div class="box-header pb-1">
-                                                            <h5 class="text-uppercase">
-                                                                <i class="fa fa-heartbeat me-1"></i> Prenatales
-                                                            </h5>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="edad_madre" class="form-label">Edad de la
-                                                                        madre en el embarazo:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="edad_madre" name="edad_madre"
-                                                                        placeholder="Ingrese la edad">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="enfermedades_madre"
-                                                                        class="form-label">Enfermedades de la
-                                                                        madre:</label>
-                                                                    <select class="form-control" id="enfermedades_madre"
-                                                                        name="enfermedades_madre">
-                                                                        <option value="">Seleccione una opción...
-                                                                        </option>
-                                                                        <option value="no">No</option>
-                                                                        <option value="diabetes">Diabetes</option>
-                                                                        <option value="hipertension">Hipertensión</option>
-                                                                        <option value="otro">Otro</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="numero_embarazo" class="form-label">Único
-                                                                        embarazo:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="numero_embarazo" name="numero_embarazo"
-                                                                        placeholder="Ejemplo: 2do">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="enbarazo_controlado" class="form-label">El
-                                                                        embarazo fue controlado por atención médica:</label>
-                                                                    <select class="form-control" id="enbarazo_controlado"
-                                                                        name="enbarazo_controlado">
-                                                                        <option value="">Seleccione una opción...
-                                                                        </option>
-                                                                        <option value="Si">Si</option>
-                                                                        <option value="No">No</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="planificacion" class="form-label">Uso de
-                                                                        planificación en el momento del embarazo:</label>
-                                                                    <select class="form-control" id="planificacion"
-                                                                        name="planificacion">
-                                                                        <option value="">Seleccione una opción...
-                                                                        </option>
-                                                                        <option value="Si">Si</option>
-                                                                        <option value="No">No</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <div class="form-group">
-                                                                    <label for="estado_madre" class="form-label">Estado de
-                                                                        la
-                                                                        madre durante el embarazo:</label>
-                                                                    <textarea class="form-control" id="estado_madre" name="estado_madre" rows="3"
-                                                                        placeholder="Describa el estado"></textarea>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Natales -->
-                                                        <div class="box-header pb-1">
-                                                            <h5 class="text-uppercase">
-                                                                <i class="fa fa-heart me-1"></i> Natales
-                                                            </h5>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="tipo_nacimiento" class="form-label">Tipo
-                                                                        de
-                                                                        nacimiento:</label>
-                                                                    <select class="form-control" id="tipo_nacimiento"
-                                                                        name="tipo_nacimiento">
-                                                                        <option value="">Seleccione una opción...
-                                                                        </option>
-                                                                        <option value="cesarea">Cesárea</option>
-                                                                        <option value="natural">Natural</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="causa_cesarea" class="form-label">Causa de
-                                                                        la
-                                                                        cesárea:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="causa_cesarea" name="causa_cesarea"
-                                                                        placeholder="Ejemplo: No dilataba">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="reanimacion" class="form-label">Uso de
-                                                                        maniobras de reanimación:</label>
-                                                                    <select class="form-control" id="reanimacion"
-                                                                        name="reanimacion">
-                                                                        <option value="">Seleccione una opción...
-                                                                        </option>
-                                                                        <option value="si">Sí</option>
-                                                                        <option value="no">No</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="peso_nacer" class="form-label">Peso al
-                                                                        nacer:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="peso_nacer" name="peso_nacer"
-                                                                        placeholder="Ejemplo: 1KG">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="talla_nacer" class="form-label">Talla al
-                                                                        nacer:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="talla_nacer" name="talla_nacer"
-                                                                        placeholder="Ejemplo: 50 cm">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="llanto_nacer" class="form-label">Llanto al
-                                                                        nacer:</label>
-                                                                    <select class="form-control" id="llanto_nacer"
-                                                                        name="llanto_nacer">
-                                                                        <option value="">Seleccione una opción...
-                                                                        </option>
-                                                                        <option value="si">Sí</option>
-                                                                        <option value="no">No</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Posnatales -->
-                                                        <div class="box-header pb-1">
-                                                            <h5 class="text-uppercase">
-                                                                <i class="fa fa-heart-o me-1"></i> Posnatales
-                                                            </h5>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <div class="form-group">
-                                                                    <label for="hospitalizaciones_postnatales"
-                                                                        class="form-label">Hospitalizaciones recién
-                                                                        nacido:</label>
-                                                                    <textarea class="form-control" id="hospitalizaciones_postnatales" name="hospitalizaciones_postnatales"
-                                                                        rows="3" placeholder="Describa las causas de hospitalización"></textarea>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <div class="form-group">
-                                                                    <label for="desarrollo_psicomotor"
-                                                                        class="form-label">Desarrollo
-                                                                        psicomotor:</label>
-                                                                    <textarea class="form-control" id="desarrollo_psicomotor" name="desarrollo_psicomotor" rows="5"
-                                                                        placeholder="Ejemplo: Control cefálico 2M, Marcha 10M"></textarea>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Desarrollo Psicomotor -->
-                                                        <div class="box-header pb-1">
-                                                            <h5 class="text-uppercase">
-                                                                <i class="mdi mdi-baby me-1"></i> Desarrollo Psicomotor
-                                                            </h5>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="control_cefalico"
-                                                                        class="form-label">Control
-                                                                        cefálico:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="control_cefalico" name="control_cefalico"
-                                                                        placeholder="Ejemplo: 2M">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="rolado"
-                                                                        class="form-label">Rolado:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="rolado" name="rolado"
-                                                                        placeholder="Ejemplo: 3M">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="sedente_solo" class="form-label">Sedente
-                                                                        solo:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="sedente_solo" name="sedente_solo"
-                                                                        placeholder="Ejemplo: 6M">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="gateo"
-                                                                        class="form-label">Gateo:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="gateo" name="gateo"
-                                                                        placeholder="Ejemplo: 6M">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="bipedo" class="form-label">Bípedo
-                                                                        sin ayuda:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="bipedo" name="bipedo"
-                                                                        placeholder="Ejemplo: 9M">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="marcha"
-                                                                        class="form-label">Marcha:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="marcha" name="marcha"
-                                                                        placeholder="Ejemplo: 10M">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="lenguaje_verbal"
-                                                                        class="form-label">Lenguaje
-                                                                        verbal:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="lenguaje_verbal" name="lenguaje_verbal"
-                                                                        placeholder="Ejemplo: 1 año">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="lenguaje_verbal_fluido"
-                                                                        class="form-label">Lenguaje verbal
-                                                                        fluido:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="lenguaje_verbal_fluido"
-                                                                        name="lenguaje_verbal_fluido"
-                                                                        placeholder="Ejemplo: 6 años">
+                                                    <div class="col-md-6" style="display: none;">
+                                                        <div class="form-group">
+                                                            <label for="toxicos" class="form-label">Tóxicos:</label>
+                                                            <div class="input-group flex-nowrap">
+                                                                <div class="tags-default">
+                                                                    <input type="text" id="toxicos"
+                                                                        name="toxicos" value=""
+                                                                        data-role="tagsinput"
+                                                                        placeholder="Agregar antedecentes">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="box-header pb-1">
-                                                        <h5 class="text-uppercase"><i class="fa fa-users me-1"></i>
-                                                            Médicos Familiares</h5>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="hospitalizaciones"
+                                                                class="form-label">Hospitalizaciones:</label>
+                                                            <textarea class="form-control" id="hospitalizaciones" name="hospitalizaciones" rows="3"
+                                                                placeholder="Describa las causas de hospitalización..."></textarea>
+                                                        </div>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
-                                                                <label for="depresion"
-                                                                    class="form-label">Depresión:</label>
-                                                                <select class="form-control" id="depresion"
-                                                                    name="depresion">
-                                                                    <option value="">Selecciona una opción
-                                                                    </option>
-                                                                    <option value="no refiere">No refiere</option>
-                                                                    <option value="padre">Padre</option>
-                                                                    <option value="madre">Madre</option>
-                                                                    <option value="hijo">Hijo/a</option>
-                                                                    <option value="hermano">Hermano/a</option>
-                                                                    <option value="abuelo">Abuelo/a</option>
-                                                                    <option value="tio">Tío/a</option>
-                                                                    <option value="primo">Primo/a</option>
-                                                                    <option value="sobrino">Sobrino/a</option>
-                                                                    <option value="nieto">Nieto/a</option>
-                                                                    <option value="otro">Otro</option>
-                                                                </select>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="traumaticos"
+                                                                class="form-label">Traumáticos:</label>
+                                                            <select class="form-control" id="traumaticos"
+                                                                name="traumaticos">
+                                                                <option value="">Seleccione una
+                                                                    opción...</option>
+                                                                <option value="fracturas óseas">Fracturas óseas
+                                                                </option>
+                                                                <option value="traumatismo craneoencefalico">
+                                                                    Traumatismo
+                                                                    craneoencefálico</option>
+                                                                <option value="luxaciones y esguinces">Luxaciones y
+                                                                    esguinces
+                                                                </option>
+                                                                <option value="quemaduras">Quemaduras</option>
+                                                                <option value="accidente de transito">Accidente de
+                                                                    transito
+                                                                </option>
+                                                                <option value="otro">Otro</option>
+                                                                <option value="ninguno">Ninguno</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Paraclínicos -->
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="paraclinicos"
+                                                                class="form-label">Paraclínicos:</label>
+                                                            <div class="tags-default">
+                                                                <input type="text" id="paraclinicos"
+                                                                    name="paraclinicos" value=""
+                                                                    data-role="tagsinput"
+                                                                    placeholder="Agregar antedecentes">
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
-                                                                <label for="ansiedad" class="form-label">Ansiedad:</label>
-                                                                <select class="form-control" id="ansiedad"
-                                                                    name="ansiedad">
-                                                                    <option value="">Selecciona una opción
-                                                                    </option>
-                                                                    <option value="no refiere">No refiere</option>
-                                                                    <option value="padre">Padre</option>
-                                                                    <option value="madre">Madre</option>
-                                                                    <option value="hijo">Hijo/a</option>
-                                                                    <option value="hermano">Hermano/a</option>
-                                                                    <option value="abuelo">Abuelo/a</option>
-                                                                    <option value="tio">Tío/a</option>
-                                                                    <option value="primo">Primo/a</option>
-                                                                    <option value="sobrino">Sobrino/a</option>
-                                                                    <option value="nieto">Nieto/a</option>
-                                                                    <option value="otro">Otro</option>
-                                                                </select>
-                                                            </div>
+                                                    </div>
+                                                    <!-- patologia -->
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="patologia"
+                                                                class="form-label">Patología:</label>
+                                                            <textarea class="form-control" id="patologia" name="patologia" rows="3"
+                                                                placeholder="Describa la patología..."></textarea>
                                                         </div>
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
-                                                                <label for="demencia" class="form-label">Demencia:</label>
-                                                                <select class="form-control" id="demencia"
-                                                                    name="demencia">
-                                                                    <option value="">Selecciona una opción
-                                                                    </option>
-                                                                    <option value="no refiere">No refiere</option>
-                                                                    <option value="padre">Padre</option>
-                                                                    <option value="madre">Madre</option>
-                                                                    <option value="hijo">Hijo/a</option>
-                                                                    <option value="hermano">Hermano/a</option>
-                                                                    <option value="abuelo">Abuelo/a</option>
-                                                                    <option value="tio">Tío/a</option>
-                                                                    <option value="primo">Primo/a</option>
-                                                                    <option value="sobrino">Sobrino/a</option>
-                                                                    <option value="nieto">Nieto/a</option>
-                                                                    <option value="otro">Otro</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
-                                                                <label for="alcoholismo"
-                                                                    class="form-label">Alcoholismo:</label>
-                                                                <select class="form-control" id="alcoholismo"
-                                                                    name="alcoholismo">
-                                                                    <option value="">Selecciona una opción
-                                                                    </option>
-                                                                    <option value="no refiere">No refiere</option>
-                                                                    <option value="padre">Padre</option>
-                                                                    <option value="madre">Madre</option>
-                                                                    <option value="hijo">Hijo/a</option>
-                                                                    <option value="hermano">Hermano/a</option>
-                                                                    <option value="abuelo">Abuelo/a</option>
-                                                                    <option value="tio">Tío/a</option>
-                                                                    <option value="primo">Primo/a</option>
-                                                                    <option value="sobrino">Sobrino/a</option>
-                                                                    <option value="nieto">Nieto/a</option>
-                                                                    <option value="otro">Otro</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
-                                                                <label for="drogadiccion"
-                                                                    class="form-label">Drogadicción:</label>
-                                                                <select class="form-control" id="drogadiccion"
-                                                                    name="drogadiccion">
-                                                                    <option value="">Selecciona una opción
-                                                                    </option>
-                                                                    <option value="no refiere">No refiere</option>
-                                                                    <option value="padre">Padre</option>
-                                                                    <option value="madre">Madre</option>
-                                                                    <option value="hijo">Hijo/a</option>
-                                                                    <option value="hermano">Hermano/a</option>
-                                                                    <option value="abuelo">Abuelo/a</option>
-                                                                    <option value="tio">Tío/a</option>
-                                                                    <option value="primo">Primo/a</option>
-                                                                    <option value="sobrino">Sobrino/a</option>
-                                                                    <option value="nieto">Nieto/a</option>
-                                                                    <option value="otro">Otro</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
-                                                                <label for="discapacidad_intelectual"
-                                                                    class="form-label">Discapacidad
-                                                                    Intelectual:</label>
-                                                                <select class="form-control" id="discapacidad_intelectual"
-                                                                    name="discapacidad_intelectual">
-                                                                    <option value="">Selecciona una opción
-                                                                    </option>
-                                                                    <option value="no refiere">No refiere</option>
-                                                                    <option value="padre">Padre</option>
-                                                                    <option value="madre">Madre</option>
-                                                                    <option value="hijo">Hijo/a</option>
-                                                                    <option value="hermano">Hermano/a</option>
-                                                                    <option value="abuelo">Abuelo/a</option>
-                                                                    <option value="tio">Tío/a</option>
-                                                                    <option value="primo">Primo/a</option>
-                                                                    <option value="sobrino">Sobrino/a</option>
-                                                                    <option value="nieto">Nieto/a</option>
-                                                                    <option value="otro">Otro</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
-                                                                <label for="patologicos"
-                                                                    class="form-label">Patológicos:</label>
-                                                                <select class="form-control" id="patologicos"
-                                                                    name="patologicos">
-                                                                    <option value="">Selecciona una opción
-                                                                    </option>
-                                                                    <option value="no refiere">No refiere</option>
-                                                                    <option value="padre">Padre</option>
-                                                                    <option value="madre">Madre</option>
-                                                                    <option value="hijo">Hijo/a</option>
-                                                                    <option value="hermano">Hermano/a</option>
-                                                                    <option value="abuelo">Abuelo/a</option>
-                                                                    <option value="tio">Tío/a</option>
-                                                                    <option value="primo">Primo/a</option>
-                                                                    <option value="sobrino">Sobrino/a</option>
-                                                                    <option value="nieto">Nieto/a</option>
-                                                                    <option value="otro">Otro</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
-                                                                <label for="otros" class="form-label">Otros:</label>
-                                                                <select class="form-control" id="otros"
-                                                                    name="otros">
-                                                                    <option value="">Selecciona una opción
-                                                                    </option>
-                                                                    <option value="no refiere">No refiere</option>
-                                                                    <option value="padre">Padre</option>
-                                                                    <option value="madre">Madre</option>
-                                                                    <option value="hijo">Hijo/a</option>
-                                                                    <option value="hermano">Hermano/a</option>
-                                                                    <option value="abuelo">Abuelo/a</option>
-                                                                    <option value="tio">Tío/a</option>
-                                                                    <option value="primo">Primo/a</option>
-                                                                    <option value="sobrino">Sobrino/a</option>
-                                                                    <option value="nieto">Nieto/a</option>
-                                                                    <option value="otro">Otro</option>
-                                                                </select>
-                                                            </div>
+                                                    </div>
+                                                    <!-- Medicación -->
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="medicacion"
+                                                                class="form-label">Medicación:</label>
+                                                            <textarea class="form-control" id="medicacion" name="medicacion" rows="3"
+                                                                placeholder="Describa la medicación actual..."></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- Áreas de Ajuste -->
-                                                <div class="tab-pane" id="ajustes">
+                                                <div id="infPediatria" style="display: none;">
+                                                    <!-- Prenatales -->
                                                     <div class="box-header pb-1">
-                                                        <h5 class="text-uppercase"><i class="fa fa-book me-1"></i>
-                                                            Áreas de
-                                                            Ajuste
-                                                            y/o Desempeño</h5>
-                                                    </div>
-                                                    <div class="row">
-                                                        <!-- Historia Educativa -->
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label for="historia_educativa"
-                                                                    class="form-label">Historia
-                                                                    Educativa:</label>
-                                                                <textarea class="form-control" id="historia_educativa" name="historia_educativa" rows="3"
-                                                                    placeholder="Describa la historia educativa..."></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Historia Laboral -->
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label for="historia_laboral" class="form-label">
-                                                                    Historia
-                                                                    Laboral:</label>
-                                                                <textarea class="form-control" id="historia_laboral" name="historia_laboral" rows="3"
-                                                                    placeholder="Describa la historia laboral..."></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Historia Familiar -->
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label for="historia_familiar" class="form-label">
-                                                                    Historia
-                                                                    Familiar:</label>
-                                                                <textarea class="form-control" id="historia_familiar" name="historia_familiar" rows="3"
-                                                                    placeholder="Describa la historia familiar..."></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Historia Social -->
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label for="historia_social" class="form-label">
-                                                                    Historia
-                                                                    Social:</label>
-                                                                <textarea class="form-control" id="historia_social" name="historia_social" rows="3"
-                                                                    placeholder="Describa la historia social..."></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Historia Socio-Afectiva -->
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label for="historia_socio_afectiva" class="form-label">
-                                                                    Historia
-                                                                    Socio-Afectiva:</label>
-                                                                <textarea class="form-control" id="historia_socio_afectiva" name="historia_socio_afectiva" rows="3"
-                                                                    placeholder="Describa la historia socio afectiva..."></textarea>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-
-                                                </div>
-                                                <!-- Áreas de evaluacion -->
-                                                <div class="tab-pane" id="evaluacion">
-                                                    <div class="box-header pb-1">
-                                                        <h5 class="text-uppercase mt-4"><i
-                                                                class="fa  fa-check-square-o me-1"></i>
-                                                            Evaluación psicolólogica</h5>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label for="resumen_evaluacion_inicial"
-                                                                    class="form-label">Evaluación psicolólogica inicial
-                                                                    :</label>
-                                                                <textarea class="form-control" id="resumen_evaluacion_inicial" name="resumen_evaluacion_inicial" rows="3"
-                                                                    placeholder="Resumen de evaluación psicológica inicial"></textarea>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="box-header pb-1">
-                                                        <h5 class="text-uppercase mt-4"><i
-                                                                class="fa fa-stethoscope me-1"></i>
-                                                            Interconsultas e Intervenciones</h5>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        <!-- Intervención por Psiquiatría (Medicación) -->
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="intervencion_psiquiatria" class="form-label">
-                                                                    Intervención por
-                                                                    Psiquiatría :</label>
-                                                                <textarea class="form-control" id="intervencion_psiquiatria" name="intervencion_psiquiatria" rows="3"
-                                                                    placeholder="Describa la intervención por Psiquiatría..."></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Intervención por Neurología (Medicación) -->
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="intervencion_neurologia" class="form-label">
-                                                                    Intervención por Neurología:</label>
-                                                                <textarea class="form-control" id="intervencion_neurologia" name="intervencion_neurologia" rows="3"
-                                                                    placeholder="Describa la intervención por Neurología..."></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Intervención por Neuropsicología -->
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="intervencion_neuropsicologia"
-                                                                    class="form-label">
-                                                                    Intervención por Neuropsicología:</label>
-                                                                <textarea class="form-control" id="intervencion_neuropsicologia" name="intervencion_neuropsicologia" rows="3"
-                                                                    placeholder="Describa la intervención por
-                                                                Neuropsicología..."></textarea>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- Examen Mental -->
-                                                <div class="tab-pane" id="examen">
-                                                    <div class="box-header pb-1">
-                                                        <h5 class="text-uppercase mt-4"><i class="fa fa-user-md me-1"></i>
-                                                            Examen
-                                                            Mental</h5>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <h5 class="text-uppercase mt-4"><i
-                                                                        class="fa fa-user me-1"></i> Apariencia
-                                                                    personal
-                                                                </h5>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label for="edad" class="form-label">Edad:</label>
-                                                            <select class="form-select" id="edad" name="edad"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="edad_otro" name="edad_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-                                                        <!-- Desarrollo pondoestatural -->
-                                                        <div class="col-md-6">
-                                                            <label for="desarrollo" class="form-label">Desarrollo
-                                                                pondoestatural:</label>
-                                                            <select class="form-select" id="desarrollo" id="desarrollo"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="desarrollo_otro" name="desarrollo_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-                                                        <!-- Aseo y arreglo -->
-                                                        <div class="col-md-6">
-                                                            <label for="aseo" class="form-label">Aseo y
-                                                                arreglo:</label>
-                                                            <select class="form-select" id="aseo" name="aseo"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="aseo_otro" name="aseo_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-                                                        <!-- Salud somática -->
-                                                        <div class="col-md-6">
-                                                            <label for="salud" class="form-label">Salud
-                                                                somática:</label>
-                                                            <select class="form-select" id="salud" name="salud"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="salud_otro" name="salud_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-                                                        <!-- Facies -->
-                                                        <div class="col-md-6">
-                                                            <label for="facies" class="form-label">Facies:</label>
-                                                            <select class="form-select" id="facies" name="facies"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="facies_otro" name="facies_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-                                                        <!-- Biotipo -->
-                                                        <div class="col-md-6">
-                                                            <label for="biotipo" class="form-label">Biotipo:</label>
-                                                            <select class="form-select" id="biotipo" name="biotipo"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="biotipo_otro" name="biotipo_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-                                                        <!-- Actitud -->
-                                                        <div class="col-md-6">
-                                                            <label for="actitud" class="form-label">Actitud:</label>
-                                                            <select class="form-select" id="actitud" name="actitud"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="actitud_otro" name="actitud_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-                                                    </div>
-                                                    <div class="box-header pb-1">
-                                                        <h5 class="text-uppercase mt-4"><i class="fa fa-cogs me-1"></i>
-                                                            Funciones
-                                                            Cognitivas</h5>
+                                                        <h5 class="text-uppercase">
+                                                            <i class="fa fa-heartbeat me-1"></i> Prenatales
+                                                        </h5>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <label for="consciencia"
-                                                                class="form-label">Consciencia:</label>
-                                                            <select class="form-select" id="consciencia"
-                                                                name="consciencia" onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="consciencia_otro" name="consciencia_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-                                                        <!-- Orientación -->
-                                                        <div class="col-md-6">
-                                                            <label for="orientacion"
-                                                                class="form-label">Orientación:</label>
-                                                            <select class="form-select" id="orientacion"
-                                                                name="orientacion" onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="orientacion_otro" name="orientacion_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Memoria -->
-                                                        <div class="col-md-6">
-                                                            <label for="memoria" class="form-label">Memoria:</label>
-                                                            <select class="form-select" id="memoria" name="memoria"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="memoria_otro" name="memoria_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Atención -->
-                                                        <div class="col-md-6">
-                                                            <label for="atencion" class="form-label">Atención:</label>
-                                                            <select class="form-select" id="atencion" name="atencion"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="atencion_otro" name="atencion_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Concentración -->
-                                                        <div class="col-md-6">
-                                                            <label for="concentracion"
-                                                                class="form-label">Concentración:</label>
-                                                            <select class="form-select" id="concentracion"
-                                                                name="concentracion" onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="concentracion_otro" name="concentracion_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Lenguaje -->
-                                                        <div class="col-md-6">
-                                                            <label for="lenguaje" class="form-label">Lenguaje:</label>
-                                                            <select class="form-select" id="lenguaje" name="lenguaje"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="lenguaje_otro" name="lenguaje_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Pensamiento -->
-                                                        <div class="col-md-6">
-                                                            <label for="pensamiento"
-                                                                class="form-label">Pensamiento:</label>
-                                                            <select class="form-select" id="pensamiento"
-                                                                name="pensamiento" onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="pensamiento_otro" name="pensamiento_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Afecto -->
-                                                        <div class="col-md-6">
-                                                            <label for="afecto" class="form-label">Afecto:</label>
-                                                            <select class="form-select" id="afecto" name="afecto"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="afecto_otro" name="afecto_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Sensopercepción -->
-                                                        <div class="col-md-6">
-                                                            <label for="sensopercepcion"
-                                                                class="form-label">Sensopercepción:</label>
-                                                            <select class="form-select" id="sensopercepcion"
-                                                                name="sensopercepcion" onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="sensopercepcion_otro" name="sensopercepcion_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Psicomotricidad -->
-                                                        <div class="col-md-6">
-                                                            <label for="psicomotricidad"
-                                                                class="form-label">Psicomotricidad:</label>
-                                                            <select class="form-select" id="psicomotricidad"
-                                                                name="psicomotricidad" onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="psicomotricidad_otro" name="psicomotricidad_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Juicio -->
-                                                        <div class="col-md-6">
-                                                            <label for="juicio" class="form-label">Juicio:</label>
-                                                            <select class="form-select" id="juicio" name="juicio"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="juicio_otro" name="juicio_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Inteligencia -->
-                                                        <div class="col-md-6">
-                                                            <label for="inteligencia"
-                                                                class="form-label">Inteligencia:</label>
-                                                            <select class="form-select" id="inteligencia"
-                                                                name="inteligencia" onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="inteligencia_otro" name="inteligencia_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Conciencia de enfermedad -->
-                                                        <div class="col-md-6">
-                                                            <label for="conciencia_enfermedad"
-                                                                class="form-label">Conciencia
-                                                                de enfermedad:</label>
-                                                            <select class="form-select" id="conciencia_enfermedad"
-                                                                name="conciencia_enfermedad"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="conciencia_enfermedad_otro"
-                                                                name="conciencia_enfermedad_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Sufrimiento psicológico -->
-                                                        <div class="col-md-6">
-                                                            <label for="sufrimiento_psicologico"
-                                                                class="form-label">Sufrimiento psicológico:</label>
-                                                            <select class="form-select" id="sufrimiento_psicologico"
-                                                                name="sufrimiento_psicologico"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="sufrimiento_psicologico_otro"
-                                                                name="sufrimiento_psicologico_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-
-                                                        <!-- Motivación al tratamiento -->
-                                                        <div class="col-md-6">
-                                                            <label for="motivacion_tratamiento"
-                                                                class="form-label">Motivación al tratamiento:</label>
-                                                            <select class="form-select" id="motivacion_tratamiento"
-                                                                name="motivacion_tratamiento"
-                                                                onchange="toggleOtro(this)">
-
-                                                            </select>
-                                                            <input type="text" class="form-control mt-2 d-none"
-                                                                id="motivacion_tratamiento_otro"
-                                                                name="motivacion_tratamiento_otro"
-                                                                placeholder="Especifique otro">
-                                                        </div>
-                                                    </div>
-                                                    <div class="box-header pb-1">
-                                                        <h5 class="text-uppercase mt-4"><i
-                                                                class="fa fa-heartbeat me-1"></i>
-                                                            Funciones Somáticas</h5>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-4">
                                                             <div class="form-group">
-                                                                <label for="ciclos_sueno" class="form-label">Ciclos
-                                                                    del
-                                                                    Sueño:</label>
-                                                                <textarea class="form-control" id="ciclos_sueno" name="ciclos_sueno" rows="3"></textarea>
+                                                                <label for="edad_madre" class="form-label">Edad de la
+                                                                    madre en el embarazo:</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="edad_madre" name="edad_madre"
+                                                                    placeholder="Ingrese la edad">
                                                             </div>
                                                         </div>
-
-                                                        <!-- Apetito -->
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="apetito"
-                                                                    class="form-label">Apetito:</label>
-                                                                <textarea class="form-control" id="apetito" name="apetito" rows="3"></textarea>
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- Actividades de Autocuidado -->
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="autocuidado" class="form-label">Actividades
-                                                                    de
-                                                                    Autocuidado:</label>
-                                                                <textarea class="form-control" id="autocuidado" name="autocuidado" rows="3"></textarea>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- Impresion Diagnostica -->
-                                                <div class="tab-pane" id="impresion">
-                                                    <!-- 1. Impresión Diagnóstica -->
-                                                    <div class="box-header pb-1">
-                                                        <h5 class="text-uppercase"><i
-                                                                class="fa fa-stethoscope me-1"></i>
-                                                            Impresión Diagnóstica</h5>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label for="impresion_diagnostica"
-                                                                    class="form-label">Impresión Diagnóstica (CIE 10 –
-                                                                    DSM-V):</label>
-                                                                <select class="form-control select2"
-                                                                    id="codImpresionDiagnostico"
-                                                                    name="codImpresionDiagnostico" aria-invalid="false">
+                                                                <label for="enfermedades_madre"
+                                                                    class="form-label">Enfermedades de la
+                                                                    madre:</label>
+                                                                <select class="form-control" id="enfermedades_madre"
+                                                                    name="enfermedades_madre">
+                                                                    <option value="">Seleccione una opción...
+                                                                    </option>
+                                                                    <option value="no">No</option>
+                                                                    <option value="diabetes">Diabetes</option>
+                                                                    <option value="hipertension">Hipertensión</option>
+                                                                    <option value="otro">Otro</option>
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="impresion_diagnostica"
-                                                                    class="form-label">Establecido por primera
-                                                                    vez.</label>
-                                                                <select class="form-control" id="establecidoPrimeraVez"
-                                                                    name="establecidoPrimeraVez" aria-invalid="false">
-                                                                    <option value="">Seleccione...</option>
+                                                                <label for="numero_embarazo" class="form-label">Único
+                                                                    embarazo:</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="numero_embarazo" name="numero_embarazo"
+                                                                    placeholder="Ejemplo: 2do">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="enbarazo_controlado" class="form-label">El
+                                                                    embarazo fue controlado por atención médica:</label>
+                                                                <select class="form-control" id="enbarazo_controlado"
+                                                                    name="enbarazo_controlado">
+                                                                    <option value="">Seleccione una opción...
+                                                                    </option>
                                                                     <option value="Si">Si</option>
                                                                     <option value="No">No</option>
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                    </div>
-
-                                                </div>
-
-                                                <!-- Plan de intervención -->
-                                                <div class="tab-pane" id="plan">
-                                                    <div class="tab-pane" id="diagnostico-plan">
-                                                        <!-- 2. Plan de Intervención -->
-                                                        <div class="box-header pb-1">
-                                                            <h5 class="text-uppercase mt-4"><i
-                                                                    class="fa fa-tasks me-1"></i>
-                                                                Plan
-                                                                de Intervención</h5>
-                                                        </div>
-
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <div class="form-group">
-                                                                    <label for="plan_intervencion"
-                                                                        class="form-label">Plan
-                                                                        de intervención:</label>
-                                                                    <select class="form-control select2"
-                                                                        id="plan_intervencion" name="plan_intervencion"
-                                                                        data-placeholder="Seleccione el plan de intervención"
-                                                                        style="width: 100%;">
-
-                                                                    </select>
-                                                                </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="planificacion" class="form-label">Uso de
+                                                                    planificación en el momento del embarazo:</label>
+                                                                <select class="form-control" id="planificacion"
+                                                                    name="planificacion">
+                                                                    <option value="">Seleccione una opción...
+                                                                    </option>
+                                                                    <option value="Si">Si</option>
+                                                                    <option value="No">No</option>
+                                                                </select>
                                                             </div>
                                                         </div>
-
-                                                        <!-- Objetivo General -->
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <div class="form-group">
-                                                                    <label for="objetivo_general"
-                                                                        class="form-label">Objetivo
-                                                                        General:</label>
-                                                                    <textarea class="form-control" id="objetivo_general" name="objetivo_general" rows="3"
-                                                                        placeholder="Ingrese el objetivo general..."></textarea>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- Objetivos Específicos -->
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <div class="form-group">
-                                                                    <label for="objetivos_especificos"
-                                                                        class="form-label">Objetivos
-                                                                        Específicos:</label>
-                                                                    <textarea class="form-control" id="objetivos_especificos" name="objetivos_especificos" rows="3"
-                                                                        placeholder="Ingrese los objetivos específicos..."></textarea>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- 3. Sugerencia para Interconsultas -->
-                                                        <div class="box-header pb-1">
-                                                            <h5 class="text-uppercase mt-4"><i
-                                                                    class="fa fa-user-md me-1"></i>
-                                                                Sugerencia para Interconsultas</h5>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <div class="form-group">
-                                                                    <label for="sugerencia_interconsultas"
-                                                                        class="form-label">Sugerencia para
-                                                                        Interconsultas:</label>
-                                                                    <textarea class="form-control" id="sugerencia_interconsultas" name="sugerencia_interconsultas" rows="3"
-                                                                        placeholder="Ingrese las sugerencias para interconsultas..."></textarea>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- 4. Observaciones y Recomendaciones -->
-                                                        <div class="box-header pb-1">
-                                                            <h5 class="text-uppercase mt-4"><i
-                                                                    class="fa fa-comments me-1"></i>
-                                                                Observaciones y Recomendaciones</h5>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <div class="form-group">
-                                                                    <label for="observaciones_recomendaciones"
-                                                                        class="form-label">Observaciones y
-                                                                        Recomendaciones:</label>
-                                                                    <textarea class="form-control" id="observaciones_recomendaciones" name="observaciones_recomendaciones"
-                                                                        rows="3" placeholder="Ingrese observaciones y recomendaciones..."></textarea>
-                                                                </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="estado_madre" class="form-label">Estado de
+                                                                    la
+                                                                    madre durante el embarazo:</label>
+                                                                <textarea class="form-control" id="estado_madre" name="estado_madre" rows="3"
+                                                                    placeholder="Describa el estado"></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <!-- Natales -->
+                                                    <div class="box-header pb-1">
+                                                        <h5 class="text-uppercase">
+                                                            <i class="fa fa-heart me-1"></i> Natales
+                                                        </h5>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="tipo_nacimiento" class="form-label">Tipo
+                                                                    de
+                                                                    nacimiento:</label>
+                                                                <select class="form-control" id="tipo_nacimiento"
+                                                                    name="tipo_nacimiento">
+                                                                    <option value="">Seleccione una opción...
+                                                                    </option>
+                                                                    <option value="cesarea">Cesárea</option>
+                                                                    <option value="natural">Natural</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="causa_cesarea" class="form-label">Causa de
+                                                                    la
+                                                                    cesárea:</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="causa_cesarea" name="causa_cesarea"
+                                                                    placeholder="Ejemplo: No dilataba">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="reanimacion" class="form-label">Uso de
+                                                                    maniobras de reanimación:</label>
+                                                                <select class="form-control" id="reanimacion"
+                                                                    name="reanimacion">
+                                                                    <option value="">Seleccione una opción...
+                                                                    </option>
+                                                                    <option value="si">Sí</option>
+                                                                    <option value="no">No</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="peso_nacer" class="form-label">Peso al
+                                                                    nacer:</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="peso_nacer" name="peso_nacer"
+                                                                    placeholder="Ejemplo: 1KG">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="talla_nacer" class="form-label">Talla al
+                                                                    nacer:</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="talla_nacer" name="talla_nacer"
+                                                                    placeholder="Ejemplo: 50 cm">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="llanto_nacer" class="form-label">Llanto al
+                                                                    nacer:</label>
+                                                                <select class="form-control" id="llanto_nacer"
+                                                                    name="llanto_nacer">
+                                                                    <option value="">Seleccione una opción...
+                                                                    </option>
+                                                                    <option value="si">Sí</option>
+                                                                    <option value="no">No</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Posnatales -->
+                                                    <div class="box-header pb-1">
+                                                        <h5 class="text-uppercase">
+                                                            <i class="fa fa-heart-o me-1"></i> Posnatales
+                                                        </h5>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="hospitalizaciones_postnatales"
+                                                                    class="form-label">Hospitalizaciones recién
+                                                                    nacido:</label>
+                                                                <textarea class="form-control" id="hospitalizaciones_postnatales" name="hospitalizaciones_postnatales"
+                                                                    rows="3" placeholder="Describa las causas de hospitalización"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12" style="display: none;">
+                                                            <div class="form-group">
+                                                                <label for="desarrollo_psicomotor"
+                                                                    class="form-label">Desarrollo
+                                                                    psicomotor:</label>
+                                                                <textarea class="form-control" id="desarrollo_psicomotor" name="desarrollo_psicomotor" rows="5"
+                                                                    placeholder="Ejemplo: Control cefálico 2M, Marcha 10M"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Desarrollo Psicomotor -->
+                                                    <div class="box-header pb-1">
+                                                        <h5 class="text-uppercase">
+                                                            <i class="mdi mdi-baby me-1"></i> Desarrollo Psicomotor
+                                                        </h5>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="control_cefalico"
+                                                                    class="form-label">Control
+                                                                    cefálico:</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="control_cefalico" name="control_cefalico"
+                                                                    placeholder="Ejemplo: 2M">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="rolado"
+                                                                    class="form-label">Rolado:</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="rolado" name="rolado"
+                                                                    placeholder="Ejemplo: 3M">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="sedente_solo" class="form-label">Sedente
+                                                                    solo:</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="sedente_solo" name="sedente_solo"
+                                                                    placeholder="Ejemplo: 6M">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="gateo"
+                                                                    class="form-label">Gateo:</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="gateo" name="gateo"
+                                                                    placeholder="Ejemplo: 6M">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="bipedo" class="form-label">Bípedo
+                                                                    sin ayuda:</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="bipedo" name="bipedo"
+                                                                    placeholder="Ejemplo: 9M">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="marcha"
+                                                                    class="form-label">Marcha:</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="marcha" name="marcha"
+                                                                    placeholder="Ejemplo: 10M">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="lenguaje_verbal"
+                                                                    class="form-label">Lenguaje
+                                                                    verbal:</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="lenguaje_verbal" name="lenguaje_verbal"
+                                                                    placeholder="Ejemplo: 1 año">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="lenguaje_verbal_fluido"
+                                                                    class="form-label">Lenguaje verbal
+                                                                    fluido:</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="lenguaje_verbal_fluido"
+                                                                    name="lenguaje_verbal_fluido"
+                                                                    placeholder="Ejemplo: 6 años">
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div> <!-- end tab-content -->
-                                            <hr />
-                                            <div class="card-body ">
-                                                <input type="hidden" id="idProfesional" name="idProfesional" />
-                                                <h5 id="nombreProfesional"></h5>
-                                                <img id="firmaProfesional" width="200" src=""
-                                                    alt="">
-
-                                                <p id="registroProfesional"><strong>Tarjeta Profesional:</strong>
-                                                </p>
+                                                <div class="box-header pb-1">
+                                                    <h5 class="text-uppercase"><i class="fa fa-users me-1"></i>
+                                                        Médicos Familiares</h5>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="depresion"
+                                                                class="form-label">Depresión:</label>
+                                                            <select class="form-control select2" style="width: 100%"
+                                                                multiple id="depresion" name="depresion[]">
+                                                                <option value="">Selecciona una opción</option>
+                                                                <option value="No refiere">No refiere</option>
+                                                                <option value="Padre">Padre</option>
+                                                                <option value="Madre">Madre</option>
+                                                                <option value="Hijo/a">Hijo/a</option>
+                                                                <option value="Hermano/a">Hermano/a</option>
+                                                                <option value="Abuelo paterno">Abuelo paterno</option>
+                                                                <option value="Abuela paterna">Abuela paterna</option>
+                                                                <option value="Abuelo materno">Abuelo materno</option>
+                                                                <option value="Abuela materna">Abuela materna</option>
+                                                                <option value="Tío paterno">Tío paterno</option>
+                                                                <option value="Tía paterna">Tía paterna</option>
+                                                                <option value="Tío materno">Tío materno</option>
+                                                                <option value="Tía materna">Tía materna</option>
+                                                                <option value="Primo paterno">Primo paterno</option>
+                                                                <option value="Prima paterna">Prima paterna</option>
+                                                                <option value="Primo materno">Primo materno</option>
+                                                                <option value="Prima materna">Prima materna</option>
+                                                                <option value="Sobrino/a">Sobrino/a</option>
+                                                                <option value="Nieto/a">Nieto/a</option>
+                                                                <option value="Otro">Otro</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="ansiedad" class="form-label">Ansiedad:</label>
+                                                            <select class="form-control select2" style="width: 100%"
+                                                                multiple id="ansiedad" name="ansiedad[]">
+                                                                <option value="">Selecciona una opción</option>
+                                                                <option value="No refiere">No refiere</option>
+                                                                <option value="Padre">Padre</option>
+                                                                <option value="Madre">Madre</option>
+                                                                <option value="Hijo/a">Hijo/a</option>
+                                                                <option value="Hermano/a">Hermano/a</option>
+                                                                <option value="Abuelo paterno">Abuelo paterno</option>
+                                                                <option value="Abuela paterna">Abuela paterna</option>
+                                                                <option value="Abuelo materno">Abuelo materno</option>
+                                                                <option value="Abuela materna">Abuela materna</option>
+                                                                <option value="Tío paterno">Tío paterno</option>
+                                                                <option value="Tía paterna">Tía paterna</option>
+                                                                <option value="Tío materno">Tío materno</option>
+                                                                <option value="Tía materna">Tía materna</option>
+                                                                <option value="Primo paterno">Primo paterno</option>
+                                                                <option value="Prima paterna">Prima paterna</option>
+                                                                <option value="Primo materno">Primo materno</option>
+                                                                <option value="Prima materna">Prima materna</option>
+                                                                <option value="Sobrino/a">Sobrino/a</option>
+                                                                <option value="Nieto/a">Nieto/a</option>
+                                                                <option value="Otro">Otro</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="demencia" class="form-label">Demencia:</label>
+                                                            <select class="form-control select2" style="width: 100%"
+                                                                multiple id="demencia" name="demencia[]">
+                                                                <option value="">Selecciona una opción</option>
+                                                                <option value="No refiere">No refiere</option>
+                                                                <option value="Padre">Padre</option>
+                                                                <option value="Madre">Madre</option>
+                                                                <option value="Hijo/a">Hijo/a</option>
+                                                                <option value="Hermano/a">Hermano/a</option>
+                                                                <option value="Abuelo paterno">Abuelo paterno</option>
+                                                                <option value="Abuela paterna">Abuela paterna</option>
+                                                                <option value="Abuelo materno">Abuelo materno</option>
+                                                                <option value="Abuela materna">Abuela materna</option>
+                                                                <option value="Tío paterno">Tío paterno</option>
+                                                                <option value="Tía paterna">Tía paterna</option>
+                                                                <option value="Tío materno">Tío materno</option>
+                                                                <option value="Tía materna">Tía materna</option>
+                                                                <option value="Primo paterno">Primo paterno</option>
+                                                                <option value="Prima paterna">Prima paterna</option>
+                                                                <option value="Primo materno">Primo materno</option>
+                                                                <option value="Prima materna">Prima materna</option>
+                                                                <option value="Sobrino/a">Sobrino/a</option>
+                                                                <option value="Nieto/a">Nieto/a</option>
+                                                                <option value="Otro">Otro</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="alcoholismo"
+                                                                class="form-label">Alcoholismo:</label>
+                                                            <select class="form-control select2" style="width: 100%"
+                                                                multiple id="alcoholismo" name="alcoholismo[]">
+                                                                <option value="">Selecciona una opción</option>
+                                                                <option value="No refiere">No refiere</option>
+                                                                <option value="Padre">Padre</option>
+                                                                <option value="Madre">Madre</option>
+                                                                <option value="Hijo/a">Hijo/a</option>
+                                                                <option value="Hermano/a">Hermano/a</option>
+                                                                <option value="Abuelo paterno">Abuelo paterno</option>
+                                                                <option value="Abuela paterna">Abuela paterna</option>
+                                                                <option value="Abuelo materno">Abuelo materno</option>
+                                                                <option value="Abuela materna">Abuela materna</option>
+                                                                <option value="Tío paterno">Tío paterno</option>
+                                                                <option value="Tía paterna">Tía paterna</option>
+                                                                <option value="Tío materno">Tío materno</option>
+                                                                <option value="Tía materna">Tía materna</option>
+                                                                <option value="Primo paterno">Primo paterno</option>
+                                                                <option value="Prima paterna">Prima paterna</option>
+                                                                <option value="Primo materno">Primo materno</option>
+                                                                <option value="Prima materna">Prima materna</option>
+                                                                <option value="Sobrino/a">Sobrino/a</option>
+                                                                <option value="Nieto/a">Nieto/a</option>
+                                                                <option value="Otro">Otro</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="drogadiccion"
+                                                                class="form-label">Drogadicción:</label>
+                                                            <select class="form-control select2" style="width: 100%"
+                                                                multiple id="drogadiccion" name="drogadiccion[]">
+                                                                <option value="">Selecciona una opción</option>
+                                                                <option value="No refiere">No refiere</option>
+                                                                <option value="Padre">Padre</option>
+                                                                <option value="Madre">Madre</option>
+                                                                <option value="Hijo/a">Hijo/a</option>
+                                                                <option value="Hermano/a">Hermano/a</option>
+                                                                <option value="Abuelo paterno">Abuelo paterno</option>
+                                                                <option value="Abuela paterna">Abuela paterna</option>
+                                                                <option value="Abuelo materno">Abuelo materno</option>
+                                                                <option value="Abuela materna">Abuela materna</option>
+                                                                <option value="Tío paterno">Tío paterno</option>
+                                                                <option value="Tía paterna">Tía paterna</option>
+                                                                <option value="Tío materno">Tío materno</option>
+                                                                <option value="Tía materna">Tía materna</option>
+                                                                <option value="Primo paterno">Primo paterno</option>
+                                                                <option value="Prima paterna">Prima paterna</option>
+                                                                <option value="Primo materno">Primo materno</option>
+                                                                <option value="Prima materna">Prima materna</option>
+                                                                <option value="Sobrino/a">Sobrino/a</option>
+                                                                <option value="Nieto/a">Nieto/a</option>
+                                                                <option value="Otro">Otro</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="discapacidad_intelectual"
+                                                                class="form-label">Discapacidad
+                                                                Intelectual:</label>
+                                                            <select class="form-control select2" style="width: 100%"
+                                                                multiple id="discapacidad_intelectual"
+                                                                name="discapacidad_intelectual[]">
+                                                                <option value="">Selecciona una opción</option>
+                                                                <option value="No refiere">No refiere</option>
+                                                                <option value="Padre">Padre</option>
+                                                                <option value="Madre">Madre</option>
+                                                                <option value="Hijo/a">Hijo/a</option>
+                                                                <option value="Hermano/a">Hermano/a</option>
+                                                                <option value="Abuelo paterno">Abuelo paterno</option>
+                                                                <option value="Abuela paterna">Abuela paterna</option>
+                                                                <option value="Abuelo materno">Abuelo materno</option>
+                                                                <option value="Abuela materna">Abuela materna</option>
+                                                                <option value="Tío paterno">Tío paterno</option>
+                                                                <option value="Tía paterna">Tía paterna</option>
+                                                                <option value="Tío materno">Tío materno</option>
+                                                                <option value="Tía materna">Tía materna</option>
+                                                                <option value="Primo paterno">Primo paterno</option>
+                                                                <option value="Prima paterna">Prima paterna</option>
+                                                                <option value="Primo materno">Primo materno</option>
+                                                                <option value="Prima materna">Prima materna</option>
+                                                                <option value="Sobrino/a">Sobrino/a</option>
+                                                                <option value="Nieto/a">Nieto/a</option>
+                                                                <option value="Otro">Otro</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="patologicos"
+                                                                class="form-label">Patológicos:</label>
+                                                            <input type="text" class="form-control"
+                                                                id="patologicos" name="patologicos"
+                                                                placeholder="Ej: Diabetes, Hipertensión, etc.">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="otros" class="form-label">Otros:</label>
+                                                            <input type="text" class="form-control" id="otros"
+                                                                name="otros" placeholder="">
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="box-footer text-end">
+                                            <!-- Áreas de Ajuste -->
+                                            <div class="tab-pane" id="ajustes">
+                                                <div class="box-header pb-1">
+                                                    <h5 class="text-uppercase"><i class="fa fa-book me-1"></i>
+                                                        Áreas de
+                                                        Ajuste
+                                                        y/o Desempeño</h5>
+                                                </div>
+                                                <div class="row">
+                                                    <!-- Historia Educativa -->
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="historia_educativa"
+                                                                class="form-label">Historia
+                                                                Educativa:</label>
+                                                            <textarea class="form-control" id="historia_educativa" name="historia_educativa" rows="3"
+                                                                placeholder="Describa la historia educativa..."></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Historia Laboral -->
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="historia_laboral" class="form-label">
+                                                                Historia
+                                                                Laboral:</label>
+                                                            <textarea class="form-control" id="historia_laboral" name="historia_laboral" rows="3"
+                                                                placeholder="Describa la historia laboral..."></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Historia Familiar -->
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="historia_familiar" class="form-label">
+                                                                Historia
+                                                                Familiar:</label>
+                                                            <textarea class="form-control" id="historia_familiar" name="historia_familiar" rows="3"
+                                                                placeholder="Describa la historia familiar..."></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Historia Social -->
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="historia_social" class="form-label">
+                                                                Historia
+                                                                Social:</label>
+                                                            <textarea class="form-control" id="historia_social" name="historia_social" rows="3"
+                                                                placeholder="Describa la historia social..."></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Historia Emocional/Afectiva -->
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="historia_socio_afectiva" class="form-label">
+                                                                Historia
+                                                                emocional/afectiva:</label>
+                                                            <textarea class="form-control" id="historia_socio_afectiva" name="historia_socio_afectiva" rows="3"
+                                                                placeholder="Describa la historia emocional/afectiva..."></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Historia deportiva -->
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="historia_socio_afectiva" class="form-label">
+                                                                Historia
+                                                                deportiva:</label>
+                                                            <textarea class="form-control" id="historia_deportiva" name="historia_deportiva" rows="3"
+                                                                placeholder="Describa la historia deportiva..."></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                                                <button onclick="guardarHistoria()" id="btn-guardarHistoria"
-                                                    type="button" class="btn btn-primary">
-                                                    <i class="ti-save"></i> Guardar
-                                                </button>
+
+                                            </div>
+                                            <!-- Áreas de evaluacion -->
+                                            <div class="tab-pane" id="evaluacion">
+                                                <div class="box-header pb-1">
+                                                    <h5 class="text-uppercase mt-4"><i
+                                                            class="fa  fa-check-square-o me-1"></i>
+                                                        Evaluación psicolólogica</h5>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="resumen_evaluacion_inicial"
+                                                                class="form-label">Evaluación psicolólogica inicial
+                                                                :</label>
+                                                            <textarea class="form-control" id="resumen_evaluacion_inicial" name="resumen_evaluacion_inicial" rows="3"
+                                                                placeholder="Resumen de evaluación psicológica inicial"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="box-header pb-1">
+                                                    <h5 class="text-uppercase mt-4"><i
+                                                            class="fa fa-stethoscope me-1"></i>
+                                                        Interconsultas e Intervenciones</h5>
+                                                </div>
+
+                                                <div class="row">
+                                                    <!-- Intervención por Psiquiatría (Medicación) -->
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="intervencion_psiquiatria" class="form-label">
+                                                                Intervención por
+                                                                Psiquiatría :</label>
+                                                            <textarea class="form-control" id="intervencion_psiquiatria" name="intervencion_psiquiatria" rows="3"
+                                                                placeholder="Describa la intervención por Psiquiatría..."></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Intervención por Neurología (Medicación) -->
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="intervencion_neurologia" class="form-label">
+                                                                Intervención por Neurología:</label>
+                                                            <textarea class="form-control" id="intervencion_neurologia" name="intervencion_neurologia" rows="3"
+                                                                placeholder="Describa la intervención por Neurología..."></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Intervención por Neuropsicología -->
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="intervencion_neuropsicologia"
+                                                                class="form-label">
+                                                                Intervención por Neuropsicología:</label>
+                                                            <textarea class="form-control" id="intervencion_neuropsicologia" name="intervencion_neuropsicologia" rows="3"
+                                                                placeholder="Describa la intervención por
+                                                                Neuropsicología..."></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Otras Intervenciónes -->
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="otras_intervenciones"
+                                                                class="form-label">
+                                                                Otras Intervenciónes:</label>
+                                                            <textarea class="form-control" id="otras_intervenciones" name="otras_intervenciones" rows="3"
+                                                                placeholder="Describa las otras intervenciones..."></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Examen Mental -->
+                                            <div class="tab-pane" id="examen">
+                                                <div class="box-header pb-1">
+                                                    <h5 class="text-uppercase mt-4"><i class="fa fa-user-md me-1"></i>
+                                                        Examen
+                                                        Mental</h5>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <textarea class="form-control" id="examen_mental" name="examen_mental" rows="5"
+                                                                placeholder="Describa el examen mental..."></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="ciclos_del_sueno" class="form-label">Ciclos
+                                                                del
+                                                                Sueño:</label>
+                                                            <textarea class="form-control" id="ciclos_del_sueno" name="ciclos_sueno" rows="3"></textarea>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Apetito -->
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="apetito"
+                                                                class="form-label">Apetito:</label>
+                                                            <textarea class="form-control" id="apetito" name="apetito" rows="3"></textarea>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Actividades de Autocuidado -->
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="autocuidado" class="form-label">Actividades
+                                                                de
+                                                                Autocuidado:</label>
+                                                            <textarea class="form-control" id="autocuidado" name="autocuidado" rows="3"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!-- Impresion Diagnostica -->
+                                            <div class="tab-pane" id="impresion">
+                                                <!-- 1. Impresión Diagnóstica -->
+                                                <div class="box-header pb-1">
+                                                    <h5 class="text-uppercase"><i
+                                                            class="fa fa-stethoscope me-1"></i>
+                                                        Impresión Diagnóstica</h5>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="impresion_diagnostica"
+                                                                class="form-label">Impresión Diagnóstica (CIE 10 –
+                                                                DSM-V):</label>
+                                                            <div class="d-flex gap-2">
+                                                                <select class="form-control select2"
+                                                                    id="codImpresionDiagnostico"
+                                                                    name="codImpresionDiagnostico" aria-invalid="false">
+                                                                </select>
+                                                                <button type="button" class="btn btn-secondary" onclick="clearSelect('codImpresionDiagnostico')">
+                                                                    <i class="fa fa-times"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="impresion_diagnostica"
+                                                                class="form-label">Impresión Diagnóstica Relacionada 1 (CIE 10 –
+                                                                DSM-V):</label>
+                                                            <div class="d-flex gap-2">
+                                                                <select class="form-control select2"
+                                                                    id="codImpresionDiagnosticoRelacionado1"
+                                                                    name="codImpresionDiagnosticoRelacionado1" aria-invalid="false">
+                                                                </select>
+                                                                <button type="button" class="btn btn-secondary" onclick="clearSelect('codImpresionDiagnosticoRelacionado1')">
+                                                                    <i class="fa fa-times"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="impresion_diagnostica"
+                                                                class="form-label">Impresión Diagnóstica Relacionada 2 (CIE 10 –
+                                                                DSM-V):</label>
+                                                            <div class="d-flex gap-2">
+                                                                <select class="form-control select2"
+                                                                    id="codImpresionDiagnosticoRelacionado2"
+                                                                    name="codImpresionDiagnosticoRelacionado2" aria-invalid="false">
+                                                                </select>
+                                                                <button type="button" class="btn btn-secondary" onclick="clearSelect('codImpresionDiagnosticoRelacionado2')">
+                                                                    <i class="fa fa-times"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="impresion_diagnostica"
+                                                                class="form-label">Objeto de atención clínica:</label>
+                                                            <textarea class="form-control" id="objeto_atencion_clinica" name="objeto_atencion_clinica" rows="3"
+                                                                placeholder="Ingrese el objeto de atención clínica..."></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="impresion_diagnostica"
+                                                                class="form-label">Establecido por primera
+                                                                vez.</label>
+                                                            <select class="form-control" id="establecidoPrimeraVez"
+                                                                name="establecidoPrimeraVez" aria-invalid="false">
+                                                                <option value="">Seleccione...</option>
+                                                                <option value="Si">Si</option>
+                                                                <option value="No">No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <!-- Plan de intervención -->
+                                            <div class="tab-pane" id="plan">
+                                                <div class="tab-pane" id="diagnostico-plan">
+                                                    <!-- 2. Plan de Intervención -->
+                                                    <div class="box-header pb-1">
+                                                        <h5 class="text-uppercase mt-4"><i
+                                                                class="fa fa-tasks me-1"></i>
+                                                            Plan
+                                                            de Intervención</h5>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="plan_intervencion"
+                                                                    class="form-label">Plan
+                                                                    de intervención:</label>
+                                                                <select class="form-control select2"
+                                                                    id="plan_intervencion" name="plan_intervencion"
+                                                                    data-placeholder="Seleccione el plan de intervención"
+                                                                    style="width: 100%;">
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Objetivo General -->
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="objetivo_general"
+                                                                    class="form-label">Objetivo
+                                                                    General:</label>
+                                                                <textarea class="form-control" id="objetivo_general" name="objetivo_general" rows="3"
+                                                                    placeholder="Ingrese el objetivo general..."></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Objetivos Específicos -->
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="objetivos_especificos"
+                                                                    class="form-label">Objetivos
+                                                                    Específicos:</label>
+                                                                <textarea class="form-control" id="objetivos_especificos" name="objetivos_especificos" rows="3"
+                                                                    placeholder="Ingrese los objetivos específicos..."></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- 3. Sugerencia para Interconsultas -->
+                                                    <div class="box-header pb-1">
+                                                        <h5 class="text-uppercase mt-4"><i
+                                                                class="fa fa-user-md me-1"></i>
+                                                            Sugerencia para Interconsultas</h5>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="sugerencia_interconsultas"
+                                                                    class="form-label">Sugerencia para
+                                                                    Interconsultas:</label>
+                                                                <textarea class="form-control" id="sugerencia_interconsultas" name="sugerencia_interconsultas" rows="3"
+                                                                    placeholder="Ingrese las sugerencias para interconsultas..."></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- 4. Observaciones y Recomendaciones -->
+                                                    <div class="box-header pb-1">
+                                                        <h5 class="text-uppercase mt-4"><i
+                                                                class="fa fa-comments me-1"></i>
+                                                            Observaciones y Recomendaciones</h5>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="observaciones_recomendaciones"
+                                                                    class="form-label">Observaciones y
+                                                                    Recomendaciones:</label>
+                                                                <textarea class="form-control" id="observaciones_recomendaciones" name="observaciones_recomendaciones"
+                                                                    rows="3" placeholder="Ingrese observaciones y recomendaciones..."></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="tab-pane" id="orden-medica">
+                                                <div class="row">
+                                                    <div class="col-md-10 mt-3">
+                                                        <label class="form-label" for="codigoOrdenMedica">Código de la orden medica:</label>
+                                                        <div class="d-flex gap-2">
+                                                            <select class="form-control select2"
+                                                                id="codConsultaConsultaOrdenMedica"
+                                                                name="codConsultaConsultaOrdenMedica" aria-invalid="false">
+                                                            </select>
+                                                            <button type="button" class="btn btn-secondary" onclick="clearSelect('codConsultaConsultaOrdenMedica')">
+                                                                <i class="fa fa-times"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 mt-3">
+                                                        <label class="form-label" for="cantidad">Cantidad:</label>
+                                                        <input type="number" class="form-control" min="1" id="cantidad" name="cantidad" placeholder="Cantidad">
+                                                    </div>
+                                                    <div class="col-md-12 mt-3">
+                                                        <label class="form-label" for="observacion">Observación:</label>
+                                                        <textarea class="form-control" id="observacion" name="observacion" rows="3"
+                                                            placeholder="Ingrese la observación.."></textarea>
+                                                    </div>
+                                                    <div class="col-md-12 mt-3 text-end">
+                                                        <button type="button" class="btn btn-primary" onclick="agregarOrdenMedica()">
+                                                            <i class="fa fa-plus"></i> Agregar
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="col-md-12 mt-3" id="listadoOrdenesMedicas">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <h5 class="card-title">Ordenes Medicas</h5>
+                                                                <table class="table table-striped table-hover">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>No.</th>
+                                                                            <th>Procedimiento</th>
+                                                                            <th>Cantidad</th>
+                                                                            <th>Acciones</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="tbodyOrdenesMedicas">
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div> <!-- end tab-content -->
+                                        <hr />
+                                        <input type="hidden" id="idProfesional" name="idProfesional" />
+
+                                        <div class="card-body" " id=" divProfesional">
+                                            <div class="row">
+                                                <label for="account-username">Profesional:</label>
+                                                <select class="form-control select2"
+                                                    onchange="seleccionarProfesional(this)" style="width: 100%;"
+                                                    id="profesionalSelect" name="profesionalSelect">
+                                                </select>
                                             </div>
                                         </div>
-                                        <!-- end card body -->
-                                    </div> <!-- end card -->
-                                </form>
-                            </div> <!-- end col -->
+                                        <div class="box-footer text-end">
+                                            <button onclick="guardarHistoria()" id="btn-guardarHistoria"
+                                                type="button" class="btn btn-primary">
+                                                <i class="ti-save"></i> Guardar
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- end card body -->
+                                </div> <!-- end card -->
+                            </form>
+                        </div> <!-- end col -->
 
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- MODAL PACIENTES -->
-    <div class="modal fade" id="modalHistoria" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="myLargeModalLabel">Seleccionar paciente</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="app-menu" id="divBusquedaGen">
-                                <div class="search-bx mx-5">
-                                    <form>
-                                        <div class="input-group">
-                                            <input type="search" id="busquedaPa" name="busquedaPa"
-                                                class="form-control" placeholder="Buscar paciente">
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <table class="table table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Paciente</th>
-                                        <th>Tipo de usuario</th>
-                                        <th>Sexo</th>
-                                        <th>Edad</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="trRegistrosPacientes">
-
-                                </tbody>
-                            </table>
-                            <div id="pagination-links-pacientes" class="text-center ml-1 mt-2">
-                            </div>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-        </div><!-- /.modal -->
     </div>
-    <!-- MODAL CONSULTA -->
-    <div class="modal fade" id="modalConsulta" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="titConsulta">Gestionar evoluciones clínicas</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="card">
-                        <div id="listadoConsultas" class="col-12 col-xl-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="card-title">Listado de evoluciones</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="box-controls
-                                    pull-right">
-                                        <div class="box-header-actions">
-                                            <div class="input-group input-group-merge">
-                                                <input type="text" id="busquedaCo" class="form-control">
-                                                <div class="input-group-text" data-password="false">
-                                                    <span class="fa fa-search"></span>
-                                                </div>
-                                                <button type="button" onclick="nuevoRegistroConsulta();"
-                                                    class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i>
-                                                    Nueva evolución</button>
-                                            </div>
-
-                                        </div>
+</section>
+<!-- MODAL PACIENTES -->
+<div class="modal fade" id="modalHistoria" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myLargeModalLabel">Seleccionar paciente</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="app-menu" id="divBusquedaGen">
+                            <div class="search-bx mx-5">
+                                <form>
+                                    <div class="input-group">
+                                        <input type="search" id="busquedaPa" name="busquedaPa"
+                                            class="form-control" placeholder="Buscar paciente">
                                     </div>
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th style="width:5%;">Fecha</th>
-                                                <th style="width:37%;">Consulta</th>
-                                                <th style="width:35%;">Diagnóstico</th>
-                                                <th style="width:15%;">Profesional</th>
-                                                <th style="width:10%;">Acción</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="trRegistrosConsultas">
-                                        </tbody>
-                                    </table>
-                                    <div id="pagination-links-consulta" class="text-center ml-1 mt-2">
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="fomrConsultas" style="display: none;">
-                            <div class="card-body">
-                                <form id="formConsulta">
-                                    @csrf <!-- Directiva para el token CSRF de Laravel -->
-                                    <input type="hidden" id="accHistoriaConsulta" name="accHistoriaConsulta" />
-                                    <input type="hidden" id="idHistoriaConsulta" name="idHistoriaConsulta" />
-                                    <div class="tab-content">
-                                        <div class="tab-pane show active" id="justified-tabs-preview">
-                                            <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
-                                                <li class="nav-item">
-                                                    <a href="#datos_iniciales" data-bs-toggle="tab"
-                                                        aria-expanded="false" class="nav-link rounded-0 active">
-                                                        <span class="d-none d-md-block"><i
-                                                                class="fa fa-user-circle"></i> Datos Iniciales</span>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a href="#objetivo_desarrollo" data-bs-toggle="tab"
-                                                        aria-expanded="false" class="nav-link rounded-0">
-                                                        <span class="d-none d-md-block"><i class="fa fa-tasks"></i>
-                                                            Objetivo y Desarrollo</span>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a href="#evolucion_evaluacion" data-bs-toggle="tab"
-                                                        aria-expanded="false" class="nav-link rounded-0">
-                                                        <span class="d-none d-md-block"><i class="fa fa-line-chart"></i>
-                                                            Evolución y Evaluación</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-
-                                            <div class="tab-content px-20">
-                                                <!-- Datos Iniciales -->
-                                                <div class="tab-pane show active" id="datos_iniciales">
-                                                    <div class="row">
-                                                        <div class="col-md-8">
-                                                            <div class="form-group">
-                                                                <label for="codConsultaConsulta"
-                                                                    class="form-label">Código
-                                                                    de
-                                                                    consulta:</label>
-                                                                <select class="form-control select2"
-                                                                    id="codConsultaConsulta"
-                                                                    name="codConsultaConsulta"></select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <label for="fechaEvolucion"
-                                                                class="form-label">Fecha:</label>
-
-                                                            <div class="input-group">
-                                                                <input type="date" class="form-control"
-                                                                    id="fechaEvolucion" name="fechaEvolucion"
-                                                                    placeholder="Seleccione la fecha de la evolución" />
-                                                                <input type="time" id="horaSeleccionadad"
-                                                                    name="horaSeleccionada" class="form-control">
-                                                                <div class="input-group-addon">
-                                                                    <i class="fa fa-clock-o"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label for="remision" class="form-label">Motivo de
-                                                                    consulta:</label>
-                                                                <textarea class="form-control" id="motivoConsultaModal" name="motivoConsultaModal" rows="3"
-                                                                    placeholder="Ingrese de dónde es remitido el paciente.."></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label for="codImpresionDiagnosticoConsulta"
-                                                                    class="form-label">Impresión Diagnóstica:</label>
-                                                                <select class="form-control select2"
-                                                                    id="codImpresionDiagnosticoConsulta"
-                                                                    name="codImpresionDiagnosticoConsulta"></select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Objetivo y Desarrollo -->
-                                                <div class="tab-pane" id="objetivo_desarrollo">
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label for="objetivo_sesion" class="form-label">Objetivo
-                                                                    de la Sesión:</label>
-                                                                <textarea class="form-control" id="objetivo_sesion" name="objetivo_sesion" rows="3"
-                                                                    placeholder="Ingrese el objetivo de la sesión"></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="tecnicas_utilizadas"
-                                                                    class="form-label">Técnicas Utilizadas:</label>
-                                                                <textarea class="form-control" id="tecnicas_utilizadas" name="tecnicas_utilizadas" rows="3"
-                                                                    placeholder="Ingrese las técnicas utilizadas"></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="actividades_especificas"
-                                                                    class="form-label">Actividades Específicas:</label>
-                                                                <textarea class="form-control" id="actividades_especificas" name="actividades_especificas" rows="3"
-                                                                    placeholder="Ingrese las actividades específicas"></textarea>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Evolución y Evaluación -->
-                                                <div class="tab-pane" id="evolucion_evaluacion">
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label for="evaluacion_indicadores"
-                                                                    class="form-label">Evaluación / Indicadores de
-                                                                    Éxito:</label>
-                                                                <textarea class="form-control" id="evaluacion_indicadores" name="evaluacion_indicadores" rows="3"
-                                                                    placeholder="Ingrese los indicadores de éxito"></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label for="evolucion_sesion"
-                                                                    class="form-label">Evolución de la Sesión:</label>
-                                                                <textarea class="form-control" id="evolucion_sesion" name="evolucion_sesion" rows="3"
-                                                                    placeholder="Describa la evolución de la sesión"></textarea>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="box-footer text-end mt-3">
-                                                <button onclick="cancelarConsulta()" type="button"
-                                                    class="btn btn-primary-light me-1">
-                                                    <i class="ti-share-alt"></i> Cancelar
-                                                </button>
-                                                <button onclick="guardarConsulta()" type="button"
-                                                    class="btn btn-primary">
-                                                    <i class="ti-save"></i> Guardar
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                 </form>
                             </div>
                         </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-        </div><!-- /.modal -->
-    </div>
-
-    <!-- MODAL PAQUETES -->
-    <div class="modal fade" id="modalPaquete" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 70%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="tituloPaquete">Listado de paquetes</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="formPaquetes" style="display: none;">
-                        <input type="hidden" name="accVentaPaquete" id="accVentaPaquete" value="guardar" />
-                        <input type="hidden" name="idVentaPaquete" id="idVentaPaquete" value="" />
-                        <input type="hidden" name="descripcionVentaPaquete" id="descripcionVentaPaquete" value="" />
-                        <div class="row">
-                            <div class="col-md-9">
-                                <div class="form-group">
-                                    <label for="descripcion" class="form-label">Paquete :</label>
-                                    <select class="form-control select2" onchange="seleccionarPaquete(this);"
-                                        id="selPaquete" name="selPaquete" aria-invalid="false">
-
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="fechaPaquete" class="form-label">Fecha :</label>
-                                    <input type="date" class="form-control" id="fechaPaquete"
-                                        name="fechaPaquete">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="precioSesionVis" class="form-label">Valor :</label>
-                                    <input type="text" class="form-control" id="precioSesionVis"
-                                        name="precioSesionVis" onchange="cambioFormato(this.id);"
-                                        onkeypress="return validartxtnum(event)" onclick="this.select();">
-                                    <input type="hidden" class="form-control" id="precioSesion"
-                                        name="precioSesion">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="numSesiones" class="form-label">Numero de sesiones :</label>
-                                    <input type="number" class="form-control" id="numSesiones" name="numSesiones"
-                                        onchange="calValorMonto()" max="20" min="1"
-                                        onkeypress="return validartxtnum(event)">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="montoFinal" class="form-label">Valor :</label>
-                                    <input type="text" readonly class="form-control" id="montoFinalVis"
-                                        name="montoFinalVis" value="$ 0,00">
-                                    <input type="hidden" class="form-control" id="montoFinal" name="montoFinal">
-                                </div>
-                            </div>
-                            <div class="box-footer text-end">
-                                <button type="button" id="cancelRegistroPaq" onclick="cancelarPaquetes();"
-                                    class="btn btn-primary-light me-1">
-                                    <i class="ti-close"></i> Cancelar
-                                </button>
-                                <button type="button" id="saveRegistroPaq" onclick="guardarPaquetes();"
-                                    class="btn btn-primary">
-                                    <i class="ti-save"></i> Guardar
-                                </button>
-                            </div>
-
-                        </div>
-                    </form>
-                    <div id="listPaquetes">
-                        <div class="box-controls pull-right">
-                            <div class="box-header-actions">
-                                <div class="input-group input-group-merge">
-                                    <input type="text" id="busquedaP" class="form-control">
-                                    <div class="input-group-text" data-password="false">
-                                        <span class="fa fa-search"></span>
-                                    </div>
-                                    <button type="button" onclick="nuevoPaquete();"
-                                        class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i> Nuevo
-                                        paquete</button>
-                                </div>
-
+                    </div>
+                    <div class="card-body">
+                        <div id="loaderPacientes" style="display: none; text-align: center; padding: 20px;">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Cargando...</span>
                             </div>
                         </div>
-                        <table id="tblPaquetes" class="table table-striped table-hover">
+                        <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th>Descripción</th>
-                                    <th>Fecha de compra</th>
-                                    <th>Número de sesiones</th>
-                                    <th>Sesiones faltantes</th>
-                                    <th>Valor</th>
-                                    <th>Estado</th>
-                                    <th>Acción</th>
+                                    <th>Paciente</th>
+                                    <th>Tipo de usuario</th>
+                                    <th>Sexo</th>
+                                    <th>Edad</th>
                                 </tr>
                             </thead>
-                            <tbody id="trRegistrosPaquetes">
+                            <tbody id="trRegistrosPacientes">
 
                             </tbody>
                         </table>
-                        <div id="pagination-links-paquetes" class="text-center ml-1 mt-2">
+                        <div id="pagination-links-pacientes" class="text-center ml-1 mt-2">
                         </div>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
     </div><!-- /.modal -->
-    <!-- MODAL PLAN INTERVENCION -->
-    <div class="modal fade" id="modalPlanIntervencion" tabindex="-1" role="dialog"
-        aria-labelledby="myLargeModalLabel" aria-hidden="true">`
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Plan de intervención</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="card">
-
-                        <div class="card-body">
+</div>
+<!-- MODAL CONSULTA -->
+<div class="modal fade" id="modalConsulta" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 80%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="titConsulta">Gestionar evoluciones clínicas</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div id="listadoConsultas" class="col-12 col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Listado de evoluciones</h5>
+                            </div>
                             <div class="card-body">
-                                <form id="formPlanIntervencion">
-                                    @csrf <!-- Directiva para el token CSRF de Laravel -->
-                                    <input type="hidden" id="idHistoriaPlan" name="idHistoriaPlan" />
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="objetivoGeneralModal" class="form-label">Objetivo
-                                                    General:</label>
-                                                <textarea class="form-control" id="objetivoGeneralModal" name="objetivoGeneralModal" rows="3"></textarea>
+                                <div class="box-controls
+                                    pull-right">
+                                    <div class="box-header-actions">
+                                        <div class="input-group input-group-merge">
+                                            <input type="text" id="busquedaCo" class="form-control">
+                                            <div class="input-group-text" data-password="false">
+                                                <span class="fa fa-search"></span>
                                             </div>
+                                            <button type="button" onclick="nuevoRegistroConsulta();"
+                                                class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i>
+                                                Nueva evolución</button>
                                         </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="objetivoEspecificoModal" class="form-label">Objetivos
-                                                    Específicos:</label>
-                                                <textarea class="form-control" id="objetivoEspecificoModal" name="objetivoEspecificoModal" rows="3"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="sugerenciasModal" class="form-label">Sugerencia para
-                                                    Interconsultas:</label>
-                                                <textarea class="form-control" id="sugerenciasModal" name="sugerenciasModal" rows="3"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="observacionesModal" class="form-label">Observaciones y
-                                                    Recomendaciones:</label>
-                                                <textarea class="form-control" id="observacionesModal" name="observacionesModal" rows="3"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="box-footer text-end mt-3">
-                                            <button onclick="cancelarPlan()" type="button"
-                                                class="btn btn-primary-light me-1">
-                                                <i class="ti-share-alt"></i> Cancelar
-                                            </button>
-                                            <button onclick="guardarPlan()" type="button" class="btn btn-primary">
-                                                <i class="ti-save"></i> Guardar
-                                            </button>
-                                        </div>
+
                                     </div>
-                                </form>
+                                </div>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:5%;">Fecha</th>
+                                            <th style="width:37%;">Consulta</th>
+                                            <th style="width:35%;">Diagnóstico</th>
+                                            <th style="width:15%;">Profesional</th>
+                                            <th style="width:10%;">Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="trRegistrosConsultas">
+                                    </tbody>
+                                </table>
+                                <div id="pagination-links-consulta" class="text-center ml-1 mt-2">
+
+                                </div>
                             </div>
                         </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-        </div><!-- /.modal -->
-    </div>
-    <div class="modal fade" id="modalVentaConsulta" tabindex="-1" role="dialog"
-        aria-labelledby="myLargeModalLabel" aria-hidden="true">`
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Venta de consulta</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="card">
-
+                    </div>
+                    <div id="fomrConsultas" style="display: none;">
                         <div class="card-body">
-                            <div class="card-body">
-                                <form id="formVentaConsulta">
-                                    @csrf <!-- Directiva para el token CSRF de Laravel -->
-                                    <input type="hidden" id="idHistoriaVenta" name="idHistoriaVenta" />
-                                    <input type="hidden" id="accHistoriaVenta" name="accHistoriaVenta" />
-                                    <input type="hidden" id="idConsultaVenta" name="idConsultaVenta" />
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <label for="ConsultaVenta" class="form-label">Descripción de la
-                                                    consulta:</label>
-                                                <input type="text" class="form-control" id="ConsultaVenta"
-                                                    name="ConsultaVenta">
+                            <form id="formConsulta">
+                                @csrf <!-- Directiva para el token CSRF de Laravel -->
+                                <input type="hidden" id="accHistoriaConsulta" name="accHistoriaConsulta" />
+                                <input type="hidden" id="idHistoriaConsulta" name="idHistoriaConsulta" />
+                                <div class="tab-content">
+                                    <div class="tab-pane show active" id="justified-tabs-preview">
+                                        <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                                            <li class="nav-item">
+                                                <a href="#datos_iniciales" data-bs-toggle="tab"
+                                                    aria-expanded="false" class="nav-link rounded-0 active">
+                                                    <span class="d-none d-md-block"><i
+                                                            class="fa fa-user-circle"></i> Datos Iniciales</span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="#objetivo_desarrollo" data-bs-toggle="tab"
+                                                    aria-expanded="false" class="nav-link rounded-0">
+                                                    <span class="d-none d-md-block"><i class="fa fa-tasks"></i>
+                                                    Evolución clínica</span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item" style="display: none;">
+                                                <a href="#evolucion_evaluacion" data-bs-toggle="tab"
+                                                    aria-expanded="false" class="nav-link rounded-0">
+                                                    <span class="d-none d-md-block"><i class="fa fa-line-chart"></i>
+                                                        Evolución y Evaluación</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                        <div class="tab-content px-20">
+                                            <!-- Datos Iniciales -->
+                                            <div class="tab-pane show active" id="datos_iniciales">
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <div class="form-group">
+                                                            <label for="codConsultaConsulta"
+                                                                class="form-label">Código
+                                                                de
+                                                                consulta:</label>
+                                                            <select class="form-control select2"
+                                                                id="codConsultaConsulta"
+                                                                name="codConsultaConsulta"></select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="fechaEvolucion"
+                                                            class="form-label">Fecha:</label>
+
+                                                        <div class="input-group">
+                                                            <input type="date" class="form-control"
+                                                                id="fechaEvolucion" name="fechaEvolucion"
+                                                                placeholder="Seleccione la fecha de la evolución" min="1900-01-01" max="2099-12-31" required />
+                                                            <input type="time" id="horaSeleccionadad"
+                                                                name="horaSeleccionada" class="form-control">
+                                                            <div class="input-group-addon">
+                                                                <i class="fa fa-clock-o"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="remision" class="form-label">Motivo de
+                                                                consulta:</label>
+                                                            <textarea class="form-control" id="motivoConsultaModal" name="motivoConsultaModal" rows="3"
+                                                                placeholder="Ingrese de dónde es remitido el paciente.."></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="codImpresionDiagnosticoConsulta"
+                                                                class="form-label">Impresión Diagnóstica:</label>
+                                                            <div class="d-flex gap-2">
+                                                                <select class="form-control select2"
+                                                                    id="codImpresionDiagnosticoConsulta"
+                                                                    name="codImpresionDiagnosticoConsulta"></select>
+                                                                <button type="button" class="btn btn-secondary" onclick="clearSelect('codImpresionDiagnosticoConsulta')">
+                                                                    <i class="fa fa-times"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="otra_ImpresionDiagnosticaConsulta"
+                                                                class="form-label">
+                                                                Impresión diagnóstica relacionada:</label>
+                                                            <div class="d-flex gap-2">
+                                                                <select class="form-control select2"
+                                                                    id="otra_ImpresionDiagnosticaConsulta"
+                                                                    name="otra_ImpresionDiagnosticaConsulta"></select>
+                                                                <button type="button" class="btn btn-secondary" onclick="clearSelect('otra_ImpresionDiagnosticaConsulta')">
+                                                                    <i class="fa fa-times"></i>
+                                                                </button>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="otra_ImpresionDiagnosticaConsulta"
+                                                                class="form-label">
+                                                                Profesional:</label>
+                                                            <select class="form-control select2"
+                                                                style="width: 100%;" id="profesionalConsulta"
+                                                                name="profesionalConsulta"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="fechaVentaConsulta" class="form-label">Fecha:</label>
-                                            <div class="input-group">
-                                                <input type="date" class="form-control" id="fechaVentaConsulta"
-                                                    name="fechaVentaConsulta"
-                                                    placeholder="Seleccione la fecha de venta consulta" />
-                                                <input type="time" id="horaSeleccionadaVentaConsulta"
-                                                    name="horaSeleccionadaVentaConsulta" class="form-control">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-clock-o"></i>
+
+                                            <!-- Objetivo y Desarrollo -->
+                                            <div class="tab-pane" id="objetivo_desarrollo">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="objetivo_sesion" class="form-label">Nota de evolución clínica:</label>
+                                                            <textarea class="form-control" id="objetivo_sesion" name="objetivo_sesion" rows="3"
+                                                                placeholder="Ingrese el objetivo de la sesión"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6" style="display: none;">
+                                                        <div class="form-group">
+                                                            <label for="tecnicas_utilizadas"
+                                                                class="form-label">Técnicas Utilizadas:</label>
+                                                            <textarea class="form-control" id="tecnicas_utilizadas" name="tecnicas_utilizadas" rows="3"
+                                                                placeholder="Ingrese las técnicas utilizadas"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6" style="display: none;">
+                                                        <div class="form-group">
+                                                            <label for="actividades_especificas"
+                                                                class="form-label">Actividades Específicas:</label>
+                                                            <textarea class="form-control" id="actividades_especificas" name="actividades_especificas" rows="3"
+                                                                placeholder="Ingrese las actividades específicas"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Evolución y Evaluación -->
+                                            <div class="tab-pane" id="evolucion_evaluacion">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="evaluacion_indicadores"
+                                                                class="form-label">Evaluación / Indicadores de
+                                                                Éxito:</label>
+                                                            <textarea class="form-control" id="evaluacion_indicadores" name="evaluacion_indicadores" rows="3"
+                                                                placeholder="Ingrese los indicadores de éxito"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="evolucion_sesion"
+                                                                class="form-label">Evolución de la Sesión:</label>
+                                                            <textarea class="form-control" id="evolucion_sesion" name="evolucion_sesion" rows="3"
+                                                                placeholder="Describa la evolución de la sesión"></textarea>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="valorServConsultaVis" class="form-label">Valor :</label>
-                                                <input type="text" class="form-control" id="valorServConsultaVis"
-                                                    name="valorServConsultaVis" placeholder="$ 0,00" onchange="cambioFormato(this.id);"
-                                                    onkeypress="return validartxtnum(event)" onclick="this.select();">
-                                                <input type="hidden" class="form-control" id="valorServConsulta"
-                                                    name="valorServConsulta">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="estadoServicio" class="form-label">Estado servicio :</label>
-                                                <input type="text" class="form-control" id="estadoServicio"
-                                                    name="estadoServicio" readonly>
 
-                                            </div>
-                                        </div>
                                         <div class="box-footer text-end mt-3">
-                                            <button onclick="cancelarVentaConsulta()" type="button"
+                                            <button onclick="cancelarConsulta()" type="button"
                                                 class="btn btn-primary-light me-1">
                                                 <i class="ti-share-alt"></i> Cancelar
                                             </button>
-                                            <button onclick="guardarVentaConsulta()" id="saveRegistroVentaConsulta"
-                                                type="button" class="btn btn-primary">
+                                            <button onclick="guardarConsulta()" type="button"
+                                                class="btn btn-primary">
                                                 <i class="ti-save"></i> Guardar
                                             </button>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
+                                </div>
+
+                            </form>
                         </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-    </div>
-    <div class="modal fade" id="modalVentaSesion" tabindex="-1" role="dialog"
-        aria-labelledby="myLargeModalLabel" aria-hidden="true">`
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 id="tituloVentaSesion" class="modal-title">Sesiones vendidas</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="card">
+    </div><!-- /.modal -->
+</div>
 
+<!-- MODAL PLAN INTERVENCION -->
+<div class="modal fade" id="modalPlanIntervencion" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">`
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Plan de intervención</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+
+                    <div class="card-body">
                         <div class="card-body">
-                            <div class="card-body">
-                                <form style="display: none;" id="formVentaSesion">
-                                    @csrf <!-- Directiva para el token CSRF de Laravel -->
-                                    <input type="hidden" id="idHistoriaVentaSesion" name="idHistoriaVentaSesion" />
-                                    <input type="hidden" id="accHistoriaVentaSesion" name="accHistoriaVentaSesion" />
-                                    <input type="hidden" id="idVentaSesion" name="idVentaSesion" />
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <label for="sugerenciasModal" class="form-label">Descripción de la
-                                                    sesión:</label>
-                                                <input type="text" class="form-control" id="descripcionVentaSesion"
-                                                    name="descripcionVentaSesion">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="fechaVentaSesion" class="form-label">Fecha:</label>
-                                            <div class="input-group">
-                                                <input type="date" class="form-control" id="fechaVentaSesion"
-                                                    name="fechaVentaSesion"
-                                                    placeholder="Seleccione la fecha de venta de la sesión" />
-                                                <input type="time" id="horaSeleccionadaVentaSesion"
-                                                    name="horaSeleccionadaVentaSesion" class="form-control">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-clock-o"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="valorServSesionVis" class="form-label">Valor :</label>
-                                                <input type="text" class="form-control" id="valorServSesionVis"
-                                                    name="valorServSesionVis" placeholder="$ 0,00" value=""
-                                                    onchange="cambioFormato(this.id);"
-                                                    onkeypress="return validartxtnum(event)" onclick="this.select();">
-                                                <input type="hidden" class="form-control" id="valorServSesion"
-                                                    name="valorServSesion">
-                                            </div>
-                                        </div>
-                                        <div class="box-footer text-end mt-3">
-                                            <button onclick="cancelarVentaSesion()" type="button"
-                                                class="btn btn-primary-light me-1">
-                                                <i class="ti-share-alt"></i> Cancelar
-                                            </button>
-                                            <button onclick="guardarVentaSesion()" type="button"
-                                                id="saveRegistroVentaSesion" class="btn btn-primary">
-                                                <i class="ti-save"></i> Guardar
-                                            </button>
+                            <form id="formPlanIntervencion">
+                                @csrf <!-- Directiva para el token CSRF de Laravel -->
+                                <input type="hidden" id="idHistoriaPlan" name="idHistoriaPlan" />
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="objetivoGeneralModal" class="form-label">Objetivo
+                                                General:</label>
+                                            <textarea class="form-control" id="objetivoGeneralModal" name="objetivoGeneralModal" rows="3"></textarea>
                                         </div>
                                     </div>
-                                </form>
-                                <div id="listVentaSesion">
-                                    <div class="box-controls pull-right">
-                                        <div class="box-header-actions">
-                                            <div class="input-group input-group-merge">
-                                                <button type="button" onclick="nuevaVentaSesion();"
-                                                    class="btn btn-xs btn-primary font-bold"><i class="fa fa-plus"></i>
-                                                    Nueva venta sesión</button>
-                                            </div>
-
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="objetivoEspecificoModal" class="form-label">Objetivos
+                                                Específicos:</label>
+                                            <textarea class="form-control" id="objetivoEspecificoModal" name="objetivoEspecificoModal" rows="3"></textarea>
                                         </div>
                                     </div>
-                                    <table id="tblPaquetes" class="table table-striped table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Descripción</th>
-                                                <th>Fecha de compra</th>
-                                                <th>Valor</th>
-                                                <th>Estado</th>
-                                                <th>Acción</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="trRegistrosVentaSesion">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="sugerenciasModal" class="form-label">Sugerencia para
+                                                Interconsultas:</label>
+                                            <textarea class="form-control" id="sugerenciasModal" name="sugerenciasModal" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="observacionesModal" class="form-label">Observaciones y
+                                                Recomendaciones:</label>
+                                            <textarea class="form-control" id="observacionesModal" name="observacionesModal" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer text-end mt-3">
+                                        <button onclick="cancelarPlan()" type="button"
+                                            class="btn btn-primary-light me-1">
+                                            <i class="ti-share-alt"></i> Cancelar
+                                        </button>
+                                        <button onclick="guardarPlan()" type="button" class="btn btn-primary">
+                                            <i class="ti-save"></i> Guardar
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div><!-- /.modal -->
+</div>
 
-                                        </tbody>
-                                    </table>
+<!-- SELECCIONAR ENCIAR CONSULTA O IMPRIMIR -->
+<div class="modal fade" id="modalEnviarImprimir" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">`
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 25%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Enviar Consulta o Imprimir</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+
+                    <div class="card-body">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button onclick="enviarConsulta()" class="btn btn-success"> <i
+                                            class="ti-email"></i> Enviar Consulta</button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button onclick="imprimirConsultapdf()" class="btn btn-primary"> <i
+                                            class="ti-printer"></i> Imprimir Consulta</button>
                                 </div>
                             </div>
                         </div>
@@ -2015,827 +1733,1544 @@
             </div><!-- /.modal -->
         </div><!-- /.modal -->
     </div>
-    <script>
-        window.userPermissions = @json(Auth::user()->permissions);
+</div>
 
-        var idHistoriaImprimir = "";
-        document.addEventListener("DOMContentLoaded", function() {
-            let menuP = document.getElementById("principalHistoriClinica")
-            let menuS = document.getElementById("principalHistoriClinicaPsicologia")
 
-            menuP.classList.add("active", "menu-open")
-            menuS.classList.add("active")
-            let rtotal = $("#RutaTotal").data("ruta")
+<!-- Agregar este HTML justo después del body -->
+<div id="loader-pdf"
+    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.7); z-index: 999999;">
+    <div
+        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: white; padding: 20px; border-radius: 10px;">
+        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+        <h4 class="mt-2" style="color: #333;" id="titulo_loader_pdf">Generando PDF</h4>
+        <p style="margin: 0;">Por favor espere...</p>
+    </div>
+</div>
 
-            ///verifica si viene de pacientes 
-            var ultimaParteURLAnterior = document.referrer.split('/').filter(Boolean).pop()
 
-            if (ultimaParteURLAnterior == "Gestionar" || ultimaParteURLAnterior == "Administracion") {
-                let elemento = document.createElement('div')
-                elemento.setAttribute('data-id', localStorage.getItem('idPaciente'))
-                elemento.setAttribute('data-edad', localStorage.getItem('edadPaciente'))
-                if (localStorage.getItem('idPaciente')) {
-                    cagaHistPaciente(elemento)
-                    mapearDatosProfesional(document.getElementById("idUsuario").value)
-                }
+<div id="loaderPacientes" style="display: none; text-align: center; padding: 10px;">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+    </div>
+</div>
+
+
+<script>
+    window.userPermissions = @json(Auth::user()-> permissions);
+
+    var idHistoriaImprimir = "";
+
+    var nombreCampos = [{
+            "nombre": "codConsulta",
+            "label": "Código de consulta"
+        },
+        {
+            "nombre": "codDiagnostico",
+            "label": "Código de diagnóstico"
+        },
+        {
+            "nombre": "enfermedadActual",
+            "label": "Enfermedad actual"
+        },
+        {
+            "nombre": "medicacion",
+            "label": "Medicación"
+        },
+        {
+            "nombre": "remision",
+            "label": "Remisión"
+        },
+        {
+            "nombre": "motivoConsulta",
+            "label": "Motivo de consulta"
+        },
+        {
+            "nombre": "resumen_evaluacion_inicial",
+            "label": "Resumen de evaluación inicial"
+        },
+        {
+            "nombre": "plan_intervencion",
+            "label": "Plan de intervención"
+        },
+        {
+            "nombre": "idProfesional",
+            "label": "Profesional"
+        },
+        {
+            "nombre": "examen_mental",
+            "label": "Examen mental"
+        },
+        {
+            "nombre": "ciclos_del_sueno",
+            "label": "Ciclos del sueño"
+        },
+        {
+            "nombre": "apetito",
+            "label": "Apetito"
+        },
+        {
+            "nombre": "autocuidado",
+            "label": "Autocuidado"
+        },
+        {
+            "nombre": "edad_madre",
+            "label": "Edad de la madre"
+        },
+        {
+            "nombre": "enfermedades_madre",
+            "label": "Enfermedades de la madre"
+        },
+        {
+            "nombre": "enfermedades_padre",
+            "label": "Enfermedades del padre"
+        },
+        {
+            "nombre": "numero_embarazo",
+            "label": "Número de embarazo"
+        },
+        {
+            "nombre": "enbarazo_controlado",
+            "label": "Enbarazo controlado"
+        },
+        {
+            "nombre": "planificacion",
+            "label": "Planificación"
+        },
+        {
+            "nombre": "estado_madre",
+            "label": "Estado de la madre"
+        },
+        {
+            "nombre": "tipo_nacimiento",
+            "label": "Tipo de nacimiento"
+        },
+        {
+            "nombre": "reanimacion",
+            "label": "Reanimación"
+        },
+        {
+            "nombre": "peso_nacer",
+            "label": "Peso al nacer"
+        },
+        {
+            "nombre": "talla_nacer",
+            "label": "Talla al nacer"
+        },
+        {
+            "nombre": "llanto_nacer",
+            "label": "Llanto al nacer"
+        },
+        {
+            "nombre": "depresion",
+            "label": "Depresión"
+        },
+        {
+            "nombre": "ansiedad",
+            "label": "Ansiedad"
+        },
+        {
+            "nombre": "demencia",
+            "label": "Demencia"
+        },
+        {
+            "nombre": "alcoholismo",
+            "label": "Alcoholismo"
+        },
+        {
+            "nombre": "drogadiccion",
+            "label": "Drogadicción"
+        },
+        {
+            "nombre": "discapacidad_intelectual",
+            "label": "Discapacidad intelectual"
+        },
+        {
+            "nombre": "patologicos",
+            "label": "Patologicos"
+        },
+        {
+            "nombre": "historia_educativa",
+            "label": "Historia educativa"
+        },
+        {
+            "nombre": "historia_laboral",
+            "label": "Historia laboral"
+        },
+        {
+            "nombre": "historia_familiar",
+            "label": "Historia familiar"
+        },
+        {
+            "nombre": "historia_socio_afectiva",
+            "label": "Historia socio afectiva"
+        },
+        {
+            "nombre": "historia_deportiva",
+            "label": "Historia deportiva"
+        },
+        {
+            "nombre": "intervencion_psiquiatria",
+            "label": "Intervención psiquiatría"
+        },
+        {
+            "nombre": "intervencion_neurologia",
+            "label": "Intervención neurología"
+        },
+        {
+            "nombre": "intervencion_neuropsicologia",
+            "label": "Intervención neuropsicología"
+        },
+        {
+            "nombre": "otras_intervenciones",
+            "label": "Otras intervenciones"
+        },
+        {
+            "nombre": "codImpresionDiagnostico",
+            "label": "Código de impresión diagnóstico"
+        },
+        {
+            "nombre": "establecidoPrimeraVez",
+            "label": "Establecido por primera vez"
+        },
+        {
+            "nombre": "plan_intervencion",
+            "label": "Plan de intervención"
+        },
+        {
+            "nombre": "objetivos_especificos",
+            "label": "Objetivos específicos"
+        },
+        {
+            "nombre": "sugerencia_interconsultas",
+            "label": "Sugerencias de interconsultas"
+        },
+        {
+            "nombre": "observaciones_recomendaciones",
+            "label": "Observaciones y recomendaciones"
+        },
+        {
+            "nombre": "idProfesional",
+            "label": "Profesional"
+        },
+        {
+            "nombre": "objetivo_general",
+            "label": "Objetivo general"
+        },
+        {
+            "nombre": "quirurgicos",
+            "label": "Quirúrgicos"
+        },
+        {
+            "nombre": "toxicos",
+            "label": "Toxicos"
+        },
+        {
+            "nombre": "hospitalizaciones",
+            "label": "Hospitalizaciones"
+        },
+        {
+            "nombre": "traumaticos",
+            "label": "Traumáticos"
+        },
+        {
+            "nombre": "paraclinicos",
+            "label": "Paraclinicos"
+        }
+
+    ]
+
+    document.addEventListener("DOMContentLoaded", function() {
+        let menuP = document.getElementById("principalHistoriClinica")
+        let menuS = document.getElementById("principalHistoriClinicaPsicologia")
+
+        menuP.classList.add("active", "menu-open")
+        menuS.classList.add("active")
+        let rtotal = $("#RutaTotal").data("ruta")
+
+        ///verifica si viene de pacientes 
+        var ultimaParteURLAnterior = document.referrer.split('/').filter(Boolean).pop()
+
+        if (ultimaParteURLAnterior == "Gestionar" || ultimaParteURLAnterior == "Administracion") {
+            let elemento = document.createElement('div')
+            elemento.setAttribute('data-id', localStorage.getItem('idPaciente'))
+            elemento.setAttribute('data-edad', localStorage.getItem('edadPaciente'))
+            if (localStorage.getItem('idPaciente')) {
+                cagaHistPaciente(elemento)
+                mapearDatosProfesional(document.getElementById("idUsuario").value)
             }
+        }
 
-            //Initialize Select2 Elements
-            $('.select2').select2()
+        //Initialize Select2 Elements
+        $('.select2').select2()
 
-            $('#motivoConsultaOtro').select2({
-                placeholder: "Seleccione otros motivos relacionados"
-            })
-
-            $('#selPaquete').select2({
-                dropdownParent: $('#modalPaquete'),
-                width: '100%'
-            });
-
-
-
-            //VALIDAR FORMULARIO DE PAQUETES
-
-            $("#formPaquetes").validate({
-                rules: {
-                    selPaquete: {
-                        required: true
-                    },
-                    fechaPaquete: {
-                        required: true
-                    },
-                    precioSesion: {
-                        required: true
-                    },
-                    numSesiones: {
-                        required: true
-                    }
-
-                },
-                messages: {
-                    selPaquete: {
-                        required: "Por favor, seleccione un paquete"
-                    },
-                    fechaPaquete: {
-                        required: "Por favor, seleccione una fecha"
-                    },
-                    precioSesion: {
-                        required: "Por favor, ingrese el valor de la sesión"
-                    },
-                    numSesiones: {
-                        required: "Por favor, ingrese el número de sesiones"
-                    }
-                },
-                submitHandler: function(form) {
-                    guardarPaquetes()
-                }
-            });
-
-            //VALIDAR FORMULARIO VENTA CONSULTA
-            $("#formVentaConsulta").validate({
-                rules: {
-                    ConsultaVenta: {
-                        required: true
-                    },
-                    fechaVentaConsulta: {
-                        required: true
-                    },
-                    valorServConsultaVis: {
-                        required: true
-                    }
-
-
-                },
-                messages: {
-                    ConsultaVenta: {
-                        required: "Por favor, ingrese la descripción de la consulta"
-                    },
-                    fechaVentaConsulta: {
-                        required: "Por favor, seleccione una fecha"
-                    },
-                    valorServConsultaVis: {
-                        required: "Por favor, ingrese el valor de la consulta"
-                    }
-
-                },
-                submitHandler: function(form) {
-                    guardarVentaConsulta()
-                }
-            });
-            ////
-
-               //VALIDAR FORMULARIO VENTA SESION
-            $("#formVentaSesion").validate({
-                rules: {
-                    descripcionVentaSesion: {
-                        required: true
-                    },
-                    fechaVentaSesion: {
-                        required: true
-                    },
-                    valorServSesionVis: {
-                        required: true
-                    }
-                },
-                messages: {
-                    descripcionVentaSesion: {
-                        required: "Por favor, ingrese la descripción de la sesión"
-                    },
-                    fechaVentaSesion: {
-                        required: "Por favor, seleccione una fecha"
-                    },
-                    valorServSesionVis: {
-                        required: "Por favor, ingrese el valor de la sesión"
-                    }
-
-                },
-                submitHandler: function(form) {
-                    guardarVentaSesion()
-                }
-            });
-            ////
-
-            $('#codConsulta').select2({
-                dropdownAutoWidth: true,
-                width: '100%',
-                placeholder: 'Buscar consulta por código o nombre...',
-                language: {
-                    inputTooShort: function() {
-                        return 'Por favor, ingresa al menos un carácter'
-                    },
-                    noResults: function() {
-                        return 'No se encontraron resultados.'
-                    },
-                    searching: function() {
-                        return 'Buscando...'
-                    }
-                },
-                minimumInputLength: 1, // Requiere al menos 1 carácter
-                ajax: {
-                    transport: function(params, success, failure) {
-                        const query = params.data.q || '' // Término de búsqueda
-                        const page = params.data.page || 1 // Número de página
-
-                        fetch(`${rtotal}historia/buscaCUPS?q=${query}&page=${page}`, {
-                                method: 'GET',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                cache: 'no-cache'
-                            })
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error('Error en la solicitud')
-                                }
-                                return response.json()
-                            })
-                            .then(data => {
-
-                                const results = {
-                                    results: data.data,
-                                    pagination: {
-                                        more: (page * 30) < data.total_count
-                                    }
-                                }
-                                success(results) // Envía los resultados a Select2
-                            })
-                            .catch(error => {
-                                console.error('Error al buscar:', error)
-                                failure(error) // Maneja errores en Select2
-                            })
-                    }
-                },
-                escapeMarkup: function(markup) {
-                    return markup // Evita inyección de HTML
-                }
-            })
-            $('#codConsultaConsulta').select2({
-                dropdownAutoWidth: true,
-                width: '100%',
-                dropdownParent: $('#modalConsulta'),
-                placeholder: 'Buscar consulta por código o nombre...',
-                language: {
-                    inputTooShort: function() {
-                        return 'Por favor, ingresa al menos un carácter'
-                    },
-                    noResults: function() {
-                        return 'No se encontraron resultados.'
-                    },
-                    searching: function() {
-                        return 'Buscando...'
-                    }
-                },
-                minimumInputLength: 1, // Requiere al menos 1 carácter
-                ajax: {
-                    transport: function(params, success, failure) {
-                        const query = params.data.q || '' // Término de búsqueda
-                        const page = params.data.page || 1 // Número de página
-
-                        fetch(`${rtotal}historia/buscaCUPS?q=${query}&page=${page}`, {
-                                method: 'GET',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                cache: 'no-cache'
-                            })
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error('Error en la solicitud')
-                                }
-                                return response.json()
-                            })
-                            .then(data => {
-
-                                const results = {
-                                    results: data.data,
-                                    pagination: {
-                                        more: (page * 30) < data.total_count
-                                    }
-                                }
-                                success(results) // Envía los resultados a Select2
-                            })
-                            .catch(error => {
-                                console.error('Error al buscar:', error)
-                                failure(error) // Maneja errores en Select2
-                            })
-                    }
-                },
-                escapeMarkup: function(markup) {
-                    return markup // Evita inyección de HTML
-                }
-            })
-
-            $('#codDiagnostico').select2({
-                dropdownAutoWidth: true,
-                width: '100%',
-                placeholder: 'Buscar diagnóstico  por código o nombre...',
-                language: {
-                    inputTooShort: function() {
-                        return 'Por favor, ingresa al menos un carácter'
-                    },
-                    noResults: function() {
-                        return 'No se encontraron resultados.'
-                    },
-                    searching: function() {
-                        return 'Buscando...'
-                    }
-                },
-                minimumInputLength: 1, // Requiere al menos 1 carácter
-                ajax: {
-                    transport: function(params, success, failure) {
-                        const query = params.data.q || '' // Término de búsqueda
-                        const page = params.data.page || 1 // Número de página
-
-                        fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
-                                method: 'GET',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                cache: 'no-cache'
-                            })
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error('Error en la solicitud')
-                                }
-                                return response.json()
-                            })
-                            .then(data => {
-                                const results = {
-                                    results: data.data,
-                                    pagination: {
-                                        more: (page * 30) < data.total_count
-                                    }
-                                }
-                                success(results) // Envía los resultados a Select2
-                            })
-                            .catch(error => {
-                                console.error('Error al buscar:', error)
-                                failure(error) // Maneja errores en Select2
-                            })
-                    }
-                },
-                escapeMarkup: function(markup) {
-                    return markup // Evita inyección de HTML
-                }
-            })
-
-            $('#codImpresionDiagnostico').select2({
-                dropdownAutoWidth: true,
-                width: '100%',
-                placeholder: 'Buscar diagnóstico  por código o nombre...',
-                language: {
-                    inputTooShort: function() {
-                        return 'Por favor, ingresa al menos un carácter'
-                    },
-                    noResults: function() {
-                        return 'No se encontraron resultados.'
-                    },
-                    searching: function() {
-                        return 'Buscando...'
-                    }
-                },
-                minimumInputLength: 1, // Requiere al menos 1 carácter
-                ajax: {
-                    transport: function(params, success, failure) {
-                        const query = params.data.q || '' // Término de búsqueda
-                        const page = params.data.page || 1 // Número de página
-
-                        fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
-                                method: 'GET',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                cache: 'no-cache'
-                            })
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error('Error en la solicitud')
-                                }
-                                return response.json()
-                            })
-                            .then(data => {
-                                const results = {
-                                    results: data.data,
-                                    pagination: {
-                                        more: (page * 30) < data.total_count
-                                    }
-                                }
-                                success(results) // Envía los resultados a Select2
-                            })
-                            .catch(error => {
-                                console.error('Error al buscar:', error)
-                                failure(error) // Maneja errores en Select2
-                            })
-                    }
-                },
-                escapeMarkup: function(markup) {
-                    return markup // Evita inyección de HTML
-                }
-            })
-
-            $('#codImpresionDiagnosticoConsulta').select2({
-                dropdownAutoWidth: true,
-                width: '100%',
-                dropdownParent: $('#modalConsulta'),
-                placeholder: 'Buscar diagnóstico  por código o nombre...',
-                language: {
-                    inputTooShort: function() {
-                        return 'Por favor, ingresa al menos un carácter'
-                    },
-                    noResults: function() {
-                        return 'No se encontraron resultados.'
-                    },
-                    searching: function() {
-                        return 'Buscando...'
-                    }
-                },
-                minimumInputLength: 1, // Requiere al menos 1 carácter
-                ajax: {
-                    transport: function(params, success, failure) {
-                        const query = params.data.q || '' // Término de búsqueda
-                        const page = params.data.page || 1 // Número de página
-
-                        fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
-                                method: 'GET',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                cache: 'no-cache'
-                            })
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error('Error en la solicitud')
-                                }
-                                return response.json()
-                            })
-                            .then(data => {
-                                const results = {
-                                    results: data.data,
-                                    pagination: {
-                                        more: (page * 30) < data.total_count
-                                    }
-                                }
-                                success(results) // Envía los resultados a Select2
-                            })
-                            .catch(error => {
-                                console.error('Error al buscar:', error)
-                                failure(error) // Maneja errores en Select2
-                            })
-                    }
-                },
-                escapeMarkup: function(markup) {
-                    return markup // Evita inyección de HTML
-                }
-            })
-
-            const ids = ['enfermedadActual',
-                'observaciones_recomendaciones',
-                'sugerencia_interconsultas',
-                'objetivos_especificos',
-                'objetivo_general',
-                'medicacion',
-                'remision',
-                'motivoConsultaModal',
-                'resumen_evaluacion_inicial',
-                'objetivo_sesion',
-                'motivoConsulta',
-                'tecnicas_utilizadas',
-                'actividades_especificas',
-                'evaluacion_indicadores',
-                'evolucion_sesion',
-                'intervencion_psiquiatria',
-                'intervencion_neurologia',
-                'intervencion_neuropsicologia',
-                'sugerenciasModal',
-                'observacionesModal',
-                'objetivoGeneralModal',
-                'objetivoEspecificoModal'          
-           
-            ]
-
-            $(function() {
-                "use strict"
-                ids.forEach(id => {
-                    CKEDITOR.replace(id, {
-                        extraPlugins: 'uploadimage,pastefromword,maximize',
-                        toolbar: [{
-                                name: 'basicstyles',
-                                items: ['Bold', 'Italic', 'Underline']
-                            }, // Formato básico
-                            {
-                                name: 'paragraph',
-                                items: ['NumberedList', 'BulletedList']
-                            }, // Listas
-                            {
-                                name: 'undo',
-                                items: ['Undo', 'Redo']
-                            }, // Deshacer/rehacer
-                            {
-                                name: 'maximize',
-                                items: ['Maximize']
-                            } // Maximizar
-                        ],
-                        removePlugins: 'elementspath,mediaembed,flash,image', // Eliminar plugins innecesarios
-                        language: 'es', // Idioma en español
-                        height: 100, // Altura del editor ajustada
-                        resize_enabled: false, // Deshabilitar redimensionamiento del editor
-                    })
-                })
-            })
-
-            menuP.classList.add("active")
-
-            loader = document.getElementById('loader')
-            loadNow(1)
-
-            //carga de categorias
-            cargarCategorias()
-            cargarHistorias(1)
-
-            // Evento click para la paginación
-            document.addEventListener('click', function(event) {
-                if (event.target.matches('.pagination a')) {
-                    event.preventDefault()
-                    var href = event.target.getAttribute('href')
-                    var page = href.split('page=')[1]
-
-                    // Asegurarse de que 'page' sea un número antes de hacer la solicitud
-                    if (!isNaN(page)) {
-                        cargarHistorias(page)
-                    }
-                }
-            })
-            // Evento input para el campo de búsqueda
-            document.getElementById('busqueda').addEventListener('input', function() {
-                var searchTerm = this.value
-                cargarHistorias(1,
-                    searchTerm)
-            })
-
-            document.getElementById('busquedaPa').addEventListener('input', function() {
-                var searchTerm = this.value
-                cargarPacientes(1,
-                    searchTerm)
-            })
-
-            document.getElementById('busquedaCo').addEventListener('input', function() {
-                var searchTerm = this.value
-                cargarConsultas(1,
-                    searchTerm)
-            })
-            document.getElementById('busquedaP').addEventListener('input', function() {
-                var searchTerm = this.value
-                cargarPaquetes(1,
-                    searchTerm)
-            })
-
-            document.addEventListener('click', function(event) {
-                if (event.target.matches('.pagPac a')) {
-                    event.preventDefault()
-                    var href = event.target.getAttribute('href')
-                    var page = href.split('page=')[1]
-
-                    // Asegurarse de que 'page' sea un número antes de hacer la solicitud
-                    if (!isNaN(page)) {
-                        cargarPacientes(page)
-                    }
-                }
-            })
-
+        $('#motivoConsultaOtro').select2({
+            placeholder: "Seleccione otros motivos relacionados"
         })
 
-        function hasPermission(permission) {
-            return window.userPermissions && window.userPermissions.includes(permission);
-        }
+        $('.examen').select2({
+            placeholder: "Seleccione..."
+        });
 
-        function cagaHistPaciente(element) {
-            let idPaciente = element.getAttribute("data-id")
-            let edadPaciente = parseInt(element.getAttribute("data-edad"), 10)
-            let tipoPsicologia = ""
-            if (edadPaciente < 18) {
-                tipoPsicologia = "Pediatría"
-                document.getElementById("infPediatria").style.display = "initial"
-            } else {
-                tipoPsicologia = "Adulto"
-                document.getElementById("infPediatria").style.display = "none"
+        $('#selPaquete').select2({
+            dropdownParent: $('#modalPaquete'),
+            width: '100%'
+        });
 
-            }
+        $('#profesionalConsulta').select2({
+            dropdownParent: $('#modalConsulta'),
+            width: '100%'
+        });
 
-            let tipoText = document.getElementById("tipoPsicologia")
-            tipoText.value = tipoPsicologia
+        //VALIDAR FORMULARIO DE PAQUETES
 
-            document.getElementById('idPaciente').value = idPaciente
-            mostrarInformacionHistoria(idPaciente)
-        }
-
-        function cancelarHistoria() {
-            document.getElementById('listado').style.display = 'block'
-            document.getElementById('historia').style.display = 'none'
-        }
-
-        function cancelarConsulta() {
-            document.getElementById('listadoConsultas').style.display = 'block'
-            document.getElementById('fomrConsultas').style.display = 'none'
-            document.getElementById("titConsulta").innerHTML = "Gestionar consulta"
-
-        }
-
-        function cancelarPaquetes() {
-            document.getElementById('listPaquetes').style.display = 'block'
-            document.getElementById('formPaquetes').style.display = 'none'
-            document.getElementById("tituloPaquete").innerHTML = "Listado de paquetes"
-        }
-
-        function cargarHistorias(page, searchTerm = '') {
-
-            let url = "{{ route('HistoriasClinicas.listaHistoriasPsicologica') }}" // Definir la URL
-
-            // Eliminar los campos ocultos anteriores
-            var oldPageInput = document.getElementById('page')
-            var oldSearchTermInput = document.getElementById('searchTerm')
-            if (oldPageInput) oldPageInput.remove()
-            if (oldSearchTermInput) oldSearchTermInput.remove()
-
-            var data = {
-                page: page,
-                search: searchTerm
-            }
-
-            // Limpiar la tabla antes de cargar nuevos datos
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then(responseData => {
-
-                    // Rellenar la tabla con las filas generadas
-                    document.getElementById('hisoriasListado').innerHTML = responseData.historias
-                    feather.replace()
-                    // Colxocar los enlaces de paginación
-                    document.getElementById('pagination-links').innerHTML = responseData.links
-                    loadNow(0)
-                })
-                .catch(error => console.error('Error:', error))
-
-        }
-
-        function cargarCategorias() {
-            return new Promise((resolve, reject) => {
-
-                let url = "{{ route('hitoriaPsicologica.categorias') }}"
-                const categoriaMap = {
-                    motivoConsultaOtro: 'MOTIVO DE CONSULTA',
-                    edad: 'APARIENCIA PERSONAL: Edad',
-                    desarrollo: 'APARIENCIA PERSONAL: Desarrollo pondoestatural',
-                    aseo: 'APARIENCIA PERSONAL: Aseo y arreglo',
-                    salud: 'APARIENCIA PERSONAL: Salud somática',
-                    facies: 'APARIENCIA PERSONAL: Facies',
-                    biotipo: 'APARIENCIA PERSONAL: Biotipo',
-                    actitud: 'APARIENCIA PERSONAL: Actitud',
-                    consciencia: 'FUNCIONES COGNITIVAS: Consciencia',
-                    orientacion: 'FUNCIONES COGNITIVAS: Orientación',
-                    memoria: 'FUNCIONES COGNITIVAS: Memoria',
-                    atencion: 'FUNCIONES COGNITIVAS: Atencion',
-                    concentracion: 'FUNCIONES COGNITIVAS: Concentración',
-                    lenguaje: 'FUNCIONES COGNITIVAS: Lenguaje',
-                    pensamiento: 'FUNCIONES COGNITIVAS: Pensamiento',
-                    afecto: 'FUNCIONES COGNITIVAS: Afecto',
-                    sensopercepcion: 'FUNCIONES COGNITIVAS: Sensopercepcion',
-                    psicomotricidad: 'FUNCIONES COGNITIVAS: Psicomotricidad',
-                    juicio: 'FUNCIONES COGNITIVAS: Juicio',
-                    inteligencia: 'FUNCIONES COGNITIVAS: Inteligencia',
-                    conciencia_enfermedad: 'FUNCIONES COGNITIVAS: Conciencia de enfermedad',
-                    sufrimiento_psicologico: 'FUNCIONES COGNITIVAS: Sufrimiento psicológico',
-                    motivacion_tratamiento: 'FUNCIONES COGNITIVAS: Motivación al tratamiento',
-                    plan_intervencion: 'PLAN DE INTERVENCIÓN',
+        $("#formPaquetes").validate({
+            rules: {
+                selPaquete: {
+                    required: true
+                },
+                fechaPaquete: {
+                    required: true
+                },
+                precioSesion: {
+                    required: true
+                },
+                numSesiones: {
+                    required: true
                 }
 
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        // Recorrer el mapa de categorías
-                        Object.keys(categoriaMap).forEach(selectId => {
-                            const categoriaNom = categoriaMap[selectId]
+            },
+            messages: {
+                selPaquete: {
+                    required: "Por favor, seleccione un paquete"
+                },
+                fechaPaquete: {
+                    required: "Por favor, seleccione una fecha"
+                },
+                precioSesion: {
+                    required: "Por favor, ingrese el valor de la sesión"
+                },
+                numSesiones: {
+                    required: "Por favor, ingrese el número de sesiones"
+                }
+            },
+            submitHandler: function(form) {
+                guardarPaquetes()
+            }
+        });
 
-                            // Filtrar las opciones de la categoría correspondiente
-                            const categoria = data.find(cat => cat.nombre === categoriaNom)
-                            if (categoria) {
-                                const select = document.getElementById(selectId)
-                                let defaultOption = document.createElement("option");
-                                defaultOption.value = ""; // Valor en blanco
-                                defaultOption.text = "Selecciona una opción"; // Texto que se mostrará
-                                defaultOption.selected = true; // Que aparezca seleccionada por defecto
-                                select.appendChild(defaultOption);
-                                if (select) {
-                                    categoria.opciones.forEach(opcion => {
-                                        const option = document.createElement('option')
-                                        option.value = opcion.id
-                                        option.textContent = opcion.opcion
-                                        option.placeholder = "Seleccione una opción"
-                                        option.setAttribute('data-nombre', opcion.opcion
-                                            .toLowerCase())
-                                        select.appendChild(option)
-                                    })
+        //VALIDAR FORMULARIO VENTA CONSULTA
+        $("#formVentaConsulta").validate({
+            rules: {
+                ConsultaVenta: {
+                    required: true
+                },
+                fechaVentaConsulta: {
+                    required: true
+                },
+                valorServConsultaVis: {
+                    required: true
+                }
+
+
+            },
+            messages: {
+                ConsultaVenta: {
+                    required: "Por favor, ingrese la descripción de la consulta"
+                },
+                fechaVentaConsulta: {
+                    required: "Por favor, seleccione una fecha"
+                },
+                valorServConsultaVis: {
+                    required: "Por favor, ingrese el valor de la consulta"
+                }
+
+            },
+            submitHandler: function(form) {
+                guardarVentaConsulta()
+            }
+        });
+        ////
+
+        //VALIDAR FORMULARIO VENTA SESION
+        $("#formVentaSesion").validate({
+            rules: {
+                descripcionVentaSesion: {
+                    required: true
+                },
+                fechaVentaSesion: {
+                    required: true
+                },
+                valorServSesionVis: {
+                    required: true
+                }
+            },
+            messages: {
+                descripcionVentaSesion: {
+                    required: "Por favor, ingrese la descripción de la sesión"
+                },
+                fechaVentaSesion: {
+                    required: "Por favor, seleccione una fecha"
+                },
+                valorServSesionVis: {
+                    required: "Por favor, ingrese el valor de la sesión"
+                }
+
+            },
+            submitHandler: function(form) {
+                guardarVentaSesion()
+            }
+        });
+        ////
+        $('#codConsulta').select2({
+            dropdownAutoWidth: true,
+            width: '100%',
+            placeholder: 'Buscar consulta por código o nombre...',
+            language: {
+                inputTooShort: function() {
+                    return 'Por favor, ingresa al menos un carácter'
+                },
+                noResults: function() {
+                    return 'No se encontraron resultados.'
+                },
+                searching: function() {
+                    return 'Buscando...'
+                }
+            },
+            minimumInputLength: 1, // Requiere al menos 1 carácter
+            ajax: {
+                transport: function(params, success, failure) {
+                    const query = params.data.q || '' // Término de búsqueda
+                    const page = params.data.page || 1 // Número de página
+
+                    fetch(`${rtotal}historia/buscaCUPS?q=${query}&page=${page}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            cache: 'no-cache'
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error en la solicitud')
+                            }
+                            return response.json()
+                        })
+                        .then(data => {
+
+                            const results = {
+                                results: data.data,
+                                pagination: {
+                                    more: (page * 30) < data.total_count
                                 }
                             }
+                            success(results) // Envía los resultados a Select2
                         })
-                    })
-                    .catch(error => console.error('Error cargando las opciones:', error))
-            })
-        }
+                        .catch(error => {
+                            console.error('Error al buscar:', error)
+                            failure(error) // Maneja errores en Select2
+                        })
+                }
+            },
+            escapeMarkup: function(markup) {
+                return markup // Evita inyección de HTML
+            }
+        })
+        $('#codConsultaConsulta').select2({
+            dropdownAutoWidth: true,
+            width: '100%',
+            dropdownParent: $('#modalConsulta'),
+            placeholder: 'Buscar consulta por código o nombre...',
+            language: {
+                inputTooShort: function() {
+                    return 'Por favor, ingresa al menos un carácter'
+                },
+                noResults: function() {
+                    return 'No se encontraron resultados.'
+                },
+                searching: function() {
+                    return 'Buscando...'
+                }
+            },
+            minimumInputLength: 1, // Requiere al menos 1 carácter
+            ajax: {
+                transport: function(params, success, failure) {
+                    const query = params.data.q || '' // Término de búsqueda
+                    const page = params.data.page || 1 // Número de página
 
-        function nuevoRegistro() {
-            var modal = new bootstrap.Modal(document.getElementById("modalHistoria"), {
-                backdrop: 'static',
-                keyboard: false
-            })
-            modal.show()
-            limpiarHistoria()
-            var btnGuardar = document.getElementById("btn-guardarHistoria")
-            btnGuardar.disabled = false
+                    fetch(`${rtotal}historia/buscaCUPS?q=${query}&page=${page}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            cache: 'no-cache'
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error en la solicitud')
+                            }
+                            return response.json()
+                        })
+                        .then(data => {
 
-            cargarPacientes(1)
-            mapearDatosProfesional(document.getElementById("idUsuario").value)
-            document.getElementById("btn-imprimirHistoria").style.display = "none"
-            document.getElementById("historialConsulta").innerHTML = ""
-        }
+                            const results = {
+                                results: data.data,
+                                pagination: {
+                                    more: (page * 30) < data.total_count
+                                }
+                            }
+                            success(results) // Envía los resultados a Select2
+                        })
+                        .catch(error => {
+                            console.error('Error al buscar:', error)
+                            failure(error) // Maneja errores en Select2
+                        })
+                }
+            },
+            escapeMarkup: function(markup) {
+                return markup // Evita inyección de HTML
+            }
+        })
+        $('#codConsultaConsultaOrdenMedica').select2({
+            dropdownAutoWidth: true,
+            width: '100%',
+            placeholder: 'Buscar procedimiento por código o nombre...',
+            language: {
+                inputTooShort: function() {
+                    return 'Por favor, ingresa al menos un carácter'
+                },
+                noResults: function() {
+                    return 'No se encontraron resultados.'
+                },
+                searching: function() {
+                    return 'Buscando...'
+                }
+            },
+            minimumInputLength: 1, // Requiere al menos 1 carácter
+            ajax: {
+                transport: function(params, success, failure) {
+                    const query = params.data.q || '' // Término de búsqueda
+                    const page = params.data.page || 1 // Número de página
 
-        function limpiarHistoria() {
-            let formHistoria = document.getElementById("formHistoria")
-            formHistoria.reset()
+                    fetch(`${rtotal}historia/buscaCUPS?q=${query}&page=${page}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            cache: 'no-cache'
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error en la solicitud')
+                            }
+                            return response.json()
+                        })
+                        .then(data => {
 
-            for (var instanceName in CKEDITOR.instances) {
-                CKEDITOR.instances[instanceName].setData('');
+                            const results = {
+                                results: data.data,
+                                pagination: {
+                                    more: (page * 30) < data.total_count
+                                }
+                            }
+                            success(results) // Envía los resultados a Select2
+                        })
+                        .catch(error => {
+                            console.error('Error al buscar:', error)
+                            failure(error) // Maneja errores en Select2
+                        })
+                }
+            },
+            escapeMarkup: function(markup) {
+                return markup // Evita inyección de HTML
+            }
+        })
+
+        $('#codDiagnostico').select2({
+            dropdownAutoWidth: true,
+            width: '100%',
+            placeholder: 'Buscar diagnóstico  por código o nombre...',
+            language: {
+                inputTooShort: function() {
+                    return 'Por favor, ingresa al menos un carácter'
+                },
+                noResults: function() {
+                    return 'No se encontraron resultados.'
+                },
+                searching: function() {
+                    return 'Buscando...'
+                }
+            },
+            minimumInputLength: 1, // Requiere al menos 1 carácter
+            ajax: {
+                transport: function(params, success, failure) {
+                    const query = params.data.q || '' // Término de búsqueda
+                    const page = params.data.page || 1 // Número de página
+
+                    fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            cache: 'no-cache'
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error en la solicitud')
+                            }
+                            return response.json()
+                        })
+                        .then(data => {
+                            const results = {
+                                results: data.data,
+                                pagination: {
+                                    more: (page * 30) < data.total_count
+                                }
+                            }
+                            success(results) // Envía los resultados a Select2
+                        })
+                        .catch(error => {
+                            console.error('Error al buscar:', error)
+                            failure(error) // Maneja errores en Select2
+                        })
+                }
+            },
+            escapeMarkup: function(markup) {
+                return markup // Evita inyección de HTML
+            }
+        })
+        $('#codDiagnosticoRelacionado1').select2({
+            dropdownAutoWidth: true,
+            width: '100%',
+            placeholder: 'Buscar diagnóstico  por código o nombre...',
+            language: {
+                inputTooShort: function() {
+                    return 'Por favor, ingresa al menos un carácter'
+                },
+                noResults: function() {
+                    return 'No se encontraron resultados.'
+                },
+                searching: function() {
+                    return 'Buscando...'
+                }
+            },
+            minimumInputLength: 1, // Requiere al menos 1 carácter
+            ajax: {
+                transport: function(params, success, failure) {
+                    const query = params.data.q || '' // Término de búsqueda
+                    const page = params.data.page || 1 // Número de página
+
+                    fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            cache: 'no-cache'
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error en la solicitud')
+                            }
+                            return response.json()
+                        })
+                        .then(data => {
+                            const results = {
+                                results: data.data,
+                                pagination: {
+                                    more: (page * 30) < data.total_count
+                                }
+                            }
+                            success(results) // Envía los resultados a Select2
+                        })
+                        .catch(error => {
+                            console.error('Error al buscar:', error)
+                            failure(error) // Maneja errores en Select2
+                        })
+                }
+            },
+            escapeMarkup: function(markup) {
+                return markup // Evita inyección de HTML
+            }
+        })
+        $('#codDiagnosticoRelacionado2').select2({
+            dropdownAutoWidth: true,
+            width: '100%',
+            placeholder: 'Buscar diagnóstico  por código o nombre...',
+            language: {
+                inputTooShort: function() {
+                    return 'Por favor, ingresa al menos un carácter'
+                },
+                noResults: function() {
+                    return 'No se encontraron resultados.'
+                },
+                searching: function() {
+                    return 'Buscando...'
+                }
+            },
+            minimumInputLength: 1, // Requiere al menos 1 carácter
+            ajax: {
+                transport: function(params, success, failure) {
+                    const query = params.data.q || '' // Término de búsqueda
+                    const page = params.data.page || 1 // Número de página
+
+                    fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            cache: 'no-cache'
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error en la solicitud')
+                            }
+                            return response.json()
+                        })
+                        .then(data => {
+                            const results = {
+                                results: data.data,
+                                pagination: {
+                                    more: (page * 30) < data.total_count
+                                }
+                            }
+                            success(results) // Envía los resultados a Select2
+                        })
+                        .catch(error => {
+                            console.error('Error al buscar:', error)
+                            failure(error) // Maneja errores en Select2
+                        })
+                }
+            },
+            escapeMarkup: function(markup) {
+                return markup // Evita inyección de HTML
+            }
+        })
+
+
+        $('#codImpresionDiagnostico').select2({
+            dropdownAutoWidth: true,
+            width: '100%',
+            placeholder: 'Buscar diagnóstico  por código o nombre...',
+            language: {
+                inputTooShort: function() {
+                    return 'Por favor, ingresa al menos un carácter'
+                },
+                noResults: function() {
+                    return 'No se encontraron resultados.'
+                },
+                searching: function() {
+                    return 'Buscando...'
+                }
+            },
+            minimumInputLength: 1, // Requiere al menos 1 carácter
+            ajax: {
+                transport: function(params, success, failure) {
+                    const query = params.data.q || '' // Término de búsqueda
+                    const page = params.data.page || 1 // Número de página
+
+                    fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            cache: 'no-cache'
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error en la solicitud')
+                            }
+                            return response.json()
+                        })
+                        .then(data => {
+                            const results = {
+                                results: data.data,
+                                pagination: {
+                                    more: (page * 30) < data.total_count
+                                }
+                            }
+                            success(results) // Envía los resultados a Select2
+                        })
+                        .catch(error => {
+                            console.error('Error al buscar:', error)
+                            failure(error) // Maneja errores en Select2
+                        })
+                }
+            },
+            escapeMarkup: function(markup) {
+                return markup // Evita inyección de HTML
+            }
+        })
+        $('#codImpresionDiagnosticoRelacionado1').select2({
+            dropdownAutoWidth: true,
+            width: '100%',
+            placeholder: 'Buscar diagnóstico  por código o nombre...',
+            language: {
+                inputTooShort: function() {
+                    return 'Por favor, ingresa al menos un carácter'
+                },
+                noResults: function() {
+                    return 'No se encontraron resultados.'
+                },
+                searching: function() {
+                    return 'Buscando...'
+                }
+            },
+            minimumInputLength: 1, // Requiere al menos 1 carácter
+            ajax: {
+                transport: function(params, success, failure) {
+                    const query = params.data.q || '' // Término de búsqueda
+                    const page = params.data.page || 1 // Número de página
+
+                    fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            cache: 'no-cache'
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error en la solicitud')
+                            }
+                            return response.json()
+                        })
+                        .then(data => {
+                            const results = {
+                                results: data.data,
+                                pagination: {
+                                    more: (page * 30) < data.total_count
+                                }
+                            }
+                            success(results) // Envía los resultados a Select2
+                        })
+                        .catch(error => {
+                            console.error('Error al buscar:', error)
+                            failure(error) // Maneja errores en Select2
+                        })
+                }
+            },
+            escapeMarkup: function(markup) {
+                return markup // Evita inyección de HTML
+            }
+        })
+        $('#codImpresionDiagnosticoRelacionado2').select2({
+            dropdownAutoWidth: true,
+            width: '100%',
+            placeholder: 'Buscar diagnóstico  por código o nombre...',
+            language: {
+                inputTooShort: function() {
+                    return 'Por favor, ingresa al menos un carácter'
+                },
+                noResults: function() {
+                    return 'No se encontraron resultados.'
+                },
+                searching: function() {
+                    return 'Buscando...'
+                }
+            },
+            minimumInputLength: 1, // Requiere al menos 1 carácter
+            ajax: {
+                transport: function(params, success, failure) {
+                    const query = params.data.q || '' // Término de búsqueda
+                    const page = params.data.page || 1 // Número de página
+
+                    fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            cache: 'no-cache'
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error en la solicitud')
+                            }
+                            return response.json()
+                        })
+                        .then(data => {
+                            const results = {
+                                results: data.data,
+                                pagination: {
+                                    more: (page * 30) < data.total_count
+                                }
+                            }
+                            success(results) // Envía los resultados a Select2
+                        })
+                        .catch(error => {
+                            console.error('Error al buscar:', error)
+                            failure(error) // Maneja errores en Select2
+                        })
+                }
+            },
+            escapeMarkup: function(markup) {
+                return markup // Evita inyección de HTML
+            }
+        })
+
+        $('#codImpresionDiagnosticoConsulta').select2({
+            dropdownAutoWidth: true,
+            width: '100%',
+            dropdownParent: $('#modalConsulta'),
+            placeholder: 'Buscar diagnóstico  por código o nombre...',
+            language: {
+                inputTooShort: function() {
+                    return 'Por favor, ingresa al menos un carácter'
+                },
+                noResults: function() {
+                    return 'No se encontraron resultados.'
+                },
+                searching: function() {
+                    return 'Buscando...'
+                }
+            },
+            minimumInputLength: 1, // Requiere al menos 1 carácter
+            ajax: {
+                transport: function(params, success, failure) {
+                    const query = params.data.q || '' // Término de búsqueda
+                    const page = params.data.page || 1 // Número de página
+
+                    fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            cache: 'no-cache'
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error en la solicitud')
+                            }
+                            return response.json()
+                        })
+                        .then(data => {
+                            const results = {
+                                results: data.data,
+                                pagination: {
+                                    more: (page * 30) < data.total_count
+                                }
+                            }
+                            success(results) // Envía los resultados a Select2
+                        })
+                        .catch(error => {
+                            console.error('Error al buscar:', error)
+                            failure(error) // Maneja errores en Select2
+                        })
+                }
+            },
+            escapeMarkup: function(markup) {
+                return markup // Evita inyección de HTML
+            }
+        })
+        $('#otra_ImpresionDiagnosticaConsulta').select2({
+            dropdownAutoWidth: true,
+            width: '100%',
+            dropdownParent: $('#modalConsulta'),
+            placeholder: 'Buscar diagnóstico  por código o nombre...',
+            language: {
+                inputTooShort: function() {
+                    return 'Por favor, ingresa al menos un carácter'
+                },
+                noResults: function() {
+                    return 'No se encontraron resultados.'
+                },
+                searching: function() {
+                    return 'Buscando...'
+                }
+            },
+            minimumInputLength: 1, // Requiere al menos 1 carácter
+            ajax: {
+                transport: function(params, success, failure) {
+                    const query = params.data.q || '' // Término de búsqueda
+                    const page = params.data.page || 1 // Número de página
+
+                    fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            cache: 'no-cache'
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error en la solicitud')
+                            }
+                            return response.json()
+                        })
+                        .then(data => {
+                            const results = {
+                                results: data.data,
+                                pagination: {
+                                    more: (page * 30) < data.total_count
+                                }
+                            }
+                            success(results) // Envía los resultados a Select2
+                        })
+                        .catch(error => {
+                            console.error('Error al buscar:', error)
+                            failure(error) // Maneja errores en Select2
+                        })
+                }
+            },
+            escapeMarkup: function(markup) {
+                return markup // Evita inyección de HTML
+            }
+        })
+
+        const ids = ['enfermedadActual',
+            'observaciones_recomendaciones',
+            'sugerencia_interconsultas',
+            'objetivos_especificos',
+            'objetivo_general',
+            'medicacion',
+            'remision',
+            'motivoConsultaModal',
+            'resumen_evaluacion_inicial',
+            'objetivo_sesion',
+            'motivoConsulta',
+            'tecnicas_utilizadas',
+            'actividades_especificas',
+            'evaluacion_indicadores',
+            'evolucion_sesion',
+            'intervencion_psiquiatria',
+            'intervencion_neurologia',
+            'intervencion_neuropsicologia',
+            'otras_intervenciones',
+            'sugerenciasModal',
+            'observacionesModal',
+            'objetivoGeneralModal',
+            'objetivoEspecificoModal',
+            'examen_mental',
+            'ciclos_del_sueno',
+            'apetito',
+            'autocuidado'
+        ]
+
+        document.getElementById('fechaEvolucion').addEventListener('change', function() {
+            const valor = this.value;
+
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(valor)) {
+                swal("Atención", "Formato de fecha inválido.", "warning");
+                this.value = '';
+                return;
             }
 
-            $('#motivoConsultaOtro').val(null).trigger('change');
-            $('#codConsulta').val(null).trigger('change');
-            $('#codDiagnostico').val(null).trigger('change');
-            $('#codImpresionDiagnostico').val(null).trigger('change');
-            document.querySelectorAll('input[data-role="tagsinput"]').forEach(input => {
-                $(input).tagsinput('removeAll');
-            });
-        }
+            const [anio, mes, dia] = valor.split('-');
 
-        function limpiarConsulta() {
-            let formHistoria = document.getElementById("formConsulta")
-            formHistoria.reset()
-
-            CKEDITOR.instances['motivoConsultaModal'].setData('')
-            CKEDITOR.instances['objetivo_sesion'].setData('')
-            CKEDITOR.instances['tecnicas_utilizadas'].setData('')
-            CKEDITOR.instances['actividades_especificas'].setData('')
-            CKEDITOR.instances['evaluacion_indicadores'].setData('')
-            CKEDITOR.instances['evolucion_sesion'].setData('')
-
-            $('#codConsultaConsulta').val(null).trigger('change');
-            $('#codImpresionDiagnosticoConsulta').val(null).trigger('change');
-        }
-
-        function nuevoRegistroConsulta() {
-            document.getElementById("listadoConsultas").style.display = "none"
-            document.getElementById("fomrConsultas").style.display = "initial"
-            document.getElementById("titConsulta").innerHTML = "Agregar evolución clínica"
-            document.getElementById("accHistoriaConsulta").value = "guardar"
-            limpiarConsulta()
-        }
-
-        function cargarPacientes(page, searchTerm = '') {
-            let url = "{{ route('pacientes.listaPacientesModal') }}"
-
-            var oldPageInput = document.getElementById('pagePac')
-            var oldSearchTermInput = document.getElementById('busquedaPac')
-            if (oldPageInput) oldPageInput.remove()
-            if (oldSearchTermInput) oldSearchTermInput.remove()
-
-            var data = {
-                page: page,
-                search: searchTerm
+            if (anio.length !== 4 || parseInt(anio) < 1900 || parseInt(anio) > 2099) {
+                swal("Atención", "El año debe tener 4 dígitos y estar entre 1900 y 2099.", "warning");
+                this.value = '';
+                return;
             }
 
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify(data)
+            if (mes.length !== 2 || parseInt(mes) < 1 || parseInt(mes) > 12) {
+                swal("Atención", "Mes inválido.", "warning");
+                this.value = '';
+                return;
+            }
+
+            if (dia.length !== 2 || parseInt(dia) < 1 || parseInt(dia) > 31) {
+                swal("Atención", "Día inválido.", "warning");
+                this.value = '';
+                return;
+            }
+        });
+
+        $(function() {
+            "use strict"
+            ids.forEach(id => {
+                CKEDITOR.replace(id, {
+                    extraPlugins: 'uploadimage,pastefromword,maximize,font',
+                    toolbar: [{
+                            name: 'basicstyles',
+                            items: ['Bold', 'Italic', 'Underline']
+                        }, // Formato básico
+                        {
+                            name: 'paragraph',
+                            items: ['NumberedList', 'BulletedList']
+                        }, // Listas
+                        {
+                            name: 'styles',
+                            items: ['Font']
+                        }, // Selección de fuente
+                        {
+                            name: 'undo',
+                            items: ['Undo', 'Redo']
+                        }, // Deshacer/rehacer
+                        {
+                            name: 'maximize',
+                            items: ['Maximize']
+                        } // Maximizar
+                    ],
+                    removePlugins: 'elementspath,mediaembed,flash,image', // Eliminar plugins innecesarios
+                    language: 'es', // Idioma en español
+                    height: 200, // Altura del editor ajustada
+                    resize_enabled: true, // Deshabilitar redimensionamiento del editor
+                    font_defaultLabel: 'Times New Roman',
+                    font_names: 'Times New Roman/Times New Roman, Times, serif;' + (CKEDITOR.config.font_names || ''),
+                    on: {
+                        instanceReady: function(evt) {
+                            evt.editor.document.getBody().setStyle('font-family', '"Times New Roman", Times, serif');
+                        }
+                    }
                 })
+            })
+        })
+
+        menuP.classList.add("active")
+
+        loader = document.getElementById('loader')
+        loadNow(1)
+
+        //carga de categorias
+        cargarCategorias()
+        cargarProfesionales()
+        cargarHistorias(1)
+
+        // Evento click para la paginación
+        document.addEventListener('click', function(event) {
+            if (event.target.matches('#pagination a')) {
+
+                event.preventDefault()
+                var href = event.target.getAttribute('href')
+                var page = href.split('page=')[1]
+
+                // Asegurarse de que 'page' sea un número antes de hacer la solicitud
+                if (!isNaN(page)) {
+                    cargarHistorias(page)
+                }
+            }
+        })
+        // Evento input para el campo de búsqueda
+        document.getElementById('busqueda').addEventListener('input', function() {
+            var searchTerm = this.value
+            cargarHistorias(1,
+                searchTerm)
+        })
+
+        document.getElementById('busquedaPa').addEventListener('input', function() {
+            var searchTerm = this.value
+            cargarPacientes(1,
+                searchTerm)
+        })
+
+        document.getElementById('busquedaCo').addEventListener('input', function() {
+            var searchTerm = this.value
+            cargarConsultas(1,
+                searchTerm)
+        })
+
+
+        document.addEventListener('click', function(event) {
+            if (event.target.matches('#paginationPac a')) {
+                event.preventDefault()
+                var href = event.target.getAttribute('href')
+                var page = href.split('page=')[1]
+
+                // Asegurarse de que 'page' sea un número antes de hacer la solicitud
+                if (!isNaN(page)) {
+                    cargarPacientes(page)
+                }
+            }
+        })
+
+        document.addEventListener('click', function(event) {
+            if (event.target.matches('#paginationConsulta a')) {
+                event.preventDefault()
+                var href = event.target.getAttribute('href')
+                var page = href.split('page=')[1]
+
+                // Asegurarse de que 'page' sea un número antes de hacer la solicitud
+                if (!isNaN(page)) {
+                    cargarConsultas(page)
+                }
+            }
+        })
+
+    })
+
+    function hasPermission(permission) {
+        return window.userPermissions && window.userPermissions.includes(permission);
+    }
+
+    function cargarProfesionales() {
+        let urlProfesionales = "{{ route('profesionales.cargarListaProf') }}" // Definir la URL
+
+        fetch(urlProfesionales)
+            .then(response => response.json())
+            .then(data => {
+                const selectProfesional = document.getElementById('profesionalSelect');
+                const selectProfesionalConsulta = document.getElementById('profesionalConsulta');
+
+                llenarSelect(selectProfesional, data);
+                llenarSelect(selectProfesionalConsulta, data);
+            })
+            .catch(error => console.error('Error al cargar profesionales:', error));
+    }
+
+    function llenarSelect(selectElement, data) {
+        selectElement.innerHTML = '<option value="">Seleccione una opción</option>';
+        data.forEach(item => {
+            const option = document.createElement('option');
+            option.value = item.id;
+            option.textContent = item.nombre;
+            option.setAttribute('data-id', item.id);
+            selectElement.appendChild(option);
+        });
+    }
+
+    function cagaHistPaciente(element) {
+        let idPaciente = element.getAttribute("data-id")
+        let edadPaciente = parseInt(element.getAttribute("data-edad"), 10)
+        let tipoPsicologia = ""
+        if (edadPaciente < 18) {
+            tipoPsicologia = "Pediatría"
+            document.getElementById("infPediatria").style.display = "initial"
+        } else {
+            tipoPsicologia = "Adulto"
+            document.getElementById("infPediatria").style.display = "none"
+
+        }
+
+        let tipoText = document.getElementById("tipoPsicologia")
+        tipoText.value = tipoPsicologia
+
+        document.getElementById('idPaciente').value = idPaciente
+        mostrarInformacionHistoria(idPaciente)
+    }
+
+    function cancelarHistoria() {
+        document.getElementById('listado').style.display = 'block'
+        document.getElementById('historia').style.display = 'none'
+    }
+
+    function cancelarConsulta() {
+        document.getElementById('listadoConsultas').style.display = 'block'
+        document.getElementById('fomrConsultas').style.display = 'none'
+        document.getElementById("titConsulta").innerHTML = "Gestionar consulta"
+
+    }
+
+    function cancelarPaquetes() {
+        document.getElementById('listPaquetes').style.display = 'block'
+        document.getElementById('formPaquetes').style.display = 'none'
+        document.getElementById("tituloPaquete").innerHTML = "Listado de paquetes"
+    }
+
+    function cargarHistorias(page, searchTerm = '') {
+
+        let url = "{{ route('HistoriasClinicas.listaHistoriasPsicologica') }}" // Definir la URL
+
+        // Eliminar los campos ocultos anteriores
+        var oldPageInput = document.getElementById('page')
+        var oldSearchTermInput = document.getElementById('searchTerm')
+        if (oldPageInput) oldPageInput.remove()
+        if (oldSearchTermInput) oldSearchTermInput.remove()
+
+        var data = {
+            page: page,
+            search: searchTerm
+        }
+
+        // Limpiar la tabla antes de cargar nuevos datos
+        fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(responseData => {
+
+                // Rellenar la tabla con las filas generadas
+                document.getElementById('hisoriasListado').innerHTML = responseData.historias
+                feather.replace()
+                // Colxocar los enlaces de paginación
+                document.getElementById('pagination-links').innerHTML = responseData.links
+                loadNow(0)
+            })
+            .catch(error => console.error('Error:', error))
+
+    }
+
+    function cargarCategorias() {
+        return new Promise((resolve, reject) => {
+
+            let url = "{{ route('hitoriaPsicologica.categorias') }}"
+            const categoriaMap = {
+                motivoConsultaOtro: 'MOTIVO DE CONSULTA',
+                plan_intervencion: 'PLAN DE INTERVENCIÓN'
+            }
+
+            fetch(url)
                 .then(response => response.json())
-                .then(responseData => {
+                .then(data => {
+                    // Recorrer el mapa de categorías
+                    Object.keys(categoriaMap).forEach(selectId => {
+                        const categoriaNom = categoriaMap[selectId]
 
-                    document.getElementById('trRegistrosPacientes').innerHTML = responseData.pacientes
-                    feather.replace()
-
-                    document.getElementById('pagination-links-pacientes').innerHTML = responseData.links
-                    loadNow(0)
+                        // Filtrar las opciones de la categoría correspondiente
+                        const categoria = data.find(cat => cat.nombre === categoriaNom)
+                        if (categoria) {
+                            const select = document.getElementById(selectId)
+                            let defaultOption = document.createElement("option");
+                            defaultOption.value = ""; // Valor en blanco
+                            defaultOption.text = "Selecciona una opción"; // Texto que se mostrará
+                            defaultOption.selected = true; // Que aparezca seleccionada por defecto
+                            select.appendChild(defaultOption);
+                            if (select) {
+                                categoria.opciones.forEach(opcion => {
+                                    const option = document.createElement('option')
+                                    option.value = opcion.id
+                                    option.textContent = opcion.opcion
+                                    option.placeholder = "Seleccione una opción"
+                                    option.setAttribute('data-nombre', opcion.opcion
+                                        .toLowerCase())
+                                    select.appendChild(option)
+                                })
+                            }
+                        }
+                    })
                 })
-                .catch(error => console.error('Error:', error))
+                .catch(error => console.error('Error cargando las opciones:', error))
+        })
+    }
+
+    function nuevoRegistro() {
+
+        var modal = new bootstrap.Modal(document.getElementById("modalHistoria"), {
+            backdrop: 'static',
+            keyboard: false
+        })
+        modal.show()
+        limpiarHistoria()
+        var btnGuardar = document.getElementById("btn-guardarHistoria")
+        btnGuardar.disabled = false
+
+        document.getElementById("loaderPacientes").style.display = "block";
+
+        cargarPacientes(1)
+
+        document.getElementById("btn-imprimirHistoria").style.display = "none"
+        document.getElementById("historialConsulta").innerHTML = ""
+    }
+
+    function limpiarHistoria() {
+        let formHistoria = document.getElementById("formHistoria")
+        formHistoria.reset()
+
+        for (var instanceName in CKEDITOR.instances) {
+            CKEDITOR.instances[instanceName].setData('');
         }
 
-        function seleccionarPaciente(element) {
+        $('#motivoConsultaOtro').val(null).trigger('change');
+        $('#codConsulta').val(null).trigger('change');
 
-            let idPaciente = element.getAttribute("data-id")
-            let edadPaciente = parseInt(element.getAttribute("data-edad"), 10)
-            let tipoPsicologia
-            if (edadPaciente < 18) {
-                tipoPsicologia = "Pediatría"
-                document.getElementById("infPediatria").style.display = "initial"
-            } else {
-                tipoPsicologia = "Adulto"
-                document.getElementById("infPediatria").style.display = "none"
+        $('#codDiagnostico').val(null).trigger('change');
+        $('#codDiagnosticoRelacionado1').val(null).trigger('change');
+        $('#codDiagnosticoRelacionado2').val(null).trigger('change');
 
-            }
+        $('#codImpresionDiagnostico').val(null).trigger('change');
+        $('#codImpresionDiagnosticoRelacionado1').val(null).trigger('change');
+        $('#codImpresionDiagnosticoRelacionado2').val(null).trigger('change');
 
-            let tipoText = document.getElementById("tipoPsicologia")
-            tipoText.value = tipoPsicologia
 
-            document.getElementById('idPaciente').value = idPaciente
-            const modal = document.getElementById('modalHistoria')
-            const modalInstance = bootstrap.Modal.getInstance(modal)
-            modalInstance.hide()
+        document.querySelectorAll('input[data-role="tagsinput"]').forEach(input => {
+            $(input).tagsinput('removeAll');
+        });
 
-            mostrarInformacionHistoria(idPaciente)
+
+        var selects = formHistoria.querySelectorAll('select[multiple]');
+        for (var i = 0; i < selects.length; i++) {
+            selects[i].selectedIndex = -1;
+            $(selects[i]).val([]).trigger('change');
+        }
+    }
+
+    function limpiarConsulta() {
+        let formHistoria = document.getElementById("formConsulta")
+        formHistoria.reset()
+
+        CKEDITOR.instances['motivoConsultaModal'].setData('')
+        CKEDITOR.instances['objetivo_sesion'].setData('')
+        CKEDITOR.instances['tecnicas_utilizadas'].setData('')
+        CKEDITOR.instances['actividades_especificas'].setData('')
+        CKEDITOR.instances['evaluacion_indicadores'].setData('')
+        CKEDITOR.instances['evolucion_sesion'].setData('')
+
+        $('#codConsultaConsulta').val(null).trigger('change');
+        $('#codImpresionDiagnosticoConsulta').val(null).trigger('change');
+        $('#otra_ImpresionDiagnosticaConsulta').val(null).trigger('change');
+    }
+
+    function nuevoRegistroConsulta() {
+        document.getElementById("listadoConsultas").style.display = "none"
+        document.getElementById("fomrConsultas").style.display = "initial"
+        document.getElementById("titConsulta").innerHTML = "Agregar evolución clínica"
+        document.getElementById("accHistoriaConsulta").value = "guardar"
+        limpiarConsulta()
+    }
+
+    function cargarPacientes(page, searchTerm = '') {
+        let url = "{{ route('pacientes.listaPacientesModal') }}"
+
+        var oldPageInput = document.getElementById('pagePac')
+        var oldSearchTermInput = document.getElementById('busquedaPac')
+        if (oldPageInput) oldPageInput.remove()
+        if (oldSearchTermInput) oldSearchTermInput.remove()
+
+        var data = {
+            page: page,
+            search: searchTerm
         }
 
-        function toggleOtro(selectElement) {
-            const inputId = selectElement.id + "_otro"
-            const inputField = document.getElementById(inputId)
+        fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(responseData => {
 
-            // Obtener el atributo data-nombre del elemento seleccionado
-            const selectedOption = selectElement.options[selectElement.selectedIndex]
-            const dataNombre = selectedOption ? selectedOption.getAttribute('data-nombre') : null
+                document.getElementById('trRegistrosPacientes').innerHTML = responseData.pacientes
+                feather.replace()
 
-            if (dataNombre === "otro") {
-                inputField.classList.remove("d-none")
-                inputField.focus()
-            } else {
-                inputField.classList.add("d-none")
-            }
+                document.getElementById('pagination-links-pacientes').innerHTML = responseData.links
+                loadNow(0)
+            })
+            .catch(error => console.error('Error:', error))
+            .finally(() => {
+                // Ocultar loader después de recibir la respuesta (éxito o error)
+                document.getElementById("loaderPacientes").style.display = "none";
+            })
+    }
+
+    function seleccionarPaciente(element) {
+
+        let idPaciente = element.getAttribute("data-id")
+        let edadPaciente = parseInt(element.getAttribute("data-edad"), 10)
+        let tipoPsicologia
+        if (edadPaciente < 18) {
+            tipoPsicologia = "Pediatría"
+            document.getElementById("infPediatria").style.display = "initial"
+        } else {
+            tipoPsicologia = "Adulto"
+            document.getElementById("infPediatria").style.display = "none"
+
         }
 
-        function eliminarHistoria(idHistoria) {
-            if (hasPermission('editarHistoria')) {
+        let tipoText = document.getElementById("tipoPsicologia")
+        tipoText.value = tipoPsicologia
+
+        //limpiar porcentaje
+        window.porcentajeCompletitud = 0
+        document.getElementById('BarraPorcentajeCompletitud').style.width = "0%"
+        document.getElementById('PorcentajeCompletitud').innerHTML = "0%"
+
+        document.getElementById('idPaciente').value = idPaciente
+        const modal = document.getElementById('modalHistoria')
+        const modalInstance = bootstrap.Modal.getInstance(modal)
+        modalInstance.hide()
+
+        mostrarInformacionHistoria(idPaciente)
+
+    }
+
+    function toggleOtro(selectElement) {
+        const inputId = selectElement.id + "_otro"
+        const inputField = document.getElementById(inputId)
+
+        // Obtener el atributo data-nombre del elemento seleccionado
+
+        const selectedOption = selectElement.options[selectElement.selectedIndex]
+        const dataNombre = selectedOption ? selectedOption.getAttribute('data-nombre') : null
+
+        if (dataNombre === "otro") {
+            inputField.classList.remove("d-none")
+            inputField.focus()
+        } else {
+            inputField.classList.add("d-none")
+        }
+    }
+
+    function eliminarHistoria(idHistoria) {
+        if (hasPermission('editarHistoria')) {
+            swal({
+                title: "Esta seguro de eliminar esta historia ?",
+                text: "¡No podrás revertir esto!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, eliminar!",
+                cancelButtonText: "Cancelar",
+                confirmButtonClass: "btn btn-warning",
+                cancelButtonClass: "btn btn-danger ml-1",
+                buttonsStyling: false
+            }, function(isConfirm) {
+                if (isConfirm) {
+                    let url = "{{ route('historia.eliminarHistoria') }}";
+                    fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                    .getAttribute(
+                                        'content')
+                            },
+                            body: JSON.stringify({
+                                idHistoria: idHistoria
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                swal("¡Buen trabajo!",
+                                    data.message,
+                                    "success")
+                                cargarHistorias(1)
+                            } else {
+                                swal("¡Alerta!",
+                                    "La operación fue realizada exitosamente",
+                                    data.message,
+                                    "success")
+                            }
+                        })
+                }
+            })
+        } else {
+            swal("¡Alerta!",
+                "No tiene el permiso necesario para realizar esta acción",
+                "warning")
+        }
+    }
+
+    function cerrarHistoria(element) {
+        let idHist = element.getAttribute("data-id")
+        let estado = element.getAttribute("data-estado")
+
+        if (hasPermission('editarHistoria')) {
+            if (estado == "abierta") {
                 swal({
-                    title: "Esta seguro de eliminar esta historia ?",
-                    text: "¡No podrás revertir esto!",
+                    title: "Cerrar historia clinica del paciente.",
+                    text: "Al cerrar la historia clicnica del paciente esta no podra ser editada, ¿Desea cerrar la historia?",
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
                     cancelButtonColor: "#d33",
-                    confirmButtonText: "Si, eliminar!",
+                    confirmButtonText: "Si, cerrarla!",
                     cancelButtonText: "Cancelar",
                     confirmButtonClass: "btn btn-warning",
                     cancelButtonClass: "btn btn-danger ml-1",
                     buttonsStyling: false
                 }, function(isConfirm) {
                     if (isConfirm) {
-                        let url = "{{ route('historia.eliminarHistoria') }}";
+                        let url = "{{ route('historia.cerrarHistoria') }}"
                         fetch(url, {
                                 method: 'POST',
                                 headers: {
@@ -2845,7 +3280,53 @@
                                             'content')
                                 },
                                 body: JSON.stringify({
-                                    idHistoria: idHistoria
+                                    idHist: idHist,
+                                    estado: estado
+                                })
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    swal("¡Buen trabajo!",
+                                        data.message,
+                                        "success");
+                                    cargarHistorias(1);
+                                } else {
+                                    swal("¡Alerta!",
+                                        "La operación fue realizada exitosamente",
+                                        data.message,
+                                        "success");
+                                }
+                            })
+                    }
+                })
+            } else {
+                swal({
+                    title: "Abrir historia clinica del paciente.",
+                    text: "Al abrir la historia clicnica del paciente esta podra ser editada, ¿Desea abrir la historia?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Si, abrirla!",
+                    cancelButtonText: "Cancelar",
+                    confirmButtonClass: "btn btn-warning",
+                    cancelButtonClass: "btn btn-danger ml-1",
+                    buttonsStyling: false
+                }, function(isConfirm) {
+                    if (isConfirm) {
+                        let url = "{{ route('historia.cerrarHistoria') }}";
+                        fetch(url, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                        .getAttribute(
+                                            'content')
+                                },
+                                body: JSON.stringify({
+                                    idHist: idHist,
+                                    estado: estado
                                 })
                             })
                             .then(response => response.json())
@@ -2864,67 +3345,35 @@
                             })
                     }
                 })
-            } else {
-                swal("¡Alerta!",
-                    "No tiene el permiso necesario para realizar esta acción",
-                    "warning")
             }
+        } else {
+            swal("¡Alerta!",
+                "No tiene el permiso necesario para realizar esta acción",
+                "warning")
         }
+    }
 
-        function cerrarHistoria(element) {
-            let idHist = element.getAttribute("data-id")
-            let estado = element.getAttribute("data-estado")
+    function mostrarInformacionHistoria(idPaciente) {
+        let url = "{{ route('pacientes.buscaPacienteHistoria') }}"
 
-            if (hasPermission('editarHistoria')) {
-                if (estado == "abierta") {
+        fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    idPaciente: idPaciente
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                //DATOS DEL PACIENTE
+
+                if (data.historia) {
                     swal({
-                        title: "Cerrar historia clinica del paciente.",
-                        text: "Al cerrar la historia clicnica del paciente esta no podra ser editada, ¿Desea cerrar la historia?",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#3085d6",
-                        cancelButtonColor: "#d33",
-                        confirmButtonText: "Si, cerrarla!",
-                        cancelButtonText: "Cancelar",
-                        confirmButtonClass: "btn btn-warning",
-                        cancelButtonClass: "btn btn-danger ml-1",
-                        buttonsStyling: false
-                    }, function(isConfirm) {
-                        if (isConfirm) {
-                            let url = "{{ route('historia.cerrarHistoria') }}"
-                            fetch(url, {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                            .getAttribute(
-                                                'content')
-                                    },
-                                    body: JSON.stringify({
-                                        idHist: idHist,
-                                        estado: estado
-                                    })
-                                })
-                                .then(response => response.json())
-                                .then(data => {
-                                    if (data.success) {
-                                        swal("¡Buen trabajo!",
-                                            data.message,
-                                            "success");
-                                        cargarHistorias(1);
-                                    } else {
-                                        swal("¡Alerta!",
-                                            "La operación fue realizada exitosamente",
-                                            data.message,
-                                            "success");
-                                    }
-                                })
-                        }
-                    })
-                } else {
-                    swal({
-                        title: "Abrir historia clinica del paciente.",
-                        text: "Al abrir la historia clicnica del paciente esta podra ser editada, ¿Desea abrir la historia?",
+                        title: "Este paciente ya tiene una historia clínica registrada.",
+                        text: "Desea abrir la historia",
                         type: "warning",
                         showCancelButton: true,
                         confirmButtonColor: "#3085d6",
@@ -2936,252 +3385,205 @@
                         buttonsStyling: false
                     }, function(isConfirm) {
                         if (isConfirm) {
-                            let url = "{{ route('historia.cerrarHistoria') }}";
-                            fetch(url, {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                            .getAttribute(
-                                                'content')
-                                    },
-                                    body: JSON.stringify({
-                                        idHist: idHist,
-                                        estado: estado
-                                    })
-                                })
-                                .then(response => response.json())
-                                .then(data => {
-                                    if (data.success) {
-                                        swal("¡Buen trabajo!",
-                                            data.message,
-                                            "success")
-                                        cargarHistorias(1)
-                                    } else {
-                                        swal("¡Alerta!",
-                                            "La operación fue realizada exitosamente",
-                                            data.message,
-                                            "success")
-                                    }
-                                })
+                            let elemento = document.createElement('div'); // O cualquier otro elemento
+                            elemento.setAttribute('data-id', data.historia.id);
+                            elemento.setAttribute('data-tipo', data.historia.tipologia);
+                            verHistoria(elemento)
+                            document.getElementById("btn-imprimirHistoria").style.display = "initial"
                         }
                     })
-                }
-            } else {
-                swal("¡Alerta!",
-                    "No tiene el permiso necesario para realizar esta acción",
-                    "warning")
-            }
-        }
-
-        function mostrarInformacionHistoria(idPaciente) {
-            let url = "{{ route('pacientes.buscaPacienteHistoria') }}"
-
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        idPaciente: idPaciente
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    //DATOS DEL PACIENTE
-                    if (data.historia) {
-                        swal({
-                            title: "Este paciente ya tiene una historia clínica registrada.",
-                            text: "Desea abrir la historia",
-                            type: "warning",
-                            showCancelButton: true,
-                            confirmButtonColor: "#3085d6",
-                            cancelButtonColor: "#d33",
-                            confirmButtonText: "Si, abrirla!",
-                            cancelButtonText: "Cancelar",
-                            confirmButtonClass: "btn btn-warning",
-                            cancelButtonClass: "btn btn-danger ml-1",
-                            buttonsStyling: false
-                        }, function(isConfirm) {
-                            if (isConfirm) {
-                                let elemento = document.createElement('div'); // O cualquier otro elemento
-                                elemento.setAttribute('data-id', data.historia.id);
-                                elemento.setAttribute('data-tipo', data.historia.tipologia);
-                                verHistoria(elemento)
-                            }
-                        })
-                    } else {
-                        mapearInfPaciente(data.paciente)
-                        document.getElementById('listado').style.display = 'none'
-                        document.getElementById('historia').style.display = 'block'
-                    }
-                })
-                .catch(error => console.error('Error:', error))
-        }
-
-        function mapearInfPaciente(paciente) {
-
-            var foto = paciente.foto
-            const previewImage = document.getElementById('imgPaciente')
-            let url = $('#Ruta').data("ruta")
-            previewImage.src = url + "/images/FotosPacientes/" + foto
-
-            document.getElementById("nombrePaciente").innerHTML =
-                `${paciente.primer_nombre} ${paciente.primer_apellido} `
-            document.getElementById("edadPaciente").innerHTML = paciente.edadTexto
-
-            document.getElementById("identificacionPacienteHist").innerHTML =
-                `${paciente.tipo_identificacion} - ${paciente.identificacion}`
-            document.getElementById("nombreCompletoPacienteHist").innerHTML =
-                `${paciente.primer_nombre} ${paciente.primer_apellido} ${paciente.segundo_nombre} ${paciente.segundo_apellido} `
-
-
-            var fechForm = convertirFecha(paciente.fecha_nacimiento)
-            document.getElementById("fechaNacimeintoPacienteHist").innerHTML =
-                `${fechForm} (${paciente.edadTexto})`
-            document.getElementById("tipoUsuarioPacienteHist").innerHTML = tipoUsuario(paciente
-                .tipo_usuario)
-
-            let sexo =
-                (paciente.sexo === "H") ? "Hombre" :
-                (paciente.sexo === "M") ? "Mujer" :
-                "Indeterminado o Intersexual"
-
-            document.getElementById("sexoPacienteHist").innerHTML = sexo
-
-            document.getElementById("emailPacienteHist").innerHTML = paciente.email
-            document.getElementById("telefonoPacienteHist").innerHTML = paciente.telefono
-            document.getElementById("direccionPacienteHist").innerHTML = paciente.direccion
-
-            let zona = (paciente.zona_residencial === "01") ? "Rural" : "Urbano"
-
-            document.getElementById("zonaResidencialPacienteHist").innerHTML = zona
-
-            document.getElementById("accHistoria").value = 'guardar'
-        }
-
-        function tipoUsuario(tipUsuario) {
-            let usuario =
-                (tipUsuario === "01") ? "Contributivo cotizante" :
-                (tipUsuario === "02") ? "Contributivo beneficiario" :
-                (tipUsuario === "03") ? "Contributivo adicional" :
-                (tipUsuario === "04") ? "Subsidiado" :
-                (tipUsuario === "05") ? "No afiliado" :
-                (tipUsuario === "06") ? "Especial o Excepcion cotizante" :
-                (tipUsuario === "07") ? "Especial o Excepcion beneficiario" :
-                (tipUsuario === "08") ? "Personas privadas de la libertad a cargo del Fondo Nacional de Salud" :
-                (tipUsuario === "09") ? "Tomador / Amparado ARL" :
-                (tipUsuario === "10") ? "Tomador / Amparado SOAT" :
-                "Sin Especificar"
-
-            return usuario
-        }
-
-        function convertirFecha(fecha) {
-            // Dividir la fecha en año, mes y día
-            const [año, mes, dia] = fecha.split('-')
-            /**
-             * 
-             **/
-            //Formatear la fecha en el formato dd/mm/yyyy
-            const fechaFormateada = `${dia.padStart(2, '0')}/${mes.padStart(2, '0')}/${año}`
-
-            return fechaFormateada
-        }
-
-        function evolucionHistoria(element) {
-            let idHist = element.getAttribute("data-id")
-            let estadoHis = element.getAttribute("data-estado")
-            document.getElementById("idHistoria").value = idHist
-            document.getElementById("estadoHistoria").value = estadoHis
-            abrirConsultas(1)
-        }
-
-        function abrirConsultas(op) {
-            if (document.getElementById("idHistoria").value != "") {
-                if (document.getElementById("estadoHistoria").value == "cerrada") {
-                    var modal = new bootstrap.Modal(document.getElementById("modalConsulta"), {
-                        backdrop: 'static',
-                        keyboard: false
-                    })
-
-                    modal.show()
-                    if (op == 1) {
-                        document.getElementById("listadoConsultas").style.display = "initial"
-                        document.getElementById("fomrConsultas").style.display = "none"
-                    }
-
-                    cargarConsultas(1)
                 } else {
-                    swal("¡Atención!",
-                        "Para gestionar las evoluciones la historia clinica debe estar cerrada.",
-                        "warning");
+                    mapearInfPaciente(data.paciente)
+                    document.getElementById('listado').style.display = 'none'
+                    document.getElementById('historia').style.display = 'block'
+
+                }
+            })
+            .catch(error => console.error('Error:', error))
+    }
+
+    function mapearInfPaciente(paciente) {
+
+        var foto = paciente.foto
+        const previewImage = document.getElementById('imgPaciente')
+        let url = $('#Ruta').data("ruta")
+        previewImage.src = url + "/images/FotosPacientes/" + foto
+
+        document.getElementById("nombrePaciente").innerHTML =
+            `${paciente.primer_nombre} ${paciente.primer_apellido} `
+        document.getElementById("edadPaciente").innerHTML = paciente.edadTexto
+
+        document.getElementById("identificacionPacienteHist").innerHTML =
+            `${paciente.tipo_identificacion} - ${paciente.identificacion}`
+        document.getElementById("nombreCompletoPacienteHist").innerHTML =
+            `${paciente.primer_nombre} ${paciente.segundo_nombre} ${paciente.primer_apellido} ${paciente.segundo_apellido} `
+
+
+        var fechForm = convertirFecha(paciente.fecha_nacimiento)
+        document.getElementById("fechaNacimeintoPacienteHist").innerHTML =
+            `${fechForm} (${paciente.edadTexto})`
+        document.getElementById("tipoUsuarioPacienteHist").innerHTML = tipoUsuario(paciente
+            .tipo_usuario)
+
+        let sexo =
+            (paciente.sexo === "H") ? "Hombre" :
+            (paciente.sexo === "M") ? "Mujer" :
+            "Indeterminado o Intersexual"
+
+        document.getElementById("sexoPacienteHist").innerHTML = sexo
+
+        document.getElementById("emailPacienteHist").innerHTML = paciente.email
+        document.getElementById("telefonoPacienteHist").innerHTML = paciente.telefono
+        document.getElementById("direccionPacienteHist").innerHTML = paciente.direccion
+
+        let zona = (paciente.zona_residencial === "01") ? "Rural" : "Urbano"
+
+        document.getElementById("zonaResidencialPacienteHist").innerHTML = zona
+
+        document.getElementById("accHistoria").value = 'guardar'
+    }
+
+    function tipoUsuario(tipUsuario) {
+        let usuario =
+            (tipUsuario === "01") ? "Contributivo cotizante" :
+            (tipUsuario === "02") ? "Contributivo beneficiario" :
+            (tipUsuario === "03") ? "Contributivo adicional" :
+            (tipUsuario === "04") ? "Subsidiado" :
+            (tipUsuario === "05") ? "No afiliado" :
+            (tipUsuario === "06") ? "Especial o Excepcion cotizante" :
+            (tipUsuario === "07") ? "Especial o Excepcion beneficiario" :
+            (tipUsuario === "08") ? "Personas privadas de la libertad a cargo del Fondo Nacional de Salud" :
+            (tipUsuario === "09") ? "Tomador / Amparado ARL" :
+            (tipUsuario === "10") ? "Tomador / Amparado SOAT" :
+            "Sin Especificar"
+
+        return usuario
+    }
+
+    function convertirFecha(fecha) {
+        // Dividir la fecha en año, mes y día
+        const [año, mes, dia] = fecha.split('-')
+        /**
+         * 
+         **/
+        //Formatear la fecha en el formato dd/mm/yyyy
+        const fechaFormateada = `${dia.padStart(2, '0')}/${mes.padStart(2, '0')}/${año}`
+
+        return fechaFormateada
+    }
+
+    function evolucionHistoria(element) {
+        let idHist = element.getAttribute("data-id")
+        let estadoHis = element.getAttribute("data-estado")
+        document.getElementById("idHistoria").value = idHist
+        document.getElementById("estadoHistoria").value = estadoHis
+        abrirConsultas(1)
+    }
+
+    function abrirConsultas(op) {
+        if (document.getElementById("idHistoria").value != "") {
+            if (document.getElementById("estadoHistoria").value == "cerrada") {
+                var modal = new bootstrap.Modal(document.getElementById("modalConsulta"), {
+                    backdrop: 'static',
+                    keyboard: false
+                })
+
+                modal.show()
+                if (op == 1) {
+                    document.getElementById("listadoConsultas").style.display = "initial"
+                    document.getElementById("fomrConsultas").style.display = "none"
                 }
 
+                cargarConsultas(1)
             } else {
                 swal("¡Atención!",
-                    "El paciente no puede ser evolucionado ya que no cuenta con una historia clínica en el sistema.",
+                    "Para gestionar las evoluciones la historia clinica debe estar cerrada.",
                     "warning");
             }
 
+        } else {
+            swal("¡Atención!",
+                "El paciente no puede ser evolucionado ya que no cuenta con una historia clínica en el sistema.",
+                "warning");
         }
 
-        function cargarConsultas(page, searchTerm = '') {
+    }
 
-            let url = "{{ route('historia.listaConsultasModal') }}" // Definir la URL
-            // Eliminar los campos ocultos anteriores
-            var oldPageInput = document.getElementById('pageConsulta')
-            var oldSearchTermInput = document.getElementById('busquedaConsulta')
-            if (oldPageInput) oldPageInput.remove()
-            if (oldSearchTermInput) oldSearchTermInput.remove()
+    function cargarConsultas(page, searchTerm = '') {
 
-            var data = {
-                page: page,
-                search: searchTerm,
-                idHist: document.getElementById("idHistoria").value
+        let url = "{{ route('historia.listaConsultasModal') }}" // Definir la URL
+        // Eliminar los campos ocultos anteriores
+        var oldPageInput = document.getElementById('pageConsulta')
+        var oldSearchTermInput = document.getElementById('busquedaConsulta')
+        if (oldPageInput) oldPageInput.remove()
+        if (oldSearchTermInput) oldSearchTermInput.remove()
+
+        var data = {
+            page: page,
+            search: searchTerm,
+            idHist: document.getElementById("idHistoria").value
+        }
+
+        // Limpiar la tabla antes de cargar nuevos datos
+        fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(responseData => {
+                // Rellenar la tabla con las filas generadas
+                document.getElementById("historialConsulta").innerHTML = responseData.historialConsultas
+                document.getElementById('trRegistrosConsultas').innerHTML = responseData.consultas
+                feather.replace()
+                // Colocar los enlaces de paginación
+                document.getElementById('pagination-links-consulta').innerHTML = responseData.links
+                loadNow(0)
+            })
+            .catch(error => console.error('Error:', error))
+    }
+
+    function guardarHistoria() {
+        if ($("#formHistoria").valid()) {
+            // Actualizar elementos de CKEditor
+            for (var instanceName in CKEDITOR.instances) {
+                CKEDITOR.instances[instanceName].updateElement();
             }
 
-            // Limpiar la tabla antes de cargar nuevos datos
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then(responseData => {
-                    // Rellenar la tabla con las filas generadas
-                    document.getElementById("historialConsulta").innerHTML = responseData.historialConsultas
-                    document.getElementById('trRegistrosConsultas').innerHTML = responseData.consultas
-                    feather.replace()
-                    // Colocar los enlaces de paginación
-                    document.getElementById('pagination-links-consulta').innerHTML = responseData.links
-                    loadNow(0)
-                })
-                .catch(error => console.error('Error:', error))
-        }
+            // Obtener el formulario y preparar los datos
+            const formHistoria = document.getElementById('formHistoria');
+            const formData = new FormData(formHistoria);
+            document.getElementById('primeraVez').checked ?
+                formData.append('primeraVez', '1') :
+                formData.append('primeraVez', '0');
 
-        function guardarHistoria() {
-            if ($("#formHistoria").valid()) {
-                // Actualizar elementos de CKEditor
-                for (var instanceName in CKEDITOR.instances) {
-                    CKEDITOR.instances[instanceName].updateElement();
-                }
+            const url = "{{ route('form.guardarHistoriaPsicologica') }}";
 
-                // Obtener el formulario y preparar los datos
-                const formHistoria = document.getElementById('formHistoria');
-                const formData = new FormData(formHistoria);
-                document.getElementById('primeraVez').checked ?
-                    formData.append('primeraVez', '1') :
-                    formData.append('primeraVez', '0');
+            var error = validarFormularioEnvio();
+            var porcentaje = window.porcentajeCompletitud;
 
-                const url = "{{ route('form.guardarHistoriaPsicologica') }}";
+            // Mostrar SweetAlert de confirmación
+            swal({
+                title: "Confirmar guardado",
+                text: `Has completado el ${porcentaje}% de los campos requeridos. ¿Deseas guardar de todas formas?`,
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, guardar!",
+                cancelButtonText: "Cancelar",
+                confirmButtonClass: "btn btn-warning",
+                cancelButtonClass: "btn btn-danger ml-1",
+                buttonsStyling: false
+            }, function(isConfirm) {
+                if (isConfirm) {
 
-                var error = validarFormularioEnvio();
-                if (!error) {
+                    formData.append('porcentaje_completitud', porcentaje);
+                    formData.append('completa', error ? '0' : '1');
+
                     fetch(url, {
                             method: 'POST',
                             body: formData,
@@ -3192,599 +3594,385 @@
                         })
                         .then(response => response.json())
                         .then(data => {
-                            if (data.success === 'success') { // Comparación estricta
+                            if (data.success) { // Comparación estricta
                                 document.getElementById("idHistoria").value = data.id;
                                 cargarHistorias(1);
                                 var btnGuardar = document.getElementById("btn-guardarHistoria");
                                 btnGuardar.disabled = true;
-
-                                swal(data.title, data.message, data.success)
-
-
+                                swal("Historia Psicologica", data.message, "success");
+                                setTimeout(function() {
+                                    document.getElementById('listado').style.display = 'block'
+                                    document.getElementById('historia').style.display = 'none'
+                                }, 1000);
 
                             } else {
-                                Swal.fire(data.title, data.message, "error");
+                                swal(data.title, data.message, "error");
                             }
                         })
                         .catch(error => {
                             console.error("Error al enviar los datos:", error);
                         });
+
+                } else {
+                    swal("Cancelado", "Tu registro esta salvo :)", "error");
                 }
-            }
+            });
         }
+    }
 
-        function validarFormularioEnvio() {
+    function validarFormularioEnvio() {
+        var error = false;
+        var camposCompletados = 0;
+        var totalCampos = 0;
+        var camposIncompletos = [];
 
-            var error = false;
-            var mensaje = "";
-            if (document.getElementById("codConsulta").value == "") {
-                error = true;
-                mensaje += "Debe seleccionar un código de consulta. \n";
-            }
-            if (document.getElementById("codDiagnostico").value == "") {
-                error = true;
-                mensaje += "Debe seleccionar un código de diagnóstico. \n";
-            }
-            if (document.getElementById("codImpresionDiagnostico").value == "") {
-                error = true;
-                mensaje += "Debe seleccionar un código de impresión diagnóstica. \n";
-            }
 
-            if (document.getElementById("enfermedadActual").value == "") {
-                error = true;
-                mensaje += "Debe ingresar la enfermedad actual. \n";
-            }
-            if (document.getElementById("observaciones_recomendaciones").value == "") {
-                error = true;
-                mensaje += "Debe ingresar las observaciones y recomendaciones. \n";
-            }
-            if (document.getElementById("sugerencia_interconsultas").value == "") {
-                error = true;
-                mensaje += "Debe ingresar las sugerencias de interconsultas. \n";
-            }
-            if (document.getElementById("objetivos_especificos").value == "") {
-                error = true;
-                mensaje += "Debe ingresar los objetivos específicos. \n";
-            }
-            if (document.getElementById("objetivo_general").value == "") {
-                error = true;
-                mensaje += "Debe ingresar el objetivo general. \n";
-            }
-            if (document.getElementById("medicacion").value == "") {
-                error = true;
-                mensaje += "Debe ingresar la medicación. \n";
-            }
-            if (document.getElementById("remision").value == "") {
-                error = true;
-                mensaje += "Debe ingresar la remisión. \n";
-            }
-            if (document.getElementById("motivoConsulta").value == "") {
-                error = true;
-                mensaje += "Debe ingresar el motivo de la consulta. \n";
-            }
-            if (document.getElementById("resumen_evaluacion_inicial").value == "") {
-                error = true;
-                mensaje += "Debe ingresar el resumen de la evaluación inicial. \n";
-            }
-            // if (document.getElementById("plan_intervencion").value == "") {
-            //     error = true;
-            //     mensaje += "Debe ingresar el plan de intervención. \n";
-            // }
-            if (document.getElementById("codConsulta").value == "") {
-                error = true;
-                mensaje += "Debe seleccionar un código de consulta. \n";
-            }
-            if (document.getElementById("codDiagnostico").value == "") {
-                error = true;
-                mensaje += "Debe seleccionar un código de diagnóstico. \n";
-            }
-            if (document.getElementById("codImpresionDiagnostico").value == "") {
-                error = true;
-                mensaje += "Debe seleccionar un código de impresión diagnóstica. \n";
-            }
 
-            if (document.getElementById("enfermedadActual").value == "") {
-                error = true;
-                mensaje += "Debe ingresar la enfermedad actual. \n";
-            }
-            // if (document.getElementById("observaciones_recomendaciones").value == "") {
-            //     error = true;
-            //     mensaje += "Debe ingresar las observaciones y recomendaciones. \n";
-            // }
-            if (document.getElementById("sugerencia_interconsultas").value == "") {
-                error = true;
-                mensaje += "Debe ingresar las sugerencias de interconsultas. \n";
-            }
-            if (document.getElementById("objetivos_especificos").value == "") {
-                error = true;
-                mensaje += "Debe ingresar los objetivos específicos. \n";
-            }
-            if (document.getElementById("objetivo_general").value == "") {
-                error = true;
-                mensaje += "Debe ingresar el objetivo general. \n";
-            }
-            if (document.getElementById("medicacion").value == "") {
-                error = true;
-                mensaje += "Debe ingresar la medicación. \n";
-            }
-            if (document.getElementById("remision").value == "") {
-                error = true;
-                mensaje += "Debe ingresar la remisión. \n";
-            }
+        var camposRequeridos = [
+            "remision",
+            "codConsulta",
+            "motivoConsulta",
+            "codDiagnostico",
+            "enfermedadActual",
+            "quirurgicos",
+            "patologia",
+            "medicacion",
+            "depresion",
+            "ansiedad",
+            "demencia",
+            "alcoholismo",
+            "drogadiccion",
+            "discapacidad_intelectual",
+            "patologicos",
+            "historia_educativa",
+            "historia_laboral",
+            "historia_familiar",
+            "historia_socio_afectiva",
+            "historia_deportiva",
+            "resumen_evaluacion_inicial",
+            "intervencion_psiquiatria",
+            "intervencion_neurologia",
+            "intervencion_neuropsicologia",
+            "examen_mental",
+            "ciclos_del_sueno",
+            "apetito",
+            "autocuidado",
+            "codImpresionDiagnostico",
+            "establecidoPrimeraVez",
+            "plan_intervencion",
+            "objetivo_general",
+            "objetivos_especificos",
+            "sugerencia_interconsultas",
+            "observaciones_recomendaciones",
+            "idProfesional"
 
-            if (document.getElementById("resumen_evaluacion_inicial").value == "") {
-                error = true;
-                mensaje += "Debe ingresar el resumen de la evaluación inicial. \n";
-            }
-            if (document.getElementById("plan_intervencion").value == "") {
-                error = true;
-                mensaje += "Debe ingresar el plan de intervención. \n";
-            }
+        ];
 
-            if (error) {
-                swal("¡Alerta!", mensaje, "warning");
-            }
+        // Campos adicionales para Pediatría
+        var camposPediatria = [
+            "edad_madre",
+            "enfermedades_madre",
+            "numero_embarazo",
+            "enbarazo_controlado",
+            "planificacion",
+            "estado_madre",
+            "tipo_nacimiento",
+            "reanimacion",
+            "peso_nacer",
+            "talla_nacer",
+            "llanto_nacer",
+            "depresion",
+            "ansiedad",
+            "demencia",
+            "alcoholismo",
+            "drogadiccion",
+            "discapacidad_intelectual"
+        ];
 
-            return error;
-
+        let totalCamp = 0;
+        if (document.getElementById("tipoPsicologia").value === "Pediatría") {
+            totalCamp = camposPediatria.length + camposRequeridos.length;
+        } else {
+            totalCamp = camposRequeridos.length;
         }
+        // Verificar campos básicos
+        camposRequeridos.forEach(function(campo) {
+            totalCampos++;
+            let campoElement = document.getElementById(campo);
+            const tag = campoElement.tagName.toLowerCase();
+            //validado para textarea y input
+            if (tag === "textarea") {
+                if (CKEDITOR.instances[campoElement.id]) {
+                    const contenido = CKEDITOR.instances[campoElement.id].getData().trim();
 
-
-        function miFuncion() {
-            console.log("La función fue llamada después de que el usuario hizo clic en 'OK'");
-            // Aquí puedes agregar tu lógica adicional
-        }
-
-        function guardarConsulta() {
-            if ($("#formConsulta").valid()) {
-                for (var instanceName in CKEDITOR.instances) {
-                    CKEDITOR.instances[instanceName].updateElement()
-                }
-                const formConsulta = document.getElementById('formConsulta')
-                const formData = new FormData(formConsulta)
-                formData.append('idHist', document.getElementById("idHistoria").value)
-
-                const url = "{{ route('form.guardarConsultaPsicologica') }}"
-
-                var error = validarFormularioConsultaEnvio();
-                if (!error) {
-                    fetch(url, {
-                            method: 'POST',
-                            body: formData,
-                            headers: {
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                                    'content')
-                            }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log(data)
-                            if (data.success = 'success') {
-
-                                swal(data.title, data.message, data.success)
-                                cargarConsultas(1)
-                                document.getElementById("listadoConsultas").style.display = "initial"
-                                document.getElementById("fomrConsultas").style.display = "none"
-
-                            } else {
-                                swal(data.title, data.message, data.success)
-                            }
-                        })
-                        .catch(error => {
-                            console.error("Error al enviar los datos:", error)
-                        })
-                }
-
-            }
-        }
-
-        function validarFormularioConsultaEnvio() {
-            var error = false;
-            var mensaje = "";
-            if (document.getElementById("codConsultaConsulta").value == "") {
-                error = true;
-                mensaje += "Debe seleccionar un código de evolución. \n";
-            }
-            if (document.getElementById("codImpresionDiagnosticoConsulta").value == "") {
-                error = true;
-                mensaje += "Debe seleccionar un código de impresión diagnóstica. \n";
-            }
-
-            if (document.getElementById("objetivo_sesion").value == "") {
-                error = true;
-                mensaje += "Debe ingresar el objetivo de la sesión. \n";
-            }
-            if (document.getElementById("tecnicas_utilizadas").value == "") {
-                error = true;
-                mensaje += "Debe ingresar las técnicas utilizadas. \n";
-            }
-            if (document.getElementById("actividades_especificas").value == "") {
-                error = true;
-                mensaje += "Debe ingresar las actividades específicas. \n";
-            }
-            if (document.getElementById("evaluacion_indicadores").value == "") {
-                error = true;
-                mensaje += "Debe ingresar la evaluación de indicadores. \n";
-            }
-            if (document.getElementById("evolucion_sesion").value == "") {
-                error = true;
-                mensaje += "Debe ingresar la evolución de la sesión. \n";
-            }
-
-            if (error) {
-                swal("¡Alerta!", mensaje, "warning");
-            }
-
-            return error;
-        }
-
-        function verHistoria(element) {
-            editarHistoria(element);
-            var btnGuardar = document.getElementById("btn-guardarHistoria")
-            btnGuardar.disabled = true
-        }
-
-        function editarHistoria(element) {
-            loadNow(1);
-            limpiarHistoria()
-            document.getElementById('listado').style.display = 'none'
-            document.getElementById('historia').style.display = 'block'
-
-            let idHist = element.getAttribute("data-id")
-            let tipoHis = element.getAttribute("data-tipo")
-            idHistoriaImprimir = idHist;
-
-            var btnGuardar = document.getElementById("btn-guardarHistoria")
-            btnGuardar.disabled = false
-
-            let url = "{{ route('historia.buscaHistoriaPsicologica') }}"
-
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        idHist: idHist
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-
-                    mapearInfPaciente(data.paciente)
-                    mapearAntedentesPersonales(data.antecedentesPersonales)
-                    mapearHistoria(data.historia)
-                    mapearAntedentesFamiliares(data.antecedentesFamiliares)
-                    mapearAreaDesempeno(data.areaAjuste)
-                    mapearInterconsulta(data.interconuslta)
-                    mapearAparienciaPersonal(data.aparienciaPersonal)
-                    mapearFuncionesCognitivas(data.funcionesCognitiva)
-                    mapearFuncionesSomaticas(data.funcionesSomaticas)
-
-                    mapearHistorialConsultas(data.historialConsultas)
-
-
-
-
-                    if (data.historia.tipologia == "Pediatría") {
-                        document.getElementById("infPediatria").style.display = "initial"
-                        mapearAntecedentesPrenatales(data.antecedentesPrenatales)
-                        mapearAntecedentesNatales(data.antecedentesNatales)
-                        mapearAntecedentesPosnatales(data.antecedentesPosnatales)
-                        mapearDesarrolloPsicomotor(data.desarrolloPsicomotor)
+                    if (contenido !== "") {
+                        camposCompletados++;
                     } else {
-                        document.getElementById("infPediatria").style.display = "none"
-
+                        error = true;
+                        camposIncompletos.push(campo);
                     }
-                    loadNow(0);
+                } else {
+                    if (document.getElementById(campo).value !== "") {
+                        camposCompletados++;
+                    } else {
+                        error = true;
+                        camposIncompletos.push(campo);
+                    }
+                }
+            }
 
-                })
-                .catch(error => console.error('Error:', error))
+            //validado para select            
+            if (tag === "select") {
+                if (campoElement.value !== "") {
+                    camposCompletados++;
+                } else {
+                    error = true;
+                    camposIncompletos.push(campo);
+                }
+            }
+
+            //validado para input
+            if (tag === "input") {
+
+                if (document.getElementById(campo).getAttribute('data-role') === 'tagsinput') {
+                    let tagsInput = document.getElementById(campo).value;
+                    if (tagsInput !== "") {
+                        camposCompletados++;
+                    } else {
+                        error = true;
+                        camposIncompletos.push(campo);
+                    }
+                } else {
+                    if (document.getElementById(campo).value !== "") {
+                        camposCompletados++;
+                    }
+                }
+            }
+
+        });
+
+        // Verificar campos adicionales si es Pediatría
+        if (document.getElementById("tipoPsicologia").value === "Pediatría") {
+            camposPediatria.forEach(function(campo) {
+                totalCampos++;
+                let campoElement = document.getElementById(campo);
+
+                if (document.getElementById(campo).value !== "") {
+                    camposCompletados++;
+                } else {
+                    error = true;
+                    camposIncompletos.push(campo);
+                }
+            });
         }
 
 
 
-        function mapearHistorialConsultas(historialConsultas) {
-            document.getElementById("historialConsulta").innerHTML = historialConsultas
-        }
+        // Calcular porcentaje
+        var porcentaje = Math.round((camposCompletados / totalCamp) * 100);
 
-        function editarConsulta(idConsulta) {
-            if (hasPermission('editarEvoluciones')) {
-                document.getElementById("listadoConsultas").style.display = "none"
-                document.getElementById("fomrConsultas").style.display = "initial"
+        // Guardar el porcentaje y los campos incompletos en variables globales
+        window.porcentajeCompletitud = porcentaje;
+        window.camposIncompletos = camposIncompletos;
 
-                document.getElementById("idHistoriaConsulta").value = idConsulta
-                document.getElementById("accHistoriaConsulta").value = "editar"
+        // Mostrar mensaje con el porcentaje
 
-                let url = "{{ route('historia.buscaConsultaPsicologica') }}"
 
+        return error;
+    }
+
+    function guardarConsulta() {
+        if ($("#formConsulta").valid()) {
+            for (var instanceName in CKEDITOR.instances) {
+                CKEDITOR.instances[instanceName].updateElement()
+            }
+            const formConsulta = document.getElementById('formConsulta')
+            const formData = new FormData(formConsulta)
+            formData.append('idHist', document.getElementById("idHistoria").value)
+
+            const url = "{{ route('form.guardarConsultaPsicologica') }}"
+
+            var error = validarFormularioConsultaEnvio();
+            if (!error) {
                 fetch(url, {
                         method: 'POST',
+                        body: formData,
                         headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        },
-                        body: JSON.stringify({
-                            idConsulta: idConsulta
-                        })
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                'content')
+                        }
                     })
                     .then(response => response.json())
                     .then(data => {
-                        cargarSelConsulta(data.consulta.codigo_consulta, 'codConsultaConsulta')
 
-                        cargarImpresion(data.consulta.impresion_diagnostica, 'codImpresionDiagnosticoConsulta')
+                        if (data.success = 'success') {
 
-                        CKEDITOR.instances['motivoConsultaModal'].setData(data.consulta.motivo)
-                        CKEDITOR.instances['objetivo_sesion'].setData(data.consulta.objetivo_sesion)
-                        CKEDITOR.instances['tecnicas_utilizadas'].setData(data.consulta.tecnicas_utilizadas)
-                        CKEDITOR.instances['actividades_especificas'].setData(data.consulta.actividades_especificas)
+                            swal(data.title, data.message, data.success)
+                            cargarConsultas(1)
+                            document.getElementById("listadoConsultas").style.display = "initial"
+                            document.getElementById("fomrConsultas").style.display = "none"
 
-                        const [fecha, hora] = data.consulta.fecha_consulta.split(' ')
-                        document.getElementById('fechaEvolucion').value = fecha
-                        document.getElementById('horaSeleccionadad').value = hora.slice(0, 5)
-
-
-                        CKEDITOR.instances['evaluacion_indicadores'].setData(data.consulta.evaluacion_indicadores)
-                        CKEDITOR.instances['evolucion_sesion'].setData(data.consulta.evolucion_sesion)
-
-                    })
-                    .catch(error => console.error('Error:', error))
-            } else {
-                swal("¡Alerta!",
-                    "No tiene el permiso necesario para realizar esta acción",
-                    "warning")
-            }
-        }
-
-        function mapearDesarrolloPsicomotor(antecedentesPrenatales) {
-            antecedentesPrenatales.forEach(item => {
-                const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
-
-                if (element) {
-                    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-                        element.value = item.detalle // Asignar el valor al input o textarea
-                    } else if (element.tagName === "SELECT") {
-                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
-                    } else {
-                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
-                    }
-                } else {
-                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
-                }
-            })
-        }
-
-        function mapearAntecedentesPosnatales(antecedentesPrenatales) {
-            antecedentesPrenatales.forEach(item => {
-                const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
-
-                if (element) {
-                    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-                        element.value = item.detalle // Asignar el valor al input o textarea
-                    } else if (element.tagName === "SELECT") {
-                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
-                    } else {
-                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
-                    }
-                } else {
-                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
-                }
-            })
-        }
-
-        function mapearAntecedentesPrenatales(antecedentesPrenatales) {
-            antecedentesPrenatales.forEach(item => {
-                const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
-
-                if (element) {
-                    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-                        element.value = item.detalle // Asignar el valor al input o textarea
-                    } else if (element.tagName === "SELECT") {
-                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
-                    } else {
-                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
-                    }
-                } else {
-                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
-                }
-            })
-        }
-
-        function mapearAntecedentesNatales(antecedentesPrenatales) {
-            antecedentesPrenatales.forEach(item => {
-                const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
-
-                if (element) {
-                    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-                        element.value = item.detalle // Asignar el valor al input o textarea
-                    } else if (element.tagName === "SELECT") {
-                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
-                    } else {
-                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
-                    }
-                } else {
-                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
-                }
-            })
-        }
-
-        function mapearFuncionesSomaticas(somaticas) {
-            if (somaticas) {
-                document.getElementById("ciclos_sueno").vlaue = somaticas.ciclos_del_sueno
-                document.getElementById("apetito").vlaue = somaticas.apetito
-                document.getElementById("autocuidado").vlaue = somaticas.actividades_autocuidado
-            }
-        }
-
-        function mapearFuncionesCognitivas(cognitivas) {
-
-            cognitivas.forEach(item => {
-                const element = document.getElementById(item.caracteristica)
-                if (element) {
-                    if (element.tagName === "INPUT") {
-                        element.value = item.detalle // Asignar el valor al input o textarea
-                    } else if (element.tagName === "SELECT") {
-                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
-                        $('#' + item.caracteristica).trigger('change')
-                    } else {
-                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
-                    }
-                } else {
-                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
-                }
-            })
-        }
-
-        function mapearAparienciaPersonal(apariencia) {
-
-            apariencia.forEach(item => {
-                const element = document.getElementById(item.caracteristica)
-                if (element) {
-                    if (element.tagName === "INPUT") {
-                        element.value = item.detalle // Asignar el valor al input o textarea
-                    } else if (element.tagName === "SELECT") {
-                        element.value = item.detalle.toLowerCase() // Asignar el valor a un select
-                        $('#' + item.caracteristica).trigger('change')
-                    } else {
-                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
-                    }
-                } else {
-                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
-                }
-            })
-        }
-
-        function mapearInterconsulta(interconuslta) {
-
-            interconuslta.forEach(item => {
-
-                const element = document.getElementById(item.tipo).id
-                if (element) {
-                    CKEDITOR.instances[element].setData(item.detalle)
-                } else {
-                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
-                }
-            })
-        }
-
-        function mapearAreaDesempeno(antecedentesAreaAjuste) {
-
-            antecedentesAreaAjuste.forEach(item => {
-
-                const element = document.getElementById(item.area)
-                if (element) {
-                    element.value = item.detalle
-                } else {
-                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
-                }
-            })
-        }
-
-        function mapearAntedentesPersonales(antecedentesPersonales) {
-            setTimeout(() => {
-                antecedentesPersonales.forEach(item => {
-                    const element = document.getElementById(item.tipo);
-                    if (element) {
-                        if (element.dataset.role === "tagsinput") {
-                            // Usar el método de la biblioteca para actualizar el valor del tagsinput
-                            $(element).tagsinput('add', item.detalle);
-                        } else if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-                            element.value = item.detalle;
-                        } else if (element.tagName === "SELECT") {
-                            element.value = item.detalle.toLowerCase();
                         } else {
-                            console.warn(`El elemento con ID "${item.tipo}" no es compatible.`);
+                            swal(data.title, data.message, data.success)
                         }
-                    } else {
-                        console.error(`No se encontró un elemento con el ID "${item.tipo}".`);
-                    }
-                });
-            }, 1000);
+                    })
+                    .catch(error => {
+                        console.error("Error al enviar los datos:", error)
+                    })
+            }
+
+        }
+    }
+
+    function validarFormularioConsultaEnvio() {
+        var error = false;
+        var mensaje = "";
+
+        if (document.getElementById("fechaEvolucion").value == "") {
+            error = true;
+            mensaje += "Debe seleccionar una fecha de evolución. \n";
         }
 
+        if (document.getElementById("horaSeleccionadad").value == "") {
+            error = true;
+            mensaje += "Debe seleccionar una hora de evolución. \n";
+        }
 
-        function mapearAntedentesFamiliares(antecedentesFamiliares) {
+        if (document.getElementById("codConsultaConsulta").value == "") {
+            error = true;
+            mensaje += "Debe seleccionar un código de evolución. \n";
+        }
+        if (document.getElementById("codImpresionDiagnosticoConsulta").value == "") {
+            error = true;
+            mensaje += "Debe seleccionar un código de impresión diagnóstica. \n";
+        }
 
-            antecedentesFamiliares.forEach(item => {
-                const element = document.getElementById(item.tipo)
-                if (element) {
-                    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-                        element.value = item.detalle
-                    } else if (element.tagName === "SELECT") {
-                        element.value = item.detalle.toLowerCase()
-                    } else {
-                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
-                    }
-                } else {
-                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
-                }
+        if (document.getElementById("profesionalConsulta").value == "") {
+            error = true;
+            mensaje += "Debe seleccionar un profesional. \n";
+        }
+
+        if (document.getElementById("objetivo_sesion").value == "") {
+            error = true;
+            mensaje += "Debe ingresar el objetivo de la sesión. \n";
+        }
+        
+        let fecha = document.getElementById("fechaEvolucion").value
+            let fechaFormato = fecha.split("-")
+            let anio = fechaFormato[0]
+            let mes = fechaFormato[1]
+            let dia = fechaFormato[2]
+
+            if (anio < 2000) {
+                swal("¡Alerta!", "El año no puede ser menor a 2000", "warning")
+                error = true;
+            }
+            if (mes > 12) {
+                swal("¡Alerta!", "El mes no puede ser mayor a 12", "warning")
+                error = true;
+            }
+            if (dia > 31) {
+                swal("¡Alerta!", "El día no puede ser mayor a 31", "warning")
+                error = true;
+            }
+
+        if (error) {
+            swal("¡Alerta!", mensaje, "warning");
+        }
+
+        return error;
+    }
+
+    function verHistoria(element) {
+        editarHistoria(element);
+        // var btnGuardar = document.getElementById("btn-guardarHistoria")
+        // btnGuardar.disabled = true
+        document.getElementById("btn-imprimirHistoria").style.display = "initial"
+    }
+
+    function editarHistoria(element) {
+        loadNow(1);
+        limpiarHistoria()
+        document.getElementById('listado').style.display = 'none'
+        document.getElementById('historia').style.display = 'block'
+
+        let idHist = element.getAttribute("data-id")
+        let tipoHis = element.getAttribute("data-tipo")
+        idHistoriaImprimir = idHist;
+
+        var btnGuardar = document.getElementById("btn-guardarHistoria")
+        btnGuardar.disabled = false
+
+        let url = "{{ route('historia.buscaHistoriaPsicologica') }}"
+
+        fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    idHist: idHist
+                })
             })
-        }
+            .then(response => response.json())
+            .then(data => {
 
-        function mapearHistoria(historia) {
-            document.getElementById("accHistoria").value = "editar"
-            document.getElementById("estadoHistoria").value = historia.estado_hitoria
-            document.getElementById("idHistoria").value = historia.id
-            document.getElementById("idPaciente").value = historia.id_paciente
+                mapearInfPaciente(data.paciente)
+                mapearAntedentesPersonales(data.antecedentesPersonales)
+                mapearHistoria(data.historia)
+                mapearAntedentesFamiliares(data.antecedentesFamiliares)
+                mapearAreaDesempeno(data.areaAjuste)
+                mapearInterconsulta(data.interconuslta)
+                mapearExamenMental(data.examenMental)
 
-            if (historia.primera_vez == 1) {
-                document.getElementById('primeraVez').checked = true
-            } else {
-                document.getElementById('primeraVez').checked = false
-            }
+                mapearHistorialConsultas(data.historialConsultas)
 
-            CKEDITOR.instances['remision'].setData(historia.remision)
-            CKEDITOR.instances['motivoConsulta'].setData(historia.motivo_consulta)
-            CKEDITOR.instances['resumen_evaluacion_inicial'].setData(historia.eval_inicial)
+                if (data.historia.tipologia == "Pediatría") {
+                    document.getElementById("infPediatria").style.display = "initial"
+                    mapearAntecedentesPrenatales(data.antecedentesPrenatales)
+                    mapearAntecedentesNatales(data.antecedentesNatales)
+                    mapearAntecedentesPosnatales(data.antecedentesPosnatales)
+                    mapearDesarrolloPsicomotor(data.desarrolloPsicomotor)
+                } else {
+                    document.getElementById("infPediatria").style.display = "none"
 
-            cargarSelConsulta(historia.codigo_consulta, 'codConsulta')
-
-            if (historia.otro_motivo_consulta != null) {
-                const valoresConsulta = historia.otro_motivo_consulta.split(',')
-                const motivoConsulta = document.getElementById('motivoConsultaOtro')
-
-                // Restablecer las selecciones actuales (solo en este select)
-                Array.from(motivoConsulta.options).forEach(option => {
-                    option.selected = false
-                })
-
-                // Marcar las opciones como seleccionadas (solo las especificadas)
-                valoresConsulta.forEach(value => {
-                    const option = motivoConsulta.querySelector(`option[value="${value}"]`)
-                    if (option) {
-                        option.selected = true
-                    }
-                })
-                // Actualizar Select2 para reflejar los cambios
-                if ($(motivoConsulta).hasClass('select2')) {
-                    $(motivoConsulta).val(valoresConsulta).trigger(
-                        'change') // Cambiar el valor y disparar el evento 'change'
                 }
 
-            }
 
-            cargarDxPrincipa(historia.dx_principal)
+                      //cargar ordenes medicas              
+                      if (data.ordenMedica.length > 0) {
+                        data.ordenMedica.forEach(orden => {
+                        let codigo = orden.id
+                        let textoCodigo = orden.codigo + ' - ' + orden.textoCodigo
+                        let cantidad = orden.cantidad
+                        let textoObservacion = orden.observacion
+                        agregarOrdenMedicaTr(codigo, textoCodigo, cantidad, textoObservacion)
+                    })
+                }
 
-            document.getElementById('establecidoPrimeraVez').value = historia.diagnostico_primera_vez
-            $('#establecidoPrimeraVez').trigger('change')
+                loadNow(0);
 
-            //
-            cargarImpresion(historia.codigo_diagnostico, 'codDiagnostico')
+            })
+            .catch(error => console.error('Error:', error))
+    }
 
-            CKEDITOR.instances['enfermedadActual'].setData(historia.enfermedad_actual)
-            CKEDITOR.instances['objetivo_general'].setData(historia.objetivo_general)
-            CKEDITOR.instances['objetivos_especificos'].setData(historia.objetivos_especificos)
-            CKEDITOR.instances['sugerencia_interconsultas'].setData(historia.sugerencias_interconsultas)
-            CKEDITOR.instances['observaciones_recomendaciones'].setData(historia.observaciones_recomendaciones)
-            document.getElementById("tipoPsicologia").value = historia.tipologia
 
-            mapearDatosProfesional(historia.id_profesional)
-        }
 
-        function mapearDatosProfesional(idProf) {
+    function mapearHistorialConsultas(historialConsultas) {
+        document.getElementById("historialConsulta").innerHTML = historialConsultas
+    }
 
-            let url = "{{ route('historia.buscaProfesionalHistoria') }}"
+    function editarConsulta(idConsulta) {
+        if (hasPermission('editarEvoluciones')) {
+            document.getElementById("listadoConsultas").style.display = "none"
+            document.getElementById("fomrConsultas").style.display = "initial"
+
+            document.getElementById("idHistoriaConsulta").value = idConsulta
+            document.getElementById("accHistoriaConsulta").value = "editar"
+
+            let url = "{{ route('historia.buscaConsultaPsicologica') }}"
+
             fetch(url, {
                     method: 'POST',
                     headers: {
@@ -3792,518 +3980,483 @@
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                     },
                     body: JSON.stringify({
-                        idProf: idProf
+                        idConsulta: idConsulta
                     })
                 })
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById("idProfesional").value = data.id
-                    document.getElementById("nombreProfesional").innerHTML = data.nombre
-                    document.getElementById("registroProfesional").innerHTML =
-                        `<strong>Tarjeta Profesional:</strong> ${data.registro}`
+                    cargarSelConsulta(data.consulta.codigo_consulta, 'codConsultaConsulta')
 
-                    let firmaProfesional = document.getElementById('firmaProfesional')
-                    let url = $('#Ruta').data("ruta")
-                    firmaProfesional.src = url + "/images/firmasProfesionales/" + data.firma
+                    cargarImpresion(data.consulta.impresion_diagnostica, 'codImpresionDiagnosticoConsulta')
+                    cargarImpresion(data.consulta.otra_impresion_diagnostica, 'otra_ImpresionDiagnosticaConsulta')
+
+                    CKEDITOR.instances['motivoConsultaModal'].setData(data.consulta.motivo)
+                    CKEDITOR.instances['objetivo_sesion'].setData(data.consulta.objetivo_sesion)
+                    CKEDITOR.instances['tecnicas_utilizadas'].setData(data.consulta.tecnicas_utilizadas)
+                    CKEDITOR.instances['actividades_especificas'].setData(data.consulta.actividades_especificas)
+                    document.getElementById('profesionalConsulta').value = data.consulta.id_profesional
+                    $('#profesionalConsulta').val(data.consulta.id_profesional).trigger('change');
+
+                    const [fecha, hora] = data.consulta.fecha_consulta.split(' ')
+                    document.getElementById('fechaEvolucion').value = fecha
+                    document.getElementById('horaSeleccionadad').value = hora.slice(0, 5)
+
+
+                    CKEDITOR.instances['evaluacion_indicadores'].setData(data.consulta.evaluacion_indicadores)
+                    CKEDITOR.instances['evolucion_sesion'].setData(data.consulta.evolucion_sesion)
 
                 })
                 .catch(error => console.error('Error:', error))
+        } else {
+            swal("¡Alerta!",
+                "No tiene el permiso necesario para realizar esta acción",
+                "warning")
         }
+    }
 
-        function cargarSelConsulta(codigo_consulta, id) {
-            let rtotal = $("#RutaTotal").data("ruta")
+    function imprimirConsulta(idConsulta) {
+        document.getElementById("idHistoriaConsulta").value = idConsulta
+        var modal = new bootstrap.Modal(document.getElementById("modalEnviarImprimir"), {
+            backdrop: 'static',
+            keyboard: false
+        })
 
-            if (codigo_consulta) {
-                // Hacer una petición para buscar el texto correspondiente al ID
-                fetch(`${rtotal}historia/buscaCUPS?id=${codigo_consulta}`, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Error al obtener el valor para codConsulta')
-                        }
-                        return response.json()
-                    })
-                    .then(data => {
-                        if (data && data.id && data.text) {
-                            // Agregar opción al select si no está ya presente
-                            const newOption = new Option(data.text, data.id, true, true)
-                            $('#' + id).append(newOption).trigger('change')
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error al cargar codConsulta:', error)
-                    })
-            }
-        }
+        modal.show()
+    }
 
-        function cargarDxPrincipa(codigo_dx) {
-            let rtotal = $("#RutaTotal").data("ruta")
+    function mapearDesarrolloPsicomotor(antecedentesPrenatales) {
+        antecedentesPrenatales.forEach(item => {
+            const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
 
-            if (codigo_dx) {
-                // Hacer una petición para buscar el texto correspondiente al ID
-                fetch(`${rtotal}historia/buscaCIE?id=${codigo_dx}`, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Error al obtener el valor para codConsulta')
-                        }
-                        return response.json()
-                    })
-                    .then(data => {
-                        if (data && data.id && data.text) {
-                            // Agregar opción al select si no está ya presente
-                            const newOption = new Option(data.text, data.id, true, true)
-                            $('#codDiagnostico').append(newOption).trigger('change')
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error al cargar codDiagnostico:', error)
-                    })
-            }
-        }
-
-        function cargarImpresion(codigo_dx, id) {
-
-            let rtotal = $("#RutaTotal").data("ruta")
-
-            if (codigo_dx) {
-                // Hacer una petición para buscar el texto correspondiente al ID
-                fetch(`${rtotal}historia/buscaCIE?id=${codigo_dx}`, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Error al obtener el valor para codConsulta')
-                        }
-                        return response.json()
-                    })
-                    .then(data => {
-                        if (data && data.id && data.text) {
-                            // Agregar opción al select si no está ya presente
-                            const newOption = new Option(data.text, data.id, true, true)
-                            $('#' + id).append(newOption).trigger('change')
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error al cargar codDiagnostico:', error)
-                    })
-            }
-        }
-
-        function eliminarConsulta(idCons) {
-            if (hasPermission('editarEvoluciones')) {
-                swal({
-                    title: "Esta seguro de eliminar esta consulta ?",
-                    text: "¡No podrás revertir esto!",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Si, eliminar!",
-                    cancelButtonText: "Cancelar",
-                    confirmButtonClass: "btn btn-warning",
-                    cancelButtonClass: "btn btn-danger ml-1",
-                    buttonsStyling: false
-                }, function(isConfirm) {
-                    if (isConfirm) {
-                        let url = "{{ route('historia.eliminarConsulta') }}";
-                        fetch(url, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                        .getAttribute(
-                                            'content')
-                                },
-                                body: JSON.stringify({
-                                    idConsulta: idCons
-                                })
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    swal("¡Buen trabajo!",
-                                        data.message,
-                                        "success");
-                                    cargarConsultas(1);
-                                } else {
-                                    swal("¡Alerta!",
-                                        "La operación fue realizada exitosamente",
-                                        data.message,
-                                        "success");
-                                }
-                            })
-
-                    } else {
-                        swal("Cancelado", "Tu registro esta salvo :)", "error");
-                    }
-                });
+            if (element) {
+                if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                    element.value = item.detalle // Asignar el valor al input o textarea
+                } else if (element.tagName === "SELECT") {
+                    element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                    $('#' + item.tipo).val(item.detalle).trigger('change')
+                } else {
+                    console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                }
             } else {
-                swal("¡Alerta!",
-                    "No tiene el permiso necesario para realizar esta acción",
-                    "warning")
+                console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+            }
+        })
+    }
+
+    function mapearAntecedentesPosnatales(antecedentesPrenatales) {
+        antecedentesPrenatales.forEach(item => {
+            const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
+
+            if (element) {
+                if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                    element.value = item.detalle // Asignar el valor al input o textarea
+                } else if (element.tagName === "SELECT") {
+                    element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                    $('#' + item.tipo).val(item.detalle).trigger('change')
+                } else {
+                    console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                }
+            } else {
+                console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+            }
+        })
+    }
+
+    function mapearAntecedentesPrenatales(antecedentesPrenatales) {
+        antecedentesPrenatales.forEach(item => {
+            const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
+
+            if (element) {
+                if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                    element.value = item.detalle // Asignar el valor al input o textarea
+                } else if (element.tagName === "SELECT") {
+                    element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                    $('#' + item.tipo).val(item.detalle).trigger('change')
+                } else {
+                    console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                }
+            } else {
+                console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+            }
+        })
+    }
+
+    function mapearAntecedentesNatales(antecedentesPrenatales) {
+        antecedentesPrenatales.forEach(item => {
+            const element = document.getElementById(item.tipo) // Buscar el elemento por su ID
+
+            if (element) {
+                if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                    element.value = item.detalle // Asignar el valor al input o textarea
+                } else if (element.tagName === "SELECT") {
+                    element.value = item.detalle.toLowerCase() // Asignar el valor a un select
+                    $('#' + item.tipo).val(item.detalle).trigger('change')
+                } else {
+                    console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                }
+            } else {
+                console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+            }
+        })
+    }
+
+    function mapearExamenMental(examenMental) {
+        if (examenMental) {
+            CKEDITOR.instances['ciclos_del_sueno'].setData(examenMental.ciclos_del_sueno)
+            CKEDITOR.instances['apetito'].setData(examenMental.apetito)
+            CKEDITOR.instances['autocuidado'].setData(examenMental.actividades_autocuidado)
+            CKEDITOR.instances['examen_mental'].setData(examenMental.examen_mental)
+        }
+    }
+
+    function mapearFuncionesCognitivas(cognitivas) {
+
+        cognitivas.forEach(item => {
+            const element = document.getElementById(item.caracteristica)
+            if (element) {
+                if (element.tagName === "INPUT") {
+                    element.value = item.detalle // Asignar el valor al input o textarea
+                } else if (element.tagName === "SELECT") {
+                    const valores = item.detalle ? item.detalle.split(',') : []
+                    $('#' + item.caracteristica).val(valores).trigger('change')
+                } else {
+                    console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                }
+            } else {
+                console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+            }
+        })
+    }
+
+    function mapearAparienciaPersonal(apariencia) {
+
+        apariencia.forEach(item => {
+            const element = document.getElementById(item.caracteristica)
+            if (element) {
+                if (element.tagName === "INPUT") {
+                    element.value = item.detalle // Asignar el valor al input o textarea
+                } else if (element.tagName === "SELECT") { //convertir en array
+                    const valores = item.detalle ? item.detalle.split(',') : []
+
+                    // Asignar el valor en Select2 correctamente
+                    $('#' + item.caracteristica).val(valores).trigger('change')
+                } else {
+                    console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                }
+            } else {
+                console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+            }
+        })
+    }
+
+    function mapearInterconsulta(interconuslta) {
+
+        interconuslta.forEach(item => {
+
+            const element = document.getElementById(item.tipo).id
+            if (element) {
+                CKEDITOR.instances[element].setData(item.detalle)
+            } else {
+                console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+            }
+        })
+    }
+
+    function mapearAreaDesempeno(antecedentesAreaAjuste) {
+
+        antecedentesAreaAjuste.forEach(item => {
+
+            const element = document.getElementById(item.area)
+            if (element) {
+                element.value = item.detalle
+            } else {
+                console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+            }
+        })
+    }
+
+    function mapearAntedentesPersonales(antecedentesPersonales) {
+        setTimeout(() => {
+            antecedentesPersonales.forEach(item => {
+                const element = document.getElementById(item.tipo);
+
+                if (element) {
+                    if (element.dataset.role === "tagsinput") {
+                        // Usar el método de la biblioteca para actualizar el valor del tagsinput
+                        $(element).tagsinput('add', item.detalle);
+                    } else if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                        if (element.style.visibility == "hidden") {
+                            CKEDITOR.instances[item.tipo].setData(item.detalle);
+                        } else {
+                            element.value = item.detalle;
+                        }
+                    } else if (element.tagName === "SELECT") {
+                        if (item.detalle != null) {
+                            const valores = item.detalle ? item.detalle.split(',') : []
+                            $('#' + item.tipo).val(valores).trigger('change')
+                        }
+                    } else {
+                        console.warn(`El elemento con ID "${item.tipo}" no es compatible.`);
+                    }
+                } else {
+                    console.error(`No se encontró un elemento con el ID "${item.tipo}".`);
+                }
+            });
+        }, 1000);
+    }
+
+
+    function mapearAntedentesFamiliares(antecedentesFamiliares) {
+
+        antecedentesFamiliares.forEach(item => {
+            const element = document.getElementById(item.tipo)
+            if (element) {
+                if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+
+                    element.value = item.detalle
+                } else if (element.tagName === "SELECT") {
+                    const valores = item.detalle ? item.detalle.split(',') : []
+                    // Asignar el valor en Select2 correctamente
+                    $('#' + item.tipo).val(valores).trigger('change')
+                } else {
+                    console.warn(`El elemento con ID "${item.tipo}" no es compatible.`)
+                }
+            } else {
+                console.error(`No se encontró un elemento con el ID "${item.tipo}".`)
+            }
+        })
+    }
+
+    function mapearHistoria(historia) {
+
+        document.getElementById("accHistoria").value = "editar"
+        document.getElementById("estadoHistoria").value = historia.estado_hitoria
+        document.getElementById("idHistoria").value = historia.id
+        document.getElementById("idPaciente").value = historia.id_paciente
+
+        if (historia.primera_vez == 1) {
+            document.getElementById('primeraVez').checked = true
+        } else {
+            document.getElementById('primeraVez').checked = false
+        }
+
+        CKEDITOR.instances['remision'].setData(historia.remision)
+        CKEDITOR.instances['motivoConsulta'].setData(historia.motivo_consulta)
+        CKEDITOR.instances['resumen_evaluacion_inicial'].setData(historia.eval_inicial)
+
+        //
+        cargarSelConsulta(historia.codigo_consulta, 'codConsulta')
+
+        document.getElementById('plan_intervencion').value = historia.plan_intervencion
+        $('#plan_intervencion').trigger('change')
+
+        if (historia.otro_motivo_consulta != null) {
+            const valoresConsulta = historia.otro_motivo_consulta.split(',')
+            const motivoConsulta = document.getElementById('motivoConsultaOtro')
+
+            // Restablecer las selecciones actuales (solo en este select)
+            Array.from(motivoConsulta.options).forEach(option => {
+                option.selected = false
+            })
+
+            // Marcar las opciones como seleccionadas (solo las especificadas)
+            valoresConsulta.forEach(value => {
+                const option = motivoConsulta.querySelector(`option[value="${value}"]`)
+                if (option) {
+                    option.selected = true
+                }
+            })
+            // Actualizar Select2 para reflejar los cambios
+            if ($(motivoConsulta).hasClass('select2')) {
+                $(motivoConsulta).val(valoresConsulta).trigger(
+                    'change') // Cambiar el valor y disparar el evento 'change'
             }
         }
 
-        function imprimirHistoria(id) {
-            let url = "{{ route('historia.imprimirHistoria') }}";
 
-            let idHisto = id || idHistoriaImprimir;
+        if (historia.estado_hitoria == "cerrada") {
+            var btnGuardar = document.getElementById("btn-guardarHistoria")
+            btnGuardar.disabled = true
+        } else {
+            var btnGuardar = document.getElementById("btn-guardarHistoria")
+            btnGuardar.disabled = false
+        }
 
-            let params = new URLSearchParams({
-                idHist: idHisto
-            });
+        if (historia.dx_principal != null) {
+            cargarCodigoCIE10(historia.dx_principal, 'codDiagnostico')
+        }
+        if (historia.dx_principal1 != null) {
+            cargarCodigoCIE10(historia.dx_principal1, 'codDiagnosticoRelacionado1')
+        }
 
-            url += '?' + params.toString();
+        if (historia.dx_principal2 != null) {
+            cargarCodigoCIE10(historia.dx_principal2, 'codDiagnosticoRelacionado2')
+        }
 
 
-            swal({
-                title: 'Cargando...',
-                text: 'Espere mientras se genera el PDF, gracias.',
-                allowOutsideClick: false,
-                showConfirmButton: false,
-            });
+        document.getElementById('establecidoPrimeraVez').value = historia.diagnostico_primera_vez
+        $('#establecidoPrimeraVez').trigger('change')
 
-            fetch(url, {
+        if (historia.codigo_diagnostico != null) {
+            cargarImpresion(historia.codigo_diagnostico, 'codImpresionDiagnostico')
+        }
+
+        if (historia.codigo_diagnostico1 != null) {
+            cargarImpresion(historia.codigo_diagnostico1, 'codImpresionDiagnosticoRelacionado1')
+        }
+
+        if (historia.codigo_diagnostico2 != null) {
+            cargarImpresion(historia.codigo_diagnostico2, 'codImpresionDiagnosticoRelacionado2')
+        }
+
+        CKEDITOR.instances['enfermedadActual'].setData(historia.enfermedad_actual)
+        CKEDITOR.instances['objetivo_general'].setData(historia.objetivo_general)
+        CKEDITOR.instances['objetivos_especificos'].setData(historia.objetivos_especificos)
+        CKEDITOR.instances['sugerencia_interconsultas'].setData(historia.sugerencias_interconsultas)
+        CKEDITOR.instances['observaciones_recomendaciones'].setData(historia.observaciones_recomendaciones)
+        document.getElementById("tipoPsicologia").value = historia.tipologia
+        document.getElementById("objeto_atencion_clinica").value = historia.objeto_atencion_clinica
+
+        let bgColor = "bg-danger"
+        if (historia.porcentaje_completitud >= 90) {
+            bgColor = 'bg-success'; // Verde intenso
+        } else if (historia.porcentaje_completitud >= 70) {
+            bgColor = 'bg-primary'; // Azul
+        } else if (historia.porcentaje_completitud >= 50) {
+            bgColor = 'bg-info'; // Celeste
+        } else if (historia.porcentaje_completitud >= 20) {
+            bgColor = 'bg-warning'; // Amarillo/naranja
+        } else {
+            bgColor = 'bg-danger'; // Rojo
+        }
+
+        document.getElementById("BarraPorcentajeCompletitud").classList.add(bgColor)
+
+        document.getElementById("PorcentajeCompletitud").innerHTML = historia.porcentaje_completitud + "%"
+        document.getElementById("BarraPorcentajeCompletitud").style.width = historia.porcentaje_completitud + "%"
+        document.getElementById("mostrarPorcentajeCompletitud").style.display = "block"
+        mapearDatosProfesional(historia.id_profesional)
+    }
+
+    function mapearDatosProfesional(idProf) {
+
+        let url = "{{ route('historia.buscaProfesionalHistoria') }}"
+        fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    idProf: idProf
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.profesional) {
+                    document.getElementById("profesionalSelect").value = data.profesional.id
+                    $('#profesionalSelect').val(data.profesional.id).trigger('change.select2')
+                    document.getElementById("idProfesional").value = idProf
+                }
+            })
+            .catch(error => console.error('Error:', error))
+    }
+
+    function cargarSelConsulta(codigo_consulta, id) {
+        let rtotal = $("#RutaTotal").data("ruta")
+
+        if (codigo_consulta) {
+            // Hacer una petición para buscar el texto correspondiente al ID
+            fetch(`${rtotal}historia/buscaCUPS?id=${codigo_consulta}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                     },
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al obtener el valor para codConsulta')
+                    }
+                    return response.json()
+                })
                 .then(data => {
-                    if (data.url) {
-                        swal({
-                            title: "Se genero el PDF correctamente.",
-                            type: "success",
-                            showConfirmButton: true,
-                            confirmButtonText: "Visualizar",
-                            allowOutsideClick: false,
-                        }, function(isConfirm) {
-                            if (isConfirm) {
-                                window.open(data.url, '_blank');
-                            }
-                        })
+                    if (data && data.id && data.text) {
+                        // Agregar opción al select si no está ya presente
+                        const newOption = new Option(data.text, data.id, true, true)
+                        $('#' + id).append(newOption).trigger('change')
                     }
                 })
-                .catch(error => console.error('Error:', error));
+                .catch(error => {
+                    console.error('Error al cargar codConsulta:', error)
+                })
         }
+    }
 
-        function ComprarPaquete(element) {
-            // obtener data-id de element 
-            let id = element.getAttribute("data-id")
-            document.getElementById("idHistoria").value = id
+    function cargarCodigoCIE10(codigo_dx, id) {
+        let rtotal = $("#RutaTotal").data("ruta")
 
-            var modal = new bootstrap.Modal(document.getElementById("modalPaquete"), {
-                backdrop: 'static',
-                keyboard: false
-            });
-            modal.show()
-
-            cargarPaquetes(1)
-            cargarSelectPaquetes()
-
-        }
-
-        function cargarSelectPaquetes() {
-            return new Promise((resolve, reject) => {
-                let select = document.getElementById("selPaquete");
-                let url = "{{ route('paquetes.listaPaquetesSel') }}";
-
-                // Limpia el select antes de agregar nuevas opciones
-                select.innerHTML = "";
-
-                // Crear la opción por defecto
-                let defaultOption = document.createElement("option");
-                defaultOption.value = ""; // Valor en blanco
-                defaultOption.text = "Selecciona una opción"; // Texto que se mostrará
-                defaultOption.selected = true; // Que aparezca seleccionada por defecto
-                select.appendChild(defaultOption);
-
-                // Fetch para obtener los datos y cargar las opciones
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        data.forEach(paquete => {
-                            let option = document.createElement("option");
-                            option.value = paquete.id;
-                            option.setAttribute('data-valor', paquete.precio_por_sesion);
-                            option.setAttribute('data-descripcion', paquete.descripcion);
-                            option.text = paquete.descripcion;
-                            select.appendChild(option);
-                        });
-                        resolve(); // Resuelve la promesa cuando los datos han sido cargados
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        reject(error); // Rechaza la promesa si ocurre un error
-                    });
-            });
-        }
-
-        function calValorMonto() {
-
-            let valor = document.getElementById("precioSesion").value
-            let nsesiones = document.getElementById("numSesiones").value
-            let total = valor * nsesiones
-            document.getElementById("montoFinal").value = total
-            let formatoMoneda = formatCurrency(total, 'es-CO', 'COP')
-            document.getElementById("montoFinalVis").value = formatoMoneda
-
-        }
-
-        function seleccionarPaquete(element) {
-            let precio = element.options[element.selectedIndex].getAttribute('data-valor')
-            var formatoMoneda = formatCurrency(precio, 'es-CO', 'COP')
-            document.getElementById("precioSesion").value = precio
-            document.getElementById("precioSesionVis").value = formatoMoneda
-            let descripcion = element.options[element.selectedIndex].getAttribute('data-descripcion')
-            document.getElementById("descripcionVentaPaquete").value = descripcion
-            calValorMonto()
-        }
-
-
-        function cambioFormato(id) {
-            let numero = document.getElementById(id)
-            //elimina ultimos 3 caracateres de id de numero 
-            let idPrecio = numero.id.slice(0, -3)
-            document.getElementById(idPrecio).value = numero.value
-            let formatoMoneda = formatCurrency(numero.value, 'es-CO', 'COP')
-            numero.value = formatoMoneda
-
-        }
-
-        function formatCurrency(number, locale, currencySymbol) {
-            return new Intl.NumberFormat(locale, {
-                style: 'currency',
-                currency: currencySymbol,
-                minimumFractionDigits: 2
-            }).format(number)
-        }
-
-        function validartxtnum(e) {
-            tecla = e.which || e.keyCode
-            patron = /[0-9]+$/
-            te = String.fromCharCode(tecla)
-            return (patron.test(te) || tecla == 9 || tecla == 8 || tecla == 37 || tecla == 39 || tecla == 44)
-        }
-
-        function cancelarVentaConsulta() {
-            let formVentaSesion = document.getElementById("formVentaConsulta")
-            formVentaConsulta.reset()
-            const modal = document.getElementById('modalVentaConsulta')
-            const modalInstance = bootstrap.Modal.getInstance(modal)
-            modalInstance.hide()
-        }
-        function cancelarVentaSesion() {
-            let formVentaSesion = document.getElementById("formVentaSesion")
-            formVentaSesion.reset()
-            document.getElementById("formVentaSesion").style.display = "none"
-            document.getElementById("listVentaSesion").style.display = "initial"
-        }
-
-        function cargarPaquetes(page, searchTerm = '') {
-            let url = "{{ route('paquetes.listaPaquetesModal') }}" // Definir la URL
-            // Eliminar los campos ocultos anteriores
-            var oldPageInput = document.getElementById('pagePaquetes')
-            var oldSearchTermInput = document.getElementById('busquedaPaq')
-            if (oldPageInput) oldPageInput.remove()
-            if (oldSearchTermInput) oldSearchTermInput.remove()
-
-            var data = {
-                page: page,
-                search: searchTerm,
-                idHist: document.getElementById("idHistoria").value
-            }
-
-            // Limpiar la tabla antes de cargar nuevos datos
-            fetch(url, {
-                    method: 'POST',
+        if (codigo_dx) {
+            // Hacer una petición para buscar el texto correspondiente al ID
+            fetch(`${rtotal}historia/buscaCIE?id=${codigo_dx}`, {
+                    method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                     },
-                    body: JSON.stringify(data)
                 })
-                .then(response => response.json())
-                .then(responseData => {
-                    // Rellenar la tabla con las filas generadas
-                    document.getElementById("trRegistrosPaquetes").innerHTML = responseData.paquetes
-                    feather.replace()
-                    // Colocar los enlaces de paginación
-                    document.getElementById('pagination-links-paquetes').innerHTML = responseData.links
-                    loadNow(0)
-                })
-                .catch(error => console.error('Error:', error))
-        }
-
-        function nuevoPaquete() {
-            //recorrer en la tabla html y verificar si existem paqueter sin terminar
-            let table = document.getElementById("tblPaquetes")
-            let rows = table.getElementsByTagName("tr")
-          
-            for (let i = 0; i < rows.length; i++) {
-                let cells = rows[i].getElementsByTagName("td")
-                if (cells.length > 0) {
-                    let estado = cells[5].innerHTML
-                    if (estado == "PENDIENTE") {
-                        swal("¡Alerta!", "No puede crear un nuevo paquete, mientras tenga uno Pendiente", "warning")
-                        document.getElementById("listPaquetes").style.display = "initial"
-                        document.getElementById("formPaquetes").style.display = "none"
-                        return
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al obtener el valor para codConsulta')
                     }
-                }
-            }
-
-            let formPaquete = document.getElementById("formPaquetes")
-            formPaquete.reset()
-            document.getElementById("accVentaPaquete").value = "guardar"
-            document.getElementById("idVentaPaquete").value = ""
-            document.getElementById('saveRegistroPaq').removeAttribute('disabled')
-            document.getElementById("tituloPaquete").innerHTML = "Nuevo Paquete"
-            formPaquete.style.display = "initial"
-            document.getElementById("listPaquetes").style.display = "none"
-
+                    return response.json()
+                })
+                .then(data => {
+                    if (data && data.id && data.text) {
+                        // Agregar opción al select si no está ya presente
+                        const newOption = new Option(data.text, data.id, true, true)
+                        $('#' + id).append(newOption).trigger('change')
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al cargar codDiagnostico:', error)
+                })
         }
+    }
 
+    function cargarImpresion(codigo_dx, id) {
 
-        function guardarPaquetes() {
-            if ($("#formPaquetes").valid()) {
+        let rtotal = $("#RutaTotal").data("ruta")
 
-                const formPaquetes = document.getElementById('formPaquetes')
-                const formData = new FormData(formPaquetes)
-                formData.append('idHist', document.getElementById("idHistoria").value)
-
-                const url = "{{ route('form.guardarPaqueteVenta') }}"
-
-                fetch(url, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        
-                        if (data.success = 'success') {
-
-                            swal(data.title, data.message, data.success)
-                            cargarPaquetes(1)
-                            document.getElementById("listPaquetes").style.display = "initial"
-                            document.getElementById("formPaquetes").style.display = "none"
-
-                        } else {
-                            swal(data.title, data.message, data.success)
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error al enviar los datos:", error)
-                    })
-
-            }
-        }
-
-        function editarPaquete(idPaquete) {
-
-            document.getElementById("listPaquetes").style.display = "none"
-            document.getElementById("formPaquetes").style.display = "initial"
-
-            document.getElementById("idVentaPaquete").value = idPaquete
-            document.getElementById("accVentaPaquete").value = "editar"
-
-            let url = "{{ route('paquetes.buscaPaqueteVenta') }}"
-
-            fetch(url, {
-                    method: 'POST',
+        if (codigo_dx) {
+            // Hacer una petición para buscar el texto correspondiente al ID
+            fetch(`${rtotal}historia/buscaCIE?id=${codigo_dx}`, {
+                    method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                     },
-                    body: JSON.stringify({
-                        idPaquete: idPaquete
-                    })
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al obtener el valor para codConsulta')
+                    }
+                    return response.json()
+                })
                 .then(data => {
-                    document.getElementById("tituloPaquete").innerHTML = "Editar venta paquete"
-                    document.getElementById("precioSesion").value = data.paquete.valor
-                    document.getElementById("numSesiones").value = data.paquete.cantidad
-                    document.getElementById("montoFinal").value = data.paquete.precio
-                    document.getElementById("montoFinalVis").value = formatCurrency(data.paquete.precio, 'es-CO',
-                        'COP')
-                    let paraFecha = data.paquete.fecha.split(" ")    
-                    document.getElementById("fechaPaquete").value = paraFecha[0]
-                    $('#selPaquete').val(data.paquete.id_paquete).trigger('change.select2')
-                    document.getElementById("precioSesionVis").value = formatCurrency(data.paquete.valor,
-                        'es-CO', 'COP')
-
-                    document.getElementById("descripcionVentaPaquete").value = data.paquete.descripion_paquete.descripcion
-                    document.getElementById("saveRegistroPaq").removeAttribute('disabled')
+                    if (data && data.id && data.text) {
+                        // Agregar opción al select si no está ya presente
+                        const newOption = new Option(data.text, data.id, true, true)
+                        $('#' + id).append(newOption).trigger('change')
+                    }
                 })
-                .catch(error => console.error('Error:', error))
+                .catch(error => {
+                    console.error('Error al cargar codDiagnostico:', error)
+                })
         }
+    }
 
-        function editarVentaSesion(element) {
-            let idVenta = element.getAttribute("data-id")
-            let estado = element.getAttribute("data-estado")
-
-            if(estado == "PAGADO"){
-                swal("¡Alerta!", "No puede editar una sesión que ya ha sido pagada", "warning")
-                return
-            }
-
-            document.getElementById("listVentaSesion").style.display = "none"
-            document.getElementById("formVentaSesion").style.display = "initial"
-
-            document.getElementById("idVentaSesion").value = idPaquete
-            document.getElementById("accHistoriaVentaSesion").value = "editar"
-
-            let url = "{{ route('historia.buscaSesionVenta') }}"
-
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        idVenta: idVenta
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("tituloVentaSesion").innerHTML = "Editar sesión"
-                    document.getElementById("idVentaSesion").value = data.servicioSesion.id
-                    document.getElementById("descripcionVentaSesion").value = data.servicioSesion.descripcion
-                    let parFecha = data.servicioSesion.fecha.split(" ")
-                    document.getElementById("fechaVentaSesion").value = parFecha[0]
-                    document.getElementById("horaSeleccionadaVentaSesion").value = parFecha[1]
-                    document.getElementById("valorServSesionVis").value = formatCurrency(data.servicioSesion.precio, 'es-CO',
-                        'COP')
-                    document.getElementById("valorServSesion").value = data.servicioSesion.precio
-
-                    document.getElementById("saveRegistroVentaSesion").removeAttribute('disabled')
-                })
-                .catch(error => console.error('Error:', error))
-        }
-
-        function eliminarPaquete(idPaquete) {
-
+    function eliminarConsulta(idCons) {
+        if (hasPermission('editarEvoluciones')) {
             swal({
-                title: "Esta seguro de eliminar esta venta de paquete ?",
+                title: "Esta seguro de eliminar esta consulta ?",
                 text: "¡No podrás revertir esto!",
                 type: "warning",
                 showCancelButton: true,
@@ -4316,7 +4469,7 @@
                 buttonsStyling: false
             }, function(isConfirm) {
                 if (isConfirm) {
-                    let url = "{{ route('paquetes.eliminarPaquete') }}";
+                    let url = "{{ route('historia.eliminarConsulta') }}";
                     fetch(url, {
                             method: 'POST',
                             headers: {
@@ -4326,7 +4479,7 @@
                                         'content')
                             },
                             body: JSON.stringify({
-                                idPaquete: idPaquete
+                                idConsulta: idCons
                             })
                         })
                         .then(response => response.json())
@@ -4335,7 +4488,7 @@
                                 swal("¡Buen trabajo!",
                                     data.message,
                                     "success");
-                                cargarPaquetes(1);
+                                cargarConsultas(1);
                             } else {
                                 swal("¡Alerta!",
                                     "La operación fue realizada exitosamente",
@@ -4348,310 +4501,402 @@
                     swal("Cancelado", "Tu registro esta salvo :)", "error");
                 }
             });
-
+        } else {
+            swal("¡Alerta!",
+                "No tiene el permiso necesario para realizar esta acción",
+                "warning")
         }
+    }
 
-        function eliminarVentaSesion(element) {
-            let idVenta = element.getAttribute("data-id")
-            let estado = element.getAttribute("data-estado")
+    function imprimirHistoria(id) {
+        let url = "{{ route('historia.imprimirHistoria') }}";
 
-            if(estado == "PAGADO"){
-                swal("¡Alerta!", "No puede eliminar una sesión que ya ha sido pagada", "warning")
-                return
-            }
+        let idHisto = id || idHistoriaImprimir;
 
-            swal({
-                title: "Esta seguro de eliminar esta sesión ?",
-                text: "¡No podrás revertir esto!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Si, eliminar!",
-                cancelButtonText: "Cancelar",
-                confirmButtonClass: "btn btn-warning",
-                cancelButtonClass: "btn btn-danger ml-1",
-                buttonsStyling: false
-            }, function(isConfirm) {
-                if (isConfirm) {
-                    let url = "{{ route('historia.eliminarSesionVenta') }}";
-                    fetch(url, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                    .getAttribute(
-                                        'content')
-                            },
-                            body: JSON.stringify({
-                                idVenta: idVenta
-                            })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                swal("¡Buen trabajo!",
-                                    data.message,
-                                    "success");
-                                cargarSesionesVentas(1);
-                            } else {
-                                swal("¡Alerta!",
-                                    "La operación fue realizada exitosamente",
-                                    data.message,
-                                    "success");
-                            }
-                        })
+        let params = new URLSearchParams({
+            idHist: idHisto
+        });
 
-                } else {
-                    swal("Cancelado", "Tu registro esta salvo :)", "error");
+        url += '?' + params.toString();
+
+
+        swal({
+            title: 'Cargando...',
+            text: 'Espere mientras se genera el PDF, gracias.',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+        });
+
+        fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.url) {
+                    swal({
+                        title: "Se generó el PDF correctamente.",
+                        text: "¿Qué desea hacer con el PDF?",
+                        type: "success",
+                        showCancelButton: true,
+                        confirmButtonText: "Visualizar",
+                        cancelButtonText: "Enviar por correo",
+                        allowOutsideClick: false,
+                    }, function(isConfirm) {
+                        if (isConfirm) {
+                            // Opción: Visualizar
+                            window.open(data.url, '_blank');
+                        } else {
+                            // Opción: Enviar por correo
+                            enviarHistoriaPorCorreo(idHisto, data.url);
+                        }
+                    })
                 }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function enviarHistoriaPorCorreo(idHistoria, urlPDF) {
+        // Prueba simple de SweetAlert
+
+        $("#loader-pdf").show();
+        $("#titulo_loader_pdf").text("Enviando historia");
+
+        fetch("{{ route('historia.enviarHistoriaCorreo') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    idHist: idHistoria,
+                    urlPDF: urlPDF
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    swal("¡Enviado!", "La historia clínica se ha enviado correctamente por correo electrónico.", "success");
+                    $("#loader-pdf").hide();
+                } else {
+                    swal("Error", data.message || "No se pudo enviar la historia clínica por correo.", "error");
+                    $("#loader-pdf").hide();
+                }
+            })
+            .catch(error => {
+                swal("Error", "Ocurrió un error al enviar el correo: " + error.message, "error");
+                $("#loader-pdf").hide();
             });
 
-        }
+    }
 
-        function PlanIntervencionHistoria(element) {
-            let idHist = element.getAttribute("data-id")
-            document.getElementById("idHistoriaPlan").value = idHist
 
-            var modal = new bootstrap.Modal(document.getElementById("modalPlanIntervencion"), {
-                backdrop: 'static',
-                keyboard: false
+    function cambioFormato(id) {
+        let numero = document.getElementById(id)
+        //elimina ultimos 3 caracateres de id de numero 
+        let idPrecio = numero.id.slice(0, -3)
+        document.getElementById(idPrecio).value = numero.value
+        let formatoMoneda = formatCurrency(numero.value, 'es-CO', 'COP')
+        numero.value = formatoMoneda
+
+    }
+
+    function formatCurrency(number, locale, currencySymbol) {
+        return new Intl.NumberFormat(locale, {
+            style: 'currency',
+            currency: currencySymbol,
+            minimumFractionDigits: 2
+        }).format(number)
+    }
+
+    function validartxtnum(e) {
+        tecla = e.which || e.keyCode
+        patron = /[0-9]+$/
+        te = String.fromCharCode(tecla)
+        return (patron.test(te) || tecla == 9 || tecla == 8 || tecla == 37 || tecla == 39 || tecla == 44)
+    }
+
+
+    function PlanIntervencionHistoria(element) {
+        let idHist = element.getAttribute("data-id")
+        document.getElementById("idHistoriaPlan").value = idHist
+
+        var modal = new bootstrap.Modal(document.getElementById("modalPlanIntervencion"), {
+            backdrop: 'static',
+            keyboard: false
+        })
+
+        modal.show()
+        let url = "{{ route('historia.buscaPlanIntervencion') }}"
+        fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    idHist: idHist
+                })
             })
+            .then(response => response.json())
+            .then(data => {
+                // document.getElementById("idPlanIntervencion").value = data.historia.id_plan_intervencion
+                CKEDITOR.instances['sugerenciasModal'].setData(data.planIntervencion.sugerencias_interconsultas)
+                CKEDITOR.instances['observacionesModal'].setData(data.planIntervencion
+                    .observaciones_recomendaciones)
+                CKEDITOR.instances['objetivoGeneralModal'].setData(data.planIntervencion.objetivo_general)
+                CKEDITOR.instances['objetivoEspecificoModal'].setData(data.planIntervencion.objetivos_especificos)
+            })
+            .catch(error => console.error('Error:', error))
 
-            modal.show()
-            let url = "{{ route('historia.buscaPlanIntervencion') }}"
+    }
+
+    function cancelarPlan() {
+        document.getElementById("formPlanIntervencion").reset()
+        CKEDITOR.instances['sugerenciasModal'].setData("")
+        const modal = document.getElementById('modalPlanIntervencion')
+        const modalInstance = bootstrap.Modal.getInstance(modal)
+        modalInstance.hide()
+
+    }
+
+
+    function guardarPlan() {
+        if ($("#formPlanIntervencion").valid()) {
+            for (var instanceName in CKEDITOR.instances) {
+                CKEDITOR.instances[instanceName].updateElement()
+            }
+            const formPlanIntervencion = document.getElementById('formPlanIntervencion')
+            const formData = new FormData(formPlanIntervencion)
+
+            const url = "{{ route('form.guardarPlanIntervencion') }}"
+
             fetch(url, {
                     method: 'POST',
+                    body: formData,
                     headers: {
-                        'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        idHist: idHist
-                    })
+                    }
                 })
                 .then(response => response.json())
                 .then(data => {
-                    // document.getElementById("idPlanIntervencion").value = data.historia.id_plan_intervencion
-                    CKEDITOR.instances['sugerenciasModal'].setData(data.planIntervencion.sugerencias_interconsultas)
-                    CKEDITOR.instances['observacionesModal'].setData(data.planIntervencion
-                        .observaciones_recomendaciones)
-                    CKEDITOR.instances['objetivoGeneralModal'].setData(data.planIntervencion.objetivo_general)
-                    CKEDITOR.instances['objetivoEspecificoModal'].setData(data.planIntervencion.objetivos_especificos)
-                })
-                .catch(error => console.error('Error:', error))
+                    console.log(data)
+                    if (data.success = 'success') {
 
-        }
+                        swal(data.title, data.message, data.success)
+                        const modal = document.getElementById('modalPlanIntervencion')
+                        const modalInstance = bootstrap.Modal.getInstance(modal)
+                        modalInstance.hide()
 
-        function cancelarPlan() {
-            document.getElementById("formPlanIntervencion").reset()
-            CKEDITOR.instances['sugerenciasModal'].setData("")
-            const modal = document.getElementById('modalPlanIntervencion')
-            const modalInstance = bootstrap.Modal.getInstance(modal)
-            modalInstance.hide()
-
-        }
-
-        function guardarPlan() {
-            if ($("#formPlanIntervencion").valid()) {
-                for (var instanceName in CKEDITOR.instances) {
-                    CKEDITOR.instances[instanceName].updateElement()
-                }
-                const formPlanIntervencion = document.getElementById('formPlanIntervencion')
-                const formData = new FormData(formPlanIntervencion)
-
-                const url = "{{ route('form.guardarPlanIntervencion') }}"
-
-                fetch(url, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data)
-                        if (data.success = 'success') {
-
-                            swal(data.title, data.message, data.success)
-                            const modal = document.getElementById('modalPlanIntervencion')
-                            const modalInstance = bootstrap.Modal.getInstance(modal)
-                            modalInstance.hide()
-
-                        } else {
-                            swal(data.title, data.message, data.success)
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error al enviar los datos:", error)
-                    })
-
-            }
-        }
-
-        function guardarVentaConsulta() {
-            if ($("#formVentaConsulta").valid()) {
-
-                const formVentaConsulta = document.getElementById('formVentaConsulta')
-                const formData = new FormData(formVentaConsulta)
-
-                const url = "{{ route('form.guardarVentaConsulta') }}"
-
-                fetch(url, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data)
-                        if (data.success = 'success') {
-
-                            swal("¡Buen trabajo!", data.message, data.success)
-                            const modal = document.getElementById('modalVentaConsulta')
-                            const modalInstance = bootstrap.Modal.getInstance(modal)
-                            modalInstance.hide()
-
-                        } else {
-                            swal(data.title, data.message, data.success)
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error al enviar los datos:", error)
-                    })
-            }
-        }
-        function guardarVentaSesion() {
-            if ($("#formVentaSesion").valid()) {
-
-                const formVentaSesion = document.getElementById('formVentaSesion')
-                const formData = new FormData(formVentaSesion)
-
-                const url = "{{ route('form.guardarVentaSesion') }}"
-
-                fetch(url, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data)
-                        if (data.success = 'success') {
-
-                            swal("¡Buen trabajo!", data.message, data.success)
-                            document.getElementById("formVentaSesion").style.display = "none"
-                            document.getElementById("listVentaSesion").style.display = "initial"
-                            cargarSesionesVentas()
-
-                        } else {
-                            swal(data.title, data.message, data.success)
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error al enviar los datos:", error)
-                    })
-            }
-        }
-
-        function ventaConsulta(element) {
-            let idHist = element.getAttribute("data-id")
-            document.getElementById("idHistoriaVenta").value = idHist
-            var modal = new bootstrap.Modal(document.getElementById("modalVentaConsulta"), {
-                backdrop: 'static',
-                keyboard: false
-            })
-            modal.show()
-            //cargar informacion si ya fue guardada la venta
-            let url = "{{ route('historia.buscaVentaConsulta') }}"
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        idHist: idHist
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data.servicioConsulta.estadoVentaConsulta)
-                    if (data.servicioConsulta.estadoVentaConsulta == 'PENDIENTE') {
-                        document.getElementById("ConsultaVenta").value = data.servicioConsulta.descripcion.nombre
-                        document.getElementById("estadoServicio").value = data.servicioConsulta.estadoVentaConsulta
-                        document.getElementById("valorServConsultaVis").value = ""
-                        document.getElementById("valorServConsulta").value = "0"
-                        document.getElementById("accHistoriaVenta").value = "guardar"
-                        document.getElementById("saveRegistroVentaConsulta").removeAttribute('disabled')
                     } else {
-                        document.getElementById("idConsultaVenta").value = data.servicioConsulta.id
-                        document.getElementById("ConsultaVenta").value = data.servicioConsulta.descripcion
-                        document.getElementById("estadoServicio").value = data.servicioConsulta.estadoVentaConsulta
-                        document.getElementById("valorServConsultaVis").value = formatCurrency(data.servicioConsulta
-                            .precio, 'es-CO', 'COP')
-                        document.getElementById("valorServConsulta").value = data.servicioConsulta.precio
-                        let parFecha = data.servicioConsulta.fecha.split(' ')
-                        document.getElementById("fechaVentaConsulta").value = parFecha[0]
-                        document.getElementById("horaSeleccionadaVentaConsulta").value = parFecha[1]
-                        document.getElementById("accHistoriaVenta").value = "editar"
-
-                        if (data.servicioConsulta.estadoVentaConsulta == 'PAGADO') {
-                            document.getElementById("saveRegistroVentaConsulta").setAttribute('disabled', 'disabled')
-                        }
-
+                        swal(data.title, data.message, data.success)
                     }
                 })
-                .catch(error => console.error('Error:', error))
+                .catch(error => {
+                    console.error("Error al enviar los datos:", error)
+                })
 
         }
+    }
 
 
-        function ventaSesion(element) {
-            let idHist = element.getAttribute("data-id")
-            document.getElementById("idHistoriaVentaSesion").value = idHist
-            var modal = new bootstrap.Modal(document.getElementById("modalVentaSesion"), {
-                backdrop: 'static',
-                keyboard: false
+    function seleccionarProfesional(element) {
+        let selectedOption = element.options[element.selectedIndex];
+        // Obtener el valor del data-id
+        let idProfesional = selectedOption.getAttribute("data-id");
+
+        document.getElementById("idProfesional").value = idProfesional
+
+    }
+
+    function enviarConsulta() {
+        $("#loader-pdf").show();
+        $("#titulo_loader_pdf").text("Enviando consulta");
+        fetch("{{ route('informes.enviarConsulta') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    idConsulta: document.getElementById("idHistoriaConsulta").value
+                })
             })
-            modal.show()
-            cargarSesionesVentas()
+            .then(response => response.json())
+            .then(data => {
+                if (data.response == 'noCorreo') {
+                    swal("¡Alerta!", "No se encontró un correo electrónico para enviar la consulta", "warning")
+                } else {
+                    swal("¡Buen trabajo!", "La consulta se ha enviado correctamente", "success")
+                }
+                $("#loader-pdf").hide();
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function imprimirConsultapdf() {
+        // Mostrar loader antes de iniciar
+        $("#loader-pdf").show();
+        $("#titulo_loader_pdf").text("Generando PDF");
+        fetch("{{ route('informes.imprimirConsulta') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    idConsulta: document.getElementById("idHistoriaConsulta").value
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al generar el informe.');
+                }
+                return response.blob(); // Cambiar a blob
+            })
+            .then(blob => {
+                var a = document.createElement('a');
+                var url = window.URL.createObjectURL(blob);
+                a.href = url;
+                a.download = 'resultadoConsultaPsicologica.pdf';
+                a.click();
+                window.URL.revokeObjectURL(url);
+                $("#loader-pdf").hide();
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function mostrarPorcentajeCompletitud() {
+        //mosrtar camspo incompletos
+        validarFormularioEnvio();
+        //mostrar campos incompletos
+        var porcentaje = window.porcentajeCompletitud;
+        var camposIncompletos = window.camposIncompletos;
+        console.log(window.camposIncompletos);
+        var mensaje = "";
+
+        if (camposIncompletos.length > 0) {
+            // Obtener los nombres de los campos faltantes
+            var labelsIncompletos = camposIncompletos.map(campo => {
+                // Buscar el objeto cuyo nombre coincida
+                var campoEncontrado = nombreCampos.find(item => item.nombre === campo);
+                return campoEncontrado ? campoEncontrado.label : campo;
+            });
+
+            mensaje = "Los campos incompletos son: " + labelsIncompletos.join(", ");
+        }
+        swal("Progreso del formulario",
+            `Has completado el ${porcentaje}% de los campos requeridos. ${mensaje}`,
+            "info");
+
+    }
+
+    function clearSelect(selectId) {
+        $('#' + selectId).val(null).trigger('change');
+    }
+
+
+    function agregarOrdenMedica() {
+
+        //obtener texto del select2
+        let codigo = document.getElementById('codConsultaConsultaOrdenMedica').value;
+        let textoCodigo = $('#codConsultaConsultaOrdenMedica').select2('data')[0]?.text;
+        let cantidad = document.getElementById('cantidad').value;
+        let textoObservacion = document.getElementById('observacion').value;
+
+        if (textoCodigo == "" || cantidad == "" || textoObservacion == "") {
+            swal("¡Alerta!", "Por favor, complete todos los campos", "warning")
+            return;
         }
 
-        function cargarSesionesVentas() {
-            let url = "{{ route('historia.buscaVentaSesion') }}"
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        idHist: document.getElementById("idHistoriaVentaSesion").value
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("trRegistrosVentaSesion").innerHTML = data.ventasSesiones
-                    feather.replace()
-                })
-                .catch(error => console.error('Error:', error))
-        }
+        agregarOrdenMedicaTr(codigo, textoCodigo, cantidad, textoObservacion)
 
-        function nuevaVentaSesion() {
-            document.getElementById("formVentaSesion").reset()
-            document.getElementById("accHistoriaVentaSesion").value = "guardar"
-            document.getElementById("saveRegistroVentaSesion").removeAttribute('disabled')
-            document.getElementById("tituloVentaSesion").innerHTML = "Nueva Venta de Sesión"
-            document.getElementById("listVentaSesion").style.display = "none"
-            document.getElementById("formVentaSesion").style.display = "initial"
+    }
+
+    function agregarOrdenMedicaTr(codigo, textoCodigo, cantidad, textoObservacion) {
+        let tabla = document.getElementById('tbodyOrdenesMedicas')
+
+        let fila = tabla.insertRow()
+        fila.innerHTML = `
+
+    <td>${tabla.rows.length}</td>
+    <td class="texto-orden-medica"><b>${textoCodigo}</b><p><strong>Observación: </strong> ${textoObservacion}</p></td>
+    <td>${cantidad}</td>
+    <td>
+        <button type="button" class="btn btn-danger" onclick="eliminarOrdenMedica(${fila.rowIndex})">
+            <i class="fa fa-trash"></i>
+        </button>
+    </td>
+    <input type="hidden" name="codigoOrdenMedica[]" value="${codigo}">
+    <input type="hidden" name="cantidadOrdenMedica[]" value="${cantidad}">
+    <input type="hidden" name="observacionOrdenMedica[]" value="${textoObservacion}">
+`;
+
+        fila.id = `filaOrdenMedica${tabla.rows.length}`
+
+        tabla.appendChild(fila)
+
+        $('#codConsultaConsultaOrdenMedica').val(null).trigger('change');
+        document.getElementById('cantidad').value = ""
+        document.getElementById('observacion').value = ""
+
+    }
+
+    function eliminarOrdenMedica(index) {
+        let fila = document.getElementById(`filaOrdenMedica${index}`)
+        fila.remove()
+    }
+
+    // Función para colapsar/descolapsar la información del paciente
+    function togglePacienteInfo() {
+        const infoPaciente = document.getElementById('infoPaciente');
+        const btnToggle = document.getElementById('btnTogglePaciente');
+        const iconToggle = document.getElementById('iconTogglePaciente');
+        const columnaPaciente = document.getElementById('columnaPaciente');
         
+        // Buscar la columna de historia de manera más robusta
+        let columnaHistoria = document.querySelector('.col-xl-8.col-lg-7') || 
+                             document.querySelector('.col-xl-7.col-lg-7') || 
+                             document.querySelector('.col-xl-10.col-lg-10') ||
+                             document.querySelector('.col-xl-12.col-lg-12') ||
+                             document.querySelector('.col-xl-8') ||
+                             document.querySelector('.col-xl-7') ||
+                             document.querySelector('.col-xl-10') ||
+                             document.querySelector('.col-xl-11');
+        
+        // Si no encuentra la columna, buscar por posición en el DOM
+        if (!columnaHistoria) {
+            const row = columnaPaciente.parentElement;
+            const columns = row.children;
+            for (let i = 0; i < columns.length; i++) {
+                if (columns[i] !== columnaPaciente && columns[i].classList.contains('col-xl-')) {
+                    columnaHistoria = columns[i];
+                    break;
+                }
+            }
         }
-    </script>
+        
+        if (infoPaciente.style.display === 'none') {
+            // Mostrar información del paciente
+            infoPaciente.style.display = 'block';
+            iconToggle.className = 'fa fa-chevron-up';
+            columnaPaciente.className = 'col-xl-4 col-lg-5';
+            if (columnaHistoria) {
+                columnaHistoria.className = 'col-xl-8 col-lg-7';
+            }
+        } else {
+            // Ocultar información del paciente
+            infoPaciente.style.display = 'none';
+            iconToggle.className = 'fa fa-chevron-down';
+            columnaPaciente.className = 'col-xl-1 col-lg-1';
+            if (columnaHistoria) {
+                columnaHistoria.className = 'col-xl-12 col-lg-12';
+            }
+        }
+    }
+</script>
 
 @endsection

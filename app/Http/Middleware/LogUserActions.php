@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use App\Models\Log;
+use App\Models\log;
 use Illuminate\Support\Facades\Auth;
 
 class LogUserActions
@@ -26,7 +26,7 @@ class LogUserActions
 
         // Registrar acción solo si es un método POST, PUT, DELETE
         if (in_array($request->method(), ['POST', 'PUT', 'DELETE','GET'])) {
-            Log::create([
+            log::create([
                 'user_id' => $user ? $user->id : null,
                 'accion'  => $request->path(),
                 'ip'      => $request->ip(),

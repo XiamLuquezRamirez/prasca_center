@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use App\Models\Perfil;
 use App\Models\Permisos;
+use Carbon\Carbon;
 
 class UsuariosController extends Controller
 {
@@ -18,7 +19,6 @@ class UsuariosController extends Controller
         $respuesta = Usuario::login(request()->all());
 
         if ($respuesta) {
-
             $profesional = Profesional::busquedaProfesionalUsu(Auth::id());
 
             if ($profesional) {
@@ -27,10 +27,13 @@ class UsuariosController extends Controller
                 Session::put('registroProfesional', $profesional->registro);
                 Session::put('firmaProfesional', $profesional->firma);
             }
-          
+            
+            // Regenerar el ID de sesión para prevenir session fixation
+            Session::regenerate();
+            
             return redirect('Administracion');
         } else {
-            $error = "Usuario ó Contraseña Inconrrecta";
+            $error = "Usuario ó Contraseña Incorrecta";
             return redirect('/')->with('error', $error);
         }
     }
@@ -449,6 +452,15 @@ class UsuariosController extends Controller
             $losg = DB::connection('mysql')
             ->table('logs')
             ->leftJoin('users', 'users.id', 'logs.user_id')
+            ->orderBy('logs.created_at', 'desc')
+            ->select(
+                'logs.id',
+                'logs.accion',
+                'logs.ip',
+                'logs.detalles',
+                'logs.created_at as log_created_at',
+                'users.nombre_usuario'
+            )
             ->where(function($query) {
                 $query->where('logs.detalles', '!=', '[]')  // Excluir el arreglo vacío
                       ->orWhereNull('logs.detalles');  // Incluir registros sin detalles
@@ -473,6 +485,7 @@ class UsuariosController extends Controller
                                     <td>' . $item->accion . '</td>                                   
                                     <td>' . $item->ip . '</td>                                   
                                     <td>' . $item->detalles. '</td>                                   
+                                    <td>' . Carbon::parse($item->log_created_at)->format('d/m/Y H:i:s') . '</td>                                   
                                 </tr>';
                     $x++;
                 }

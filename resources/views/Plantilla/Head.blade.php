@@ -15,6 +15,9 @@
 	<link rel="stylesheet" rel="preload" href="{{ asset('app-assets/css/style.css') }}">
 	<link rel="stylesheet" rel="preload" href="{{ asset('app-assets/css/skin_color.css') }}">
 	<link rel="stylesheet" rel="preload" href="{{ asset('app-assets/css/custom.css') }}">
+	<link rel="stylesheet" rel="preload" href="{{ asset('app-assets/css/dashboard7.css') }}">
+
   <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="login-url"   content="{{ url('/') }}">
   
   </head>

@@ -410,6 +410,15 @@
                                         Anexos</span>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="#cobertura-eps" data-bs-toggle="tab" aria-expanded="false"
+                                    class="nav-link rounded-0" id="tabCoberturaEps"
+                                    onclick="cargarCoberturaEps()">
+                                    <span class="d-none d-md-block">
+                                        <i class="fa fa-shield-halved me-1"></i> Cobertura EPS
+                                    </span>
+                                </a>
+                            </li>
 
                         </ul>
 
@@ -489,6 +498,117 @@
                                     </div>
                                 </div>
                             </div>
+
+                            {{-- TAB COBERTURA EPS --}}
+                            <div class="tab-pane" id="cobertura-eps">
+
+                                {{-- Panel: tiene plan activo --}}
+                                <div id="epsPlanActivo" style="display:none;">
+                                    <div id="epsPlanInfo" class="mb-3"
+                                        style="background:#f0f0fa;border-radius:6px;padding:12px 16px;font-size:13px;color:#2b2b6c;">
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <strong style="font-size:12px;">Historial de autorizaciones</strong>
+                                        <div>
+                                            <button class="btn btn-xs btn-primary-light me-1" onclick="mostrarFormPlan()">
+                                                <i class="fa fa-exchange-alt me-1"></i> Cambiar plan
+                                            </button>
+                                            <button class="btn btn-xs" style="background:#fde8e8;color:#c0392b;border:none;"
+                                                onclick="quitarPlanEps()">
+                                                <i class="fa fa-times me-1"></i> Quitar
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <table class="table table-striped table-sm" style="font-size:12px;">
+                                        <thead>
+                                            <tr>
+                                                <th>Fecha cita</th><th>Tipo servicio</th>
+                                                <th>N° Autorización</th><th>Copago cobrado</th><th>Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="trAutorizaciones"></tbody>
+                                    </table>
+                                </div>
+
+                                {{-- Panel: sin plan --}}
+                                <div id="epsSinPlan" style="display:none;text-align:center;padding:28px 20px;color:#aaa;">
+                                    <i class="fa fa-shield-halved" style="font-size:32px;opacity:.3;display:block;margin-bottom:8px;"></i>
+                                    <p style="font-size:13px;margin:0 0 12px;">
+                                        Este paciente no tiene un plan EPS asignado. Se atenderá como <strong>particular</strong>.
+                                    </p>
+                                    <button class="btn btn-xs btn-primary" onclick="mostrarFormPlan()">
+                                        <i class="fa fa-plus me-1"></i> Asignar plan
+                                    </button>
+                                </div>
+
+                                {{-- Formulario asignar/cambiar plan --}}
+                                <div id="epsFormPlan" style="display:none;">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Plan / Póliza <span class="text-danger">*</span></label>
+                                                <select class="form-control" id="selectPlanEps">
+                                                    <option value="">Seleccionar plan…</option>
+                                                </select>
+                                                <small class="text-muted" id="hintPlanesEps"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label">N° Póliza / Afiliado</label>
+                                                <input type="text" class="form-control" id="numeroPolizaEps" placeholder="Opcional">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label">Fecha vinculación</label>
+                                                <input type="date" class="form-control" id="fechaVinculacionEps">
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <button class="btn btn-xs btn-primary me-1" onclick="guardarPlanEps()">
+                                                <i class="fa fa-save me-1"></i> Guardar plan
+                                            </button>
+                                            <button class="btn btn-xs btn-primary-light" onclick="cancelarFormPlan()">
+                                                Cancelar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- Modal editar autorización --}}
+                                <div class="modal fade" id="modalAutorizacion" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" style="max-width:420px;">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Registrar autorización</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input type="hidden" id="idCitaAutorizacion">
+                                                <div class="form-group">
+                                                    <label class="form-label">N° Autorización EPS</label>
+                                                    <input type="text" class="form-control" id="numAutorizacionInput"
+                                                        placeholder="Ej: AUT-2025-00341">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Copago cobrado (COP)</label>
+                                                    <input type="number" class="form-control" id="copagoCobradoInput"
+                                                        placeholder="Ej: 47400" min="0" step="100">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-primary-light btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                                                <button class="btn btn-primary btn-sm" onclick="guardarAutorizacion()">
+                                                    <i class="fa fa-save me-1"></i> Guardar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>{{-- /cobertura-eps --}}
+
                         </div>
                     </div>
                     <div class="box-footer text-end">
@@ -3622,4 +3742,151 @@ function calcularSubtotalCotizacion() {
     }
 </style>
 
+<script>
+// ── COBERTURA EPS ─────────────────────────────────────────────
+const CSRF_EPS = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+const hdrsEPS  = { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF_EPS };
+
+function cargarCoberturaEps() {
+    const idPaciente = document.getElementById('idPaciente').value;
+    if (!idPaciente) return;
+
+    fetch("{{ route('pacientes.obtenerCobertura') }}", {
+        method: 'POST', headers: hdrsEPS,
+        body: JSON.stringify({ idPaciente })
+    })
+    .then(r => r.json())
+    .then(data => {
+        document.getElementById('epsPlanActivo').style.display = 'none';
+        document.getElementById('epsSinPlan').style.display    = 'none';
+        document.getElementById('epsFormPlan').style.display   = 'none';
+
+        if (data.tiene_plan) {
+            const a = data.asignacion;
+            const copagosHtml = data.copagos.map(c =>
+                `<span style="margin-right:12px;"><strong style="color:#1a8a3a;">$${Number(c.monto_copago).toLocaleString('es-CO')}</strong> ${c.tipo_servicio}</span>`
+            ).join('');
+            document.getElementById('epsPlanInfo').innerHTML = `
+                <strong>${a.eps_nombre}</strong> · ${a.plan_nombre}<br>
+                <span style="font-size:11px;">
+                    ${a.limite_consultas ? a.limite_consultas + ' consultas' : 'Ilimitadas'}
+                    &nbsp;|&nbsp; ${copagosHtml}
+                </span>`;
+            document.getElementById('epsPlanActivo').style.display = 'block';
+            cargarAutorizaciones(idPaciente);
+        } else {
+            const idEps = document.getElementById('eps').value;
+            if (idEps) cargarPlanesEps(idEps);
+            document.getElementById('epsSinPlan').style.display = 'block';
+        }
+    });
+}
+
+function cargarAutorizaciones(idPaciente) {
+    fetch("{{ route('pacientes.listarAutorizaciones') }}", {
+        method: 'POST', headers: hdrsEPS,
+        body: JSON.stringify({ idPaciente })
+    })
+    .then(r => r.json())
+    .then(data => { document.getElementById('trAutorizaciones').innerHTML = data.html; });
+}
+
+function cargarPlanesEps(idEps) {
+    fetch("{{ route('contratosEps.planesPorEps') }}", {
+        method: 'POST', headers: hdrsEPS,
+        body: JSON.stringify({ idEps })
+    })
+    .then(r => r.json())
+    .then(data => {
+        const sel = document.getElementById('selectPlanEps');
+        sel.innerHTML = '<option value="">Seleccionar plan…</option>';
+        if (data.planes.length === 0) {
+            document.getElementById('hintPlanesEps').textContent =
+                'No hay contratos activos para esta EPS.';
+        } else {
+            data.planes.forEach(p => {
+                const limite = p.limite_consultas ? p.limite_consultas + ' consultas' : 'Ilimitada';
+                sel.innerHTML += `<option value="${p.id}">${p.nombre} — ${limite}</option>`;
+            });
+            document.getElementById('hintPlanesEps').textContent = '';
+        }
+    });
+}
+
+function mostrarFormPlan() {
+    const idEps = document.getElementById('eps').value;
+    if (!idEps) { Swal.fire('Info', 'Primero selecciona la EPS del paciente.', 'info'); return; }
+    cargarPlanesEps(idEps);
+    document.getElementById('epsPlanActivo').style.display = 'none';
+    document.getElementById('epsSinPlan').style.display    = 'none';
+    document.getElementById('epsFormPlan').style.display   = 'block';
+}
+
+function cancelarFormPlan() {
+    document.getElementById('epsFormPlan').style.display = 'none';
+    cargarCoberturaEps();
+}
+
+function guardarPlanEps() {
+    const idPaciente = document.getElementById('idPaciente').value;
+    const idPlan     = document.getElementById('selectPlanEps').value;
+    if (!idPlan) { Swal.fire('Error', 'Selecciona un plan.', 'warning'); return; }
+
+    fetch("{{ route('pacientes.guardarPlanEps') }}", {
+        method: 'POST', headers: hdrsEPS,
+        body: JSON.stringify({
+            idPaciente,
+            idPlan,
+            numeroPoliza:     document.getElementById('numeroPolizaEps').value,
+            fechaVinculacion: document.getElementById('fechaVinculacionEps').value,
+        })
+    })
+    .then(r => r.json())
+    .then(data => {
+        Swal.fire('¡Listo!', data.message, 'success');
+        cargarCoberturaEps();
+    });
+}
+
+function quitarPlanEps() {
+    const idPaciente = document.getElementById('idPaciente').value;
+    Swal.fire({
+        title: '¿Quitar plan EPS?', icon: 'warning',
+        showCancelButton: true, confirmButtonText: 'Sí, quitar', cancelButtonText: 'Cancelar'
+    }).then(result => {
+        if (result.isConfirmed) {
+            fetch("{{ route('pacientes.quitarPlanEps') }}", {
+                method: 'POST', headers: hdrsEPS,
+                body: JSON.stringify({ idPaciente })
+            })
+            .then(r => r.json())
+            .then(() => { Swal.fire('Quitado', '', 'success'); cargarCoberturaEps(); });
+        }
+    });
+}
+
+function editarAutorizacion(idCita, numAut, copago) {
+    document.getElementById('idCitaAutorizacion').value    = idCita;
+    document.getElementById('numAutorizacionInput').value  = numAut !== 'null' ? numAut : '';
+    document.getElementById('copagoCobradoInput').value    = copago !== 'null' ? copago : '';
+    new bootstrap.Modal(document.getElementById('modalAutorizacion')).show();
+}
+
+function guardarAutorizacion() {
+    fetch("{{ route('pacientes.registrarAutorizacion') }}", {
+        method: 'POST', headers: hdrsEPS,
+        body: JSON.stringify({
+            idCita:             document.getElementById('idCitaAutorizacion').value,
+            numeroAutorizacion: document.getElementById('numAutorizacionInput').value,
+            copagoCobrado:      document.getElementById('copagoCobradoInput').value,
+        })
+    })
+    .then(r => r.json())
+    .then(data => {
+        bootstrap.Modal.getInstance(document.getElementById('modalAutorizacion')).hide();
+        Swal.fire('¡Listo!', data.message, 'success');
+        cargarCoberturaEps();
+    });
+}
+</script>
 @endsection

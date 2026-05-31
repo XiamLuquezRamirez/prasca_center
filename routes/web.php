@@ -388,4 +388,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/contratosEps/eliminarCopago',           [ContratosEpsController::class, 'eliminarCopago'])->name('contratosEps.eliminarCopago');
     Route::post('/contratosEps/planesPorEps',             [ContratosEpsController::class, 'planesPorEps'])->name('contratosEps.planesPorEps');
     Route::post('/contratosEps/listarEntidadesEps',       [ContratosEpsController::class, 'listarEntidadesEps'])->name('contratosEps.listarEntidadesEps');
+
+    // COBERTURA EPS - PACIENTES
+    Route::post('/pacientes/guardarPlanEps',        [PacientesController::class, 'guardarPlanPaciente'])->name('pacientes.guardarPlanEps');
+    Route::post('/pacientes/quitarPlanEps',         [PacientesController::class, 'quitarPlanPaciente'])->name('pacientes.quitarPlanEps');
+    Route::post('/pacientes/obtenerCobertura',      [PacientesController::class, 'obtenerCoberturaPaciente'])->name('pacientes.obtenerCobertura');
+    Route::post('/pacientes/listarAutorizaciones',  [PacientesController::class, 'listarAutorizaciones'])->name('pacientes.listarAutorizaciones');
+    Route::post('/pacientes/registrarAutorizacion', [PacientesController::class, 'registrarAutorizacion'])->name('pacientes.registrarAutorizacion');
 });

@@ -39,7 +39,6 @@ class ContratosEpsTest extends TestCase
 
     public function test_guardar_plan_paciente_requires_auth()
     {
-        $this->markTestSkipped('Route added in Task 5');
         $response = $this->postJson('/pacientes/guardarPlanEps');
         $response->assertStatus(401);
     }

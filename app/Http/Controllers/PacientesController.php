@@ -1753,4 +1753,135 @@ class PacientesController extends Controller
 
         return $string;
     }
+
+    // ── COBERTURA EPS ────────────────────────────────────
+    public function guardarPlanPaciente(Request $request)
+    {
+        if (!Auth::check()) {
+            return response()->json(['success' => false], 401);
+        }
+        $d = $request->all();
+
+        // Desactivar plan anterior si existe
+        DB::connection('mysql')->table('paciente_planes_eps')
+            ->where('id_paciente', $d['idPaciente'])
+            ->where('estado', 'activo')
+            ->update(['estado' => 'inactivo', 'updated_at' => now()]);
+
+        // Insertar nueva asignación
+        DB::connection('mysql')->table('paciente_planes_eps')->insert([
+            'id_paciente'       => $d['idPaciente'],
+            'id_plan'           => $d['idPlan'],
+            'numero_poliza'     => $d['numeroPoliza']     ?? null,
+            'fecha_vinculacion' => $d['fechaVinculacion'] ?: null,
+            'estado'            => 'activo',
+            'created_at'        => now(),
+            'updated_at'        => now(),
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'Plan asignado correctamente.']);
+    }
+
+    public function quitarPlanPaciente(Request $request)
+    {
+        if (!Auth::check()) {
+            return response()->json(['success' => false], 401);
+        }
+        DB::connection('mysql')->table('paciente_planes_eps')
+            ->where('id_paciente', $request->idPaciente)
+            ->where('estado', 'activo')
+            ->update(['estado' => 'inactivo', 'updated_at' => now()]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function obtenerCoberturaPaciente(Request $request)
+    {
+        if (!Auth::check()) {
+            return response()->json(['success' => false], 401);
+        }
+        $asignacion = DB::connection('mysql')->table('paciente_planes_eps')
+            ->join('planes_eps',    'planes_eps.id',    '=', 'paciente_planes_eps.id_plan')
+            ->join('contratos_eps', 'contratos_eps.id', '=', 'planes_eps.id_contrato')
+            ->join('eps',           'eps.id',           '=', 'contratos_eps.id_eps')
+            ->where('paciente_planes_eps.id_paciente', $request->idPaciente)
+            ->where('paciente_planes_eps.estado', 'activo')
+            ->select(
+                'paciente_planes_eps.id as id_asignacion',
+                'paciente_planes_eps.numero_poliza',
+                'planes_eps.id as id_plan',
+                'planes_eps.nombre as plan_nombre',
+                'planes_eps.descripcion as plan_descripcion',
+                'planes_eps.limite_consultas',
+                'contratos_eps.fecha_inicio',
+                'contratos_eps.fecha_fin',
+                'eps.nombre as eps_nombre'
+            )
+            ->first();
+
+        if (!$asignacion) {
+            return response()->json(['tiene_plan' => false]);
+        }
+
+        $copagos = DB::connection('mysql')->table('copagos_eps')
+            ->where('id_plan', $asignacion->id_plan)
+            ->get();
+
+        return response()->json([
+            'tiene_plan' => true,
+            'asignacion' => $asignacion,
+            'copagos'    => $copagos,
+        ]);
+    }
+
+    public function listarAutorizaciones(Request $request)
+    {
+        if (!Auth::check()) {
+            return response()->json(['success' => false], 401);
+        }
+        $citas = DB::connection('mysql')->table('citas')
+            ->where('paciente', $request->idPaciente)
+            ->orderBy('inicio', 'desc')
+            ->select('id', 'inicio', 'motivo', 'numero_autorizacion', 'copago_cobrado', 'estado')
+            ->get();
+
+        $html = '';
+        foreach ($citas as $c) {
+            $fecha  = date('d M Y', strtotime($c->inicio));
+            $numAut = $c->numero_autorizacion ?? '—';
+            $copago = $c->copago_cobrado
+                ? '$' . number_format($c->copago_cobrado, 0, ',', '.')
+                : '—';
+            $numAutJs = addslashes($c->numero_autorizacion ?? '');
+            $html .= "
+            <tr>
+                <td>{$fecha}</td>
+                <td>{$c->motivo}</td>
+                <td>{$numAut}</td>
+                <td class=\"copago-amount\">{$copago}</td>
+                <td>
+                    <span class=\"action-btn\"
+                        onclick=\"editarAutorizacion({$c->id},'{$numAutJs}','{$c->copago_cobrado}')\">
+                        <i class=\"fa fa-edit\"></i> Registrar
+                    </span>
+                </td>
+            </tr>";
+        }
+        return response()->json(['html' => $html]);
+    }
+
+    public function registrarAutorizacion(Request $request)
+    {
+        if (!Auth::check()) {
+            return response()->json(['success' => false], 401);
+        }
+        DB::connection('mysql')->table('citas')
+            ->where('id', $request->idCita)
+            ->update([
+                'numero_autorizacion' => $request->numeroAutorizacion ?: null,
+                'copago_cobrado'      => $request->copagoCobrado      ?: null,
+            ]);
+
+        return response()->json(['success' => true, 'message' => 'Autorización registrada.']);
+    }
 }

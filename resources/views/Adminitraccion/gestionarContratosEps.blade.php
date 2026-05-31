@@ -315,6 +315,9 @@ let activeContratoId = null;
 let activePlanId     = null;
 
 document.addEventListener('DOMContentLoaded', function () {
+    loader = document.getElementById('loader');
+    loadNow(1);
+
     let menuP = document.getElementById('principalParametros');
     let menuS = document.getElementById('principalParametrosContratos');
     if (menuP) menuP.classList.add('active', 'menu-open');
@@ -360,8 +363,9 @@ function cargarContratos(page = 1, search = '') {
     })
     .then(r => r.json())
     .then(data => {
-        document.getElementById('trContratos').innerHTML        = data.html;
+        document.getElementById('trContratos').innerHTML         = data.html;
         document.getElementById('paginationContratos').innerHTML = data.pagination;
+        loadNow(0);
     });
 }
 

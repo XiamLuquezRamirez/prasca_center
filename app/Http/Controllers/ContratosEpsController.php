@@ -73,7 +73,7 @@ class ContratosEpsController extends Controller
 
         return response()->json([
             'html'       => $html,
-            'pagination' => (string)$registros->appends(['search' => $search])->links('pagination::bootstrap-5'),
+            'pagination' => (string)$registros->appends(['search' => $search])->links('Adminitraccion.PaginacionContratosEps'),
             'total'      => $registros->total(),
         ]);
     }

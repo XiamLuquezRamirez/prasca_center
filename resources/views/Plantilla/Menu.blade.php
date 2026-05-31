@@ -163,14 +163,7 @@
                                         </a>
                                     </li>
                                 @endif
-                                @if (in_array('AdminContratos', session('permisos', [])))
-                                    <li id="principalParametrosContratos">
-                                        <a href="{{ url('/Administracion/ContratosEps') }}">
-                                            <i class="icon-Commit"><span class="path1"></span><span
-                                                class="path2"></span></i> Contratos EPS
-                                        </a>
-                                    </li>
-                                @endif
+
                                 @if (in_array('AdminMotivoConsulta', session('permisos', [])))
                                 <li id="principalParametrosEspecialidades">
                                     <a href="{{ url('/Administracion/Especialidades') }}">

@@ -374,9 +374,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/cumpleanos/proximos', [CumpleanosController::class, 'getCumpleanosProximos'])->name('cumpleanos.proximos');
 
     /// CONTRATOS EPS
-    Route::middleware(['permission:AdminContratos'])->group(function () {
-        Route::get('/Administracion/ContratosEps', [ContratosEpsController::class, 'index'])->name('contratosEps.index');
-    });
+    Route::get('/Administracion/ContratosEps', function () {
+        return redirect('/Administracion/Entidades');
+    })->name('contratosEps.index');
     Route::post('/contratosEps/listarContratos',         [ContratosEpsController::class, 'listarContratos'])->name('contratosEps.listarContratos');
     Route::post('/contratosEps/guardarContrato',          [ContratosEpsController::class, 'guardarContrato'])->name('contratosEps.guardarContrato');
     Route::post('/contratosEps/eliminarContrato',         [ContratosEpsController::class, 'eliminarContrato'])->name('contratosEps.eliminarContrato');

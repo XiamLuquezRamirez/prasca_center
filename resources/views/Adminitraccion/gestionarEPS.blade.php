@@ -933,7 +933,7 @@ function verPlanes(idContrato, epsNombre) {
     document.getElementById('infoBarPlanes').innerHTML =
         `<i class="fa fa-info-circle me-1"></i> Contrato <strong>${epsNombre}</strong>`;
     document.getElementById('idContratoPlan').value = idContrato;
-    bootstrap.Tab.getOrCreateInstance(document.getElementById('tab-planes-link')).show();
+    new bootstrap.Tab(document.getElementById('tab-planes-link')).show();
     cargarPlanes(idContrato);
 }
 
@@ -1027,7 +1027,7 @@ function verCopagos(idPlan, planNombre) {
     document.getElementById('infoBarCopagos').innerHTML =
         `<i class="fa fa-info-circle me-1"></i> Plan <strong>${planNombre}</strong> &middot; Copagos por tipo de servicio`;
     document.getElementById('idPlanCopago').value = idPlan;
-    bootstrap.Tab.getOrCreateInstance(document.getElementById('tab-copagos-link')).show();
+    new bootstrap.Tab(document.getElementById('tab-copagos-link')).show();
     cargarCopagos(idPlan);
 }
 

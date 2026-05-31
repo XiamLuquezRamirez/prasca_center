@@ -13,6 +13,7 @@ use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\CajaController;
 use App\Http\Controllers\RecaudosController;
 use App\Http\Controllers\SistemaController;
+use App\Http\Controllers\ContratosEpsController;
 use App\Models\HistoriaNeuroPsicologica;
 
 // -------------------------------------------------------
@@ -38,9 +39,9 @@ Route::middleware(['auth'])->group(function () {
 
     ///GESTIONAR PACIENTES
     Route::middleware(['permission:paciente'])->group(function () {
-        Route::get('/Pacientes/Gestionar', [PacientesController::class, 'Pacientes'])->name('pacientes.listaPacientes');
+        Route::get('/Pacientes/Gestionar', [PacientesController::class, 'Pacientes'])->name('pacientes.gestionar');
     });
-    Route::post('/pacientes/listaPacientes', [PacientesController::class, 'listaPacientes']);
+    Route::post('/pacientes/listaPacientes', [PacientesController::class, 'listaPacientes'])->name('pacientes.listaPacientes');
     Route::get('/pacientes/ocupaciones', [PacientesController::class, 'ocupaciones'])->name('pacientes.ocupaciones');
     Route::post('/pacientes/municipio', [PacientesController::class, 'municipios'])->name('pacientes.municipio');
     Route::get('/pacientes/departamentos', [PacientesController::class, 'departamentos'])->name('pacientes.departamentos');
@@ -371,4 +372,20 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/cumpleanos/panel', [CumpleanosController::class, 'panelCumpleanos'])->name('cumpleanos.panel');
     Route::post('/cumpleanos/datos', [CumpleanosController::class, 'getDatosCumpleanos'])->name('cumpleanos.datos');
     Route::post('/cumpleanos/proximos', [CumpleanosController::class, 'getCumpleanosProximos'])->name('cumpleanos.proximos');
+
+    /// CONTRATOS EPS
+    Route::middleware(['permission:AdminContratos'])->group(function () {
+        Route::get('/Administracion/ContratosEps', [ContratosEpsController::class, 'index'])->name('contratosEps.index');
+    });
+    Route::post('/contratosEps/listarContratos',         [ContratosEpsController::class, 'listarContratos'])->name('contratosEps.listarContratos');
+    Route::post('/contratosEps/guardarContrato',          [ContratosEpsController::class, 'guardarContrato'])->name('contratosEps.guardarContrato');
+    Route::post('/contratosEps/eliminarContrato',         [ContratosEpsController::class, 'eliminarContrato'])->name('contratosEps.eliminarContrato');
+    Route::post('/contratosEps/listarPlanes',             [ContratosEpsController::class, 'listarPlanes'])->name('contratosEps.listarPlanes');
+    Route::post('/contratosEps/guardarPlan',              [ContratosEpsController::class, 'guardarPlan'])->name('contratosEps.guardarPlan');
+    Route::post('/contratosEps/eliminarPlan',             [ContratosEpsController::class, 'eliminarPlan'])->name('contratosEps.eliminarPlan');
+    Route::post('/contratosEps/listarCopagos',            [ContratosEpsController::class, 'listarCopagos'])->name('contratosEps.listarCopagos');
+    Route::post('/contratosEps/guardarCopago',            [ContratosEpsController::class, 'guardarCopago'])->name('contratosEps.guardarCopago');
+    Route::post('/contratosEps/eliminarCopago',           [ContratosEpsController::class, 'eliminarCopago'])->name('contratosEps.eliminarCopago');
+    Route::post('/contratosEps/planesPorEps',             [ContratosEpsController::class, 'planesPorEps'])->name('contratosEps.planesPorEps');
+    Route::post('/contratosEps/listarEntidadesEps',       [ContratosEpsController::class, 'listarEntidadesEps'])->name('contratosEps.listarEntidadesEps');
 });

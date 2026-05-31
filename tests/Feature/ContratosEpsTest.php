@@ -27,21 +27,19 @@ class ContratosEpsTest extends TestCase
 
     public function test_contratos_eps_index_requires_auth()
     {
-        $this->markTestSkipped('Route added in Task 3');
         $response = $this->get('/Administracion/ContratosEps');
         $response->assertRedirect('/');
     }
 
     public function test_listar_contratos_requires_auth()
     {
-        $this->markTestSkipped('Route added in Task 3');
         $response = $this->postJson('/contratosEps/listarContratos');
         $response->assertStatus(401);
     }
 
     public function test_guardar_plan_paciente_requires_auth()
     {
-        $this->markTestSkipped('Route added in Task 3');
+        $this->markTestSkipped('Route added in Task 5');
         $response = $this->postJson('/pacientes/guardarPlanEps');
         $response->assertStatus(401);
     }

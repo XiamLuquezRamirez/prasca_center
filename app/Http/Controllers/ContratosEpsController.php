@@ -29,7 +29,7 @@ class ContratosEpsController extends Controller
 
         $query = DB::connection('mysql')->table('contratos_eps')
             ->leftJoin('eps', 'eps.id', '=', 'contratos_eps.id_eps')
-            ->select('contratos_eps.*', 'eps.nombre as eps_nombre')
+            ->selectRaw('contratos_eps.*, eps.nombre AS eps_nombre, (SELECT COUNT(*) FROM planes_eps WHERE planes_eps.id_contrato = contratos_eps.id) AS planes_count')
             ->orderBy('contratos_eps.id', 'desc');
 
         if ($search) {
@@ -41,8 +41,7 @@ class ContratosEpsController extends Controller
         $x = ($page - 1) * $perPage + 1;
 
         foreach ($registros as $r) {
-            $planesCount = DB::connection('mysql')->table('planes_eps')
-                ->where('id_contrato', $r->id)->count();
+            $planesCount = $r->planes_count;
             $badgeEstado = $r->estado === 'activo'
                 ? '<span class="badge-activo">Activo</span>'
                 : '<span class="badge-borrador">Borrador</span>';
@@ -95,7 +94,7 @@ class ContratosEpsController extends Controller
                 'created_at'   => now(),
                 'updated_at'   => now(),
             ]);
-        } else {
+        } elseif ($d['accion'] === 'editar') {
             DB::connection('mysql')->table('contratos_eps')
                 ->where('id', $d['idContrato'])
                 ->update([
@@ -105,6 +104,8 @@ class ContratosEpsController extends Controller
                     'estado'       => $d['estado'],
                     'updated_at'   => now(),
                 ]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Acción no válida.'], 400);
         }
         return response()->json(['success' => true, 'message' => 'Operación realizada exitosamente.']);
     }
@@ -186,7 +187,7 @@ class ContratosEpsController extends Controller
                 'created_at'       => now(),
                 'updated_at'       => now(),
             ]);
-        } else {
+        } elseif ($d['accion'] === 'editar') {
             DB::connection('mysql')->table('planes_eps')
                 ->where('id', $d['idPlan'])
                 ->update([
@@ -197,6 +198,8 @@ class ContratosEpsController extends Controller
                     'estado'           => $d['estado'],
                     'updated_at'       => now(),
                 ]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Acción no válida.'], 400);
         }
         return response()->json(['success' => true, 'message' => 'Plan guardado.']);
     }
@@ -264,7 +267,7 @@ class ContratosEpsController extends Controller
                 'created_at'    => now(),
                 'updated_at'    => now(),
             ]);
-        } else {
+        } elseif ($d['accion'] === 'editar') {
             DB::connection('mysql')->table('copagos_eps')
                 ->where('id', $d['idCopago'])
                 ->update([
@@ -273,6 +276,8 @@ class ContratosEpsController extends Controller
                     'max_sesiones'  => $max,
                     'updated_at'    => now(),
                 ]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Acción no válida.'], 400);
         }
         return response()->json(['success' => true, 'message' => 'Servicio guardado.']);
     }
@@ -295,6 +300,7 @@ class ContratosEpsController extends Controller
         $contrato = DB::connection('mysql')->table('contratos_eps')
             ->where('id_eps', $request->idEps)
             ->where('estado', 'activo')
+            ->orderBy('id', 'desc')
             ->first();
 
         if (!$contrato) {

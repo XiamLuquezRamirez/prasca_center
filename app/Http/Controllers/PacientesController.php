@@ -1815,7 +1815,7 @@ class PacientesController extends Controller
                 'planes_eps.limite_consultas',
                 'contratos_eps.fecha_inicio',
                 'contratos_eps.fecha_fin',
-                'eps.nombre as eps_nombre'
+                'eps.entidad as eps_nombre'
             )
             ->first();
 

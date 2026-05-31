@@ -29,11 +29,11 @@ class ContratosEpsController extends Controller
 
         $query = DB::connection('mysql')->table('contratos_eps')
             ->leftJoin('eps', 'eps.id', '=', 'contratos_eps.id_eps')
-            ->selectRaw('contratos_eps.*, eps.nombre AS eps_nombre, (SELECT COUNT(*) FROM planes_eps WHERE planes_eps.id_contrato = contratos_eps.id) AS planes_count')
+            ->selectRaw('contratos_eps.*, eps.entidad AS eps_nombre, (SELECT COUNT(*) FROM planes_eps WHERE planes_eps.id_contrato = contratos_eps.id) AS planes_count')
             ->orderBy('contratos_eps.id', 'desc');
 
         if ($search) {
-            $query->where('eps.nombre', 'LIKE', "%{$search}%");
+            $query->where('eps.entidad', 'LIKE', "%{$search}%");
         }
 
         $registros = $query->paginate($perPage, ['*'], 'page', $page);
@@ -323,8 +323,8 @@ class ContratosEpsController extends Controller
             return response()->json(['success' => false], 401);
         }
         $eps = DB::connection('mysql')->table('eps')
-            ->orderBy('nombre')
-            ->select('id', 'nombre')
+            ->orderBy('entidad')
+            ->selectRaw('id, entidad as nombre')
             ->get();
         return response()->json($eps);
     }

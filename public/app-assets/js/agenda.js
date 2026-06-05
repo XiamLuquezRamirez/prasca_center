@@ -1635,6 +1635,14 @@ function eliminarCita() {
 function atrasAddCita() {
     document.getElementById("calendaCita").style = "display: block";
     document.getElementById("calendaCitaPaci").style = "display: none";
+    const seccion = document.getElementById("seccionAutorizacion");
+    if (seccion) {
+        seccion.style.display = 'none';
+        document.getElementById("id_autorizacion").innerHTML = '<option value="">Sin autorización EPS</option>';
+        document.getElementById("id_autorizacion_val").value       = '';
+        document.getElementById("numero_autorizacion_val").value   = '';
+        document.getElementById("copago_cobrado_val").value        = '';
+    }
     var btm_atras = document.getElementById("btnAtras");
     btm_atras.style.display = "none";
 
@@ -1674,6 +1682,60 @@ function salirAddCita() {
 
 function selecPaciente(id) {
     document.getElementById("idPaciente").value = id;
+
+    const seccion = document.getElementById("seccionAutorizacion");
+    if (!seccion) return;
+
+    // Reset
+    document.getElementById("id_autorizacion").innerHTML = '<option value="">Sin autorización EPS</option>';
+    document.getElementById("id_autorizacion_val").value  = '';
+    document.getElementById("numero_autorizacion_val").value = '';
+    document.getElementById("copago_cobrado_val").value   = '';
+    seccion.style.display = 'none';
+
+    if (!id) return;
+
+    const url   = $("#urlBase").data("ruta");
+    const csrf  = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+
+    fetch(`${url}autorizaciones/porPaciente?id_paciente=${id}`, {
+        headers: { 'X-CSRF-TOKEN': csrf }
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (!Array.isArray(data) || data.length === 0) return;
+
+        const sel = document.getElementById("id_autorizacion");
+        data.forEach(a => {
+            const sesInfo = a.sesiones_autorizadas
+                ? `${a.sesiones_usadas}/${a.sesiones_autorizadas} ses.`
+                : 'Ilimitada';
+            const copago = a.valor_copago
+                ? '$' + Number(a.valor_copago).toLocaleString('es-CO')
+                : '$0';
+            const vence = a.fecha_vencimiento
+                ? ` — vence ${a.fecha_vencimiento}`
+                : '';
+            const opt = new Option(
+                `${a.numero_autorizacion} — ${a.nombre_plan} — ${copago}${vence} — ${sesInfo}`,
+                a.id
+            );
+            opt.dataset.copago  = a.valor_copago  || '0';
+            opt.dataset.numero  = a.numero_autorizacion;
+            opt.dataset.plan    = a.nombre_plan;
+            sel.appendChild(opt);
+        });
+
+        seccion.style.display = 'block';
+    })
+    .catch(() => { /* sin autorizaciones o error, sección sigue oculta */ });
+}
+
+function onCambioAutorizacion(sel) {
+    const opt = sel.options[sel.selectedIndex];
+    document.getElementById("id_autorizacion_val").value       = sel.value;
+    document.getElementById("numero_autorizacion_val").value   = (opt && opt.dataset.numero) ? opt.dataset.numero : '';
+    document.getElementById("copago_cobrado_val").value        = (opt && opt.dataset.copago)  ? opt.dataset.copago  : '';
 }
 
 function habPacNuevo() {

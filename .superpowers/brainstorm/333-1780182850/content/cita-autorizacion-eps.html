@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agendamiento — Autorización EPS — Mockup</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #eaedf7;
+    color: #1a1a2e;
+    font-size: 13px;
+    padding: 24px;
+    margin: 0;
+  }
+
+  .page-header { margin-bottom: 18px; }
+  .page-title { font-size: 18px; font-weight: 700; margin: 0 0 2px; color: #1a1a2e; display: inline; }
+  .breadcrumb-area { display: inline-flex; align-items: center; gap: 5px; margin-left: 14px; font-size: 12px; color: #888; }
+  .breadcrumb-area a { color: #888; text-decoration: none; }
+  .breadcrumb-area span { color: #aaa; }
+
+  .card {
+    background: #fff;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .card-header {
+    background: #fff;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 16px 22px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #1a1a2e;
+  }
+  .card-body { padding: 18px 22px; }
+
+  .form-label { font-size: 12px; font-weight: 600; color: #444; margin-bottom: 4px; }
+  .form-control, .form-select {
+    font-family: 'Poppins', sans-serif; font-size: 12px;
+    border: 1px solid #dde1f0; border-radius: 6px;
+    padding: 7px 10px; color: #1a1a2e;
+  }
+  .form-control:focus, .form-select:focus {
+    border-color: #7c3aed; box-shadow: 0 0 0 3px rgba(124,58,237,.08); outline: none;
+  }
+  .form-control[readonly] { background: #f6f7fb; color: #666; }
+
+  .btn-primary-custom {
+    background: #7c3aed; color: #fff; border: none;
+    border-radius: 6px; padding: 7px 16px; font-size: 13px; font-weight: 500;
+    font-family: 'Poppins', sans-serif; cursor: pointer; white-space: nowrap;
+  }
+  .btn-primary-custom:hover { background: #6d28d9; }
+  .btn-secondary-custom {
+    background: #f0edf9; color: #7c3aed; border: 1px solid #e0d8f7;
+    border-radius: 6px; padding: 7px 16px; font-size: 13px; font-weight: 500;
+    font-family: 'Poppins', sans-serif; cursor: pointer;
+  }
+
+  /* Panel EPS info */
+  .eps-info-panel {
+    background: #f3f0fc;
+    border: 1px solid #ddd5f9;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 4px;
+  }
+  .eps-info-panel .eps-label { font-size: 11px; font-weight: 700; color: #9370db; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 6px; }
+  .eps-info-row { display: flex; gap: 24px; flex-wrap: wrap; }
+  .eps-info-item { font-size: 12px; color: #5b21b6; }
+  .eps-info-item strong { color: #3b0764; }
+
+  /* Panel particular */
+  .particular-panel {
+    background: #e8f4fd;
+    border: 1px solid #bee3f8;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 4px;
+    font-size: 12px;
+    color: #1565c0;
+  }
+
+  /* Copago highlight */
+  .copago-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #e6f9ec; color: #1a8a3a; border-radius: 8px;
+    padding: 6px 14px; font-size: 13px; font-weight: 700;
+    border: 1px solid #b7f0cb;
+  }
+
+  /* Alert */
+  .alert-limit {
+    background: #fff8e1; border-left: 3px solid #f59e0b;
+    border-radius: 0 6px 6px 0; padding: 8px 14px;
+    font-size: 12px; color: #92400e;
+  }
+
+  .section-label {
+    font-size: 11px; font-weight: 700; color: #aaa;
+    letter-spacing: .5px; text-transform: uppercase;
+    margin-bottom: 10px; margin-top: 4px;
+  }
+
+  hr { border: none; border-top: 1px solid #f0f0f0; margin: 24px 0; }
+
+  /* Badge */
+  .badge-activo { background: #e6f9ec; color: #1a8a3a; border-radius: 12px; padding: 2px 10px; font-size: 11px; font-weight: 600; }
+  .badge-particular { background: #e8f4fd; color: #1565c0; border-radius: 12px; padding: 2px 10px; font-size: 11px; font-weight: 600; }
+
+  .divider-label {
+    text-align: center; font-size: 11px; font-weight: 600;
+    color: #ccc; margin: 8px 0; position: relative;
+  }
+  .divider-label::before, .divider-label::after {
+    content: ''; position: absolute; top: 50%; width: 40%; height: 1px; background: #eee;
+  }
+  .divider-label::before { left: 0; }
+  .divider-label::after { right: 0; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <span class="page-title">Agendar Cita</span>
+  <span class="breadcrumb-area">
+    <a href="#">⌂</a><span>-</span><span>Inicio</span><span>-</span><span>Agenda</span><span>-</span><span>Nueva Cita</span>
+  </span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     CASO A: Paciente con plan EPS → muestra bloque EPS
+     ═══════════════════════════════════════════════════════ -->
+<div class="section-label">Caso A — Paciente con plan EPS activo</div>
+
+<div class="card">
+  <div class="card-header">Nueva Cita — María García López</div>
+  <div class="card-body">
+
+    <div class="row g-3">
+      <!-- Columna izquierda: datos base -->
+      <div class="col-md-8">
+        <div class="row g-3">
+          <div class="col-6">
+            <label class="form-label">Paciente</label>
+            <input type="text" class="form-control" value="María García López" readonly>
+          </div>
+          <div class="col-6">
+            <label class="form-label">Profesional</label>
+            <select class="form-select">
+              <option>Dra. Ana Martínez — Psicología</option>
+            </select>
+          </div>
+          <div class="col-6">
+            <label class="form-label">Tipo de servicio *</label>
+            <select class="form-select" id="tipo-svc">
+              <option value="">Seleccionar…</option>
+              <option value="psico" selected>Consulta Psicología</option>
+              <option value="terapia">Psicoterapia</option>
+              <option value="familiar">Terapia Familiar</option>
+              <option value="neuropsi">Consulta Neuropsicología</option>
+            </select>
+          </div>
+          <div class="col-3">
+            <label class="form-label">Fecha</label>
+            <input type="date" class="form-control" value="2025-06-09">
+          </div>
+          <div class="col-3">
+            <label class="form-label">Hora</label>
+            <input type="time" class="form-control" value="10:00">
+          </div>
+          <div class="col-12">
+            <label class="form-label">Observaciones</label>
+            <textarea class="form-control" rows="2" placeholder="Opcional…"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna derecha: panel EPS -->
+      <div class="col-md-4">
+        <div class="eps-info-panel">
+          <div class="eps-label">Cobertura EPS</div>
+          <div class="eps-info-row" style="margin-bottom:8px;">
+            <div class="eps-info-item"><strong>SURA</strong> · Póliza Global</div>
+          </div>
+          <div class="eps-info-row" style="margin-bottom:10px;">
+            <div class="eps-info-item">Consultas: <strong>ilimitadas</strong></div>
+          </div>
+          <div style="margin-bottom:10px;">
+            <div class="eps-label" style="margin-bottom:4px;">Copago a cobrar</div>
+            <div class="copago-badge">💰 $47.400</div>
+          </div>
+          <div>
+            <label class="form-label" style="color:#5b21b6;">N° Autorización EPS</label>
+            <input type="text" class="form-control" placeholder="Ej: AUT-2025-00420"
+              style="border-color:#c4b5f7;">
+            <div style="font-size:11px;color:#9370db;margin-top:3px;">
+              Dejar vacío si no aplica o se tramita después.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;margin-top:16px;">
+      <button class="btn-primary-custom">Guardar Cita</button>
+      <button class="btn-secondary-custom">Cancelar</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     CASO B: Paciente particular
+     ═══════════════════════════════════════════════════════ -->
+<div class="section-label">Caso B — Paciente particular (sin EPS)</div>
+
+<div class="card">
+  <div class="card-header">Nueva Cita — Carlos Rodríguez Pérez</div>
+  <div class="card-body">
+
+    <div class="row g-3">
+      <div class="col-md-8">
+        <div class="row g-3">
+          <div class="col-6">
+            <label class="form-label">Paciente</label>
+            <input type="text" class="form-control" value="Carlos Rodríguez Pérez" readonly>
+          </div>
+          <div class="col-6">
+            <label class="form-label">Profesional</label>
+            <select class="form-select">
+              <option>Dra. Ana Martínez — Psicología</option>
+            </select>
+          </div>
+          <div class="col-6">
+            <label class="form-label">Tipo de servicio *</label>
+            <select class="form-select">
+              <option>Consulta Psicología</option>
+            </select>
+          </div>
+          <div class="col-3">
+            <label class="form-label">Fecha</label>
+            <input type="date" class="form-control" value="2025-06-09">
+          </div>
+          <div class="col-3">
+            <label class="form-label">Hora</label>
+            <input type="time" class="form-control" value="11:30">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="particular-panel">
+          <strong>Paciente Particular</strong><br>
+          No tiene plan EPS asignado. El cobro se realiza directamente al paciente según la tarifa del consultorio.
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;margin-top:16px;">
+      <button class="btn-primary-custom">Guardar Cita</button>
+      <button class="btn-secondary-custom">Cancelar</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     CASO C: Límite de consultas próximo a agotarse
+     ═══════════════════════════════════════════════════════ -->
+<div class="section-label">Caso C — Paciente con límite de consultas próximo a agotarse</div>
+
+<div class="card">
+  <div class="card-header">Nueva Cita — Pedro Suárez Gómez</div>
+  <div class="card-body">
+    <div class="alert-limit" style="margin-bottom:14px;">
+      ⚠️ Este paciente ha usado <strong>22 de 24 consultas</strong> autorizadas en su plan <strong>Póliza Clásica · SURA</strong> para este año. Quedan <strong>2 consultas</strong> disponibles.
+    </div>
+
+    <div class="row g-3">
+      <div class="col-md-8">
+        <div class="row g-3">
+          <div class="col-6">
+            <label class="form-label">Paciente</label>
+            <input type="text" class="form-control" value="Pedro Suárez Gómez" readonly>
+          </div>
+          <div class="col-6">
+            <label class="form-label">Tipo de servicio *</label>
+            <select class="form-select">
+              <option>Consulta Psicología</option>
+            </select>
+          </div>
+          <div class="col-3">
+            <label class="form-label">Fecha</label>
+            <input type="date" class="form-control" value="2025-06-09">
+          </div>
+          <div class="col-3">
+            <label class="form-label">Hora</label>
+            <input type="time" class="form-control" value="14:00">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="eps-info-panel">
+          <div class="eps-label">Cobertura EPS</div>
+          <div class="eps-info-row" style="margin-bottom:8px;">
+            <div class="eps-info-item"><strong>SURA</strong> · Póliza Clásica</div>
+          </div>
+          <div class="eps-info-row" style="margin-bottom:10px;">
+            <div class="eps-info-item" style="color:#b07c00;">
+              Consultas: <strong style="color:#b07c00;">22 / 24 usadas</strong>
+            </div>
+          </div>
+          <div style="margin-bottom:10px;">
+            <div class="eps-label" style="margin-bottom:4px;">Copago a cobrar</div>
+            <div class="copago-badge">💰 $47.400</div>
+          </div>
+          <div>
+            <label class="form-label" style="color:#5b21b6;">N° Autorización EPS</label>
+            <input type="text" class="form-control" placeholder="Ej: AUT-2025-00420" style="border-color:#c4b5f7;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;margin-top:16px;">
+      <button class="btn-primary-custom">Guardar Cita</button>
+      <button class="btn-secondary-custom">Cancelar</button>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

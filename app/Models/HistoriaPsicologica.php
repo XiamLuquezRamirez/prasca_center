@@ -1063,6 +1063,7 @@ class HistoriaPsicologica extends Model
                         'id_historia' => $request['idHist'] ?? null,
                         'id_profesional' => $request['profesionalConsulta'] ?? null,
                         'fecha_consulta' => $request['fechaEvolucion'] . ' ' . $request['horaSeleccionada'],
+                        'hora_fin' => $request['horaFin'] ?? null,
                         'codigo_consulta' => $request['codConsultaConsulta'] ?? null,
                         'impresion_diagnostica' => $request['codImpresionDiagnosticoConsulta']  ?? null,
                         'motivo' => $request['motivoConsultaModal'] ?? null,
@@ -1072,7 +1073,17 @@ class HistoriaPsicologica extends Model
                         'evaluacion_indicadores' => $request['evaluacion_indicadores'] ?? null,
                         'evolucion_sesion' => $request['evolucion_sesion'] ?? null,
                         'estado' => 'ACTIVO',
-                        'otra_impresion_diagnostica' => $request['otra_ImpresionDiagnosticaConsulta'] ?? null
+                        'otra_impresion_diagnostica' => $request['otra_ImpresionDiagnosticaConsulta'] ?? null,
+                        'modalidad_grupo_servicio' => $request['modalidadGrupoServicio'] ?? null,
+                        'grupo_servicios' => $request['grupoServicios'] ?? '01',
+                        'cod_servicio' => $request['codServicio'] ?? null,
+                        'finalidad_tecnologia_salud' => $request['finalidadTecnologiaSalud'] ?? null,
+                        'causa_motivo_atencion' => $request['causaMotivoAtencion'] ?? null,
+                        'tipo_diagnostico_principal' => $request['tipoDiagnosticoPrincipal'] ?? null,
+                        'dx_relacionado1' => $request['dxRelacionado1'] ?? null,
+                        'dx_relacionado2' => $request['dxRelacionado2'] ?? null,
+                        'dx_relacionado3' => $request['dxRelacionado3'] ?? null,
+                        'concepto_recaudo' => $request['conceptoRecaudo'] ?? null,
                     ]));
 
                     $Paciente = DB::table('historia_clinica')
@@ -1125,6 +1136,45 @@ class HistoriaPsicologica extends Model
                         }
                     }
 
+                    // Registrar en servicios_prestados para consolidación RIPS
+                    $cups = DB::table('referencia_cups')->where('id', $request['codConsultaConsulta'] ?? null)->select('codigo', 'nombre')->first();
+                    $profesional = DB::table('profesionales')->where('id', $request['profesionalConsulta'] ?? null)->select('identificacion', 'tipo_identificacion', 'nombre')->first();
+                    $dxPrincipal = DB::table('referencia_cie10')->where('id', $request['codImpresionDiagnosticoConsulta'] ?? null)->value('codigo');
+                    $dx1 = DB::table('referencia_cie10')->where('id', $request['dxRelacionado1'] ?? null)->value('codigo');
+                    $dx2 = DB::table('referencia_cie10')->where('id', $request['dxRelacionado2'] ?? null)->value('codigo');
+                    $dx3 = DB::table('referencia_cie10')->where('id', $request['dxRelacionado3'] ?? null)->value('codigo');
+
+                    DB::table('servicios_prestados')->insert([
+                        'paciente_id'              => $Paciente->id_paciente,
+                        'historia_clinica_id'      => $request['idHist'],
+                        'consulta_id'              => $idConsulta,
+                        'profesional_id'           => $request['profesionalConsulta'] ?? null,
+                        'codigo_cups'              => $cups->codigo ?? null,
+                        'codigo_servicio_habilitado' => $request['codServicio'] ?? null,
+                        'nombre_servicio'          => $cups->nombre ?? null,
+                        'fecha_servicio'           => $request['fechaEvolucion'],
+                        'hora_inicio'              => $request['horaSeleccionada'] ?? null,
+                        'hora_fin'                 => $request['horaFin'] ?? null,
+                        'modalidad_atencion'       => $request['modalidadGrupoServicio'] ?? null,
+                        'grupo_servicios'          => $request['grupoServicios'] ?? '01',
+                        'finalidad'                => $request['finalidadTecnologiaSalud'] ?? null,
+                        'causa_externa'            => $request['causaMotivoAtencion'] ?? null,
+                        'diagnostico_principal'    => $dxPrincipal,
+                        'diagnostico_relacionado1' => $dx1,
+                        'diagnostico_relacionado2' => $dx2,
+                        'diagnostico_relacionado3' => $dx3,
+                        'tipo_diagnostico_principal' => $request['tipoDiagnosticoPrincipal'] ?? null,
+                        'profesional_tipo_doc'     => $profesional->tipo_identificacion ?? 'CC',
+                        'profesional_num_doc'      => $profesional->identificacion ?? null,
+                        'profesional_nombres'      => $profesional->nombre ?? null,
+                        'valor_servicio'           => 0,
+                        'valor_copago'             => 0,
+                        'valor_pagado_paciente'    => 0,
+                        'concepto_recaudo'         => $request['conceptoRecaudo'] ?? null,
+                        'estado'                   => 'atendido',
+                        'tipo'                     => 'PSICOLOGIA',
+                    ]);
+
                     // Confirmar transacción
                     DB::commit();
                     return  $idConsulta;
@@ -1149,6 +1199,7 @@ class HistoriaPsicologica extends Model
                     $idConsulta = $request['idHistoriaConsulta'];
                     DB::table('consultas_psicologica')->where('id', $idConsulta)->update([
                         'fecha_consulta' => $request['fechaEvolucion'] . ' ' . $request['horaSeleccionada'],
+                        'hora_fin' => $request['horaFin'] ?? null,
                         'id_profesional' => $request['profesionalConsulta'] ?? null,
                         'codigo_consulta' => $request['codConsultaConsulta'] ?? null,
                         'impresion_diagnostica' => $request['codImpresionDiagnosticoConsulta']  ?? null,
@@ -1158,10 +1209,54 @@ class HistoriaPsicologica extends Model
                         'actividades_especificas' => $request['actividades_especificas'] ?? null,
                         'evaluacion_indicadores' => $request['evaluacion_indicadores'] ?? null,
                         'evolucion_sesion' => $request['evolucion_sesion'] ?? null,
-                        'otra_impresion_diagnostica' => $otra_ImpresionDiagnosticaConsulta
+                        'otra_impresion_diagnostica' => $otra_ImpresionDiagnosticaConsulta,
+                        'modalidad_grupo_servicio' => $request['modalidadGrupoServicio'] ?? null,
+                        'grupo_servicios' => $request['grupoServicios'] ?? '01',
+                        'cod_servicio' => $request['codServicio'] ?? null,
+                        'finalidad_tecnologia_salud' => $request['finalidadTecnologiaSalud'] ?? null,
+                        'causa_motivo_atencion' => $request['causaMotivoAtencion'] ?? null,
+                        'tipo_diagnostico_principal' => $request['tipoDiagnosticoPrincipal'] ?? null,
+                        'dx_relacionado1' => $request['dxRelacionado1'] ?? null,
+                        'dx_relacionado2' => $request['dxRelacionado2'] ?? null,
+                        'dx_relacionado3' => $request['dxRelacionado3'] ?? null,
+                        'concepto_recaudo' => $request['conceptoRecaudo'] ?? null,
                     ]);
 
-                    // Confirmar transacción 
+                    // Actualizar registro en servicios_prestados
+                    $cups = DB::table('referencia_cups')->where('id', $request['codConsultaConsulta'] ?? null)->select('codigo', 'nombre')->first();
+                    $profesional = DB::table('profesionales')->where('id', $request['profesionalConsulta'] ?? null)->select('identificacion', 'tipo_identificacion', 'nombre')->first();
+                    $dxPrincipal = DB::table('referencia_cie10')->where('id', $request['codImpresionDiagnosticoConsulta'] ?? null)->value('codigo');
+                    $dx1 = DB::table('referencia_cie10')->where('id', $request['dxRelacionado1'] ?? null)->value('codigo');
+                    $dx2 = DB::table('referencia_cie10')->where('id', $request['dxRelacionado2'] ?? null)->value('codigo');
+                    $dx3 = DB::table('referencia_cie10')->where('id', $request['dxRelacionado3'] ?? null)->value('codigo');
+
+                    DB::table('servicios_prestados')->updateOrInsert(
+                        ['consulta_id' => $idConsulta, 'tipo' => 'PSICOLOGIA'],
+                        [
+                            'profesional_id'           => $request['profesionalConsulta'] ?? null,
+                            'codigo_cups'              => $cups->codigo ?? null,
+                            'codigo_servicio_habilitado' => $request['codServicio'] ?? null,
+                            'nombre_servicio'          => $cups->nombre ?? null,
+                            'fecha_servicio'           => $request['fechaEvolucion'],
+                            'hora_inicio'              => $request['horaSeleccionada'] ?? null,
+                            'hora_fin'                 => $request['horaFin'] ?? null,
+                            'modalidad_atencion'       => $request['modalidadGrupoServicio'] ?? null,
+                            'grupo_servicios'          => $request['grupoServicios'] ?? '01',
+                            'finalidad'                => $request['finalidadTecnologiaSalud'] ?? null,
+                            'causa_externa'            => $request['causaMotivoAtencion'] ?? null,
+                            'diagnostico_principal'    => $dxPrincipal,
+                            'diagnostico_relacionado1' => $dx1,
+                            'diagnostico_relacionado2' => $dx2,
+                            'diagnostico_relacionado3' => $dx3,
+                            'tipo_diagnostico_principal' => $request['tipoDiagnosticoPrincipal'] ?? null,
+                            'profesional_tipo_doc'     => $profesional->tipo_identificacion ?? 'CC',
+                            'profesional_num_doc'      => $profesional->identificacion ?? null,
+                            'profesional_nombres'      => $profesional->nombre ?? null,
+                            'concepto_recaudo'         => $request['conceptoRecaudo'] ?? null,
+                        ]
+                    );
+
+                    // Confirmar transacción
                     DB::commit();
                     return  $idConsulta;
                 } catch (\Exception $e) {

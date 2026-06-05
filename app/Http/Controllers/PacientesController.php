@@ -1841,8 +1841,9 @@ class PacientesController extends Controller
         }
         $citas = DB::connection('mysql')->table('citas')
             ->where('paciente', $request->idPaciente)
+            ->leftJoin('especialidades', 'especialidades.id', '=', 'citas.motivo')
             ->orderBy('inicio', 'desc')
-            ->select('id', 'inicio', 'motivo', 'numero_autorizacion', 'copago_cobrado', 'estado')
+            ->select('citas.id', 'inicio', 'especialidades.nombre as motivo', 'citas.numero_autorizacion', 'citas.copago_cobrado', 'citas.estado')
             ->get();
 
         $html = '';

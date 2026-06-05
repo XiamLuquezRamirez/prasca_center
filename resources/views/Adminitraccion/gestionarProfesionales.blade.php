@@ -84,13 +84,28 @@
                         <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-circle me-1"></i> Información personal
                         </h5>
                         <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="tipoIdentificacion" class="form-label">Tipo ID <small class="text-muted">(RIPS)</small>:</label>
+                                    <select class="form-control" id="tipoIdentificacion" name="tipoIdentificacion">
+                                        <option value="CC">CC - Cédula de ciudadanía</option>
+                                        <option value="CE">CE - Cédula de extranjería</option>
+                                        <option value="PA">PA - Pasaporte</option>
+                                        <option value="SC">SC - Salvoconducto</option>
+                                        <option value="CD">CD - Carné diplomático</option>
+                                        <option value="PE">PE - Permiso especial permanencia</option>
+                                        <option value="PT">PT - Permiso temporal</option>
+                                        <option value="DE">DE - Documento extranjero</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="identificacion" class="form-label">Identificación :</label>
                                     <input type="text" class="form-control" id="identificacion" name="identificacion">
                                 </div>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="nombre" class="form-label">Nombre :</label>
                                     <input type="text" class="form-control" id="nombre" name="nombre">
@@ -462,6 +477,7 @@
                 .then(response => response.json())
                 .then(data => {
 
+                    document.getElementById("tipoIdentificacion").value = data.tipo_identificacion ?? 'CC'
                     document.getElementById("identificacion").value = data.identificacion
                     document.getElementById("identOriginal").value = data.identificacion
                     document.getElementById("nombre").value = data.nombre

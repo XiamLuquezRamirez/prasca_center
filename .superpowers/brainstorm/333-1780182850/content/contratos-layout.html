@@ -1,0 +1,82 @@
+<h2>Módulo "Contratos EPS" — ¿Cómo organizar la navegación?</h2>
+<p class="subtitle">El módulo vive en Administración. Elige cómo navegar entre contratos, planes y copagos.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="display:flex;gap:8px;height:180px;padding:12px;">
+        <div style="width:38%;background:#1e2a3a;border-radius:6px;padding:10px;">
+          <div style="font-size:10px;color:#7dd3fc;font-weight:600;margin-bottom:8px;">CONTRATOS</div>
+          <div style="background:#2563eb;border-radius:4px;padding:6px 8px;margin-bottom:4px;font-size:11px;color:#fff;">● SURA</div>
+          <div style="background:#1e3a5f;border-radius:4px;padding:6px 8px;margin-bottom:4px;font-size:11px;color:#94a3b8;">○ Colsanitas</div>
+          <div style="background:#1e3a5f;border-radius:4px;padding:6px 8px;font-size:11px;color:#94a3b8;">○ Compensar</div>
+        </div>
+        <div style="flex:1;background:#0f172a;border-radius:6px;padding:10px;">
+          <div style="font-size:10px;color:#7dd3fc;font-weight:600;margin-bottom:8px;">SURA — PLANES</div>
+          <div style="background:#1e2a3a;border-radius:4px;padding:5px 8px;margin-bottom:3px;font-size:10px;color:#e2e8f0;">Póliza Clásica · 24 consultas/año</div>
+          <div style="background:#1e2a3a;border-radius:4px;padding:5px 8px;margin-bottom:3px;font-size:10px;color:#e2e8f0;">Póliza Evoluciona · 24 consultas/año</div>
+          <div style="background:#1e2a3a;border-radius:4px;padding:5px 8px;margin-bottom:6px;font-size:10px;color:#e2e8f0;">Póliza Global · Ilimitada</div>
+          <div style="font-size:9px;color:#64748b;border-top:1px solid #1e2a3a;padding-top:6px;">Copago seleccionado: $47.400 Psicología</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Panel doble</h3>
+      <p>Lista de EPS a la izquierda, planes y copagos a la derecha. Todo visible en una sola pantalla.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="height:180px;padding:12px;background:#0f172a;border-radius:6px;">
+        <div style="display:flex;gap:0;margin-bottom:10px;">
+          <div style="padding:5px 12px;background:#2563eb;border-radius:4px 0 0 4px;font-size:10px;color:#fff;font-weight:600;">Contratos</div>
+          <div style="padding:5px 12px;background:#1e2a3a;font-size:10px;color:#64748b;">Planes</div>
+          <div style="padding:5px 12px;background:#1e2a3a;border-radius:0 4px 4px 0;font-size:10px;color:#64748b;">Copagos</div>
+        </div>
+        <div style="background:#1e2a3a;border-radius:6px;overflow:hidden;">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:5px 8px;font-size:9px;color:#64748b;border-bottom:1px solid #0f172a;">
+            <span>EPS</span><span>Contrato</span><span>Estado</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:6px 8px;font-size:10px;color:#e2e8f0;border-bottom:1px solid #0f172a;">
+            <span>SURA</span><span>2024–2025</span><span style="color:#22c55e;">Activo</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:6px 8px;font-size:10px;color:#94a3b8;">
+            <span>Colsanitas</span><span>—</span><span style="color:#64748b;">Borrador</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Pestañas por paso</h3>
+      <p>Tab 1: lista de contratos. Tab 2: planes del contrato seleccionado. Tab 3: copagos del plan. Flujo guiado paso a paso.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="height:180px;padding:12px;background:#0f172a;border-radius:6px;overflow:hidden;">
+        <div style="font-size:9px;color:#64748b;margin-bottom:8px;">Administración › Contratos EPS › SURA › Póliza Global</div>
+        <div style="display:flex;gap:6px;margin-bottom:8px;">
+          <div style="background:#1e2a3a;border-radius:4px;padding:5px 10px;font-size:10px;color:#94a3b8;">← SURA</div>
+          <div style="background:#2563eb;border-radius:4px;padding:5px 10px;font-size:10px;color:#fff;">Póliza Global</div>
+        </div>
+        <div style="background:#1e2a3a;border-radius:6px;padding:8px;">
+          <div style="font-size:9px;color:#7dd3fc;margin-bottom:6px;font-weight:600;">COPAGOS — PÓLIZA GLOBAL</div>
+          <div style="display:grid;grid-template-columns:1fr auto;gap:4px;font-size:10px;color:#e2e8f0;">
+            <span>Consulta Psicología</span><span>$47.400</span>
+            <span>Psicoterapia</span><span>$21.400</span>
+            <span>Terapia Familiar</span><span>$21.400</span>
+            <span>Neuropsicología</span><span>$52.000</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Drill-down jerárquico</h3>
+      <p>Pantalla principal → seleccionas EPS → ves sus planes → seleccionas plan → ves copagos. Breadcrumb de navegación.</p>
+    </div>
+  </div>
+
+</div>

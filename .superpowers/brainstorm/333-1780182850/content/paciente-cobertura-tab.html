@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestionar Pacientes — Tab Cobertura EPS</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  /* ── InvestX light-skin theme variables ── */
+  body { font-family: 'Poppins', sans-serif; background: #f0f3f4; color: #0E0E23; font-size: 13px; margin: 0; padding: 0; }
+
+  /* Modal shell */
+  .modal-shell {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 24px rgba(0,0,0,.13);
+    max-width: 900px;
+    margin: 30px auto;
+    overflow: hidden;
+  }
+  .modal-header-bar {
+    background: #fff;
+    border-bottom: 1px solid #e9ecef;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .modal-header-bar h4 { margin: 0; font-size: 16px; font-weight: 600; color: #0E0E23; }
+  .modal-body-wrap { padding: 20px; }
+
+  /* Section heading */
+  .form-section { font-size: 14px; font-weight: 600; color: #0E0E23; border-bottom: 1px solid #e9ecef; padding-bottom: 8px; margin-bottom: 16px; }
+
+  /* Form controls — InvestX style */
+  .form-label { font-size: 12px; font-weight: 500; color: #555; margin-bottom: 4px; }
+  .form-control, .form-select {
+    font-family: 'Poppins', sans-serif; font-size: 13px;
+    border: 1px solid #ced4da; border-radius: 4px;
+    padding: 6px 10px; color: #0E0E23;
+    background: #fff;
+  }
+  .form-control:focus, .form-select:focus {
+    border-color: #7c3aed; box-shadow: 0 0 0 2px rgba(124,58,237,.12); outline: none;
+  }
+  .form-control[readonly], .form-control[disabled] { background: #f8f9fa; color: #888; }
+  .form-group { margin-bottom: 14px; }
+
+  /* Nav pills — same as InvestX bg-nav-pills */
+  .nav-pills.bg-nav-pills { background: #f0f3f4; border-radius: 6px; padding: 4px; gap: 4px; }
+  .nav-pills.bg-nav-pills .nav-link {
+    font-size: 12px; font-weight: 500; color: #555;
+    border-radius: 4px; padding: 7px 16px; border: none;
+    background: transparent;
+  }
+  .nav-pills.bg-nav-pills .nav-link.active {
+    background: #7c3aed; color: #fff; font-weight: 600;
+  }
+  .nav-pills.bg-nav-pills .nav-link:hover:not(.active) { background: #e2e8f0; color: #0E0E23; }
+
+  /* Buttons */
+  .btn-primary { background: #7c3aed; border-color: #7c3aed; font-size: 12px; font-weight: 500; }
+  .btn-primary:hover { background: #6d28d9; border-color: #6d28d9; }
+  .btn-primary-light { background: #ede9fb; border-color: #ede9fb; color: #7c3aed; font-size: 12px; font-weight: 500; }
+  .btn-primary-light:hover { background: #ddd5f7; border-color: #ddd5f7; color: #5b21b6; }
+  .btn-xs { padding: 4px 10px; font-size: 11px; }
+  .btn-sm { font-size: 12px; }
+  .btn-danger-light { background: #fde8e8; border-color: #fde8e8; color: #c0392b; font-size: 12px; font-weight: 500; }
+
+  /* Badges */
+  .badge-activo { background: #e6f9ec; color: #1a8a3a; border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 600; display: inline-block; }
+  .badge-pendiente { background: #fff8e1; color: #b07c00; border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 600; display: inline-block; }
+  .badge-particular { background: #e8f4fd; color: #1565c0; border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 600; display: inline-block; }
+
+  /* EPS plan panel */
+  .eps-plan-panel {
+    background: #f3f0fc;
+    border: 1px solid #ddd5f9;
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+  }
+  .eps-plan-panel .eps-name { font-size: 14px; font-weight: 700; color: #4c1d95; }
+  .eps-plan-panel .eps-plan-name { font-size: 13px; color: #5b21b6; margin-bottom: 8px; }
+  .eps-plan-panel .eps-meta { display: flex; gap: 20px; flex-wrap: wrap; font-size: 12px; color: #6d28d9; }
+  .eps-plan-panel .eps-meta strong { color: #3b0764; }
+
+  /* Empty state */
+  .eps-empty { text-align: center; padding: 28px 20px; color: #aaa; }
+  .eps-empty .icon { font-size: 32px; margin-bottom: 8px; opacity: .4; }
+  .eps-empty p { font-size: 13px; margin: 0 0 12px; }
+
+  /* Table */
+  .table { font-size: 12px; }
+  .table thead th { font-weight: 600; color: #7f839a; border-bottom: 2px solid #f0f0f0; font-size: 11px; text-transform: uppercase; letter-spacing: .4px; }
+  .table td { vertical-align: middle; color: #0E0E23; border-color: #f0f0f0; }
+  .table-striped>tbody>tr:nth-of-type(odd)>* { background-color: #f9fafe; }
+
+  /* Copago amount */
+  .copago-amount { color: #1a8a3a; font-weight: 600; }
+
+  /* Divider between scenarios */
+  .scenario-divider { border: none; border-top: 2px dashed #dee2e6; margin: 28px 0 18px; }
+  .scenario-label { font-size: 10px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; color: #aaa; margin-bottom: 12px; }
+
+  /* Highlight context note */
+  .context-note {
+    font-size: 11px; background: #fff8c5; border-left: 3px solid #f59e0b;
+    padding: 6px 12px; border-radius: 0 4px 4px 0; color: #78350f; margin-bottom: 14px;
+  }
+</style>
+</head>
+<body>
+
+<div class="modal-shell">
+  <div class="modal-header-bar">
+    <h4><i class="fa fa-user me-2"></i> Agregar / Editar paciente</h4>
+    <button class="btn-close"></button>
+  </div>
+
+  <div class="modal-body-wrap">
+
+    <!-- Campos superiores del modal (ya existen, sólo de referencia) -->
+    <h5 class="form-section"><i class="fa fa-user me-1"></i> Información personal</h5>
+    <div class="row mb-2">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label class="form-label">Tipo de identificación:</label>
+          <select class="form-select"><option>Cédula Ciudadanía</option></select>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label class="form-label">Identificación:</label>
+          <input type="text" class="form-control" value="1.234.567.890">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label class="form-label">Primer nombre:</label>
+          <input type="text" class="form-control" value="María">
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label class="form-label">Primer apellido:</label>
+          <input type="text" class="form-control" value="García">
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label class="form-label">Entidad promotora:</label>
+          <select class="form-select"><option>SURA</option></select>
+        </div>
+      </div>
+    </div>
+    <p class="text-muted" style="font-size:11px;margin-bottom:16px;">
+      <i class="fa fa-info-circle me-1"></i>
+      … resto de campos del formulario actual (régimen, sexo, teléfono, observaciones, etc.) …
+    </p>
+
+    <!-- ══════════════════════════════════════════════
+         TABS — nav-pills igual al modal actual
+         Agregamos "Cobertura EPS" como tercera pestaña
+         ══════════════════════════════════════════════ -->
+    <ul class="nav nav-pills bg-nav-pills nav-justified mb-3" id="pacTabs">
+      <li class="nav-item">
+        <a href="#acompanante" class="nav-link" data-bs-toggle="tab">
+          <i class="fa fa-user me-1"></i> Información acompañante
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#anexos" class="nav-link" data-bs-toggle="tab">
+          <i class="fa fa-paperclip me-1"></i> Anexos
+        </a>
+      </li>
+      <!-- ▶ NUEVA PESTAÑA -->
+      <li class="nav-item">
+        <a href="#cobertura-eps" class="nav-link active" data-bs-toggle="tab">
+          <i class="fa fa-shield-halved me-1"></i> Cobertura EPS
+        </a>
+      </li>
+    </ul>
+
+    <div class="tab-content px-1">
+
+      <!-- Tab acompañante (existente, colapsado) -->
+      <div class="tab-pane" id="acompanante">
+        <p class="text-muted" style="font-size:12px;">… campos actuales de acompañante …</p>
+      </div>
+
+      <!-- Tab anexos (existente, colapsado) -->
+      <div class="tab-pane" id="anexos">
+        <p class="text-muted" style="font-size:12px;">… carga de archivos actual …</p>
+      </div>
+
+      <!-- ══════════════════════════════════════════
+           TAB COBERTURA EPS — contenido nuevo
+           ══════════════════════════════════════════ -->
+      <div class="tab-pane show active" id="cobertura-eps">
+
+        <!-- ── Escenario A: paciente CON plan asignado ── -->
+        <div class="scenario-label">Escenario A — Paciente con plan EPS activo</div>
+        <div class="context-note">
+          La EPS <strong>"SURA"</strong> fue seleccionada arriba en el campo Entidad promotora.
+          Se muestran sólo los planes del contrato activo de esa EPS.
+        </div>
+
+        <div class="eps-plan-panel">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <div class="eps-name">SURA</div>
+              <div class="eps-plan-name">Póliza Global &nbsp;·&nbsp; Psicología + Neuropsicología</div>
+              <div class="eps-meta">
+                <span>Vigencia: <strong>Ene 2024 – Dic 2025</strong></span>
+                <span>Límite: <strong>Ilimitado</strong></span>
+                <span>Copago consulta psicología: <strong class="copago-amount">$47.400</strong></span>
+              </div>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-xs btn-primary-light">Cambiar plan</button>
+              <button class="btn btn-xs btn-danger-light">Quitar</button>
+            </div>
+          </div>
+        </div>
+
+        <h6 style="font-size:12px;font-weight:700;color:#555;margin-bottom:8px;">
+          <i class="fa fa-list me-1"></i> Historial de autorizaciones
+        </h6>
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th>Fecha cita</th>
+              <th>Tipo servicio</th>
+              <th>N° Autorización</th>
+              <th>Copago cobrado</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>12 May 2025</td>
+              <td>Consulta Psicología</td>
+              <td><strong>AUT-2025-00341</strong></td>
+              <td class="copago-amount">$47.400</td>
+              <td><span class="badge-activo">Confirmada</span></td>
+            </tr>
+            <tr>
+              <td>26 May 2025</td>
+              <td>Psicoterapia</td>
+              <td><strong>AUT-2025-00389</strong></td>
+              <td class="copago-amount">$21.400</td>
+              <td><span class="badge-activo">Confirmada</span></td>
+            </tr>
+            <tr>
+              <td>09 Jun 2025</td>
+              <td>Psicoterapia</td>
+              <td>—</td>
+              <td>—</td>
+              <td><span class="badge-pendiente">Pendiente</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <hr class="scenario-divider">
+
+        <!-- ── Escenario B: paciente SIN plan (particular o EPS sin contrato) ── -->
+        <div class="scenario-label">Escenario B — Sin plan asignado (particular)</div>
+        <div class="eps-empty">
+          <div class="icon"><i class="fa fa-shield-halved"></i></div>
+          <p>Este paciente no tiene un plan EPS asignado.<br>Se atenderá como <strong>particular</strong>.</p>
+          <button class="btn btn-xs btn-primary"><i class="fa fa-plus me-1"></i> Asignar plan</button>
+        </div>
+
+        <hr class="scenario-divider">
+
+        <!-- ── Formulario asignar / cambiar plan ── -->
+        <div class="scenario-label">Formulario — Asignar plan (aparece al pulsar "Asignar plan" o "Cambiar plan")</div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="form-label">Plan / Póliza <span class="text-danger">*</span></label>
+              <select class="form-select">
+                <option value="">Seleccionar plan…</option>
+                <option>Póliza Clásica — 24 consultas/año</option>
+                <option selected>Póliza Global — Ilimitada</option>
+                <option>Póliza Evoluciona — 24 consultas/año</option>
+              </select>
+              <small class="text-muted">Solo planes del contrato activo de SURA.</small>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label class="form-label">N° Póliza / Afiliado</label>
+              <input type="text" class="form-control" placeholder="Opcional">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label class="form-label">Fecha de vinculación</label>
+              <input type="date" class="form-control" value="2025-06-09">
+            </div>
+          </div>
+          <div class="col-12">
+            <button class="btn btn-xs btn-primary me-1">
+              <i class="fa fa-save me-1"></i> Guardar plan
+            </button>
+            <button class="btn btn-xs btn-primary-light">Cancelar</button>
+          </div>
+        </div>
+
+      </div><!-- /cobertura-eps -->
+    </div><!-- /tab-content -->
+
+    <!-- Footer del modal (igual al actual) -->
+    <div class="d-flex justify-content-end gap-2 mt-3 pt-3 border-top">
+      <button class="btn btn-sm btn-primary-light"><i class="fa fa-times me-1"></i> Cancelar</button>
+      <button class="btn btn-sm btn-primary"><i class="fa fa-save me-1"></i> Guardar paciente</button>
+    </div>
+
+  </div><!-- /modal-body -->
+</div><!-- /modal-shell -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

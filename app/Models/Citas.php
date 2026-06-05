@@ -172,14 +172,17 @@ class Citas extends Model
     public static function GuardarCitas($request)
     {
         $respuesta = DB::connection('mysql')->table('citas')->insertGetId([
-            'paciente' => $request['idPaciente'],
-            'profesional' => $request['profesional'],
-            'motivo' => $request['especialidad'],
-            'inicio' => $request['fechaHoraInicio'],
-            'final' => $request['fechaHoraFinal'],
-            'comentario' => $request['comentario'],
-            'duracion' => $request['duracionCita'],
-            'estado' => "Por atender"
+            'paciente'            => $request['idPaciente'],
+            'profesional'         => $request['profesional'],
+            'motivo'              => $request['especialidad'],
+            'inicio'              => $request['fechaHoraInicio'],
+            'final'               => $request['fechaHoraFinal'],
+            'comentario'          => $request['comentario'],
+            'duracion'            => $request['duracionCita'],
+            'estado'              => "Por atender",
+            'id_autorizacion'     => $request['id_autorizacion']     ?: null,
+            'numero_autorizacion' => $request['numero_autorizacion']  ?: null,
+            'copago_cobrado'      => $request['copago_cobrado']       ?: null,
         ]);
 
         return $respuesta;
@@ -188,12 +191,15 @@ class Citas extends Model
     public static function EditarCitas($request)
     {
         $respuesta = DB::connection('mysql')->table('citas')->where('id', $request['idCita'])->update([
-            'profesional' => $request['profesional'],
-            'motivo' => $request['especialidad'],
-            'inicio' => $request['fechaHoraInicio'],
-            'final' => $request['fechaHoraFinal'],
-            'duracion' => $request['duracionCita'],
-            'comentario' => $request['comentario']
+            'profesional'         => $request['profesional'],
+            'motivo'              => $request['especialidad'],
+            'inicio'              => $request['fechaHoraInicio'],
+            'final'               => $request['fechaHoraFinal'],
+            'duracion'            => $request['duracionCita'],
+            'comentario'          => $request['comentario'],
+            'id_autorizacion'     => $request['id_autorizacion']     ?: null,
+            'numero_autorizacion' => $request['numero_autorizacion']  ?: null,
+            'copago_cobrado'      => $request['copago_cobrado']       ?: null,
         ]);
         return "ok";
     }

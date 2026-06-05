@@ -7,11 +7,26 @@
                 <ul class="sidebar-menu" data-widget="tree">
                     {{-- Agenda --}}
                     @if (in_array('agenda', session('permisos', [])))
-                        <li id="agenda">
-                            <a href="{{ url('/Administracion') }}">
+                        <li id="agenda" class="treeview">
+                            <a href="#">
                                 <i data-feather="calendar"></i>
                                 <span>Agenda</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-right pull-right"></i>
+                                </span>
                             </a>
+                            <ul class="treeview-menu">
+                                <li id="agendaCitas">
+                                    <a href="{{ url('/Administracion') }}">
+                                        <i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i> Citas
+                                    </a>
+                                </li>
+                                <li id="agendaAutorizaciones">
+                                    <a href="{{ url('/Administracion/Autorizaciones') }}">
+                                        <i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i> Autorizaciones EPS
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     @endif
 

@@ -27,13 +27,14 @@ class Profesional extends Model
 
                 $respuesta = DB::connection('mysql')->table('profesionales')->insertGetId([
                     'identificacion' => $request['identificacion'],
+                    'tipo_identificacion' => $request['tipoIdentificacion'] ?? 'CC',
                     'nombre' => $request['nombre'],
                     'correo' => $request['email'],
                     'celular' => $request['telefono'] ?? '',
                     'observaciones' => $request['observaciones'] ?? '',
                     'usuario' => $usuarioId,
                     'registro' => $request['registroProf'],
-                    'firma' => $request['firma'],                    
+                    'firma' => $request['firma'],
                     'estado' => 'ACTIVO'
                 ]);
             } else {
@@ -66,6 +67,8 @@ class Profesional extends Model
                 $respuesta = DB::connection('mysql')->table('profesionales')
                     ->where('id', $request['idRegistro'])  // Identificar el registro a actualizar
                     ->update([
+                        'identificacion' => $request['identificacion'],
+                        'tipo_identificacion' => $request['tipoIdentificacion'] ?? 'CC',
                         'nombre' => $request['nombre'],
                         'correo' => $request['email'],
                         'celular' => $request['telefono'] ?? '',

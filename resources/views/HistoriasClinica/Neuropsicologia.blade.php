@@ -1405,58 +1405,213 @@
                                 <div class="tab-content">
                                     <div class="tab-pane show active" id="justified-tabs-preview">
                                         <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
-
                                             <li class="nav-item">
                                                 <a href="#resumenEval" data-bs-toggle="tab" aria-expanded="true"
-                                                    class="nav-link rounded-0">
+                                                    class="nav-link rounded-0 active">
                                                     <span class="d-none d-md-block">
                                                         <i class="fa fa-check"></i>
                                                         Evolución y/o Plan de manejo
                                                     </span>
                                                 </a>
                                             </li>
+                                            <li class="nav-item">
+                                                <a href="#datos_rips_neuro" data-bs-toggle="tab" aria-expanded="false"
+                                                    class="nav-link rounded-0">
+                                                    <span class="d-none d-md-block">
+                                                        <i class="fa fa-file-text-o"></i>
+                                                        Datos RIPS
+                                                    </span>
+                                                </a>
+                                            </li>
                                         </ul>
 
                                         <div class="tab-content px-20">
-                                            <!-- Resumen de evaluación -->
+                                            <!-- Evolución -->
                                             <div class="tab-pane show active" id="resumenEval">
-                                                <div class="col-md-4">
-                                                    <label for="fechaEvolucion"
-                                                        class="form-label">Fecha:</label>
-
-                                                    <div class="input-group">
-                                                        <input type="date" class="form-control"
-                                                            id="fechaEvolucion" name="fechaEvolucion"
-                                                            placeholder="Seleccione la fecha de la evolución" />
-                                                        <input type="time" id="horaSeleccionada"
-                                                            name="horaSeleccionada" class="form-control">
-                                                        <div class="input-group-addon">
-                                                            <i class="fa fa-clock-o"></i>
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <div class="form-group">
+                                                            <label for="codConsultaConsulta" class="form-label">Código de consulta:</label>
+                                                            <select class="form-control select2" id="codConsultaConsulta" name="codConsultaConsulta"></select>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <br>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="evolucion_plan" class="form-label">Evolución y/o
-                                                            Plan de manejo:</label>
-                                                        <textarea class="form-control" id="evolucion_plan" name="evolucion_plan" rows="3"
-                                                            placeholder="Evolución del tratamiento psicolólogico actual"></textarea>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="fechaEvolucion" class="form-label">Fecha:</label>
+                                                            <div class="input-group">
+                                                                <input type="date" class="form-control"
+                                                                    id="fechaEvolucion" name="fechaEvolucion"
+                                                                    placeholder="Seleccione la fecha de la evolución" />
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="otra_ImpresionDiagnosticaConsulta"
-                                                            class="form-label">
-                                                            Profesional:</label>
-                                                        <select class="form-control select2" style="width: 100%;"
-                                                            id="profesionalConsulta"
-                                                            name="profesionalConsulta"></select>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="horaInicio" class="form-label">Hora inicio:</label>
+                                                            <div class="input-group">
+                                                                <input type="time" class="form-control" id="horaInicio" name="horaInicio">
+                                                                <div class="input-group-addon">
+                                                                    <i class="fa fa-clock-o"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="horaFin" class="form-label">Hora fin:</label>
+                                                            <input type="time" class="form-control" id="horaFin" name="horaFin">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="evolucion_plan" class="form-label">Evolución y/o Plan de manejo:</label>
+                                                            <textarea class="form-control" id="evolucion_plan" name="evolucion_plan" rows="5"
+                                                                placeholder="Evolución del tratamiento neuropsicológico actual"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Profesional:</label>
+                                                            <select class="form-control select2" style="width: 100%;"
+                                                                id="profesionalConsulta" name="profesionalConsulta"></select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
 
+                                            <!-- Datos RIPS -->
+                                            <div class="tab-pane" id="datos_rips_neuro">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Impresión diagnóstica principal (CIE-10)</label>
+                                                            <div class="d-flex gap-2">
+                                                                <select class="form-control select2" id="codImpresionDiagnosticoConsulta" name="codImpresionDiagnosticoConsulta"></select>
+                                                                <button type="button" class="btn btn-secondary" onclick="clearSelect('codImpresionDiagnosticoConsulta')"><i class="fa fa-times"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Dx relacionado 1</label>
+                                                            <div class="d-flex gap-2">
+                                                                <select class="form-control select2" id="dxRelacionado1" name="dxRelacionado1"></select>
+                                                                <button type="button" class="btn btn-secondary" onclick="clearSelect('dxRelacionado1')"><i class="fa fa-times"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Dx relacionado 2</label>
+                                                            <div class="d-flex gap-2">
+                                                                <select class="form-control select2" id="dxRelacionado2" name="dxRelacionado2"></select>
+                                                                <button type="button" class="btn btn-secondary" onclick="clearSelect('dxRelacionado2')"><i class="fa fa-times"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Dx relacionado 3</label>
+                                                            <div class="d-flex gap-2">
+                                                                <select class="form-control select2" id="dxRelacionado3" name="dxRelacionado3"></select>
+                                                                <button type="button" class="btn btn-secondary" onclick="clearSelect('dxRelacionado3')"><i class="fa fa-times"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Tipo diagnóstico</label>
+                                                            <select class="form-control" id="tipoDiagnosticoPrincipal" name="tipoDiagnosticoPrincipal">
+                                                                <option value="">Seleccione</option>
+                                                                <option value="01">01 - Impresión diagnóstica</option>
+                                                                <option value="02">02 - Confirmado nuevo</option>
+                                                                <option value="03">03 - Confirmado repetido</option>
+                                                                <option value="04">04 - Descartado</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Modalidad servicio</label>
+                                                            <select class="form-control" id="modalidadGrupoServicio" name="modalidadGrupoServicio">
+                                                                <option value="">Seleccione</option>
+                                                                <option value="01">01 - Intramural</option>
+                                                                <option value="02">02 - Extramural</option>
+                                                                <option value="03">03 - Telemedicina interactiva</option>
+                                                                <option value="04">04 - Telemedicina no interactiva</option>
+                                                                <option value="05">05 - Telesalud</option>
+                                                                <option value="06">06 - Domiciliaria</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Grupo de servicios</label>
+                                                            <select class="form-control" id="grupoServicios" name="grupoServicios">
+                                                                <option value="">Seleccione</option>
+                                                                <option value="01" selected>01 - Consulta externa</option>
+                                                                <option value="02">02 - Urgencias</option>
+                                                                <option value="03">03 - Hospitalización</option>
+                                                                <option value="04">04 - Procedimientos quirúrgicos</option>
+                                                                <option value="05">05 - Apoyo diagnóstico</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Código servicio habilitado</label>
+                                                            <input type="number" class="form-control" id="codServicio" name="codServicio" placeholder="Ej: 328">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Finalidad tecnología salud</label>
+                                                            <select class="form-control" id="finalidadTecnologiaSalud" name="finalidadTecnologiaSalud">
+                                                                <option value="">Seleccione</option>
+                                                                <option value="14">14 - Diagnóstico</option>
+                                                                <option value="44">44 - Rehabilitación funcional</option>
+                                                                <option value="10">10 - Recuperación de la salud</option>
+                                                                <option value="43">43 - Protección específica</option>
+                                                                <option value="47">47 - Detección temprana</option>
+                                                                <option value="15">15 - Prevención primaria</option>
+                                                                <option value="16">16 - Prevención secundaria</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Causa / Motivo de atención</label>
+                                                            <select class="form-control" id="causaMotivoAtencion" name="causaMotivoAtencion">
+                                                                <option value="">Seleccione</option>
+                                                                <option value="38">38 - Enfermedad general</option>
+                                                                <option value="25">25 - Accidente de trabajo</option>
+                                                                <option value="26">26 - Enfermedad profesional</option>
+                                                                <option value="27">27 - Accidente de tránsito</option>
+                                                                <option value="28">28 - Otro tipo de accidente</option>
+                                                                <option value="29">29 - Lesión por agresión</option>
+                                                                <option value="30">30 - Lesión auto infligida</option>
+                                                                <option value="31">31 - Sospecha maltrato físico</option>
+                                                                <option value="32">32 - Sospecha abuso sexual</option>
+                                                                <option value="33">33 - Sospecha violencia sexual</option>
+                                                                <option value="35">35 - Enf. general del embarazo</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Concepto de recaudo</label>
+                                                            <select class="form-control" id="conceptoRecaudo" name="conceptoRecaudo">
+                                                                <option value="">Seleccione</option>
+                                                                <option value="01">01 - Pago por evento</option>
+                                                                <option value="02">02 - Pago global prospectivo</option>
+                                                                <option value="03">03 - Pago per cápita</option>
+                                                                <option value="04">04 - Otro</option>
+                                                                <option value="05">05 - Sin pago (exento)</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div class="box-footer text-end mt-3">
@@ -2476,59 +2631,37 @@
             }
         })
 
-        $('#codImpresionDiagnosticoConsulta').select2({
-            dropdownAutoWidth: true,
-            width: '100%',
-            dropdownParent: $('#modalConsulta'),
-            placeholder: 'Buscar diagnóstico  por código o nombre...',
-            language: {
-                inputTooShort: function() {
-                    return 'Por favor, ingresa al menos un carácter'
+        // Select2 para Dx principal, relacionado 2 y 3 en consulta de neuropsicología (RIPS)
+        ;['codImpresionDiagnosticoConsulta', 'dxRelacionado1', 'dxRelacionado2', 'dxRelacionado3'].forEach(function(selectId) {
+            $('#' + selectId).select2({
+                dropdownAutoWidth: true,
+                width: '100%',
+                dropdownParent: $('#modalConsulta'),
+                placeholder: 'Buscar diagnóstico por código o nombre...',
+                language: {
+                    inputTooShort: function() { return 'Por favor, ingresa al menos un carácter' },
+                    noResults: function() { return 'No se encontraron resultados.' },
+                    searching: function() { return 'Buscando...' }
                 },
-                noResults: function() {
-                    return 'No se encontraron resultados.'
-                },
-                searching: function() {
-                    return 'Buscando...'
-                }
-            },
-            minimumInputLength: 1, // Requiere al menos 1 carácter
-            ajax: {
-                transport: function(params, success, failure) {
-                    const query = params.data.q || '' // Término de búsqueda
-                    const page = params.data.page || 1 // Número de página
-
-                    fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
+                minimumInputLength: 1,
+                ajax: {
+                    transport: function(params, success, failure) {
+                        const query = params.data.q || ''
+                        const page = params.data.page || 1
+                        fetch(`${rtotal}historia/buscaCIE?q=${query}&page=${page}`, {
                             method: 'GET',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
+                            headers: { 'Content-Type': 'application/json' },
                             cache: 'no-cache'
                         })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Error en la solicitud')
-                            }
-                            return response.json()
-                        })
+                        .then(response => response.json())
                         .then(data => {
-                            const results = {
-                                results: data.data,
-                                pagination: {
-                                    more: (page * 30) < data.total_count
-                                }
-                            }
-                            success(results) // Envía los resultados a Select2
+                            success({ results: data.data, pagination: { more: (page * 30) < data.total_count } })
                         })
-                        .catch(error => {
-                            console.error('Error al buscar:', error)
-                            failure(error) // Maneja errores en Select2
-                        })
-                }
-            },
-            escapeMarkup: function(markup) {
-                return markup // Evita inyección de HTML
-            }
+                        .catch(error => failure(error))
+                    }
+                },
+                escapeMarkup: function(markup) { return markup }
+            })
         })
 
 
@@ -3948,7 +4081,8 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    cargarSelConsulta(data.consulta.codigo_consulta, 'codConsultaConsulta')
+                    cargarSelConsulta(data.consulta.cod_servicio, 'codConsultaConsulta')
+                    cargarCodigoCIE10(data.consulta.dx_relacionado1, 'dxRelacionado1')
 
                     document.getElementById('profesionalConsulta').value = data.consulta.id_profesional
                     $('#profesionalConsulta').val(data.consulta.id_profesional).trigger('change');
@@ -3957,6 +4091,19 @@
 
                     document.getElementById("fechaEvolucion").value = data.consulta.fecha_consulta.split(' ')[0];
                     document.getElementById("horaSeleccionada").value = data.consulta.fecha_consulta.split(' ')[1];
+
+                    // Campos RIPS
+                    cargarCodigoCIE10(data.consulta.impresion_diagnostica, 'codImpresionDiagnosticoConsulta')
+                    cargarCodigoCIE10(data.consulta.dx_relacionado2, 'dxRelacionado2')
+                    cargarCodigoCIE10(data.consulta.dx_relacionado3, 'dxRelacionado3')
+                    document.getElementById('horaFin').value = data.consulta.hora_fin ?? ''
+                    document.getElementById('tipoDiagnosticoPrincipal').value = data.consulta.tipo_diagnostico_principal ?? ''
+                    document.getElementById('modalidadGrupoServicio').value = data.consulta.modalidad_grupo_servicio ?? ''
+                    document.getElementById('grupoServicios').value = data.consulta.grupo_servicios ?? '01'
+                    document.getElementById('codServicio').value = data.consulta.cod_servicio ?? ''
+                    document.getElementById('finalidadTecnologiaSalud').value = data.consulta.finalidad_tecnologia_salud ?? ''
+                    document.getElementById('causaMotivoAtencion').value = data.consulta.causa_motivo_atencion ?? ''
+                    document.getElementById('conceptoRecaudo').value = data.consulta.concepto_recaudo ?? ''
                 })
                 .catch(error => console.error('Error:', error))
         } else {
@@ -4163,6 +4310,19 @@
         let formHistoria = document.getElementById("formConsulta")
         formHistoria.reset()
         CKEDITOR.instances['evolucion_plan'].setData('')
+        $('#codConsultaConsulta').val(null).trigger('change')
+        $('#codImpresionDiagnosticoConsulta').val(null).trigger('change')
+        $('#dxRelacionado1').val(null).trigger('change')
+        $('#dxRelacionado2').val(null).trigger('change')
+        $('#dxRelacionado3').val(null).trigger('change')
+        document.getElementById('horaFin').value = ''
+        document.getElementById('tipoDiagnosticoPrincipal').value = ''
+        document.getElementById('modalidadGrupoServicio').value = ''
+        document.getElementById('grupoServicios').value = '01'
+        document.getElementById('codServicio').value = ''
+        document.getElementById('finalidadTecnologiaSalud').value = ''
+        document.getElementById('causaMotivoAtencion').value = ''
+        document.getElementById('conceptoRecaudo').value = ''
     }
 
     function imprimirHistoria(id) {

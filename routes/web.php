@@ -14,6 +14,7 @@ use App\Http\Controllers\CajaController;
 use App\Http\Controllers\RecaudosController;
 use App\Http\Controllers\SistemaController;
 use App\Http\Controllers\ContratosEpsController;
+use App\Http\Controllers\AutorizacionesController;
 use App\Models\HistoriaNeuroPsicologica;
 
 // -------------------------------------------------------
@@ -388,6 +389,17 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/contratosEps/eliminarCopago',           [ContratosEpsController::class, 'eliminarCopago'])->name('contratosEps.eliminarCopago');
     Route::post('/contratosEps/planesPorEps',             [ContratosEpsController::class, 'planesPorEps'])->name('contratosEps.planesPorEps');
     Route::post('/contratosEps/listarEntidadesEps',       [ContratosEpsController::class, 'listarEntidadesEps'])->name('contratosEps.listarEntidadesEps');
+
+    /// AUTORIZACIONES EPS
+    Route::middleware(['permission:agenda'])->group(function () {
+        Route::get('/Administracion/Autorizaciones', [AutorizacionesController::class, 'index'])->name('autorizaciones.index');
+    });
+    Route::post('/autorizaciones/listar',              [AutorizacionesController::class, 'listar'])->name('autorizaciones.listar');
+    Route::post('/autorizaciones/guardar',             [AutorizacionesController::class, 'guardar'])->name('autorizaciones.guardar');
+    Route::post('/autorizaciones/eliminar',            [AutorizacionesController::class, 'eliminar'])->name('autorizaciones.eliminar');
+    Route::get('/autorizaciones/porPaciente',          [AutorizacionesController::class, 'porPaciente'])->name('autorizaciones.porPaciente');
+    Route::get('/autorizaciones/planesPorPaciente',    [AutorizacionesController::class, 'planesPorPaciente'])->name('autorizaciones.planesPorPaciente');
+    Route::get('/autorizaciones/serviciosPorPlan',     [AutorizacionesController::class, 'serviciosPorPlan'])->name('autorizaciones.serviciosPorPlan');
 
     // COBERTURA EPS - PACIENTES
     Route::post('/pacientes/guardarPlanEps',        [PacientesController::class, 'guardarPlanPaciente'])->name('pacientes.guardarPlanEps');

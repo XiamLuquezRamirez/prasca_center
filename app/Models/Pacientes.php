@@ -141,6 +141,8 @@ class Pacientes extends Model
                     'zona_residencial' => $request['zonaResidencial'],
                     'departamento' => $request['departamento'],
                     'municipio' => $request['municipio'],
+                    'incapacidad' => $request['incapacidad'] ?? 'NO',
+                    'cod_pais_origen' => $request['codPaisOrigen'] ?? '170',
                     'estado_civil' => $request['estadocivil'] ?? '',
                     'observaciones' => $request['observaciones'] ?? '',
                     'foto' => $request['img'],
@@ -164,7 +166,7 @@ class Pacientes extends Model
                         ]);
                     }
                 }
-                
+
             } else {
 
                 $respuesta = DB::connection('mysql')->table('pacientes')
@@ -190,6 +192,8 @@ class Pacientes extends Model
                         'zona_residencial' => $request['zonaResidencial'],
                         'departamento' => $request['departamento'],
                         'municipio' => $request['municipio'],
+                        'incapacidad' => $request['incapacidad'] ?? 'NO',
+                        'cod_pais_origen' => $request['codPaisOrigen'] ?? '170',
                         'estado_civil' => $request['estadocivil'] ?? '',
                         'observaciones' => $request['observaciones'] ?? '',
                         'foto' => $request['img'],

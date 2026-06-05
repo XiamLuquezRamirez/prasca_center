@@ -192,6 +192,22 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                {{-- Autorización EPS --}}
+                                                                <div class="col-12" id="seccionAutorizacion" style="display:none;">
+                                                                    <div class="form-group">
+                                                                        <div class="controls">
+                                                                            <label><i class="fa fa-file-text-o me-1 text-primary"></i> Autorización EPS:</label>
+                                                                            <select id="id_autorizacion" class="form-control"
+                                                                                onchange="onCambioAutorizacion(this)">
+                                                                                <option value="">Sin autorización EPS</option>
+                                                                            </select>
+                                                                            <small class="text-muted">Vincula una autorización activa del paciente a esta cita</small>
+                                                                        </div>
+                                                                    </div>
+                                                                    <input type="hidden" name="id_autorizacion"     id="id_autorizacion_val">
+                                                                    <input type="hidden" name="numero_autorizacion" id="numero_autorizacion_val">
+                                                                    <input type="hidden" name="copago_cobrado"      id="copago_cobrado_val">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="tab-pane" id="nuevo">

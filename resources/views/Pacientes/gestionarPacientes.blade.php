@@ -376,6 +376,32 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="incapacidad" class="form-label">¿Paciente con incapacidad? <small class="text-muted">(RIPS)</small></label>
+                                <select class="form-control" id="incapacidad" name="incapacidad" aria-invalid="false">
+                                    <option value="NO">NO</option>
+                                    <option value="SI">SI</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="codPaisOrigen" class="form-label">País de origen <small class="text-muted">(RIPS)</small></label>
+                                <select class="form-control" id="codPaisOrigen" name="codPaisOrigen" aria-invalid="false">
+                                    <option value="170">Colombia (170)</option>
+                                    <option value="862">Venezuela (862)</option>
+                                    <option value="218">Ecuador (218)</option>
+                                    <option value="604">Perú (604)</option>
+                                    <option value="484">México (484)</option>
+                                    <option value="840">Estados Unidos (840)</option>
+                                    <option value="724">España (724)</option>
+                                    <option value="032">Argentina (032)</option>
+                                    <option value="152">Chile (152)</option>
+                                    <option value="076">Brasil (076)</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="eps" class="form-label">Entidad promotora:</label>
@@ -2191,6 +2217,8 @@
                 $('#departamento').val(data.paciente.departamento).trigger('change.select2')
                 $('#municipio').val(data.paciente.municipio).trigger('change.select2')
                 document.getElementById("zonaResidencial").value = data.paciente.zona_residencial
+                document.getElementById("incapacidad").value = data.paciente.incapacidad ?? 'NO'
+                document.getElementById("codPaisOrigen").value = data.paciente.cod_pais_origen ?? '170'
 
                 $('#eps').val(data.paciente.eps).trigger('change.select2')
 

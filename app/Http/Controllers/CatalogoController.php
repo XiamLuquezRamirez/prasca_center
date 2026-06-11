@@ -343,6 +343,140 @@ class CatalogoController extends Controller
         return response()->json(!$cupsExistente);
     }
 
+    // ==================== SERVICIOS HABILITADOS (cups_servicio_habilitado) ====================
+
+    public function listaServiciosHabilitados(Request $request)
+    {
+        if (!Auth::check()) return redirect('/')->with('error', 'Su Sesión ha Terminado');
+
+        $perPage = 10;
+        $page    = is_numeric($request->get('page', 1)) ? $request->get('page', 1) : 1;
+        $search  = $request->get('search', '');
+
+        $query = DB::table('cups_servicio_habilitado');
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('codigo_cups', 'LIKE', "%{$search}%")
+                  ->orWhere('nombre_servicio', 'LIKE', "%{$search}%");
+            });
+        }
+
+        $registros = $query->orderBy('codigo_cups')->paginate($perPage, ['*'], 'page', $page);
+
+        $grupos = ['01' => 'Consulta externa', '02' => 'Urgencias', '03' => 'Hospitalización',
+                   '04' => 'Procedimientos quirúrgicos', '05' => 'Apoyo diagnóstico'];
+        $modalidades = ['01' => 'Intramural', '02' => 'Extramural', '03' => 'Unidad móvil',
+                        '04' => 'Domiciliaria', '05' => 'Telesalud'];
+
+        $tdTable = '';
+        foreach ($registros as $item) {
+            $grupo    = $grupos[$item->grupo_servicio]    ?? $item->grupo_servicio;
+            $modalidad = $modalidades[$item->modalidad]   ?? $item->modalidad;
+            $estado   = $item->activo
+                ? '<span class="badge bg-success">Activo</span>'
+                : '<span class="badge bg-danger">Inactivo</span>';
+            $tdTable .= '<tr>
+                <td>' . e($item->codigo_cups) . '</td>
+                <td>' . e($item->codigo_servicio) . '</td>
+                <td>' . e($item->nombre_servicio) . '</td>
+                <td>' . e($grupo) . '</td>
+                <td>' . e($modalidad) . '</td>
+                <td>' . $estado . '</td>
+                <td class="table-action min-w-100">
+                    <a onclick="editarServicioHabilitado(' . $item->id . ');" style="cursor:pointer;" title="Editar" class="text-fade hover-primary"><i class="align-middle" data-feather="edit-2"></i></a>
+                    <a onclick="eliminarServicioHabilitado(' . $item->id . ');" style="cursor:pointer;" title="Eliminar" class="text-fade hover-warning"><i class="align-middle" data-feather="trash"></i></a>
+                </td>
+            </tr>';
+        }
+
+        return response()->json([
+            'registros' => $tdTable,
+            'links'     => $registros->links('Adminitraccion.Paginacion')->render(),
+        ]);
+    }
+
+    public function guardarServicioHabilitado(Request $request)
+    {
+        if (!Auth::check()) return response()->json(['success' => false], 401);
+
+        try {
+            $request->validate([
+                'codigo_cups'      => 'required|string|max:10',
+                'codigo_servicio'  => 'required|integer',
+                'nombre_servicio'  => 'required|string|max:200',
+                'grupo_servicio'   => 'required|string|max:2',
+                'modalidad'        => 'required|string|max:2',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['success' => false, 'errors' => $e->errors()], 422);
+        }
+
+        $acc = $request->input('accRegistroSH', 'guardar');
+        $id  = $request->input('idRegistroSH');
+
+        if ($acc === 'editar' && $id) {
+            DB::table('cups_servicio_habilitado')->where('id', $id)->update([
+                'codigo_cups'     => $request->codigo_cups,
+                'codigo_servicio' => $request->codigo_servicio,
+                'nombre_servicio' => $request->nombre_servicio,
+                'grupo_servicio'  => $request->grupo_servicio,
+                'modalidad'       => $request->modalidad,
+                'activo'          => $request->boolean('activo', true) ? 1 : 0,
+            ]);
+        } else {
+            DB::table('cups_servicio_habilitado')->insert([
+                'codigo_cups'     => $request->codigo_cups,
+                'codigo_servicio' => $request->codigo_servicio,
+                'nombre_servicio' => $request->nombre_servicio,
+                'grupo_servicio'  => $request->grupo_servicio,
+                'modalidad'       => $request->modalidad,
+                'activo'          => 1,
+            ]);
+        }
+
+        return response()->json(['success' => true, 'message' => 'Guardado correctamente']);
+    }
+
+    public function buscarServicioHabilitado(Request $request)
+    {
+        if (!Auth::check()) return response()->json(['success' => false], 401);
+        $registro = DB::table('cups_servicio_habilitado')->where('id', $request->input('idRegistroSH'))->first();
+        return response()->json($registro);
+    }
+
+    public function eliminarServicioHabilitado(Request $request)
+    {
+        if (!Auth::check()) return response()->json(['success' => false], 401);
+        DB::table('cups_servicio_habilitado')->where('id', $request->input('idReg'))->delete();
+        return response()->json(['success' => true, 'message' => 'Eliminado correctamente']);
+    }
+
+    public function getServicioHabilitadoPorCUPS(Request $request)
+    {
+        $idCups = $request->get('codigo_cups');
+
+        $codigoCups = DB::table('referencia_cups')
+            ->where('id', $idCups)
+            ->where('estado', 'ACTIVO')
+            ->first();
+
+        $registro = DB::table('cups_servicio_habilitado')
+            ->where('codigo_cups', $codigoCups->codigo)
+            ->where('activo', 1)
+            ->first();
+            
+
+        if (!$registro) return response()->json(['found' => false]);
+
+        return response()->json([
+            'found'            => true,
+            'codigo_servicio'  => $registro->codigo_servicio,
+            'nombre_servicio'  => $registro->nombre_servicio,
+            'grupo_servicio'   => $registro->grupo_servicio,
+            'modalidad'        => $registro->modalidad,
+        ]);
+    }
+
     // ==================== CIE10 ====================
 
     public function CIE10()

@@ -1012,7 +1012,7 @@ class HistoriaNeuroPsicologica extends Model
                     $idConsulta = DB::table('consultas_psicologica_neuro')->insertGetId(array_filter([
                         'id_historia' => $request['idHist'] ?? null,
                         'id_profesional' => $request['profesionalConsulta'] ?? null,
-                        'fecha_consulta' => $request['fechaEvolucion'] . ' ' . $request['horaSeleccionada'] ?? null,
+                        'fecha_consulta' => $request['fechaEvolucion'] . ' ' . $request['horaInicio'] ?? null,
                         'hora_fin' => $request['horaFin'] ?? null,
                         'evolucion_y_o_plantrabajo' => $request['evolucion_plan']  ?? null,
                         'estado' => 'ACTIVO',
@@ -1027,9 +1027,11 @@ class HistoriaNeuroPsicologica extends Model
                         'dx_relacionado2' => $request['dxRelacionado2'] ?? null,
                         'dx_relacionado3' => $request['dxRelacionado3'] ?? null,
                         'concepto_recaudo' => $request['conceptoRecaudo'] ?? null,
+                        'cita_id' => $request['citaId'] ?: null,
+                        'autorizacion_id' => $request['autorizacionId'] ?: null,
                     ]));
 
-                 
+
 
                     $Paciente = DB::table('historia_clinica_neuro')
                     ->where('id', $request['idHist'])
@@ -1080,43 +1082,47 @@ class HistoriaNeuroPsicologica extends Model
                   }
 
                     // Registrar en servicios_prestados para consolidación RIPS
-                    $cups = DB::table('referencia_cups')->where('id', $request['codConsultaConsulta'] ?? null)->select('codigo', 'nombre')->first();
-                    $profesionalNeuro = DB::table('profesionales')->where('id', $request['profesionalConsulta'] ?? null)->select('identificacion', 'tipo_identificacion', 'nombre')->first();
-                    $dxPrincipalNeuro = DB::table('referencia_cie10')->where('id', $request['codImpresionDiagnosticoConsulta'] ?? null)->value('codigo');
-                    $dx1Neuro = DB::table('referencia_cie10')->where('id', $request['dxRelacionado1'] ?? null)->value('codigo');
-                    $dx2Neuro = DB::table('referencia_cie10')->where('id', $request['dxRelacionado2'] ?? null)->value('codigo');
-                    $dx3Neuro = DB::table('referencia_cie10')->where('id', $request['dxRelacionado3'] ?? null)->value('codigo');
+                    try {
+                        $cups = DB::table('referencia_cups')->where('id', $request['codConsultaConsulta'] ?? null)->select('codigo', 'nombre')->first();
+                        $profesionalNeuro = DB::table('profesionales')->where('id', $request['profesionalConsulta'] ?? null)->select('identificacion', 'tipo_identificacion', 'nombre')->first();
+                        $dxPrincipalNeuro = DB::table('referencia_cie10')->where('id', $request['codImpresionDiagnosticoConsulta'] ?? null)->value('codigo');
+                        $dx1Neuro = DB::table('referencia_cie10')->where('id', $request['dxRelacionado1'] ?? null)->value('codigo');
+                        $dx2Neuro = DB::table('referencia_cie10')->where('id', $request['dxRelacionado2'] ?? null)->value('codigo');
+                        $dx3Neuro = DB::table('referencia_cie10')->where('id', $request['dxRelacionado3'] ?? null)->value('codigo');
 
-                    DB::table('servicios_prestados')->insert([
-                        'paciente_id'              => $Paciente->id_paciente,
-                        'historia_clinica_id'      => $request['idHist'],
-                        'consulta_id'              => $idConsulta,
-                        'profesional_id'           => $request['profesionalConsulta'] ?? null,
-                        'codigo_cups'              => $cups->codigo ?? null,
-                        'codigo_servicio_habilitado' => $request['codServicio'] ?? null,
-                        'nombre_servicio'          => $cups->nombre ?? null,
-                        'fecha_servicio'           => $request['fechaEvolucion'],
-                        'hora_inicio'              => $request['horaSeleccionada'] ?? null,
-                        'hora_fin'                 => $request['horaFin'] ?? null,
-                        'modalidad_atencion'       => $request['modalidadGrupoServicio'] ?? null,
-                        'grupo_servicios'          => $request['grupoServicios'] ?? '01',
-                        'finalidad'                => $request['finalidadTecnologiaSalud'] ?? null,
-                        'causa_externa'            => $request['causaMotivoAtencion'] ?? null,
-                        'diagnostico_principal'    => $dxPrincipalNeuro,
-                        'diagnostico_relacionado1' => $dx1Neuro,
-                        'diagnostico_relacionado2' => $dx2Neuro,
-                        'diagnostico_relacionado3' => $dx3Neuro,
-                        'tipo_diagnostico_principal' => $request['tipoDiagnosticoPrincipal'] ?? null,
-                        'profesional_tipo_doc'     => $profesionalNeuro->tipo_identificacion ?? 'CC',
-                        'profesional_num_doc'      => $profesionalNeuro->identificacion ?? null,
-                        'profesional_nombres'      => $profesionalNeuro->nombre ?? null,
-                        'valor_servicio'           => 0,
-                        'valor_copago'             => 0,
-                        'valor_pagado_paciente'    => 0,
-                        'concepto_recaudo'         => $request['conceptoRecaudo'] ?? null,
-                        'estado'                   => 'atendido',
-                        'tipo'                     => 'NEUROPSICOLOGIA',
-                    ]);
+                        DB::table('servicios_prestados')->insert([
+                            'paciente_id'              => $Paciente->id_paciente,
+                            'historia_clinica_id'      => $request['idHist'],
+                            'consulta_id'              => $idConsulta,
+                            'profesional_id'           => $request['profesionalConsulta'] ?? null,
+                            'codigo_cups'              => $cups->codigo ?? 'N/A',
+                            'codigo_servicio_habilitado' => $request['codServicio'] ?? null,
+                            'nombre_servicio'          => $cups->nombre ?? null,
+                            'fecha_servicio'           => $request['fechaEvolucion'],
+                            'hora_inicio'              => $request['horaInicio'] ?? '00:00:00',
+                            'hora_fin'                 => $request['horaFin'] ?? null,
+                            'modalidad_atencion'       => $request['modalidadGrupoServicio'] ?? '01',
+                            'grupo_servicios'          => $request['grupoServicios'] ?? '01',
+                            'finalidad'                => $request['finalidadTecnologiaSalud'] ?? '10',
+                            'causa_externa'            => $request['causaMotivoAtencion'] ?? '38',
+                            'diagnostico_principal'    => $dxPrincipalNeuro ?? 'Z00',
+                            'diagnostico_relacionado1' => $dx1Neuro,
+                            'diagnostico_relacionado2' => $dx2Neuro,
+                            'diagnostico_relacionado3' => $dx3Neuro,
+                            'tipo_diagnostico_principal' => $request['tipoDiagnosticoPrincipal'] ?? '01',
+                            'profesional_tipo_doc'     => $profesionalNeuro->tipo_identificacion ?? 'CC',
+                            'profesional_num_doc'      => $profesionalNeuro->identificacion ?? null,
+                            'profesional_nombres'      => $profesionalNeuro->nombre ?? null,
+                            'valor_servicio'           => 0,
+                            'valor_copago'             => 0,
+                            'valor_pagado_paciente'    => 0,
+                            'concepto_recaudo'         => $request['conceptoRecaudo'] ?? null,
+                            'estado'                   => 'atendido',
+                            'tipo'                     => 'NEUROPSICOLOGIA',
+                        ]);
+                    } catch (\Exception $eSp) {
+                        Log::warning('servicios_prestados insert falló para consulta neuro ' . $idConsulta . ': ' . $eSp->getMessage());
+                    }
 
                     // Confirmar transacción
                     DB::commit();
@@ -1132,7 +1138,7 @@ class HistoriaNeuroPsicologica extends Model
                     // Insertar en `historia_clinica`
                     $idConsulta = $request['idHistoriaConsulta'];
                     DB::table('consultas_psicologica_neuro')->where('id', $idConsulta)->update(array_filter([
-                        'fecha_consulta' => $request['fechaEvolucion'] . ' ' . $request['horaSeleccionada'] ?? null,
+                        'fecha_consulta' => $request['fechaEvolucion'] . ' ' . $request['horaInicio'] ?? null,
                         'hora_fin' => $request['horaFin'] ?? null,
                         'evolucion_y_o_plantrabajo' => $request['evolucion_plan']  ?? null,
                         'id_profesional' => $request['profesionalConsulta'] ?? null,
@@ -1147,41 +1153,47 @@ class HistoriaNeuroPsicologica extends Model
                         'dx_relacionado2' => $request['dxRelacionado2'] ?? null,
                         'dx_relacionado3' => $request['dxRelacionado3'] ?? null,
                         'concepto_recaudo' => $request['conceptoRecaudo'] ?? null,
+                        'cita_id' => $request['citaId'] ?: null,
+                        'autorizacion_id' => $request['autorizacionId'] ?: null,
                     ]));
 
                     // Actualizar registro en servicios_prestados
-                    $cupsU = DB::table('referencia_cups')->where('id', $request['codConsultaConsulta'] ?? null)->select('codigo', 'nombre')->first();
-                    $profU = DB::table('profesionales')->where('id', $request['profesionalConsulta'] ?? null)->select('identificacion', 'tipo_identificacion', 'nombre')->first();
-                    $dxPU = DB::table('referencia_cie10')->where('id', $request['codImpresionDiagnosticoConsulta'] ?? null)->value('codigo');
-                    $dx1U = DB::table('referencia_cie10')->where('id', $request['dxRelacionado1'] ?? null)->value('codigo');
-                    $dx2U = DB::table('referencia_cie10')->where('id', $request['dxRelacionado2'] ?? null)->value('codigo');
-                    $dx3U = DB::table('referencia_cie10')->where('id', $request['dxRelacionado3'] ?? null)->value('codigo');
+                    try {
+                        $cupsU = DB::table('referencia_cups')->where('id', $request['codConsultaConsulta'] ?? null)->select('codigo', 'nombre')->first();
+                        $profU = DB::table('profesionales')->where('id', $request['profesionalConsulta'] ?? null)->select('identificacion', 'tipo_identificacion', 'nombre')->first();
+                        $dxPU = DB::table('referencia_cie10')->where('id', $request['codImpresionDiagnosticoConsulta'] ?? null)->value('codigo');
+                        $dx1U = DB::table('referencia_cie10')->where('id', $request['dxRelacionado1'] ?? null)->value('codigo');
+                        $dx2U = DB::table('referencia_cie10')->where('id', $request['dxRelacionado2'] ?? null)->value('codigo');
+                        $dx3U = DB::table('referencia_cie10')->where('id', $request['dxRelacionado3'] ?? null)->value('codigo');
 
-                    DB::table('servicios_prestados')->updateOrInsert(
-                        ['consulta_id' => $idConsulta, 'tipo' => 'NEUROPSICOLOGIA'],
-                        [
-                            'profesional_id'           => $request['profesionalConsulta'] ?? null,
-                            'codigo_cups'              => $cupsU->codigo ?? null,
-                            'codigo_servicio_habilitado' => $request['codServicio'] ?? null,
-                            'nombre_servicio'          => $cupsU->nombre ?? null,
-                            'fecha_servicio'           => $request['fechaEvolucion'],
-                            'hora_inicio'              => $request['horaSeleccionada'] ?? null,
-                            'hora_fin'                 => $request['horaFin'] ?? null,
-                            'modalidad_atencion'       => $request['modalidadGrupoServicio'] ?? null,
-                            'grupo_servicios'          => $request['grupoServicios'] ?? '01',
-                            'finalidad'                => $request['finalidadTecnologiaSalud'] ?? null,
-                            'causa_externa'            => $request['causaMotivoAtencion'] ?? null,
-                            'diagnostico_principal'    => $dxPU,
-                            'diagnostico_relacionado1' => $dx1U,
-                            'diagnostico_relacionado2' => $dx2U,
-                            'diagnostico_relacionado3' => $dx3U,
-                            'tipo_diagnostico_principal' => $request['tipoDiagnosticoPrincipal'] ?? null,
-                            'profesional_tipo_doc'     => $profU->tipo_identificacion ?? 'CC',
-                            'profesional_num_doc'      => $profU->identificacion ?? null,
-                            'profesional_nombres'      => $profU->nombre ?? null,
-                            'concepto_recaudo'         => $request['conceptoRecaudo'] ?? null,
-                        ]
-                    );
+                        DB::table('servicios_prestados')->updateOrInsert(
+                            ['consulta_id' => $idConsulta, 'tipo' => 'NEUROPSICOLOGIA'],
+                            [
+                                'profesional_id'           => $request['profesionalConsulta'] ?? null,
+                                'codigo_cups'              => $cupsU->codigo ?? 'N/A',
+                                'codigo_servicio_habilitado' => $request['codServicio'] ?? null,
+                                'nombre_servicio'          => $cupsU->nombre ?? null,
+                                'fecha_servicio'           => $request['fechaEvolucion'],
+                                'hora_inicio'              => $request['horaInicio'] ?? '00:00:00',
+                                'hora_fin'                 => $request['horaFin'] ?? null,
+                                'modalidad_atencion'       => $request['modalidadGrupoServicio'] ?? '01',
+                                'grupo_servicios'          => $request['grupoServicios'] ?? '01',
+                                'finalidad'                => $request['finalidadTecnologiaSalud'] ?? '10',
+                                'causa_externa'            => $request['causaMotivoAtencion'] ?? '38',
+                                'diagnostico_principal'    => $dxPU ?? 'Z00',
+                                'diagnostico_relacionado1' => $dx1U,
+                                'diagnostico_relacionado2' => $dx2U,
+                                'diagnostico_relacionado3' => $dx3U,
+                                'tipo_diagnostico_principal' => $request['tipoDiagnosticoPrincipal'] ?? '01',
+                                'profesional_tipo_doc'     => $profU->tipo_identificacion ?? 'CC',
+                                'profesional_num_doc'      => $profU->identificacion ?? null,
+                                'profesional_nombres'      => $profU->nombre ?? null,
+                                'concepto_recaudo'         => $request['conceptoRecaudo'] ?? null,
+                            ]
+                        );
+                    } catch (\Exception $eSp) {
+                        Log::warning('servicios_prestados update falló para consulta neuro ' . $idConsulta . ': ' . $eSp->getMessage());
+                    }
 
                     // Confirmar transacción
                     DB::commit();
@@ -1468,7 +1480,7 @@ class HistoriaNeuroPsicologica extends Model
                     $idInforme = DB::table('informe_evolucion_neuropsicologia')->insertGetId(array_filter([
                         'id_paciente' => $request['idPaciente'] ?? null,
                         'id_profesional' => $request['profesionalInforme'] ?? null,
-                        'fecha_creacion' => $request['fechaEvolucion'] . ' ' . $request['horaSeleccionada'],
+                        'fecha_creacion' => $request['fechaEvolucion'] . ' ' . $request['horaInicio'],
                         'estado' => 'ACTIVO',
                         'motivo_consulta' => $request['motivoConsulta'] ?? null,
                         'estado_actual' => $request['estadoActual'] ?? null,

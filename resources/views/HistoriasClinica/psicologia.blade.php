@@ -1491,6 +1491,17 @@
                                             <!-- Datos Iniciales -->
                                             <div class="tab-pane show active" id="datos_iniciales">
                                                 <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Cita / Autorización relacionada: <small class="text-muted">(opcional)</small></label>
+                                                            <input type="hidden" id="citaId" name="citaId">
+                                                            <input type="hidden" id="autorizacionId" name="autorizacionId">
+                                                            <select class="form-control" id="selectCitaRelacionada" style="width:100%;">
+                                                                <option value="">— Sin cita relacionada —</option>
+                                                            </select>
+                                                            <small id="infoCitaSeleccionada" class="text-info" style="display:none;"></small>
+                                                        </div>
+                                                    </div>
                                                     <div class="col-md-8">
                                                         <div class="form-group">
                                                             <label for="codConsultaConsulta"
@@ -1640,15 +1651,6 @@
                                             <!-- Datos RIPS -->
                                             <div class="tab-pane" id="datos_rips">
                                                 <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="form-label">Dx relacionado 1</label>
-                                                            <div class="d-flex gap-2">
-                                                                <select class="form-control select2" id="dxRelacionado1" name="dxRelacionado1"></select>
-                                                                <button type="button" class="btn btn-secondary" onclick="clearSelect('dxRelacionado1')"><i class="fa fa-times"></i></button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Dx relacionado 2</label>
@@ -1908,6 +1910,7 @@
     window.userPermissions = @json(Auth::user()-> permissions);
 
     var idHistoriaImprimir = "";
+    var currentPacienteId = "";
 
     var nombreCampos = [{
             "nombre": "codConsulta",
@@ -2379,6 +2382,25 @@
                 return markup // Evita inyección de HTML
             }
         })
+
+        // Auto-populate servicios habilitados al seleccionar CUPS
+        $('#codConsultaConsulta').on('select2:select', function (e) {
+            const codigoCups = e.params.data.id
+            fetch(`{{ route('cups.getServicioHabilitadoPorCUPS') }}?codigo_cups=${encodeURIComponent(codigoCups)}`, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.found) {
+                    const _cs = document.getElementById('codServicio'); if (_cs) _cs.value = data.codigo_servicio;
+                    const _gs = document.getElementById('grupoServicios'); if (_gs) _gs.value = data.grupo_servicio;
+                    const _mg = document.getElementById('modalidadGrupoServicio'); if (_mg) _mg.value = data.modalidad;
+                }
+            })
+            .catch(err => console.error('Error al obtener servicio habilitado:', err))
+        })
+
         $('#codConsultaConsultaOrdenMedica').select2({
             dropdownAutoWidth: true,
             width: '100%',
@@ -2865,7 +2887,7 @@
         })
 
         // Select2 para Dx relacionado 1, 2 y 3 (RIPS)
-        ;['dxRelacionado1', 'dxRelacionado2', 'dxRelacionado3'].forEach(function(selectId) {
+        ;['dxRelacionado2', 'dxRelacionado3'].forEach(function(selectId) {
             $('#' + selectId).select2({
                 dropdownAutoWidth: true,
                 width: '100%',
@@ -3116,6 +3138,7 @@
         tipoText.value = tipoPsicologia
 
         document.getElementById('idPaciente').value = idPaciente
+        currentPacienteId = idPaciente
         mostrarInformacionHistoria(idPaciente)
     }
 
@@ -3269,9 +3292,75 @@
         }
     }
 
+    function cargarCitasPaciente(selectedCitaId = null) {
+        const idPaciente = currentPacienteId || document.getElementById('idPaciente')?.value
+        console.log('[citasPaciente] idPaciente:', idPaciente)
+        if (!idPaciente) return
+        const sel = document.getElementById('selectCitaRelacionada')
+        if (!sel) { console.warn('[citasPaciente] select no encontrado'); return }
+        sel.innerHTML = '<option value="">Cargando...</option>'
+        const fetchUrl = `{{ route('historia.citasPaciente') }}?id_paciente=${idPaciente}`
+        console.log('[citasPaciente] fetch:', fetchUrl)
+        fetch(fetchUrl, {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' }
+        })
+        .then(r => {
+            console.log('[citasPaciente] status:', r.status)
+            return r.json()
+        })
+        .then(citas => {
+            console.log('[citasPaciente] citas recibidas:', citas.length)
+            sel.innerHTML = '<option value="">— Sin cita relacionada —</option>'
+            citas.forEach(c => {
+                const opt = document.createElement('option')
+                opt.value = c.id
+                opt.dataset.autorizacion = c.id_autorizacion ?? ''
+                opt.dataset.copago = c.copago_cobrado ?? ''
+                opt.dataset.profesional = c.profesional_id ?? ''
+                opt.dataset.numAut = c.numero_autorizacion ?? ''
+                opt.textContent = c.text
+                sel.appendChild(opt)
+            })
+            if (selectedCitaId) {
+                sel.value = selectedCitaId
+                sel.dispatchEvent(new Event('change'))
+            }
+        })
+        .catch(e => {
+            console.error('[citasPaciente] Error:', e)
+            sel.innerHTML = '<option value="">— Sin cita relacionada —</option>'
+        })
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('selectCitaRelacionada').addEventListener('change', function () {
+            const opt = this.options[this.selectedIndex]
+            const info = document.getElementById('infoCitaSeleccionada')
+            if (this.value) {
+                document.getElementById('citaId').value = this.value
+                document.getElementById('autorizacionId').value = opt.dataset.autorizacion || ''
+                const numAut = opt.dataset.numAut
+                info.style.display = 'inline'
+                info.textContent = numAut ? 'Autorización: ' + numAut : 'Sin número de autorización'
+            } else {
+                document.getElementById('citaId').value = ''
+                document.getElementById('autorizacionId').value = ''
+                info.style.display = 'none'
+            }
+        })
+    })
+
     function limpiarConsulta() {
         let formHistoria = document.getElementById("formConsulta")
         formHistoria.reset()
+
+        // Limpiar selector de cita
+        document.getElementById('citaId').value = ''
+        document.getElementById('autorizacionId').value = ''
+        document.getElementById('selectCitaRelacionada').value = ''
+        const infoCita = document.getElementById('infoCitaSeleccionada')
+        if (infoCita) infoCita.style.display = 'none'
 
         CKEDITOR.instances['motivoConsultaModal'].setData('')
         CKEDITOR.instances['objetivo_sesion'].setData('')
@@ -3283,17 +3372,16 @@
         $('#codConsultaConsulta').val(null).trigger('change');
         $('#codImpresionDiagnosticoConsulta').val(null).trigger('change');
         $('#otra_ImpresionDiagnosticaConsulta').val(null).trigger('change');
-        $('#dxRelacionado1').val(null).trigger('change');
         $('#dxRelacionado2').val(null).trigger('change');
         $('#dxRelacionado3').val(null).trigger('change');
-        document.getElementById('horaFin').value = ''
-        document.getElementById('tipoDiagnosticoPrincipal').value = ''
-        document.getElementById('modalidadGrupoServicio').value = ''
-        document.getElementById('grupoServicios').value = '01'
-        document.getElementById('codServicio').value = ''
-        document.getElementById('finalidadTecnologiaSalud').value = ''
-        document.getElementById('causaMotivoAtencion').value = ''
-        document.getElementById('conceptoRecaudo').value = ''
+        const _elHoraFinP = document.getElementById('horaFin'); if (_elHoraFinP) _elHoraFinP.value = '';
+        const _elTipoDxP = document.getElementById('tipoDiagnosticoPrincipal'); if (_elTipoDxP) _elTipoDxP.value = '';
+        const _elModalidadP = document.getElementById('modalidadGrupoServicio'); if (_elModalidadP) _elModalidadP.value = '';
+        const _elGrupoP = document.getElementById('grupoServicios'); if (_elGrupoP) _elGrupoP.value = '01';
+        const _elCodSvcP = document.getElementById('codServicio'); if (_elCodSvcP) _elCodSvcP.value = '';
+        const _elFinalidadP = document.getElementById('finalidadTecnologiaSalud'); if (_elFinalidadP) _elFinalidadP.value = '';
+        const _elCausaP = document.getElementById('causaMotivoAtencion'); if (_elCausaP) _elCausaP.value = '';
+        const _elRecaudoP = document.getElementById('conceptoRecaudo'); if (_elRecaudoP) _elRecaudoP.value = '';
     }
 
     function nuevoRegistroConsulta() {
@@ -3302,6 +3390,7 @@
         document.getElementById("titConsulta").innerHTML = "Agregar evolución clínica"
         document.getElementById("accHistoriaConsulta").value = "guardar"
         limpiarConsulta()
+        cargarCitasPaciente()
     }
 
     function cargarPacientes(page, searchTerm = '') {
@@ -3364,6 +3453,7 @@
         document.getElementById('PorcentajeCompletitud').innerHTML = "0%"
 
         document.getElementById('idPaciente').value = idPaciente
+        currentPacienteId = idPaciente
         const modal = document.getElementById('modalHistoria')
         const modalInstance = bootstrap.Modal.getInstance(modal)
         modalInstance.hide()
@@ -3666,8 +3756,10 @@
     function evolucionHistoria(element) {
         let idHist = element.getAttribute("data-id")
         let estadoHis = element.getAttribute("data-estado")
+        let idPaciente = element.getAttribute("data-id-paciente")
         document.getElementById("idHistoria").value = idHist
         document.getElementById("estadoHistoria").value = estadoHis
+        document.getElementById("idPaciente").value = idPaciente
         abrirConsultas(1)
     }
 
@@ -4024,7 +4116,7 @@
             mensaje += "Debe seleccionar una fecha de evolución. \n";
         }
 
-        if (document.getElementById("horaSeleccionadad").value == "") {
+        if (document.getElementById("horaInicio").value == "") {
             error = true;
             mensaje += "Debe seleccionar una hora de evolución. \n";
         }
@@ -4180,7 +4272,6 @@
 
                     cargarImpresion(data.consulta.impresion_diagnostica, 'codImpresionDiagnosticoConsulta')
                     cargarImpresion(data.consulta.otra_impresion_diagnostica, 'otra_ImpresionDiagnosticaConsulta')
-                    cargarImpresion(data.consulta.dx_relacionado1, 'dxRelacionado1')
                     cargarImpresion(data.consulta.dx_relacionado2, 'dxRelacionado2')
                     cargarImpresion(data.consulta.dx_relacionado3, 'dxRelacionado3')
 
@@ -4193,20 +4284,24 @@
 
                     const [fecha, hora] = data.consulta.fecha_consulta.split(' ')
                     document.getElementById('fechaEvolucion').value = fecha
-                    document.getElementById('horaSeleccionadad').value = hora.slice(0, 5)
+                    document.getElementById('horaInicio').value = hora.slice(0, 5)
 
                     CKEDITOR.instances['evaluacion_indicadores'].setData(data.consulta.evaluacion_indicadores)
                     CKEDITOR.instances['evolucion_sesion'].setData(data.consulta.evolucion_sesion)
 
                     // Campos RIPS
-                    document.getElementById('horaFin').value = data.consulta.hora_fin ?? ''
-                    document.getElementById('tipoDiagnosticoPrincipal').value = data.consulta.tipo_diagnostico_principal ?? ''
-                    document.getElementById('modalidadGrupoServicio').value = data.consulta.modalidad_grupo_servicio ?? ''
-                    document.getElementById('grupoServicios').value = data.consulta.grupo_servicios ?? '01'
-                    document.getElementById('codServicio').value = data.consulta.cod_servicio ?? ''
-                    document.getElementById('finalidadTecnologiaSalud').value = data.consulta.finalidad_tecnologia_salud ?? ''
-                    document.getElementById('causaMotivoAtencion').value = data.consulta.causa_motivo_atencion ?? ''
-                    document.getElementById('conceptoRecaudo').value = data.consulta.concepto_recaudo ?? ''
+                    const _hfP = document.getElementById('horaFin'); if (_hfP) _hfP.value = data.consulta.hora_fin ?? '';
+                    const _tdP = document.getElementById('tipoDiagnosticoPrincipal'); if (_tdP) _tdP.value = data.consulta.tipo_diagnostico_principal ?? '';
+                    const _mgP = document.getElementById('modalidadGrupoServicio'); if (_mgP) _mgP.value = data.consulta.modalidad_grupo_servicio ?? '';
+                    const _gsP = document.getElementById('grupoServicios'); if (_gsP) _gsP.value = data.consulta.grupo_servicios ?? '01';
+                    const _csP = document.getElementById('codServicio'); if (_csP) _csP.value = data.consulta.cod_servicio ?? '';
+                    const _ftP = document.getElementById('finalidadTecnologiaSalud'); if (_ftP) _ftP.value = data.consulta.finalidad_tecnologia_salud ?? '';
+                    const _cmP = document.getElementById('causaMotivoAtencion'); if (_cmP) _cmP.value = data.consulta.causa_motivo_atencion ?? '';
+                    const _crP = document.getElementById('conceptoRecaudo'); if (_crP) _crP.value = data.consulta.concepto_recaudo ?? '';
+
+                    // Cita / Autorización relacionada
+                    document.getElementById('autorizacionId').value = data.consulta.autorizacion_id ?? ''
+                    cargarCitasPaciente(data.consulta.cita_id || null)
 
                 })
                 .catch(error => console.error('Error:', error))
@@ -4436,6 +4531,7 @@
         document.getElementById("estadoHistoria").value = historia.estado_hitoria
         document.getElementById("idHistoria").value = historia.id
         document.getElementById("idPaciente").value = historia.id_paciente
+        currentPacienteId = historia.id_paciente
 
         if (historia.primera_vez == 1) {
             document.getElementById('primeraVez').checked = true

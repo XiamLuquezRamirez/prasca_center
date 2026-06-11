@@ -1715,7 +1715,7 @@ class HistoriaNeuroPsicologicaController extends Controller
                                 <button type="button" ' . $disabled . ' data-id="' . $item->id . '" data-tipo="' . $item->tipologia . '" onclick="editarHistoria(this);"
                                     class="waves-effect waves-light btn btn-primary btn-flat"><i
                                         class="fa fa-edit me-10"></i>Editar</button>
-                                <button type="button" data-id="' . $item->id . '" data-estado="' . $item->estado_hitoria . '" onclick="evolucionHistoria(this);"
+                                <button type="button" data-id="' . $item->id . '" data-estado="' . $item->estado_hitoria . '" data-id-paciente="' . $item->id_paciente . '" onclick="evolucionHistoria(this);"
                                     class="waves-effect waves-light btn btn-secondary btn-flat"><i
                                         class="fa fa-arrow-right me-10"></i>Evolución</button>
                                 <button type="button" data-id="' . $item->id . '"  onclick="PlanIntervencionHistoria(this);"

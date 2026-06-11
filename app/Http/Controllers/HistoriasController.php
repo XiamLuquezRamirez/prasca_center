@@ -1096,6 +1096,38 @@ class HistoriasController extends Controller
         ]);
     }
 
+    public function citasPaciente(Request $request)
+    {
+        $idPaciente = $request->get('id_paciente');
+
+        $citas = DB::connection('mysql')
+            ->table('citas')
+            ->leftJoin('profesionales', 'citas.profesional', '=', 'profesionales.id')
+            ->where('citas.paciente', $idPaciente)
+            ->orderBy('citas.inicio', 'desc')
+            ->limit(60)
+            ->select(
+                'citas.id',
+                'citas.inicio',
+                'citas.motivo',
+                'citas.estado',
+                'citas.numero_autorizacion',
+                'citas.id_autorizacion',
+                'citas.copago_cobrado',
+                'profesionales.id as profesional_id',
+                DB::raw("IFNULL(profesionales.nombre,'') as nombre_profesional")
+            )
+            ->get()
+            ->map(function ($c) {
+                $fecha = \Carbon\Carbon::parse($c->inicio)->format('d/m/Y H:i');
+                $aut   = $c->numero_autorizacion ? ' | Aut: ' . $c->numero_autorizacion : '';
+                $c->text = $fecha . ' — ' . ($c->motivo ?? 'Sin motivo') . $aut . ' [' . $c->estado . ']';
+                return $c;
+            });
+
+        return response()->json($citas);
+    }
+
     public function guardarPlanIntervencion()
     {
         try {
@@ -3525,7 +3557,7 @@ class HistoriasController extends Controller
                                             <button type="button" ' . $disabled . ' data-id="' . $item->id . '" data-tipo="' . $item->tipologia . '" onclick="editarHistoria(this);"
                                                 class="waves-effect waves-light btn btn-primary btn-flat"><i
                                                     class="fa fa-edit me-10"></i>Editar</button>
-                                            <button type="button" data-id="' . $item->id . '" data-estado="' . $item->estado_hitoria . '" onclick="evolucionHistoria(this);"
+                                            <button type="button" data-id="' . $item->id . '" data-estado="' . $item->estado_hitoria . '" data-id-paciente="' . $item->id_paciente . '" onclick="evolucionHistoria(this);"
                                                 class="waves-effect waves-light btn btn-secondary btn-flat"><i
                                                     class="fa fa-arrow-right me-10"></i>Evolución</button>
                                             <button type="button" data-id="' . $item->id . '"  onclick="PlanIntervencionHistoria(this);"
@@ -4119,7 +4151,7 @@ class HistoriasController extends Controller
                 $html .= '</td>';
                 $html .= '</tr>';
                 $html .= '<tr>';
-                $html .= '<td class="no-border" colspan="2" style="text-align: center; padding: 1px;background-color: transparent;"> <h3>INFORME DE NEUROPSICOLOGÍA - ORDENES MÉDICAS</h3></td>';
+                $html .= '<td class="no-border" colspan="2" style="text-align: center; padding: 1px;background-color: transparent;"> <h3>INFORME DE PSICOLOGÍA - ORDENES MÉDICAS</h3></td>';
                 $html .= '</tr>';
                 $html .= '</table>';
 

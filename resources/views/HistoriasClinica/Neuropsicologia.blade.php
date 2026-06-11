@@ -1429,6 +1429,17 @@
                                             <!-- Evolución -->
                                             <div class="tab-pane show active" id="resumenEval">
                                                 <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Cita / Autorización relacionada: <small class="text-muted">(opcional)</small></label>
+                                                            <input type="hidden" id="citaId" name="citaId">
+                                                            <input type="hidden" id="autorizacionId" name="autorizacionId">
+                                                            <select class="form-control" id="selectCitaRelacionada" style="width:100%;">
+                                                                <option value="">— Sin cita relacionada —</option>
+                                                            </select>
+                                                            <small id="infoCitaSeleccionada" class="text-info" style="display:none;"></small>
+                                                        </div>
+                                                    </div>
                                                     <div class="col-md-8">
                                                         <div class="form-group">
                                                             <label for="codConsultaConsulta" class="form-label">Código de consulta:</label>
@@ -1762,6 +1773,7 @@
 <script>
     window.userPermissions = @json(Auth::user()->permissions);
     var idHistoriaImprimir = "";
+    var currentPacienteId = "";
     var isProfesional = false
 
     var nombreCampos = [
@@ -2631,6 +2643,24 @@
             }
         })
 
+        // Auto-populate servicios habilitados al seleccionar CUPS
+        $('#codConsultaConsulta').on('select2:select', function (e) {
+            const codigoCups = e.params.data.id
+            fetch(`{{ route('cups.getServicioHabilitadoPorCUPS') }}?codigo_cups=${encodeURIComponent(codigoCups)}`, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.found) {
+                    const _cs = document.getElementById('codServicio'); if (_cs) _cs.value = data.codigo_servicio;
+                    const _gs = document.getElementById('grupoServicios'); if (_gs) _gs.value = data.grupo_servicio;
+                    const _mg = document.getElementById('modalidadGrupoServicio'); if (_mg) _mg.value = data.modalidad;
+                }
+            })
+            .catch(err => console.error('Error al obtener servicio habilitado:', err))
+        })
+
         // Select2 para Dx principal, relacionado 2 y 3 en consulta de neuropsicología (RIPS)
         ;['codImpresionDiagnosticoConsulta', 'dxRelacionado1', 'dxRelacionado2', 'dxRelacionado3'].forEach(function(selectId) {
             $('#' + selectId).select2({
@@ -2853,6 +2883,7 @@
         tipoText.value = tipoPsicologia
 
         document.getElementById('idPaciente').value = idPaciente
+        currentPacienteId = idPaciente
         mostrarInformacionHistoria(idPaciente)
     }
 
@@ -3011,6 +3042,7 @@
         tipoText.value = tipoPsicologia
 
         document.getElementById('idPaciente').value = idPaciente;
+        currentPacienteId = idPaciente
         const modal = document.getElementById('modalHistoria');
         const modalInstance = bootstrap.Modal.getInstance(modal);
         modalInstance.hide();
@@ -3552,6 +3584,7 @@
         document.getElementById("accHistoria").value = "editar"
         document.getElementById("idHistoria").value = historia.id
         document.getElementById("idPaciente").value = historia.id_paciente
+        currentPacienteId = historia.id_paciente
         document.getElementById("estadoHistoria").value = historia.estado_hitoria
 
         CKEDITOR.instances['remision'].setData(historia.remision)
@@ -3985,6 +4018,7 @@
         document.getElementById("titConsulta").innerHTML = "Agregar consulta"
         document.getElementById("accHistoriaConsulta").value = "guardar"
         limpiarConsulta();
+        cargarCitasPaciente();
     }
 
     function guardarConsulta() {
@@ -4036,7 +4070,7 @@
             error = true
             mensaje += "Debe seleccionar la fecha de la evolución. \n"
         }
-        if (document.getElementById("horaSeleccionada").value == "") {
+        if (document.getElementById("horaInicio").value == "") {
             error = true
             mensaje += "Debe seleccionar la hora de la evolución.  \n"
         }
@@ -4090,20 +4124,24 @@
                     CKEDITOR.instances['evolucion_plan'].setData(data.consulta.evolucion_y_o_plantrabajo)
 
                     document.getElementById("fechaEvolucion").value = data.consulta.fecha_consulta.split(' ')[0];
-                    document.getElementById("horaSeleccionada").value = data.consulta.fecha_consulta.split(' ')[1];
+                    document.getElementById("horaInicio").value = data.consulta.fecha_consulta.split(' ')[1];
 
                     // Campos RIPS
                     cargarCodigoCIE10(data.consulta.impresion_diagnostica, 'codImpresionDiagnosticoConsulta')
                     cargarCodigoCIE10(data.consulta.dx_relacionado2, 'dxRelacionado2')
                     cargarCodigoCIE10(data.consulta.dx_relacionado3, 'dxRelacionado3')
-                    document.getElementById('horaFin').value = data.consulta.hora_fin ?? ''
-                    document.getElementById('tipoDiagnosticoPrincipal').value = data.consulta.tipo_diagnostico_principal ?? ''
-                    document.getElementById('modalidadGrupoServicio').value = data.consulta.modalidad_grupo_servicio ?? ''
-                    document.getElementById('grupoServicios').value = data.consulta.grupo_servicios ?? '01'
-                    document.getElementById('codServicio').value = data.consulta.cod_servicio ?? ''
-                    document.getElementById('finalidadTecnologiaSalud').value = data.consulta.finalidad_tecnologia_salud ?? ''
-                    document.getElementById('causaMotivoAtencion').value = data.consulta.causa_motivo_atencion ?? ''
-                    document.getElementById('conceptoRecaudo').value = data.consulta.concepto_recaudo ?? ''
+                    const _hfN = document.getElementById('horaFin'); if (_hfN) _hfN.value = data.consulta.hora_fin ?? '';
+                    const _tdN = document.getElementById('tipoDiagnosticoPrincipal'); if (_tdN) _tdN.value = data.consulta.tipo_diagnostico_principal ?? '';
+                    const _mgN = document.getElementById('modalidadGrupoServicio'); if (_mgN) _mgN.value = data.consulta.modalidad_grupo_servicio ?? '';
+                    const _gsN = document.getElementById('grupoServicios'); if (_gsN) _gsN.value = data.consulta.grupo_servicios ?? '01';
+                    const _csN = document.getElementById('codServicio'); if (_csN) _csN.value = data.consulta.cod_servicio ?? '';
+                    const _ftN = document.getElementById('finalidadTecnologiaSalud'); if (_ftN) _ftN.value = data.consulta.finalidad_tecnologia_salud ?? '';
+                    const _cmN = document.getElementById('causaMotivoAtencion'); if (_cmN) _cmN.value = data.consulta.causa_motivo_atencion ?? '';
+                    const _crN = document.getElementById('conceptoRecaudo'); if (_crN) _crN.value = data.consulta.concepto_recaudo ?? '';
+
+                    // Cita / Autorización relacionada
+                    const _autN = document.getElementById('autorizacionId'); if (_autN) _autN.value = data.consulta.autorizacion_id ?? ''
+                    cargarCitasPaciente(data.consulta.cita_id || null)
                 })
                 .catch(error => console.error('Error:', error))
         } else {
@@ -4210,8 +4248,10 @@
     function evolucionHistoria(element) {
         let idHist = element.getAttribute("data-id")
         let estadoHis = element.getAttribute("data-estado")
+        let idPaciente = element.getAttribute("data-id-paciente")
         document.getElementById("idHistoria").value = idHist
         document.getElementById("estadoHistoria").value = estadoHis
+        document.getElementById("idPaciente").value = idPaciente
         abrirConsultas(1)
     }
 
@@ -4306,6 +4346,67 @@
         document.getElementById("titConsulta").innerHTML = "Gestionar consulta"
     }
 
+    function cargarCitasPaciente(selectedCitaId = null) {
+        const idPaciente = currentPacienteId || document.getElementById('idPaciente')?.value
+        console.log('[citasPaciente] idPaciente:', idPaciente)
+        if (!idPaciente) return
+        const sel = document.getElementById('selectCitaRelacionada')
+        if (!sel) { console.warn('[citasPaciente] select no encontrado'); return }
+        sel.innerHTML = '<option value="">Cargando...</option>'
+        const fetchUrl = `{{ route('historia.citasPaciente') }}?id_paciente=${idPaciente}`
+        console.log('[citasPaciente] fetch:', fetchUrl)
+        fetch(fetchUrl, {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' }
+        })
+        .then(r => {
+            console.log('[citasPaciente] status:', r.status)
+            return r.json()
+        })
+        .then(citas => {
+            console.log('[citasPaciente] citas recibidas:', citas.length)
+            sel.innerHTML = '<option value="">— Sin cita relacionada —</option>'
+            citas.forEach(c => {
+                const opt = document.createElement('option')
+                opt.value = c.id
+                opt.dataset.autorizacion = c.id_autorizacion ?? ''
+                opt.dataset.copago = c.copago_cobrado ?? ''
+                opt.dataset.profesional = c.profesional_id ?? ''
+                opt.dataset.numAut = c.numero_autorizacion ?? ''
+                opt.textContent = c.text
+                sel.appendChild(opt)
+            })
+            if (selectedCitaId) {
+                sel.value = selectedCitaId
+                sel.dispatchEvent(new Event('change'))
+            }
+        })
+        .catch(e => {
+            console.error('[citasPaciente] Error:', e)
+            sel.innerHTML = '<option value="">— Sin cita relacionada —</option>'
+        })
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const selCita = document.getElementById('selectCitaRelacionada')
+        if (selCita) {
+            selCita.addEventListener('change', function () {
+                const opt = this.options[this.selectedIndex]
+                const info = document.getElementById('infoCitaSeleccionada')
+                if (this.value) {
+                    document.getElementById('citaId').value = this.value
+                    document.getElementById('autorizacionId').value = opt.dataset.autorizacion || ''
+                    const numAut = opt.dataset.numAut
+                    if (info) { info.style.display = 'inline'; info.textContent = numAut ? 'Autorización: ' + numAut : 'Sin número de autorización' }
+                } else {
+                    document.getElementById('citaId').value = ''
+                    document.getElementById('autorizacionId').value = ''
+                    if (info) info.style.display = 'none'
+                }
+            })
+        }
+    })
+
     function limpiarConsulta() {
         let formHistoria = document.getElementById("formConsulta")
         formHistoria.reset()
@@ -4315,14 +4416,20 @@
         $('#dxRelacionado1').val(null).trigger('change')
         $('#dxRelacionado2').val(null).trigger('change')
         $('#dxRelacionado3').val(null).trigger('change')
-        document.getElementById('horaFin').value = ''
-        document.getElementById('tipoDiagnosticoPrincipal').value = ''
-        document.getElementById('modalidadGrupoServicio').value = ''
-        document.getElementById('grupoServicios').value = '01'
-        document.getElementById('codServicio').value = ''
-        document.getElementById('finalidadTecnologiaSalud').value = ''
-        document.getElementById('causaMotivoAtencion').value = ''
-        document.getElementById('conceptoRecaudo').value = ''
+        const _elHoraFin = document.getElementById('horaFin'); if (_elHoraFin) _elHoraFin.value = '';
+        const _elTipoDx = document.getElementById('tipoDiagnosticoPrincipal'); if (_elTipoDx) _elTipoDx.value = '';
+        const _elModalidad = document.getElementById('modalidadGrupoServicio'); if (_elModalidad) _elModalidad.value = '';
+        const _elGrupo = document.getElementById('grupoServicios'); if (_elGrupo) _elGrupo.value = '01';
+        const _elCodSvc = document.getElementById('codServicio'); if (_elCodSvc) _elCodSvc.value = '';
+        const _elFinalidad = document.getElementById('finalidadTecnologiaSalud'); if (_elFinalidad) _elFinalidad.value = '';
+        const _elCausa = document.getElementById('causaMotivoAtencion'); if (_elCausa) _elCausa.value = '';
+        const _elRecaudo = document.getElementById('conceptoRecaudo'); if (_elRecaudo) _elRecaudo.value = '';
+        // Limpiar selector de cita
+        const _citaId = document.getElementById('citaId'); if (_citaId) _citaId.value = ''
+        const _autId = document.getElementById('autorizacionId'); if (_autId) _autId.value = ''
+        const _selCita = document.getElementById('selectCitaRelacionada')
+        if (_selCita) { _selCita.value = ''; _selCita.innerHTML = '<option value="">— Sin cita relacionada —</option>' }
+        const _info = document.getElementById('infoCitaSeleccionada'); if (_info) _info.style.display = 'none'
     }
 
     function imprimirHistoria(id) {

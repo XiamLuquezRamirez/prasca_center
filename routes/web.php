@@ -92,6 +92,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/cups/buscaCUPS', [CatalogoController::class, 'buscaCUPS'])->name('cups.buscaCUPS');
     Route::post('/cups/eliminarCUPS', [CatalogoController::class, 'eliminarCUPS'])->name('cups.eliminarCUPS');
     Route::post('/cups/listaCUPS', [CatalogoController::class, 'listaCUPS'])->name('cups.listaCUPS');
+    Route::post('/cups/servicios-habilitados/lista', [CatalogoController::class, 'listaServiciosHabilitados'])->name('cups.listaServiciosHabilitados');
+    Route::post('/cups/servicios-habilitados/guardar', [CatalogoController::class, 'guardarServicioHabilitado'])->name('cups.guardarServicioHabilitado');
+    Route::post('/cups/servicios-habilitados/buscar', [CatalogoController::class, 'buscarServicioHabilitado'])->name('cups.buscarServicioHabilitado');
+    Route::post('/cups/servicios-habilitados/eliminar', [CatalogoController::class, 'eliminarServicioHabilitado'])->name('cups.eliminarServicioHabilitado');
+    Route::get('/cups/servicio-por-cups', [CatalogoController::class, 'getServicioHabilitadoPorCUPS'])->name('cups.getServicioHabilitadoPorCUPS');
 
     ///GESTIONAR CIE10
     Route::middleware(['permission:AdminCIE10'])->group(function () {
@@ -187,6 +192,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/pacientes/buscaPacienteHistoria', [PacientesController::class, 'buscaPacienteHistoria'])->name('pacientes.buscaPacienteHistoria');
     Route::get('/historia/buscaCUPS', [HistoriasController::class, 'buscaCUPS'])->name('historia.buscaCUPS');
     Route::get('/historia/buscaCIE', [HistoriasController::class, 'buscaCIE'])->name('historia.buscaCIE');
+    Route::get('/historia/citasPaciente', [HistoriasController::class, 'citasPaciente'])->name('historia.citasPaciente');
     Route::post('/historia/guardarHistoriaPsicologica', [HistoriasController::class, 'guardarHistoriaPsicologica'])->name('form.guardarHistoriaPsicologica');
     Route::get('/hitoriaPsicologica/categorias', [HistoriasController::class, 'obtenerOpcionesHCP'])->name('hitoriaPsicologica.categorias');
     Route::post('/HistoriasClinicas/listaHistoriasPsicologica', [HistoriasController::class, 'listaHistoriasPsicologica'])->name('HistoriasClinicas.listaHistoriasPsicologica');
